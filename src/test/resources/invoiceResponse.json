@@ -1,0 +1,848 @@
+{
+  "api_request": {
+    "error": {},
+    "resources": [
+      "document"
+    ],
+    "status": "success",
+    "status_code": 201,
+    "url": "http://api.mindee.net/v1/products/mindee/invoices/v3/predict"
+  },
+  "document": {
+    "id": "1143a8e0-3cde-4654-9d14-128bb3d64349",
+    "inference": {
+      "extras": {},
+      "finished_at": "2022-05-24T00:09:15+00:00",
+      "is_rotation_applied": true,
+      "pages": [
+        {
+          "extras": {},
+          "id": 0,
+          "orientation": {
+            "value": 0
+          },
+          "prediction": {
+            "company_registration": [
+              {
+                "confidence": 1.0,
+                "polygon": [
+                  [
+                    0.558,
+                    0.955
+                  ],
+                  [
+                    0.641,
+                    0.955
+                  ],
+                  [
+                    0.641,
+                    0.965
+                  ],
+                  [
+                    0.558,
+                    0.965
+                  ]
+                ],
+                "type": "VAT NUMBER",
+                "value": "FR62401112024"
+              },
+              {
+                "confidence": 1.0,
+                "polygon": [
+                  [
+                    0.391,
+                    0.955
+                  ],
+                  [
+                    0.478,
+                    0.955
+                  ],
+                  [
+                    0.478,
+                    0.965
+                  ],
+                  [
+                    0.391,
+                    0.965
+                  ]
+                ],
+                "type": "SIRET",
+                "value": "40111202400039"
+              },
+              {
+                "confidence": 1.0,
+                "polygon": [
+                  [
+                    0.558,
+                    0.955
+                  ],
+                  [
+                    0.641,
+                    0.955
+                  ],
+                  [
+                    0.641,
+                    0.965
+                  ],
+                  [
+                    0.558,
+                    0.965
+                  ]
+                ],
+                "type": "SIREN",
+                "value": "401112024"
+              }
+            ],
+            "customer": {
+              "confidence": 1.0,
+              "polygon": [
+                [
+                  0.645,
+                  0.182
+                ],
+                [
+                  0.715,
+                  0.182
+                ],
+                [
+                  0.715,
+                  0.2
+                ],
+                [
+                  0.645,
+                  0.2
+                ]
+              ],
+              "value": "CEMENA"
+            },
+            "customer_address": {
+              "confidence": 1.0,
+              "polygon": [
+                [
+                  0.346,
+                  0.215
+                ],
+                [
+                  0.545,
+                  0.215
+                ],
+                [
+                  0.545,
+                  0.266
+                ],
+                [
+                  0.346,
+                  0.266
+                ]
+              ],
+              "value": "48 rue Claude Balbastre 34070 Montpellier France"
+            },
+            "customer_company_registration": [
+              {
+                "confidence": 1.0,
+                "polygon": [
+                  [
+                    0.346,
+                    0.199
+                  ],
+                  [
+                    0.484,
+                    0.199
+                  ],
+                  [
+                    0.484,
+                    0.217
+                  ],
+                  [
+                    0.346,
+                    0.217
+                  ]
+                ],
+                "type": "VAT NUMBER",
+                "value": "FR39853344802"
+              },
+              {
+                "confidence": 1.0,
+                "polygon": [
+                  [
+                    0.346,
+                    0.199
+                  ],
+                  [
+                    0.484,
+                    0.199
+                  ],
+                  [
+                    0.484,
+                    0.217
+                  ],
+                  [
+                    0.346,
+                    0.217
+                  ]
+                ],
+                "type": "SIREN",
+                "value": "853344802"
+              }
+            ],
+            "date": {
+              "confidence": 1.0,
+              "polygon": [
+                [
+                  0.835,
+                  0.036
+                ],
+                [
+                  0.952,
+                  0.036
+                ],
+                [
+                  0.952,
+                  0.059
+                ],
+                [
+                  0.835,
+                  0.059
+                ]
+              ],
+              "value": "2020-10-29"
+            },
+            "document_type": {
+              "value": "INVOICE"
+            },
+            "due_date": {
+              "confidence": 0.0,
+              "polygon": [],
+              "raw": null,
+              "value": null
+            },
+            "invoice_number": {
+              "confidence": 1.0,
+              "polygon": [
+                [
+                  0.831,
+                  0.057
+                ],
+                [
+                  0.952,
+                  0.057
+                ],
+                [
+                  0.952,
+                  0.08
+                ],
+                [
+                  0.831,
+                  0.08
+                ]
+              ],
+              "value": "FA003761"
+            },
+            "locale": {
+              "confidence": 0.91,
+              "currency": "EUR",
+              "language": "fr"
+            },
+            "orientation": {
+              "confidence": 0.99,
+              "degrees": 0
+            },
+            "payment_details": [
+              {
+                "account_number": null,
+                "confidence": 1.0,
+                "iban": "FR7630003012690002571550339",
+                "polygon": [
+                  [
+                    0.517,
+                    0.737
+                  ],
+                  [
+                    0.772,
+                    0.737
+                  ],
+                  [
+                    0.772,
+                    0.765
+                  ],
+                  [
+                    0.517,
+                    0.765
+                  ]
+                ],
+                "routing_number": null,
+                "swift": "SOGEFRPP"
+              }
+            ],
+            "supplier": {
+              "confidence": 1.0,
+              "polygon": [
+                [
+                  0.517,
+                  0.723
+                ],
+                [
+                  0.676,
+                  0.723
+                ],
+                [
+                  0.676,
+                  0.738
+                ],
+                [
+                  0.517,
+                  0.738
+                ]
+              ],
+              "value": "ARCANE INDUSTRIES"
+            },
+            "supplier_address": {
+              "confidence": 1.0,
+              "polygon": [
+                [
+                  0.363,
+                  0.929
+                ],
+                [
+                  0.69,
+                  0.929
+                ],
+                [
+                  0.69,
+                  0.938
+                ],
+                [
+                  0.363,
+                  0.938
+                ]
+              ],
+              "value": "222 Avenue de la Fleuride - BP 11150 - ZI Les Paluds - 13400 Aubagne -"
+            },
+            "taxes": [
+              {
+                "confidence": 1.0,
+                "polygon": [
+                  [
+                    0.182,
+                    0.54
+                  ],
+                  [
+                    0.472,
+                    0.54
+                  ],
+                  [
+                    0.472,
+                    0.555
+                  ],
+                  [
+                    0.182,
+                    0.555
+                  ]
+                ],
+                "rate": 20.0,
+                "value": 36.72
+              },
+              {
+                "confidence": 1.0,
+                "polygon": [
+                  [
+                    0.182,
+                    0.563
+                  ],
+                  [
+                    0.472,
+                    0.563
+                  ],
+                  [
+                    0.472,
+                    0.578
+                  ],
+                  [
+                    0.182,
+                    0.578
+                  ]
+                ],
+                "rate": 20.0,
+                "value": 7.0
+              }
+            ],
+            "total_excl": {
+              "confidence": 1.0,
+              "polygon": [
+                [
+                  0.88,
+                  0.55
+                ],
+                [
+                  0.926,
+                  0.55
+                ],
+                [
+                  0.926,
+                  0.565
+                ],
+                [
+                  0.88,
+                  0.565
+                ]
+              ],
+              "value": 218.6
+            },
+            "total_incl": {
+              "confidence": 1.0,
+              "polygon": [
+                [
+                  0.868,
+                  0.595
+                ],
+                [
+                  0.924,
+                  0.595
+                ],
+                [
+                  0.924,
+                  0.613
+                ],
+                [
+                  0.868,
+                  0.613
+                ]
+              ],
+              "value": 262.32
+            }
+          }
+        }
+      ],
+      "prediction": {
+        "company_registration": [
+          {
+            "confidence": 1.0,
+            "page_id": 0,
+            "polygon": [
+              [
+                0.558,
+                0.955
+              ],
+              [
+                0.641,
+                0.955
+              ],
+              [
+                0.641,
+                0.965
+              ],
+              [
+                0.558,
+                0.965
+              ]
+            ],
+            "type": "VAT NUMBER",
+            "value": "FR62401112024"
+          },
+          {
+            "confidence": 1.0,
+            "page_id": 0,
+            "polygon": [
+              [
+                0.391,
+                0.955
+              ],
+              [
+                0.478,
+                0.955
+              ],
+              [
+                0.478,
+                0.965
+              ],
+              [
+                0.391,
+                0.965
+              ]
+            ],
+            "type": "SIRET",
+            "value": "40111202400039"
+          },
+          {
+            "confidence": 1.0,
+            "page_id": 0,
+            "polygon": [
+              [
+                0.558,
+                0.955
+              ],
+              [
+                0.641,
+                0.955
+              ],
+              [
+                0.641,
+                0.965
+              ],
+              [
+                0.558,
+                0.965
+              ]
+            ],
+            "type": "SIREN",
+            "value": "401112024"
+          }
+        ],
+        "customer": {
+          "confidence": 1.0,
+          "page_id": 0,
+          "polygon": [
+            [
+              0.645,
+              0.182
+            ],
+            [
+              0.715,
+              0.182
+            ],
+            [
+              0.715,
+              0.2
+            ],
+            [
+              0.645,
+              0.2
+            ]
+          ],
+          "value": "CEMENA"
+        },
+        "customer_address": {
+          "confidence": 1.0,
+          "page_id": 0,
+          "polygon": [
+            [
+              0.346,
+              0.215
+            ],
+            [
+              0.545,
+              0.215
+            ],
+            [
+              0.545,
+              0.266
+            ],
+            [
+              0.346,
+              0.266
+            ]
+          ],
+          "value": "48 rue Claude Balbastre 34070 Montpellier France"
+        },
+        "customer_company_registration": [
+          {
+            "confidence": 1.0,
+            "page_id": 0,
+            "polygon": [
+              [
+                0.346,
+                0.199
+              ],
+              [
+                0.484,
+                0.199
+              ],
+              [
+                0.484,
+                0.217
+              ],
+              [
+                0.346,
+                0.217
+              ]
+            ],
+            "type": "VAT NUMBER",
+            "value": "FR39853344802"
+          },
+          {
+            "confidence": 1.0,
+            "page_id": 0,
+            "polygon": [
+              [
+                0.346,
+                0.199
+              ],
+              [
+                0.484,
+                0.199
+              ],
+              [
+                0.484,
+                0.217
+              ],
+              [
+                0.346,
+                0.217
+              ]
+            ],
+            "type": "SIREN",
+            "value": "853344802"
+          }
+        ],
+        "date": {
+          "confidence": 1.0,
+          "page_id": 0,
+          "polygon": [
+            [
+              0.835,
+              0.036
+            ],
+            [
+              0.952,
+              0.036
+            ],
+            [
+              0.952,
+              0.059
+            ],
+            [
+              0.835,
+              0.059
+            ]
+          ],
+          "value": "2020-10-29"
+        },
+        "document_type": {
+          "value": "INVOICE"
+        },
+        "due_date": {
+          "confidence": 0.0,
+          "page_id": null,
+          "polygon": [],
+          "raw": null,
+          "value": null
+        },
+        "invoice_number": {
+          "confidence": 1.0,
+          "page_id": 0,
+          "polygon": [
+            [
+              0.831,
+              0.057
+            ],
+            [
+              0.952,
+              0.057
+            ],
+            [
+              0.952,
+              0.08
+            ],
+            [
+              0.831,
+              0.08
+            ]
+          ],
+          "value": "FA003761"
+        },
+        "locale": {
+          "confidence": 0.91,
+          "currency": "EUR",
+          "language": "fr"
+        },
+        "payment_details": [
+          {
+            "account_number": null,
+            "confidence": 1.0,
+            "iban": "FR7630003012690002571550339",
+            "page_id": 0,
+            "polygon": [
+              [
+                0.517,
+                0.737
+              ],
+              [
+                0.772,
+                0.737
+              ],
+              [
+                0.772,
+                0.765
+              ],
+              [
+                0.517,
+                0.765
+              ]
+            ],
+            "routing_number": null,
+            "swift": "SOGEFRPP"
+          }
+        ],
+        "supplier": {
+          "confidence": 1.0,
+          "page_id": 0,
+          "polygon": [
+            [
+              0.517,
+              0.723
+            ],
+            [
+              0.676,
+              0.723
+            ],
+            [
+              0.676,
+              0.738
+            ],
+            [
+              0.517,
+              0.738
+            ]
+          ],
+          "value": "ARCANE INDUSTRIES"
+        },
+        "supplier_address": {
+          "confidence": 1.0,
+          "page_id": 0,
+          "polygon": [
+            [
+              0.363,
+              0.929
+            ],
+            [
+              0.69,
+              0.929
+            ],
+            [
+              0.69,
+              0.938
+            ],
+            [
+              0.363,
+              0.938
+            ]
+          ],
+          "value": "222 Avenue de la Fleuride - BP 11150 - ZI Les Paluds - 13400 Aubagne -"
+        },
+        "taxes": [
+          {
+            "confidence": 1.0,
+            "page_id": 0,
+            "polygon": [
+              [
+                0.182,
+                0.54
+              ],
+              [
+                0.472,
+                0.54
+              ],
+              [
+                0.472,
+                0.555
+              ],
+              [
+                0.182,
+                0.555
+              ]
+            ],
+            "rate": 20.0,
+            "value": 36.72
+          },
+          {
+            "confidence": 1.0,
+            "page_id": 0,
+            "polygon": [
+              [
+                0.182,
+                0.563
+              ],
+              [
+                0.472,
+                0.563
+              ],
+              [
+                0.472,
+                0.578
+              ],
+              [
+                0.182,
+                0.578
+              ]
+            ],
+            "rate": 20.0,
+            "value": 7.0
+          }
+        ],
+        "total_excl": {
+          "confidence": 1.0,
+          "page_id": 0,
+          "polygon": [
+            [
+              0.88,
+              0.55
+            ],
+            [
+              0.926,
+              0.55
+            ],
+            [
+              0.926,
+              0.565
+            ],
+            [
+              0.88,
+              0.565
+            ]
+          ],
+          "value": 218.6
+        },
+        "total_incl": {
+          "confidence": 1.0,
+          "page_id": 0,
+          "polygon": [
+            [
+              0.868,
+              0.595
+            ],
+            [
+              0.924,
+              0.595
+            ],
+            [
+              0.924,
+              0.613
+            ],
+            [
+              0.868,
+              0.613
+            ]
+          ],
+          "value": 262.32
+        }
+      },
+      "processing_time": 1.677,
+      "product": {
+        "features": [
+          "locale",
+          "invoice_number",
+          "date",
+          "due_date",
+          "total_excl",
+          "total_incl",
+          "taxes",
+          "payment_details",
+          "supplier",
+          "company_registration",
+          "supplier_address",
+          "customer",
+          "customer_company_registration",
+          "customer_address",
+          "document_type",
+          "orientation"
+        ],
+        "name": "mindee/invoices",
+        "type": "standard",
+        "version": "3.0"
+      },
+      "started_at": "2022-05-24T00:09:13+00:00"
+    },
+    "n_pages": 1,
+    "name": "invoicetest.pdf"
+  }
+}
