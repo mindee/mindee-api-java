@@ -101,7 +101,8 @@ public class ClientTest {
     String invoiceApiKey = "1232CGDFD843G32";
     Map invoiceMap = objectMapper.readValue(new File("src/test/resources/invoiceResponse.json"),
         Map.class);
-    Mockito.when(httpClient.parse(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any()))
+    Mockito.when(
+            httpClient.parse(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any()))
         .thenReturn(invoiceMap);
     client.configureInvoice(invoiceApiKey);
     DocumentClient documentClient = client.setDocument(
@@ -113,7 +114,7 @@ public class ClientTest {
     ArgumentCaptor<String> apiKeyCaptor = ArgumentCaptor.forClass(String.class);
     ArgumentCaptor<String> endpointCaptor = ArgumentCaptor.forClass(String.class);
     Mockito.verify(httpClient, Mockito.atLeast(1)).parse(Mockito.any(),
-        Mockito.any(), apiKeyCaptor.capture(), endpointCaptor.capture());
+        Mockito.any(), apiKeyCaptor.capture(), endpointCaptor.capture(), Mockito.any());
 
     Assert.assertEquals(invoiceApiKey, apiKeyCaptor.getAllValues().get(0));
     Assert.assertEquals(INVOICE_URL, endpointCaptor.getAllValues().get(0));
@@ -125,7 +126,8 @@ public class ClientTest {
     String receiptApiKey = "1232CGDFD843G32";
     Map receiptMap = objectMapper.readValue(new File("src/test/resources/receiptResponse.json"),
         Map.class);
-    Mockito.when(httpClient.parse(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any()))
+    Mockito.when(
+            httpClient.parse(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any()))
         .thenReturn(receiptMap);
     client.configureReceipt(receiptApiKey);
     DocumentClient documentClient = client.setDocument(
@@ -137,7 +139,7 @@ public class ClientTest {
     ArgumentCaptor<String> apiKeyCaptor = ArgumentCaptor.forClass(String.class);
     ArgumentCaptor<String> endpointCaptor = ArgumentCaptor.forClass(String.class);
     Mockito.verify(httpClient, Mockito.atLeast(1)).parse(Mockito.any(),
-        Mockito.any(), apiKeyCaptor.capture(), endpointCaptor.capture());
+        Mockito.any(), apiKeyCaptor.capture(), endpointCaptor.capture(), Mockito.any());
 
     Assert.assertEquals(receiptApiKey, apiKeyCaptor.getAllValues().get(0));
     Assert.assertEquals(RECEIPT_URL, endpointCaptor.getAllValues().get(0));
@@ -149,7 +151,8 @@ public class ClientTest {
     String passportApiKey = "1232CGDFD843G32";
     Map passportMap = objectMapper.readValue(new File("src/test/resources/passportResponse.json"),
         Map.class);
-    Mockito.when(httpClient.parse(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any()))
+    Mockito.when(
+            httpClient.parse(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any()))
         .thenReturn(passportMap);
     client.configurePassport(passportApiKey);
     DocumentClient documentClient = client.setDocument(
@@ -161,7 +164,7 @@ public class ClientTest {
     ArgumentCaptor<String> apiKeyCaptor = ArgumentCaptor.forClass(String.class);
     ArgumentCaptor<String> endpointCaptor = ArgumentCaptor.forClass(String.class);
     Mockito.verify(httpClient, Mockito.atLeast(1)).parse(Mockito.any(),
-        Mockito.any(), apiKeyCaptor.capture(), endpointCaptor.capture());
+        Mockito.any(), apiKeyCaptor.capture(), endpointCaptor.capture(), Mockito.any());
 
     Assert.assertEquals(passportApiKey, apiKeyCaptor.getAllValues().get(0));
     Assert.assertEquals(PASSPORT_URL, endpointCaptor.getAllValues().get(0));
@@ -175,7 +178,8 @@ public class ClientTest {
     String invoiceApiKey = "fae9g94rfcwef";
     Map passportMap = objectMapper.readValue(new File("src/test/resources/passportResponse.json"),
         Map.class);
-    Mockito.when(httpClient.parse(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any()))
+    Mockito.when(
+            httpClient.parse(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any()))
         .thenReturn(passportMap);
     client.configurePassport(passportApiKey);
     client.configureReceipt(receiptApiKey);
@@ -189,7 +193,7 @@ public class ClientTest {
     ArgumentCaptor<String> apiKeyCaptor = ArgumentCaptor.forClass(String.class);
     ArgumentCaptor<String> endpointCaptor = ArgumentCaptor.forClass(String.class);
     Mockito.verify(httpClient, Mockito.atLeast(1)).parse(Mockito.any(),
-        Mockito.any(), apiKeyCaptor.capture(), endpointCaptor.capture());
+        Mockito.any(), apiKeyCaptor.capture(), endpointCaptor.capture(), Mockito.any());
 
     Assert.assertEquals(passportApiKey, apiKeyCaptor.getAllValues().get(0));
     Assert.assertEquals(PASSPORT_URL, endpointCaptor.getAllValues().get(0));
@@ -224,7 +228,8 @@ public class ClientTest {
     String receiptApiKey = "234rfearjdfv";
     Map invoiceMap = objectMapper.readValue(new File("src/test/resources/invoiceResponse.json"),
         Map.class);
-    Mockito.when(httpClient.parse(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any()))
+    Mockito.when(
+            httpClient.parse(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any()))
         .thenReturn(invoiceMap);
     client.configureFinancialDoc(fdInvoiceApiKei, fdReceiptApiKey);
     client.configureInvoice(invoiceApiKei);
@@ -239,7 +244,7 @@ public class ClientTest {
     ArgumentCaptor<String> apiKeyCaptor = ArgumentCaptor.forClass(String.class);
     ArgumentCaptor<String> endpointCaptor = ArgumentCaptor.forClass(String.class);
     Mockito.verify(httpClient, Mockito.atLeast(1)).parse(Mockito.any(),
-        Mockito.any(), apiKeyCaptor.capture(), endpointCaptor.capture());
+        Mockito.any(), apiKeyCaptor.capture(), endpointCaptor.capture(), Mockito.any());
 
     Assert.assertEquals(fdInvoiceApiKei, apiKeyCaptor.getAllValues().get(0));
     Assert.assertEquals(INVOICE_URL, endpointCaptor.getAllValues().get(0));
@@ -254,7 +259,8 @@ public class ClientTest {
     String receiptApiKey = "234rfearjdfv";
     Map invoiceMap = objectMapper.readValue(new File("src/test/resources/receiptResponse.json"),
         Map.class);
-    Mockito.when(httpClient.parse(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any()))
+    Mockito.when(
+            httpClient.parse(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any()))
         .thenReturn(invoiceMap);
     client.configureFinancialDoc(fdInvoiceApiKei, fdReceiptApiKey);
     client.configureInvoice(invoiceApiKei);
@@ -268,7 +274,7 @@ public class ClientTest {
     ArgumentCaptor<String> apiKeyCaptor = ArgumentCaptor.forClass(String.class);
     ArgumentCaptor<String> endpointCaptor = ArgumentCaptor.forClass(String.class);
     Mockito.verify(httpClient, Mockito.atLeast(1)).parse(Mockito.any(),
-        Mockito.any(), apiKeyCaptor.capture(), endpointCaptor.capture());
+        Mockito.any(), apiKeyCaptor.capture(), endpointCaptor.capture(), Mockito.any());
 
     Assert.assertEquals(fdReceiptApiKey, apiKeyCaptor.getAllValues().get(0));
     Assert.assertEquals(RECEIPT_URL, endpointCaptor.getAllValues().get(0));
@@ -279,7 +285,8 @@ public class ClientTest {
       throws IOException {
     Map invoiceMap = objectMapper.readValue(new File("src/test/resources/receiptResponse.json"),
         Map.class);
-    Mockito.when(httpClient.parse(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any()))
+    Mockito.when(
+            httpClient.parse(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any()))
         .thenReturn(invoiceMap);
     String ladingKey1 = "dwefewf";
     String ladingKey2 = "rfbewsgfeurfewf";
@@ -295,7 +302,7 @@ public class ClientTest {
     ArgumentCaptor<String> apiKeyCaptor = ArgumentCaptor.forClass(String.class);
     ArgumentCaptor<String> endpointCaptor = ArgumentCaptor.forClass(String.class);
     Mockito.verify(httpClient, Mockito.atLeast(1)).parse(Mockito.any(),
-        Mockito.any(), apiKeyCaptor.capture(), endpointCaptor.capture());
+        Mockito.any(), apiKeyCaptor.capture(), endpointCaptor.capture(), Mockito.any());
 
     Assert.assertEquals(ladingKey1, apiKeyCaptor.getAllValues().get(0));
     Assert.assertEquals(
@@ -309,7 +316,8 @@ public class ClientTest {
       throws IOException {
     Map invoiceMap = objectMapper.readValue(new File("src/test/resources/receiptResponse.json"),
         Map.class);
-    Mockito.when(httpClient.parse(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any()))
+    Mockito.when(
+            httpClient.parse(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any()))
         .thenReturn(invoiceMap);
     String ladingKey1 = "dwefewf";
     String ladingKey2 = "rfbewsgfeurfewf";
@@ -330,7 +338,7 @@ public class ClientTest {
     ArgumentCaptor<String> apiKeyCaptor = ArgumentCaptor.forClass(String.class);
     ArgumentCaptor<String> endpointCaptor = ArgumentCaptor.forClass(String.class);
     Mockito.verify(httpClient, Mockito.atLeast(1)).parse(Mockito.any(),
-        Mockito.any(), apiKeyCaptor.capture(), endpointCaptor.capture());
+        Mockito.any(), apiKeyCaptor.capture(), endpointCaptor.capture(), Mockito.any());
 
     Assert.assertEquals(ladingKey2, apiKeyCaptor.getAllValues().get(0));
     Assert.assertEquals(
@@ -392,7 +400,8 @@ public class ClientTest {
       throws IOException, NoSuchAlgorithmException {
     Map invoiceMap = objectMapper.readValue(new File("src/test/resources/receiptResponse.json"),
         Map.class);
-    Mockito.when(httpClient.parse(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any()))
+    Mockito.when(
+            httpClient.parse(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any()))
         .thenReturn(invoiceMap);
     String ladingKey1 = "dwefewf";
     client.configureCustomDocument("bill_of_lading_line_items",
@@ -407,7 +416,7 @@ public class ClientTest {
     ArgumentCaptor<InputStream> inputStreamCaptor = ArgumentCaptor.forClass(InputStream.class);
     ArgumentCaptor<String> fileNameCaptor = ArgumentCaptor.forClass(String.class);
     Mockito.verify(httpClient, Mockito.atLeast(1)).parse(inputStreamCaptor.capture(),
-        fileNameCaptor.capture(), Mockito.any(), Mockito.any());
+        fileNameCaptor.capture(), Mockito.any(), Mockito.any(), Mockito.any());
 
     Assert.assertEquals("invoicetest.pdf", fileNameCaptor.getAllValues().get(0));
     InputStream actualStream = inputStreamCaptor.getAllValues().get(0);
@@ -426,7 +435,8 @@ public class ClientTest {
       throws IOException, NoSuchAlgorithmException {
     Map invoiceMap = objectMapper.readValue(new File("src/test/resources/receiptResponse.json"),
         Map.class);
-    Mockito.when(httpClient.parse(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any()))
+    Mockito.when(
+            httpClient.parse(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any()))
         .thenReturn(invoiceMap);
     String ladingKey1 = "dwefewf";
     client.configureCustomDocument("bill_of_lading_line_items",
@@ -444,7 +454,7 @@ public class ClientTest {
     ArgumentCaptor<InputStream> inputStreamCaptor = ArgumentCaptor.forClass(InputStream.class);
     ArgumentCaptor<String> fileNameCaptor = ArgumentCaptor.forClass(String.class);
     Mockito.verify(httpClient, Mockito.atLeast(1)).parse(inputStreamCaptor.capture(),
-        fileNameCaptor.capture(), Mockito.any(), Mockito.any());
+        fileNameCaptor.capture(), Mockito.any(), Mockito.any(), Mockito.any());
 
     Assert.assertEquals("random.pdf", fileNameCaptor.getAllValues().get(0));
     InputStream actualStream = inputStreamCaptor.getAllValues().get(0);
@@ -463,7 +473,8 @@ public class ClientTest {
       throws IOException, NoSuchAlgorithmException {
     Map invoiceMap = objectMapper.readValue(new File("src/test/resources/receiptResponse.json"),
         Map.class);
-    Mockito.when(httpClient.parse(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any()))
+    Mockito.when(
+            httpClient.parse(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any()))
         .thenReturn(invoiceMap);
     String ladingKey1 = "dwefewf";
 
@@ -480,7 +491,7 @@ public class ClientTest {
     ArgumentCaptor<InputStream> inputStreamCaptor = ArgumentCaptor.forClass(InputStream.class);
     ArgumentCaptor<String> fileNameCaptor = ArgumentCaptor.forClass(String.class);
     Mockito.verify(httpClient, Mockito.atLeast(1)).parse(inputStreamCaptor.capture(),
-        fileNameCaptor.capture(), Mockito.any(), Mockito.any());
+        fileNameCaptor.capture(), Mockito.any(), Mockito.any(), Mockito.any());
 
     Assert.assertEquals("randomdoc.png", fileNameCaptor.getAllValues().get(0));
     InputStream actualStream = inputStreamCaptor.getAllValues().get(0);
@@ -498,7 +509,8 @@ public class ClientTest {
     String invoiceApiKey = "1232CGDFD843G32";
     Map invoiceMap = objectMapper.readValue(new File("src/test/resources/invoiceResponse.json"),
         Map.class);
-    Mockito.when(httpClient.parse(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any()))
+    Mockito.when(
+            httpClient.parse(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any()))
         .thenReturn(invoiceMap);
     client.configureInvoice(invoiceApiKey);
     DocumentClient documentClient = client.setDocument(
@@ -520,7 +532,8 @@ public class ClientTest {
     String receiptApiKey = "1232CGDFD843G32";
     Map receiptMap = objectMapper.readValue(new File("src/test/resources/receiptResponse.json"),
         Map.class);
-    Mockito.when(httpClient.parse(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any()))
+    Mockito.when(
+            httpClient.parse(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any()))
         .thenReturn(receiptMap);
     client.configureReceipt(receiptApiKey);
     DocumentClient documentClient = client.setDocument(
@@ -543,7 +556,8 @@ public class ClientTest {
     String passportApiKey = "1232CGDFD843G32";
     Map passportMap = objectMapper.readValue(new File("src/test/resources/passportResponse.json"),
         Map.class);
-    Mockito.when(httpClient.parse(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any()))
+    Mockito.when(
+            httpClient.parse(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any()))
         .thenReturn(passportMap);
     client.configurePassport(passportApiKey);
     DocumentClient documentClient = client.setDocument(
@@ -609,7 +623,8 @@ public class ClientTest {
     String invoiceApiKey = "gvsrdtbgrgbrtbt";
     Map finDocMap = objectMapper.readValue(new File("src/test/resources/invoiceResponse.json"),
         Map.class);
-    Mockito.when(httpClient.parse(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any()))
+    Mockito.when(
+            httpClient.parse(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any()))
         .thenReturn(finDocMap);
     client.configureFinancialDoc(invoiceApiKey, receiptApiKey);
     DocumentClient documentClient = client.setDocument(
@@ -632,7 +647,8 @@ public class ClientTest {
     UnaryOperator<PassportResponse> operator = spyLambda(UnaryOperator.class, x -> x);
     Map passportMap = objectMapper.readValue(new File("src/test/resources/passportResponse.json"),
         Map.class);
-    Mockito.when(httpClient.parse(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any()))
+    Mockito.when(
+            httpClient.parse(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any()))
         .thenReturn(passportMap);
 
     client.configurePassport(passportApiKey);
@@ -657,7 +673,8 @@ public class ClientTest {
     };
     Map passportMap = objectMapper.readValue(new File("src/test/resources/passportResponse.json"),
         Map.class);
-    Mockito.when(httpClient.parse(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any()))
+    Mockito.when(
+            httpClient.parse(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any()))
         .thenReturn(passportMap);
 
     client.configurePassport(passportApiKey);
@@ -757,53 +774,6 @@ public class ClientTest {
     Assert.assertNotNull(response);
 
   }
-
-  /*
-
-  // some int tests to help with development
-  @Test
-  void givenAPassport_whenParsed_ThenReturnsPassportdocument() throws IOException{
-    Client client = new Client();
-    client.configurePassport("ae5c3be15ca18daca4ceecdc726199f5");
-    PassportResponse passportResponse = client.setDocument(new File("src/test/resources/samplepassport.jpeg"))
-        .parse(PassportResponse.class, ParseParameters.builder()
-            .documentType("passport")
-            .build());
-
-    PassportResponse passportResponse2 = client.setDocument(Files
-        .readAllBytes(Paths.get("src/test/resources/samplepassport.jpeg")),"samplepassport.jpeg")
-        .parse(PassportResponse.class, ParseParameters.builder()
-            .documentType("passport")
-            .build());
-
-
-    PassportResponse passportResponse1 = client.setDocument(Base64
-            .getEncoder()
-            .encodeToString(Files.readAllBytes(Paths.get("src/test/resources/samplepassport.jpeg"))),"samplepassport.jpeg")
-        .parse(PassportResponse.class, ParseParameters.builder()
-            .documentType("passport")
-            .build());
-
-    Assert.assertNotNull(passportResponse1);
-    Assert.assertEquals(passportResponse,passportResponse1);
-
-
-
-  }
-
-  public void testgivenACustomDocument_whenParsed_ThenReturnsCustomDocument() throws IOException{
-    Client client = new Client();
-    client.configureCustomDocument("bill_of_lading_line_items",
-        "w2","w2s","vivekmindee","313f2adfb7dcd56392e7bf0fb51ea576","1");
-    CustomDocumentResponse bill = client.setDocument(new File("src/test/resources/invoicetest.pdf"))
-        .parse(CustomDocumentResponse.class, ParseParameters.builder()
-            .documentType("bill_of_lading_line_items")
-            .build());
-
-    Assert.assertNotNull(bill);
-
-  }
-   */
 
 
 }

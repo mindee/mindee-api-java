@@ -271,7 +271,8 @@ public class Client {
       Map response = httpClient.parse(fileInput.getFileInputStream(parseParameters.getCutMode()),
           fileInput.getFilename(),
           endpoint.getApiKey(),
-          EndpointUtils.buildUrl(endpoint));
+          EndpointUtils.buildUrl(endpoint),
+          parseParameters.getIncludeWords());
 
       T documentResponse = documentConfig.getConverter().apply(type, response);
       return documentConfig.getBuiltInPostProcessing().andThen(postProcessor)

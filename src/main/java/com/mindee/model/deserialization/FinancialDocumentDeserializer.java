@@ -30,8 +30,6 @@ public class FinancialDocumentDeserializer extends StdDeserializer<FinancialDocu
   @Override
   public FinancialDocumentResponse deserialize(JsonParser jsonParser,
       DeserializationContext deserializationContext) throws IOException, JacksonException {
-
-    //JsonNode node = jsonParser.getCodec().readTree(jsonParser);
     Map responseMap = (Map) mapper.readValue(jsonParser, Map.class);
     Map documentMap = (Map) responseMap.get("document");
     Map inferenceMap = (Map) documentMap.get("inference");

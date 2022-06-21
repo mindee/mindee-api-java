@@ -12,6 +12,7 @@ import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.mindee.model.documenttype.InvoiceResponse;
@@ -24,8 +25,11 @@ import com.mindee.model.fields.Tax;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class InvoiceDeserializer extends StdDeserializer<InvoiceResponse> {
+
+  private static final ObjectMapper MAPPER = new ObjectMapper();
 
   public InvoiceDeserializer(Class<?> vc) {
     super(vc);
@@ -44,6 +48,7 @@ public class InvoiceDeserializer extends StdDeserializer<InvoiceResponse> {
     List<InvoicePage> pages = new ArrayList<>();
 
     JsonNode node = jsonParser.getCodec().readTree(jsonParser);
+    invoiceResponse.setRawResponse(MAPPER.treeToValue(node, Map.class));
     JsonNode inference = node.get("document").get("inference");
     JsonNode documentLevelPrediction = inference.get("prediction");
     ArrayNode jsonPages = (ArrayNode) inference.get("pages");
