@@ -6,6 +6,10 @@ import java.util.Map;
 
 public interface DocumentParsingHttpClient {
 
+  Map parse(InputStream inputStream, String filename, String apiKey, String endPoint,
+      Boolean includeWords)
+      throws IOException;
+
   Map parse(InputStream inputStream, String filename, String apiKey, String endPoint)
       throws IOException;
 

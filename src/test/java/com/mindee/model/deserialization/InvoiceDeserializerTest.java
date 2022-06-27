@@ -1,7 +1,5 @@
 package com.mindee.model.deserialization;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import com.mindee.model.documenttype.InvoiceResponse;
 import com.mindee.model.documenttype.InvoiceResponse.InvoiceDocument;
 import com.mindee.model.fields.Amount;
@@ -28,33 +26,32 @@ class InvoiceDeserializerTest {
   }
 
   @Test
-  void givenAJsonInvoice_whenDeserialized_thenReturnsCorrectInvoiceResponse()
-  {
+  void givenAJsonInvoice_whenDeserialized_thenReturnsCorrectInvoiceResponse() {
     InvoiceResponse response = new InvoiceResponse();
     List<Field> companyRegistrationList = new ArrayList<>();
     companyRegistrationList.add(Field.builder()
-            .rawValue("501124705")
-            .value("501124705")
-            .confidence(0.39)
-            .reconstructed(Boolean.FALSE)
-            .extraField("type","SIREN")
-            .polygon(Arrays.asList(
-                Arrays.asList(0.759,0.125),
-                Arrays.asList(0.835,0.125),
-                Arrays.asList(0.835,0.137),
-                Arrays.asList(0.759,0.137)))
+        .rawValue("501124705")
+        .value("501124705")
+        .confidence(0.39)
+        .reconstructed(Boolean.FALSE)
+        .extraField("type", "SIREN")
+        .polygon(Arrays.asList(
+            Arrays.asList(0.759, 0.125),
+            Arrays.asList(0.835, 0.125),
+            Arrays.asList(0.835, 0.137),
+            Arrays.asList(0.759, 0.137)))
         .build());
     companyRegistrationList.add(Field.builder()
         .rawValue("FR33501124705")
         .value("FR33501124705")
         .confidence(0.39)
         .reconstructed(Boolean.FALSE)
-        .extraField("type","VAT NUMBER")
+        .extraField("type", "VAT NUMBER")
         .polygon(Arrays.asList(
-            Arrays.asList(0.759,0.125),
-            Arrays.asList(0.835,0.125),
-            Arrays.asList(0.835,0.137),
-            Arrays.asList(0.759,0.137)))
+            Arrays.asList(0.759, 0.125),
+            Arrays.asList(0.835, 0.125),
+            Arrays.asList(0.835, 0.137),
+            Arrays.asList(0.759, 0.137)))
         .build());
 
     companyRegistrationList.add(Field.builder()
@@ -62,12 +59,12 @@ class InvoiceDeserializerTest {
         .value("501124705")
         .confidence(0.39)
         .reconstructed(Boolean.FALSE)
-        .extraField("type","SIREN")
+        .extraField("type", "SIREN")
         .polygon(Arrays.asList(
-            Arrays.asList(0.759,0.125),
-            Arrays.asList(0.835,0.125),
-            Arrays.asList(0.835,0.137),
-            Arrays.asList(0.835,0.125)))
+            Arrays.asList(0.759, 0.125),
+            Arrays.asList(0.835, 0.125),
+            Arrays.asList(0.835, 0.137),
+            Arrays.asList(0.835, 0.125)))
         .build());
 
     InvoiceDocument invoiceDocument = InvoiceDocument.builder()
@@ -84,10 +81,10 @@ class InvoiceDeserializerTest {
             .value(587.95)
             .confidence(0.99)
             .polygon(Arrays.asList(
-                Arrays.asList(0.889,0.783),
-                Arrays.asList(0.94,0.783),
-                Arrays.asList(0.94,0.797),
-                Arrays.asList(0.889,0.797)))
+                Arrays.asList(0.889, 0.783),
+                Arrays.asList(0.94, 0.783),
+                Arrays.asList(0.94, 0.797),
+                Arrays.asList(0.889, 0.797)))
             .build())
         .invoiceDate(Date.builder()
             .value(LocalDate.parse("2020-02-17"))

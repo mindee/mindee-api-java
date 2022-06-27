@@ -12,6 +12,7 @@ import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.mindee.model.documenttype.ReceiptResponse;
@@ -22,8 +23,11 @@ import com.mindee.model.fields.Tax;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class ReceiptDeserializer extends StdDeserializer<ReceiptResponse> {
+
+  private static final ObjectMapper MAPPER = new ObjectMapper();
 
   public ReceiptDeserializer(Class<?> vc) {
     super(vc);
@@ -43,6 +47,7 @@ public class ReceiptDeserializer extends StdDeserializer<ReceiptResponse> {
     List<ReceiptPage> pages = new ArrayList<>();
 
     JsonNode node = jsonParser.getCodec().readTree(jsonParser);
+    receiptResponse.setRawResponse(MAPPER.treeToValue(node, Map.class));
     JsonNode inference = node.get("document").get("inference");
     JsonNode documentLevelPrediction = inference.get("prediction");
     ArrayNode jsonPages = (ArrayNode) inference.get("pages");
@@ -105,31 +110,4 @@ public class ReceiptDeserializer extends StdDeserializer<ReceiptResponse> {
     return receiptResponse;
   }
 
-  /*
-  private void buildBaseReceiptFromApiPrediction(JsonNode predication, BaseReceipt receipt)
-      throws IOException {
-    receipt.setLocale(localeFromJsonNode(predication.get("locale")));
-    receipt.setTotalIncl(amountFromJsonNode(predication.get("total_incl")));
-    receipt.setDate(dateFromJsonNode(predication.get("date")));
-    receipt.setCategory(fieldFromJsonNode(predication.get("category")));
-    receipt.setMerchantName(fieldFromJsonNode(predication.get("supplier")));
-    receipt.setTime(timeFromJsonNode(predication.get("time")));
-    ArrayNode taxNodes = (ArrayNode) predication.get("taxes");
-    List<Tax> taxes = new ArrayList<>();
-    for (JsonNode tax:taxNodes) {
-      taxes.add(taxFromJsonNode(tax,"value","rate","code"));
-    }
-    receipt.setTaxes(taxes);
-    if(predication.get("orientation")!=null)
-      receipt.setOrientation(orientationFromJsonNode(predication.get("orientation"),"degrees"));
-    receipt.setTotalExcl(Amount.builder()
-        .confidence(0.0)
-        .reconstructed(false)
-        .build());
-    receipt.setTotalTax(Amount.builder()
-            .confidence(0.0)
-            .reconstructed(false)
-        .build());
-
-  }*/
 }

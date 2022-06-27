@@ -13,6 +13,7 @@ import junit.framework.TestCase;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import okhttp3.mockwebserver.RecordedRequest;
+import org.apache.http.HttpHeaders;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -47,10 +48,11 @@ public class MindeeHttpClientTest extends TestCase {
     Map s = client.parse(new FileInputStream(file),
         file.getName(),
         "dfewsvervdeverv12345",
-        endpoint);
+        endpoint, Boolean.FALSE);
 
     RecordedRequest request = mockWebServer.takeRequest();
     Assertions.assertEquals("dfewsvervdeverv12345", request.getHeader("Authorization"));
+    Assertions.assertNotNull(request.getHeader(HttpHeaders.USER_AGENT));
     Assertions.assertEquals("POST", request.getMethod());
 
   }
@@ -71,7 +73,7 @@ public class MindeeHttpClientTest extends TestCase {
     Map s = client.parse(new FileInputStream(file),
         file.getName(),
         "fdfgergverdveve",
-        endpoint);
+        endpoint, Boolean.FALSE);
     Map expected = MAPPER.readValue(
         new File("src/test/resources/data/receipt/response/complete.json"), Map.class);
     Assertions.assertEquals(expected, s);
