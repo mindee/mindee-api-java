@@ -7,6 +7,7 @@ import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.mindee.model.documenttype.PassportResponse;
@@ -16,8 +17,11 @@ import com.mindee.model.fields.Field;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class PassportDeserializer extends StdDeserializer<PassportResponse> {
+
+  private static final ObjectMapper MAPPER = new ObjectMapper();
 
   public PassportDeserializer(Class<?> vc) {
     super(vc);
@@ -37,6 +41,7 @@ public class PassportDeserializer extends StdDeserializer<PassportResponse> {
     List<PassportPage> pages = new ArrayList<>();
 
     JsonNode node = jsonParser.getCodec().readTree(jsonParser);
+    passportResponse.setRawResponse(MAPPER.treeToValue(node, Map.class));
     JsonNode inference = node.get("document").get("inference");
     JsonNode documentLevelPrediction = inference.get("prediction");
     ArrayNode jsonPages = (ArrayNode) inference.get("pages");

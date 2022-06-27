@@ -28,6 +28,14 @@
         </plugin>
         <plugin>
           <artifactId>maven-jar-plugin</artifactId>
+          <configuration>
+            <archive>
+              <manifest>
+                <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+              </manifest>
+            </archive>
+          </configuration>
           <version>3.0.2</version>
         </plugin>
         <plugin>
@@ -161,40 +169,8 @@
     </dependency>
 
 
-    <!--
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.11</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter</artifactId>
-      <version>RELEASE</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter</artifactId>
-      <version>RELEASE</version>
-      <scope>test</scope>
-    </dependency>
-    -->
-
-
   </dependencies>
-  <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <artifactId>reactor-bom</artifactId>
-        <groupId>io.projectreactor</groupId>
-        <scope>import</scope>
-        <type>pom</type>
-        <version>2020.0.16</version>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
+
 
   <groupId>com.mindee.sdk</groupId>
   <modelVersion>4.0.0</modelVersion>

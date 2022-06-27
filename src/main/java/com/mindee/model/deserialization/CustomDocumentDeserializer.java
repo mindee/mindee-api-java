@@ -48,6 +48,7 @@ public class CustomDocumentDeserializer extends StdDeserializer<CustomDocumentRe
 
     fields.put(this.plural, pages);
     CustomDocumentResponse response = new CustomDocumentResponse(fields);
+    response.setRawResponse(results);
 
     return response;
   }

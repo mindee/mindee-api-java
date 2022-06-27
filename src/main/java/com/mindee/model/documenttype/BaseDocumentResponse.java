@@ -1,5 +1,6 @@
 package com.mindee.model.documenttype;
 
+import java.util.Map;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -10,5 +11,6 @@ import lombok.ToString;
 public abstract class BaseDocumentResponse {
 
   private String type;
+  private Map<String, Object> rawResponse;
 
 }

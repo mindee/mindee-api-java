@@ -9,7 +9,8 @@ public class ParseParameters {
 
   private String documentType;
   private String accountName;
-  private Boolean includeWords;
+  @Builder.Default
+  private Boolean includeWords = Boolean.FALSE;
   @Builder.Default
   private Integer cutMode = 1;
 }
