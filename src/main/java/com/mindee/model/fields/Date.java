@@ -13,8 +13,8 @@ public class Date extends BaseField {
 
   @Builder
   public Date(Boolean reconstructed, String rawValue, Double confidence,
-      List<List<Double>> polygon, LocalDate value) {
-    super(reconstructed, rawValue, confidence, polygon);
+      List<List<Double>> polygon, Integer page, LocalDate value) {
+    super(reconstructed, rawValue, confidence, polygon, page);
     this.value = value;
   }
 }

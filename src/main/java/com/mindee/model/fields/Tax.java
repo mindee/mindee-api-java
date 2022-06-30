@@ -11,10 +11,11 @@ public class Tax extends BaseField {
   private final String code;
   private final Double rate;
 
+
   @Builder
   public Tax(Boolean reconstructed, String rawValue, Double confidence,
-      List<List<Double>> polygon, Double value, String code, Double rate) {
-    super(reconstructed, rawValue, confidence, polygon);
+      List<List<Double>> polygon, Integer page, Double value, String code, Double rate) {
+    super(reconstructed, rawValue, confidence, polygon, page);
     this.value = value;
     this.code = code;
     this.rate = rate;

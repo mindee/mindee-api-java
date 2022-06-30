@@ -10,6 +10,7 @@ import com.mindee.model.fields.Locale;
 import com.mindee.model.fields.Orientation;
 import com.mindee.model.fields.Tax;
 import com.mindee.model.fields.Time;
+import com.mindee.model.ocr.PageContent;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -56,15 +57,17 @@ public class ReceiptResponse extends BaseDocumentResponse {
 
     private final int page;
     private final Orientation orientation;
+    private final PageContent fullText;
 
     @Builder
     public ReceiptPage(Locale locale, Amount totalIncl, Date date,
         Field category, Field merchantName, Time time,
         List<Tax> taxes, Amount totalTax, Amount totalExcl,
-        Orientation orientation, int page) {
+        Orientation orientation, int page, PageContent fullText) {
       super(locale, totalIncl, date, category, merchantName, time, taxes, totalTax, totalExcl);
       this.page = page;
       this.orientation = orientation;
+      this.fullText = fullText;
     }
   }
 

@@ -11,6 +11,7 @@ import com.mindee.model.fields.Orientation;
 import com.mindee.model.fields.PaymentDetails;
 import com.mindee.model.fields.Tax;
 import com.mindee.model.fields.Time;
+import com.mindee.model.ocr.PageContent;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -68,6 +69,7 @@ public class FinancialDocumentResponse extends BaseDocumentResponse {
 
     private final int page;
     private final Orientation orientation;
+    private final PageContent fullText;
 
 
     @Builder
@@ -77,13 +79,14 @@ public class FinancialDocumentResponse extends BaseDocumentResponse {
         Field customerName, List<Field> customerCompanyRegistration,
         Field customerAddress, List<PaymentDetails> paymentDetails,
         List<Field> companyNumber, Amount totalTax, Date date, Field category,
-        Field merchantName, Time time, int page, Orientation orientation) {
+        Field merchantName, Time time, int page, Orientation orientation, PageContent fullText) {
       super(locale, totalIncl, totalExcl, invoiceDate, invoiceNumber, dueDate, taxes, supplier,
           supplierAddress, customerName, customerCompanyRegistration, customerAddress,
           paymentDetails,
           companyNumber, totalTax, date, category, merchantName, time);
       this.page = page;
       this.orientation = orientation;
+      this.fullText = fullText;
     }
   }
 

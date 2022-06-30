@@ -11,8 +11,8 @@ public class Amount extends BaseField {
 
   @Builder
   public Amount(Boolean reconstructed, String rawValue, Double confidence,
-      List<List<Double>> polygon, Double value) {
-    super(reconstructed, rawValue, confidence, polygon);
+      List<List<Double>> polygon, Integer page, Double value) {
+    super(reconstructed, rawValue, confidence, polygon, page);
     this.value = value;
   }
 

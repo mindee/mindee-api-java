@@ -3,6 +3,7 @@ package com.mindee.model.deserialization;
 import static com.mindee.utils.DeserializationUtils.amountFromJsonNode;
 import static com.mindee.utils.DeserializationUtils.dateFromJsonNode;
 import static com.mindee.utils.DeserializationUtils.fieldFromJsonNode;
+import static com.mindee.utils.DeserializationUtils.getPageContentsFromOcr;
 import static com.mindee.utils.DeserializationUtils.localeFromJsonNode;
 import static com.mindee.utils.DeserializationUtils.orientationFromJsonNode;
 import static com.mindee.utils.DeserializationUtils.taxFromJsonNode;
@@ -48,9 +49,14 @@ public class ReceiptDeserializer extends StdDeserializer<ReceiptResponse> {
 
     JsonNode node = jsonParser.getCodec().readTree(jsonParser);
     receiptResponse.setRawResponse(MAPPER.treeToValue(node, Map.class));
-    JsonNode inference = node.get("document").get("inference");
+    JsonNode documentNode = node.get("document");
+    JsonNode inference = documentNode.get("inference");
     JsonNode documentLevelPrediction = inference.get("prediction");
     ArrayNode jsonPages = (ArrayNode) inference.get("pages");
+    ArrayNode ocrPages = null;
+    if (documentNode.has("ocr")) {
+      ocrPages = (ArrayNode) documentNode.get("ocr").get("mvision-v1").get("pages");
+    }
     for (JsonNode pageNode : jsonPages) {
 
       JsonNode predication = pageNode.get("prediction");
@@ -69,6 +75,8 @@ public class ReceiptDeserializer extends StdDeserializer<ReceiptResponse> {
           .time(timeFromJsonNode(predication.get("time")))
           .orientation(orientationFromJsonNode(predication.get("orientation"), "degrees"))
           .taxes(pageLevelTaxes)
+          .fullText(
+              getPageContentsFromOcr(ocrPages, pageNode.get("id").asInt(), "all_words", "text"))
           .totalExcl(Amount.builder()
               .confidence(0.0)
               .reconstructed(false)

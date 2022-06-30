@@ -85,17 +85,17 @@ public class Client {
     return this;
   }
 
-  public DocumentClient setDocument(File file) {
+  public DocumentClient loadDocument(File file) {
     return new DocumentClient(this.httpClient, this::getDocumentConfig, new FileInput(file,
         file.getName()));
   }
 
-  public DocumentClient setDocument(byte[] fileAsByteArray, String filename) {
+  public DocumentClient loadDocument(byte[] fileAsByteArray, String filename) {
     return new DocumentClient(this.httpClient, this::getDocumentConfig,
         new FileInput(fileAsByteArray, filename));
   }
 
-  public DocumentClient setDocument(String fileAsBase64, String filename) {
+  public DocumentClient loadDocument(String fileAsBase64, String filename) {
     return new DocumentClient(this.httpClient, this::getDocumentConfig,
         new FileInput(fileAsBase64, filename));
   }

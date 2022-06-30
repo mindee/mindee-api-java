@@ -12,8 +12,8 @@ public class Orientation extends BaseField {
 
   @Builder
   public Orientation(Boolean reconstructed, String rawValue, Double confidence,
-      List<List<Double>> polygon, Integer value) {
-    super(reconstructed, rawValue, confidence, polygon);
+      List<List<Double>> polygon, Integer page, Integer value) {
+    super(reconstructed, rawValue, confidence, polygon, page);
     this.value = value;
   }
 }

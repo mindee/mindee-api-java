@@ -2,6 +2,7 @@ package com.mindee.model.deserialization;
 
 import static com.mindee.utils.DeserializationUtils.dateFromJsonNode;
 import static com.mindee.utils.DeserializationUtils.fieldFromJsonNode;
+import static com.mindee.utils.DeserializationUtils.getPageContentsFromOcr;
 
 import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.core.JsonParser;
@@ -42,9 +43,14 @@ public class PassportDeserializer extends StdDeserializer<PassportResponse> {
 
     JsonNode node = jsonParser.getCodec().readTree(jsonParser);
     passportResponse.setRawResponse(MAPPER.treeToValue(node, Map.class));
-    JsonNode inference = node.get("document").get("inference");
+    JsonNode documentNode = node.get("document");
+    JsonNode inference = documentNode.get("inference");
     JsonNode documentLevelPrediction = inference.get("prediction");
     ArrayNode jsonPages = (ArrayNode) inference.get("pages");
+    ArrayNode ocrPages = null;
+    if (documentNode.has("ocr")) {
+      ocrPages = (ArrayNode) documentNode.get("ocr").get("mvision-v1").get("pages");
+    }
     for (JsonNode pageNode : jsonPages) {
 
       JsonNode predication = pageNode.get("prediction");
@@ -66,6 +72,8 @@ public class PassportDeserializer extends StdDeserializer<PassportResponse> {
           .mrz1(fieldFromJsonNode(predication.get("mrz1")))
           .mrz2(fieldFromJsonNode(predication.get("mrz2")))
           .givenNames(givenNames)
+          .fullText(
+              getPageContentsFromOcr(ocrPages, pageNode.get("id").asInt(), "all_words", "text"))
           .build();
 
       pages.add(page);
