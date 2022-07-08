@@ -3,6 +3,7 @@ package com.mindee.utils;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.mindee.model.fields.Amount;
 import com.mindee.model.fields.Date;
 import com.mindee.model.fields.Field;
@@ -11,10 +12,12 @@ import com.mindee.model.fields.Orientation;
 import com.mindee.model.fields.PaymentDetails;
 import com.mindee.model.fields.Tax;
 import com.mindee.model.fields.Time;
+import com.mindee.model.ocr.PageContent;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -35,6 +38,7 @@ public class DeserializationUtils {
         .rawValue(getRawValueFromPrediction(amountPrediction, valueKey))
         .confidence(getConfidenceFromPrediction(amountPrediction))
         .polygon(getPolygonFromPredication(amountPrediction))
+        .page(getPageIdFromPrediction(amountPrediction))
         .reconstructed(false)
         .value(Double.valueOf(amountPrediction.get(valueKey).asDouble()))
         .build();
@@ -54,6 +58,7 @@ public class DeserializationUtils {
         .rawValue(getRawValueFromPrediction(datePrediction, valueKey))
         .confidence(getConfidenceFromPrediction(datePrediction))
         .polygon(getPolygonFromPredication(datePrediction))
+        .page(getPageIdFromPrediction(datePrediction))
         .reconstructed(false)
         .value(getLocalDateFromString(datePrediction.get(valueKey).asText(),
             DateTimeFormatter.ISO_DATE))
@@ -81,6 +86,7 @@ public class DeserializationUtils {
         .rawValue(getRawValueFromPrediction(fieldPrediction, valueKey))
         .confidence(getConfidenceFromPrediction(fieldPrediction))
         .polygon(getPolygonFromPredication(fieldPrediction))
+        .page(getPageIdFromPrediction(fieldPrediction))
         .reconstructed(false)
         .value(fieldPrediction.get(valueKey).asText())
         .build();
@@ -101,6 +107,7 @@ public class DeserializationUtils {
         .rawValue(getRawValueFromPrediction(localePrediction, valueKey))
         .confidence(getConfidenceFromPrediction(localePrediction))
         .polygon(getPolygonFromPredication(localePrediction))
+        .page(getPageIdFromPrediction(localePrediction))
         .reconstructed(false)
         .value(new java.util.Locale.Builder()
             .setLanguageTag(localePrediction.get(valueKey).asText())
@@ -140,6 +147,7 @@ public class DeserializationUtils {
         .rawValue(getRawValueFromPrediction(taxPrediction, valueKey))
         .confidence(getConfidenceFromPrediction(taxPrediction))
         .polygon(getPolygonFromPredication(taxPrediction))
+        .page(getPageIdFromPrediction(taxPrediction))
         .reconstructed(false)
         .value(taxPrediction.get(valueKey).asDouble())
         .rate(taxPrediction.get(rateKey) != null ? taxPrediction.get(rateKey).asDouble() : null)
@@ -161,6 +169,7 @@ public class DeserializationUtils {
         .rawValue(getRawValueFromPrediction(timePrediction, valueKey))
         .confidence(getConfidenceFromPrediction(timePrediction))
         .polygon(getPolygonFromPredication(timePrediction))
+        .page(getPageIdFromPrediction(timePrediction))
         .reconstructed(false)
         .value(LocalTime.parse(timePrediction.get(valueKey).asText()))
         .build();
@@ -179,6 +188,7 @@ public class DeserializationUtils {
         .rawValue(getRawValueFromPrediction(paymentDetails, valueKey))
         .confidence(getConfidenceFromPrediction(paymentDetails))
         .polygon(getPolygonFromPredication(paymentDetails))
+        .page(getPageIdFromPrediction(paymentDetails))
         .reconstructed(false)
         .accountNumber(getRawValueFromPrediction(paymentDetails, accountNumberKey))
         .iban(getRawValueFromPrediction(paymentDetails, ibanKey))
@@ -186,6 +196,49 @@ public class DeserializationUtils {
         .swift(getRawValueFromPrediction(paymentDetails, swiftKey))
         .build();
     return details;
+  }
+
+  public static List<List<Field>> getAllWordsFromOcrArrayNode(ArrayNode ocrPages, String wordsKey,
+      String valueKey)
+      throws IOException {
+    List<List<Field>> allWords = new ArrayList<>();
+    for (JsonNode ocrPage : ocrPages) {
+      allWords.add(getAllWordsOnPageFromOcrJsonNode(ocrPage, wordsKey, valueKey));
+    }
+    return allWords;
+
+  }
+
+  public static List<Field> getAllWordsOnPageFromOcrJsonNode(JsonNode ocrPage, String wordsKey,
+      String valueKey)
+      throws IOException {
+
+    ArrayNode words = (ArrayNode) ocrPage.get(wordsKey);
+    List<Field> pageWords = new ArrayList<>();
+    for (JsonNode word : words) {
+      Field wordAsField = fieldFromJsonNode(word, valueKey, null);
+      pageWords.add(wordAsField);
+    }
+
+    return pageWords;
+
+  }
+
+  public static PageContent getPageContentsFromOcr(ArrayNode ocrPages, int index, String wordsKey,
+      String valueKey)
+      throws IOException {
+    if (ocrPages == null || ocrPages.size() == 0) {
+      return null;
+    }
+    if (index < 0 || index >= ocrPages.size()) {
+      throw new IllegalArgumentException("Page index invalid");
+    }
+    JsonNode ocrPage = ocrPages.get(index);
+
+    return PageContent.builder()
+        .words(getAllWordsOnPageFromOcrJsonNode(ocrPage, wordsKey, valueKey))
+        .build();
+
   }
 
 
@@ -206,6 +259,14 @@ public class DeserializationUtils {
       return 0.0;
     }
 
+  }
+
+  private static Integer getPageIdFromPrediction(JsonNode abstractPrediction) throws IOException {
+    if (abstractPrediction.get("page_id") != null) {
+      return abstractPrediction.get("page_id").asInt();
+    } else {
+      return null;
+    }
   }
 
   private static List<List<Double>> getPolygonFromPredication(JsonNode abstractPrediction)

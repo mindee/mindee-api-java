@@ -14,9 +14,10 @@ public class PaymentDetails extends BaseField {
 
   @Builder
   public PaymentDetails(Boolean reconstructed, String rawValue, Double confidence,
-      List<List<Double>> polygon, String accountNumber, String iban, String routingNumber,
+      List<List<Double>> polygon, Integer page, String accountNumber, String iban,
+      String routingNumber,
       String swift) {
-    super(reconstructed, rawValue, confidence, polygon);
+    super(reconstructed, rawValue, confidence, polygon, page);
     this.accountNumber = accountNumber;
     this.iban = iban;
     this.routingNumber = routingNumber;
