@@ -15,10 +15,10 @@ public final class GeometryUtils {
     DoubleSummaryStatistics yStatistics = polygon.stream().mapToDouble(x -> x.get(1))
         .summaryStatistics();
 
-    return Arrays.asList(Arrays.asList(xStatistics.getMin(), yStatistics.getMax()),
-        Arrays.asList(xStatistics.getMax(), yStatistics.getMax()),
+    return Arrays.asList(Arrays.asList(xStatistics.getMin(), yStatistics.getMin()),
         Arrays.asList(xStatistics.getMax(), yStatistics.getMin()),
-        Arrays.asList(xStatistics.getMin(), yStatistics.getMin())
+        Arrays.asList(xStatistics.getMax(), yStatistics.getMax()),
+        Arrays.asList(xStatistics.getMin(), yStatistics.getMax())
     );
   }
 

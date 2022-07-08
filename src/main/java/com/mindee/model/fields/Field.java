@@ -14,9 +14,9 @@ public class Field extends BaseField {
 
   @Builder
   public Field(Boolean reconstructed, String rawValue, Double confidence,
-      List<List<Double>> polygon, String value,
+      List<List<Double>> polygon, Integer page, String value,
       @Singular Map<String, String> extraFields) {
-    super(reconstructed, rawValue, confidence, polygon);
+    super(reconstructed, rawValue, confidence, polygon, page);
     this.value = value;
     this.extraFields = extraFields;
   }

@@ -12,8 +12,8 @@ public class Time extends BaseField {
 
   @Builder
   public Time(Boolean reconstructed, String rawValue, Double confidence,
-      List<List<Double>> polygon, LocalTime value) {
-    super(reconstructed, rawValue, confidence, polygon);
+      List<List<Double>> polygon, Integer page, LocalTime value) {
+    super(reconstructed, rawValue, confidence, polygon, page);
     this.value = value;
   }
 }

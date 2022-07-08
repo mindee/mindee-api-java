@@ -6,6 +6,7 @@ import com.mindee.model.deserialization.PassportDeserializer;
 import com.mindee.model.fields.Date;
 import com.mindee.model.fields.Field;
 import com.mindee.model.fields.Orientation;
+import com.mindee.model.ocr.PageContent;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -56,6 +57,7 @@ public class PassportResponse extends BaseDocumentResponse {
 
     private final int page;
     private final Orientation orientation;
+    private final PageContent fullText;
 
     @Builder(toBuilder = true)
     public PassportPage(@Builder.ObtainVia(method = "getCountry") Field country,
@@ -71,12 +73,13 @@ public class PassportResponse extends BaseDocumentResponse {
         @Builder.ObtainVia(method = "getGivenNames") List<Field> givenNames,
         @Builder.ObtainVia(method = "getMrz") Field mrz,
         @Builder.ObtainVia(method = "getFullName") Field fullName,
-        int page, Orientation orientation) {
+        int page, Orientation orientation, PageContent fullText) {
       super(country, id_number, birthDate, expiryDate, issuanceDate, birthPlace, gender, surname,
           mrz1,
           mrz2, givenNames, mrz, fullName);
       this.page = page;
       this.orientation = orientation;
+      this.fullText = fullText;
     }
 
 

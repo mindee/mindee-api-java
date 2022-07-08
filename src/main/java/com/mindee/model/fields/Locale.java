@@ -14,9 +14,10 @@ public class Locale extends BaseField {
 
   @Builder
   public Locale(Boolean reconstructed, String rawValue, Double confidence,
-      List<List<Double>> polygon, java.util.Locale value, String language, String country,
+      List<List<Double>> polygon, Integer page, java.util.Locale value, String language,
+      String country,
       String currency) {
-    super(reconstructed, rawValue, confidence, polygon);
+    super(reconstructed, rawValue, confidence, polygon, page);
     this.value = value;
     this.language = language;
     this.country = country;

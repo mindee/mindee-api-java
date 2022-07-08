@@ -3,6 +3,7 @@ package com.mindee.model.deserialization;
 import static com.mindee.utils.DeserializationUtils.amountFromJsonNode;
 import static com.mindee.utils.DeserializationUtils.dateFromJsonNode;
 import static com.mindee.utils.DeserializationUtils.fieldFromJsonNode;
+import static com.mindee.utils.DeserializationUtils.getPageContentsFromOcr;
 import static com.mindee.utils.DeserializationUtils.localeFromJsonNode;
 import static com.mindee.utils.DeserializationUtils.orientationFromJsonNode;
 import static com.mindee.utils.DeserializationUtils.paymentDetailsJsonNode;
@@ -49,7 +50,12 @@ public class InvoiceDeserializer extends StdDeserializer<InvoiceResponse> {
 
     JsonNode node = jsonParser.getCodec().readTree(jsonParser);
     invoiceResponse.setRawResponse(MAPPER.treeToValue(node, Map.class));
-    JsonNode inference = node.get("document").get("inference");
+    JsonNode documentNode = node.get("document");
+    JsonNode inference = documentNode.get("inference");
+    ArrayNode ocrPages = null;
+    if (documentNode.has("ocr")) {
+      ocrPages = (ArrayNode) documentNode.get("ocr").get("mvision-v1").get("pages");
+    }
     JsonNode documentLevelPrediction = inference.get("prediction");
     ArrayNode jsonPages = (ArrayNode) inference.get("pages");
 
@@ -97,6 +103,8 @@ public class InvoiceDeserializer extends StdDeserializer<InvoiceResponse> {
           .paymentDetails(paymentDetailsList)
           .orientation(orientationFromJsonNode(predication.get("orientation"), "degrees"))
           .taxes(pageLevelTaxes)
+          .fullText(
+              getPageContentsFromOcr(ocrPages, pageNode.get("id").asInt(), "all_words", "text"))
           .totalExcl(amountFromJsonNode(predication.get("total_excl")))
           .totalTax(Amount.builder()
               .confidence(0.0)
@@ -159,4 +167,6 @@ public class InvoiceDeserializer extends StdDeserializer<InvoiceResponse> {
 
     return invoiceResponse;
   }
+
+
 }

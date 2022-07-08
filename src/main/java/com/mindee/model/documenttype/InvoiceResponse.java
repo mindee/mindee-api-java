@@ -10,6 +10,7 @@ import com.mindee.model.fields.Locale;
 import com.mindee.model.fields.Orientation;
 import com.mindee.model.fields.PaymentDetails;
 import com.mindee.model.fields.Tax;
+import com.mindee.model.ocr.PageContent;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -62,6 +63,7 @@ public class InvoiceResponse extends BaseDocumentResponse {
 
     private final int page;
     private final Orientation orientation;
+    private final PageContent fullText;
 
     @Builder
     public InvoicePage(Locale locale, Amount totalIncl, Amount totalExcl,
@@ -70,13 +72,14 @@ public class InvoiceResponse extends BaseDocumentResponse {
         Field customerName, List<Field> customerCompanyRegistration,
         Field customerAddress, List<PaymentDetails> paymentDetails,
         List<Field> companyNumber, Amount totalTax, int page,
-        Orientation orientation) {
+        Orientation orientation, PageContent fullText) {
       super(locale, totalIncl, totalExcl, invoiceDate, invoiceNumber, dueDate, taxes, supplier,
           supplierAddress, customerName, customerCompanyRegistration, customerAddress,
           paymentDetails,
           companyNumber, totalTax);
       this.page = page;
       this.orientation = orientation;
+      this.fullText = fullText;
     }
   }
 

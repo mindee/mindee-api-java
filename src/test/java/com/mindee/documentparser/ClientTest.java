@@ -105,7 +105,7 @@ public class ClientTest {
             httpClient.parse(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any()))
         .thenReturn(invoiceMap);
     client.configureInvoice(invoiceApiKey);
-    DocumentClient documentClient = client.setDocument(
+    DocumentClient documentClient = client.loadDocument(
         new File("src/test/resources/invoicetest.pdf"));
     documentClient.parse(InvoiceResponse.class, ParseParameters.builder()
         .documentType("invoice")
@@ -130,7 +130,7 @@ public class ClientTest {
             httpClient.parse(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any()))
         .thenReturn(receiptMap);
     client.configureReceipt(receiptApiKey);
-    DocumentClient documentClient = client.setDocument(
+    DocumentClient documentClient = client.loadDocument(
         new File("src/test/resources/invoicetest.pdf"));
     documentClient.parse(ReceiptResponse.class, ParseParameters.builder()
         .documentType("receipt")
@@ -155,7 +155,7 @@ public class ClientTest {
             httpClient.parse(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any()))
         .thenReturn(passportMap);
     client.configurePassport(passportApiKey);
-    DocumentClient documentClient = client.setDocument(
+    DocumentClient documentClient = client.loadDocument(
         new File("src/test/resources/invoicetest.pdf"));
     documentClient.parse(PassportResponse.class, ParseParameters.builder()
         .documentType("passport")
@@ -184,7 +184,7 @@ public class ClientTest {
     client.configurePassport(passportApiKey);
     client.configureReceipt(receiptApiKey);
     client.configureInvoice(invoiceApiKey);
-    DocumentClient documentClient = client.setDocument(
+    DocumentClient documentClient = client.loadDocument(
         new File("src/test/resources/invoicetest.pdf"));
     documentClient.parse(PassportResponse.class, ParseParameters.builder()
         .documentType("passport")
@@ -209,7 +209,7 @@ public class ClientTest {
         Map.class);
     client.configureReceipt(receiptApiKey);
     client.configureInvoice(invoiceApiKey);
-    DocumentClient documentClient = client.setDocument(
+    DocumentClient documentClient = client.loadDocument(
         new File("src/test/resources/invoicetest.pdf"));
     Exception exception = Assertions.assertThrows(RuntimeException.class,
         () -> documentClient.parse(PassportResponse.class, ParseParameters.builder()
@@ -234,7 +234,7 @@ public class ClientTest {
     client.configureFinancialDoc(fdInvoiceApiKei, fdReceiptApiKey);
     client.configureInvoice(invoiceApiKei);
     client.configureReceipt(receiptApiKey);
-    DocumentClient documentClient = client.setDocument(
+    DocumentClient documentClient = client.loadDocument(
         new File("src/test/resources/invoicetest.pdf"));
     documentClient.parse(FinancialDocumentResponse.class,
         ParseParameters.builder()
@@ -265,7 +265,7 @@ public class ClientTest {
     client.configureFinancialDoc(fdInvoiceApiKei, fdReceiptApiKey);
     client.configureInvoice(invoiceApiKei);
     client.configureReceipt(receiptApiKey);
-    DocumentClient documentClient = client.setDocument(
+    DocumentClient documentClient = client.loadDocument(
         new File("src/test/resources/receipttest.jpeg"));
     documentClient.parse(FinancialDocumentResponse.class, ParseParameters.builder()
         .documentType("financial_doc")
@@ -294,7 +294,7 @@ public class ClientTest {
         "lading", "ladings", "testaccount1",
         ladingKey1, "1");
 
-    CustomDocumentResponse bill = client.setDocument(new File("src/test/resources/invoicetest.pdf"))
+    CustomDocumentResponse bill = client.loadDocument(new File("src/test/resources/invoicetest.pdf"))
         .parse(CustomDocumentResponse.class, ParseParameters.builder()
             .documentType("bill_of_lading_line_items")
             .build());
@@ -329,7 +329,7 @@ public class ClientTest {
         "lading", "ladings", "testaccount2",
         ladingKey2, "1");
 
-    CustomDocumentResponse bill = client.setDocument(new File("src/test/resources/invoicetest.pdf"))
+    CustomDocumentResponse bill = client.loadDocument(new File("src/test/resources/invoicetest.pdf"))
         .parse(CustomDocumentResponse.class, ParseParameters.builder()
             .documentType("bill_of_lading_line_items")
             .accountName("testaccount2")
@@ -365,7 +365,7 @@ public class ClientTest {
         ladingKey2, "1");
 
     Exception exception = Assertions.assertThrows(RuntimeException.class,
-        () -> client.setDocument(new File("src/test/resources/invoicetest.pdf"))
+        () -> client.loadDocument(new File("src/test/resources/invoicetest.pdf"))
             .parse(CustomDocumentResponse.class, ParseParameters.builder()
                 .documentType("bill_of_lading_line_items")
                 .build()));
@@ -385,7 +385,7 @@ public class ClientTest {
     String ladingKey2 = "rfbewsgfeurfewf";
 
     Exception exception = Assertions.assertThrows(RuntimeException.class,
-        () -> client.setDocument(new File("src/test/resources/invoicetest.pdf"))
+        () -> client.loadDocument(new File("src/test/resources/invoicetest.pdf"))
             .parse(CustomDocumentResponse.class, ParseParameters.builder()
                 .documentType("bill_of_lading_line_items")
                 .build()));
@@ -408,7 +408,7 @@ public class ClientTest {
         "lading", "ladings", "testaccount1",
         ladingKey1, "1");
 
-    CustomDocumentResponse bill = client.setDocument(new File("src/test/resources/invoicetest.pdf"))
+    CustomDocumentResponse bill = client.loadDocument(new File("src/test/resources/invoicetest.pdf"))
         .parse(CustomDocumentResponse.class, ParseParameters.builder()
             .documentType("bill_of_lading_line_items")
             .build());
@@ -446,7 +446,7 @@ public class ClientTest {
     String base64File = Base64.getEncoder()
         .encodeToString(Files.readAllBytes(Paths.get("src/test/resources/invoicetest.pdf")));
 
-    CustomDocumentResponse bill = client.setDocument(base64File, "random.pdf")
+    CustomDocumentResponse bill = client.loadDocument(base64File, "random.pdf")
         .parse(CustomDocumentResponse.class, ParseParameters.builder()
             .documentType("bill_of_lading_line_items")
             .build());
@@ -483,7 +483,7 @@ public class ClientTest {
         "lading", "ladings", "testaccount1",
         ladingKey1, "1");
 
-    CustomDocumentResponse bill = client.setDocument(inputBytes, "randomdoc.png")
+    CustomDocumentResponse bill = client.loadDocument(inputBytes, "randomdoc.png")
         .parse(CustomDocumentResponse.class, ParseParameters.builder()
             .documentType("bill_of_lading_line_items")
             .build());
@@ -513,7 +513,7 @@ public class ClientTest {
             httpClient.parse(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any()))
         .thenReturn(invoiceMap);
     client.configureInvoice(invoiceApiKey);
-    DocumentClient documentClient = client.setDocument(
+    DocumentClient documentClient = client.loadDocument(
         new File("src/test/resources/invoicetest.pdf"));
     InvoiceResponse invoiceResponse = documentClient.parse(InvoiceResponse.class,
         ParseParameters.builder()
@@ -536,7 +536,7 @@ public class ClientTest {
             httpClient.parse(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any()))
         .thenReturn(receiptMap);
     client.configureReceipt(receiptApiKey);
-    DocumentClient documentClient = client.setDocument(
+    DocumentClient documentClient = client.loadDocument(
         new File("src/test/resources/invoicetest.pdf"));
     ReceiptResponse receiptResponse = documentClient.parse(ReceiptResponse.class,
         ParseParameters.builder()
@@ -560,7 +560,7 @@ public class ClientTest {
             httpClient.parse(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any()))
         .thenReturn(passportMap);
     client.configurePassport(passportApiKey);
-    DocumentClient documentClient = client.setDocument(
+    DocumentClient documentClient = client.loadDocument(
         new File("src/test/resources/invoicetest.pdf"));
     PassportResponse passportResponse = documentClient.parse(PassportResponse.class,
         ParseParameters.builder()
@@ -627,7 +627,7 @@ public class ClientTest {
             httpClient.parse(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any()))
         .thenReturn(finDocMap);
     client.configureFinancialDoc(invoiceApiKey, receiptApiKey);
-    DocumentClient documentClient = client.setDocument(
+    DocumentClient documentClient = client.loadDocument(
         new File("src/test/resources/invoicetest.pdf"));
     FinancialDocumentResponse finDocResponse = documentClient.parse(FinancialDocumentResponse.class,
         ParseParameters.builder()
@@ -652,7 +652,7 @@ public class ClientTest {
         .thenReturn(passportMap);
 
     client.configurePassport(passportApiKey);
-    DocumentClient documentClient = client.setDocument(
+    DocumentClient documentClient = client.loadDocument(
         new File("src/test/resources/invoicetest.pdf"));
     PassportResponse passportResponse = documentClient.parse(PassportResponse.class,
         ParseParameters.builder()
@@ -678,7 +678,7 @@ public class ClientTest {
         .thenReturn(passportMap);
 
     client.configurePassport(passportApiKey);
-    DocumentClient documentClient = client.setDocument(
+    DocumentClient documentClient = client.loadDocument(
         new File("src/test/resources/invoicetest.pdf"));
     PassportResponse passportResponse = documentClient.parse(PassportResponse.class,
         ParseParameters.builder()
@@ -740,7 +740,7 @@ public class ClientTest {
   public void testgivenAReceiptDocumentPath_whenParsed_ThenReturnsReceipt() throws IOException {
     Client client = new Client();
     client.configureReceipt("44c0d6778265f5b8d421b41a037863f9");
-    ReceiptResponse receiptResponse = client.setDocument(
+    ReceiptResponse receiptResponse = client.loadDocument(
             new File("src/test/resources/receipttest.jpeg"))
         .parse(ReceiptResponse.class, ParseParameters.builder()
             .documentType("receipt")
@@ -760,7 +760,7 @@ public class ClientTest {
   public void testgivenAnInvoiceDocumentPath_whenParsed_ThenReturnsReceipt() throws IOException {
     Client client = new Client();
     client.configureInvoice("971f79664d4dd65464c31393549290aa");
-    InvoiceResponse invoiceResponse = client.setDocument(
+    InvoiceResponse invoiceResponse = client.loadDocument(
             new File("src/test/resources/invoicetest.pdf"))
         .parse(InvoiceResponse.class, ParseParameters.builder()
             .documentType("invoice")
