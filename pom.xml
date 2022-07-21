@@ -120,8 +120,8 @@
     </dependency>
 
     <dependency>
-      <groupId>info.picocli</groupId>
       <artifactId>picocli</artifactId>
+      <groupId>info.picocli</groupId>
       <version>4.6.3</version>
     </dependency>
 
@@ -174,6 +174,13 @@
       <version>4.5.1</version>
     </dependency>
 
+    <!-- https://mvnrepository.com/artifact/org.mockito/mockito-inline -->
+    <dependency>
+      <artifactId>mockito-inline</artifactId>
+      <groupId>org.mockito</groupId>
+      <scope>test</scope>
+      <version>4.6.1</version>
+    </dependency>
 
   </dependencies>
 

@@ -6,7 +6,6 @@ import com.mindee.model.deserialization.PassportDeserializer;
 import com.mindee.model.fields.Date;
 import com.mindee.model.fields.Field;
 import com.mindee.model.fields.Orientation;
-import com.mindee.model.fields.Tax;
 import com.mindee.model.ocr.PageContent;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,22 +30,25 @@ public class PassportResponse extends BaseDocumentResponse {
   private List<PassportPage> passports;
 
   @Override
-  public String documentSummary(){
+  public String documentSummary() {
     StringBuilder stringBuilder = new StringBuilder("-----Passport data-----\n");
-    stringBuilder.append(String.format("Filename: %s\n",this.getFilename()));
-    stringBuilder.append(String.format("Full name: %f\n",this.passport.getFullName().getValue()));
-    stringBuilder.append(String.format("Given names: %f\n",this.passport.getGivenNames().stream()
+    stringBuilder.append(String.format("Filename: %s\n", this.getFilename()));
+    stringBuilder.append(String.format("Full name: %f\n", this.passport.getFullName().getValue()));
+    stringBuilder.append(String.format("Given names: %f\n", this.passport.getGivenNames().stream()
         .map(Field::getValue)
         .collect(Collectors.joining(" "))));
-    stringBuilder.append(String.format("Surname: %s\n",this.passport.getSurname().getValue()));
-    stringBuilder.append(String.format("Country: %s\n",this.passport.getCountry().getValue()));
-    stringBuilder.append(String.format("ID Number: %s\n",this.passport.getId_number().getValue()));
-    stringBuilder.append(String.format("Issuance date: %s\n",this.passport.getIssuanceDate().getValue()));
-    stringBuilder.append(String.format("Birth date: %s\n",this.passport.getBirthDate().getValue()));
-    stringBuilder.append(String.format("Expiry date: %s\n",this.passport.getExpiryDate().getValue()));
-    stringBuilder.append(String.format("MRZ 1: %s\n",this.passport.getMrz1().getValue()));
-    stringBuilder.append(String.format("MRZ 2: %s\n",this.passport.getMrz2().getValue()));
-    stringBuilder.append(String.format("MRZ: %s\n",this.passport.getMrz().getValue()));
+    stringBuilder.append(String.format("Surname: %s\n", this.passport.getSurname().getValue()));
+    stringBuilder.append(String.format("Country: %s\n", this.passport.getCountry().getValue()));
+    stringBuilder.append(String.format("ID Number: %s\n", this.passport.getId_number().getValue()));
+    stringBuilder.append(
+        String.format("Issuance date: %s\n", this.passport.getIssuanceDate().getValue()));
+    stringBuilder.append(
+        String.format("Birth date: %s\n", this.passport.getBirthDate().getValue()));
+    stringBuilder.append(
+        String.format("Expiry date: %s\n", this.passport.getExpiryDate().getValue()));
+    stringBuilder.append(String.format("MRZ 1: %s\n", this.passport.getMrz1().getValue()));
+    stringBuilder.append(String.format("MRZ 2: %s\n", this.passport.getMrz2().getValue()));
+    stringBuilder.append(String.format("MRZ: %s\n", this.passport.getMrz().getValue()));
     stringBuilder.append("----------------------");
     return stringBuilder.toString();
   }

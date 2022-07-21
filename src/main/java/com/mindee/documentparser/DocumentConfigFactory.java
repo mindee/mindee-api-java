@@ -23,51 +23,82 @@ final class DocumentConfigFactory {
   private static final String RECEIPT = "receipt";
   private static final String INVOICE = "invoice";
   private static final String FINANCIAL_DOCUMENT = "financial_doc";
+  private static final String PASSPORT = "passport";
   private static final Map<ObjectMapperMapKey, ObjectMapper> customMappers = new HashMap<>();
 
 
   private DocumentConfigFactory() {
   }
 
-  static <T extends BaseDocumentResponse> DocumentConfig<T> getDocumentConfigFromEnv(String docType,String accountName)
-  {
+  static String getEnvironmentVariable(String env) {
+    return System.getenv(env);
+  }
+
+  static <T extends BaseDocumentResponse> DocumentConfig<T> getDocumentConfigFromApiKey(
+      String apiKey, String docType, String accountName) {
+    if (apiKey == null || apiKey.trim().length() == 0) {
+      throw new IllegalArgumentException("API KEY is null or blank");
+    }
+
+    if (docType == null) {
+      throw new IllegalArgumentException("doc type cannot be blank");
+    }
+
+    if (docType.equalsIgnoreCase(INVOICE) || docType.equalsIgnoreCase(RECEIPT)
+        || docType.equalsIgnoreCase(PASSPORT)) {
+      return getDocumentConfigForOffTheShelfDocType(docType, accountName, apiKey);
+    } else if (docType.equalsIgnoreCase(FINANCIAL_DOCUMENT)) {
+      return getDocumentConfigForOffTheShelfDocType(docType, accountName, apiKey, apiKey);
+    } else {
+      return getDocumentConfigForCustomDocType(docType, accountName, apiKey, "1.0", "document",
+          "pages");
+    }
+  }
+
+  static <T extends BaseDocumentResponse> DocumentConfig<T> getDocumentConfigFromEnv(String docType,
+      String accountName) {
     String accountEnvKey = null;
     String documentTypeEnvKey = docType;
-    if(docType.equalsIgnoreCase(FINANCIAL_DOCUMENT))
+    if (docType.equalsIgnoreCase(FINANCIAL_DOCUMENT)) {
       documentTypeEnvKey = INVOICE;
-    if(accountName == null || accountName.equalsIgnoreCase("MINDEE"))
+    }
+    if (accountName == null || accountName.equalsIgnoreCase("MINDEE")) {
       accountEnvKey = "MINDEE";
-    else
+    } else {
       accountEnvKey = "MINDEE".concat("_")
-          .concat(accountName.replace('-','_'))
+          .concat(accountName.replace('-', '_'))
           .toUpperCase();
+    }
     String envVarName = accountEnvKey
         .concat("_")
-        .concat(documentTypeEnvKey.replace('-','_'))
+        .concat(documentTypeEnvKey.replace('-', '_'))
         .concat("_")
         .concat("API_KEY")
         .toUpperCase();
-    String apiKey0 = System.getenv(envVarName);
+    String apiKey0 = getEnvironmentVariable(envVarName);
     String apiKey1 = null;
-    if(apiKey0 == null)
+    if (apiKey0 == null) {
       return null;
-    if(docType.equalsIgnoreCase(FINANCIAL_DOCUMENT))
-    {
+    }
+    if (docType.equalsIgnoreCase(FINANCIAL_DOCUMENT)) {
       documentTypeEnvKey = RECEIPT;
       envVarName = accountEnvKey
           .concat("_")
-          .concat(documentTypeEnvKey.replace('-','_'))
+          .concat(documentTypeEnvKey.replace('-', '_'))
           .concat("_")
           .concat("API_KEY")
           .toUpperCase();
-      apiKey1 = System.getenv(envVarName);
-      if(apiKey1 == null)
+      apiKey1 = getEnvironmentVariable(envVarName);
+      if (apiKey1 == null) {
         return null;
+      }
     }
-    if(accountEnvKey.equalsIgnoreCase("mindee"))
-      return getDocumentConfigForOffTheShelfDocType(docType,"MINDEE",apiKey0,apiKey1);
-    else
-      return getDocumentConfigForCustomDocType(docType,accountName,apiKey0,"1.0","singular","plural");
+    if (accountEnvKey.equalsIgnoreCase("mindee")) {
+      return getDocumentConfigForOffTheShelfDocType(docType, "MINDEE", apiKey0, apiKey1);
+    } else {
+      return getDocumentConfigForCustomDocType(docType, accountName, apiKey0, "1.0", "document",
+          "pages");
+    }
   }
 
   static <T extends BaseDocumentResponse> DocumentConfig<T> getDocumentConfigForCustomDocType(
