@@ -100,12 +100,19 @@ public class Client {
         new FileInput(fileAsBase64, filename));
   }
 
+
+
   private DocumentConfig getDocumentConfig(String documentType, String accountName) {
+    DocumentConfig docConfigFromEnv = null;
     if (accountName != null) {
       DocumentKey key = new DocumentKey(accountName, documentType);
       if (configMap.containsKey(key)) {
         return configMap.get(key);
-      } else {
+      } else if((docConfigFromEnv = DocumentConfigFactory.getDocumentConfigFromEnv(documentType,accountName)) != null){
+        configMap.put(key,docConfigFromEnv);
+        return docConfigFromEnv;
+      }
+      else{
         throw new RuntimeException(
             String.format("Missing apikey for document type %s and account %s", documentType,
                 accountName));
@@ -124,9 +131,16 @@ public class Client {
     if (configs.size() == 1) {
       return configs.get(0);
     } else if (configs.size() == 0) {
-      throw new RuntimeException(
-          String.format("Missing apikey for document type %s and account %s", documentType,
-              accountName));
+      if((docConfigFromEnv = DocumentConfigFactory.getDocumentConfigFromEnv(documentType,null)) != null)
+      {
+        DocumentKey key = new DocumentKey(MINDEE, documentType);
+        configMap.put(key,docConfigFromEnv);
+        return docConfigFromEnv;
+      }else{
+        throw new RuntimeException(
+            String.format("Missing apikey for document type %s and account %s", documentType,
+                accountName));
+      }
     } else {
       throw new RuntimeException(
           String.format("Duplicate configuration detected for document type %s. "

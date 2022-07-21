@@ -44,6 +44,7 @@ public class PassportDeserializer extends StdDeserializer<PassportResponse> {
     JsonNode node = jsonParser.getCodec().readTree(jsonParser);
     passportResponse.setRawResponse(MAPPER.treeToValue(node, Map.class));
     JsonNode documentNode = node.get("document");
+    passportResponse.setFilename(documentNode.get("name").asText());
     JsonNode inference = documentNode.get("inference");
     JsonNode documentLevelPrediction = inference.get("prediction");
     ArrayNode jsonPages = (ArrayNode) inference.get("pages");

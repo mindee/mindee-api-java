@@ -23,4 +23,30 @@ public class PaymentDetails extends BaseField {
     this.routingNumber = routingNumber;
     this.swift = swift;
   }
+
+  public String getPaymentDetailsSummary()
+  {
+    StringBuilder stringBuilder = new StringBuilder("");
+    if(accountNumber!=null && accountNumber.length()>0)
+    {
+      stringBuilder.append(accountNumber);
+      stringBuilder.append("; ");
+    }
+    if(iban!=null && iban.length()>0)
+    {
+      stringBuilder.append(iban);
+      stringBuilder.append("; ");
+    }
+    if(routingNumber!=null && routingNumber.length()>0)
+    {
+      stringBuilder.append(routingNumber);
+      stringBuilder.append("; ");
+    }
+    if(swift!=null && swift.length()>0)
+    {
+      stringBuilder.append(swift);
+      stringBuilder.append("; ");
+    }
+    return stringBuilder.toString().trim();
+  }
 }

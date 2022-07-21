@@ -50,6 +50,7 @@ public class ReceiptDeserializer extends StdDeserializer<ReceiptResponse> {
     JsonNode node = jsonParser.getCodec().readTree(jsonParser);
     receiptResponse.setRawResponse(MAPPER.treeToValue(node, Map.class));
     JsonNode documentNode = node.get("document");
+    receiptResponse.setFilename(documentNode.get("name").asText());
     JsonNode inference = documentNode.get("inference");
     JsonNode documentLevelPrediction = inference.get("prediction");
     ArrayNode jsonPages = (ArrayNode) inference.get("pages");
