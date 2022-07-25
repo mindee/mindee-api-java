@@ -20,4 +20,22 @@ public class Tax extends BaseField {
     this.code = code;
     this.rate = rate;
   }
+
+  public String getTaxSummary()
+  {
+    StringBuilder stringBuilder = new StringBuilder("");
+    if(value!=null)
+      stringBuilder.append(value);
+    if(rate!=null){
+      stringBuilder.append(" ");
+      stringBuilder.append(rate);
+      stringBuilder.append("%");
+    }
+    if(code!=null)
+    {
+      stringBuilder.append(" ");
+      stringBuilder.append(code);
+    }
+    return stringBuilder.toString().trim();
+  }
 }

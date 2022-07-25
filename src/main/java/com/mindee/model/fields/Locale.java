@@ -23,4 +23,32 @@ public class Locale extends BaseField {
     this.country = country;
     this.currency = currency;
   }
+
+  public String getLocaleSummary()
+  {
+    StringBuilder stringBuilder = new StringBuilder("");
+    if(value!=null)
+    {
+      stringBuilder.append(value.getDisplayName());
+      stringBuilder.append("; ");
+    }
+    if(language!=null)
+    {
+      stringBuilder.append(language);
+      stringBuilder.append("; ");
+    }
+    if(country!=null)
+    {
+      stringBuilder.append(country);
+      stringBuilder.append("; ");
+    }
+    if(currency!=null)
+    {
+      stringBuilder.append(currency);
+      stringBuilder.append("; ");
+    }
+
+    return stringBuilder.toString().trim();
+  }
+
 }

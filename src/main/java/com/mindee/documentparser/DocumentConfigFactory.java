@@ -20,10 +20,54 @@ final class DocumentConfigFactory {
   private static final String API_TYPE_CUSTOM = "api_builder";
   private static final String API_TYPE_OFF_THE_SHELF = "off_the_shelf";
   private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+  private static final String RECEIPT = "receipt";
+  private static final String INVOICE = "invoice";
+  private static final String FINANCIAL_DOCUMENT = "financial_doc";
   private static final Map<ObjectMapperMapKey, ObjectMapper> customMappers = new HashMap<>();
 
 
   private DocumentConfigFactory() {
+  }
+
+  static <T extends BaseDocumentResponse> DocumentConfig<T> getDocumentConfigFromEnv(String docType,String accountName)
+  {
+    String accountEnvKey = null;
+    String documentTypeEnvKey = docType;
+    if(docType.equalsIgnoreCase(FINANCIAL_DOCUMENT))
+      documentTypeEnvKey = INVOICE;
+    if(accountName == null || accountName.equalsIgnoreCase("MINDEE"))
+      accountEnvKey = "MINDEE";
+    else
+      accountEnvKey = "MINDEE".concat("_")
+          .concat(accountName.replace('-','_'))
+          .toUpperCase();
+    String envVarName = accountEnvKey
+        .concat("_")
+        .concat(documentTypeEnvKey.replace('-','_'))
+        .concat("_")
+        .concat("API_KEY")
+        .toUpperCase();
+    String apiKey0 = System.getenv(envVarName);
+    String apiKey1 = null;
+    if(apiKey0 == null)
+      return null;
+    if(docType.equalsIgnoreCase(FINANCIAL_DOCUMENT))
+    {
+      documentTypeEnvKey = RECEIPT;
+      envVarName = accountEnvKey
+          .concat("_")
+          .concat(documentTypeEnvKey.replace('-','_'))
+          .concat("_")
+          .concat("API_KEY")
+          .toUpperCase();
+      apiKey1 = System.getenv(envVarName);
+      if(apiKey1 == null)
+        return null;
+    }
+    if(accountEnvKey.equalsIgnoreCase("mindee"))
+      return getDocumentConfigForOffTheShelfDocType(docType,"MINDEE",apiKey0,apiKey1);
+    else
+      return getDocumentConfigForCustomDocType(docType,accountName,apiKey0,"1.0","singular","plural");
   }
 
   static <T extends BaseDocumentResponse> DocumentConfig<T> getDocumentConfigForCustomDocType(
@@ -66,7 +110,7 @@ final class DocumentConfigFactory {
         .build();
   }
 
-  protected static <T extends BaseDocumentResponse> DocumentConfig getDocumentConfigForOffTheShelfDocType(
+  static <T extends BaseDocumentResponse> DocumentConfig getDocumentConfigForOffTheShelfDocType(
       String docType,
       String owner, String... apiKeys) {
     if (docType == null || owner == null || apiKeys == null) {

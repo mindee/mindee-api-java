@@ -51,6 +51,7 @@ public class InvoiceDeserializer extends StdDeserializer<InvoiceResponse> {
     JsonNode node = jsonParser.getCodec().readTree(jsonParser);
     invoiceResponse.setRawResponse(MAPPER.treeToValue(node, Map.class));
     JsonNode documentNode = node.get("document");
+    invoiceResponse.setFilename(documentNode.get("name").asText());
     JsonNode inference = documentNode.get("inference");
     ArrayNode ocrPages = null;
     if (documentNode.has("ocr")) {
