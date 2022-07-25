@@ -16,7 +16,6 @@ import picocli.CommandLine.Parameters;
 import picocli.CommandLine.ParameterException;
 import picocli.CommandLine.ScopeType;
 import picocli.CommandLine.Spec;
-import java.util.Locale;
 
 @Command(name = "CLI",scope = ScopeType.INHERIT,
     subcommands = { CommandLine.HelpCommand.class },
@@ -30,19 +29,18 @@ public class CLI {
   @Option(names = { "-w", "--words" }, scope = ScopeType.INHERIT,paramLabel = "<AllWords>", description = "Flag to set all words")
   boolean words;
 
-  @Option(names = { "-C", "--no-cut-pdf" }, scope = ScopeType.INHERIT, paramLabel = "<NoCutPDF>", description = "Flag to not cut a PDF document")
-  boolean noCutPdf;
-  @Option(names = {"-p","--pdf-cut-mode"}, scope = ScopeType.INHERIT,  description = "PDF cut mode {1,2,3}")
-  int mode;
+  @Option(names = { "-C", "--no-cut-doc" }, scope = ScopeType.INHERIT, paramLabel = "<NoCutDoc>", description = "Flag to not cut a document")
+  boolean noCutDoc;
+  @Option(names = {"-p","--doc-pages"}, scope = ScopeType.INHERIT,  description = "Number of document pages to cut by")
+  int cutPages;
 
 
 
-  @Command(name = "invoice",description = "Invokes the invoice API via SDK")
+  @Command(name = "invoice",description = "Invokes the invoice API")
   void invoiceMethod( @Option(names = { "--invoice-key"},
       paramLabel = "INVOICE_API_KEY",
       description = "invoice api key, if not set, will use system property")
       String invoiceApiKey) throws IOException {
-
 
     Client client = new Client();
     if(invoiceApiKey!=null)
@@ -53,12 +51,10 @@ public class CLI {
             .includeWords(words)
         .build());
 
-
     System.out.println(invoiceResponse.documentSummary());
-
   }
 
-  @Command(name = "receipt",description = "Invokes the receipt API via SDK")
+  @Command(name = "receipt",description = "Invokes the receipt API")
   void receiptMethod( @Option(names = { "--receipt-key"},
       paramLabel = "RECEIPT_API_KEY",
       description = "receipt api key, if not set, will use system property")
@@ -74,17 +70,14 @@ public class CLI {
         .includeWords(words)
         .build());
 
-
     System.out.println(receiptResponse.documentSummary());
-
   }
 
-  @Command(name = "passport",description = "Invokes the passport API via SDK")
+  @Command(name = "passport",description = "Invokes the passport API")
   void passportMethod( @Option(names = { "--passport-key"},
       paramLabel = "PASSPORT_API_KEY",
       description = "passport api key, if not set, will use system property")
       String passportApiKey) throws IOException {
-
 
     Client client = new Client();
     if(passportApiKey!=null)
@@ -95,9 +88,7 @@ public class CLI {
         .includeWords(words)
         .build());
 
-
     System.out.println(passportResponse.documentSummary());
-
   }
 
   public static void main(String[] args) {
