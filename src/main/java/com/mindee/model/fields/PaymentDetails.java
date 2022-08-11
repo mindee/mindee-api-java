@@ -24,26 +24,21 @@ public class PaymentDetails extends BaseField {
     this.swift = swift;
   }
 
-  public String getPaymentDetailsSummary()
-  {
+  public String getPaymentDetailsSummary() {
     StringBuilder stringBuilder = new StringBuilder("");
-    if(accountNumber!=null && accountNumber.length()>0)
-    {
+    if (accountNumber != null && accountNumber.length() > 0) {
       stringBuilder.append(accountNumber);
       stringBuilder.append("; ");
     }
-    if(iban!=null && iban.length()>0)
-    {
+    if (iban != null && iban.length() > 0) {
       stringBuilder.append(iban);
       stringBuilder.append("; ");
     }
-    if(routingNumber!=null && routingNumber.length()>0)
-    {
+    if (routingNumber != null && routingNumber.length() > 0) {
       stringBuilder.append(routingNumber);
       stringBuilder.append("; ");
     }
-    if(swift!=null && swift.length()>0)
-    {
+    if (swift != null && swift.length() > 0) {
       stringBuilder.append(swift);
       stringBuilder.append("; ");
     }

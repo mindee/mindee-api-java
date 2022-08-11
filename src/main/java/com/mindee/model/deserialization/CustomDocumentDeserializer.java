@@ -49,7 +49,7 @@ public class CustomDocumentDeserializer extends StdDeserializer<CustomDocumentRe
     fields.put(this.plural, pages);
     CustomDocumentResponse response = new CustomDocumentResponse(fields);
     response.setRawResponse(results);
-    String filename = (String) ((Map)results.get("document")).get("name");
+    String filename = (String) ((Map) results.get("document")).get("name");
     response.setFilename(filename);
     return response;
   }

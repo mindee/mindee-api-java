@@ -33,26 +33,36 @@ public class InvoiceResponse extends BaseDocumentResponse {
   private List<InvoicePage> invoices;
 
   @Override
-  public String documentSummary(){
+  public String documentSummary() {
     StringBuilder stringBuilder = new StringBuilder("-----Invoice data-----\n");
-    stringBuilder.append(String.format("Filename: %s\n",this.getFilename()));
-    stringBuilder.append(String.format("Invoice number: %s\n",this.invoice.getInvoiceNumber().getValue()));
-    stringBuilder.append(String.format("Total amount including taxes: %f\n",this.invoice.getTotalIncl().getValue()));
-    stringBuilder.append(String.format("Total amount excluding taxes: %f\n",this.invoice.getTotalExcl().getValue()));
-    stringBuilder.append(String.format("Invoice date: %s\n",this.invoice.getInvoiceDate().getValue()));
-    stringBuilder.append(String.format("Invoice due date: %s\n",this.invoice.getDueDate().getValue()));
-    stringBuilder.append(String.format("Supplier name: %s\n",this.invoice.getSupplier().getValue()));
-    stringBuilder.append(String.format("Supplier address: %s\n",this.invoice.getSupplierAddress().getValue()));
-    stringBuilder.append(String.format("Customer name: %s\n",this.invoice.getCustomerName().getValue()));
+    stringBuilder.append(String.format("Filename: %s\n", this.getFilename()));
+    stringBuilder.append(
+        String.format("Invoice number: %s\n", this.invoice.getInvoiceNumber().getValue()));
+    stringBuilder.append(String.format("Total amount including taxes: %f\n",
+        this.invoice.getTotalIncl().getValue()));
+    stringBuilder.append(String.format("Total amount excluding taxes: %f\n",
+        this.invoice.getTotalExcl().getValue()));
+    stringBuilder.append(
+        String.format("Invoice date: %s\n", this.invoice.getInvoiceDate().getValue()));
+    stringBuilder.append(
+        String.format("Invoice due date: %s\n", this.invoice.getDueDate().getValue()));
+    stringBuilder.append(
+        String.format("Supplier name: %s\n", this.invoice.getSupplier().getValue()));
+    stringBuilder.append(
+        String.format("Supplier address: %s\n", this.invoice.getSupplierAddress().getValue()));
+    stringBuilder.append(
+        String.format("Customer name: %s\n", this.invoice.getCustomerName().getValue()));
     stringBuilder.append(String.format("Customer company registration: %s\n",
         this.invoice.getCustomerCompanyRegistration().stream()
             .map(Field::getValue)
             .collect(Collectors.joining("; "))
     ));
-    stringBuilder.append(String.format("Customer address: %s\n",this.invoice.getCustomerAddress().getValue()));
-    stringBuilder.append(String.format("Payment details: %s\n",this.invoice.getPaymentDetails().stream()
-        .map(PaymentDetails::getPaymentDetailsSummary)
-        .collect(Collectors.joining("\n                 "))));
+    stringBuilder.append(
+        String.format("Customer address: %s\n", this.invoice.getCustomerAddress().getValue()));
+    stringBuilder.append(
+        String.format("Payment details: %s\n", this.invoice.getPaymentDetails().stream()
+            .map(PaymentDetails::getPaymentDetailsSummary)
+            .collect(Collectors.joining("\n                 "))));
     stringBuilder.append(String.format("Company numbers: %s\n",
         this.invoice.getCompanyNumber().stream()
             .map(Field::getValue)
@@ -63,7 +73,8 @@ public class InvoiceResponse extends BaseDocumentResponse {
             .map(Tax::getTaxSummary)
             .collect(Collectors.joining("\n       "))
     ));
-    stringBuilder.append(String.format("Locale: %s\n", this.invoice.getLocale().getLocaleSummary()));
+    stringBuilder.append(
+        String.format("Locale: %s\n", this.invoice.getLocale().getLocaleSummary()));
     stringBuilder.append("----------------------");
     return stringBuilder.toString();
   }

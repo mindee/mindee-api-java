@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -36,6 +37,7 @@ public class Client {
   private final DocumentParsingHttpClient httpClient;
   private final ObjectMapper objectMapper = new ObjectMapper();
   private final Map<DocumentKey, DocumentConfig> configMap = new HashMap<>();
+  private String apiKey;
 
 
   public Client() {
@@ -46,6 +48,11 @@ public class Client {
     this.httpClient = httpClient;
   }
 
+
+  public Client configure(String apiKey) {
+    this.apiKey = apiKey;
+    return this;
+  }
 
   public Client configureInvoice(String apiKey) {
     DocumentConfig invoiceConfig = DocumentConfigFactory.getDocumentConfigForOffTheShelfDocType(
@@ -101,18 +108,22 @@ public class Client {
   }
 
 
-
   private DocumentConfig getDocumentConfig(String documentType, String accountName) {
     DocumentConfig docConfigFromEnv = null;
     if (accountName != null) {
       DocumentKey key = new DocumentKey(accountName, documentType);
       if (configMap.containsKey(key)) {
         return configMap.get(key);
-      } else if((docConfigFromEnv = DocumentConfigFactory.getDocumentConfigFromEnv(documentType,accountName)) != null){
-        configMap.put(key,docConfigFromEnv);
+      } else if (this.apiKey != null) {
+        DocumentConfig configFromApiKey = DocumentConfigFactory.getDocumentConfigFromApiKey(apiKey,
+            documentType, accountName);
+        configMap.put(key, configFromApiKey);
+        return configFromApiKey;
+      } else if ((docConfigFromEnv = DocumentConfigFactory.getDocumentConfigFromEnv(documentType,
+          accountName)) != null) {
+        configMap.put(key, docConfigFromEnv);
         return docConfigFromEnv;
-      }
-      else{
+      } else {
         throw new RuntimeException(
             String.format("Missing apikey for document type %s and account %s", documentType,
                 accountName));
@@ -131,12 +142,24 @@ public class Client {
     if (configs.size() == 1) {
       return configs.get(0);
     } else if (configs.size() == 0) {
-      if((docConfigFromEnv = DocumentConfigFactory.getDocumentConfigFromEnv(documentType,null)) != null)
-      {
+      if (!Arrays.asList(INVOICE, RECEIPT, FINANCIAL_DOCUMENT, PASSPORT).contains(documentType)) {
+        throw new RuntimeException(String.format(
+            "Account name/owner is needed for document types %s to use default apikeys "
+                + "or api keys configured in environemnt variables", documentType));
+      }
+      if (this.apiKey != null) {
         DocumentKey key = new DocumentKey(MINDEE, documentType);
-        configMap.put(key,docConfigFromEnv);
+        DocumentConfig config = DocumentConfigFactory.getDocumentConfigFromApiKey(this.apiKey,
+            documentType, MINDEE);
+        configMap.put(key, config);
+        return config;
+      } else if (
+          (docConfigFromEnv = DocumentConfigFactory.getDocumentConfigFromEnv(documentType, null))
+              != null) {
+        DocumentKey key = new DocumentKey(MINDEE, documentType);
+        configMap.put(key, docConfigFromEnv);
         return docConfigFromEnv;
-      }else{
+      } else {
         throw new RuntimeException(
             String.format("Missing apikey for document type %s and account %s", documentType,
                 accountName));

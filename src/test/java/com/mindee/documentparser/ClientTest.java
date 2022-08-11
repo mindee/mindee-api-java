@@ -36,6 +36,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.AdditionalAnswers;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
+import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -211,12 +212,22 @@ public class ClientTest {
     client.configureInvoice(invoiceApiKey);
     DocumentClient documentClient = client.loadDocument(
         new File("src/test/resources/invoicetest.pdf"));
-    Exception exception = Assertions.assertThrows(RuntimeException.class,
-        () -> documentClient.parse(PassportResponse.class, ParseParameters.builder()
-            .documentType("passport")
-            .build()));
 
-    Assert.assertTrue(exception.getMessage().toLowerCase().contains("passport"));
+    try (MockedStatic<DocumentConfigFactory> utilities = Mockito.mockStatic(
+        DocumentConfigFactory.class)) {
+      utilities.when(() -> DocumentConfigFactory.getEnvironmentVariable(Mockito.anyString()))
+          .thenReturn(null);
+
+      Exception exception = Assertions.assertThrows(RuntimeException.class,
+          () -> documentClient.parse(PassportResponse.class, ParseParameters.builder()
+              .documentType("passport")
+              .build()));
+
+      Assert.assertTrue(exception.getMessage().toLowerCase().contains("passport"));
+
+    }
+
+
   }
 
   @Test
@@ -294,7 +305,8 @@ public class ClientTest {
         "lading", "ladings", "testaccount1",
         ladingKey1, "1");
 
-    CustomDocumentResponse bill = client.loadDocument(new File("src/test/resources/invoicetest.pdf"))
+    CustomDocumentResponse bill = client.loadDocument(
+            new File("src/test/resources/invoicetest.pdf"))
         .parse(CustomDocumentResponse.class, ParseParameters.builder()
             .documentType("bill_of_lading_line_items")
             .build());
@@ -329,7 +341,8 @@ public class ClientTest {
         "lading", "ladings", "testaccount2",
         ladingKey2, "1");
 
-    CustomDocumentResponse bill = client.loadDocument(new File("src/test/resources/invoicetest.pdf"))
+    CustomDocumentResponse bill = client.loadDocument(
+            new File("src/test/resources/invoicetest.pdf"))
         .parse(CustomDocumentResponse.class, ParseParameters.builder()
             .documentType("bill_of_lading_line_items")
             .accountName("testaccount2")
@@ -408,7 +421,8 @@ public class ClientTest {
         "lading", "ladings", "testaccount1",
         ladingKey1, "1");
 
-    CustomDocumentResponse bill = client.loadDocument(new File("src/test/resources/invoicetest.pdf"))
+    CustomDocumentResponse bill = client.loadDocument(
+            new File("src/test/resources/invoicetest.pdf"))
         .parse(CustomDocumentResponse.class, ParseParameters.builder()
             .documentType("bill_of_lading_line_items")
             .build());

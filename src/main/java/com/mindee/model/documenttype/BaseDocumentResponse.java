@@ -14,7 +14,7 @@ public abstract class BaseDocumentResponse {
   private Map<String, Object> rawResponse;
   private String filename;
 
-  public String documentSummary(){
+  public String documentSummary() {
     return this.toString();
   }
 

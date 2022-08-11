@@ -8,7 +8,6 @@ import com.mindee.model.fields.Date;
 import com.mindee.model.fields.Field;
 import com.mindee.model.fields.Locale;
 import com.mindee.model.fields.Orientation;
-import com.mindee.model.fields.PaymentDetails;
 import com.mindee.model.fields.Tax;
 import com.mindee.model.fields.Time;
 import com.mindee.model.ocr.PageContent;
@@ -33,6 +32,31 @@ public class ReceiptResponse extends BaseDocumentResponse {
 
   private ReceiptDocument receipt;
   private List<ReceiptPage> receipts;
+
+  @Override
+  public String documentSummary() {
+    StringBuilder stringBuilder = new StringBuilder("-----Receipt data-----\n");
+    stringBuilder.append(String.format("Filename: %s\n", this.getFilename()));
+    stringBuilder.append(String.format("Total amount including taxes: %f\n",
+        this.receipt.getTotalIncl().getValue()));
+    stringBuilder.append(String.format("Total amount excluding taxes: %f\n",
+        this.receipt.getTotalExcl().getValue()));
+    stringBuilder.append(String.format("Date: %s\n", this.receipt.getDate().getValue()));
+    stringBuilder.append(String.format("Category: %s\n", this.receipt.getCategory().getValue()));
+    stringBuilder.append(String.format("Time: %s\n", this.receipt.getTime().getValue()));
+    stringBuilder.append(
+        String.format("Merchant name: %s\n", this.receipt.getMerchantName().getValue()));
+    stringBuilder.append(String.format("Taxes: %s\n",
+        this.receipt.getTaxes().stream()
+            .map(Tax::getTaxSummary)
+            .collect(Collectors.joining("\n       "))
+    ));
+    stringBuilder.append(String.format("Total taxes: %s\n", this.receipt.getTotalTax().getValue()));
+    stringBuilder.append(
+        String.format("Locale: %s\n", this.receipt.getLocale().getLocaleSummary()));
+    stringBuilder.append("----------------------");
+    return stringBuilder.toString();
+  }
 
   @Getter
   @AllArgsConstructor
@@ -71,27 +95,6 @@ public class ReceiptResponse extends BaseDocumentResponse {
       this.orientation = orientation;
       this.fullText = fullText;
     }
-  }
-
-  @Override
-  public String documentSummary(){
-    StringBuilder stringBuilder = new StringBuilder("-----Receipt data-----\n");
-    stringBuilder.append(String.format("Filename: %s\n",this.getFilename()));
-    stringBuilder.append(String.format("Total amount including taxes: %f\n",this.receipt.getTotalIncl().getValue()));
-    stringBuilder.append(String.format("Total amount excluding taxes: %f\n",this.receipt.getTotalExcl().getValue()));
-    stringBuilder.append(String.format("Date: %s\n",this.receipt.getDate().getValue()));
-    stringBuilder.append(String.format("Category: %s\n",this.receipt.getCategory().getValue()));
-    stringBuilder.append(String.format("Time: %s\n",this.receipt.getTime().getValue()));
-    stringBuilder.append(String.format("Merchant name: %s\n",this.receipt.getMerchantName().getValue()));
-    stringBuilder.append(String.format("Taxes: %s\n",
-        this.receipt.getTaxes().stream()
-            .map(Tax::getTaxSummary)
-            .collect(Collectors.joining("\n       "))
-    ));
-    stringBuilder.append(String.format("Total taxes: %s\n",this.receipt.getTotalTax().getValue()));
-    stringBuilder.append(String.format("Locale: %s\n", this.receipt.getLocale().getLocaleSummary()));
-    stringBuilder.append("----------------------");
-    return stringBuilder.toString();
   }
 
   @Value
