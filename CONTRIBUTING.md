@@ -86,5 +86,5 @@ Examples:
 
 ### Code Styleguide
 
-We keep our code base consistent and expect Ruby code to adhere to the
+We keep our code base consistent and expect Java code to adhere to the
 [Google Java Styleguide](https://google.github.io/styleguide/javaguide.html)
