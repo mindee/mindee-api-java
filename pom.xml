@@ -198,7 +198,7 @@
     <org.mapstruct.version>1.5.2.Final</org.mapstruct.version>
     <org.projectlombok.lombok-mapstruct-binding.version>0.2.0
     </org.projectlombok.lombok-mapstruct-binding.version>
-    <org.projectlombok.version>1.18.22</org.projectlombok.version>
+    <org.projectlombok.version>1.18.24</org.projectlombok.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
