@@ -26,16 +26,16 @@ public class PolygonUtils {
   public static Point getCentroid(Polygon polygon) {
     int verticesSum = polygon.getCoordinates().size();
 
-    double xSum = polygon.getCoordinates().stream().map(p -> p.getX()).mapToDouble(Double::doubleValue)
+    double xSum = polygon.getCoordinates().stream().map(Point::getX).mapToDouble(Double::doubleValue)
         .sum();
-    double ySum = polygon.getCoordinates().stream().map(p -> p.getY()).mapToDouble(Double::doubleValue)
+    double ySum = polygon.getCoordinates().stream().map(Point::getY).mapToDouble(Double::doubleValue)
         .sum();
 
     return new Point(xSum / verticesSum, ySum / verticesSum);
   }
 
   public static Double getMinYCoordinate(Polygon polygon) {
-    OptionalDouble min = polygon.getCoordinates().stream().map(p -> p.getY())
+    OptionalDouble min = polygon.getCoordinates().stream().map(Point::getY)
         .mapToDouble(Double::doubleValue).min();
     if (min.isPresent()) {
       return min.getAsDouble();
@@ -44,7 +44,7 @@ public class PolygonUtils {
   }
 
   public static Double getMaxYCoordinate(Polygon polygon) {
-    OptionalDouble max = polygon.getCoordinates().stream().map(p -> p.getY())
+    OptionalDouble max = polygon.getCoordinates().stream().map(Point::getY)
         .mapToDouble(Double::doubleValue).max();
     if (max.isPresent()) {
       return max.getAsDouble();
@@ -53,7 +53,7 @@ public class PolygonUtils {
   }
 
   public static Double getMinXCoordinate(Polygon polygon) {
-    OptionalDouble min = polygon.getCoordinates().stream().map(p -> p.getX())
+    OptionalDouble min = polygon.getCoordinates().stream().map(Point::getX)
         .mapToDouble(Double::doubleValue).min();
     if (min.isPresent()) {
       return min.getAsDouble();
@@ -62,7 +62,7 @@ public class PolygonUtils {
   }
 
   public static Double getMaxXCoordinate(Polygon polygon) {
-    OptionalDouble max = polygon.getCoordinates().stream().map(p -> p.getX())
+    OptionalDouble max = polygon.getCoordinates().stream().map(Point::getX)
         .mapToDouble(Double::doubleValue).max();
     if (max.isPresent()) {
       return max.getAsDouble();
@@ -79,10 +79,10 @@ public class PolygonUtils {
    */
   public static Polygon combine(Polygon base, Polygon target) {
     if (base == null) {
-      base = new Polygon(new Point(0, 0));
+      base = new Polygon(List.of(new Point(0, 0)));
     }
     if (target == null) {
-      target = new Polygon(new Point(0, 0));
+      target = new Polygon(List.of(new Point(0, 0)));
     }
 
     Double maxx = Math.max(target.getCoordinates().stream()
