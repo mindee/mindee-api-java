@@ -1,5 +1,6 @@
 package com.mindee.geometry;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.OptionalDouble;
 import java.util.stream.Collectors;
@@ -79,10 +80,10 @@ public class PolygonUtils {
    */
   public static Polygon combine(Polygon base, Polygon target) {
     if (base == null) {
-      base = new Polygon(List.of(new Point(0, 0)));
+      base = new Polygon(Arrays.asList(new Point(0.0, 0.0)));
     }
     if (target == null) {
-      target = new Polygon(List.of(new Point(0, 0)));
+      target = new Polygon(Arrays.asList(new Point(0.0, 0.0)));
     }
 
     Double maxx = Math.max(target.getCoordinates().stream()
@@ -114,7 +115,7 @@ public class PolygonUtils {
             .min(Double::compareTo).orElse(Double.MAX_VALUE));
 
     return new Polygon(
-        List.of(
+        Arrays.asList(
             new Point(minx, miny),
             new Point(maxx, miny),
             new Point(maxx, maxy),

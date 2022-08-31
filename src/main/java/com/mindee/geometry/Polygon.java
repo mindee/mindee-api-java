@@ -1,8 +1,12 @@
 package com.mindee.geometry;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import lombok.Getter;
+
+@Getter
 public class Polygon {
   private List<Point> coordinates = new ArrayList<>();
   private BoundingBox bbox;
@@ -12,29 +16,14 @@ public class Polygon {
    */
   public Polygon(List<Point> coordinates) {
     this.coordinates = coordinates;
-
     this.bbox = BoundingBoxUtils.createFrom(this.coordinates);
-  }
-
-  /**
-   * @return the coordinates
-   */
-  public List<Point> getCoordinates() {
-    return coordinates;
-  }
-
-  /**
-   * @return the boundingBox
-   */
-  public BoundingBox getBbox() {
-    return this.bbox;
   }
 
   /**
    * @return a polygon as a boundingBox
    */
   public Polygon getBboxAsPolygon() {
-    return new Polygon(List.of(
+    return new Polygon(Arrays.asList(
         new Point(this.bbox.getMinX(),
             this.bbox.getMinY()),
         new Point(this.bbox.getMaxX(),

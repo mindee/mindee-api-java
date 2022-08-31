@@ -1,5 +1,6 @@
 package com.mindee.geometry;
 
+import java.util.Arrays;
 import java.util.List;
 
 public final class PolygonSample {
@@ -7,7 +8,7 @@ public final class PolygonSample {
   }
 
   public static List<Point> getPointsAsRectangle() {
-    return List.of(
+    return Arrays.asList(
         new Point(0.123, 0.53),
         new Point(0.175, 0.53),
         new Point(0.175, 0.546),
@@ -15,7 +16,7 @@ public final class PolygonSample {
   }
 
   public static List<Point> getPointsWichIsNotRectangle() {
-    return List.of(
+    return Arrays.asList(
         new Point(0.205, 0.407),
         new Point(0.379, 0.407),
         new Point(0.381, 0.43),
