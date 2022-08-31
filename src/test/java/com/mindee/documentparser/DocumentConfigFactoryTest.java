@@ -102,7 +102,7 @@ class DocumentConfigFactoryTest {
 
     DocumentConfig<FinancialDocumentResponse> config = DocumentConfigFactory
         .getDocumentConfigForOffTheShelfDocType("financial_doc", "mindee",
-            "12324343", "dwdwed2112");
+            "12324343");
 
     Assert.assertNotNull(config);
     Assert.assertEquals("financial_doc", config.getDocumentType());
@@ -117,7 +117,7 @@ class DocumentConfigFactoryTest {
     Assert.assertEquals("mindee", endpoint.getOwner());
     Assert.assertEquals("invoices", endpoint.getUrlName());
     endpoint = config.getEndpoints().get(1);
-    Assert.assertEquals("dwdwed2112", endpoint.getApiKey());
+    Assert.assertEquals("12324343", endpoint.getApiKey());
     Assert.assertEquals("3", endpoint.getVersion());
     Assert.assertEquals("receipt", endpoint.getKeyName());
     Assert.assertEquals("mindee", endpoint.getOwner());

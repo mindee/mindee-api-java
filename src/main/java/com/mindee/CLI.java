@@ -16,8 +16,8 @@ import picocli.CommandLine.ScopeType;
 import picocli.CommandLine.Spec;
 
 @Command(name = "CLI", scope = ScopeType.INHERIT,
-    subcommands = {CommandLine.HelpCommand.class},
-    description = "Invoke Off The Shelf API for invoice, receipt, and passports")
+  subcommands = {CommandLine.HelpCommand.class},
+  description = "Invoke Off The Shelf API for invoice, receipt, and passports")
 public class CLI {
 
   @Spec
@@ -27,14 +27,14 @@ public class CLI {
   File file;
 
   @Option(names = {"-w",
-      "--words"}, scope = ScopeType.INHERIT, paramLabel = "<AllWords>", description = "Flag to set all words")
+    "--words"}, scope = ScopeType.INHERIT, paramLabel = "<AllWords>", description = "Flag to set all words")
   boolean words;
 
   @Option(names = {"-C",
-      "--no-cut-doc"}, scope = ScopeType.INHERIT, paramLabel = "<NoCutDoc>", description = "Flag to not cut a document")
+    "--no-cut-doc"}, scope = ScopeType.INHERIT, paramLabel = "<NoCutDoc>", description = "Flag to not cut a document")
   boolean noCutDoc;
   @Option(names = {"-p",
-      "--doc-pages"}, scope = ScopeType.INHERIT, description = "Number of document pages to cut by")
+    "--doc-pages"}, scope = ScopeType.INHERIT, description = "Number of document pages to cut by")
   int cutPages;
 
   public static void main(String[] args) {
@@ -44,60 +44,66 @@ public class CLI {
 
   @Command(name = "invoice", description = "Invokes the invoice API")
   void invoiceMethod(@Option(names = {"--invoice-key"},
-      paramLabel = "INVOICE_API_KEY",
-      description = "invoice api key, if not set, will use system property")
-      String invoiceApiKey) throws IOException {
+    paramLabel = "INVOICE_API_KEY",
+    description = "invoice api key, if not set, will use system property")
+    String invoiceApiKey) throws IOException {
 
-    Client client = new Client();
+    Client client = null;
     if (invoiceApiKey != null) {
-      client.configureInvoice(invoiceApiKey);
+      client = new Client(invoiceApiKey);
+    } else {
+      client = new Client();
     }
 
     InvoiceResponse invoiceResponse = client.loadDocument(file)
-        .parse(InvoiceResponse.class, ParseParameters.builder()
-            .documentType("invoice")
-            .includeWords(words)
-            .build());
+      .parse(InvoiceResponse.class, ParseParameters.builder()
+        .documentType("invoice")
+        .includeWords(words)
+        .build());
 
     System.out.println(invoiceResponse.documentSummary());
   }
 
   @Command(name = "receipt", description = "Invokes the receipt API")
   void receiptMethod(@Option(names = {"--receipt-key"},
-      paramLabel = "RECEIPT_API_KEY",
-      description = "receipt api key, if not set, will use system property")
-      String receiptApiKey) throws IOException {
+    paramLabel = "RECEIPT_API_KEY",
+    description = "receipt api key, if not set, will use system property")
+    String receiptApiKey) throws IOException {
 
-    Client client = new Client();
+    Client client = null;
     if (receiptApiKey != null) {
-      client.configureReceipt(receiptApiKey);
+      client = new Client(receiptApiKey);
+    } else {
+      client = new Client();
     }
 
     ReceiptResponse receiptResponse = client.loadDocument(file)
-        .parse(ReceiptResponse.class, ParseParameters.builder()
-            .documentType("receipt")
-            .includeWords(words)
-            .build());
+      .parse(ReceiptResponse.class, ParseParameters.builder()
+        .documentType("receipt")
+        .includeWords(words)
+        .build());
 
     System.out.println(receiptResponse.documentSummary());
   }
 
   @Command(name = "passport", description = "Invokes the passport API")
   void passportMethod(@Option(names = {"--passport-key"},
-      paramLabel = "PASSPORT_API_KEY",
-      description = "passport api key, if not set, will use system property")
-      String passportApiKey) throws IOException {
+    paramLabel = "PASSPORT_API_KEY",
+    description = "passport api key, if not set, will use system property")
+    String passportApiKey) throws IOException {
 
-    Client client = new Client();
+    Client client = null;
     if (passportApiKey != null) {
-      client.configurePassport(passportApiKey);
+      client = new Client(passportApiKey);
+    } else {
+      client = new Client();
     }
 
     PassportResponse passportResponse = client.loadDocument(file)
-        .parse(PassportResponse.class, ParseParameters.builder()
-            .documentType("passport")
-            .includeWords(words)
-            .build());
+      .parse(PassportResponse.class, ParseParameters.builder()
+        .documentType("passport")
+        .includeWords(words)
+        .build());
 
     System.out.println(passportResponse.documentSummary());
   }

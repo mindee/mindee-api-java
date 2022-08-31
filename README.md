@@ -33,8 +33,8 @@ The Client class is the entry point for most of the helper library features.
 
 Configuring and using a client to parse invoices, receipts, financial documents, and passports
 ```java
-    Client client = new Client()
-        .configure("<MINDEE API KEY>");
+    Client client = new Client("<MINDEE API KEY>");
+       
 
     
     InvoiceResponse invoiceResponse = client.loadDocument(new File("src/main/resources/invoices/invoice1.pdf"))
