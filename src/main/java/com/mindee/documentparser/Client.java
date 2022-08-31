@@ -5,6 +5,10 @@ import com.mindee.http.DocumentParsingHttpClient;
 import com.mindee.http.Endpoint;
 import com.mindee.http.MindeeHttpClient;
 import com.mindee.model.documenttype.BaseDocumentResponse;
+import com.mindee.model.documenttype.FinancialDocumentResponse;
+import com.mindee.model.documenttype.InvoiceResponse;
+import com.mindee.model.documenttype.PassportResponse;
+import com.mindee.model.documenttype.ReceiptResponse;
 import com.mindee.utils.PDFUtils;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -34,99 +38,133 @@ public class Client {
   private static final String PASSPORT = "passport";
   private static final String FINANCIAL_DOCUMENT = "financial_doc";
   private static final String MINDEE = "mindee";
+  private static final List<String> OFF_THE_SHELF_TYPES = Arrays.asList(INVOICE, RECEIPT,
+    FINANCIAL_DOCUMENT, PASSPORT);
   private final DocumentParsingHttpClient httpClient;
   private final ObjectMapper objectMapper = new ObjectMapper();
   private final Map<DocumentKey, DocumentConfig> configMap = new HashMap<>();
-  private String apiKey;
+  private final Map<Class, ParseParameters> defaultParseParameters = new HashMap<>();
+  private final String mindeeApiKey;
 
 
   public Client() {
     this.httpClient = new MindeeHttpClient();
+    mindeeApiKey = DocumentConfigFactory.getApiKeyFromEnvironmentVariable();
+    configureClient();
   }
 
   public Client(DocumentParsingHttpClient httpClient) {
     this.httpClient = httpClient;
+    mindeeApiKey = DocumentConfigFactory.getApiKeyFromEnvironmentVariable();
+    configureClient();
   }
 
-
-  public Client configure(String apiKey) {
-    this.apiKey = apiKey;
-    return this;
+  public Client(String mindeeApiKey) {
+    this.mindeeApiKey = mindeeApiKey;
+    this.httpClient = new MindeeHttpClient();
+    configureClient();
   }
 
-  public Client configureInvoice(String apiKey) {
-    DocumentConfig invoiceConfig = DocumentConfigFactory.getDocumentConfigForOffTheShelfDocType(
-        INVOICE, MINDEE, apiKey);
-    configMap.put(new DocumentKey(MINDEE, INVOICE), invoiceConfig);
-    return this;
-  }
-
-  public Client configureReceipt(String apiKey) {
-    DocumentConfig invoiceConfig = DocumentConfigFactory.getDocumentConfigForOffTheShelfDocType(
-        RECEIPT, MINDEE, apiKey);
-    configMap.put(new DocumentKey(MINDEE, RECEIPT), invoiceConfig);
-    return this;
-  }
-
-  public Client configurePassport(String apiKey) {
-    DocumentConfig invoiceConfig = DocumentConfigFactory.getDocumentConfigForOffTheShelfDocType(
-        PASSPORT, MINDEE, apiKey);
-    configMap.put(new DocumentKey(MINDEE, PASSPORT), invoiceConfig);
-    return this;
-  }
-
-  public Client configureFinancialDoc(String invoiceApiKey, String receiptApiKey) {
-    DocumentConfig financialDocConfig = DocumentConfigFactory.getDocumentConfigForOffTheShelfDocType(
-        FINANCIAL_DOCUMENT, MINDEE,
-        invoiceApiKey, receiptApiKey);
-    configMap.put(new DocumentKey(MINDEE, FINANCIAL_DOCUMENT), financialDocConfig);
-    return this;
-  }
-
-  public Client configureCustomDocument(String docType, String singular,
-      String plural, String accountName, String apiKey,
-      String verion) {
-    DocumentConfig customConfig = DocumentConfigFactory.getDocumentConfigForCustomDocType(docType,
-        accountName, apiKey, verion, singular, plural);
-    configMap.put(new DocumentKey(accountName, docType), customConfig);
-    return this;
+  public Client(String mindeeApiKey, DocumentParsingHttpClient httpClient) {
+    this.mindeeApiKey = mindeeApiKey;
+    this.httpClient = httpClient;
+    configureClient();
   }
 
   public DocumentClient loadDocument(File file) {
     return new DocumentClient(this.httpClient, this::getDocumentConfig, new FileInput(file,
-        file.getName()));
+      file.getName()), this::getDefaultParseParameters);
   }
 
   public DocumentClient loadDocument(byte[] fileAsByteArray, String filename) {
     return new DocumentClient(this.httpClient, this::getDocumentConfig,
-        new FileInput(fileAsByteArray, filename));
+      new FileInput(fileAsByteArray, filename), this::getDefaultParseParameters);
   }
 
   public DocumentClient loadDocument(String fileAsBase64, String filename) {
     return new DocumentClient(this.httpClient, this::getDocumentConfig,
-        new FileInput(fileAsBase64, filename));
+      new FileInput(fileAsBase64, filename), this::getDefaultParseParameters);
   }
 
+  private void configureClient() {
+    if (mindeeApiKey == null) {
+      throw new RuntimeException("No API key Configured.");
+    }
+    configureInvoice(this.mindeeApiKey);
+    configureReceipt(this.mindeeApiKey);
+    configurePassport(this.mindeeApiKey);
+    configureFinancialDoc(this.mindeeApiKey);
+    configureDefaultParseParameters();
+  }
+
+  private void configureDefaultParseParameters() {
+    defaultParseParameters.put(PassportResponse.class, ParseParameters.builder()
+      .documentType(PASSPORT)
+      .accountName(MINDEE)
+      .cutMode(1)
+      .build());
+    defaultParseParameters.put(FinancialDocumentResponse.class, ParseParameters.builder()
+      .documentType(FINANCIAL_DOCUMENT)
+      .accountName(MINDEE)
+      .cutMode(1)
+      .build());
+    defaultParseParameters.put(InvoiceResponse.class, ParseParameters.builder()
+      .documentType(INVOICE)
+      .accountName(MINDEE)
+      .cutMode(1)
+      .build());
+    defaultParseParameters.put(ReceiptResponse.class, ParseParameters.builder()
+      .documentType(RECEIPT)
+      .accountName(MINDEE)
+      .cutMode(1)
+      .build());
+  }
+
+  private void configureInvoice(String apiKey) {
+    DocumentConfig invoiceConfig = DocumentConfigFactory.getDocumentConfigForOffTheShelfDocType(
+      INVOICE, MINDEE, apiKey);
+    configMap.put(new DocumentKey(MINDEE, INVOICE), invoiceConfig);
+  }
+
+  private void configureReceipt(String apiKey) {
+    DocumentConfig invoiceConfig = DocumentConfigFactory.getDocumentConfigForOffTheShelfDocType(
+      RECEIPT, MINDEE, apiKey);
+    configMap.put(new DocumentKey(MINDEE, RECEIPT), invoiceConfig);
+  }
+
+  private void configurePassport(String apiKey) {
+    DocumentConfig invoiceConfig = DocumentConfigFactory.getDocumentConfigForOffTheShelfDocType(
+      PASSPORT, MINDEE, apiKey);
+    configMap.put(new DocumentKey(MINDEE, PASSPORT), invoiceConfig);
+  }
+
+  private void configureFinancialDoc(String apiKey) {
+    DocumentConfig financialDocConfig = DocumentConfigFactory.getDocumentConfigForOffTheShelfDocType(
+      FINANCIAL_DOCUMENT, MINDEE,
+      apiKey);
+    configMap.put(new DocumentKey(MINDEE, FINANCIAL_DOCUMENT), financialDocConfig);
+  }
+
+  private ParseParameters getDefaultParseParameters(Class type) {
+    if (defaultParseParameters.containsKey(type)) {
+      return defaultParseParameters.get(type);
+    } else {
+      return null;
+    }
+  }
 
   private DocumentConfig getDocumentConfig(String documentType, String accountName) {
-    DocumentConfig docConfigFromEnv = null;
+
     if (accountName != null) {
       DocumentKey key = new DocumentKey(accountName, documentType);
       if (configMap.containsKey(key)) {
         return configMap.get(key);
-      } else if (this.apiKey != null) {
-        DocumentConfig configFromApiKey = DocumentConfigFactory.getDocumentConfigFromApiKey(apiKey,
-            documentType, accountName);
+      } else {
+        DocumentConfig configFromApiKey = DocumentConfigFactory.getDocumentConfigFromApiKey(
+          mindeeApiKey,
+          documentType, accountName);
         configMap.put(key, configFromApiKey);
         return configFromApiKey;
-      } else if ((docConfigFromEnv = DocumentConfigFactory.getDocumentConfigFromEnv(documentType,
-          accountName)) != null) {
-        configMap.put(key, docConfigFromEnv);
-        return docConfigFromEnv;
-      } else {
-        throw new RuntimeException(
-            String.format("Missing apikey for document type %s and account %s", documentType,
-                accountName));
       }
     }
     List<DocumentConfig> configs = new ArrayList<>();
@@ -142,34 +180,23 @@ public class Client {
     if (configs.size() == 1) {
       return configs.get(0);
     } else if (configs.size() == 0) {
-      if (!Arrays.asList(INVOICE, RECEIPT, FINANCIAL_DOCUMENT, PASSPORT).contains(documentType)) {
+      if (!OFF_THE_SHELF_TYPES.contains(documentType)) {
         throw new RuntimeException(String.format(
-            "Account name/owner is needed for document types %s to use default apikeys "
-                + "or api keys configured in environemnt variables", documentType));
-      }
-      if (this.apiKey != null) {
+          "Account name/owner is needed for document types %s to use default apikeys "
+            + "or api keys configured in environemnt variables", documentType));
+      } else {
         DocumentKey key = new DocumentKey(MINDEE, documentType);
-        DocumentConfig config = DocumentConfigFactory.getDocumentConfigFromApiKey(this.apiKey,
-            documentType, MINDEE);
+        DocumentConfig config = DocumentConfigFactory.getDocumentConfigFromApiKey(this.mindeeApiKey,
+          documentType, MINDEE);
         configMap.put(key, config);
         return config;
-      } else if (
-          (docConfigFromEnv = DocumentConfigFactory.getDocumentConfigFromEnv(documentType, null))
-              != null) {
-        DocumentKey key = new DocumentKey(MINDEE, documentType);
-        configMap.put(key, docConfigFromEnv);
-        return docConfigFromEnv;
-      } else {
-        throw new RuntimeException(
-            String.format("Missing apikey for document type %s and account %s", documentType,
-                accountName));
       }
     } else {
       throw new RuntimeException(
-          String.format("Duplicate configuration detected for document type %s. "
-                  + "Please provide an account name parameter, one of, %s", documentType,
-              keys.stream().map((item) -> item.getAccountName()).collect(
-                  Collectors.joining(", "))));
+        String.format("Duplicate configuration detected for document type %s. "
+            + "Please provide an account name parameter, one of, %s", documentType,
+          keys.stream().map((item) -> item.getAccountName()).collect(
+            Collectors.joining(", "))));
     }
   }
 
@@ -242,7 +269,7 @@ public class Client {
         case FILE:
           if (PDFUtils.checkPdfOpen(file) && (countOfPages = PDFUtils.countPdfPages(file)) > 1) {
             byte[] mergedFile = PDFUtils.mergePdfPages(file,
-                getPagesToMerge(cutMode, countOfPages));
+              getPagesToMerge(cutMode, countOfPages));
             inputStream = new ByteArrayInputStream(mergedFile);
           } else {
             inputStream = new FileInputStream(file);
@@ -252,9 +279,9 @@ public class Client {
           fileAsByteArray = Base64.getDecoder().decode(base64String.getBytes());
         case BYTE_ARRAY:
           if (PDFUtils.checkPdfOpen(fileAsByteArray)
-              && (countOfPages = PDFUtils.countPdfPages(fileAsByteArray)) > 1) {
+            && (countOfPages = PDFUtils.countPdfPages(fileAsByteArray)) > 1) {
             byte[] mergedFile = PDFUtils.mergePdfPages(fileAsByteArray,
-                getPagesToMerge(cutMode, countOfPages));
+              getPagesToMerge(cutMode, countOfPages));
             inputStream = new ByteArrayInputStream(mergedFile);
           } else {
             inputStream = new ByteArrayInputStream(fileAsByteArray);
@@ -285,44 +312,69 @@ public class Client {
     private final DocumentParsingHttpClient httpClient;
     private final BiFunction<String, String, DocumentConfig> docConfigKeyToDocConfigMapper;
     private final FileInput fileInput;
+    private final Function<Class, ParseParameters> defaultParseParametersSupplier;
 
 
     private DocumentClient(DocumentParsingHttpClient httpClient,
-        BiFunction<String, String, DocumentConfig> docConfigKeyToDocConfigMapper,
-        FileInput fileInput) {
+      BiFunction<String, String, DocumentConfig> docConfigKeyToDocConfigMapper,
+      FileInput fileInput,
+      Function<Class, ParseParameters> defaultParseParametersSupplier) {
       this.httpClient = httpClient;
       this.docConfigKeyToDocConfigMapper = docConfigKeyToDocConfigMapper;
       this.fileInput = fileInput;
-
+      this.defaultParseParametersSupplier = defaultParseParametersSupplier;
     }
 
     public <T extends BaseDocumentResponse> T parse(Class<T> type,
-        ParseParameters parseParameters,
-        Function<T, T> postProcessor) throws IOException {
+      ParseParameters parseParameters,
+      Function<T, T> postProcessor) throws IOException {
 
       DocumentConfig<T> documentConfig = docConfigKeyToDocConfigMapper.apply(
-          parseParameters.getDocumentType(),
-          parseParameters.getAccountName());
+        parseParameters.getDocumentType(),
+        parseParameters.getAccountName());
 
       Endpoint endpoint = getEndpoint(parseParameters.getDocumentType(), type, documentConfig);
       Map response = httpClient.parse(fileInput.getFileInputStream(parseParameters.getCutMode()),
-          fileInput.getFilename(),
-          endpoint.getApiKey(),
-          EndpointUtils.buildUrl(endpoint),
-          parseParameters.getIncludeWords());
+        fileInput.getFilename(),
+        endpoint.getApiKey(),
+        EndpointUtils.buildUrl(endpoint),
+        parseParameters.getIncludeWords());
 
       T documentResponse = documentConfig.getConverter().apply(type, response);
       return documentConfig.getBuiltInPostProcessing().andThen(postProcessor)
-          .apply(documentResponse);
+        .apply(documentResponse);
     }
 
     public <T extends BaseDocumentResponse> T parse(Class<T> type, ParseParameters parseParameters)
-        throws IOException {
+      throws IOException {
       return this.parse(type, parseParameters, UnaryOperator.identity());
     }
 
+    public <T extends BaseDocumentResponse> T parse(Class<T> type, Function<T, T> postProcessor)
+      throws IOException {
+      ParseParameters parseParameters = defaultParseParametersSupplier.apply(type);
+      if (parseParameters == null) {
+        throw new RuntimeException(String.format(
+          "Default ParseParameters are not available for Response type %s - Use overloaded parse methods to pass ParseParameters"
+          , type.getName()));
+      }
+      return this.parse(type, parseParameters, postProcessor);
+    }
+
+    public <T extends BaseDocumentResponse> T parse(Class<T> type)
+      throws IOException {
+      ParseParameters parseParameters = defaultParseParametersSupplier.apply(type);
+      if (parseParameters == null) {
+        throw new RuntimeException(String.format(
+          "Default ParseParameters are not available for Response type %s - Use overloaded parse methods to pass ParseParameters"
+          , type.getName()));
+      }
+      return this.parse(type, parseParameters, UnaryOperator.identity());
+    }
+
+
     private <T extends BaseDocumentResponse> Endpoint getEndpoint(String documentType,
-        Class<T> type, DocumentConfig<T> documentConfig) {
+      Class<T> type, DocumentConfig<T> documentConfig) {
       if (documentType.equalsIgnoreCase("financial_doc")) {
         if ("PDF".equalsIgnoreCase(getFileExtension(fileInput.getFilename()))) {
           return documentConfig.getEndpoints().get(0);
