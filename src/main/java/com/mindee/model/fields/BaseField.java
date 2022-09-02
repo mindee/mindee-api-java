@@ -29,6 +29,11 @@ public abstract class BaseField {
     this.confidence = confidence;
     this.polygon = polygon != null ? PolygonUtils.getFrom(polygon) : null;
     this.page = page;
-    this.boundingBox = BoundingBoxUtils.createFrom(this.polygon);
+    if (polygon != null
+        && !polygon.isEmpty()) {
+      this.boundingBox = BoundingBoxUtils.createFrom(this.polygon);
+    } else {
+      this.boundingBox = null;
+    }
   }
 }
