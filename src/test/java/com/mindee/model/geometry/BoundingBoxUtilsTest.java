@@ -3,6 +3,8 @@ package com.mindee.model.geometry;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import com.mindee.utils.geometry.BoundingBoxUtils;
+
 class BoundingBoxUtilsTest {
 
   @Test

@@ -2,9 +2,9 @@ package com.mindee.model.fields;
 
 import java.util.List;
 
-import com.mindee.model.geometry.BoundingBoxUtils;
 import com.mindee.model.geometry.Polygon;
-import com.mindee.model.geometry.PolygonUtils;
+import com.mindee.utils.geometry.BoundingBoxUtils;
+import com.mindee.utils.geometry.PolygonUtils;
 
 import lombok.Getter;
 
