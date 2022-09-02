@@ -1,4 +1,4 @@
-package com.mindee.geometry;
+package com.mindee.model.geometry;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
