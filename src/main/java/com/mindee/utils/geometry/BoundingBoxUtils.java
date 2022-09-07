@@ -10,7 +10,7 @@ public final class BoundingBoxUtils {
   private BoundingBoxUtils() {
   }
 
-  public static Polygon createFrom(Polygon polygon) {
+  public static Polygon createBoundingBoxFrom(Polygon polygon) {
     DoubleSummaryStatistics xStatistics = polygon.getCoordinates().stream()
         .mapToDouble(Point::getX)
         .summaryStatistics();

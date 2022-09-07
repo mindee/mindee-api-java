@@ -31,7 +31,7 @@ public abstract class BaseField {
     this.page = page;
     if (polygon != null
         && !polygon.isEmpty()) {
-      this.boundingBox = BoundingBoxUtils.createFrom(this.polygon);
+      this.boundingBox = BoundingBoxUtils.createBoundingBoxFrom(this.polygon);
     } else {
       this.boundingBox = null;
     }
