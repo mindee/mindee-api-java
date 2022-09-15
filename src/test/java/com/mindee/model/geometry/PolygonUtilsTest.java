@@ -1,5 +1,11 @@
 package com.mindee.model.geometry;
 
+import static org.junit.Assert.assertThrows;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -60,4 +66,57 @@ public class PolygonUtilsTest {
 
     Assertions.assertEquals(0.53, minY);
   }
+
+  @Test
+  public void combinePolygonsWithTwoNotNullMustGetAValidPolygon() {
+    // given
+    Polygon polygon1 = new Polygon(Arrays.asList(
+        new Point(0.081, 0.442),
+        new Point(0.15, 0.442),
+        new Point(0.15, 0.451),
+        new Point(0.081, 0.451)));
+
+    Polygon polygon2 = new Polygon(Arrays.asList(
+        new Point(0.157, 0.442),
+        new Point(0.26, 0.442),
+        new Point(0.26, 0.451),
+        new Point(0.157, 0.451)));
+
+    // then
+    Polygon mergedPolygon = PolygonUtils.combine(polygon1, polygon2);
+
+    Assertions.assertEquals(0.442, PolygonUtils.getMinYCoordinate(mergedPolygon));
+    Assertions.assertEquals(0.081, PolygonUtils.getMinXCoordinate(mergedPolygon));
+    Assertions.assertEquals(0.451, PolygonUtils.getMaxYCoordinate(mergedPolygon));
+    Assertions.assertEquals(0.26, PolygonUtils.getMaxXCoordinate(mergedPolygon));
+  }
+
+  @Test
+  public void combineWithNullPolygonMustThrow() {
+    assertThrows(IllegalStateException.class, () -> {
+      Polygon polygon = PolygonUtils.combine(null, null);
+    });
+
+  }
+
+  @Test
+  public void combineWith1PolygonAndANullPolygonMustGetNull() {
+    // given
+    Polygon polygon1 = new Polygon(Arrays.asList(
+        new Point(0.081, 0.442),
+        new Point(0.15, 0.442),
+        new Point(0.15, 0.451),
+        new Point(0.081, 0.451)));
+
+    Polygon polygon2 = null;
+
+    // then
+    Polygon mergedPolygon = PolygonUtils.combine(polygon1, polygon2);
+
+    Assertions.assertEquals(0.442, PolygonUtils.getMinYCoordinate(mergedPolygon));
+    Assertions.assertEquals(0.081, PolygonUtils.getMinXCoordinate(mergedPolygon));
+    Assertions.assertEquals(0.451, PolygonUtils.getMaxYCoordinate(mergedPolygon));
+    Assertions.assertEquals(0.15, PolygonUtils.getMaxXCoordinate(mergedPolygon));
+  }
+
 }

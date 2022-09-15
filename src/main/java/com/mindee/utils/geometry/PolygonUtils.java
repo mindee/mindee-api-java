@@ -23,7 +23,7 @@ public class PolygonUtils {
   /**
    * Get the central coordinates (centroid) given a list of coordinates (aka a
    * polygon).
-   * 
+   *
    * @param polygon
    * @return
    */
@@ -76,17 +76,21 @@ public class PolygonUtils {
 
   /**
    * Merge the coordinates of the two polygons
-   * 
+   *
    * @param base
    * @param target
    * @return the new merged polygon
    */
   public static Polygon combine(Polygon base, Polygon target) {
+    if (base == null && target == null) {
+      throw new IllegalStateException("Previous and next polygons can not be null.");
+    }
+
     if (base == null) {
-      base = new Polygon(Arrays.asList(new Point(0.0, 0.0)));
+      base = target;
     }
     if (target == null) {
-      target = new Polygon(Arrays.asList(new Point(0.0, 0.0)));
+      target = base;
     }
 
     Double maxx = Math.max(target.getCoordinates().stream()
