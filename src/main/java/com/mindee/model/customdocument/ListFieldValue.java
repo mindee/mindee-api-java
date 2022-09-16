@@ -3,6 +3,9 @@ package com.mindee.model.customdocument;
 import com.mindee.model.geometry.Polygon;
 import com.mindee.utils.geometry.BoundingBoxUtils;
 
+import lombok.Getter;
+
+@Getter
 public final class ListFieldValue {
 
   private final String content;
@@ -21,27 +24,6 @@ public final class ListFieldValue {
     this.content = content;
     this.confidence = confidence;
     this.polygon = polygon;
-  }
-
-  /**
-   * @return the content
-   */
-  public String getContent() {
-    return content;
-  }
-
-  /**
-   * @return the confidence
-   */
-  public Double getConfidence() {
-    return confidence;
-  }
-
-  /**
-   * @return the polygon
-   */
-  public Polygon getPolygon() {
-    return polygon;
   }
 
   /**
