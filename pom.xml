@@ -4,8 +4,6 @@
   xmlns="http://maven.apache.org/POM/4.0.0"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-
-
   <distributionManagement>
     <snapshotRepository>
       <id>ossrh</id>
@@ -289,8 +287,6 @@
     <url>http://github.com/mindee/mindee-api-java/tree/main</url>
   </scm>
 
-
-
   <properties>
     <junit.jupiter.version>5.8.1</junit.jupiter.version>
     <junit.platform.version>1.8.1</junit.platform.version>
@@ -303,5 +299,5 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
-  <version>1.0-SNAPSHOT</version>
+  <version>1.0.0</version>
 </project>
