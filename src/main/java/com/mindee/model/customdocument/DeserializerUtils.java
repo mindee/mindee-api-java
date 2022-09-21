@@ -18,11 +18,12 @@ public class DeserializerUtils {
 
   public static ListField getFieldsFromANode(JsonNode fieldPrediction, String fieldName) throws IOException {
 
-    ListField listField = null;
     List<ListFieldValue> listFieldValues = new ArrayList<>();
 
     if (fieldPrediction.has(fieldName)) {
-      for (JsonNode fieldNode : (ArrayNode) fieldPrediction.get(fieldName).get("values")) {
+      return null;
+    }
+      for (JsonNode fieldNode : fieldPrediction.get(fieldName).get("values")) {
         if (fieldNode == null
             || DeserializationUtils.getRawValueFromPrediction(fieldNode, "content") == null) {
           continue;
@@ -36,16 +37,13 @@ public class DeserializerUtils {
 
         listFieldValues.add(listFieldValue);
       }
-    }
 
-    listField = new ListField(
-        fieldName,
-        DeserializationUtils.getConfidenceFromPrediction(fieldPrediction),
-        false,
-        DeserializationUtils.getPageIdFromPrediction(fieldPrediction),
-        listFieldValues);
-
-    return listField;
+    return new ListField(
+      fieldName,
+      DeserializationUtils.getConfidenceFromPrediction(fieldPrediction),
+      false,
+      DeserializationUtils.getPageIdFromPrediction(fieldPrediction),
+      listFieldValues);
   }
 
   private static Polygon getPolygonFromPredication(JsonNode abstractPrediction)
