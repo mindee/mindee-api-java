@@ -366,7 +366,7 @@ public class ClientTest {
   @Test
   public void givenACustomDocumentConfigured_whenParsed_ThenCallsClientCorrectly()
       throws IOException {
-    Map invoiceMap = objectMapper.readValue(new File("src/test/resources/receiptResponse.json"),
+    Map invoiceMap = objectMapper.readValue(new File("src/test/resources/cnmss_2benefs_fullresponse.json"),
         Map.class);
     Mockito.when(
         httpClient.parse(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any()))
@@ -394,7 +394,7 @@ public class ClientTest {
   @Test
   public void givenMultipleCustomDocumentConfigured_whenParsed_ThenCallsClientCorrectly()
       throws IOException {
-    Map invoiceMap = objectMapper.readValue(new File("src/test/resources/receiptResponse.json"),
+    Map invoiceMap = objectMapper.readValue(new File("src/test/resources/cnmss_2benefs_fullresponse.json"),
         Map.class);
     Mockito.when(
         httpClient.parse(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any()))
@@ -454,7 +454,7 @@ public class ClientTest {
   @Test
   public void givenAConfiguredClient_whenFileParsed_ThenCallsHttpClientWithCorrrectDocument()
       throws IOException, NoSuchAlgorithmException {
-    Map invoiceMap = objectMapper.readValue(new File("src/test/resources/receiptResponse.json"),
+    Map invoiceMap = objectMapper.readValue(new File("src/test/resources/cnmss_2benefs_fullresponse.json"),
         Map.class);
     Mockito.when(
         httpClient.parse(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any()))
@@ -488,7 +488,7 @@ public class ClientTest {
   @Test
   public void givenAConfiguredClient_whenBase64Parsed_ThenCallsHttpClientWithCorrrectDocument()
       throws IOException, NoSuchAlgorithmException {
-    Map invoiceMap = objectMapper.readValue(new File("src/test/resources/receiptResponse.json"),
+    Map invoiceMap = objectMapper.readValue(new File("src/test/resources/cnmss_2benefs_fullresponse.json"),
         Map.class);
     Mockito.when(
         httpClient.parse(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any()))
@@ -524,7 +524,7 @@ public class ClientTest {
   @Test
   public void givenAConfiguredClient_whenByteArrayParsed_ThenCallsHttpClientWithCorrrectDocument()
       throws IOException, NoSuchAlgorithmException {
-    Map invoiceMap = objectMapper.readValue(new File("src/test/resources/receiptResponse.json"),
+    Map invoiceMap = objectMapper.readValue(new File("src/test/resources/cnmss_2benefs_fullresponse.json"),
         Map.class);
     Mockito.when(
         httpClient.parse(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any()))

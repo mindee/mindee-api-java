@@ -20,7 +20,7 @@ public class DeserializerUtils {
 
     List<ListFieldValue> listFieldValues = new ArrayList<>();
 
-    if (fieldPrediction.has(fieldName)) {
+    if (!fieldPrediction.has(fieldName)) {
       return null;
     }
       for (JsonNode fieldNode : fieldPrediction.get(fieldName).get("values")) {
