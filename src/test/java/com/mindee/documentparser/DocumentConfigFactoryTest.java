@@ -1,7 +1,7 @@
 package com.mindee.documentparser;
 
 import com.mindee.http.Endpoint;
-import com.mindee.model.documenttype.CustomDocumentResponse;
+import com.mindee.model.customdocument.CustomDocumentResponse;
 import com.mindee.model.documenttype.FinancialDocumentResponse;
 import com.mindee.model.documenttype.InvoiceResponse;
 import com.mindee.model.documenttype.PassportResponse;
@@ -17,8 +17,7 @@ class DocumentConfigFactoryTest {
         "custom",
         "owner",
         "1213223",
-        "2.0", "singular", "plural"
-    );
+        "2.0", "singular", "plural");
 
     Assert.assertNotNull(config);
     Assert.assertEquals("api_builder", config.getApiType());

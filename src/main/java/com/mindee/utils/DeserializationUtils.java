@@ -177,7 +177,6 @@ public class DeserializationUtils {
     return time;
   }
 
-
   public static PaymentDetails paymentDetailsJsonNode(JsonNode paymentDetails, String valueKey,
       String accountNumberKey, String ibanKey, String routingNumberKey,
       String swiftKey) throws IOException {
@@ -241,8 +240,7 @@ public class DeserializationUtils {
 
   }
 
-
-  private static String getRawValueFromPrediction(JsonNode abstractPrediction, String valueKey) {
+  public static String getRawValueFromPrediction(JsonNode abstractPrediction, String valueKey) {
     if (abstractPrediction.get(valueKey) != null
         && !abstractPrediction.get(valueKey).isNull()
         && abstractPrediction.get(valueKey).asText() != null
@@ -252,7 +250,7 @@ public class DeserializationUtils {
     return null;
   }
 
-  private static Double getConfidenceFromPrediction(JsonNode abstractPrediction) {
+  public static Double getConfidenceFromPrediction(JsonNode abstractPrediction) {
     try {
       return abstractPrediction.get("confidence").asDouble();
     } catch (Exception e) {
@@ -261,7 +259,7 @@ public class DeserializationUtils {
 
   }
 
-  private static Integer getPageIdFromPrediction(JsonNode abstractPrediction) throws IOException {
+  public static Integer getPageIdFromPrediction(JsonNode abstractPrediction) throws IOException {
     if (abstractPrediction.get("page_id") != null) {
       return abstractPrediction.get("page_id").asInt();
     } else {
