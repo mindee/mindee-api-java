@@ -1,12 +1,13 @@
 # Mindee API Helper Library for Java
 Quickly and easily connect to Mindee's API services using Java.
 
+
 ## Quick Start
 Here's the TL;DR of getting started.
 
 First, get an [API Key](https://developers.mindee.com/docs/create-api-key)
 
-Include the following maven dependency in your project to use the helper library
+Include the following maven dependency in your project to use the helper library:
 ```xml
 <dependency>
   <artifactId>mindee-api-java</artifactId>
@@ -15,9 +16,9 @@ Include the following maven dependency in your project to use the helper library
 </dependency>
 ```
 
-### Usage
 
-The Client class is the entry point for most of the helper library features.
+### Usage
+The `Client` class is the entry point for most of the helper library features.
 
 Configuring and using a client to parse invoices, receipts, financial documents, and passports
 ```java
@@ -41,7 +42,6 @@ FinancialDocumentResponse finDocResponse = client.loadDocument(new File("src/mai
 ```
 
 Custom documents are supported as well and can be parsed as follows:
-
 ```java
 CustomDocumentResponse bill = client.loadDocument(new File("src/test/resources/custom/custom1.pdf"))
     .parse(CustomDocumentResponse.class, ParseParameters.builder()
@@ -50,7 +50,7 @@ CustomDocumentResponse bill = client.loadDocument(new File("src/test/resources/c
         .build());
 ```
 
-The Client loadDocument method supports multiple input types
+The Client `loadDocument` method supports multiple input types:
 * java.io.File file
 * byte[] fileAsByteArray, String filename
 * String fileAsBase64String, String filename
@@ -62,6 +62,7 @@ customize the experience.
 
 All the juicy details are described in the
 **[Official Documentation](https://developers.mindee.com/docs/java-ocr-sdk)**.
+
 
 ## License
 Copyright © Mindee
