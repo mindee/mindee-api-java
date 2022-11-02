@@ -51,9 +51,10 @@ public final class PDFUtils {
     pageNumbers.stream()
         .filter(i -> i < pageCount)
         .forEach(i -> newDocument.addPage(document.getPage(i)));
-    document.close();
+
     newDocument.save(outputStream);
     newDocument.close();
+    document.close();
 
     byte[] output = outputStream.toByteArray();
     outputStream.close();

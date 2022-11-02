@@ -1,12 +1,11 @@
 package com.mindee.utils.geometry;
 
+import com.mindee.model.geometry.Point;
+import com.mindee.model.geometry.Polygon;
 import java.util.Arrays;
 import java.util.List;
 import java.util.OptionalDouble;
 import java.util.stream.Collectors;
-
-import com.mindee.model.geometry.Point;
-import com.mindee.model.geometry.Polygon;
 
 public class PolygonUtils {
   private PolygonUtils() {

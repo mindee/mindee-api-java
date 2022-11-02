@@ -1,10 +1,14 @@
 package com.mindee.model.fields;
 
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.mindee.model.geometry.Polygon;
 import lombok.Builder;
 import lombok.Value;
+import lombok.extern.jackson.Jacksonized;
 
 @Value
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class PaymentDetails extends BaseField {
 
   private final String accountNumber;
@@ -12,19 +16,19 @@ public class PaymentDetails extends BaseField {
   private final String routingNumber;
   private final String swift;
 
-  @Builder
-  public PaymentDetails(Boolean reconstructed, String rawValue, Double confidence,
-      List<List<Double>> polygon, Integer page, String accountNumber, String iban,
-      String routingNumber,
+  @Builder @Jacksonized
+  public PaymentDetails(Boolean reconstructed, Double confidence,
+    Polygon polygon, @JsonProperty("page_id") Integer page, @JsonProperty("account_number")String accountNumber, String iban,
+    @JsonProperty("routing_number")String routingNumber,
       String swift) {
-    super(reconstructed, rawValue, confidence, polygon, page);
+    super(reconstructed, confidence, polygon, page);
     this.accountNumber = accountNumber;
     this.iban = iban;
     this.routingNumber = routingNumber;
     this.swift = swift;
   }
 
-  public String getPaymentDetailsSummary() {
+  public String paymentDetailsSummary() {
     StringBuilder stringBuilder = new StringBuilder("");
     if (accountNumber != null && accountNumber.length() > 0) {
       stringBuilder.append(accountNumber);

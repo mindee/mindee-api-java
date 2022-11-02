@@ -1,8 +1,8 @@
 package com.mindee.model.postprocessing;
 
-import com.mindee.model.documenttype.PassportResponse;
-import com.mindee.model.documenttype.PassportResponse.PassportDocument;
-import com.mindee.model.documenttype.PassportResponse.PassportPage;
+import com.mindee.model.documenttype.PassportV1Response;
+import com.mindee.model.documenttype.PassportV1Response.PassportDocument;
+import com.mindee.model.documenttype.PassportV1Response.PassportPage;
 import com.mindee.model.fields.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,9 +12,9 @@ public class PassportResponsePostProcessor {
   private PassportResponsePostProcessor() {
   }
 
-  public static PassportResponse reconstructMrz(PassportResponse passportResponse) {
+  public static PassportV1Response reconstructMrz(PassportV1Response passportV1Response) {
 
-    PassportDocument passportDocument = passportResponse.getPassport();
+    PassportDocument passportDocument = passportV1Response.getDocument();
     if (passportDocument.getMrz1() != null && passportDocument.getMrz1().getValue() != null
         && passportDocument.getMrz2() != null && passportDocument.getMrz2().getValue() != null
         && passportDocument.getMrz() == null) {
@@ -23,17 +23,16 @@ public class PassportResponsePostProcessor {
       PassportDocument document = passportDocument.toBuilder()
           .mrz(Field.builder()
               .value(mrz)
-              .rawValue(mrz)
               .reconstructed(Boolean.TRUE)
               .confidence(passportDocument.getMrz1().getConfidence() * passportDocument.getMrz2()
                   .getConfidence())
               .build())
           .build();
-      passportResponse.setPassport(document);
+      passportV1Response.setDocument(document);
     }
 
     List<PassportPage> pages = new ArrayList<>();
-    for (PassportPage passportPage : passportResponse.getPassports()) {
+    for (PassportPage passportPage : passportV1Response.getPages()) {
       if (passportPage.getMrz1() != null && passportPage.getMrz1().getValue() != null
           && passportPage.getMrz2() != null && passportPage.getMrz2().getValue() != null
           && passportPage.getMrz() == null) {
@@ -42,7 +41,6 @@ public class PassportResponsePostProcessor {
         PassportPage page = passportPage.toBuilder()
             .mrz(Field.builder()
                 .value(mrz)
-                .rawValue(mrz)
                 .reconstructed(Boolean.TRUE)
                 .confidence(
                     passportPage.getMrz1().getConfidence() * passportPage.getMrz2().getConfidence())
@@ -54,35 +52,34 @@ public class PassportResponsePostProcessor {
         pages.add(passportPage);
       }
     }
-    passportResponse.setPassports(pages);
-    return passportResponse;
+    passportV1Response.setPages(pages);
+    return passportV1Response;
   }
 
-  public static PassportResponse reconstructFullName(PassportResponse passportResponse) {
-    if (passportResponse.getPassport().getSurname() != null
-        && passportResponse.getPassport().getSurname().getValue() != null
-        && passportResponse.getPassport().getGivenNames().size() > 0
-        && passportResponse.getPassport().getGivenNames().get(0).getValue() != null
-        && passportResponse.getPassport().getFullName() == null
+  public static PassportV1Response reconstructFullName(PassportV1Response passportV1Response) {
+    if (passportV1Response.getDocument().getSurname() != null
+        && passportV1Response.getDocument().getSurname().getValue() != null
+        && passportV1Response.getDocument().getGivenNames().size() > 0
+        && passportV1Response.getDocument().getGivenNames().get(0).getValue() != null
+        && passportV1Response.getDocument().getFullName() == null
     ) {
 
       String fullName = new StringBuilder(
-          passportResponse.getPassport().getGivenNames().get(0).getValue())
-          .append(" ").append(passportResponse.getPassport().getSurname().getValue()).toString();
-      PassportDocument document = passportResponse.getPassport().toBuilder()
+          passportV1Response.getDocument().getGivenNames().get(0).getValue())
+          .append(" ").append(passportV1Response.getDocument().getSurname().getValue()).toString();
+      PassportDocument document = passportV1Response.getDocument().toBuilder()
           .fullName(Field.builder()
-              .rawValue(fullName)
               .value(fullName)
               .reconstructed(Boolean.TRUE)
-              .confidence(passportResponse.getPassport().getGivenNames().get(0).getConfidence()
-                  * passportResponse.getPassport().getSurname().getConfidence())
+              .confidence(passportV1Response.getDocument().getGivenNames().get(0).getConfidence()
+                  * passportV1Response.getDocument().getSurname().getConfidence())
               .build())
           .build();
-      passportResponse.setPassport(document);
+      passportV1Response.setDocument(document);
     }
 
     List<PassportPage> pages = new ArrayList<>();
-    for (PassportPage passportPage : passportResponse.getPassports()) {
+    for (PassportPage passportPage : passportV1Response.getPages()) {
       if (passportPage.getSurname() != null
           && passportPage.getSurname().getValue() != null
           && passportPage.getGivenNames().size() > 0
@@ -94,7 +91,6 @@ public class PassportResponsePostProcessor {
         PassportPage page = passportPage.toBuilder()
             .fullName(Field.builder()
                 .reconstructed(Boolean.TRUE)
-                .rawValue(fullName)
                 .value(fullName)
                 .confidence(passportPage.getGivenNames().get(0).getConfidence()
                     * passportPage.getSurname().getConfidence())
@@ -106,8 +102,8 @@ public class PassportResponsePostProcessor {
       }
     }
 
-    passportResponse.setPassports(pages);
-    return passportResponse;
+    passportV1Response.setPages(pages);
+    return passportV1Response;
   }
 
 }

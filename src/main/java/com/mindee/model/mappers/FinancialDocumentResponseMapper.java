@@ -3,12 +3,8 @@ package com.mindee.model.mappers;
 import com.mindee.model.documenttype.FinancialDocumentResponse;
 import com.mindee.model.documenttype.FinancialDocumentResponse.FinancialDocument;
 import com.mindee.model.documenttype.FinancialDocumentResponse.FinancialDocumentPage;
-import com.mindee.model.documenttype.InvoiceResponse;
-import com.mindee.model.documenttype.InvoiceResponse.InvoiceDocument;
-import com.mindee.model.documenttype.InvoiceResponse.InvoicePage;
-import com.mindee.model.documenttype.ReceiptResponse;
-import com.mindee.model.documenttype.ReceiptResponse.ReceiptDocument;
-import com.mindee.model.documenttype.ReceiptResponse.ReceiptPage;
+import com.mindee.model.documenttype.InvoiceV3Response;
+import com.mindee.model.documenttype.ReceiptV3Response;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -19,23 +15,23 @@ public interface FinancialDocumentResponseMapper {
   FinancialDocumentResponseMapper INSTANCE = Mappers.getMapper(
       FinancialDocumentResponseMapper.class);
 
-  @Mapping(source = "invoice", target = "financialDocument")
-  @Mapping(source = "invoices", target = "financialDocuments")
+  @Mapping(source = "document", target = "financialDocument")
+  @Mapping(source = "pages", target = "financialDocuments")
   FinancialDocumentResponse invoiceResponseToFinancialDocumentResponse(
-      InvoiceResponse invoiceResponse);
+      InvoiceV3Response invoiceV3Response);
 
-  FinancialDocument invoiceToFinancialDocument(InvoiceDocument invoiceDocument);
+  FinancialDocument invoiceToFinancialDocument(InvoiceV3Response.InvoiceDocument invoiceDocument);
 
-  FinancialDocumentPage invoicePageToFinancialDocumentPage(InvoicePage invoicePage);
+  FinancialDocumentPage invoicePageToFinancialDocumentPage(InvoiceV3Response.InvoicePage invoicePage);
 
-  @Mapping(source = "receipt", target = "financialDocument")
-  @Mapping(source = "receipts", target = "financialDocuments")
+  @Mapping(source = "document", target = "financialDocument")
+  @Mapping(source = "pages", target = "financialDocuments")
   FinancialDocumentResponse receiptResponseToFinancialDocumentResponse(
-      ReceiptResponse receiptResponse);
+      ReceiptV3Response receiptResponse);
 
-  FinancialDocument receiptToFinancialDocument(ReceiptDocument receiptDocument);
+  FinancialDocument receiptToFinancialDocument(ReceiptV3Response.ReceiptDocument receiptDocument);
 
-  FinancialDocumentPage receiptPageToFinancialDocumentPage(ReceiptPage invoicePage);
+  FinancialDocumentPage receiptPageToFinancialDocumentPage(ReceiptV3Response.ReceiptPage invoicePage);
 
 
 }

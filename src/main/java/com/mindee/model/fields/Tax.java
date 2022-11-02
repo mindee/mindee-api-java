@@ -1,10 +1,13 @@
 package com.mindee.model.fields;
 
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.mindee.model.geometry.Polygon;
 import lombok.Builder;
 import lombok.Value;
+import lombok.extern.jackson.Jacksonized;
 
 @Value
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Tax extends BaseField {
 
   private final Double value;
@@ -12,16 +15,16 @@ public class Tax extends BaseField {
   private final Double rate;
 
 
-  @Builder
-  public Tax(Boolean reconstructed, String rawValue, Double confidence,
-      List<List<Double>> polygon, Integer page, Double value, String code, Double rate) {
-    super(reconstructed, rawValue, confidence, polygon, page);
+  @Builder @Jacksonized
+  public Tax(Boolean reconstructed, Double confidence,
+    Polygon polygon, Integer page, Double value, String code, Double rate) {
+    super(reconstructed, confidence, polygon, page);
     this.value = value;
     this.code = code;
     this.rate = rate;
   }
 
-  public String getTaxSummary() {
+  public String taxSummary() {
     StringBuilder stringBuilder = new StringBuilder("");
     if (value != null) {
       stringBuilder.append(value);

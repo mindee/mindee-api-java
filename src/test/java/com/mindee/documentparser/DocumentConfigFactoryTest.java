@@ -3,9 +3,9 @@ package com.mindee.documentparser;
 import com.mindee.http.Endpoint;
 import com.mindee.model.customdocument.CustomDocumentResponse;
 import com.mindee.model.documenttype.FinancialDocumentResponse;
-import com.mindee.model.documenttype.InvoiceResponse;
-import com.mindee.model.documenttype.PassportResponse;
-import com.mindee.model.documenttype.ReceiptResponse;
+import com.mindee.model.documenttype.InvoiceV3Response;
+import com.mindee.model.documenttype.PassportV1Response;
+import com.mindee.model.documenttype.ReceiptV3Response;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
@@ -13,21 +13,18 @@ class DocumentConfigFactoryTest {
 
   @Test
   void givenCustomDocumentParams_whenFactoryInvoked_shouldReturnCorrectDocumentConfig() {
-    DocumentConfig<CustomDocumentResponse> config = DocumentConfigFactory.getDocumentConfigForCustomDocType(
-        "custom",
-        "owner",
+    DocumentConfig<CustomDocumentResponse> config = DocumentConfigFactory.getDocumentConfigFromApiKey(
         "1213223",
-        "2.0", "singular", "plural");
+        "custom",
+        "owner");
 
     Assert.assertNotNull(config);
     Assert.assertEquals("api_builder", config.getApiType());
     Assert.assertEquals("custom", config.getDocumentType());
-    Assert.assertEquals("plural", config.getPluralName());
-    Assert.assertEquals("singular", config.getSingularName());
     Assert.assertTrue(config.getEndpoints().size() == 1);
     Endpoint endpoint = config.getEndpoints().get(0);
     Assert.assertEquals("1213223", endpoint.getApiKey());
-    Assert.assertEquals("2.0", endpoint.getVersion());
+    Assert.assertEquals("1", endpoint.getVersion());
     Assert.assertEquals("custom", endpoint.getKeyName());
     Assert.assertEquals("owner", endpoint.getOwner());
     Assert.assertEquals("custom", endpoint.getUrlName());
@@ -36,13 +33,11 @@ class DocumentConfigFactoryTest {
   @Test
   void givenOffTheShelfInvoiceParams_whenFactoryInvoked_shouldReturnCorrectDocumentConfigs() {
 
-    DocumentConfig<InvoiceResponse> config = DocumentConfigFactory
-        .getDocumentConfigForOffTheShelfDocType("invoice", "mindee", "12324343");
+    DocumentConfig<InvoiceV3Response> config = DocumentConfigFactory
+        .getDocumentConfigForOffTheShelfDocType(InvoiceV3Response.class, "12324343");
 
     Assert.assertNotNull(config);
     Assert.assertEquals("invoice", config.getDocumentType());
-    Assert.assertEquals("invoices", config.getPluralName());
-    Assert.assertEquals("invoice", config.getSingularName());
     Assert.assertTrue(config.getEndpoints().size() == 1);
     Assert.assertEquals("off_the_shelf", config.getApiType());
     Endpoint endpoint = config.getEndpoints().get(0);
@@ -57,13 +52,11 @@ class DocumentConfigFactoryTest {
   @Test
   void givenOffTheShelfReceiptParams_whenFactoryInvoked_shouldReturnCorrectDocumentConfigs() {
 
-    DocumentConfig<ReceiptResponse> config = DocumentConfigFactory
-        .getDocumentConfigForOffTheShelfDocType("receipt", "mindee", "12324343");
+    DocumentConfig<ReceiptV3Response> config = DocumentConfigFactory
+        .getDocumentConfigForOffTheShelfDocType(ReceiptV3Response.class, "12324343");
 
     Assert.assertNotNull(config);
     Assert.assertEquals("receipt", config.getDocumentType());
-    Assert.assertEquals("receipts", config.getPluralName());
-    Assert.assertEquals("receipt", config.getSingularName());
     Assert.assertTrue(config.getEndpoints().size() == 1);
     Assert.assertEquals("off_the_shelf", config.getApiType());
     Endpoint endpoint = config.getEndpoints().get(0);
@@ -78,13 +71,11 @@ class DocumentConfigFactoryTest {
   @Test
   void givenOffTheShelfPassportParams_whenFactoryInvoked_shouldReturnCorrectDocumentConfigs() {
 
-    DocumentConfig<PassportResponse> config = DocumentConfigFactory
-        .getDocumentConfigForOffTheShelfDocType("passport", "mindee", "12324343");
+    DocumentConfig<PassportV1Response> config = DocumentConfigFactory
+        .getDocumentConfigForOffTheShelfDocType(PassportV1Response.class, "12324343");
 
     Assert.assertNotNull(config);
     Assert.assertEquals("passport", config.getDocumentType());
-    Assert.assertEquals("passports", config.getPluralName());
-    Assert.assertEquals("passport", config.getSingularName());
     Assert.assertTrue(config.getEndpoints().size() == 1);
     Assert.assertEquals("off_the_shelf", config.getApiType());
     Endpoint endpoint = config.getEndpoints().get(0);
@@ -100,13 +91,11 @@ class DocumentConfigFactoryTest {
   void givenOffTheShelfFinDocParams_whenFactoryInvoked_shouldReturnCorrectDocumentConfigs() {
 
     DocumentConfig<FinancialDocumentResponse> config = DocumentConfigFactory
-        .getDocumentConfigForOffTheShelfDocType("financial_doc", "mindee",
+        .getDocumentConfigForOffTheShelfDocType(FinancialDocumentResponse.class,
             "12324343");
 
     Assert.assertNotNull(config);
     Assert.assertEquals("financial_doc", config.getDocumentType());
-    Assert.assertEquals("financialDocs", config.getPluralName());
-    Assert.assertEquals("financialDoc", config.getSingularName());
     Assert.assertTrue(config.getEndpoints().size() == 2);
     Assert.assertEquals("off_the_shelf", config.getApiType());
     Endpoint endpoint = config.getEndpoints().get(0);

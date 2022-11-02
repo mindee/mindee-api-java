@@ -1,19 +1,23 @@
 package com.mindee.model.fields;
 
 
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.mindee.model.geometry.Polygon;
 import lombok.Builder;
 import lombok.Value;
+import lombok.extern.jackson.Jacksonized;
 
 @Value
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Orientation extends BaseField {
 
   private final Integer value;
 
-  @Builder
-  public Orientation(Boolean reconstructed, String rawValue, Double confidence,
-      List<List<Double>> polygon, Integer page, Integer value) {
-    super(reconstructed, rawValue, confidence, polygon, page);
+  @Builder @Jacksonized
+  public Orientation(Boolean reconstructed, Double confidence,
+    Polygon polygon, Integer page, @JsonProperty("degrees") Integer value) {
+    super(reconstructed, confidence, polygon, page);
     this.value = value;
   }
 }
