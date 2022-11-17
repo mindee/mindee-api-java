@@ -26,16 +26,32 @@ public class CLI {
   @Parameters(index = "0", paramLabel = "<path>", scope = ScopeType.INHERIT)
   File file;
 
-  @Option(names = {"-w",
-    "--words"}, scope = ScopeType.INHERIT, paramLabel = "<AllWords>", description = "Flag to set all words")
+  @Option(
+          names = {"-w", "--words"},
+          scope = ScopeType.INHERIT,
+          paramLabel = "<AllWords>",
+          description = "Flag to set all words")
   boolean words;
 
-  @Option(names = {"-C",
-    "--no-cut-doc"}, scope = ScopeType.INHERIT, paramLabel = "<NoCutDoc>", description = "Flag to not cut a document")
+  @Option(
+          names = {"-C", "--no-cut-doc"},
+          scope = ScopeType.INHERIT,
+          paramLabel = "<NoCutDoc>",
+          description = "Flag to not cut a document")
   boolean noCutDoc;
-  @Option(names = {"-p",
-    "--doc-pages"}, scope = ScopeType.INHERIT, description = "Number of document pages to cut by")
+
+  @Option(
+          names = {"-p", "--doc-pages"},
+          scope = ScopeType.INHERIT,
+          description = "Number of document pages to cut by")
   int cutPages;
+
+  @Option(
+          names = {"-k", "--api-key"},
+          scope = ScopeType.INHERIT,
+          paramLabel = "MINDEE_API_KEY",
+          description = "API key, if not set, will use system property")
+  String apiKey;
 
   public static void main(String[] args) {
     int exitCode = new CommandLine(new CLI()).execute(args);
@@ -43,17 +59,8 @@ public class CLI {
   }
 
   @Command(name = "invoice", description = "Invokes the invoice API")
-  void invoiceMethod(@Option(names = {"--invoice-key"},
-    paramLabel = "INVOICE_API_KEY",
-    description = "invoice api key, if not set, will use system property")
-    String invoiceApiKey) throws IOException {
-
-    Client client = null;
-    if (invoiceApiKey != null) {
-      client = new Client(invoiceApiKey);
-    } else {
-      client = new Client();
-    }
+  void invoiceMethod() throws IOException {
+    Client client = initClient();
 
     InvoiceResponse invoiceResponse = client.loadDocument(file)
       .parse(InvoiceResponse.class, ParseParameters.builder()
@@ -65,17 +72,8 @@ public class CLI {
   }
 
   @Command(name = "receipt", description = "Invokes the receipt API")
-  void receiptMethod(@Option(names = {"--receipt-key"},
-    paramLabel = "RECEIPT_API_KEY",
-    description = "receipt api key, if not set, will use system property")
-    String receiptApiKey) throws IOException {
-
-    Client client = null;
-    if (receiptApiKey != null) {
-      client = new Client(receiptApiKey);
-    } else {
-      client = new Client();
-    }
+  void receiptMethod() throws IOException {
+    Client client = initClient();
 
     ReceiptResponse receiptResponse = client.loadDocument(file)
       .parse(ReceiptResponse.class, ParseParameters.builder()
@@ -87,17 +85,8 @@ public class CLI {
   }
 
   @Command(name = "passport", description = "Invokes the passport API")
-  void passportMethod(@Option(names = {"--passport-key"},
-    paramLabel = "PASSPORT_API_KEY",
-    description = "passport api key, if not set, will use system property")
-    String passportApiKey) throws IOException {
-
-    Client client = null;
-    if (passportApiKey != null) {
-      client = new Client(passportApiKey);
-    } else {
-      client = new Client();
-    }
+  void passportMethod() throws IOException {
+    Client client = initClient();
 
     PassportResponse passportResponse = client.loadDocument(file)
       .parse(PassportResponse.class, ParseParameters.builder()
@@ -106,5 +95,15 @@ public class CLI {
         .build());
 
     System.out.println(passportResponse.documentSummary());
+  }
+
+  Client initClient() {
+    Client client = null;
+    if (apiKey != null) {
+      client = new Client(apiKey);
+    } else {
+      client = new Client();
+    }
+    return client;
   }
 }
