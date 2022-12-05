@@ -2,9 +2,9 @@ package com.mindee;
 
 import com.mindee.documentparser.Client;
 import com.mindee.documentparser.ParseParameters;
-import com.mindee.model.documenttype.InvoiceResponse;
-import com.mindee.model.documenttype.PassportResponse;
-import com.mindee.model.documenttype.ReceiptResponse;
+import com.mindee.model.documenttype.InvoiceV3Response;
+import com.mindee.model.documenttype.PassportV1Response;
+import com.mindee.model.documenttype.ReceiptV4Response;
 import java.io.File;
 import java.io.IOException;
 import picocli.CommandLine;
@@ -62,21 +62,21 @@ public class CLI {
   void invoiceMethod() throws IOException {
     Client client = initClient();
 
-    InvoiceResponse invoiceResponse = client.loadDocument(file)
-      .parse(InvoiceResponse.class, ParseParameters.builder()
+    InvoiceV3Response invoiceV3Response = client.loadDocument(file)
+      .parse(InvoiceV3Response.class, ParseParameters.builder()
         .documentType("invoice")
         .includeWords(words)
         .build());
 
-    System.out.println(invoiceResponse.documentSummary());
+    System.out.println(invoiceV3Response.documentSummary());
   }
 
   @Command(name = "receipt", description = "Invokes the receipt API")
   void receiptMethod() throws IOException {
     Client client = initClient();
 
-    ReceiptResponse receiptResponse = client.loadDocument(file)
-      .parse(ReceiptResponse.class, ParseParameters.builder()
+    ReceiptV4Response receiptResponse = client.loadDocument(file)
+      .parse(ReceiptV4Response.class, ParseParameters.builder()
         .documentType("receipt")
         .includeWords(words)
         .build());
@@ -88,13 +88,13 @@ public class CLI {
   void passportMethod() throws IOException {
     Client client = initClient();
 
-    PassportResponse passportResponse = client.loadDocument(file)
-      .parse(PassportResponse.class, ParseParameters.builder()
+    PassportV1Response passportV1Response = client.loadDocument(file)
+      .parse(PassportV1Response.class, ParseParameters.builder()
         .documentType("passport")
         .includeWords(words)
         .build());
 
-    System.out.println(passportResponse.documentSummary());
+    System.out.println(passportV1Response.documentSummary());
   }
 
   Client initClient() {

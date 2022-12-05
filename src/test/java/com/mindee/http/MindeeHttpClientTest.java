@@ -37,14 +37,14 @@ public class MindeeHttpClientTest extends TestCase {
       throws IOException, InterruptedException {
 
     String endpoint = String.format("http://localhost:%s", mockWebServer.getPort());
-    Path path = Paths.get("src/test/resources/data/receipt/response/complete.json");
+    Path path = Paths.get("src/test/resources/data/invoice/response_v3/complete.json");
     mockWebServer.enqueue(new MockResponse()
         .setResponseCode(200)
         .setBody(new String(Files.readAllBytes(path)))
     );
 
     MindeeHttpClient client = new MindeeHttpClient();
-    File file = new File("src/test/resources/invoicetest.pdf");
+    File file = new File("src/test/resources/data/invoice/invoice.pdf");
     Map s = client.parse(new FileInputStream(file),
         file.getName(),
         "dfewsvervdeverv12345",
@@ -62,20 +62,20 @@ public class MindeeHttpClientTest extends TestCase {
       throws IOException {
 
     String endpoint = String.format("http://localhost:%s", mockWebServer.getPort());
-    Path path = Paths.get("src/test/resources/data/receipt/response/complete.json");
+    Path path = Paths.get("src/test/resources/data/invoice/response_v3/complete.json");
     mockWebServer.enqueue(new MockResponse()
         .setResponseCode(200)
         .setBody(new String(Files.readAllBytes(path)))
     );
 
     MindeeHttpClient client = new MindeeHttpClient();
-    File file = new File("src/test/resources/invoicetest.pdf");
+    File file = new File("src/test/resources/data/invoice/invoice.pdf");
     Map s = client.parse(new FileInputStream(file),
         file.getName(),
         "fdfgergverdveve",
         endpoint, Boolean.FALSE);
     Map expected = MAPPER.readValue(
-        new File("src/test/resources/data/receipt/response/complete.json"), Map.class);
+        new File("src/test/resources/data/invoice/response_v3/complete.json"), Map.class);
     Assertions.assertEquals(expected, s);
 
 

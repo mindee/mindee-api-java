@@ -1,10 +1,9 @@
 package com.mindee.utils.geometry;
 
-import java.util.Arrays;
-import java.util.DoubleSummaryStatistics;
-
 import com.mindee.model.geometry.Point;
 import com.mindee.model.geometry.Polygon;
+import java.util.Arrays;
+import java.util.DoubleSummaryStatistics;
 
 public final class BoundingBoxUtils {
   private BoundingBoxUtils() {

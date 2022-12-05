@@ -2,14 +2,10 @@ package com.mindee.model.geometry;
 
 import static org.junit.Assert.assertThrows;
 
-import java.util.ArrayList;
+import com.mindee.utils.geometry.PolygonUtils;
 import java.util.Arrays;
-import java.util.List;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
-import com.mindee.utils.geometry.PolygonUtils;
 
 public class PolygonUtilsTest {
   @Test

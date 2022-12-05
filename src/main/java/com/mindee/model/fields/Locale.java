@@ -1,10 +1,16 @@
 package com.mindee.model.fields;
 
-import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.mindee.model.geometry.Polygon;
 import lombok.Builder;
 import lombok.Value;
+import lombok.extern.jackson.Jacksonized;
+
 
 @Value
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Locale extends BaseField {
 
   private final java.util.Locale value;
@@ -12,19 +18,22 @@ public class Locale extends BaseField {
   private final String country;
   private final String currency;
 
-  @Builder
-  public Locale(Boolean reconstructed, String rawValue, Double confidence,
-      List<List<Double>> polygon, Integer page, java.util.Locale value, String language,
+
+
+  @Builder @Jacksonized
+  public Locale(Boolean reconstructed, Double confidence,
+    Polygon polygon, @JsonProperty("page_id")  Integer page, String language,
       String country,
       String currency) {
-    super(reconstructed, rawValue, confidence, polygon, page);
-    this.value = value;
+    super(reconstructed, confidence, polygon, page);
+    this.value = new java.util.Locale.Builder().setLanguageTag(language)
+      .build();
     this.language = language;
     this.country = country;
     this.currency = currency;
   }
 
-  public String getLocaleSummary() {
+  public String localeSummary() {
     StringBuilder stringBuilder = new StringBuilder("");
     if (value != null) {
       stringBuilder.append(value.getDisplayName());

@@ -1,16 +1,14 @@
 package com.mindee.model.customdocument;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.mindee.model.geometry.Polygon;
 import com.mindee.utils.DeserializationUtils;
 import com.mindee.utils.geometry.PolygonUtils;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DeserializerUtils {
   private DeserializerUtils() {
@@ -20,7 +18,7 @@ public class DeserializerUtils {
 
     List<ListFieldValue> listFieldValues = new ArrayList<>();
 
-    if (!fieldPrediction.has(fieldName)) {
+    if (!(fieldPrediction.has(fieldName) && fieldPrediction.get(fieldName).has("values"))) {
       return null;
     }
       for (JsonNode fieldNode : fieldPrediction.get(fieldName).get("values")) {

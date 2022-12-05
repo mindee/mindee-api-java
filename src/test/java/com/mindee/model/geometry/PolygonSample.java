@@ -3,9 +3,6 @@ package com.mindee.model.geometry;
 import java.util.Arrays;
 import java.util.List;
 
-import com.mindee.model.geometry.Point;
-import com.mindee.model.geometry.Polygon;
-
 public final class PolygonSample {
   private PolygonSample() {
   }

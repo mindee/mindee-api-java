@@ -11,6 +11,5 @@ public class ParseParameters {
   private String accountName;
   @Builder.Default
   private Boolean includeWords = Boolean.FALSE;
-  @Builder.Default
-  private Integer cutMode = 1;
+  private PageOptions pageOptions;
 }

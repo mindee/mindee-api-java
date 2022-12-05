@@ -37,13 +37,13 @@ public class PDFUtilsTest {
   @Test
   public void givenADocumentAndListOfPages_whenMerged_thenReturnsCorrectDocument()
       throws IOException {
-    Path original = Paths.get("src/test/resources/base.pdf");
+    Path original = Paths.get("src/test/resources/data/invoice/invoice_10p.pdf");
     Path copied = Paths.get("src/test/resources/fileToTest.pdf");
     Files.copy(original, copied, StandardCopyOption.REPLACE_EXISTING);
     File file = new File("src/test/resources/fileToTest.pdf");
     List<Integer> pageList = Arrays.asList(0, 2, 3, 1, 10, 2, 1);
-    PDFUtils.mergePdfPages(file, pageList);
-    PDDocument document = PDDocument.load(file);
+    byte[] newPdf = PDFUtils.mergePdfPages(file, pageList);
+    PDDocument document = PDDocument.load(newPdf);
 
     Assert.assertEquals(6, document.getNumberOfPages());
     document.close();
@@ -52,7 +52,7 @@ public class PDFUtilsTest {
 
   @Test
   public void givenANonEmptyDocument_whenEmptyChecked_shouldReturnFalse() throws IOException {
-    Path original = Paths.get("src/test/resources/base.pdf");
+    Path original = Paths.get("src/test/resources/data/invoice/invoice.pdf");
 
     Assert.assertFalse(PDFUtils.isPdfEmpty(new FileInputStream(original.toFile())));
 

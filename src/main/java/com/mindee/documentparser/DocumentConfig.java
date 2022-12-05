@@ -17,8 +17,6 @@ public final class DocumentConfig<T extends BaseDocumentResponse> {
   private final BiFunction<Class<T>, Map, T> converter;
   private final String documentType;
   private final String apiType;
-  private final String singularName;
-  private final String pluralName;
   @Singular
   private final List<Endpoint> endpoints;
   private final Function<T, T> builtInPostProcessing;

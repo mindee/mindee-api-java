@@ -2,7 +2,6 @@ package com.mindee.model.customdocument;
 
 import com.mindee.model.geometry.Polygon;
 import com.mindee.utils.geometry.BoundingBoxUtils;
-
 import lombok.Getter;
 
 @Getter

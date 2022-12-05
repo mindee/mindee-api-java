@@ -1,11 +1,9 @@
 package com.mindee.model.customdocument;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.mindee.model.documenttype.BaseDocumentResponse;
-
+import java.util.HashMap;
+import java.util.Map;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
