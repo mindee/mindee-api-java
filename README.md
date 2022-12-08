@@ -25,12 +25,12 @@ Configuring and using a client to parse invoices, receipts, financial documents,
 Client client = new Client("<MINDEE API KEY>");
    
 
-InvoiceResponse invoiceResponse = client.loadDocument(new File("src/main/resources/invoices/invoice1.pdf"))
-    .parse(InvoiceV3Response.class, ParseParameters.builder()
+InvoiceV4Response invoiceResponse = client.loadDocument(new File("src/main/resources/invoices/invoice1.pdf"))
+    .parse(InvoiceV4Response.class, ParseParameters.builder()
         .documentType("invoice")
         .build());
 
-ReceiptResponse receiptResponse = client.loadDocument(new File("src/main/resources/receipts/receipt1.pdf"))
+ReceiptV4Response receiptResponse = client.loadDocument(new File("src/main/resources/receipts/receipt1.pdf"))
     .parse(ReceiptV4Response.class, ParseParameters.builder()
         .documentType("receipt")
         .build());
