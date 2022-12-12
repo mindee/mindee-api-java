@@ -1,6 +1,6 @@
 # Mindee Java API Library Changelog
 
-## v2.0.0 - 2022-12-07
+## v2.0.0 - 2022-12-06
 * :boom: Document (endpoints) are now versioned, providing better backward-compatible support.
 * :sparkles: New PDF cut system, which allows specifying exactly which pages to keep or remove.
 * :sparkles: PDF documents are no longer cut by default, use the pageOptions parameter in the parse method.
