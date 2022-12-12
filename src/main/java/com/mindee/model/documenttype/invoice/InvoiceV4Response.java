@@ -94,9 +94,9 @@ public class InvoiceV4Response extends BaseDocumentResponse
     private final Field customerAddress;
     @JsonProperty("taxes")
     private final List<Tax> taxes;
-    @JsonProperty("total_incl")
+    @JsonProperty("total_amount")
     private final Amount totalAmount;
-    @JsonProperty("total_excl")
+    @JsonProperty("total_net")
     private final Amount totalNet;
     @JsonProperty("line_items")
     private final InvoiceLineItem[] invoiceLineItems;
