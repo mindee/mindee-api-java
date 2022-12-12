@@ -270,7 +270,7 @@
   <groupId>com.mindee.sdk</groupId>
   <artifactId>mindee-api-java</artifactId>
   <modelVersion>4.0.0</modelVersion>
-  <version>2.0.0</version>
+  <version>2.1.0</version>
 
   <name>Mindee Java Helper Library</name>
   <description>Java Library to call Mindee's Off The Shelf and Custom APIs</description>
