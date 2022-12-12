@@ -11,9 +11,7 @@ Here's the TL;DR of getting started.
 First, get an [API Key](https://developers.mindee.com/docs/create-api-key)
 
 Include the following maven dependency in your project to use the helper library:
-
 ```xml
-
 <dependency>
   <artifactId>mindee-api-java</artifactId>
   <groupId>com.mindee.sdk</groupId>
@@ -25,7 +23,6 @@ Include the following maven dependency in your project to use the helper library
 The `Client` class is the entry point for most of the helper library features.
 
 Configuring and using a client to parse invoices, receipts, financial documents, and passports
-
 ```java
 Client client = new Client("<MINDEE API KEY>");
 InvoiceV4Response invoiceResponse = client.loadDocument(new File("src/main/resources/invoices/invoice1.pdf"))
@@ -45,7 +42,6 @@ InvoiceV4Response invoiceResponse = client.loadDocument(new File("src/main/resou
 ```
 
 Custom documents are supported as well and can be parsed as follows:
-
 ```java
 CustomDocumentResponse bill = client.loadDocument(new File("src/test/resources/custom/custom1.pdf"))
   .parse(CustomDocumentResponse.class, ParseParameters.builder()
