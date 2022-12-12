@@ -17,9 +17,9 @@ Include the following maven dependency in your project to use the helper library
 ```xml
 
 <dependency>
-    <artifactId>mindee-api-java</artifactId>
-    <groupId>com.mindee.sdk</groupId>
-    <version>${mindee.sdk.version}</version>
+  <artifactId>mindee-api-java</artifactId>
+  <groupId>com.mindee.sdk</groupId>
+  <version>${mindee.sdk.version}</version>
 </dependency>
 ```
 
@@ -30,33 +30,31 @@ The `Client` class is the entry point for most of the helper library features.
 Configuring and using a client to parse invoices, receipts, financial documents, and passports
 
 ```java
-Client client=new Client("<MINDEE API KEY>");
+Client client = new Client("<MINDEE API KEY>");
+InvoiceV4Response invoiceResponse = client.loadDocument(new File("src/main/resources/invoices/invoice1.pdf"))
+  .parse(InvoiceV4Response.class, ParseParameters.builder()
+  .documentType("invoice")
+  .build());
 
+ ReceiptV4Response receiptResponse = client.loadDocument(new File("src/main/resources/receipts/receipt1.pdf"))
+  .parse(ReceiptV4Response.class, ParseParameters.builder()
+  .documentType("receipt")
+  .build());
 
-        InvoiceV4Response invoiceResponse=client.loadDocument(new File("src/main/resources/invoices/invoice1.pdf"))
-        .parse(InvoiceV4Response.class,ParseParameters.builder()
-        .documentType("invoice")
-        .build());
-
-        ReceiptV4Response receiptResponse=client.loadDocument(new File("src/main/resources/receipts/receipt1.pdf"))
-        .parse(ReceiptV4Response.class,ParseParameters.builder()
-        .documentType("receipt")
-        .build());
-
-        FinancialDocumentResponse finDocResponse=client.loadDocument(new File("src/main/resources/findocs/findoc1.pdf"))
-        .parse(FinancialDocumentResponse.class,ParseParameters.builder()
-        .documentType("financial_doc")
-        .build());
+ FinancialDocumentResponse finDocResponse = client.loadDocument(new File("src/main/resources/findocs/findoc1.pdf"))
+  .parse(FinancialDocumentResponse.class, ParseParameters.builder()
+  .documentType("financial_doc")
+  .build());
 ```
 
 Custom documents are supported as well and can be parsed as follows:
 
 ```java
-CustomDocumentResponse bill=client.loadDocument(new File("src/test/resources/custom/custom1.pdf"))
-        .parse(CustomDocumentResponse.class,ParseParameters.builder()
-        .documentType("bill_of_lading_line_items")
-        .accountName("<your account name>")
-        .build());
+CustomDocumentResponse bill = client.loadDocument(new File("src/test/resources/custom/custom1.pdf"))
+  .parse(CustomDocumentResponse.class, ParseParameters.builder()
+  .documentType("bill_of_lading_line_items")
+  .accountName("<your account name>")
+  .build());
 ```
 
 The Client `loadDocument` method supports multiple input types:
