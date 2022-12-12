@@ -44,7 +44,7 @@ public final class InvoiceLineItem {
     String unitPriceSummary = (this.unitPrice != null ? this.unitPrice.toString() : "");
     String totalAmountSummary = (this.totalAmount != null ? this.totalAmount.toString() : "");
     String tax = (this.taxAmount != null ? this.taxAmount.toString() : "");
-    tax += this.taxRate != null ? String.format(" (%s)", this.taxRate) : "";
+    tax += this.taxRate != null ? String.format(" (%f %%)", this.taxRate) : "";
     String descriptionSummary = (this.description != null ? this.description : "");
     if (descriptionSummary.length() > 32) {
       descriptionSummary = descriptionSummary.substring(0, 32) + "...";
