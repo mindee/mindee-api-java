@@ -1,5 +1,9 @@
 # Mindee Java API Library Changelog
 
+## v2.1.0 - 2022-12-12
+* :sparkles: Add support fot Invoice v4
+* :arrow_up: Bump jackson-databind from 2.13.4 to 2.13.4.1 (#33)
+
 ## v2.0.0 - 2022-12-06
 * :boom: Document (endpoints) are now versioned, providing better backward-compatible support.
 * :sparkles: New PDF cut system, which allows specifying exactly which pages to keep or remove.
