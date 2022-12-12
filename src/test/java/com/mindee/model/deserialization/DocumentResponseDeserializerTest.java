@@ -150,7 +150,7 @@ class DocumentResponseDeserializerTest {
     Assertions.assertNotNull(response.getDocument());
     Assertions.assertNotNull(response.getPages());
     Assertions.assertTrue(response.getPages().size() > 0);
-    Assertions.assertEquals(5, response.getDocument().getInvoiceLineItems().length);
+    Assertions.assertEquals(5, response.getDocument().getLineItems().size());
     Assertions.assertNotNull(response.getDocument().toString());
   }
 
