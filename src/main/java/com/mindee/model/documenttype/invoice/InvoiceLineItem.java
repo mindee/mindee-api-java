@@ -51,11 +51,11 @@ public final class InvoiceLineItem {
     }
 
     return String.join(" | ",
-      String.format("%-" + 14 + "s", productCodeSummary),
-      String.format("%-" + 6 + "s", quantitySummary),
-      String.format("%-" + 7 + "s", unitPriceSummary),
-      String.format("%-" + 8 + "s", totalAmountSummary),
-      String.format("%-" + 14 + "s", tax),
+      String.format("%-14s", productCodeSummary),
+      String.format("%-6s", quantitySummary),
+      String.format("%-7s", unitPriceSummary),
+      String.format("%-8s", totalAmountSummary),
+      String.format("%-14s", tax),
       descriptionSummary
     );
   }
