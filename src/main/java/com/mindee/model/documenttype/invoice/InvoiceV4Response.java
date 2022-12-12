@@ -29,6 +29,15 @@ public class InvoiceV4Response extends BaseDocumentResponse
 
   @Override
   public String documentSummary() {
+    String lineItems = "\n";
+    if (!this.document.getLineItems().isEmpty()) {
+      lineItems =
+        "\n  Code           | QTY    | Price   | Amount   | Tax (Rate)     | Description\n  ";
+      lineItems += this.document.getLineItems().stream()
+        .map(InvoiceLineItem::toString)
+        .collect(Collectors.joining("\n  "));
+    }
+
     return "----- Invoice V4 -----\n" + String.format("Filename: %s%n", this.getFilename()) +
       String.format("Invoice number: %s%n", this.document.getInvoiceNumber().getValue()) +
       String.format("Invoice date: %s%n", this.document.getInvoiceDate().getValue()) +
@@ -48,6 +57,7 @@ public class InvoiceV4Response extends BaseDocumentResponse
           .map(CompanyRegistration::getValue)
           .collect(Collectors.joining("; "))) +
       String.format("Customer address: %s%n", this.document.getCustomerAddress().getValue()) +
+      String.format("Line items: %s%n", lineItems) +
       String.format("Taxes: %s%n",
         this.document.getTaxes().stream()
           .map(Tax::taxSummary)
@@ -99,7 +109,7 @@ public class InvoiceV4Response extends BaseDocumentResponse
     @JsonProperty("total_net")
     private final Amount totalNet;
     @JsonProperty("line_items")
-    private final InvoiceLineItem[] invoiceLineItems;
+    private final List<InvoiceLineItem> lineItems;
   }
 
   @Value
