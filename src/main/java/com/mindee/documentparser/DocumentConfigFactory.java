@@ -4,13 +4,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.mindee.http.Endpoint;
 import com.mindee.model.deserialization.DocumentResponseDeserializerFactory;
-import com.mindee.model.documenttype.BaseDocumentResponse;
-import com.mindee.model.documenttype.FinancialDocumentResponse;
-import com.mindee.model.documenttype.InvoiceV3Response;
-import com.mindee.model.documenttype.PassportV1Response;
-import com.mindee.model.documenttype.ReceiptV3Response;
-import com.mindee.model.documenttype.ReceiptV4Response;
+import com.mindee.model.documenttype.*;
+import com.mindee.model.documenttype.invoice.InvoiceV4Response;
 import com.mindee.model.postprocessing.PassportResponsePostProcessor;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
@@ -34,21 +31,23 @@ final class DocumentConfigFactory {
     ReceiptV3Response.class,
     ReceiptV4Response.class,
     InvoiceV3Response.class,
+    InvoiceV4Response.class,
     PassportV1Response.class
-    );
+  );
 
   // Off the shelf response types
   private static final List<Class<? extends BaseDocumentResponse>> RESPONSE_CLASS_TYPES = Arrays.asList(
     ReceiptV3Response.class,
     ReceiptV4Response.class,
     InvoiceV3Response.class,
+    InvoiceV4Response.class,
     PassportV1Response.class,
     FinancialDocumentResponse.class
   );
 
   static {
     SimpleModule module = new SimpleModule();
-    for (Class clazz: VERSION_BASED_RESPONSE_TYPES) {
+    for (Class clazz : VERSION_BASED_RESPONSE_TYPES) {
       module.addDeserializer(clazz, DocumentResponseDeserializerFactory.documentResponseDeserializerFromResponseClass(clazz));
     }
     OBJECT_MAPPER.registerModule(module);
@@ -61,13 +60,12 @@ final class DocumentConfigFactory {
     return System.getenv(ENV_API_KEY);
   }
 
-  static List<Class<? extends BaseDocumentResponse>> offTheShelfResponseTypes()
-  {
+  static List<Class<? extends BaseDocumentResponse>> offTheShelfResponseTypes() {
     return RESPONSE_CLASS_TYPES;
   }
 
   static <T extends BaseDocumentResponse> DocumentConfig<T> getDocumentConfigFromApiKey(
-      String apiKey, String docType, String accountName) {
+    String apiKey, String docType, String accountName) {
     if (apiKey == null || apiKey.trim().length() == 0) {
       throw new IllegalArgumentException("API KEY is null or blank");
     }
@@ -81,27 +79,27 @@ final class DocumentConfigFactory {
   }
 
   private static <T extends BaseDocumentResponse> DocumentConfig<T> getDocumentConfigForCustomDocType(
-      String docType,
-      String owner, String apiKey, String version) {
+    String docType,
+    String owner, String apiKey, String version) {
     if (docType == null || owner == null || apiKey == null || version == null) {
       throw new IllegalArgumentException(
-          "DocType, Owner, ApiKey, or Version, cannot be null");
+        "DocType, Owner, ApiKey, or Version, cannot be null");
     }
 
 
     return DocumentConfig.<T>builder()
-        .apiType(API_TYPE_CUSTOM)
-        .documentType(docType)
-        .converter((clazz, map) -> OBJECT_MAPPER.convertValue(map, clazz))
-        .builtInPostProcessing(UnaryOperator.identity())
-        .endpoint(Endpoint.builder()
-            .apiKey(apiKey)
-            .owner(owner)
-            .version(version)
-            .urlName(docType)
-            .keyName(docType)
-            .build())
-        .build();
+      .apiType(API_TYPE_CUSTOM)
+      .documentType(docType)
+      .converter((clazz, map) -> OBJECT_MAPPER.convertValue(map, clazz))
+      .builtInPostProcessing(UnaryOperator.identity())
+      .endpoint(Endpoint.builder()
+        .apiKey(apiKey)
+        .owner(owner)
+        .version(version)
+        .urlName(docType)
+        .keyName(docType)
+        .build())
+      .build();
   }
 
 
@@ -110,57 +108,71 @@ final class DocumentConfigFactory {
 
     if (responseClassType.equals(InvoiceV3Response.class)) {
       return DocumentConfig.<T>builder()
-          .apiType(API_TYPE_OFF_THE_SHELF)
-          .documentType("invoice")
-          .builtInPostProcessing(UnaryOperator.identity())
-          .converter((clazz, map) -> OBJECT_MAPPER.convertValue(map, clazz))
-          .endpoint(Endpoint.builder()
-              .apiKey(apiKey)
-              .keyName("invoice")
-              .owner(MINDEE)
-              .version("3")
-              .urlName("invoices")
-              .build())
-          .build();
+        .apiType(API_TYPE_OFF_THE_SHELF)
+        .documentType("invoice")
+        .builtInPostProcessing(UnaryOperator.identity())
+        .converter((clazz, map) -> OBJECT_MAPPER.convertValue(map, clazz))
+        .endpoint(Endpoint.builder()
+          .apiKey(apiKey)
+          .keyName("invoice")
+          .owner(MINDEE)
+          .version("3")
+          .urlName("invoices")
+          .build())
+        .build();
+    } else if (responseClassType.equals(InvoiceV4Response.class)) {
+      return DocumentConfig.<T>builder()
+        .apiType(API_TYPE_OFF_THE_SHELF)
+        .documentType("invoice")
+        .builtInPostProcessing(UnaryOperator.identity())
+        .converter((clazz, map) -> OBJECT_MAPPER.convertValue(map, clazz))
+        .endpoint(Endpoint.builder()
+          .apiKey(apiKey)
+          .keyName("invoice")
+          .owner(MINDEE)
+          .version("4")
+          .urlName("invoices")
+          .build())
+        .build();
     } else if (responseClassType.equals(PassportV1Response.class)) {
       UnaryOperator<PassportV1Response> operator = PassportResponsePostProcessor::reconstructMrz;
       Function<PassportV1Response, PassportV1Response> finalOperator = operator.compose(
-          PassportResponsePostProcessor::reconstructFullName);
+        PassportResponsePostProcessor::reconstructFullName);
       return DocumentConfig.<PassportV1Response>builder()
-          .apiType(API_TYPE_OFF_THE_SHELF)
-          .documentType("passport")
-          .builtInPostProcessing(finalOperator)
-          .converter((clazz, map) -> OBJECT_MAPPER.convertValue(map, clazz))
-          .endpoint(Endpoint.builder()
-              .apiKey(apiKey)
-              .keyName("passport")
-              .owner(MINDEE)
-              .version("1")
-              .urlName("passport")
-              .build())
-          .build();
+        .apiType(API_TYPE_OFF_THE_SHELF)
+        .documentType("passport")
+        .builtInPostProcessing(finalOperator)
+        .converter((clazz, map) -> OBJECT_MAPPER.convertValue(map, clazz))
+        .endpoint(Endpoint.builder()
+          .apiKey(apiKey)
+          .keyName("passport")
+          .owner(MINDEE)
+          .version("1")
+          .urlName("passport")
+          .build())
+        .build();
     } else if (responseClassType.equals(FinancialDocumentResponse.class)) {
       return DocumentConfig.<T>builder()
-          .apiType(API_TYPE_OFF_THE_SHELF)
-          .documentType("financial_doc")
-          .builtInPostProcessing(UnaryOperator.identity())
-          .converter((clazz, map) -> OBJECT_MAPPER.convertValue(map, clazz))
-          .endpoint(Endpoint.builder()
-              .apiKey(apiKey)
-              .keyName("invoice")
-              .owner(MINDEE)
-              .version("3")
-              .urlName("invoices")
-              .build())
-          .endpoint(Endpoint.builder()
-              .apiKey(apiKey)
-              .keyName("receipt")
-              .owner(MINDEE)
-              .version("3")
-              .urlName("expense_receipts")
-              .build())
-          .build();
-    }else if (responseClassType.equals(ReceiptV3Response.class)) {
+        .apiType(API_TYPE_OFF_THE_SHELF)
+        .documentType("financial_doc")
+        .builtInPostProcessing(UnaryOperator.identity())
+        .converter((clazz, map) -> OBJECT_MAPPER.convertValue(map, clazz))
+        .endpoint(Endpoint.builder()
+          .apiKey(apiKey)
+          .keyName("invoice")
+          .owner(MINDEE)
+          .version("3")
+          .urlName("invoices")
+          .build())
+        .endpoint(Endpoint.builder()
+          .apiKey(apiKey)
+          .keyName("receipt")
+          .owner(MINDEE)
+          .version("3")
+          .urlName("expense_receipts")
+          .build())
+        .build();
+    } else if (responseClassType.equals(ReceiptV3Response.class)) {
 
       return DocumentConfig.<ReceiptV3Response>builder()
         .apiType(API_TYPE_OFF_THE_SHELF)
@@ -175,7 +187,7 @@ final class DocumentConfigFactory {
           .urlName("expense_receipts")
           .build())
         .build();
-    }else if (responseClassType.equals(ReceiptV4Response.class)) {
+    } else if (responseClassType.equals(ReceiptV4Response.class)) {
 
       return DocumentConfig.<ReceiptV4Response>builder()
         .apiType(API_TYPE_OFF_THE_SHELF)
@@ -194,30 +206,25 @@ final class DocumentConfigFactory {
     return null;
   }
 
-  static <T extends BaseDocumentResponse>  ParseParameters parseParametersForResponseType(Class<T> responseType) {
-    if(responseType.equals(PassportV1Response.class))
-    {
+  static <T extends BaseDocumentResponse> ParseParameters parseParametersForResponseType(Class<T> responseType) {
+    if (responseType.equals(PassportV1Response.class)) {
       return ParseParameters.builder()
         .documentType(PASSPORT)
         .accountName(MINDEE)
         .build();
-    }
-    else if(responseType.equals(FinancialDocumentResponse.class))
-    {
+    } else if (responseType.equals(FinancialDocumentResponse.class)) {
       return ParseParameters.builder()
         .documentType(FINANCIAL_DOCUMENT)
         .accountName(MINDEE)
         .build();
-    }
-    else if(responseType.equals(InvoiceV3Response.class))
-    {
+    } else if (responseType.equals(InvoiceV3Response.class) || responseType.equals(
+      InvoiceV4Response.InvoiceV4Document.class)) {
       return ParseParameters.builder()
         .documentType(INVOICE)
         .accountName(MINDEE)
         .build();
-    }
-    else if( responseType.equals(ReceiptV3Response.class) || responseType.equals(
-      ReceiptV4Response.class)){
+    } else if (responseType.equals(ReceiptV3Response.class) || responseType.equals(
+      ReceiptV4Response.class)) {
       return ParseParameters.builder()
         .documentType(RECEIPT)
         .accountName(MINDEE)
