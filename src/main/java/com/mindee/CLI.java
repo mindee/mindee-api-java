@@ -6,8 +6,12 @@ import com.mindee.model.documenttype.PassportV1Response;
 import com.mindee.model.documenttype.ReceiptV4Response;
 import com.mindee.model.documenttype.invoice.InvoiceV4Response;
 import picocli.CommandLine;
-import picocli.CommandLine.*;
+import picocli.CommandLine.Command;
 import picocli.CommandLine.Model.CommandSpec;
+import picocli.CommandLine.Option;
+import picocli.CommandLine.Parameters;
+import picocli.CommandLine.ScopeType;
+import picocli.CommandLine.Spec;
 
 import java.io.File;
 import java.io.IOException;
