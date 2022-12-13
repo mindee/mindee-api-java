@@ -1,7 +1,5 @@
 [![Tests](https://github.com/mindee/mindee-api-java/actions/workflows/build.yml/badge.svg)](https://github.com/mindee/mindee-api-java/actions/workflows/build.yml)
 
-[![Join Mindee on Slack](https://img.shields.io/badge/Slack-4A154B?style=for-the-badge&logo=slack&logoColor=white)](https://mindee-community.slack.com/join/shared_invite/zt-1jv6nawjq-FDgFcF2T5CmMmRpl9LLptw#/shared-invite/email)
-
 # Mindee API Helper Library for Java
 Quickly and easily connect to Mindee's API services using Java.
 
@@ -62,6 +60,11 @@ customize the experience.
 
 All the juicy details are described in the
 **[Official Documentation](https://developers.mindee.com/docs/java-ocr-sdk)**.
+
+### Questions, Comments?
+We'd love to hear from you!
+[Join our Slack](https://join.slack.com/t/mindee-community/shared_invite/zt-1jv6nawjq-FDgFcF2T5CmMmRpl9LLptw).
+
 
 ## License
 Copyright © Mindee
