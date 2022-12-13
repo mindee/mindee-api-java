@@ -4,7 +4,7 @@
 ### Changes
 * :sparkles: Add support for Invoice v4
 ### Fixes
-* :arrow_up: Bump jackson-databind from 2.13.4 to 2.13.4.1 (#33)
+* :arrow_up: Bump jackson-databind from 2.13.4 to 2.13.4.2
 
 ## v2.0.0 - 2022-12-06
 ### ¡Breaking Changes!
