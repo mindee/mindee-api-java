@@ -38,7 +38,7 @@ public class InvoiceV4DocumentPrediction {
   @JsonProperty("customer_address")
   private StringField customerAddress;
   @JsonProperty("taxes")
-  private List<TaxField> taxFields;
+  private List<TaxField> taxes;
   @JsonProperty("total_amount")
   private AmountField totalAmount;
   @JsonProperty("total_net")
@@ -46,12 +46,16 @@ public class InvoiceV4DocumentPrediction {
   @JsonProperty("line_items")
   private List<InvoiceLineItem> lineItems;
 
+  public Double getTotalTaxes() {
+    return taxes.stream().mapToDouble(TaxField::getValue).sum();
+  }
+
   @Override
   public String toString() {
     String lineItemsSummary = "\n";
     if (!this.getLineItems().isEmpty()) {
       lineItemsSummary =
-        "\n  Code           | QTY    | Price   | Amount   | Tax (Rate)     | Description\n  ";
+        "\n  Code           | QTY    | Price   | Amount   | Tax (Rate)       | Description\n  ";
       lineItemsSummary += this.getLineItems().stream()
         .map(InvoiceLineItem::toString)
         .collect(Collectors.joining("\n  "));
@@ -77,20 +81,17 @@ public class InvoiceV4DocumentPrediction {
             .map(CompanyRegistrationField::getValue)
             .collect(Collectors.joining("; "))) +
         String.format("Customer address: %s%n", this.getCustomerAddress()) +
-        String.format("Line Items: %s%n", lineItemsSummary) +
+        String.format("Line Items:%s%n", lineItemsSummary) +
         String.format("Taxes: %s%n",
-          this.getTaxFields().stream()
+          this.getTaxes().stream()
             .map(TaxField::toString)
             .collect(Collectors.joining("%n       "))) +
-        String.format("Total taxes: %s%n",
-          this.getTaxFields().stream()
-            .map(TaxField::toString)
-            .collect(Collectors.joining("%n       "))) +
+        String.format("Total taxes: %s%n", SummaryHelper.formatAmount(this.getTotalTaxes())) +
         String.format("Total amount excluding taxes: %s%n",
           this.getTotalNet()) +
         String.format("Total amount including taxes: %s%n",
           this.getTotalAmount()) +
-        String.format("----------------------%n");
+        "----------------------";
 
     return SummaryHelper.cleanSummary(summary);
   }

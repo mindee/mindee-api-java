@@ -31,9 +31,6 @@ class InvoiceV4Test {
     List<String> lines = Files.readAllLines(Paths.get("src/test/resources/data/invoice/response_v4/summary.txt"));
     String expectedSummary = String.join("\n", lines);
 
-    Assertions.assertNotNull(invoiceV4Prediction);
-    Assertions.assertTrue(invoiceV4Prediction.getDocument().getInference().getPagesPrediction().size() > 0);
-    Assertions.assertEquals(5, invoiceV4Prediction.getDocument().getInference().getDocumentPrediction().getLineItems().size());
     Assertions.assertEquals(expectedSummary, invoiceV4Prediction.getDocument().toString());
   }
 
