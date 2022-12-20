@@ -7,14 +7,26 @@ import lombok.Getter;
 
 import java.text.DecimalFormat;
 
+/**
+ * Represent a tax.
+ */
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TaxField extends BaseField {
 
+  /**
+   * The total amount of the tax.
+   */
   @JsonProperty("value")
   private Double value;
+  /**
+   * The tax code.
+   */
   @JsonProperty("code")
   private String code;
+  /**
+   * The rate of the taxe.
+   */
   @JsonProperty("rate")
   private Double rate;
 

@@ -4,16 +4,31 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 
+/**
+ * Represent a payment detail.
+ */
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PaymentDetailsField extends BaseField {
 
+  /**
+   * The account number.
+   */
   @JsonProperty("account_number")
   private String accountNumber;
+  /**
+   * The full IBAN.
+   */
   @JsonProperty("iban")
   private String iban;
+  /**
+   * The routing number.
+   */
   @JsonProperty("routing_number")
   private String routingNumber;
+  /**
+   * The SWIFT value.
+   */
   @JsonProperty("swift")
   private String swift;
 

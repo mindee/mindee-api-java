@@ -9,17 +9,33 @@ import com.mindee.model.geometry.Polygon;
 import com.mindee.utils.geometry.BoundingBoxUtils;
 import lombok.Getter;
 
+/**
+ * Represent basics of a field.
+ */
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
 public abstract class BaseField {
 
+  /**
+   * The confidence about the zone of the value extracted.
+   * A value from 0 to 1.
+   */
   @JsonProperty("confidence")
   private Double confidence;
+  /**
+   * Define the coordinates of the zone in the page where the values has been found.
+   */
   @JsonProperty("polygon")
   @JsonDeserialize(using = PolygonDeserializer.class)
   private Polygon polygon;
+  /**
+   * The index of the page where the current field was found.
+   */
   @JsonProperty("page_id")
   private Integer id;
+  /**
+   * The bouding box equivalent of the polygon.
+   */
   @JsonIgnore
   private final Polygon boundingBox;
 
