@@ -30,11 +30,10 @@ class InvoiceV4Test {
     String[] actualLines = invoiceV4Prediction.getDocument().toString().split(System.lineSeparator());
     List<String> expectedLines = Files
         .readAllLines(Paths.get("src/test/resources/data/invoice/response_v4/summary.txt"));
+    String expectedSummary = String.join(String.format("%n"), expectedLines);
+    String actualSummary = String.join(String.format("%n"), actualLines);
 
-    for (int i = 0; i < expectedLines.size(); i++) {
-      Assertions.assertEquals(expectedLines.get(i).length(), actualLines[i].length(), "Line is " + (i + 1));
-      Assertions.assertEquals(expectedLines.get(i), actualLines[i]);
-    }
+    Assertions.assertEquals(expectedSummary, actualSummary);
   }
 
 }
