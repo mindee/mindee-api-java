@@ -52,13 +52,13 @@ public class InvoiceV4DocumentPrediction {
 
   @Override
   public String toString() {
-    String lineItemsSummary = "\n";
+    String lineItemsSummary = String.format("%n");
     if (!this.getLineItems().isEmpty()) {
       lineItemsSummary =
-        "\n  Code           | QTY    | Price   | Amount   | Tax (Rate)       | Description\n  ";
+        String.format("%n  Code           | QTY    | Price   | Amount   | Tax (Rate)       | Description%n  ");
       lineItemsSummary += this.getLineItems().stream()
         .map(InvoiceLineItem::toString)
-        .collect(Collectors.joining("\n  "));
+        .collect(Collectors.joining(String.format("%n  ")));
     }
 
     String summary =
@@ -81,7 +81,7 @@ public class InvoiceV4DocumentPrediction {
             .map(CompanyRegistrationField::getValue)
             .collect(Collectors.joining("; "))) +
         String.format("Customer address: %s%n", this.getCustomerAddress()) +
-        String.format("Line Items:%s%n", lineItemsSummary) +
+        String.format("Line Items: %s%n", lineItemsSummary) +
         String.format("Taxes: %s%n",
           this.getTaxes().stream()
             .map(TaxField::toString)

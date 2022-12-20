@@ -38,7 +38,8 @@ public class InvoiceV4Inference extends Inference {
         String.format("%n%n================%n") +
         String.format("Page Predictions%n") +
         String.format("================%n%n") +
-        pagesPrediction.stream().map(Page::toString).collect(Collectors.joining(String.format("%n")));
+        pagesPrediction.stream().map(Page::toString).collect(Collectors.joining(String.format("%n"))) +
+        String.format("%n");
 
     return SummaryHelper.cleanSummary(summary);
   }

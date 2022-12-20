@@ -11,7 +11,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 
-
 class InvoiceV4Test {
 
   private final ObjectMapper objectMapper = new ObjectMapper();
@@ -22,16 +21,20 @@ class InvoiceV4Test {
     ObjectMapper objectMapper = new ObjectMapper();
     objectMapper.findAndRegisterModules();
 
-    JavaType type = objectMapper.getTypeFactory().constructParametricType(PredictResponse.class, InvoiceV4Inference.class);
-    PredictResponse<InvoiceV4Inference> invoiceV4Prediction =
-      objectMapper.readValue(
+    JavaType type = objectMapper.getTypeFactory().constructParametricType(PredictResponse.class,
+        InvoiceV4Inference.class);
+    PredictResponse<InvoiceV4Inference> invoiceV4Prediction = objectMapper.readValue(
         new File("src/test/resources/data/invoice/response_v4/complete.json"),
         type);
 
-    List<String> lines = Files.readAllLines(Paths.get("src/test/resources/data/invoice/response_v4/summary.txt"));
-    String expectedSummary = String.join("\n", lines);
+    String[] actualLines = invoiceV4Prediction.getDocument().toString().split(System.lineSeparator());
+    List<String> expectedLines = Files
+        .readAllLines(Paths.get("src/test/resources/data/invoice/response_v4/summary.txt"));
 
-    Assertions.assertEquals(expectedSummary, invoiceV4Prediction.getDocument().toString());
+    for (int i = 0; i < expectedLines.size(); i++) {
+      Assertions.assertEquals(expectedLines.get(i).length(), actualLines[i].length(), "Line is " + (i + 1));
+      Assertions.assertEquals(expectedLines.get(i), actualLines[i]);
+    }
   }
 
 }
