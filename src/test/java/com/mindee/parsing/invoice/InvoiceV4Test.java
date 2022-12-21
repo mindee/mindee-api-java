@@ -3,6 +3,7 @@ package com.mindee.parsing.invoice;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mindee.parsing.common.PredictResponse;
+import com.mindee.parsing.invoice.InvoiceV4Inference;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

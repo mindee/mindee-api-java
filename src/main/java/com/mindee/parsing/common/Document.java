@@ -11,7 +11,7 @@ import lombok.Getter;
 @Getter
 @EqualsAndHashCode
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Document<T extends Inference> {
+public class Document<T extends Inference> extends Inference {
 
   /**
    * Define the inference model of values.
