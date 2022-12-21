@@ -8,4 +8,8 @@ public class MindeeException extends RuntimeException {
   public MindeeException(String errorMessage, Throwable err) {
     super(errorMessage, err);
   }
+
+  public MindeeException(String errorMessage) {
+    super(errorMessage);
+  }
 }

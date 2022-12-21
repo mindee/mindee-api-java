@@ -1,4 +1,4 @@
-package com.mindee.http;
+package com.mindee.parsing;
 
 import java.lang.annotation.*;
 
@@ -6,7 +6,9 @@ import java.lang.annotation.*;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface EndpointInfo {
-    String endpointName() default "Pankaj";
-    String version();
-    String accountName() default "Mindee";
+  String endpointName();
+
+  String version();
+
+  String accountName() default "Mindee";
 }

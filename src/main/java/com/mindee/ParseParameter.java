@@ -1,15 +1,18 @@
-package com.mindee.documentparser;
+package com.mindee;
 
+import com.mindee.documentparser.PageOptions;
 import lombok.Builder;
 import lombok.Value;
 
+import java.io.InputStream;
+
 @Value
 @Builder
-public class ParseParameters {
+public class ParseParameter {
 
-  private String documentType;
-  private String accountName;
+  InputStream fileStream;
+  String fileName;
   @Builder.Default
-  private Boolean includeWords = Boolean.FALSE;
-  private PageOptions pageOptions;
+  Boolean includeWords = Boolean.FALSE;
+  PageOptions pageOptions;
 }

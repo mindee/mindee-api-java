@@ -3,7 +3,6 @@ package com.mindee.parsing.invoice;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mindee.parsing.common.PredictResponse;
-import com.mindee.parsing.invoice.InvoiceV4Inference;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -13,8 +12,6 @@ import java.nio.file.Paths;
 import java.util.List;
 
 class InvoiceV4Test {
-
-  private final ObjectMapper objectMapper = new ObjectMapper();
 
   @Test
   void givenAnInvoiceV4_whenDeserialized_MustHaveAValidSummary() throws IOException {

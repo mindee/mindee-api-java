@@ -2,6 +2,7 @@ package com.mindee.parsing.invoice;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.mindee.parsing.EndpointInfo;
 import com.mindee.parsing.SummaryHelper;
 import com.mindee.parsing.common.Inference;
 import com.mindee.parsing.common.Page;
@@ -15,6 +16,7 @@ import java.util.stream.Collectors;
  */
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
+@EndpointInfo(endpointName = "invoices", version = "4")
 public class InvoiceV4Inference extends Inference {
 
   /**
