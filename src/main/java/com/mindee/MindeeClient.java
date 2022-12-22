@@ -5,7 +5,6 @@ import com.mindee.parsing.common.Document;
 import com.mindee.parsing.common.Inference;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -28,13 +27,13 @@ public class MindeeClient {
     String fileName,
     boolean includeWords) throws IOException {
 
-      return this.mindeeApi.predict(
-        type,
-        ParseParameter.builder()
-          .fileStream(fileStream)
-          .fileName(fileName)
-          .includeWords(includeWords)
-          .build());
+    return this.mindeeApi.predict(
+      type,
+      ParseParameter.builder()
+        .fileStream(fileStream)
+        .fileName(fileName)
+        .includeWords(includeWords)
+        .build());
   }
 
   public <T extends Inference> Document<T> parse(

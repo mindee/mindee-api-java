@@ -76,14 +76,13 @@ public final class MindeeApi {
         predictResponse = mapper.readValue(
           responseEntity.getContent(), type);
 
-        if(is2xxStatusCode(response.getStatusLine().getStatusCode())) {
+        if (is2xxStatusCode(response.getStatusLine().getStatusCode())) {
           return (Document<T>) predictResponse.getDocument();
         }
 
         if (predictResponse != null) {
           errorMessage += predictResponse.getApiRequest().getError().toString();
-        }
-        else {
+        } else {
           ByteArrayOutputStream contentRead = new ByteArrayOutputStream();
           byte[] buffer = new byte[1024];
           for (int length; (length = responseEntity.getContent().read(buffer)) != -1; ) {

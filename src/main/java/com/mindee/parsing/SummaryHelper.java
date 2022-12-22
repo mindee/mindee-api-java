@@ -6,6 +6,7 @@ public final class SummaryHelper {
   private SummaryHelper() {
     throw new IllegalStateException("Utility class");
   }
+
   public static String cleanSummary(String summaryToClean) {
     return summaryToClean.replace(String.format(" %n"), String.format("%n"));
   }

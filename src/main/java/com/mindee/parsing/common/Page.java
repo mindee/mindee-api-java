@@ -6,6 +6,7 @@ import lombok.Getter;
 
 /**
  * Define a page in the parsed document.
+ *
  * @param <T> The prediction model type.
  */
 @Getter

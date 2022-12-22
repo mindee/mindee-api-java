@@ -21,11 +21,6 @@ public class LocaleField extends BaseField {
    * The language which has been detected.
    */
   private String language;
-  @JsonProperty("language")
-  public void setLanguage(String language) {
-    this.language = language;
-    this.value = language;
-  }
   /**
    * The country which has been detected.
    */
@@ -37,9 +32,15 @@ public class LocaleField extends BaseField {
   @JsonProperty("currency")
   private String currency;
 
+  @JsonProperty("language")
+  public void setLanguage(String language) {
+    this.language = language;
+    this.value = language;
+  }
+
   @Override
   public String toString() {
-    StringBuilder stringBuilder = new StringBuilder("");
+    StringBuilder stringBuilder = new StringBuilder();
     if (value != null) {
       stringBuilder.append(value);
       stringBuilder.append("; ");

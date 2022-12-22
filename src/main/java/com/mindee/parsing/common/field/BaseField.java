@@ -17,6 +17,11 @@ import lombok.Getter;
 public abstract class BaseField {
 
   /**
+   * The bouding box equivalent of the polygon.
+   */
+  @JsonIgnore
+  private final Polygon boundingBox;
+  /**
    * The confidence about the zone of the value extracted.
    * A value from 0 to 1.
    */
@@ -33,11 +38,6 @@ public abstract class BaseField {
    */
   @JsonProperty("page_id")
   private Integer id;
-  /**
-   * The bouding box equivalent of the polygon.
-   */
-  @JsonIgnore
-  private final Polygon boundingBox;
 
   protected BaseField() {
     if (polygon != null) {

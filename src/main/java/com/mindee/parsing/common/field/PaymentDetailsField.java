@@ -34,7 +34,7 @@ public class PaymentDetailsField extends BaseField {
 
   @Override
   public String toString() {
-    StringBuilder stringBuilder = new StringBuilder("");
+    StringBuilder stringBuilder = new StringBuilder();
     if (accountNumber != null && accountNumber.length() > 0) {
       stringBuilder.append(accountNumber);
       stringBuilder.append("; ");

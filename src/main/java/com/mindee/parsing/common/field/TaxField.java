@@ -5,8 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mindee.parsing.SummaryHelper;
 import lombok.Getter;
 
-import java.text.DecimalFormat;
-
 /**
  * Represent a tax.
  */
@@ -32,7 +30,7 @@ public class TaxField extends BaseField {
 
   @Override
   public String toString() {
-    StringBuilder stringBuilder = new StringBuilder("");
+    StringBuilder stringBuilder = new StringBuilder();
     if (value != null) {
       stringBuilder.append(SummaryHelper.formatAmount(this.value));
     }
