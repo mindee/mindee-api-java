@@ -17,6 +17,7 @@ import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 public final class MindeeApi {
@@ -61,18 +62,35 @@ public final class MindeeApi {
     post.setHeader(HttpHeaders.USER_AGENT, getUserAgent());
     post.setEntity(entity);
 
+    String errorMessage = "Mindee API client : ";
     PredictResponse<Document<T>> predictResponse = null;
 
     try (CloseableHttpClient httpClient = HttpClientBuilder.create().build();
          CloseableHttpResponse response = httpClient.execute(post)) {
+      HttpEntity responseEntity = response.getEntity();
 
-      if (is2xxStatusCode(response.getStatusLine().getStatusCode())) {
-        HttpEntity responseEntity = response.getEntity();
+      if (responseEntity.getContentLength() != 0) {
         JavaType type = mapper.getTypeFactory().constructParametricType(
           PredictResponse.class,
           clazz);
         predictResponse = mapper.readValue(
           responseEntity.getContent(), type);
+
+        if(is2xxStatusCode(response.getStatusLine().getStatusCode())) {
+          return (Document<T>) predictResponse.getDocument();
+        }
+
+        if (predictResponse != null) {
+          errorMessage += predictResponse.getApiRequest().getError().toString();
+        }
+        else {
+          ByteArrayOutputStream contentRead = new ByteArrayOutputStream();
+          byte[] buffer = new byte[1024];
+          for (int length; (length = responseEntity.getContent().read(buffer)) != -1; ) {
+            contentRead.write(buffer, 0, length);
+          }
+          errorMessage += " Unhandled error - " + contentRead.toString("UTF-8");
+        }
       }
     } catch (IOException e) {
       throw new MindeeException(e.getMessage(), e);
@@ -80,7 +98,7 @@ public final class MindeeApi {
       parseParameter.getFileStream().close();
     }
 
-    return (Document<T>) predictResponse.getDocument();
+    throw new MindeeException(errorMessage);
   }
 
   private boolean is2xxStatusCode(int statusCode) {
