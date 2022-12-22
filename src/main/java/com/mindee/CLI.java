@@ -4,7 +4,8 @@ import com.mindee.documentparser.Client;
 import com.mindee.documentparser.ParseParameters;
 import com.mindee.model.documenttype.PassportV1Response;
 import com.mindee.model.documenttype.ReceiptV4Response;
-import com.mindee.model.documenttype.invoice.InvoiceV4Response;
+import com.mindee.parsing.common.Document;
+import com.mindee.parsing.invoice.InvoiceV4Inference;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Model.CommandSpec;
@@ -64,15 +65,19 @@ public class CLI {
 
   @Command(name = "invoice", description = "Invokes the invoice API")
   void invoiceMethod() throws IOException {
-    Client client = initClient();
+    MindeeClient mindeeClient;
+    if (apiKey != null) {
+      mindeeClient = new MindeeClient(apiKey);
+    } else {
+      mindeeClient = new MindeeClient();
+    }
 
-    InvoiceV4Response invoiceResponse = client.loadDocument(file)
-      .parse(InvoiceV4Response.class, ParseParameters.builder()
-        .documentType("invoice")
-        .includeWords(words)
-        .build());
+    Document<InvoiceV4Inference> document = mindeeClient.parse(
+      InvoiceV4Inference.class,
+      file,
+      words);
 
-    System.out.println(invoiceResponse.documentSummary());
+    System.out.println(document.toString());
   }
 
   @Command(name = "receipt", description = "Invokes the receipt API")

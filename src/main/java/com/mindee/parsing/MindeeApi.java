@@ -31,7 +31,7 @@ public final class MindeeApi {
   }
 
   public MindeeApi(String apiKey) {
-    this(System.getenv("MINDEE_API_URL"), apiKey);
+    this(apiKey, System.getenv("MINDEE_API_URL"));
   }
 
   public MindeeApi(String apiKey, String baseUrl) {
