@@ -62,34 +62,34 @@ public class InvoiceV4DocumentPrediction {
     }
 
     String summary =
-      String.format("Locale: %s%n", this.getLocaleField()) +
-        String.format("Invoice number: %s%n", this.getInvoiceNumber()) +
-        String.format("Invoice date: %s%n", this.getInvoiceDateField()) +
-        String.format("Invoice due date: %s%n", this.getDueDateField()) +
-        String.format("Supplier name: %s%n", this.getSupplierName()) +
-        String.format("Supplier address: %s%n", this.getSupplierAddress()) +
-        String.format("Supplier company registrations: %s%n",
+      String.format(":Locale: %s%n", this.getLocaleField()) +
+        String.format(":Invoice number: %s%n", this.getInvoiceNumber()) +
+        String.format(":Invoice date: %s%n", this.getInvoiceDateField()) +
+        String.format(":Invoice due date: %s%n", this.getDueDateField()) +
+        String.format(":Supplier name: %s%n", this.getSupplierName()) +
+        String.format(":Supplier address: %s%n", this.getSupplierAddress()) +
+        String.format(":Supplier company registrations: %s%n",
           this.getSupplierCompanyRegistrationFields().stream()
             .map(CompanyRegistrationField::getValue)
             .collect(Collectors.joining("; "))) +
-        String.format("Supplier payment details: %s%n", this.getSupplierFieldPaymentDetails().stream()
+        String.format(":Supplier payment details: %s%n", this.getSupplierFieldPaymentDetails().stream()
           .map(PaymentDetailsField::toString)
           .collect(Collectors.joining("%n                 "))) +
-        String.format("Customer name: %s%n", this.getCustomerName()) +
-        String.format("Customer company registrations: %s%n",
+        String.format(":Customer name: %s%n", this.getCustomerName()) +
+        String.format(":Customer company registrations: %s%n",
           this.getCustomerCompanyRegistrationFields().stream()
             .map(CompanyRegistrationField::getValue)
             .collect(Collectors.joining("; "))) +
-        String.format("Customer address: %s%n", this.getCustomerAddress()) +
-        String.format("Line Items: %s%n", lineItemsSummary) +
-        String.format("Taxes: %s%n",
+        String.format(":Customer address: %s%n", this.getCustomerAddress()) +
+        String.format(":Line Items: %s%n", lineItemsSummary) +
+        String.format(":Taxes: %s%n",
           this.getTaxes().stream()
             .map(TaxField::toString)
             .collect(Collectors.joining("%n       "))) +
-        String.format("Total taxes: %s%n", SummaryHelper.formatAmount(this.getTotalTaxes())) +
-        String.format("Total amount excluding taxes: %s%n",
+        String.format(":Total taxes: %s%n", SummaryHelper.formatAmount(this.getTotalTaxes())) +
+        String.format(":Total amount excluding taxes: %s%n",
           this.getTotalNet()) +
-        String.format("Total amount including taxes: %s%n",
+        String.format(":Total amount including taxes: %s%n",
           this.getTotalAmount()) +
         "----------------------";
 
