@@ -23,21 +23,10 @@ import java.io.IOException;
 public final class MindeeApi {
 
   private static final ObjectMapper mapper = new ObjectMapper();
-  private final String apiKey;
-  private final String baseUrl;
+  private final MindeeSettings mindeeSettings;
 
-  public MindeeApi() {
-    this.apiKey = System.getenv("MINDEE_API_KEY");
-    this.baseUrl = System.getenv("MINDEE_API_URL");
-  }
-
-  public MindeeApi(String apiKey) {
-    this(apiKey, System.getenv("MINDEE_API_URL"));
-  }
-
-  public MindeeApi(String apiKey, String baseUrl) {
-    this.apiKey = apiKey != null ? apiKey : System.getenv("MINDEE_API_KEY");
-    this.baseUrl = baseUrl;
+  public MindeeApi(MindeeSettings mindeeSettings) {
+    this.mindeeSettings = mindeeSettings;
   }
 
   public <T extends Inference> Document<T> predict(
@@ -58,7 +47,7 @@ public final class MindeeApi {
     }
 
     HttpEntity entity = builder.build();
-    post.setHeader(HttpHeaders.AUTHORIZATION, this.apiKey);
+    post.setHeader(HttpHeaders.AUTHORIZATION, this.mindeeSettings.getApiKey());
     post.setHeader(HttpHeaders.USER_AGENT, getUserAgent());
     post.setEntity(entity);
 
@@ -134,7 +123,7 @@ public final class MindeeApi {
         "Please refer to the document or contact the support.");
     }
 
-    return this.baseUrl + "/products/" +
+    return this.mindeeSettings.getBaseUrl() + "/products/" +
       endpointInfo.accountName() +
       "/" +
       endpointInfo.endpointName() +

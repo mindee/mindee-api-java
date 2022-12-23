@@ -40,7 +40,7 @@ class MindeeApiTest extends TestCase {
       .setBody(new String(Files.readAllBytes(path))));
 
     File file = new File("src/test/resources/data/invoice/invoice.pdf");
-    MindeeApi client = new MindeeApi("abc", url);
+    MindeeApi client = new MindeeApi(new MindeeSettings("abc", url));
     Document<InvoiceV4Inference> document = client.predict(
       InvoiceV4Inference.class,
       ParseParameter.builder()

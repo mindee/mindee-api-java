@@ -1,6 +1,7 @@
 package com.mindee;
 
 import com.mindee.parsing.MindeeApi;
+import com.mindee.parsing.MindeeSettings;
 import com.mindee.parsing.common.Document;
 import com.mindee.parsing.common.Inference;
 
@@ -9,17 +10,18 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
+import java.util.Base64;
 
 public class MindeeClient {
 
   private final MindeeApi mindeeApi;
 
   public MindeeClient() {
-    this.mindeeApi = new MindeeApi();
+    this.mindeeApi = new MindeeApi(new MindeeSettings());
   }
 
-  public MindeeClient(String apiKey) {
-    this.mindeeApi = new MindeeApi(apiKey);
+  public MindeeClient(MindeeSettings mindeeSettings) {
+    this.mindeeApi = new MindeeApi(mindeeSettings);
   }
 
   public <T extends Inference> Document<T> parse(
@@ -101,6 +103,21 @@ public class MindeeClient {
       ParseParameter.builder()
         .fileStream(Files.newInputStream(file.toPath()))
         .fileName(file.getName())
+        .build());
+  }
+
+  public <T extends Inference> Document<T> parse(
+    Class<T> type,
+    String fileInBase64Code,
+    String filename) throws IOException {
+
+    byte[] fileRead = Base64.getDecoder().decode(fileInBase64Code.getBytes());
+
+    return this.mindeeApi.predict(
+      type,
+      ParseParameter.builder()
+        .fileStream(new ByteArrayInputStream(fileRead))
+        .fileName(filename)
         .build());
   }
 }
