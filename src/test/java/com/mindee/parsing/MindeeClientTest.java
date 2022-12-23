@@ -1,5 +1,6 @@
 package com.mindee.parsing;
 
+import com.mindee.DocumentToParse;
 import com.mindee.MindeeClient;
 import com.mindee.parsing.common.Document;
 import com.mindee.parsing.invoice.InvoiceV4Inference;
@@ -12,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import javax.print.Doc;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -58,7 +60,7 @@ class MindeeClientTest {
     File file = new File("src/test/resources/data/invoice/invoice.pdf");
     Document<InvoiceV4Inference> document = client.parse(
       InvoiceV4Inference.class,
-      file);
+      new DocumentToParse(file));
 
     Assertions.assertNotNull(document);
 

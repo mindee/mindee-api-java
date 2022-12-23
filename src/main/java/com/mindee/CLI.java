@@ -75,7 +75,7 @@ public class CLI {
 
     Document<InvoiceV4Inference> document = mindeeClient.parse(
       InvoiceV4Inference.class,
-      file,
+      new DocumentToParse(file),
       words);
 
     System.out.println(document.toString());
