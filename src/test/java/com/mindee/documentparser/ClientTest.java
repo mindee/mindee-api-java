@@ -551,28 +551,6 @@ public class ClientTest {
   }
 
   @Test
-  void givenAClientParsingAnInvoice_whenAMapReturnedFromHttpClient_thenReturnsCorrectInvoice()
-      throws IOException {
-    String invoiceApiKey = "1232CGDFD843G32";
-    Map invoiceMap = objectMapper.readValue(new File("src/test/resources/data/invoice/response_v3/complete.json"),
-        Map.class);
-    Mockito.when(
-        httpClient.parse(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any()))
-        .thenReturn(invoiceMap);
-
-    DocumentClient documentClient = client.loadDocument(
-        new File("src/test/resources/data/invoice/invoice.pdf"));
-    InvoiceV3Response invoiceV3Response = documentClient.parse(InvoiceV3Response.class,
-        ParseParameters.builder()
-            .documentType("invoice")
-            .build());
-
-    Assert.assertNotNull(invoiceV3Response);
-
-
-  }
-
-  @Test
   void givenAClientParsingAReceipt_whenAMapReturnedFromHttpClient_thenReturnsCorrectReceipt()
       throws IOException {
     String receiptApiKey = "1232CGDFD843G32";

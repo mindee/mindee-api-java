@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.mindee.http.Endpoint;
 import com.mindee.model.deserialization.DocumentResponseDeserializerFactory;
 import com.mindee.model.documenttype.*;
-import com.mindee.model.documenttype.invoice.InvoiceV4Response;
 import com.mindee.model.postprocessing.PassportResponsePostProcessor;
 
 import java.util.Arrays;
@@ -31,7 +30,6 @@ final class DocumentConfigFactory {
     ReceiptV3Response.class,
     ReceiptV4Response.class,
     InvoiceV3Response.class,
-    InvoiceV4Response.class,
     PassportV1Response.class
   );
 
@@ -40,7 +38,6 @@ final class DocumentConfigFactory {
     ReceiptV3Response.class,
     ReceiptV4Response.class,
     InvoiceV3Response.class,
-    InvoiceV4Response.class,
     PassportV1Response.class,
     FinancialDocumentResponse.class
   );
@@ -117,20 +114,6 @@ final class DocumentConfigFactory {
           .keyName("invoice")
           .owner(MINDEE)
           .version("3")
-          .urlName("invoices")
-          .build())
-        .build();
-    } else if (responseClassType.equals(InvoiceV4Response.class)) {
-      return DocumentConfig.<T>builder()
-        .apiType(API_TYPE_OFF_THE_SHELF)
-        .documentType("invoice")
-        .builtInPostProcessing(UnaryOperator.identity())
-        .converter((clazz, map) -> OBJECT_MAPPER.convertValue(map, clazz))
-        .endpoint(Endpoint.builder()
-          .apiKey(apiKey)
-          .keyName("invoice")
-          .owner(MINDEE)
-          .version("4")
           .urlName("invoices")
           .build())
         .build();
@@ -215,12 +198,6 @@ final class DocumentConfigFactory {
     } else if (responseType.equals(FinancialDocumentResponse.class)) {
       return ParseParameters.builder()
         .documentType(FINANCIAL_DOCUMENT)
-        .accountName(MINDEE)
-        .build();
-    } else if (responseType.equals(InvoiceV3Response.class) || responseType.equals(
-      InvoiceV4Response.InvoiceV4Document.class)) {
-      return ParseParameters.builder()
-        .documentType(INVOICE)
         .accountName(MINDEE)
         .build();
     } else if (responseType.equals(ReceiptV3Response.class) || responseType.equals(
