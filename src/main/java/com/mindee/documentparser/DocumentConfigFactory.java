@@ -206,9 +206,13 @@ final class DocumentConfigFactory {
         .documentType(RECEIPT)
         .accountName(MINDEE)
         .build();
+    }  else if (responseType.equals(InvoiceV3Response.class)) {
+      return ParseParameters.builder()
+        .documentType(INVOICE)
+        .accountName(MINDEE)
+        .build();
     }
+
     return null;
   }
-
-
 }

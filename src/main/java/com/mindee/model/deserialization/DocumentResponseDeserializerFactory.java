@@ -12,6 +12,8 @@ public final class DocumentResponseDeserializerFactory {
   public static <T extends BaseDocumentResponse & PredictionApiResponse<S, U>, S extends DocumentLevelResponse, U extends PageLevelResponse> DocumentResponseDeserializer<T, S, U> documentResponseDeserializerFromResponseClass(
     Class<T> responseClass) {
     DocumentResponseDeserializer<T, S, U> deserializer = null;
+    if (responseClass.equals(InvoiceV3Response.class))
+      deserializer = invoiceV3Deserializer();
     if (responseClass.equals(ReceiptV3Response.class))
       deserializer = receiptResponseV3Deserializer();
     if (responseClass.equals(ReceiptV4Response.class))
@@ -30,6 +32,14 @@ public final class DocumentResponseDeserializerFactory {
   DocumentResponseDeserializer<T, S, U> passportV1Deserializer() {
     return new DocumentResponseDeserializer(PassportV1Response::new, PassportV1Response.PassportDocument.class,
       PassportV1Response.PassportPage.class);
+  }
+
+  private static <T extends BaseDocumentResponse & PredictionApiResponse<S, U>,
+    S extends DocumentLevelResponse,
+    U extends PageLevelResponse>
+  DocumentResponseDeserializer<T, S, U> invoiceV3Deserializer() {
+    return new DocumentResponseDeserializer(InvoiceV3Response::new, InvoiceV3Response.InvoiceDocument.class,
+      InvoiceV3Response.InvoicePage.class);
   }
 
   private static <T extends BaseDocumentResponse & PredictionApiResponse<S, U>,
