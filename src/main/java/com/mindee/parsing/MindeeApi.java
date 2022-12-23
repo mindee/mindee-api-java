@@ -31,7 +31,7 @@ public final class MindeeApi {
 
   public <T extends Inference> Document<T> predict(
     Class<T> clazz,
-    ParseParameter parseParameter) throws IOException, RuntimeException {
+    ParseParameter parseParameter) throws MindeeException, IOException {
 
     // required, to register jackson dateonly module format to deserialize
     mapper.findAndRegisterModules();
@@ -71,15 +71,15 @@ public final class MindeeApi {
 
         if (predictResponse != null) {
           errorMessage += predictResponse.getApiRequest().getError().toString();
-        } else {
-          ByteArrayOutputStream contentRead = new ByteArrayOutputStream();
-          byte[] buffer = new byte[1024];
-          for (int length; (length = responseEntity.getContent().read(buffer)) != -1; ) {
-            contentRead.write(buffer, 0, length);
-          }
-          errorMessage += " Unhandled error - " + contentRead.toString("UTF-8");
+
         }
       }
+      ByteArrayOutputStream contentRead = new ByteArrayOutputStream();
+      byte[] buffer = new byte[1024];
+      for (int length; (length = responseEntity.getContent().read(buffer)) != -1; ) {
+        contentRead.write(buffer, 0, length);
+      }
+      errorMessage += " Unhandled - HTTP Status code " + response.getStatusLine().getStatusCode() + " - Content " + contentRead.toString("UTF-8");
     } catch (IOException e) {
       throw new MindeeException(e.getMessage(), e);
     } finally {
