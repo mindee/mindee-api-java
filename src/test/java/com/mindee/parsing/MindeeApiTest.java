@@ -44,7 +44,7 @@ class MindeeApiTest extends TestCase {
     Document<InvoiceV4Inference> document = client.predict(
       InvoiceV4Inference.class,
       ParseParameter.builder()
-        .fileStream(Files.newInputStream(file.toPath()))
+        .file(Files.readAllBytes(file.toPath()))
         .fileName(file.getName())
         .build());
 

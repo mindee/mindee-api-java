@@ -2,8 +2,13 @@ package com.mindee;
 
 import com.mindee.parsing.MindeeApi;
 import com.mindee.parsing.MindeeSettings;
+import com.mindee.parsing.PageOptions;
 import com.mindee.parsing.common.Document;
 import com.mindee.parsing.common.Inference;
+import com.mindee.pdf.PdfBoxApi;
+import com.mindee.pdf.PdfOperation;
+import com.mindee.pdf.SplitQuery;
+import com.mindee.utils.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,17 +17,19 @@ import java.io.InputStream;
 public class MindeeClient {
 
   private final MindeeApi mindeeApi;
+  private final PdfOperation pdfOperation;
 
   public MindeeClient() {
-    this.mindeeApi = new MindeeApi(new MindeeSettings());
+    this(new MindeeSettings());
   }
 
   public MindeeClient(MindeeSettings mindeeSettings) {
     this.mindeeApi = new MindeeApi(mindeeSettings);
+    this.pdfOperation = new PdfBoxApi();
   }
 
   public DocumentToParse loadDocument(InputStream fileStream,
-                                      String fileName) {
+                                      String fileName) throws IOException {
     return new DocumentToParse(fileStream, fileName);
   }
 
@@ -47,7 +54,7 @@ public class MindeeClient {
     return this.mindeeApi.predict(
       type,
       ParseParameter.builder()
-        .fileStream(documentToParse.getFile())
+        .file(documentToParse.getFile())
         .fileName(documentToParse.getFilename())
         .build());
   }
@@ -60,7 +67,45 @@ public class MindeeClient {
     return this.mindeeApi.predict(
       type,
       ParseParameter.builder()
-        .fileStream(documentToParse.getFile())
+        .file(documentToParse.getFile())
+        .fileName(documentToParse.getFilename())
+        .includeWords(includeWords)
+        .build());
+  }
+
+  public <T extends Inference> Document<T> parse(
+    Class<T> type,
+    DocumentToParse documentToParse,
+    PageOptions pageOptions) throws IOException {
+
+    return this.mindeeApi.predict(
+      type,
+      ParseParameter.builder()
+        .file(documentToParse.getFile())
+        .fileName(documentToParse.getFilename())
+        .build());
+  }
+
+  public <T extends Inference> Document<T> parse(
+    Class<T> type,
+    DocumentToParse documentToParse,
+    boolean includeWords,
+    PageOptions pageOptions) throws IOException {
+
+    byte[] splitFile;
+
+    if (FileUtils.getFileExtension(documentToParse.getFilename())
+      .equalsIgnoreCase("pdf")) {
+      splitFile = pdfOperation.split(
+        new SplitQuery(documentToParse.getFile(), pageOptions)).getFile();
+    } else {
+      splitFile = documentToParse.getFile();
+    }
+
+    return this.mindeeApi.predict(
+      type,
+      ParseParameter.builder()
+        .file(splitFile)
         .fileName(documentToParse.getFilename())
         .includeWords(includeWords)
         .build());

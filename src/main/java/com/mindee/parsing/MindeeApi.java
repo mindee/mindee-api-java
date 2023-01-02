@@ -41,7 +41,7 @@ public final class MindeeApi {
     HttpPost post = new HttpPost(buildUrl(endpointAnnotation));
     MultipartEntityBuilder builder = MultipartEntityBuilder.create();
     builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
-    builder.addBinaryBody("document", parseParameter.getFileStream(), ContentType.DEFAULT_BINARY, parseParameter.getFileName());
+    builder.addBinaryBody("document", parseParameter.getFile(), ContentType.DEFAULT_BINARY, parseParameter.getFileName());
     if (Boolean.TRUE.equals(parseParameter.getIncludeWords())) {
       builder.addTextBody("include_mvision", "true");
     }
@@ -52,7 +52,7 @@ public final class MindeeApi {
     post.setEntity(entity);
 
     String errorMessage = "Mindee API client : ";
-    PredictResponse<Document<T>> predictResponse = null;
+    PredictResponse<Document<T>> predictResponse;
 
     try (CloseableHttpClient httpClient = HttpClientBuilder.create().build();
          CloseableHttpResponse response = httpClient.execute(post)) {
@@ -82,8 +82,6 @@ public final class MindeeApi {
       errorMessage += " Unhandled - HTTP Status code " + response.getStatusLine().getStatusCode() + " - Content " + contentRead.toString("UTF-8");
     } catch (IOException e) {
       throw new MindeeException(e.getMessage(), e);
-    } finally {
-      parseParameter.getFileStream().close();
     }
 
     throw new MindeeException(errorMessage);
