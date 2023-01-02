@@ -1,6 +1,7 @@
-package com.mindee.parsing;
+package com.mindee.http;
 
 import com.mindee.ParseParameter;
+import com.mindee.parsing.MindeeSettings;
 import com.mindee.parsing.common.Document;
 import com.mindee.parsing.invoice.InvoiceV4Inference;
 import junit.framework.TestCase;
@@ -16,7 +17,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
-class MindeeApiTest extends TestCase {
+public class MindeeHttpApiTest extends TestCase {
 
   MockWebServer mockWebServer = new MockWebServer();
 
@@ -40,7 +41,7 @@ class MindeeApiTest extends TestCase {
       .setBody(new String(Files.readAllBytes(path))));
 
     File file = new File("src/test/resources/data/invoice/invoice.pdf");
-    MindeeApi client = new MindeeApi(new MindeeSettings("abc", url));
+    MindeeHttpApi client = new MindeeHttpApi(new MindeeSettings("abc", url));
     Document<InvoiceV4Inference> document = client.predict(
       InvoiceV4Inference.class,
       ParseParameter.builder()

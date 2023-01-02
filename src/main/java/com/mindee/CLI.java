@@ -4,6 +4,7 @@ import com.mindee.documentparser.Client;
 import com.mindee.documentparser.ParseParameters;
 import com.mindee.model.documenttype.PassportV1Response;
 import com.mindee.model.documenttype.ReceiptV4Response;
+import com.mindee.http.MindeeHttpApi;
 import com.mindee.parsing.MindeeSettings;
 import com.mindee.parsing.common.Document;
 import com.mindee.parsing.invoice.InvoiceV4Inference;
@@ -66,12 +67,14 @@ public class CLI {
 
   @Command(name = "invoice", description = "Invokes the invoice API")
   void invoiceMethod() throws IOException {
-    MindeeClient mindeeClient;
+    MindeeSettings mindeeSettings;
     if (apiKey != null && !apiKey.trim().isEmpty()) {
-      mindeeClient = new MindeeClient(new MindeeSettings());
+      mindeeSettings = new MindeeSettings(apiKey);
     } else {
-      mindeeClient = new MindeeClient();
+      mindeeSettings = new MindeeSettings();
     }
+
+    MindeeClient mindeeClient = getMindeeClient(mindeeSettings);
 
     Document<InvoiceV4Inference> document = mindeeClient.parse(
       InvoiceV4Inference.class,
@@ -106,6 +109,11 @@ public class CLI {
 
     System.out.println(passportV1Response.documentSummary());
   }
+
+  MindeeClient getMindeeClient(MindeeSettings mindeeSettings) {
+    return new MindeeClient(new MindeeHttpApi(mindeeSettings));
+  }
+
 
   Client initClient() {
     Client client = null;
