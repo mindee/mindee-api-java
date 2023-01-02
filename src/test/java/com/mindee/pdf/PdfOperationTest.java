@@ -2,8 +2,10 @@ package com.mindee.pdf;
 
 import com.mindee.parsing.PageOptions;
 import com.mindee.parsing.PageOptionsOperation;
+import com.mindee.utils.MindeeException;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
 
 import java.io.File;
 import java.io.IOException;
@@ -71,5 +73,41 @@ public class PdfOperationTest {
     Assert.assertNotNull(splitPdf);
     Assert.assertNotNull(splitPdf.getFile());
     Assert.assertEquals(9, splitPdf.getTotalPageNumber());
+  }
+
+  @Test
+  public void givenADocumentOtherThantAPdf_whenSplit_mustFail()
+    throws IOException {
+
+    List<Integer> pageNumberToKeep = new ArrayList<>();
+    pageNumberToKeep.add(1);
+    pageNumberToKeep.add(2);
+    pageNumberToKeep.add(3);
+
+    SplitQuery splitQuery = new SplitQuery(
+      Files.readAllBytes(new File("src/test/resources/data/passport/passport.jpeg").toPath()),
+      new PageOptions(pageNumberToKeep, PageOptionsOperation.REMOVE_LISTED_PAGES, 0));
+
+    Assertions.assertThrows(
+      MindeeException.class,
+      () -> pdfOperation.split(splitQuery));
+  }
+
+  @Test
+  public void givenADocumentAndListPagesToRemoveAndMinPagesCondition_whenSplit_mustNotRemovePages()
+    throws IOException {
+
+    List<Integer> pageNumberToKeep = new ArrayList<>();
+    pageNumberToKeep.add(1);
+
+    SplitQuery splitQuery = new SplitQuery(
+      Files.readAllBytes(new File("src/test/resources/data/pdf/multipage_cut-2.pdf").toPath()),
+      new PageOptions(pageNumberToKeep, PageOptionsOperation.REMOVE_LISTED_PAGES, 5));
+
+    SplitPdf splitPdf = pdfOperation.split(splitQuery);
+
+    Assert.assertNotNull(splitPdf);
+    Assert.assertNotNull(splitPdf.getFile());
+    Assert.assertEquals(2, splitPdf.getTotalPageNumber());
   }
 }

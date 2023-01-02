@@ -23,11 +23,17 @@ public final class PdfBoxApi implements PdfOperation {
 
     try (PDDocument originalDocument = PDDocument.load(splitQuery.getFile())) {
       try (PDDocument splitDocument = new PDDocument()) {
-        int pageCount = countPages(splitQuery.getFile());
-        List<Integer> pageRange = getPagesToMerge(splitQuery.getPageOptions(), pageCount);
+        int totalOriginalPages = countPages(splitQuery.getFile());
+
+        if (totalOriginalPages < splitQuery.getPageOptions().getOnMinPages())
+        {
+          return new SplitPdf(splitQuery.getFile(), totalOriginalPages);
+        }
+
+        List<Integer> pageRange = getPageRanges(splitQuery.getPageOptions(), totalOriginalPages);
 
         pageRange.stream()
-          .filter(i -> i < pageCount)
+          .filter(i -> i < totalOriginalPages)
           .forEach(i -> splitDocument.addPage(originalDocument.getPage(i)));
 
         try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
@@ -39,7 +45,7 @@ public final class PdfBoxApi implements PdfOperation {
     }
   }
 
-  private List<Integer> getPagesToMerge(PageOptions pageOptions, Integer numberOfPages) {
+  private List<Integer> getPageRanges(PageOptions pageOptions, Integer numberOfPages) {
     Set<Integer> pages = pageOptions
       .getPages().stream()
       .filter(x -> x > (numberOfPages) * (-1) && x <= (numberOfPages - 1))
