@@ -110,4 +110,24 @@ public class PdfOperationTest {
     Assert.assertNotNull(splitPdf.getFile());
     Assert.assertEquals(2, splitPdf.getTotalPageNumber());
   }
+
+  @Test
+  public void givenADocumentAndNegativeListPagesToKeep_whenSplit_thenReturnsOnlyKeptPages()
+    throws IOException {
+
+    List<Integer> pageNumberToKeep = new ArrayList<>();
+    pageNumberToKeep.add(1);
+    pageNumberToKeep.add(-2);
+    pageNumberToKeep.add(-1);
+
+    SplitQuery splitQuery = new SplitQuery(
+      Files.readAllBytes(new File("src/test/resources/data/pdf/multipage.pdf").toPath()),
+      new PageOptions(pageNumberToKeep, PageOptionsOperation.KEEP_ONLY_LISTED_PAGES, 0));
+
+    SplitPdf splitPdf = pdfOperation.split(splitQuery);
+
+    Assert.assertNotNull(splitPdf);
+    Assert.assertNotNull(splitPdf.getFile());
+    Assert.assertEquals(3, splitPdf.getTotalPageNumber());
+  }
 }
