@@ -2,6 +2,7 @@ package com.mindee.parsing;
 
 import com.mindee.DocumentToParse;
 import com.mindee.MindeeClient;
+import com.mindee.MindeeSettings;
 import com.mindee.parsing.common.Document;
 import com.mindee.parsing.invoice.InvoiceV4Inference;
 import com.mindee.pdf.PdfOperation;
@@ -26,13 +27,6 @@ class MindeeClientTest {
   PdfOperation pdfOperation;
 
   @Test
-  void givenAClientWithMissingConfigured_whenParsed_thenShouldThrowException() {
-    Assertions.assertThrows(
-      IllegalArgumentException.class,
-      () -> new MindeeSettings("", ""));
-  }
-
-  @Test
   void givenAClientForInvoice_withFile_parse_thenShouldCallMindeeApi()
     throws IOException {
 
@@ -51,6 +45,8 @@ class MindeeClientTest {
       new DocumentToParse(file));
 
     Assertions.assertNotNull(document);
+    Mockito.verify(mindeeApi, Mockito.times(1))
+      .predict(Mockito.any(),Mockito.any());
   }
 
   @Test
@@ -74,6 +70,8 @@ class MindeeClientTest {
         ""));
 
     Assertions.assertNotNull(document);
+    Mockito.verify(mindeeApi, Mockito.times(1))
+      .predict(Mockito.any(),Mockito.any());
   }
 
   @Test

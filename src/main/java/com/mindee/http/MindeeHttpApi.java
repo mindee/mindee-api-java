@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mindee.ParseParameter;
 import com.mindee.parsing.EndpointInfo;
 import com.mindee.parsing.MindeeApi;
-import com.mindee.parsing.MindeeSettings;
+import com.mindee.MindeeSettings;
 import com.mindee.parsing.common.Document;
 import com.mindee.parsing.common.Inference;
 import com.mindee.parsing.common.PredictResponse;

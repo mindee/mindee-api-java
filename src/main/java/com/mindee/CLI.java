@@ -5,7 +5,6 @@ import com.mindee.documentparser.ParseParameters;
 import com.mindee.model.documenttype.PassportV1Response;
 import com.mindee.model.documenttype.ReceiptV4Response;
 import com.mindee.http.MindeeHttpApi;
-import com.mindee.parsing.MindeeSettings;
 import com.mindee.parsing.common.Document;
 import com.mindee.parsing.invoice.InvoiceV4Inference;
 import picocli.CommandLine;

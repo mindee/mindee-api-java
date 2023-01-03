@@ -1,7 +1,7 @@
 package com.mindee.http;
 
 import com.mindee.ParseParameter;
-import com.mindee.parsing.MindeeSettings;
+import com.mindee.MindeeSettings;
 import com.mindee.parsing.common.Document;
 import com.mindee.parsing.invoice.InvoiceV4Inference;
 import junit.framework.TestCase;
