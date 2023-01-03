@@ -2,11 +2,11 @@ package com.mindee.parsing;
 
 import com.mindee.DocumentToParse;
 import com.mindee.MindeeClient;
-import com.mindee.MindeeSettings;
 import com.mindee.parsing.common.Document;
 import com.mindee.parsing.invoice.InvoiceV4Inference;
 import com.mindee.pdf.PdfOperation;
 import com.mindee.pdf.SplitPdf;
+import org.apache.commons.codec.binary.Base64;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -131,5 +131,65 @@ class MindeeClientTest {
       .predict(Mockito.any(),Mockito.any());
     Mockito.verify(pdfOperation, Mockito.times(1))
       .split(Mockito.any());
+  }
+
+  @Test
+  void loadDocument_withFile_mustReturnAValidDocumentToParse() throws IOException {
+    mindeeApi = Mockito.mock(MindeeApi.class);
+    pdfOperation = Mockito.mock(PdfOperation.class);
+    client = new MindeeClient(mindeeApi, pdfOperation);
+    File file = new File("src/test/resources/data/invoice/invoice.pdf");
+
+    DocumentToParse documentToParse = client.loadDocument(file);
+
+    Assertions.assertNotNull(documentToParse);
+    Assertions.assertArrayEquals(documentToParse.getFile(), Files.readAllBytes(file.toPath()));
+  }
+
+  @Test
+  void loadDocument_withInputStream_mustReturnAValidDocumentToParse() throws IOException {
+    mindeeApi = Mockito.mock(MindeeApi.class);
+    pdfOperation = Mockito.mock(PdfOperation.class);
+    client = new MindeeClient(mindeeApi, pdfOperation);
+    File file = new File("src/test/resources/data/invoice/invoice.pdf");
+
+    DocumentToParse documentToParse = client.loadDocument(
+      Files.newInputStream(file.toPath()),
+      "");
+
+    Assertions.assertNotNull(documentToParse);
+    Assertions.assertArrayEquals(documentToParse.getFile(), Files.readAllBytes(file.toPath()));
+  }
+
+  @Test
+  void loadDocument_withByteArray_mustReturnAValidDocumentToParse() throws IOException {
+    mindeeApi = Mockito.mock(MindeeApi.class);
+    pdfOperation = Mockito.mock(PdfOperation.class);
+    client = new MindeeClient(mindeeApi, pdfOperation);
+    File file = new File("src/test/resources/data/invoice/invoice.pdf");
+
+    DocumentToParse documentToParse = client.loadDocument(
+      Files.readAllBytes(file.toPath()),
+      "");
+
+    Assertions.assertNotNull(documentToParse);
+    Assertions.assertArrayEquals(documentToParse.getFile(), Files.readAllBytes(file.toPath()));
+  }
+
+  @Test
+  void loadDocument_withBase64Encoded_mustReturnAValidDocumentToParse() throws IOException {
+    mindeeApi = Mockito.mock(MindeeApi.class);
+    pdfOperation = Mockito.mock(PdfOperation.class);
+    client = new MindeeClient(mindeeApi, pdfOperation);
+    File file = new File("src/test/resources/data/invoice/invoice.pdf");
+
+    String encodedFile = Base64.encodeBase64String(Files.readAllBytes(file.toPath()));
+
+    DocumentToParse documentToParse = client.loadDocument(
+      encodedFile,
+      "");
+
+    Assertions.assertNotNull(documentToParse);
+    Assertions.assertArrayEquals(documentToParse.getFile(), Files.readAllBytes(file.toPath()));
   }
 }
