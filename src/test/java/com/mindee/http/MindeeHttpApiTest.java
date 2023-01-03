@@ -54,7 +54,7 @@ public class MindeeHttpApiTest extends TestCase {
     String[] actualLines = document.toString().split(System.lineSeparator());
     String actualSummary = String.join(String.format("%n"), actualLines);
     List<String> expectedLines = Files
-      .readAllLines(Paths.get("src/test/resources/data/invoice/response_v4/summary.txt"));
+      .readAllLines(Paths.get("src/test/resources/data/invoice/response_v4/summary_full.rst"));
     String expectedSummary = String.join(String.format("%n"), expectedLines);
 
     Assertions.assertNotNull(document);
