@@ -21,4 +21,14 @@ public abstract class Inference {
    */
   @JsonProperty("product")
   private Product product;
+
+  @Override
+  public String toString() {
+
+    return
+      String.format("%nInference%n") +
+      String.format("#########%n") +
+      String.format(":Product: %s v%s%n", getProduct().getName(), getProduct().getVersion()) +
+      String.format(":Rotation applied: %s%n", isRotationApplied() ? "Yes" : "No");
+  }
 }

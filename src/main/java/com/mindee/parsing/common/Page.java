@@ -32,9 +32,8 @@ public class Page<T> {
   @Override
   public String toString() {
     return
-      String.format("-------%n") +
         String.format("Page %s%n", this.getPageId()) +
-        String.format("-------%n") +
+        String.format("------%n") +
         prediction.toString();
   }
 }

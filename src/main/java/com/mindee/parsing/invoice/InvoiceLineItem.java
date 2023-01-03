@@ -53,16 +53,16 @@ public class InvoiceLineItem {
     String tax = SummaryHelper.formatAmount(this.taxAmount);
     tax += this.taxRate != null ? String.format(" (%s%%)", SummaryHelper.formatAmount(this.taxRate)) : "";
     String descriptionSummary = (this.description != null ? this.description : "");
-    if (descriptionSummary.length() > 32) {
-      descriptionSummary = descriptionSummary.substring(0, 32) + "...";
+    if (descriptionSummary.length() > 33) {
+      descriptionSummary = descriptionSummary.substring(0, 33) + "...";
     }
 
-    return String.join(" | ",
-      String.format("%-14s", productCodeSummary),
-      String.format("%-6s", quantitySummary),
-      String.format("%-7s", unitPriceSummary),
-      String.format("%-8s", totalAmountSummary),
-      String.format("%-16s", tax),
+    return String.join(" ",
+      String.format("%-22s", productCodeSummary),
+      String.format("%-8s", quantitySummary),
+      String.format("%-9s", unitPriceSummary),
+      String.format("%-10s", totalAmountSummary),
+      String.format("%-18s", tax),
       descriptionSummary
     );
   }

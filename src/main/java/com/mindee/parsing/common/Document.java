@@ -23,15 +23,20 @@ public class Document<T extends Inference> {
    */
   @JsonProperty("name")
   private String filename;
+  /**
+   * The Mindee Id of the current document.
+   */
+  @JsonProperty("id")
+  private String id;
 
   @Override
   public String toString() {
     return
-      String.format("####################%n") +
-        String.format("%s v%s%n", inference.getProduct().getName(), inference.getProduct().getVersion()) +
-        String.format("####################%n") +
+      String.format("########%n") +
+        String.format("Document%n") +
+        String.format("########%n") +
+        String.format(":Mindee ID: %s%n", id) +
         String.format(":Filename: %s%n", filename) +
-        String.format(":Rotation applied: %s%n%n", inference.isRotationApplied() ? "Yes" : "No") +
         inference.toString();
   }
 }

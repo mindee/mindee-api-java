@@ -55,10 +55,16 @@ public class InvoiceV4DocumentPrediction {
     String lineItemsSummary = String.format("%n");
     if (!this.getLineItems().isEmpty()) {
       lineItemsSummary =
-        String.format("%n  Code           | QTY    | Price   | Amount   | Tax (Rate)       | Description%n  ");
+        String.format("%n====================== ======== ========= ========== ================== ====================================%n") +
+        String.format("Code                   QTY      Price     Amount     Tax (Rate)         Description%n") +
+        String.format("====================== ======== ========= ========== ================== ====================================%n");
+
       lineItemsSummary += this.getLineItems().stream()
         .map(InvoiceLineItem::toString)
-        .collect(Collectors.joining(String.format("%n  ")));
+        .collect(Collectors.joining(String.format("%n")));
+
+      lineItemsSummary +=
+        String.format("%n====================== ======== ========= ========== ================== ====================================");
     }
 
     String summary =
@@ -76,22 +82,21 @@ public class InvoiceV4DocumentPrediction {
           .map(PaymentDetailsField::toString)
           .collect(Collectors.joining("%n                 "))) +
         String.format(":Customer name: %s%n", this.getCustomerName()) +
+        String.format(":Customer address: %s%n", this.getCustomerAddress()) +
         String.format(":Customer company registrations: %s%n",
           this.getCustomerCompanyRegistrationFields().stream()
             .map(CompanyRegistrationField::getValue)
             .collect(Collectors.joining("; "))) +
-        String.format(":Customer address: %s%n", this.getCustomerAddress()) +
-        String.format(":Line Items: %s%n", lineItemsSummary) +
+
         String.format(":Taxes: %s%n",
           this.getTaxes().stream()
             .map(TaxField::toString)
             .collect(Collectors.joining("%n       "))) +
+        String.format(":Total net: %s%n", this.getTotalNet()) +
         String.format(":Total taxes: %s%n", SummaryHelper.formatAmount(this.getTotalTaxes())) +
-        String.format(":Total amount excluding taxes: %s%n",
-          this.getTotalNet()) +
-        String.format(":Total amount including taxes: %s%n",
+        String.format(":Total amount: %s%n%n",
           this.getTotalAmount()) +
-        "----------------------";
+        String.format(":Line Items: %s%n", lineItemsSummary);
 
     return SummaryHelper.cleanSummary(summary);
   }

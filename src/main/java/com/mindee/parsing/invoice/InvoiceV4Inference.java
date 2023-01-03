@@ -33,12 +33,12 @@ public class InvoiceV4Inference extends Inference {
   @Override
   public String toString() {
     String summary =
-      String.format("==========%n") +
+      super.toString() +
+        String.format("%n") +
         String.format("Prediction%n") +
         String.format("==========%n") +
         documentPrediction.toString() +
-        String.format("%n%n================%n") +
-        String.format("Page Predictions%n") +
+        String.format("%nPage Predictions%n") +
         String.format("================%n%n") +
         pagesPrediction.stream().map(Page::toString).collect(Collectors.joining(String.format("%n"))) +
         String.format("%n");
