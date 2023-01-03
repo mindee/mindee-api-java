@@ -7,7 +7,9 @@ import com.mindee.parsing.invoice.InvoiceV4Inference;
 import com.mindee.pdf.PdfOperation;
 import com.mindee.pdf.SplitPdf;
 import org.apache.commons.codec.binary.Base64;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
@@ -26,12 +28,18 @@ class MindeeClientTest {
   MindeeApi mindeeApi;
   PdfOperation pdfOperation;
 
+  @BeforeEach
+  public void setUp() {
+
+    mindeeApi = Mockito.mock(MindeeApi.class);
+    pdfOperation = Mockito.mock(PdfOperation.class);
+    client = new MindeeClient(mindeeApi, pdfOperation);
+  }
+
   @Test
   void givenAClientForInvoice_withFile_parse_thenShouldCallMindeeApi()
     throws IOException {
 
-    mindeeApi = Mockito.mock(MindeeApi.class);
-    client = new MindeeClient(mindeeApi);
     File file = new File("src/test/resources/data/invoice/invoice.pdf");
 
     Mockito.when(
@@ -53,8 +61,6 @@ class MindeeClientTest {
   void givenAClientForInvoice_withInputStream_parse_thenShouldCallMindeeApi()
     throws IOException {
 
-    mindeeApi = Mockito.mock(MindeeApi.class);
-    client = new MindeeClient(mindeeApi);
     File file = new File("src/test/resources/data/invoice/invoice.pdf");
 
     Mockito.when(
@@ -78,8 +84,6 @@ class MindeeClientTest {
   void givenAClientForInvoice_withByteArray_parse_thenShouldCallMindeeApi()
     throws IOException {
 
-    mindeeApi = Mockito.mock(MindeeApi.class);
-    client = new MindeeClient(mindeeApi);
     File file = new File("src/test/resources/data/invoice/invoice.pdf");
 
     Mockito.when(
@@ -103,9 +107,6 @@ class MindeeClientTest {
   void givenAClientForInvoiceAndPageOptions_parse_thenShouldOperateCutOnPagesAndCallTheHttpClientCorrectly()
     throws IOException {
 
-    mindeeApi = Mockito.mock(MindeeApi.class);
-    pdfOperation = Mockito.mock(PdfOperation.class);
-    client = new MindeeClient(mindeeApi, pdfOperation);
     File file = new File("src/test/resources/data/invoice/invoice.pdf");
     List<Integer> pageNumberToKeep = new ArrayList<>();
     pageNumberToKeep.add(1);
@@ -135,9 +136,7 @@ class MindeeClientTest {
 
   @Test
   void loadDocument_withFile_mustReturnAValidDocumentToParse() throws IOException {
-    mindeeApi = Mockito.mock(MindeeApi.class);
-    pdfOperation = Mockito.mock(PdfOperation.class);
-    client = new MindeeClient(mindeeApi, pdfOperation);
+
     File file = new File("src/test/resources/data/invoice/invoice.pdf");
 
     DocumentToParse documentToParse = client.loadDocument(file);
@@ -148,9 +147,7 @@ class MindeeClientTest {
 
   @Test
   void loadDocument_withInputStream_mustReturnAValidDocumentToParse() throws IOException {
-    mindeeApi = Mockito.mock(MindeeApi.class);
-    pdfOperation = Mockito.mock(PdfOperation.class);
-    client = new MindeeClient(mindeeApi, pdfOperation);
+
     File file = new File("src/test/resources/data/invoice/invoice.pdf");
 
     DocumentToParse documentToParse = client.loadDocument(
@@ -163,9 +160,7 @@ class MindeeClientTest {
 
   @Test
   void loadDocument_withByteArray_mustReturnAValidDocumentToParse() throws IOException {
-    mindeeApi = Mockito.mock(MindeeApi.class);
-    pdfOperation = Mockito.mock(PdfOperation.class);
-    client = new MindeeClient(mindeeApi, pdfOperation);
+
     File file = new File("src/test/resources/data/invoice/invoice.pdf");
 
     DocumentToParse documentToParse = client.loadDocument(
@@ -178,9 +173,7 @@ class MindeeClientTest {
 
   @Test
   void loadDocument_withBase64Encoded_mustReturnAValidDocumentToParse() throws IOException {
-    mindeeApi = Mockito.mock(MindeeApi.class);
-    pdfOperation = Mockito.mock(PdfOperation.class);
-    client = new MindeeClient(mindeeApi, pdfOperation);
+
     File file = new File("src/test/resources/data/invoice/invoice.pdf");
 
     String encodedFile = Base64.encodeBase64String(Files.readAllBytes(file.toPath()));
