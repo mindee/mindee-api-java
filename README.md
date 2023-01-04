@@ -24,9 +24,11 @@ Configuring and using a client to parse invoices (or receipts, passports, ...)
 ```java
 MindeeClient mindeeClient = new MindeeClient(new MindeeSetings("<MINDEE API KEY>"));
 
+DocumentToParse documentToParse = mindeeClient.loadDocument(new File("src/main/resources/invoices/invoice1.pdf"));
+
 Document<InvoiceV4Inference> invoiceDocument = mindeeClient.parse(
   InvoiceV4Inference.class,
-  new DocumentToParse(new File("src/main/resources/invoices/invoice1.pdf")));
+  documentToParse);
 ```
 
 Client supports multiple input types:
