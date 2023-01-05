@@ -2,11 +2,9 @@ package com.mindee.model.deserialization;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.mindee.model.documenttype.PassportV1Response;
 import com.mindee.model.documenttype.ReceiptV3Response;
 import com.mindee.model.documenttype.ReceiptV3Response.ReceiptDocument;
 import com.mindee.model.documenttype.ReceiptV3Response.ReceiptPage;
-import com.mindee.model.postprocessing.PassportResponsePostProcessor;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
@@ -21,8 +19,7 @@ import java.util.function.UnaryOperator;
 class DocumentResponseDeserializerTest {
 
   private static final List<Class> VERSION_BASED_RESPONSE_TYPES = Arrays.asList(
-    ReceiptV3Response.class,
-    PassportV1Response.class
+    ReceiptV3Response.class
   );
   private static final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -32,26 +29,6 @@ class DocumentResponseDeserializerTest {
       module.addDeserializer(clazz, DocumentResponseDeserializerFactory.documentResponseDeserializerFromResponseClass(clazz));
     }
     objectMapper.registerModule(module);
-  }
-
-  @Test
-  public void givenAPassport_whenDeserialized_ReturnsPassport() throws IOException {
-
-
-    PassportV1Response response = objectMapper.readValue(new File("src/test/resources/data/passport/response_v1/complete.json"),
-      PassportV1Response.class);
-
-    UnaryOperator<PassportV1Response> operator = PassportResponsePostProcessor::reconstructMrz;
-    Function<PassportV1Response, PassportV1Response> finalOperator = operator.compose(
-      PassportResponsePostProcessor::reconstructFullName);
-    Assert.assertNotNull(response);
-    response = finalOperator.apply(response);
-
-    Assert.assertNotNull(response);
-    Assert.assertNotNull(response.getDocument());
-    Assert.assertNotNull(response.getPages());
-    Assert.assertTrue(response.getPages().size() > 0);
-
   }
 
   @Test
