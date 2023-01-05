@@ -4,7 +4,6 @@ import com.mindee.http.Endpoint;
 import com.mindee.model.customdocument.CustomDocumentResponse;
 import com.mindee.model.documenttype.FinancialDocumentResponse;
 import com.mindee.model.documenttype.InvoiceV3Response;
-import com.mindee.model.documenttype.PassportV1Response;
 import com.mindee.model.documenttype.ReceiptV3Response;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
@@ -65,25 +64,6 @@ class DocumentConfigFactoryTest {
     Assert.assertEquals("receipt", endpoint.getKeyName());
     Assert.assertEquals("mindee", endpoint.getOwner());
     Assert.assertEquals("expense_receipts", endpoint.getUrlName());
-
-  }
-
-  @Test
-  void givenOffTheShelfPassportParams_whenFactoryInvoked_shouldReturnCorrectDocumentConfigs() {
-
-    DocumentConfig<PassportV1Response> config = DocumentConfigFactory
-        .getDocumentConfigForOffTheShelfDocType(PassportV1Response.class, "12324343");
-
-    Assert.assertNotNull(config);
-    Assert.assertEquals("passport", config.getDocumentType());
-    Assert.assertTrue(config.getEndpoints().size() == 1);
-    Assert.assertEquals("off_the_shelf", config.getApiType());
-    Endpoint endpoint = config.getEndpoints().get(0);
-    Assert.assertEquals("12324343", endpoint.getApiKey());
-    Assert.assertEquals("1", endpoint.getVersion());
-    Assert.assertEquals("passport", endpoint.getKeyName());
-    Assert.assertEquals("mindee", endpoint.getOwner());
-    Assert.assertEquals("passport", endpoint.getUrlName());
 
   }
 

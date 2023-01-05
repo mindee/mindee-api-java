@@ -1,11 +1,9 @@
 package com.mindee;
 
-import com.mindee.documentparser.Client;
-import com.mindee.documentparser.ParseParameters;
-import com.mindee.model.documenttype.PassportV1Response;
 import com.mindee.http.MindeeHttpApi;
 import com.mindee.parsing.common.Document;
 import com.mindee.parsing.invoice.InvoiceV4Inference;
+import com.mindee.parsing.passport.PassportV1Inference;
 import com.mindee.parsing.receipt.ReceiptV4Inference;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
@@ -66,14 +64,8 @@ public class CLI {
 
   @Command(name = "invoice", description = "Invokes the invoice API")
   void invoiceMethod() throws IOException {
-    MindeeSettings mindeeSettings;
-    if (apiKey != null && !apiKey.trim().isEmpty()) {
-      mindeeSettings = new MindeeSettings(apiKey);
-    } else {
-      mindeeSettings = new MindeeSettings();
-    }
 
-    MindeeClient mindeeClient = getMindeeClient(mindeeSettings);
+    MindeeClient mindeeClient = getMindeeClient();
 
     Document<InvoiceV4Inference> document = mindeeClient.parse(
       InvoiceV4Inference.class,
@@ -85,14 +77,8 @@ public class CLI {
 
   @Command(name = "receipt", description = "Invokes the receipt API")
   void receiptMethod() throws IOException {
-    MindeeSettings mindeeSettings;
-    if (apiKey != null && !apiKey.trim().isEmpty()) {
-      mindeeSettings = new MindeeSettings(apiKey);
-    } else {
-      mindeeSettings = new MindeeSettings();
-    }
 
-    MindeeClient mindeeClient = getMindeeClient(mindeeSettings);
+    MindeeClient mindeeClient = getMindeeClient();
 
     Document<ReceiptV4Inference> document = mindeeClient.parse(
       ReceiptV4Inference.class,
@@ -104,29 +90,29 @@ public class CLI {
 
   @Command(name = "passport", description = "Invokes the passport API")
   void passportMethod() throws IOException {
-    Client client = initClient();
 
-    PassportV1Response passportV1Response = client.loadDocument(file)
-      .parse(PassportV1Response.class, ParseParameters.builder()
-        .documentType("passport")
-        .includeWords(words)
-        .build());
+    MindeeClient mindeeClient = getMindeeClient();
 
-    System.out.println(passportV1Response.documentSummary());
+    Document<PassportV1Inference> document = mindeeClient.parse(
+      PassportV1Inference.class,
+      new DocumentToParse(file),
+      words);
+
+    System.out.println(document.toString());
   }
 
   MindeeClient getMindeeClient(MindeeSettings mindeeSettings) {
     return new MindeeClient(new MindeeHttpApi(mindeeSettings));
   }
 
-
-  Client initClient() {
-    Client client = null;
-    if (apiKey != null) {
-      client = new Client(apiKey);
+  MindeeClient getMindeeClient() {
+    MindeeSettings mindeeSettings;
+    if (apiKey != null && !apiKey.trim().isEmpty()) {
+      mindeeSettings = new MindeeSettings(apiKey);
     } else {
-      client = new Client();
+      mindeeSettings = new MindeeSettings();
     }
-    return client;
+
+    return new MindeeClient(new MindeeHttpApi(mindeeSettings));
   }
 }

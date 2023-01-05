@@ -16,20 +16,10 @@ public final class DocumentResponseDeserializerFactory {
       deserializer = invoiceV3Deserializer();
     if (responseClass.equals(ReceiptV3Response.class))
       deserializer = receiptResponseV3Deserializer();
-    if (responseClass.equals(PassportV1Response.class))
-      deserializer = passportV1Deserializer();
 
     if (deserializer == null)
       throw new RuntimeException(String.format("Deserializer not configured for %s", responseClass.getName()));
     return deserializer;
-  }
-
-  private static <T extends BaseDocumentResponse & PredictionApiResponse<S, U>,
-    S extends DocumentLevelResponse,
-    U extends PageLevelResponse>
-  DocumentResponseDeserializer<T, S, U> passportV1Deserializer() {
-    return new DocumentResponseDeserializer(PassportV1Response::new, PassportV1Response.PassportDocument.class,
-      PassportV1Response.PassportPage.class);
   }
 
   private static <T extends BaseDocumentResponse & PredictionApiResponse<S, U>,

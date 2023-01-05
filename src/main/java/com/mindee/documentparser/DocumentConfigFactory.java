@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.mindee.http.Endpoint;
 import com.mindee.model.deserialization.DocumentResponseDeserializerFactory;
 import com.mindee.model.documenttype.*;
-import com.mindee.model.postprocessing.PassportResponsePostProcessor;
 
 import java.util.Arrays;
 import java.util.List;
@@ -28,15 +27,13 @@ final class DocumentConfigFactory {
   // As we migrate to version based classes, add these to the list
   private static final List<Class> VERSION_BASED_RESPONSE_TYPES = Arrays.asList(
     ReceiptV3Response.class,
-    InvoiceV3Response.class,
-    PassportV1Response.class
+    InvoiceV3Response.class
   );
 
   // Off the shelf response types
   private static final List<Class<? extends BaseDocumentResponse>> RESPONSE_CLASS_TYPES = Arrays.asList(
     ReceiptV3Response.class,
     InvoiceV3Response.class,
-    PassportV1Response.class,
     FinancialDocumentResponse.class
   );
 
@@ -115,23 +112,6 @@ final class DocumentConfigFactory {
           .urlName("invoices")
           .build())
         .build();
-    } else if (responseClassType.equals(PassportV1Response.class)) {
-      UnaryOperator<PassportV1Response> operator = PassportResponsePostProcessor::reconstructMrz;
-      Function<PassportV1Response, PassportV1Response> finalOperator = operator.compose(
-        PassportResponsePostProcessor::reconstructFullName);
-      return DocumentConfig.<PassportV1Response>builder()
-        .apiType(API_TYPE_OFF_THE_SHELF)
-        .documentType("passport")
-        .builtInPostProcessing(finalOperator)
-        .converter((clazz, map) -> OBJECT_MAPPER.convertValue(map, clazz))
-        .endpoint(Endpoint.builder()
-          .apiKey(apiKey)
-          .keyName("passport")
-          .owner(MINDEE)
-          .version("1")
-          .urlName("passport")
-          .build())
-        .build();
     } else if (responseClassType.equals(FinancialDocumentResponse.class)) {
       return DocumentConfig.<T>builder()
         .apiType(API_TYPE_OFF_THE_SHELF)
@@ -173,12 +153,7 @@ final class DocumentConfigFactory {
   }
 
   static <T extends BaseDocumentResponse> ParseParameters parseParametersForResponseType(Class<T> responseType) {
-    if (responseType.equals(PassportV1Response.class)) {
-      return ParseParameters.builder()
-        .documentType(PASSPORT)
-        .accountName(MINDEE)
-        .build();
-    } else if (responseType.equals(FinancialDocumentResponse.class)) {
+    if (responseType.equals(FinancialDocumentResponse.class)) {
       return ParseParameters.builder()
         .documentType(FINANCIAL_DOCUMENT)
         .accountName(MINDEE)
