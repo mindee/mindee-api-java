@@ -1,7 +1,6 @@
 package com.mindee.model.deserialization;
 
 import com.mindee.model.documenttype.*;
-import com.mindee.model.documenttype.invoice.InvoiceV4Response;
 
 public final class DocumentResponseDeserializerFactory {
 
@@ -21,8 +20,6 @@ public final class DocumentResponseDeserializerFactory {
       deserializer = receiptResponseV4Deserializer();
     if (responseClass.equals(PassportV1Response.class))
       deserializer = passportV1Deserializer();
-    if (responseClass.equals(InvoiceV4Response.class))
-      deserializer = invoiceResponseV4Deserializer();
 
     if (deserializer == null)
       throw new RuntimeException(String.format("Deserializer not configured for %s", responseClass.getName()));
@@ -60,13 +57,4 @@ public final class DocumentResponseDeserializerFactory {
     return new DocumentResponseDeserializer(
       ReceiptV4Response::new, ReceiptV4Response.ReceiptDocument.class, ReceiptV4Response.ReceiptPage.class);
   }
-
-  private static <T extends BaseDocumentResponse & PredictionApiResponse<S, U>,
-    S extends DocumentLevelResponse,
-    U extends PageLevelResponse>
-  DocumentResponseDeserializer<T, S, U> invoiceResponseV4Deserializer() {
-    return new DocumentResponseDeserializer(
-      InvoiceV4Response::new, InvoiceV4Response.InvoiceV4Document.class, InvoiceV4Response.InvoiceV4Page.class);
-  }
-
 }
