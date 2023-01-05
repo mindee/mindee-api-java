@@ -7,7 +7,6 @@ import com.mindee.http.DocumentParsingHttpClient;
 import com.mindee.model.customdocument.CustomDocumentResponse;
 import com.mindee.model.documenttype.FinancialDocumentResponse;
 import com.mindee.model.documenttype.InvoiceV3Response;
-import com.mindee.model.documenttype.PassportV1Response;
 import com.mindee.model.documenttype.ReceiptV3Response;
 import com.mindee.model.mappers.FinancialDocumentResponseMapper;
 import com.mindee.utils.PDFUtils;
@@ -182,76 +181,6 @@ public class ClientTest {
 
     Assert.assertEquals(testApiKey, apiKeyCaptor.getAllValues().get(0));
     Assert.assertEquals(RECEIPT_URL, endpointCaptor.getAllValues().get(0));
-  }
-
-  @Test
-  void givenAClientWithPassportConfigured_whenParsed_thenShouldCallTheHttpClientCorrectly()
-      throws IOException {
-
-    Map passportMap = objectMapper.readValue(new File("src/test/resources/data/passport/response_v1/complete.json"),
-        Map.class);
-    Mockito.when(
-        httpClient.parse(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any()))
-        .thenReturn(passportMap);
-    DocumentClient documentClient = client.loadDocument(
-        new File("src/test/resources/data/passport/passport.jpeg"));
-    documentClient.parse(PassportV1Response.class, ParseParameters.builder()
-        .documentType("passport")
-        .build());
-
-    ArgumentCaptor<String> apiKeyCaptor = ArgumentCaptor.forClass(String.class);
-    ArgumentCaptor<String> endpointCaptor = ArgumentCaptor.forClass(String.class);
-    Mockito.verify(httpClient, Mockito.atLeast(1)).parse(Mockito.any(),
-        Mockito.any(), apiKeyCaptor.capture(), endpointCaptor.capture(), Mockito.any());
-
-    Assert.assertEquals(testApiKey, apiKeyCaptor.getAllValues().get(0));
-    Assert.assertEquals(PASSPORT_URL, endpointCaptor.getAllValues().get(0));
-  }
-
-  @Test
-  void givenAClientWithPassportConfigured_whenParsedWithoutParseParam_thenShouldCallTheHttpClientCorrectly()
-      throws IOException {
-
-    Map passportMap = objectMapper.readValue(new File("src/test/resources/data/passport/response_v1/complete.json"),
-        Map.class);
-    Mockito.when(
-        httpClient.parse(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any()))
-        .thenReturn(passportMap);
-    DocumentClient documentClient = client.loadDocument(
-        new File("src/test/resources/data/passport/passport.jpeg"));
-    documentClient.parse(PassportV1Response.class);
-
-    ArgumentCaptor<String> apiKeyCaptor = ArgumentCaptor.forClass(String.class);
-    ArgumentCaptor<String> endpointCaptor = ArgumentCaptor.forClass(String.class);
-    Mockito.verify(httpClient, Mockito.atLeast(1)).parse(Mockito.any(),
-        Mockito.any(), apiKeyCaptor.capture(), endpointCaptor.capture(), Mockito.any());
-
-    Assert.assertEquals(testApiKey, apiKeyCaptor.getAllValues().get(0));
-    Assert.assertEquals(PASSPORT_URL, endpointCaptor.getAllValues().get(0));
-  }
-
-  @Test
-  void givenAClientWithMultipleOffTheShelfConfigured_whenParsed_thenShouldCallTheHttpClientCorrectly()
-      throws IOException {
-
-    Map passportMap = objectMapper.readValue(new File("src/test/resources/data/passport/response_v1/complete.json"),
-        Map.class);
-    Mockito.when(
-        httpClient.parse(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any()))
-        .thenReturn(passportMap);
-    DocumentClient documentClient = client.loadDocument(
-        new File("src/test/resources/data/passport/passport.jpeg"));
-    documentClient.parse(PassportV1Response.class, ParseParameters.builder()
-        .documentType("passport")
-        .build());
-
-    ArgumentCaptor<String> apiKeyCaptor = ArgumentCaptor.forClass(String.class);
-    ArgumentCaptor<String> endpointCaptor = ArgumentCaptor.forClass(String.class);
-    Mockito.verify(httpClient, Mockito.atLeast(1)).parse(Mockito.any(),
-        Mockito.any(), apiKeyCaptor.capture(), endpointCaptor.capture(), Mockito.any());
-
-    Assert.assertEquals(testApiKey, apiKeyCaptor.getAllValues().get(0));
-    Assert.assertEquals(PASSPORT_URL, endpointCaptor.getAllValues().get(0));
   }
 
   @Test
@@ -573,28 +502,6 @@ public class ClientTest {
   }
 
   @Test
-  void givenAClientParsingAPassport_whenAMapReturnedFromHttpClient_thenReturnsCorrectPassport()
-      throws IOException {
-    String passportApiKey = "1232CGDFD843G32";
-    Map passportMap = objectMapper.readValue(new File("src/test/resources/data/passport/response_v1/complete.json"),
-        Map.class);
-    Mockito.when(
-        httpClient.parse(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any()))
-        .thenReturn(passportMap);
-
-    DocumentClient documentClient = client.loadDocument(
-        new File("src/test/resources/data/pdf/multipage_cut-1.pdf"));
-    PassportV1Response passportV1Response = documentClient.parse(PassportV1Response.class,
-        ParseParameters.builder()
-            .documentType("passport")
-            .build());
-
-
-    Assert.assertNotNull(passportV1Response);
-
-  }
-
-  @Test
   void givenAClientParsingAPdfFinDoc_whenAMapReturnedFromHttpClient_thenReturnsCorrectFinDoc()
       throws IOException {
     String receiptApiKey = "1232CGDFD843G32";
@@ -615,56 +522,6 @@ public class ClientTest {
     FinancialDocumentResponse expectedfinDocResponse = objectMapper.convertValue(finDocMap,
         FinancialDocumentResponse.class);
     Assert.assertEquals(expectedfinDocResponse, finDocResponse);
-
-  }
-
-  @Test
-  void givenAConfiguredClient_whenParsedWithAPostProcessor_thenCallsThePostProcessor()
-      throws IOException {
-    String passportApiKey = "1232CGDFD843G32";
-    UnaryOperator<PassportV1Response> operator = spyLambda(UnaryOperator.class, x -> x);
-    Map passportMap = objectMapper.readValue(new File("src/test/resources/data/passport/response_v1/complete.json"),
-        Map.class);
-    Mockito.when(
-        httpClient.parse(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any()))
-        .thenReturn(passportMap);
-
-    DocumentClient documentClient = client.loadDocument(
-        new File("src/test/resources/data/passport/passport.jpeg"));
-    PassportV1Response passportV1Response = documentClient.parse(PassportV1Response.class,
-        ParseParameters.builder()
-            .documentType("passport")
-            .build(),
-        operator);
-
-    Mockito.verify(operator, Mockito.times(1)).apply(Mockito.any(PassportV1Response.class));
-
-  }
-
-  @Test
-  void givenAConfiguredClient_whenPostProcessorReturnsAResult_thenReturnsCorrectDocument()
-      throws IOException {
-    String passportApiKey = "1232CGDFD843G32";
-    UnaryOperator<PassportV1Response> operator = x -> {
-      x.setType("dweugwfw63");
-      return x;
-    };
-    Map passportMap = objectMapper.readValue(new File("src/test/resources/data/passport/response_v1/complete.json"),
-        Map.class);
-    Mockito.when(
-        httpClient.parse(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any()))
-        .thenReturn(passportMap);
-
-    DocumentClient documentClient = client.loadDocument(
-        new File("src/test/resources/data/pdf/multipage.pdf"));
-    PassportV1Response passportV1Response = documentClient.parse(PassportV1Response.class,
-        ParseParameters.builder()
-            .documentType("passport")
-            .build(),
-        operator);
-
-
-    Assert.assertEquals("dweugwfw63", passportV1Response.getType());
 
   }
 
