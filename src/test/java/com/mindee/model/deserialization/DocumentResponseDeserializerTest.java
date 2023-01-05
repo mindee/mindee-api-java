@@ -6,7 +6,6 @@ import com.mindee.model.documenttype.PassportV1Response;
 import com.mindee.model.documenttype.ReceiptV3Response;
 import com.mindee.model.documenttype.ReceiptV3Response.ReceiptDocument;
 import com.mindee.model.documenttype.ReceiptV3Response.ReceiptPage;
-import com.mindee.model.documenttype.ReceiptV4Response;
 import com.mindee.model.postprocessing.PassportResponsePostProcessor;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
@@ -23,7 +22,6 @@ class DocumentResponseDeserializerTest {
 
   private static final List<Class> VERSION_BASED_RESPONSE_TYPES = Arrays.asList(
     ReceiptV3Response.class,
-    ReceiptV4Response.class,
     PassportV1Response.class
   );
   private static final ObjectMapper objectMapper = new ObjectMapper();
@@ -70,29 +68,6 @@ class DocumentResponseDeserializerTest {
     objectMapper.registerModule(module);
     ReceiptV3Response response = objectMapper.readValue(new File("src/test/resources/data/receipt/response_v3/complete.json"),
       ReceiptV3Response.class);
-
-    Assert.assertNotNull(response);
-    Assert.assertNotNull(response.getDocument());
-    Assert.assertNotNull(response.getPages());
-    Assert.assertTrue(response.getPages().size() > 0);
-    response.documentSummary();
-
-  }
-
-  @Test
-  public void givenAReceiptV4_whenDeserialized_ReturnsReceipt() throws IOException {
-
-    ObjectMapper objectMapper = new ObjectMapper();
-    DocumentResponseDeserializer<ReceiptV4Response, ReceiptV4Response.ReceiptDocument,
-      ReceiptV4Response.ReceiptPage> documentResponseDeserializer = new DocumentResponseDeserializer<>(
-      ReceiptV4Response::new, ReceiptV4Response.ReceiptDocument.class, ReceiptV4Response.ReceiptPage.class
-    );
-    SimpleModule module = new SimpleModule();
-    module.addDeserializer(
-      ReceiptV4Response.class, documentResponseDeserializer);
-    objectMapper.registerModule(module);
-    ReceiptV4Response response = objectMapper.readValue(new File("src/test/resources/data/receipt/response_v4/complete.json"),
-      ReceiptV4Response.class);
 
     Assert.assertNotNull(response);
     Assert.assertNotNull(response.getDocument());
