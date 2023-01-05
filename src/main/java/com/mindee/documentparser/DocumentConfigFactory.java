@@ -28,7 +28,6 @@ final class DocumentConfigFactory {
   // As we migrate to version based classes, add these to the list
   private static final List<Class> VERSION_BASED_RESPONSE_TYPES = Arrays.asList(
     ReceiptV3Response.class,
-    ReceiptV4Response.class,
     InvoiceV3Response.class,
     PassportV1Response.class
   );
@@ -36,7 +35,6 @@ final class DocumentConfigFactory {
   // Off the shelf response types
   private static final List<Class<? extends BaseDocumentResponse>> RESPONSE_CLASS_TYPES = Arrays.asList(
     ReceiptV3Response.class,
-    ReceiptV4Response.class,
     InvoiceV3Response.class,
     PassportV1Response.class,
     FinancialDocumentResponse.class
@@ -170,21 +168,6 @@ final class DocumentConfigFactory {
           .urlName("expense_receipts")
           .build())
         .build();
-    } else if (responseClassType.equals(ReceiptV4Response.class)) {
-
-      return DocumentConfig.<ReceiptV4Response>builder()
-        .apiType(API_TYPE_OFF_THE_SHELF)
-        .documentType("receipt")
-        .converter((clazz, map) -> OBJECT_MAPPER.convertValue(map, clazz))
-        .builtInPostProcessing(UnaryOperator.identity())
-        .endpoint(Endpoint.builder()
-          .apiKey(apiKey)
-          .keyName("receipt")
-          .owner(MINDEE)
-          .version("4")
-          .urlName("expense_receipts")
-          .build())
-        .build();
     }
     return null;
   }
@@ -200,8 +183,7 @@ final class DocumentConfigFactory {
         .documentType(FINANCIAL_DOCUMENT)
         .accountName(MINDEE)
         .build();
-    } else if (responseType.equals(ReceiptV3Response.class) || responseType.equals(
-      ReceiptV4Response.class)) {
+    } else if (responseType.equals(ReceiptV3Response.class)) {
       return ParseParameters.builder()
         .documentType(RECEIPT)
         .accountName(MINDEE)
