@@ -15,34 +15,79 @@ import java.util.stream.Collectors;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class InvoiceV4DocumentPrediction {
 
+  /**
+   * Locale information.
+   */
   @JsonProperty("locale")
   private LocaleField localeField;
+  /**
+   * The creation date of the invoice.
+   */
   @JsonProperty("date")
   private DateField invoiceDateField;
+  /**
+   * The invoice number.
+   */
   @JsonProperty("invoice_number")
   private StringField invoiceNumber;
+  /**
+   * The due date of the invoice.
+   */
   @JsonProperty("due_date")
   private DateField dueDateField;
+  /**
+   * The supplier name.
+   */
   @JsonProperty("supplier_name")
   private StringField supplierName;
+  /**
+   * The supplier payment information's.
+   */
   @JsonProperty("supplier_payment_details")
   private List<PaymentDetailsField> supplierFieldPaymentDetails;
+  /**
+   * The supplier company regitration information.
+   */
   @JsonProperty("supplier_company_registrations")
   private List<CompanyRegistrationField> supplierCompanyRegistrationFields;
+  /**
+   * The supplier address.
+   */
   @JsonProperty("supplier_address")
   private StringField supplierAddress;
+  /**
+   * The name of the customer.
+   */
   @JsonProperty("customer_name")
   private StringField customerName;
+  /**
+   * The company registration information for the customer.
+   */
   @JsonProperty("customer_company_registrations")
   private List<CompanyRegistrationField> customerCompanyRegistrationFields;
+  /**
+   * The address of the customer.
+   */
   @JsonProperty("customer_address")
   private StringField customerAddress;
+  /**
+   * The list of the taxes.
+   */
   @JsonProperty("taxes")
   private List<TaxField> taxes;
+  /**
+   * The total amount with tax included.
+   */
   @JsonProperty("total_amount")
   private AmountField totalAmount;
+  /**
+   * The total amount without the tax value.
+   */
   @JsonProperty("total_net")
   private AmountField totalNet;
+  /**
+   * Line items details.
+   */
   @JsonProperty("line_items")
   private List<InvoiceLineItem> lineItems;
 
