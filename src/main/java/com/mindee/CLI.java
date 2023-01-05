@@ -3,10 +3,10 @@ package com.mindee;
 import com.mindee.documentparser.Client;
 import com.mindee.documentparser.ParseParameters;
 import com.mindee.model.documenttype.PassportV1Response;
-import com.mindee.model.documenttype.ReceiptV4Response;
 import com.mindee.http.MindeeHttpApi;
 import com.mindee.parsing.common.Document;
 import com.mindee.parsing.invoice.InvoiceV4Inference;
+import com.mindee.parsing.receipt.ReceiptV4Inference;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Model.CommandSpec;
@@ -85,15 +85,21 @@ public class CLI {
 
   @Command(name = "receipt", description = "Invokes the receipt API")
   void receiptMethod() throws IOException {
-    Client client = initClient();
+    MindeeSettings mindeeSettings;
+    if (apiKey != null && !apiKey.trim().isEmpty()) {
+      mindeeSettings = new MindeeSettings(apiKey);
+    } else {
+      mindeeSettings = new MindeeSettings();
+    }
 
-    ReceiptV4Response receiptResponse = client.loadDocument(file)
-      .parse(ReceiptV4Response.class, ParseParameters.builder()
-        .documentType("receipt")
-        .includeWords(words)
-        .build());
+    MindeeClient mindeeClient = getMindeeClient(mindeeSettings);
 
-    System.out.println(receiptResponse.documentSummary());
+    Document<ReceiptV4Inference> document = mindeeClient.parse(
+      ReceiptV4Inference.class,
+      new DocumentToParse(file),
+      words);
+
+    System.out.println(document.toString());
   }
 
   @Command(name = "passport", description = "Invokes the passport API")
