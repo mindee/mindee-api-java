@@ -15,7 +15,7 @@ import java.util.List;
 class ReceiptV4Test {
 
   @Test
-  void givenAnInvoiceV4_whenDeserialized_MustHaveAValidSummary() throws IOException {
+  void givenAReceiptV4_whenDeserialized_MustHaveAValidSummary() throws IOException {
 
     ObjectMapper objectMapper = new ObjectMapper();
     objectMapper.findAndRegisterModules();
