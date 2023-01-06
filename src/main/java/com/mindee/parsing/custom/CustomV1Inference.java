@@ -1,4 +1,4 @@
-package com.mindee.parsing.customdocument;
+package com.mindee.parsing.custom;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.mindee.parsing.common.Inference;
@@ -9,6 +9,6 @@ import lombok.Getter;
  */
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class CustomDocumentInference extends Inference<CustomDocumentPrediction, CustomDocumentPrediction> {
+public class CustomV1Inference extends Inference<CustomV1DocumentPrediction, CustomV1DocumentPrediction> {
 
 }

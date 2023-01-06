@@ -1,4 +1,4 @@
-package com.mindee.parsing.customdocument;
+package com.mindee.parsing.custom;
 
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -12,7 +12,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 
-class CustomDocumentTest {
+class CustomV1Test {
 
   @Test
   void givenACustomDocument_whenDeserialized_MustHaveAValidSummary() throws IOException {
@@ -21,8 +21,8 @@ class CustomDocumentTest {
     objectMapper.findAndRegisterModules();
 
     JavaType type = objectMapper.getTypeFactory().constructParametricType(PredictResponse.class,
-      CustomDocumentInference.class);
-    PredictResponse<CustomDocumentInference> customDocumentInference = objectMapper.readValue(
+      CustomV1Inference.class);
+    PredictResponse<CustomV1Inference> customDocumentInference = objectMapper.readValue(
       new File("src/test/resources/data/custom/response_v1/complete.json"),
       type);
 

@@ -1,9 +1,11 @@
 package com.mindee;
 
+import com.mindee.parsing.CustomEndpoint;
 import com.mindee.parsing.MindeeApi;
 import com.mindee.parsing.PageOptions;
 import com.mindee.parsing.common.Document;
 import com.mindee.parsing.common.Inference;
+import com.mindee.parsing.custom.CustomV1Inference;
 import com.mindee.pdf.PdfBoxApi;
 import com.mindee.pdf.PdfOperation;
 import com.mindee.pdf.SplitQuery;
@@ -100,6 +102,33 @@ public class MindeeClient {
         .file(getSplitFile(documentToParse, pageOptions))
         .fileName(documentToParse.getFilename())
         .includeWords(includeWords)
+        .build());
+  }
+
+  public Document<CustomV1Inference> parse(
+    DocumentToParse documentToParse,
+    CustomEndpoint customEndpoint) throws IOException {
+
+    return this.mindeeApi.predict(
+      CustomV1Inference.class,
+      customEndpoint,
+      ParseParameter.builder()
+        .file(documentToParse.getFile())
+        .fileName(documentToParse.getFilename())
+        .build());
+  }
+
+  public Document<CustomV1Inference> parse(
+    DocumentToParse documentToParse,
+    CustomEndpoint customEndpoint,
+    PageOptions pageOptions) throws IOException {
+
+    return this.mindeeApi.predict(
+      CustomV1Inference.class,
+      customEndpoint,
+      ParseParameter.builder()
+        .file(getSplitFile(documentToParse, pageOptions))
+        .fileName(documentToParse.getFilename())
         .build());
   }
 

@@ -3,11 +3,11 @@ package com.mindee.parsing;
 import com.mindee.DocumentToParse;
 import com.mindee.MindeeClient;
 import com.mindee.parsing.common.Document;
+import com.mindee.parsing.custom.CustomV1Inference;
 import com.mindee.parsing.invoice.InvoiceV4Inference;
 import com.mindee.pdf.PdfOperation;
 import com.mindee.pdf.SplitPdf;
 import org.apache.commons.codec.binary.Base64;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,6 +34,58 @@ class MindeeClientTest {
     mindeeApi = Mockito.mock(MindeeApi.class);
     pdfOperation = Mockito.mock(PdfOperation.class);
     client = new MindeeClient(mindeeApi, pdfOperation);
+  }
+
+  @Test
+  void givenAClientForCustom_withFile_parse_thenShouldCallMindeeApi()
+    throws IOException {
+
+    File file = new File("src/test/resources/data/invoice/invoice.pdf");
+
+    Mockito.when(
+        mindeeApi.predict(
+          Mockito.any(),
+          Mockito.any()))
+      .thenReturn(new Document<>());
+
+    Document<CustomV1Inference> document = client.parse(
+      new DocumentToParse(file),
+      new CustomEndpoint("", "", ""));
+
+    Assertions.assertNotNull(document);
+    Mockito.verify(mindeeApi, Mockito.times(1))
+      .predict(Mockito.any(),Mockito.any());
+  }
+
+  @Test
+  void givenAClientForCustomAndPageOptions_parse_thenShouldOperateCutOnPagesAndCallTheHttpClientCorrectly()
+    throws IOException {
+
+    File file = new File("src/test/resources/data/invoice/invoice.pdf");
+    List<Integer> pageNumberToKeep = new ArrayList<>();
+    pageNumberToKeep.add(1);
+
+    Mockito.when(
+        mindeeApi.predict(
+          Mockito.any(),
+          Mockito.any()))
+      .thenReturn(new Document<>());
+    Mockito.when(
+        pdfOperation.split(
+          Mockito.any()))
+      .thenReturn(new SplitPdf(new byte[0], 0));
+
+    Document<CustomV1Inference> document = client.parse(
+      CustomV1Inference.class,
+      new DocumentToParse(file),
+      new PageOptions(
+        pageNumberToKeep, PageOptionsOperation.KEEP_ONLY_LISTED_PAGES, 0));
+
+    Assertions.assertNotNull(document);
+    Mockito.verify(mindeeApi, Mockito.times(1))
+      .predict(Mockito.any(),Mockito.any());
+    Mockito.verify(pdfOperation, Mockito.times(1))
+      .split(Mockito.any());
   }
 
   @Test

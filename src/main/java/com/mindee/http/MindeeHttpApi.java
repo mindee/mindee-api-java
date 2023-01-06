@@ -3,6 +3,8 @@ package com.mindee.http;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mindee.ParseParameter;
+import com.mindee.parsing.CustomEndpoint;
+import com.mindee.parsing.CustomEndpointInfo;
 import com.mindee.parsing.EndpointInfo;
 import com.mindee.parsing.MindeeApi;
 import com.mindee.MindeeSettings;
@@ -36,12 +38,42 @@ public final class MindeeHttpApi implements MindeeApi {
     Class<T> clazz,
     ParseParameter parseParameter) throws MindeeException, IOException {
 
+    EndpointInfo endpointAnnotation = clazz.getAnnotation(EndpointInfo.class);
+    CustomEndpoint customEndpoint;
+
+    // that means it could be custom document
+    if(endpointAnnotation == null) {
+      CustomEndpointInfo customEndpointAnnotation = clazz.getAnnotation(CustomEndpointInfo.class);
+      if(customEndpointAnnotation == null) {
+        throw new MindeeException("The class is not supported as a prediction model. " +
+          "The endpoint attribute is missing. " +
+          "Please refer to the document or contact the support.");
+      }
+      customEndpoint = new CustomEndpoint(
+        customEndpointAnnotation.endpointName(),
+        customEndpointAnnotation.accountName(),
+        customEndpointAnnotation.version());
+    }
+    else {
+      customEndpoint = new CustomEndpoint(
+        endpointAnnotation.endpointName(),
+        endpointAnnotation.accountName(),
+        endpointAnnotation.version());
+    }
+
+    return predict(clazz, customEndpoint, parseParameter);
+  }
+
+  public <T extends Inference> Document<T> predict(
+    Class<T> clazz,
+    CustomEndpoint customEndpoint,
+    ParseParameter parseParameter)
+    throws MindeeException, IOException {
+
     // required, to register jackson dateonly module format to deserialize
     mapper.findAndRegisterModules();
 
-    EndpointInfo endpointAnnotation = clazz.getAnnotation(EndpointInfo.class);
-
-    HttpPost post = new HttpPost(buildUrl(endpointAnnotation));
+    HttpPost post = new HttpPost(buildUrl(customEndpoint));
     MultipartEntityBuilder builder = MultipartEntityBuilder.create();
     builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
     builder.addBinaryBody("document", parseParameter.getFile(), ContentType.DEFAULT_BINARY, parseParameter.getFileName());
@@ -90,6 +122,7 @@ public final class MindeeHttpApi implements MindeeApi {
     throw new MindeeException(errorMessage);
   }
 
+
   private boolean is2xxStatusCode(int statusCode) {
 
     return statusCode >= 200 && statusCode <= 299;
@@ -117,19 +150,14 @@ public final class MindeeHttpApi implements MindeeApi {
     return String.format("mindee-api-java@v%s java-v%s %s", sdkVersion, javaVersion, osName);
   }
 
-  private String buildUrl(EndpointInfo endpointInfo) {
-
-    if (endpointInfo == null) {
-      throw new MindeeException("The endpoint attribute is missing. " +
-        "Please refer to the document or contact the support.");
-    }
+  private String buildUrl(CustomEndpoint customEndpoint) {
 
     return this.mindeeSettings.getBaseUrl() + "/products/" +
-      endpointInfo.accountName() +
+      customEndpoint.getAccountName() +
       "/" +
-      endpointInfo.endpointName() +
+      customEndpoint.getEndpointName() +
       "/v" +
-      endpointInfo.version() +
+      customEndpoint.getVersion() +
       "/predict";
   }
 }

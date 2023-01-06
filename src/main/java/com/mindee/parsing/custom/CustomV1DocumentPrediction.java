@@ -1,4 +1,4 @@
-package com.mindee.parsing.customdocument;
+package com.mindee.parsing.custom;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.mindee.parsing.SummaryHelper;
@@ -9,7 +9,7 @@ import java.util.TreeMap;
 
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class CustomDocumentPrediction extends HashMap<String, ListField> {
+public class CustomV1DocumentPrediction extends HashMap<String, ListField> {
 
   @Override
   public String toString() {

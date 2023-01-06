@@ -1,4 +1,4 @@
-package com.mindee.parsing.customdocument;
+package com.mindee.parsing.custom;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
