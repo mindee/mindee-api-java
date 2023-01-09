@@ -12,13 +12,13 @@ public @interface CustomEndpointInfo {
   String endpointName();
 
   /**
-   * The name of the account that owns the API. Useful when using custom builder.
+   * The name of the account that owns the API. Required when using custom builder.
    */
   String accountName();
 
   /**
    * The version number of the API. Without the v (for example for the v1.2: 1.2).
-   * 1.0 by default.
+   * 1 by default.
    */
-  String version() default "1.0";
+  String version() default "1";
 }
