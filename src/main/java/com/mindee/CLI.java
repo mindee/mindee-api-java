@@ -1,7 +1,9 @@
 package com.mindee;
 
 import com.mindee.http.MindeeHttpApi;
+import com.mindee.parsing.CustomEndpoint;
 import com.mindee.parsing.common.Document;
+import com.mindee.parsing.custom.CustomV1Inference;
 import com.mindee.parsing.invoice.InvoiceV4Inference;
 import com.mindee.parsing.passport.PassportV1Inference;
 import com.mindee.parsing.receipt.ReceiptV4Inference;
@@ -101,9 +103,31 @@ public class CLI {
     System.out.println(document.toString());
   }
 
-  MindeeClient getMindeeClient(MindeeSettings mindeeSettings) {
-    return new MindeeClient(new MindeeHttpApi(mindeeSettings));
+  @Command(name = "custom", description = "Invokes a builder API")
+  void customMethod(
+    @Parameters(
+      index = "0",
+      scope = ScopeType.INHERIT,
+      paramLabel = "<path>") File file,
+    @Parameters(
+      index = "1",
+      scope = ScopeType.LOCAL,
+      paramLabel = "<accountName>") String accountName,
+    @Parameters(
+      index = "2",
+      scope = ScopeType.LOCAL,
+      paramLabel = "<productName>") String productName
+  ) throws IOException {
+
+    MindeeClient mindeeClient = getMindeeClient();
+
+    Document<CustomV1Inference> document = mindeeClient.parse(
+      new DocumentToParse(file),
+      new CustomEndpoint(productName, accountName, "1"));
+
+    System.out.println(document.toString());
   }
+
 
   MindeeClient getMindeeClient() {
     MindeeSettings mindeeSettings;
