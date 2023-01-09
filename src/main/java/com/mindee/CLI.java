@@ -39,19 +39,6 @@ public class CLI {
     description = "Flag to set all words")
   boolean words;
 
-  @Option(names = {"-C",
-    "--no-cut-doc"},
-    scope = ScopeType.INHERIT,
-    paramLabel = "<NoCutDoc>",
-    description = "Flag to not cut a document")
-  boolean noCutDoc;
-
-  @Option(names = {"-p",
-    "--doc-pages"},
-    scope = ScopeType.INHERIT,
-    description = "Number of document pages to cut by")
-  int cutPages;
-
   @Option(names = {"-k",
     "--api-key"},
     scope = ScopeType.INHERIT,
