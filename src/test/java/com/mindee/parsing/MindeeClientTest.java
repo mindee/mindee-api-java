@@ -2,6 +2,7 @@ package com.mindee.parsing;
 
 import com.mindee.DocumentToParse;
 import com.mindee.MindeeClient;
+import com.mindee.ParseParameter;
 import com.mindee.parsing.common.Document;
 import com.mindee.parsing.custom.CustomV1Inference;
 import com.mindee.parsing.invoice.InvoiceV4Inference;
@@ -45,6 +46,7 @@ class MindeeClientTest {
     Mockito.when(
         mindeeApi.predict(
           Mockito.any(),
+          Mockito.any(),
           Mockito.any()))
       .thenReturn(new Document<>());
 
@@ -54,7 +56,7 @@ class MindeeClientTest {
 
     Assertions.assertNotNull(document);
     Mockito.verify(mindeeApi, Mockito.times(1))
-      .predict(Mockito.any(),Mockito.any());
+      .predict(Mockito.any(), Mockito.any(), Mockito.any());
   }
 
   @Test
@@ -68,6 +70,7 @@ class MindeeClientTest {
     Mockito.when(
         mindeeApi.predict(
           Mockito.any(),
+          Mockito.any(),
           Mockito.any()))
       .thenReturn(new Document<>());
     Mockito.when(
@@ -76,14 +79,14 @@ class MindeeClientTest {
       .thenReturn(new SplitPdf(new byte[0], 0));
 
     Document<CustomV1Inference> document = client.parse(
-      CustomV1Inference.class,
       new DocumentToParse(file),
+      new CustomEndpoint("", "", ""),
       new PageOptions(
         pageNumberToKeep, PageOptionsOperation.KEEP_ONLY_LISTED_PAGES, 0));
 
     Assertions.assertNotNull(document);
     Mockito.verify(mindeeApi, Mockito.times(1))
-      .predict(Mockito.any(),Mockito.any());
+      .predict(Mockito.any(), Mockito.any(), Mockito.any());
     Mockito.verify(pdfOperation, Mockito.times(1))
       .split(Mockito.any());
   }
