@@ -1,7 +1,7 @@
 package com.mindee.utils.geometry;
 
-import com.mindee.model.geometry.Point;
-import com.mindee.model.geometry.Polygon;
+import com.mindee.geometry.Point;
+import com.mindee.geometry.Polygon;
 import java.util.Arrays;
 import java.util.List;
 import java.util.OptionalDouble;

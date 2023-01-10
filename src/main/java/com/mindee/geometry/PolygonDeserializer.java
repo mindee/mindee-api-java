@@ -1,4 +1,4 @@
-package com.mindee.model.deserialization;
+package com.mindee.geometry;
 
 import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.core.JsonParser;
@@ -7,7 +7,6 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.mindee.model.geometry.Polygon;
 import com.mindee.utils.geometry.PolygonUtils;
 import java.io.IOException;
 import java.util.List;
