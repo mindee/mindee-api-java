@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 public class LicensePlatesV1DocumentPrediction {
 
   /**
-   * A list of license plates values.
+   * A list of license plates.
    */
   @JsonProperty("license_plates")
   private List<StringField> licensePlates = new ArrayList<>();

@@ -17,11 +17,14 @@ Include the following maven dependency in your project to use the helper library
 </dependency>
 ```
 
-### Usage
+## Loading a File and Parsing It
 The `Client` class is the entry point for most of the helper library features.
 
-Configuring and using a client to parse invoices (or receipts, passports, ...)
+### Global Documents
 ```java
+import com.mindee.parsing;
+import com.mindee.parsing.invoice;
+
 MindeeClient mindeeClient = new MindeeClient(new MindeeSetings("<MINDEE API KEY>"));
 
 DocumentToParse documentToParse = mindeeClient.loadDocument(new File("src/main/resources/invoices/invoice1.pdf"));
@@ -29,6 +32,35 @@ DocumentToParse documentToParse = mindeeClient.loadDocument(new File("src/main/r
 Document<InvoiceV4Inference> invoiceDocument = mindeeClient.parse(
   InvoiceV4Inference.class,
   documentToParse);
+```
+
+### Region-Specific Documents
+```java
+import com.mindee.parsing;
+import com.mindee.parsing.us.bankcheck;
+
+MindeeClient mindeeClient = new MindeeClient(new MindeeSetings("<MINDEE API KEY>"));
+
+DocumentToParse documentToParse = mindeeClient.loadDocument(new File("src/main/resources/invoices/invoice1.pdf"));
+
+Document<BankCheckV1Inference> bankCheckDocument = mindeeClient.parse(
+  BankCheckV1Inference.class,
+  documentToParse);
+```
+
+### Custom Documents (API Builder)
+```java
+import com.mindee.parsing;
+import com.mindee.parsing.custom;
+
+MindeeClient mindeeClient = new MindeeClient(new MindeeSetings("<MINDEE API KEY>"));
+CustomEndpoint customEndpoint = new CustomEndpoint("myProductName", "myAccountName", "myModelVersion");
+
+DocumentToParse documentToParse = mindeeClient.loadDocument(new File("src/main/resources/invoices/invoice1.pdf"));
+
+Document<CustomV1Inference> customDocument = mindeeClient.parse(
+  documentToParse,
+  new CustomEndpoint());
 ```
 
 Client supports multiple input types:

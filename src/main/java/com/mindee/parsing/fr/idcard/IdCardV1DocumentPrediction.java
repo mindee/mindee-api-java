@@ -48,17 +48,17 @@ public class IdCardV1DocumentPrediction {
   @JsonProperty("given_names")
   private List<StringField> givenNames = new ArrayList<>();
   /**
-   * The id number of the card.
+   * The ID number of the card.
    */
   @JsonProperty("id_number")
   private StringField idNumber;
   /**
-   * The first mrz value.
+   * The first MRZ value.
    */
   @JsonProperty("mrz1")
   private StringField mrz1;
   /**
-   * The second mrz value.
+   * The second MRZ value.
    */
   @JsonProperty("mrz2")
   private StringField mrz2;
