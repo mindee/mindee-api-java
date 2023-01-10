@@ -6,7 +6,7 @@ import com.mindee.parsing.common.Inference;
 import lombok.Getter;
 
 /**
- * The eu licence plates model for the v1.
+ * The EU licence plates model for the v1.
  */
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)

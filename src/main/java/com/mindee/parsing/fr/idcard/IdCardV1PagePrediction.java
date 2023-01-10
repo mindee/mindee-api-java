@@ -13,7 +13,7 @@ import lombok.Getter;
 public class IdCardV1PagePrediction extends IdCardV1DocumentPrediction {
 
   /**
-   * Indicates if it is the recto, the verso or the both of it.
+   * Indicates if it is the recto side, the verso side, or both.
    */
   @JsonProperty("document_side")
   private StringField documentSide;
