@@ -146,11 +146,13 @@ public class CLI {
     @Parameters(
       index = "1",
       scope = ScopeType.LOCAL,
-      paramLabel = "<accountName>") String accountName,
-    @Parameters(
-      index = "2",
+      paramLabel = "<productName>") String productName,
+    @Option(names = {"-an",
+      "--account-name"},
       scope = ScopeType.LOCAL,
-      paramLabel = "<productName>") String productName
+      required = true,
+      paramLabel = "accountName",
+      description = "The name of the account") String accountName
   ) throws IOException {
 
     MindeeClient mindeeClient = getMindeeClient();
