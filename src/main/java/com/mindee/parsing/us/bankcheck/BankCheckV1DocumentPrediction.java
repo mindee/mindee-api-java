@@ -30,7 +30,7 @@ public class BankCheckV1DocumentPrediction {
   @JsonProperty("amount")
   private AmountField amount;
   /**
-   * Payer's bank account number.
+   * The check number.
    */
   @JsonProperty("check_number")
   private StringField checkNumber;
@@ -55,7 +55,7 @@ public class BankCheckV1DocumentPrediction {
   @JsonProperty("routing_number")
   private StringField routingNumber;
   /**
-   * Signatures' positions in the image.
+   * The positions of the signatures on the image.
    */
   @JsonProperty("signatures_positions")
   private List<PositionField> signaturesPositions = new ArrayList<>();

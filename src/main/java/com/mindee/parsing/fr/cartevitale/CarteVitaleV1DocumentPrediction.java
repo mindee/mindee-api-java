@@ -33,7 +33,7 @@ public class CarteVitaleV1DocumentPrediction {
   @JsonProperty("social_security")
   private StringField socialSecurityNumber;
   /**
-   * Date the check was issued.
+   * Date the card  was issued.
    */
   @JsonProperty("issuance_date")
   private DateField issuanceDate;

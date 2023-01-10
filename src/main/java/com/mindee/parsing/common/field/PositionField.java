@@ -8,7 +8,7 @@ import com.mindee.geometry.PolygonDeserializer;
 import lombok.Getter;
 
 /**
- * List of all detected cropped elements in the image.
+ * A detected element in the image.
  */
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
