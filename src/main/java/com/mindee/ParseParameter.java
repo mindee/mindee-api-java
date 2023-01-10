@@ -1,6 +1,5 @@
 package com.mindee;
 
-import com.mindee.documentparser.PageOptions;
 import lombok.Builder;
 import lombok.Value;
 

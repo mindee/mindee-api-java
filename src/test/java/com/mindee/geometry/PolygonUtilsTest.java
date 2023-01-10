@@ -1,4 +1,4 @@
-package com.mindee.model.geometry;
+package com.mindee.geometry;
 
 import static org.junit.Assert.assertThrows;
 
