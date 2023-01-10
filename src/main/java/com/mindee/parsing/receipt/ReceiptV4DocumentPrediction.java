@@ -36,6 +36,16 @@ public class ReceiptV4DocumentPrediction {
   @JsonProperty("category")
   private StringField category;
   /**
+   * The subcategory of purchase among a certain list of it (see official documentation for the list).
+   */
+  @JsonProperty("subcategory")
+  private StringField subCategory;
+  /**
+   * The type of the parsed document (see official documentation for the list).
+   */
+  @JsonProperty("document_type")
+  private DocumentTypeField documentType;
+  /**
    * Merchant's name as seen on the receipt.
    */
   @JsonProperty("supplier")
@@ -73,6 +83,8 @@ public class ReceiptV4DocumentPrediction {
       String.format(":Locale: %s%n", this.getLocaleField()) +
         String.format(":Date: %s%n", this.getDate()) +
         String.format(":Category: %s%n", this.getCategory()) +
+        String.format(":Subcategory: %s%n", this.getSubCategory()) +
+        String.format(":Document type: %s%n", this.getDocumentType()) +
         String.format(":Time: %s%n", this.getTime()) +
         String.format(":Supplier name: %s%n", this.getSupplierName()) +
         String.format(":Taxes: %s%n",
