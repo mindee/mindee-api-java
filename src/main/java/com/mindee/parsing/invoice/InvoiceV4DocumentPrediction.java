@@ -31,6 +31,11 @@ public class InvoiceV4DocumentPrediction {
   @JsonProperty("invoice_number")
   private StringField invoiceNumber;
   /**
+   * List of Reference numbers including PO number.
+   */
+  @JsonProperty("reference_numbers")
+  private List<StringField> referenceNumbers;
+  /**
    * The due date of the invoice.
    */
   @JsonProperty("due_date")
@@ -115,6 +120,10 @@ public class InvoiceV4DocumentPrediction {
     String summary =
       String.format(":Locale: %s%n", this.getLocaleField()) +
         String.format(":Invoice number: %s%n", this.getInvoiceNumber()) +
+        String.format(":Reference numbers: %s%n",
+          this.getReferenceNumbers().stream()
+            .map(StringField::toString)
+            .collect(Collectors.joining(", "))) +
         String.format(":Invoice date: %s%n", this.getInvoiceDateField()) +
         String.format(":Invoice due date: %s%n", this.getDueDateField()) +
         String.format(":Supplier name: %s%n", this.getSupplierName()) +
