@@ -15,7 +15,7 @@ import java.util.List;
 class PassportV1Test {
 
   @Test
-  void givenAnInvoiceV4_whenDeserialized_MustHaveAValidSummary() throws IOException {
+  void givenAPassportV1_whenDeserialized_MustHaveAValidSummary() throws IOException {
 
     ObjectMapper objectMapper = new ObjectMapper();
     objectMapper.findAndRegisterModules();
