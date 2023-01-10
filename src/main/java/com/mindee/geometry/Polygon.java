@@ -1,7 +1,7 @@
-package com.mindee.model.geometry;
+package com.mindee.geometry;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.mindee.model.deserialization.PolygonDeserializer;
+
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Builder;

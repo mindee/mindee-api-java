@@ -1,4 +1,4 @@
-package com.mindee.documentparser;
+package com.mindee;
 
 import java.util.List;
 import lombok.Builder;
