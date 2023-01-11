@@ -65,7 +65,7 @@ public class CLI {
   @Command(name = "invoice", description = "Invokes the invoice API")
   void invoiceMethod() throws IOException {
 
-    MindeeClient mindeeClient = getMindeeClient();
+    MindeeClient mindeeClient = MindeeClientInit.create(apiKey);
 
     Document<InvoiceV4Inference> document;
 
@@ -90,7 +90,7 @@ public class CLI {
   @Command(name = "receipt", description = "Invokes the receipt API")
   void receiptMethod() throws IOException {
 
-    MindeeClient mindeeClient = getMindeeClient();
+    MindeeClient mindeeClient = MindeeClientInit.create(apiKey);
 
     Document<ReceiptV4Inference> document;
 
@@ -115,7 +115,7 @@ public class CLI {
   @Command(name = "passport", description = "Invokes the passport API")
   void passportMethod() throws IOException {
 
-    MindeeClient mindeeClient = getMindeeClient();
+    MindeeClient mindeeClient = MindeeClientInit.create(apiKey);
 
     Document<PassportV1Inference> document;
 
@@ -155,7 +155,7 @@ public class CLI {
       description = "The name of the account") String accountName
   ) throws IOException {
 
-    MindeeClient mindeeClient = getMindeeClient();
+    MindeeClient mindeeClient =  MindeeClientInit.create(apiKey);
 
     Document<CustomV1Inference> document;
     CustomEndpoint customEndpoint = new CustomEndpoint(productName, accountName, "1");
@@ -186,16 +186,5 @@ public class CLI {
     pageNumbers.add(4);
 
     return new PageOptions(pageNumbers, PageOptionsOperation.KEEP_ONLY_LISTED_PAGES);
-  }
-
-  MindeeClient getMindeeClient() {
-    MindeeSettings mindeeSettings;
-    if (apiKey != null && !apiKey.trim().isEmpty()) {
-      mindeeSettings = new MindeeSettings(apiKey);
-    } else {
-      mindeeSettings = new MindeeSettings();
-    }
-
-    return new MindeeClient(new MindeeHttpApi(mindeeSettings));
   }
 }
