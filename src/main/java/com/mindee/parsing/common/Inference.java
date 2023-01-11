@@ -29,7 +29,7 @@ public abstract class Inference<T, U> {
    * The prediction on each pages of the document.
    */
   @JsonProperty("pages")
-  private ArrayList<Page<T>> pagesPrediction;
+  private ArrayList<Page<T>> pages;
   /**
    * The prediction on the document level.
    */
@@ -50,7 +50,7 @@ public abstract class Inference<T, U> {
         documentPrediction.toString() +
         String.format("%nPage Predictions%n") +
         String.format("================%n%n") +
-        pagesPrediction.stream().map(Page::toString).collect(Collectors.joining(String.format("%n"))) +
+        pages.stream().map(Page::toString).collect(Collectors.joining(String.format("%n"))) +
         String.format("%n");
 
     return SummaryHelper.cleanSummary(summary);
