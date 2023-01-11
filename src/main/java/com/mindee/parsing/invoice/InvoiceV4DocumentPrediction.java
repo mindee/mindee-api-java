@@ -49,12 +49,12 @@ public class InvoiceV4DocumentPrediction {
    * The supplier payment information's.
    */
   @JsonProperty("supplier_payment_details")
-  private List<PaymentDetailsField> supplierFieldPaymentDetails;
+  private List<PaymentDetailsField> supplierPaymentDetails;
   /**
    * The supplier company regitration information.
    */
   @JsonProperty("supplier_company_registrations")
-  private List<CompanyRegistrationField> supplierCompanyRegistrationFields;
+  private List<CompanyRegistrationField> supplierCompanyRegistrations;
   /**
    * The supplier address.
    */
@@ -69,7 +69,7 @@ public class InvoiceV4DocumentPrediction {
    * The company registration information for the customer.
    */
   @JsonProperty("customer_company_registrations")
-  private List<CompanyRegistrationField> customerCompanyRegistrationFields;
+  private List<CompanyRegistrationField> customerCompanyRegistrations;
   /**
    * The address of the customer.
    */
@@ -129,16 +129,16 @@ public class InvoiceV4DocumentPrediction {
         String.format(":Supplier name: %s%n", this.getSupplierName()) +
         String.format(":Supplier address: %s%n", this.getSupplierAddress()) +
         String.format(":Supplier company registrations: %s%n",
-          this.getSupplierCompanyRegistrationFields().stream()
+          this.getSupplierCompanyRegistrations().stream()
             .map(CompanyRegistrationField::getValue)
             .collect(Collectors.joining("; "))) +
-        String.format(":Supplier payment details: %s%n", this.getSupplierFieldPaymentDetails().stream()
+        String.format(":Supplier payment details: %s%n", this.getSupplierPaymentDetails().stream()
           .map(PaymentDetailsField::toString)
           .collect(Collectors.joining("%n                 "))) +
         String.format(":Customer name: %s%n", this.getCustomerName()) +
         String.format(":Customer address: %s%n", this.getCustomerAddress()) +
         String.format(":Customer company registrations: %s%n",
-          this.getCustomerCompanyRegistrationFields().stream()
+          this.getCustomerCompanyRegistrations().stream()
             .map(CompanyRegistrationField::getValue)
             .collect(Collectors.joining("; "))) +
 
