@@ -183,7 +183,7 @@ Regardless of the model, it will be encapsulated in a `Document` object and ther
 #### Inference
 Regroup the prediction on all the pages of the document and the prediction for all the document.
 * `documentPrediction` — [Document level prediction](#document-level-prediction)
-* `pagesPrediction` — [Page level prediction](#page-level-prediction)
+* `pages` — [Page level prediction](#page-level-prediction)
 
 #### Document Level Prediction
 The Response object for each document type has an attribute that represents data extracted from the entire document. It's possible to have the same field in various pages, but at the document level only the highest confidence field data will be shown (this is all done automatically at the API level).
