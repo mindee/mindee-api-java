@@ -9,6 +9,6 @@ import lombok.Getter;
  */
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class CustomV1Inference extends Inference<CustomV1DocumentPrediction, CustomV1DocumentPrediction> {
+public class CustomV1Inference extends Inference<CustomV1PagePrediction, CustomV1DocumentPrediction> {
 
 }
