@@ -43,7 +43,7 @@ Document<CustomV1Inference> customDocument = mindeeClient.parse(documentToParse,
 ```java
 
 // The CustomEndpointInfo annotation is required when using your own model.
-// It will be used to know which Mindee API called.
+// It will be used to know which Mindee API to call.
 
 public class WNineV1DocumentPrediction {
   @JsonProperty("name")
