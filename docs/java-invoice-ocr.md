@@ -16,7 +16,7 @@ Document<InvoiceV4Inference> invoiceDocument = mindeeClient.parse(InvoiceV4Infer
 // Print a summary of the parsed data
 logger.info(invoiceDocument.toString());
 ```
-
+Output:
 ```rst
 ########
 Document
@@ -232,7 +232,7 @@ invoiceDocument.getInference().getDocumentPrediction().getSupplierPaymentDetails
 
 ### Line items
 
-**`LineItems`** (List<InvoiceLineItem>):  Line items details. Each object in the list contains :
+**`LineItems`** (List<InvoiceLineItem>):  Line items details. Each object in the list contains:
 * `productCode` (String)
 * `description` (String)
 * `quantity` (Double)

@@ -1,4 +1,4 @@
-The JAVA SDK OCR SDK supports the  API  [Licenses plate OCR](https://developers.mindee.com/docs/license-plates-ocr-nodejs)  for extracting data from pictures (or documents) of cars.
+The JAVA SDK OCR SDK supports the [Licenses plate OCR API](https://developers.mindee.com/docs/license-plates-ocr-nodejs)  for extracting license plates from pictures (or documents) of vehicles.
 
 Using this [sample photo](https://files.readme.io/ffc127d-sample_receipt.jpg) below, we are going to illustrate how to extract the data that we want using the OCR SDK.
 ![sample receipt](https://files.readme.io/fd6086e-license_plate.jpg)
@@ -9,7 +9,7 @@ Using this [sample photo](https://files.readme.io/ffc127d-sample_receipt.jpg) be
 MindeeClient client = MindeeClientInit.create("<your mindee api key>");
 
 // Load a file from disk and parse it
-DocumentToParse documentToParse = mindeeClient.loadDocument(new File("./a74eaa5-c8e283b-sample_invoice.jpeg"));
+DocumentToParse documentToParse = mindeeClient.loadDocument(new File("./fd6086e-license_plate.jpg"));
 Document<LicensePlatesV1Inference> licensePlatesDocument =
  mindeeClient.parse(LicensePlatesV1Inference.class, documentToParse);
 

@@ -186,8 +186,9 @@ Regroup the prediction on all the pages of the document and the prediction for a
 * `pages` — [Page level prediction](#page-level-prediction)
 
 #### Document Level Prediction
-The Response object for each document type has an attribute that represents data extracted from the entire document. It's possible to have the same field in various pages, but at the document level only the highest confidence field data will be shown (this is all done automatically at the API level).
-
+The Response object for each document type has an attribute that represents data extracted from the entire document.
+It's possible to have the same field in various pages, but at the document level only the highest confidence field data 
+will be shown (this is all done automatically at the API level).
 
 ```java
 Document<InvoiceV4Inference> invoiceDocument = 
@@ -203,12 +204,12 @@ logger.info(invoiceResponse.documentPrediction.toString());
 
 ```
 
-Each inference specific class will have its own specific attributes, which correspond to the various fields extracted from the document.
+Each inference specific class will have its own specific attributes, these correspond to the various fields extracted from the document.
 
 
 #### Page Level Prediction
-The `pagesPrediction` attribute is a list of `prediction` object, often of the same class as the [`documentPrediction` attribute](#document-level-prediction).
-But sometimes, it could have a different class which will extends the `documentPrediction` class.
+The `pagesPrediction` attribute is a list of `prediction` objects, often of the same class as the [`documentPrediction` attribute](#document-level-prediction).
+But sometimes, it could have a different class which would extend the `documentPrediction` class.
 
 Each page element contains the data extracted for a particular page of the document.
 
