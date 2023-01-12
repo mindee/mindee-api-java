@@ -6,6 +6,8 @@ For the following examples, we are using our own [W9s custom API](https://develo
 ## Quick Start
 
 ```java
+String path = "/path/to/the/file.ext";
+DocumentToParse documentToParse = new DocumentToParse(new File(path));
 CustomEndpoint myEndpoint = new CustomEndpoint(
     "wnine",
     "john",
@@ -28,7 +30,7 @@ You have two different ways to parse a custom document.
 1. Use the default one (named ``CustomPrediction``):
 ```java
 
-String path = "/my/path/myfile.ext";
+String path = "/path/to/the/file.ext";
 DocumentToParse documentToParse = new DocumentToParse(new File(path));
 CustomEndpoint myEndpoint = new CustomEndpoint(
     "wnine",
@@ -60,7 +62,7 @@ public class WNineV1Inference
   extends Inference Inference<WNineV1DocumentPrediction, WNineV1DocumentPrediction> {
 }
 
-String path = "/my/path/myfile.ext";
+String path = "/path/to/the/file.ext";
 DocumentToParse documentToParse = new DocumentToParse(new File(path));
 
 Document<WNineV1Inference> myCustomDocument = mindeeClient
@@ -68,7 +70,8 @@ Document<WNineV1Inference> myCustomDocument = mindeeClient
 ```
 
 ## CustomV1Inference object
-All the fields which are defined in the API builder when creating your custom document, are available.
+All the fields which are present in the API builder 
+are available (the fields are defined when creating your custom API).
 
 `CustomV1Inference` is an object which contains a document prediction and pages prediction result.
 ### `CustomV1PagePrediction` 
@@ -92,7 +95,7 @@ A Map with the following structure:
 In the examples below we'll use the `employer_id` field.
 
 ```java
-String path = "/my/path/myfile.ext";
+String path = "/path/to/the/file.ext";
 DocumentToParse documentToParse = new DocumentToParse(new File(path));
 
 Document<WNineV1Inference> myCustomDocument = mindeeClient
