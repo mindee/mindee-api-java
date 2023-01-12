@@ -47,7 +47,7 @@ public class CarteVitaleV1DocumentPrediction {
           .map(StringField::toString)
           .collect(Collectors.joining(", "))) +
         String.format(":Surname: %s%n", this.getSurname()) +
-        String.format(":ID Number: %s%n", this.getSocialSecurityNumber()) +
+        String.format(":Social Security Number: %s%n", this.getSocialSecurityNumber()) +
         String.format(":Issuance date: %s%n", this.getIssuanceDate());
 
     return SummaryHelper.cleanSummary(summary);
