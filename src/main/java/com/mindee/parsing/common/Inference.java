@@ -8,8 +8,11 @@ import lombok.Getter;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
+
 /**
- * The inference.
+ * Common inference data.
+ * @param <T> Page prediction (could be the same that U).
+ * @param <U> Document prediction (could be the same that T).
  */
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
