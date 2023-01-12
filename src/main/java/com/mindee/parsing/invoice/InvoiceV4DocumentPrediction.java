@@ -21,6 +21,11 @@ public class InvoiceV4DocumentPrediction {
   @JsonProperty("locale")
   private LocaleField localeField;
   /**
+   * The type of the parsed document (see official documentation for the list).
+   */
+  @JsonProperty("document_type")
+  private DocumentTypeField documentType;
+  /**
    * The creation date of the invoice.
    */
   @JsonProperty("date")
@@ -119,6 +124,7 @@ public class InvoiceV4DocumentPrediction {
 
     String summary =
       String.format(":Locale: %s%n", this.getLocaleField()) +
+      String.format(":Document type: %s%n", this.getDocumentType()) +
         String.format(":Invoice number: %s%n", this.getInvoiceNumber()) +
         String.format(":Reference numbers: %s%n",
           this.getReferenceNumbers().stream()
