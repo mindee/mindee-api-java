@@ -2,7 +2,6 @@ package com.mindee.parsing;
 
 import com.mindee.DocumentToParse;
 import com.mindee.MindeeClient;
-import com.mindee.ParseParameter;
 import com.mindee.parsing.common.Document;
 import com.mindee.parsing.custom.CustomV1Inference;
 import com.mindee.parsing.invoice.InvoiceV4Inference;
@@ -34,7 +33,7 @@ class MindeeClientTest {
 
     mindeeApi = Mockito.mock(MindeeApi.class);
     pdfOperation = Mockito.mock(PdfOperation.class);
-    client = new MindeeClient(mindeeApi, pdfOperation);
+    client = new MindeeClient(pdfOperation, mindeeApi);
   }
 
   @Test

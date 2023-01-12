@@ -6,7 +6,6 @@ import com.mindee.parsing.PageOptions;
 import com.mindee.parsing.common.Document;
 import com.mindee.parsing.common.Inference;
 import com.mindee.parsing.custom.CustomV1Inference;
-import com.mindee.pdf.PdfBoxApi;
 import com.mindee.pdf.PdfOperation;
 import com.mindee.pdf.SplitQuery;
 import com.mindee.utils.FileUtils;
@@ -21,15 +20,10 @@ public class MindeeClient {
   private final PdfOperation pdfOperation;
 
   public MindeeClient(
+    PdfOperation pdfOperation,
     MindeeApi mindeeApi) {
-    this.mindeeApi = mindeeApi;
-    this.pdfOperation = new PdfBoxApi();
-  }
-  public MindeeClient(
-    MindeeApi mindeeApi,
-    PdfOperation pdfOperation) {
-    this.mindeeApi = mindeeApi;
     this.pdfOperation = pdfOperation;
+    this.mindeeApi = mindeeApi;
   }
 
   public DocumentToParse loadDocument(InputStream fileStream,
