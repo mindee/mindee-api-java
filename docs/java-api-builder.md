@@ -71,10 +71,14 @@ Document<WNineV1Inference> myCustomDocument = mindeeClient
 All the fields which are defined in the API builder when creating your custom document, are available.
 
 `CustomV1Inference` is an object which contains a document prediction and pages prediction result.
-Both property are a `CustomV1DocumentPrediction` (because there are no differences between results) which is a `HashMap<String, ListField>` with the key as a `string` for the name of the field, and a `ListField` as a value.
-Each `ListField` contains a list of all values extracted for this field. 
+### `CustomV1PagePrediction` 
+Which is a `HashMap<String, ListField>` with the key as a `string` for the name of the field, and a `ListField` as a value.
 
-Value fields are accessed via the `Values` of the `ListField` property.
+### `CustomV1DocumentPrediction` 
+Which contains 2 properties : `classificationFields` and `fields`. 
+Both are a Map and the key is a `string` for the name of the field and for the value :
+* `classificationFields` have a `ClassificationField` object as value. Each `ClassificationField` contains a value.
+* `fields` have a `ListField` object as value. Each `ListField` contains a list of all values extracted for this field.
 
 > 📘 **Info**
 >
