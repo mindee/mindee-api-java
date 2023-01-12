@@ -1,4 +1,4 @@
-The .NET OCR SDK supports the [Bank Checks OCR](https://developers.mindee.com/docs/bank-check-ocr) for extracting data from bank checks.
+The JAVA OCR SDK supports the [Bank Checks OCR API](https://developers.mindee.com/docs/bank-check-ocr) for extracting data from bank checks.
 
 ## Quick Start
 ```java
@@ -6,7 +6,7 @@ The .NET OCR SDK supports the [Bank Checks OCR](https://developers.mindee.com/do
 MindeeClient client = MindeeClientInit.create("<your mindee api key>");
 
 // Load a file from disk and parse it
-DocumentToParse documentToParse = mindeeClient.loadDocument(new File("./a74eaa5-c8e283b-sample_invoice.jpeg"));
+DocumentToParse documentToParse = mindeeClient.loadDocument(new File("./path/to/the/file.ext"));
 Document<BankCheckV1Inference> bankCheckDocument =
  mindeeClient.parse(BankCheckV1Inference.class, documentToParse);
 

@@ -1,4 +1,4 @@
-The JAVA OCR SDK supports the  API  [Shipping containers OCR](https://developers.mindee.com/docs/shipping-containers-ocr) for extracting data from pictures of containers identification.
+The JAVA OCR SDK supports the [Shipping containers OCR API](https://developers.mindee.com/docs/shipping-containers-ocr) for extracting data from pictures of containers identification.
 
 Using this [sample](https://files.readme.io/853f15a-shipping_containers.jpg) below, we are going to illustrate how to extract the data that we want using the OCR SDK.
 ![sample](https://files.readme.io/853f15a-shipping_containers.jpg)
@@ -9,7 +9,7 @@ Using this [sample](https://files.readme.io/853f15a-shipping_containers.jpg) bel
 MindeeClient client = MindeeClientInit.create("<your mindee api key>");
 
 // Load a file from disk and parse it
-DocumentToParse documentToParse = mindeeClient.loadDocument(new File("./a74eaa5-c8e283b-sample_invoice.jpeg"));
+DocumentToParse documentToParse = mindeeClient.loadDocument(new File("./853f15a-shipping_containers.jpg"));
 Document<ShippingContainerV1Inference> shippingContainersDocument =
  mindeeClient.parse(ShippingContainerV1Inference.class, documentToParse);
 

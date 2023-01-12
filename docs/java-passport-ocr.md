@@ -9,7 +9,7 @@ Using this [sample passport](https://files.readme.io/4a16b1d-passport_pic.jpg) b
 MindeeClient client = MindeeClientInit.create("<your mindee api key>");
 
 // Load a file from disk and parse it
-DocumentToParse documentToParse = mindeeClient.loadDocument(new File("./a74eaa5-c8e283b-sample_invoice.jpeg"));
+DocumentToParse documentToParse = mindeeClient.loadDocument(new File("./4a16b1d-passport_pic.jpg"));
 Document<PassportV1Inference> passportDocument =
  mindeeClient.parse(PassportV1Inference.class, documentToParse);
 

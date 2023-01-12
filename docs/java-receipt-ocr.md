@@ -1,4 +1,4 @@
-The .NET OCR SDK supports the [receipt API](https://developers.mindee.com/docs/receipt-ocr) for extracting data from receipts.
+The JAVA OCR SDK supports the [receipt API](https://developers.mindee.com/docs/receipt-ocr) for extracting data from receipts.
 
 Using this [sample receipt](https://files.readme.io/ffc127d-sample_receipt.jpg) below, we are going to illustrate how to extract the data that we want using the OCR SDK.
 ![sample receipt](https://files.readme.io/ffc127d-sample_receipt.jpg)
@@ -9,7 +9,7 @@ Using this [sample receipt](https://files.readme.io/ffc127d-sample_receipt.jpg) 
 MindeeClient client = MindeeClientInit.create("<your mindee api key>");
 
 // Load a file from disk and parse it
-DocumentToParse documentToParse = mindeeClient.loadDocument(new File("./a74eaa5-c8e283b-sample_invoice.jpeg"));
+DocumentToParse documentToParse = mindeeClient.loadDocument(new File("./ffc127d-sample_receipt.jpg"));
 Document<ReceiptV4Inference> receiptDocument =
  mindeeClient.parse(ReceiptV4Inference.class, documentToParse);
 
