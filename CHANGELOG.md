@@ -1,5 +1,25 @@
 # Mindee Java API Library Changelog
 
+## v3.0.0 - 2023-01-16
+### ¡Breaking Changes!
+:recycle: Mindee class become MindeeClient 
+:recycle: enable the possibility to use your own pdf implementation
+:recycle: improve the creation of MindeeClient and reduce deps
+
+### Changes
+* :sparkles: support document as stream
+* :sparkles: support tax base on Receipt V4
+* :sparkles: support EU License plates V1
+* :sparkles: support US Bank check V1
+* :sparkles: support FR Carte vitale V1
+* :sparkles: support FR Id Card
+* :sparkles: support Shipping container V1
+* :sparkles: support Receipt V4.1
+* :sparkles: support Invoice V4.1
+* :sparkles: support Custom document as object from API Builder
+* :memo: improve documentation
+* :memo: update Custom V1 to include classification
+
 ## v2.1.0 - 2022-12-12
 ### Changes
 * :sparkles: Add support for Invoice v4
