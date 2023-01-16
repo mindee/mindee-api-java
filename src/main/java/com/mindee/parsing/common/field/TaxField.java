@@ -27,6 +27,11 @@ public class TaxField extends BaseField {
    */
   @JsonProperty("rate")
   private Double rate;
+  /**
+   * The tax base.
+   */
+  @JsonProperty("base")
+  private Double base;
 
   @Override
   public String toString() {
@@ -42,6 +47,10 @@ public class TaxField extends BaseField {
     if (code != null) {
       stringBuilder.append(" ");
       stringBuilder.append(code);
+    }
+    if (base != null) {
+      stringBuilder.append(" ");
+      stringBuilder.append(base);
     }
     return stringBuilder.toString().trim();
   }
