@@ -27,15 +27,6 @@ public class ListField {
   @JsonProperty("values" )
   private List<ListFieldValue> values = new ArrayList<>();
 
-  /**
-   * used to handle the particular case of classification type.
-   * @param value the value of the document type.
-   */
-  @JsonSetter("value")
-  private void setValueForClassification(String value) {
-    values.add(new ListFieldValue(value));
-  }
-
   @Override
   public String toString() {
 
