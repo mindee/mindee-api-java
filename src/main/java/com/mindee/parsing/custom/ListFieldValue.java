@@ -31,14 +31,6 @@ public class ListFieldValue {
   @JsonProperty("content")
   private String content;
 
-  // For Jackson
-  private ListFieldValue() {
-  }
-
-  public ListFieldValue(String content) {
-    this.content = content;
-  }
-
   @Override
   public String toString() {
     return content == null ? "" : content;
