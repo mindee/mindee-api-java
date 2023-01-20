@@ -28,6 +28,11 @@ public class Document<T extends Inference> {
    */
   @JsonProperty("id")
   private String id;
+  /**
+   * Ocr result information.
+   */
+  @JsonProperty("ocr")
+  private Ocr ocr;
 
   @Override
   public String toString() {

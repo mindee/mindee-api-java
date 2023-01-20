@@ -50,7 +50,7 @@ public class TaxField extends BaseField {
     }
     if (base != null) {
       stringBuilder.append(" ");
-      stringBuilder.append(base);
+      stringBuilder.append(SummaryHelper.formatAmount(base));
     }
     return stringBuilder.toString().trim();
   }

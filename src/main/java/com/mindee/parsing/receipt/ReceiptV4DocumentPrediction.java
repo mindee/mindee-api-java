@@ -7,6 +7,7 @@ import com.mindee.parsing.common.field.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -54,7 +55,7 @@ public class ReceiptV4DocumentPrediction {
    * List of taxes detected on the receipt.
    */
   @JsonProperty("taxes")
-  private List<TaxField> taxes;
+  private List<TaxField> taxes = new ArrayList<>();
   /**
    * total spent including taxes, discounts, fees, tips, and gratuity.
    */
