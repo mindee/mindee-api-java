@@ -10,7 +10,7 @@ import lombok.Getter;
  */
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class AllWord {
+public class Word {
 
   /**
    * The confidence about the zone of the value extracted.

@@ -22,8 +22,8 @@ public class Ocr {
     return
         mVisionV1.getPages()
           .stream()
-          .map(p -> p.getAllWords()
-            .stream().map(w -> w.getText())
+          .map(p -> p.getWords()
+            .stream().map(Word::getText)
             .collect(
               Collectors.joining(" ")))
           .collect(Collectors.joining(" "));
