@@ -15,5 +15,5 @@ import java.util.List;
 public class OcrPage {
 
   @JsonProperty("all_words")
-  private List<AllWord> allWords = new ArrayList<>();
+  private List<Word> words = new ArrayList<>();
 }
