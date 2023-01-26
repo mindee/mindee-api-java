@@ -40,14 +40,15 @@ logger.info(invoiceDocument.toString());
 ```
 
 Complete details on the working of the library are available in the following guides:
-* [Overview](java-getting-started)
-* [Java Custom OCR](java-api-builder)
-* [Java Invoice OCR](java-invoice-ocr)
-* [Java Receipt OCR](java-receipt-ocr)
-* [Java Passport OCR](java-passport-ocr)
-* [Java Licenses plates OCR](java-passport-ocr)
-* [Java Shipping containers OCR](java-passport-ocr)
-* [Java US Bank Check OCR](java-passport-ocr)
+* [Overview](./java-getting-started)
+* [Java Custom OCR](./java-api-builder)
+* [Java Invoice OCR](./java-invoice-ocr)
+* [Java Receipt OCR](./java-receipt-ocr)
+* [Java Passport OCR](./java-passport-ocr)
+* [Java Licenses plates OCR](./java-passport-ocr)
+* [Java Shipping containers OCR](./java-passport-ocr)
+* [Java US Bank Check OCR](./java-passport-ocr)
+* [Java Proof of Address OCR](./java-proof-of-address-ocr)
 
 You can view the source code on [GitHub](https://github.com/mindee/mindee-api-java).
 
