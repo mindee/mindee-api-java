@@ -49,6 +49,7 @@ Complete details on the working of the library are available in the following gu
 * [Java Shipping containers OCR](./java-passport-ocr)
 * [Java US Bank Check OCR](./java-passport-ocr)
 * [Java Proof of Address OCR](./java-proof-of-address-ocr)
+* [Java Financial Document OCR](./java-financial-document-ocr)
 
 You can view the source code on [GitHub](https://github.com/mindee/mindee-api-java).
 
