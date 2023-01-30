@@ -47,8 +47,8 @@ public class ProofOfAddressV1DocumentPrediction {
   /**
    * Generic: VAT NUMBER, TAX ID, COMPANY REGISTRATION NUMBER or country specific.
    */
-  @JsonProperty("issuer_company_registrations")
-  private List<StringField> issuerCompanyRegistrations = new ArrayList<>();
+  @JsonProperty("issuer_company_registration")
+  private List<StringField> issuerCompanyRegistration = new ArrayList<>();
   /**
    * Name of the document's recipient.
    */
@@ -62,8 +62,8 @@ public class ProofOfAddressV1DocumentPrediction {
   /**
    * Generic: VAT NUMBER, TAX ID, COMPANY REGISTRATION NUMBER or country specific.
    */
-  @JsonProperty("recipient_company_registrations")
-  private List<CompanyRegistrationField> recipientCompanyRegistrations = new ArrayList<>();
+  @JsonProperty("recipient_company_registration")
+  private List<CompanyRegistrationField> recipientCompanyRegistration = new ArrayList<>();
 
   @Override
   public String toString() {
@@ -73,13 +73,13 @@ public class ProofOfAddressV1DocumentPrediction {
         String.format(":Issuer name: %s%n", this.getIssuerName()) +
         String.format(":Issuer Address: %s%n", this.getIssuerAddress()) +
         String.format(":Issuer Company Registrations: %s%n",
-          this.issuerCompanyRegistrations.stream()
+          this.issuerCompanyRegistration.stream()
             .map(StringField::toString)
             .collect(Collectors.joining(" "))) +
         String.format(":Recipient name: %s%n", this.getRecipientName()) +
         String.format(":Recipient Address: %s%n", this.getRecipientAddress()) +
         String.format(":Recipient Company Registrations: %s%n",
-          this.issuerCompanyRegistrations.stream()
+          this.issuerCompanyRegistration.stream()
             .map(StringField::toString)
             .collect(Collectors.joining(" "))) +
         String.format(":Issuance date: %s%n", this.getIssuanceDate()) +
