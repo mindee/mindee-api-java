@@ -80,7 +80,7 @@ public class FinancialV1DocumentPrediction {
   /**
    * The payment information's.
    */
-  @JsonProperty("payment_details")
+  @JsonProperty("supplier_payment_details")
   private List<PaymentDetailsField> paymentDetails = new ArrayList<>();
   /**
    * The list of the taxes.
@@ -164,7 +164,7 @@ public class FinancialV1DocumentPrediction {
           this.getSupplierCompanyRegistrations().stream()
             .map(CompanyRegistrationField::getValue)
             .collect(Collectors.joining("; "))) +
-        String.format(":Payment details: %s%n", this.getPaymentDetails().stream()
+        String.format(":Supplier payment details: %s%n", this.getPaymentDetails().stream()
           .map(PaymentDetailsField::toString)
           .collect(Collectors.joining("%n                 "))) +
         String.format(":Customer name: %s%n", this.getCustomerName()) +
