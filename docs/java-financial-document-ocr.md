@@ -19,8 +19,6 @@ MindeeClient client = MindeeClientInit.create("<your mindee api key>");
 
 Output:
 ```
-Prediction
-==========
 :Document type: INVOICE
 :Category: miscellaneous
 :Subcategory:

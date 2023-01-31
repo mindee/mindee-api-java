@@ -19,13 +19,11 @@ MindeeClient client = MindeeClientInit.create("<your mindee api key>");
 
 Output:
 ```
-Prediction
-==========
 :Locale: en; en; USD;
 :Issuer name: PPL ELECTRIC UTILITIES
 :Issuer Address: 2 NORTH 9TH STREET CPC-GENN1 ALLENTOWN,PA 18101-1175
 :Issuer Company Registrations:
-:Recipient name:
+:Recipient name: CUSTOMER
 :Recipient Address: 123 MAIN ST ANYTOWN,PA 18062
 :Recipient Company Registrations:
 :Issuance date: 2011-07-27
@@ -41,7 +39,6 @@ Prediction
         2009-08-01
         2010-07-01
         2011-07-27
-
 ```
 
 &nbsp;
