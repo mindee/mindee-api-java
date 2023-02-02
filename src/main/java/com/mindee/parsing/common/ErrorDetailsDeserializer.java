@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 
 import java.io.IOException;
-import java.io.NotSerializableException;
 
 public class ErrorDetailsDeserializer extends StdDeserializer<ErrorDetails> {
 
@@ -31,7 +30,7 @@ public class ErrorDetailsDeserializer extends StdDeserializer<ErrorDetails> {
     } else if (node.isTextual()) {
       details = node.textValue();
     } else {
-      throw new NotSerializableException();
+      throw new IllegalStateException("The JSON type is not handled.");
     }
 
     return new ErrorDetails(details);
