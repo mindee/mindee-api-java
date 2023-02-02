@@ -16,7 +16,7 @@ public class Error {
    * Details about it.
    */
   @JsonProperty("details")
-  private String details;
+  private ErrorDetails details;
   /**
    * More precise information about the current error.
    */
