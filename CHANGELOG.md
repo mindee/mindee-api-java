@@ -1,5 +1,19 @@
 # Mindee Java API Library Changelog
 
+## v3.1.0 - 2023-02-02
+### Changes
+:sparkles: support Financial Document V1
+:sparkles: support proof of address V1
+:sparkles: support Ocr property for Invoice and Receipt
+:recycle:! using IllegalStateException instead of NotSerializableException
+:sparkles: add default constructors for ListFieldValue
+:pencil2: some renaming on Financial V1 and Proof of Address V1
+
+### Fixes
+:bug:! Details property in Error become an object because it can handle both string and object
+
+### Changes
+
 ## v3.0.0 - 2023-01-16
 ### ¡Breaking Changes!
 :recycle: Mindee class become MindeeClient 
