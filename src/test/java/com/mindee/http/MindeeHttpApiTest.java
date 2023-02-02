@@ -67,21 +67,25 @@ public class MindeeHttpApiTest extends TestCase {
     throws IOException {
 
     String url = String.format("http://localhost:%s", mockWebServer.getPort());
-    Path path = Paths.get("src/test/resources/data/errors/with_object_response_in_detail.json");
+    Path path = Paths.get("src/test/resources/data/errors/complete_with_object_response_in_detail.json");
     mockWebServer.enqueue(new MockResponse()
       .setResponseCode(400)
       .setBody(new String(Files.readAllBytes(path))));
 
     File file = new File("src/test/resources/data/invoice/invoice.pdf");
     MindeeHttpApi client = new MindeeHttpApi(new MindeeSettings("abc", url));
+    byte[] fileInBytes = Files.readAllBytes(file.toPath());
+    ParseParameter parseParameter =
+      ParseParameter.builder()
+      .file(fileInBytes)
+      .fileName(file.getName())
+      .build();
 
     Assertions.assertThrows(
       MindeeException.class,
       () -> client.predict(
         InvoiceV4Inference.class,
-        ParseParameter.builder()
-          .file(Files.readAllBytes(file.toPath()))
-          .fileName(file.getName())
-          .build()));
+        parseParameter)
+    );
   }
 }
