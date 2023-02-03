@@ -10,7 +10,12 @@
   <name>Mindee Java Helper Library</name>
   <description>Java Library to call Mindee's Off The Shelf and Custom APIs</description>
   <url>https://github.com/mindee/mindee-api-java</url>
-
+  <licenses>
+    <license>
+      <name>MIT License</name>
+      <url>https://github.com/mindee/mindee-api-java/blob/main/LICENSE</url>
+    </license>
+  </licenses>
   <developers>
     <developer>
       <name>Mindee team</name>
