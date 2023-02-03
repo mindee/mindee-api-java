@@ -1,6 +1,5 @@
 package com.mindee.geometry;
 
-import com.mindee.utils.geometry.BoundingBoxUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

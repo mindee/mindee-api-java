@@ -2,7 +2,6 @@ package com.mindee.geometry;
 
 import static org.junit.Assert.assertThrows;
 
-import com.mindee.utils.geometry.PolygonUtils;
 import java.util.Arrays;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
