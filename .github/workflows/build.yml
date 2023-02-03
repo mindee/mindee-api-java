@@ -32,3 +32,6 @@ jobs:
 
       - name: Verify with Maven
         run: mvn --update-snapshots verify
+
+      - name: Check style
+        run: mvn checkstyle:check
