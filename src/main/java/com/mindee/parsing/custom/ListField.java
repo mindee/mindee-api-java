@@ -24,7 +24,16 @@ public class ListField {
    * List of defined values available in a field.
    */
   @JsonProperty("values" )
-  private List<ListFieldValue> values = new ArrayList<>();
+  private List<ListFieldValue> values;
+
+  public ListField() {
+    this.values = new ArrayList<>();
+  }
+
+  public ListField(double confidence, List<ListFieldValue> values) {
+    this.confidence = confidence;
+    this.values = values;
+  }
 
   @Override
   public String toString() {

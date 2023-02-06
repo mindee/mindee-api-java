@@ -9,57 +9,60 @@ import org.junit.jupiter.api.Test;
 class LineGeneratorTest {
 
   @Test
-  public void prepareLinesWith2ValuesOnEachLineWithPolygonValuesOnExactlyTheSameAxis() {
+  void prepareLinesWith2ValuesOnEachLineWithPolygonValuesOnExactlyTheSameAxis() {
     Anchor anchor = new Anchor("names");
 
-    Collection<Line> table = LineGenerator.prepareLines(FakeFields.getWith2ValuesByExpectedLines(), anchor);
+    Collection<Line> table = LineGenerator.prepareLines(
+      FakeListField.getWith2ValuesByExpectedLines(),
+      anchor
+    );
 
     Assertions.assertEquals(2, table.size());
   }
 
   @Test
-  public void prepareLinesWith1FieldValueForTheLastLine() {
+  void prepareLinesWith1FieldValueForTheLastLine() {
     Anchor anchor = new Anchor("names");
 
     Collection<Line> table = LineGenerator.prepareLines(
-        FakeFields.getWith1FieldValueForTheLastLine(), anchor);
+        FakeListField.getWith1FieldValueForTheLastLine(), anchor);
 
     Assertions.assertEquals(3, table.size());
   }
 
   @Test
-  public void prepareLinesWith1ExpectedLine() {
+  void prepareLinesWith1ExpectedLine() {
     Anchor anchor = new Anchor("names");
 
     Collection<Line> table = LineGenerator.prepareLines(
-        FakeFields.getWith1ExpectedLines(), anchor);
+        FakeListField.getWith1ExpectedLines(), anchor);
 
     Assertions.assertEquals(1, table.size());
   }
 
   @Test
-  public void prepareLinesWithPolygonsNotExactlyOnTheSameAxis() {
+  void prepareLinesWithPolygonsNotExactlyOnTheSameAxis() {
     Anchor anchor = new Anchor("names", 0.005d);
 
     Collection<Line> table = LineGenerator.prepareLines(
-        FakeFields.getWithPolygonsNotExactlyOnTheSameAxis(), anchor);
+        FakeListField.getWithPolygonsNotExactlyOnTheSameAxis(), anchor);
 
     Assertions.assertEquals(2, table.size());
   }
 
   @Test
-  public void prepareLinesWichRender2LinesInsteadOfOne() {
+  void prepareLinesWhichRender2LinesInsteadOfOne() {
     Anchor anchor = new Anchor("names", 0.0d);
 
     Collection<Line> table = LineGenerator.prepareLines(
-        FakeFields.getSampleWichRender2LinesInsteadOfOne(), anchor);
+        FakeListField.getSampleWichRender2LinesInsteadOfOne(), anchor);
 
     Assertions.assertEquals(1, table.size());
   }
 
   @Test
-  public void test() {
-    Assertions.assertEquals(true, Precision.equals(0.410, 0.420, 0.011d));
+  void test() {
+    Assertions.assertTrue(Precision.equals(0.410, 0.420, 0.011d));
   }
 
 }
