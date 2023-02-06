@@ -4,9 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.mindee.geometry.BoundingBoxUtils;
 import com.mindee.geometry.PolygonDeserializer;
 import com.mindee.geometry.Polygon;
-import com.mindee.utils.geometry.BoundingBoxUtils;
 import lombok.Getter;
 
 /**
@@ -38,6 +38,25 @@ public abstract class BaseField {
    */
   @JsonProperty("page_id")
   private Integer id;
+
+  protected BaseField(
+    @JsonProperty("confidence")
+    Double confidence,
+    @JsonProperty("polygon")
+    @JsonDeserialize(using = PolygonDeserializer.class)
+    Polygon polygon,
+    @JsonProperty("page_id")
+    Integer id
+  ) {
+    this.confidence =  confidence;
+    this.polygon =  polygon;
+    this.id =  id;
+    if (polygon != null) {
+      this.boundingBox = BoundingBoxUtils.createBoundingBoxFrom(this.polygon);
+    } else {
+      this.boundingBox = null;
+    }
+  }
 
   protected BaseField() {
     if (polygon != null) {

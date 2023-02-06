@@ -1,7 +1,5 @@
-package com.mindee.utils.geometry;
+package com.mindee.geometry;
 
-import com.mindee.geometry.Point;
-import com.mindee.geometry.Polygon;
 import java.util.Arrays;
 import java.util.DoubleSummaryStatistics;
 

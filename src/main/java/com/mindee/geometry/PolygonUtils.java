@@ -1,13 +1,11 @@
-package com.mindee.utils.geometry;
+package com.mindee.geometry;
 
-import com.mindee.geometry.Point;
-import com.mindee.geometry.Polygon;
 import java.util.Arrays;
 import java.util.List;
 import java.util.OptionalDouble;
 import java.util.stream.Collectors;
 
-public class PolygonUtils {
+public final class PolygonUtils {
   private PolygonUtils() {
   }
 
@@ -38,12 +36,16 @@ public class PolygonUtils {
   }
 
   public static Double getMinYCoordinate(Polygon polygon) {
-    OptionalDouble min = polygon.getCoordinates().stream().map(Point::getY)
-        .mapToDouble(Double::doubleValue).min();
+    OptionalDouble min = polygon.getCoordinates().stream()
+      .map(Point::getY)
+      .mapToDouble(Double::doubleValue).min();
+
     if (min.isPresent()) {
       return min.getAsDouble();
     }
-    return null;
+
+    throw new IllegalStateException("The min y could not be found " +
+      "because it seems that there is no coordinates in the current polygon.");
   }
 
   public static Double getMaxYCoordinate(Polygon polygon) {
@@ -52,7 +54,9 @@ public class PolygonUtils {
     if (max.isPresent()) {
       return max.getAsDouble();
     }
-    return null;
+
+    throw new IllegalStateException("The max y could not be found " +
+      "because it seems that there is no coordinates in the current polygon.");
   }
 
   public static Double getMinXCoordinate(Polygon polygon) {
@@ -61,7 +65,9 @@ public class PolygonUtils {
     if (min.isPresent()) {
       return min.getAsDouble();
     }
-    return null;
+
+    throw new IllegalStateException("The min x could not be found " +
+      "because it seems that there is no coordinates in the current polygon.");
   }
 
   public static Double getMaxXCoordinate(Polygon polygon) {
@@ -70,7 +76,9 @@ public class PolygonUtils {
     if (max.isPresent()) {
       return max.getAsDouble();
     }
-    return null;
+
+    throw new IllegalStateException("The max x could not be found " +
+      "because it seems that there is no coordinates in the current polygon.");
   }
 
   /**
