@@ -32,7 +32,7 @@ class LineItemsGeneratorTest {
                     Arrays.asList(0.764, 0.36)))),
             new ListFieldValue(
                 "01/01/20",
-              1.0,
+              0.6,
                 PolygonUtils.getFrom(Arrays.asList(
                     Arrays.asList(0.765, 0.387),
                     Arrays.asList(0.847, 0.387),
@@ -95,6 +95,8 @@ class LineItemsGeneratorTest {
         lineItems.getRows().get(1).getFields().get("names").getValue());
     Assertions.assertEquals("01/01/20",
         lineItems.getRows().get(1).getFields().get("birthDates").getValue());
+    Assertions.assertEquals(0.6,
+      lineItems.getRows().get(1).getFields().get("birthDates").getConfidence());
   }
 
 }

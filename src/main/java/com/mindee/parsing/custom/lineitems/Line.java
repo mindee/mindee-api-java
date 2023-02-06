@@ -46,7 +46,12 @@ public class Line {
         fieldValue.getContent() :
         String.join(" ", existingField.getValue(), fieldValue.getContent());
 
-      fields.replace(name, new StringField(content, 0.0, mergedPolygon));
+      fields.replace(
+        name,
+        new StringField(
+          content,
+          existingField.getConfidence() * fieldValue.getConfidence(),
+          mergedPolygon));
     }
     else {
       fields.put(name, new StringField(
