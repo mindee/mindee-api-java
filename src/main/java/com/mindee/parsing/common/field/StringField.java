@@ -20,12 +20,8 @@ public final class StringField extends BaseField {
   private final String value;
 
   public StringField(
-    @JsonProperty("value")
     String value,
-    @JsonProperty("confidence")
     Double confidence,
-    @JsonProperty("polygon")
-    @JsonDeserialize(using = PolygonDeserializer.class)
     Polygon polygon
   ) {
     this(value, confidence, polygon, null);
