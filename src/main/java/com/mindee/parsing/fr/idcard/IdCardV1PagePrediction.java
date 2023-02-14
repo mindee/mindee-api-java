@@ -22,7 +22,7 @@ public class IdCardV1PagePrediction extends IdCardV1DocumentPrediction {
   public String toString() {
 
     String summary =
-      String.format(":Document side: %s%n", this.getDocumentSide()) +
+      String.format(":Document Side: %s%n", this.getDocumentSide()) +
         super.toString();
 
     return SummaryHelper.cleanSummary(summary);
