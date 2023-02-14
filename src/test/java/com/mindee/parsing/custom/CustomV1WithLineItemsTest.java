@@ -40,6 +40,10 @@ class CustomV1WithLineItemsTest {
     Assertions.assertNotNull(lineItems);
     Assertions.assertEquals(3, lineItems.getRows().size());
     Line firstLine = lineItems.getRows().get(0);
+    Assertions.assertEquals(0.059, firstLine.getBbox().getMinX());
+    Assertions.assertEquals(0.351, firstLine.getBbox().getMinY());
+    Assertions.assertEquals(0.3, firstLine.getBbox().getMaxX());
+    Assertions.assertEquals(0.36, firstLine.getBbox().getMaxY());
     Assertions.assertEquals(4, firstLine.getFields().size());
     Assertions.assertTrue(firstLine.getFields().containsKey("beneficiary_birth_date"));
     Assertions.assertTrue(firstLine.getFields().containsKey("beneficiary_number"));

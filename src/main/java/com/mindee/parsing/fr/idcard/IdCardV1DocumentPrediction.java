@@ -72,19 +72,19 @@ public class IdCardV1DocumentPrediction {
   public String toString() {
 
     String summary =
-      String.format(":Authority: %s%n", this.getAuthority()) +
-        String.format(":Given names: %s%n",
+      String.format(":Identity Number: %s%n", this.getIdNumber()) +
+        String.format(":Given Name(s): %s%n",
           this.getGivenNames().stream()
           .map(StringField::toString)
           .collect(Collectors.joining(", "))) +
         String.format(":Surname: %s%n", this.getSurname()) +
+        String.format(":Date of Birth: %s%n", this.getBirthDate()) +
+        String.format(":Place of Birth: %s%n", this.getBirthPlace()) +
+        String.format(":Expiry Date: %s%n", this.getExpiryDate()) +
+        String.format(":Issuing Authority: %s%n", this.getAuthority()) +
         String.format(":Gender: %s%n", this.getGender()) +
-        String.format(":ID Number: %s%n", this.getIdNumber()) +
-        String.format(":Birth date: %s%n", this.getBirthDate()) +
-        String.format(":Birth place: %s%n", this.getBirthPlace()) +
-        String.format(":Expiry date: %s%n", this.getExpiryDate()) +
-        String.format(":MRZ 1: %s%n", this.getMrz1()) +
-        String.format(":MRZ 2: %s%n", this.getMrz2());
+        String.format(":MRZ Line 1: %s%n", this.getMrz1()) +
+        String.format(":MRZ Line 2: %s%n", this.getMrz2());
 
     return SummaryHelper.cleanSummary(summary);
   }
