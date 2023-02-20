@@ -1,5 +1,9 @@
 # Mindee Java API Library Changelog
 
+## v3.2.0 - 2023-02-20
+### Changes
+:sparkles: support lines items post processing reconstruction for API Builder
+
 ## v3.1.0 - 2023-02-02
 ### Changes
 :sparkles: support Financial Document V1
