@@ -1,4 +1,7 @@
+[![License: MIT](https://img.shields.io/github/license/mindee/mindee-api-nodejs)](https://opensource.org/licenses/MIT)
 [![Tests](https://github.com/mindee/mindee-api-java/actions/workflows/build.yml/badge.svg)](https://github.com/mindee/mindee-api-java/actions/workflows/build.yml)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.mindee.sdk/mindee-api-java/badge.svg?style=flat)](https://maven-badges.herokuapp.com/maven-central/com.mindee.sdk/mindee-api-java)
+[![Join Mindee on Slack](https://img.shields.io/badge/Slack-4A154B?style=flat&logo=slack&label=MindeeCommunity)](https://mindee-community.slack.com/join/shared_invite/zt-1jv6nawjq-FDgFcF2T5CmMmRpl9LLptw#/shared-invite/email)
 
 # Mindee API Helper Library for Java
 Quickly and easily connect to Mindee's API services using Java.
