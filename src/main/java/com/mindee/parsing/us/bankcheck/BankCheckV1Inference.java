@@ -10,7 +10,7 @@ import lombok.Getter;
  */
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
-@EndpointInfo(endpointName = "shipping_containers", version = "1")
+@EndpointInfo(endpointName = "bank_check", version = "1")
 public class BankCheckV1Inference
   extends Inference<BankCheckV1DocumentPrediction, BankCheckV1DocumentPrediction> {
 

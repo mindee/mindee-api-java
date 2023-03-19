@@ -1,6 +1,9 @@
 # builds
 target/
 
+# test jshell file
+_test.jsh
+
 # Compiled class file
 *.class
 
