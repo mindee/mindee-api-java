@@ -95,7 +95,7 @@ public final class MindeeHttpApi implements MindeeApi {
     PredictResponse<T> predictResponse;
 
     try (
-      CloseableHttpClient httpClient = HttpClientBuilder.create().build();
+      CloseableHttpClient httpClient = HttpClientBuilder.create().useSystemProperties().build();
       CloseableHttpResponse response = httpClient.execute(post)
     ) {
       HttpEntity responseEntity = response.getEntity();
