@@ -10,7 +10,7 @@ import lombok.Getter;
  */
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
-@EndpointInfo(endpointName = "passport", version = "4")
+@EndpointInfo(endpointName = "passport", version = "1")
 public class PassportV1Inference extends Inference<PassportV1DocumentPrediction, PassportV1DocumentPrediction> {
 
 }
