@@ -268,6 +268,14 @@
       <version>${junit.platform.version}</version>
     </dependency>
 
+    <!-- version 2.0 is not compatible with java 8 -->
+    <dependency>
+      <artifactId>junit-pioneer</artifactId>
+      <groupId>org.junit-pioneer</groupId>
+      <scope>test</scope>
+      <version>1.9.1</version>
+    </dependency>
+
     <!-- https://mvnrepository.com/artifact/org.mockito/mockito-junit-jupiter -->
     <dependency>
       <artifactId>mockito-junit-jupiter</artifactId>
