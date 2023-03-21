@@ -65,7 +65,7 @@ public final class MindeeHttpApi implements MindeeApi {
   }
 
   public <T extends Inference> Document<T> predict(
-    Class<T> clazz,
+    Class<T> documentClass,
     CustomEndpoint customEndpoint,
     ParseParameter parseParameter)
     throws MindeeException, IOException {
@@ -103,7 +103,7 @@ public final class MindeeHttpApi implements MindeeApi {
       if (responseEntity.getContentLength() != 0) {
         JavaType type = mapper.getTypeFactory().constructParametricType(
           PredictResponse.class,
-          clazz);
+          documentClass);
         predictResponse = mapper.readValue(responseEntity.getContent(), type);
 
         if (is2xxStatusCode(response.getStatusLine().getStatusCode())) {
