@@ -76,7 +76,12 @@ public final class MindeeHttpApi implements MindeeApi {
     HttpPost post = new HttpPost(buildUrl(customEndpoint));
     MultipartEntityBuilder builder = MultipartEntityBuilder.create();
     builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
-    builder.addBinaryBody("document", parseParameter.getFile(), ContentType.DEFAULT_BINARY, parseParameter.getFileName());
+    builder.addBinaryBody(
+      "document",
+      parseParameter.getFile(),
+      ContentType.DEFAULT_BINARY,
+      parseParameter.getFileName()
+    );
     if (Boolean.TRUE.equals(parseParameter.getIncludeWords())) {
       builder.addTextBody("include_mvision", "true");
     }
@@ -89,34 +94,38 @@ public final class MindeeHttpApi implements MindeeApi {
     String errorMessage = "Mindee API client : ";
     PredictResponse<T> predictResponse;
 
-    try (CloseableHttpClient httpClient = HttpClientBuilder.create().build();
-         CloseableHttpResponse response = httpClient.execute(post)) {
+    try (
+      CloseableHttpClient httpClient = HttpClientBuilder.create().build();
+      CloseableHttpResponse response = httpClient.execute(post)
+    ) {
       HttpEntity responseEntity = response.getEntity();
 
       if (responseEntity.getContentLength() != 0) {
         JavaType type = mapper.getTypeFactory().constructParametricType(
           PredictResponse.class,
           clazz);
-        predictResponse = mapper.readValue(
-          responseEntity.getContent(), type);
+        predictResponse = mapper.readValue(responseEntity.getContent(), type);
 
         if (is2xxStatusCode(response.getStatusLine().getStatusCode())) {
           return predictResponse.getDocument();
         }
-
         if (predictResponse != null) {
           errorMessage += predictResponse.getApiRequest().getError().toString();
         }
+
       } else {
         ByteArrayOutputStream contentRead = new ByteArrayOutputStream();
         byte[] buffer = new byte[1024];
         for (int length; (length = responseEntity.getContent().read(buffer)) != -1; ) {
           contentRead.write(buffer, 0, length);
         }
-        errorMessage += " Unhandled - HTTP Status code " + response.getStatusLine().getStatusCode() + " - Content " + contentRead.toString("UTF-8");
+        errorMessage += " Unhandled - HTTP Status code "
+          + response.getStatusLine().getStatusCode()
+          + " - Content "
+          + contentRead.toString("UTF-8");
       }
-    } catch (IOException e) {
-      throw new MindeeException(e.getMessage(), e);
+    } catch (IOException err) {
+      throw new MindeeException(err.getMessage(), err);
     }
 
     throw new MindeeException(errorMessage);
@@ -124,7 +133,6 @@ public final class MindeeHttpApi implements MindeeApi {
 
 
   private boolean is2xxStatusCode(int statusCode) {
-
     return statusCode >= 200 && statusCode <= 299;
   }
 
