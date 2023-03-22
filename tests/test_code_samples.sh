@@ -26,9 +26,8 @@ do
     sed -i "s/my-version/1/" $OUTPUT_FILE
   fi
 
-
   sed -i "s/my-api-key/$API_KEY/" $OUTPUT_FILE
-  sed -i "s/\/path\/to\/the\/file.ext/tests\/resources\/pdf\/blank_1.pdf/" $OUTPUT_FILE
+  sed -i "s/\/path\/to\/the\/file.ext/src\/test\/resources\/data\/pdf\/blank_1.pdf/" $OUTPUT_FILE
 
   /bin/bash $OUTPUT_FILE
 done

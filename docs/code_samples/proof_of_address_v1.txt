@@ -5,7 +5,7 @@ int code = 1;
 com.mindee.MindeeClient mindeeClient = com.mindee.MindeeClientInit.create(apiKey);
 com.mindee.DocumentToParse docToParse = new com.mindee.DocumentToParse(new File(filePath));
 
-com.mindee.parsing.common.Document<com.mindee.parsing.proofofaddress.ProofOfAddressV1Inference> documentParsed =  mindeeClient.parse(com.mindee.parsing.proofofaddress.ProofOfAddressV1Inference.class,docToParse);
+com.mindee.parsing.common.Document<com.mindee.parsing.proofofaddress.ProofOfAddressV1Inference> documentParsed = mindeeClient.parse(com.mindee.parsing.proofofaddress.ProofOfAddressV1Inference.class,docToParse);
 
 System.out.println(documentParsed.toString());
 code = 0;
