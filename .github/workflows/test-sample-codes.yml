@@ -1,0 +1,41 @@
+name: Test Code Samples
+on:
+  pull_request:
+  schedule:
+    - cron:  '0 23 * * *'
+
+  # Allows to run this workflow manually from the Actions tab
+  workflow_dispatch:
+jobs:
+  build:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        java-version:
+          - "8"
+          - "11"
+        distribution:
+          - "temurin"
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+      - name: Set up JDK ${{ matrix.java-version }}
+        uses: actions/setup-java@v3
+        with:
+          java-version: ${{ matrix.java-version }}
+          distribution: ${{ matrix.distribution }}
+          cache: "maven"
+
+      - name: Install mindee-java-api
+        run: mvn clean install -DskipTests
+
+      - name: Download Dependencies
+        run: mvn dependency:copy-dependencies
+
+      - name: Tests sample code
+        run: |
+          ./tests/test_code_samples.sh ${{ secrets.MINDEE_ACCOUNT_SE_TESTS }} ${{ secrets.MINDEE_ENDPOINT_SE_TESTS }} ${{ secrets.MINDEE_API_KEY_SE_TESTS }}
+
