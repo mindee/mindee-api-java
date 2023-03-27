@@ -19,10 +19,14 @@ Include the following maven dependency in your project to use the helper library
 </dependency>
 ```
 
+Where `${mindee.sdk.version}` is the version shown in the badge above.
+
 ## Loading a File and Parsing It
-The `Client` class is the entry point for most of the helper library features.
+The `MindeeClient` class is the entry point for most of the helper library features.
 
 ### Global Documents
+These classes are available in the `com.mindee.parsing` package: 
+
 ```java
 import com.mindee.parsing;
 import com.mindee.parsing.invoice;
@@ -33,10 +37,15 @@ DocumentToParse documentToParse = mindeeClient.loadDocument(new File("/path/to/t
 
 Document<InvoiceV4Inference> invoiceDocument = mindeeClient.parse(
   InvoiceV4Inference.class,
-  documentToParse);
+  documentToParse
+);
 ```
 
 ### Region-Specific Documents
+Each region will have its own package within the genral `com.mindee.parsing` package.
+
+For example USA-specific classes will be in the `com.mindee.parsing.us` package:
+
 ```java
 import com.mindee.parsing;
 import com.mindee.parsing.us.bankcheck;
@@ -47,7 +56,8 @@ DocumentToParse documentToParse = mindeeClient.loadDocument(new File("/path/to/t
 
 Document<BankCheckV1Inference> bankCheckDocument = mindeeClient.parse(
   BankCheckV1Inference.class,
-  documentToParse);
+  documentToParse
+);
 ```
 
 ### Custom Documents (API Builder)
@@ -56,13 +66,16 @@ import com.mindee.parsing;
 import com.mindee.parsing.custom;
 
 MindeeClient mindeeClient = MindeeClientInit.create("my-api-key");
-CustomEndpoint customEndpoint = new CustomEndpoint("myProductName", "myAccountName");
+CustomEndpoint customEndpoint = new CustomEndpoint("my-endpoint", "my-account");
 
-DocumentToParse documentToParse = mindeeClient.loadDocument(new File("src/main/resources/invoices/invoice1.pdf"));
+DocumentToParse documentToParse = mindeeClient.loadDocument(
+  new File("src/main/resources/invoices/invoice1.pdf")
+);
 
 Document<CustomV1Inference> customDocument = mindeeClient.parse(
   documentToParse,
-  new CustomEndpoint());
+  customEndpoint
+);
 ```
 
 Client supports multiple input types:
@@ -73,15 +86,20 @@ Client supports multiple input types:
 * String fileAsBase64String, String filename
 
 ## Further Reading
-There's more to it than that for those that need more features, or want to
-customize the experience.
+Complete details on the working of the library are available in the following guides:
 
-All the juicy details are described in the
-**[Official Documentation](https://developers.mindee.com/docs/java-ocr-sdk)**.
+* [Getting started](https://developers.mindee.com/docs/java-ocr-getting-started)
+* [Output Fields](https://developers.mindee.com/docs/java-field)
+* [Custom APIs (API Builder)](https://developers.mindee.com/docs/java-api-builder)
+* [Invoice API](https://developers.mindee.com/docs/java-invoice-ocr)
+* [Receipt API](https://developers.mindee.com/docs/java-receipt-ocr)
+* [Financial Document API](https://developers.mindee.com/docs/java-financial-document-ocr)
+* [Passport API](https://developers.mindee.com/docs/java-passport-ocr)
+* [License Plate API](https://developers.mindee.com/docs/java-license-plates-ocr)
+* [Shipping Container API](https://developers.mindee.com/docs/java-shipping-containers-ocr)
+* [US Bank Check API](https://developers.mindee.com/docs/java-us-bank-check-ocr)
 
-### Questions, Comments?
-We'd love to hear from you!
-[Join our Slack](https://join.slack.com/t/mindee-community/shared_invite/zt-1jv6nawjq-FDgFcF2T5CmMmRpl9LLptw).
+You can view the source code on [GitHub](https://github.com/mindee/mindee-api-nodejs).
 
 
 ## License
