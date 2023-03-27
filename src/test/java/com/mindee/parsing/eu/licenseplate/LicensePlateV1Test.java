@@ -1,4 +1,4 @@
-package com.mindee.parsing.eu.licenseplates;
+package com.mindee.parsing.eu.licenseplate;
 
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -12,17 +12,17 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 
-public class LicensePlatesV1Test {
+public class LicensePlateV1Test {
 
   @Test
-  void givenLicensePlatesV1_whenDeserialized_MustHaveAValidSummary() throws IOException {
+  void givenLicensePlateV1_whenDeserialized_MustHaveAValidSummary() throws IOException {
 
     ObjectMapper objectMapper = new ObjectMapper();
     objectMapper.findAndRegisterModules();
 
     JavaType type = objectMapper.getTypeFactory().constructParametricType(PredictResponse.class,
-      LicensePlatesV1Inference.class);
-    PredictResponse<LicensePlatesV1Inference> prediction = objectMapper.readValue(
+      LicensePlateV1Inference.class);
+    PredictResponse<LicensePlateV1Inference> prediction = objectMapper.readValue(
       new File("src/test/resources/data/eu/license_plate/response_v1/complete.json"),
       type);
 

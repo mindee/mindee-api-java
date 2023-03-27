@@ -6,8 +6,8 @@ import com.mindee.parsing.common.Inference;
 import lombok.Getter;
 
 /**
- * The proof of address V1 inference.
- */
+* The definition for proof_of_address v1.
+*/
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
 @EndpointInfo(endpointName = "proof_of_address", version = "1")
