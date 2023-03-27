@@ -3,18 +3,20 @@ package com.mindee.parsing.passport;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mindee.parsing.SummaryHelper;
-import com.mindee.parsing.common.field.*;
+import com.mindee.parsing.common.field.DateField;
+import com.mindee.parsing.common.field.StringField;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
+/**
+ * Document data for Passport, API version 1.
+ */
 @Getter
 @EqualsAndHashCode
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PassportV1DocumentPrediction {
-
   /**
    * The country of issue.
    */
@@ -84,29 +86,28 @@ public class PassportV1DocumentPrediction {
   public String getFullName() {
     return this.givenNames.stream()
       .map(StringField::toString)
-      .collect(Collectors.joining(" ")) +
-      " " +
-      this.surname;
+      .collect(Collectors.joining(" "))
+      + " " + this.surname;
   }
 
   @Override
   public String toString() {
 
     String summary =
-      String.format(":Full name: %s%n", this.getFullName()) +
-        String.format(":Given names: %s%n",
+        String.format(":Full name: %s%n", this.getFullName())
+        + String.format(":Given names: %s%n",
           this.getGivenNames().stream()
             .map(StringField::toString)
-            .collect(Collectors.joining(" "))) +
-        String.format(":Surname: %s%n", this.getSurname()) +
-        String.format(":Country: %s%n", this.getCountry()) +
-        String.format(":ID Number: %s%n", this.getIdNumber()) +
-        String.format(":Issuance date: %s%n", this.getIssuanceDate()) +
-        String.format(":Birth date: %s%n", this.getBirthDate()) +
-        String.format(":Expiry date: %s%n", this.getExpiryDate()) +
-        String.format(":MRZ 1: %s%n", this.getMrz1()) +
-        String.format(":MRZ 2: %s%n", this.getMrz2()) +
-        String.format(":MRZ: %s%n", this.getMrz());
+            .collect(Collectors.joining(" ")))
+        + String.format(":Surname: %s%n", this.getSurname())
+        + String.format(":Country: %s%n", this.getCountry())
+        + String.format(":ID Number: %s%n", this.getIdNumber())
+        + String.format(":Issuance date: %s%n", this.getIssuanceDate())
+        + String.format(":Birth date: %s%n", this.getBirthDate())
+        + String.format(":Expiry date: %s%n", this.getExpiryDate())
+        + String.format(":MRZ 1: %s%n", this.getMrz1())
+        + String.format(":MRZ 2: %s%n", this.getMrz2())
+        + String.format(":MRZ: %s%n", this.getMrz());
 
     return SummaryHelper.cleanSummary(summary);
   }

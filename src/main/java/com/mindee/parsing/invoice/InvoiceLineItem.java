@@ -3,8 +3,8 @@ package com.mindee.parsing.invoice;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.mindee.geometry.PolygonDeserializer;
 import com.mindee.geometry.Polygon;
+import com.mindee.geometry.PolygonDeserializer;
 import com.mindee.parsing.SummaryHelper;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -51,7 +51,9 @@ public class InvoiceLineItem {
     String unitPriceSummary = SummaryHelper.formatAmount(this.unitPrice);
     String totalAmountSummary = SummaryHelper.formatAmount(this.totalAmount);
     String tax = SummaryHelper.formatAmount(this.taxAmount);
-    tax += this.taxRate != null ? String.format(" (%s%%)", SummaryHelper.formatAmount(this.taxRate)) : "";
+    tax += this.taxRate != null
+      ? String.format(" (%s%%)", SummaryHelper.formatAmount(this.taxRate))
+      : "";
     String descriptionSummary = (this.description != null ? this.description : "");
     if (descriptionSummary.length() > 33) {
       descriptionSummary = descriptionSummary.substring(0, 33) + "...";

@@ -45,10 +45,10 @@ public class CarteVitaleV1DocumentPrediction {
       String.format(":Given Name(s): %s%n",
         this.getGivenNames().stream()
           .map(StringField::toString)
-          .collect(Collectors.joining(", "))) +
-        String.format(":Surname: %s%n", this.getSurname()) +
-        String.format(":Social Security Number: %s%n", this.getSocialSecurityNumber()) +
-        String.format(":Issuance Date: %s%n", this.getIssuanceDate());
+          .collect(Collectors.joining(", ")))
+        + String.format(":Surname: %s%n", this.getSurname())
+        + String.format(":Social Security Number: %s%n", this.getSocialSecurityNumber())
+        + String.format(":Issuance Date: %s%n", this.getIssuanceDate());
 
     return SummaryHelper.cleanSummary(summary);
   }

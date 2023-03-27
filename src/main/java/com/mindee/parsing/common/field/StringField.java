@@ -20,23 +20,23 @@ public final class StringField extends BaseField {
   private final String value;
 
   public StringField(
-    String value,
-    Double confidence,
-    Polygon polygon
+      String value,
+      Double confidence,
+      Polygon polygon
   ) {
     this(value, confidence, polygon, null);
   }
 
   public StringField(
-    @JsonProperty("value")
-    String value,
-    @JsonProperty("confidence")
-    Double confidence,
-    @JsonProperty("polygon")
-    @JsonDeserialize(using = PolygonDeserializer.class)
-    Polygon polygon,
-    @JsonProperty("page_id")
-    Integer id
+      @JsonProperty("value")
+      String value,
+      @JsonProperty("confidence")
+      Double confidence,
+      @JsonProperty("polygon")
+      @JsonDeserialize(using = PolygonDeserializer.class)
+      Polygon polygon,
+      @JsonProperty("page_id")
+      Integer id
   ) {
     super(confidence, polygon, id);
     this.value = value;
