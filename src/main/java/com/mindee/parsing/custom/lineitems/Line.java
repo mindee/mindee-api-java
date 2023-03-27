@@ -19,8 +19,8 @@ public class Line {
   private final Double heightTolerance;
 
   public Line(
-      Integer rowNumber,
-      Map<String, StringField> fields) {
+    Integer rowNumber,
+    Map<String, StringField> fields) {
     this.rowNumber = rowNumber;
     this.fields = fields;
     this.heightTolerance = 0.0;
@@ -35,7 +35,7 @@ public class Line {
   public void addField(
     String name,
     ListFieldValue fieldValue) {
-    if(fields.containsKey(name)) {
+    if (fields.containsKey(name)) {
       StringField existingField = fields.get(name);
 
       Polygon mergedPolygon = PolygonUtils.combine(
@@ -52,8 +52,7 @@ public class Line {
           content,
           existingField.getConfidence() * fieldValue.getConfidence(),
           mergedPolygon));
-    }
-    else {
+    } else {
       fields.put(name, new StringField(
         fieldValue.getContent(),
         fieldValue.getConfidence(),

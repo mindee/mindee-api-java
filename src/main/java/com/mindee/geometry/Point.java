@@ -9,11 +9,11 @@ public final class Point {
   private Double x;
   private Double y;
 
-  @Builder @Jacksonized
-  public Point(Double x, Double y)
-  {
-    this.x =x;
-    this.y =y;
+  @Builder
+  @Jacksonized
+  public Point(Double x, Double y) {
+    this.x = x;
+    this.y = y;
   }
 
 }

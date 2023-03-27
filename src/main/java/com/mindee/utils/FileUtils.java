@@ -2,7 +2,8 @@ package com.mindee.utils;
 
 public class FileUtils {
 
-  private FileUtils() {}
+  private FileUtils() {
+  }
 
   private static final String WINDOWS_FILE_SEPARATOR = "\\";
   private static final String UNIX_FILE_SEPARATOR = "/";

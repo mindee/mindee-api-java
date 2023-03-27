@@ -64,7 +64,7 @@ public class BankCheckV1DocumentPrediction {
   public String toString() {
 
     String summary =
-        String.format(":Routing number: %s%n", this.getRoutingNumber()) +
+      String.format(":Routing number: %s%n", this.getRoutingNumber()) +
         String.format(":Account number: %s%n", this.getAccountNumber()) +
         String.format(":Check number: %s%n", this.getCheckNumber()) +
         String.format(":Date: %s%n", this.getDate()) +

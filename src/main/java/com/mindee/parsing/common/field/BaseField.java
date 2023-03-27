@@ -48,9 +48,9 @@ public abstract class BaseField {
     @JsonProperty("page_id")
     Integer id
   ) {
-    this.confidence =  confidence;
-    this.polygon =  polygon;
-    this.id =  id;
+    this.confidence = confidence;
+    this.polygon = polygon;
+    this.id = id;
     if (polygon != null) {
       this.boundingBox = BoundingBoxUtils.createBoundingBoxFrom(this.polygon);
     } else {

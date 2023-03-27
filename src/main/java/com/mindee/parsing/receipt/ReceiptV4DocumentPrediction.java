@@ -97,7 +97,7 @@ public class ReceiptV4DocumentPrediction {
         String.format(":Tip: %s%n",
           this.getTip()) +
         String.format(":Total amount: %s%n",
-        this.getTotalAmount());
+          this.getTotalAmount());
 
     return SummaryHelper.cleanSummary(summary);
   }

@@ -26,8 +26,8 @@ public class CustomV1DocumentPredictionDeserializer extends StdDeserializer<Cust
   }
 
   @Override
-  public CustomV1DocumentPrediction deserialize(JsonParser jsonParser,
-    DeserializationContext deserializationContext) throws IOException {
+  public CustomV1DocumentPrediction deserialize(JsonParser jsonParser, DeserializationContext deserializationContext)
+    throws IOException {
 
     ObjectNode node = jsonParser.getCodec().readTree(jsonParser);
 
@@ -38,14 +38,16 @@ public class CustomV1DocumentPredictionDeserializer extends StdDeserializer<Cust
 
       Map.Entry<String, JsonNode> pageNode = subNode.next();
 
-      if(pageNode.getValue().has("value")) {
+      if (pageNode.getValue().has("value")) {
         classificationFields.put(
           pageNode.getKey(),
-          mapper.readerFor(new TypeReference<ClassificationField>() {}).readValue(pageNode.getValue()));
+          mapper.readerFor(new TypeReference<ClassificationField>() {
+          }).readValue(pageNode.getValue()));
       } else {
         fields.put(
           pageNode.getKey(),
-          mapper.readerFor(new TypeReference<ListField>() {}).readValue(pageNode.getValue()));
+          mapper.readerFor(new TypeReference<ListField>() {
+          }).readValue(pageNode.getValue()));
       }
     }
 

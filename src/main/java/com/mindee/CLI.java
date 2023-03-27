@@ -1,6 +1,5 @@
 package com.mindee;
 
-import com.mindee.http.MindeeHttpApi;
 import com.mindee.parsing.CustomEndpoint;
 import com.mindee.parsing.PageOptions;
 import com.mindee.parsing.PageOptionsOperation;
@@ -69,15 +68,13 @@ public class CLI {
 
     Document<InvoiceV4Inference> document;
 
-    if(cutDoc) {
-
+    if (cutDoc) {
       document = mindeeClient.parse(
         InvoiceV4Inference.class,
         new DocumentToParse(file),
         words,
         getDefaultPageOptions());
     } else {
-
       document = mindeeClient.parse(
         InvoiceV4Inference.class,
         new DocumentToParse(file),
@@ -94,15 +91,13 @@ public class CLI {
 
     Document<ReceiptV4Inference> document;
 
-    if(cutDoc) {
-
+    if (cutDoc) {
       document = mindeeClient.parse(
         ReceiptV4Inference.class,
         new DocumentToParse(file),
         words,
         getDefaultPageOptions());
     } else {
-
       document = mindeeClient.parse(
         ReceiptV4Inference.class,
         new DocumentToParse(file),
@@ -119,15 +114,13 @@ public class CLI {
 
     Document<PassportV1Inference> document;
 
-    if(cutDoc) {
-
+    if (cutDoc) {
       document = mindeeClient.parse(
         PassportV1Inference.class,
         new DocumentToParse(file),
         words,
         getDefaultPageOptions());
     } else {
-
       document = mindeeClient.parse(
         PassportV1Inference.class,
         new DocumentToParse(file),
@@ -155,19 +148,17 @@ public class CLI {
       description = "The name of the account") String accountName
   ) throws IOException {
 
-    MindeeClient mindeeClient =  MindeeClientInit.create(apiKey);
+    MindeeClient mindeeClient = MindeeClientInit.create(apiKey);
 
     Document<CustomV1Inference> document;
     CustomEndpoint customEndpoint = new CustomEndpoint(productName, accountName, "1");
 
-    if(cutDoc) {
-
+    if (cutDoc) {
       document = mindeeClient.parse(
         new DocumentToParse(file),
         customEndpoint,
         getDefaultPageOptions());
     } else {
-
       document = mindeeClient.parse(
         new DocumentToParse(file),
         customEndpoint);

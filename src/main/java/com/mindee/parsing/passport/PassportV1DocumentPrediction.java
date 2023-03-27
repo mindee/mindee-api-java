@@ -93,7 +93,7 @@ public class PassportV1DocumentPrediction {
   public String toString() {
 
     String summary =
-        String.format(":Full name: %s%n", this.getFullName()) +
+      String.format(":Full name: %s%n", this.getFullName()) +
         String.format(":Given names: %s%n",
           this.getGivenNames().stream()
             .map(StringField::toString)

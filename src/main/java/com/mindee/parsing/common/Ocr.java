@@ -20,13 +20,13 @@ public class Ocr {
   @Override
   public String toString() {
     return
-        mVisionV1.getPages()
-          .stream()
-          .map(p -> p.getWords()
-            .stream().map(Word::getText)
-            .collect(
-              Collectors.joining(" ")))
-          .collect(Collectors.joining(" "));
+      mVisionV1.getPages()
+        .stream()
+        .map(p -> p.getWords()
+          .stream().map(Word::getText)
+          .collect(
+            Collectors.joining(" ")))
+        .collect(Collectors.joining(" "));
   }
 }
 

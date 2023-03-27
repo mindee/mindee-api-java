@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 
 /**
  * Common inference data.
+ *
  * @param <T> Page prediction (could be the same that U).
  * @param <U> Document prediction (could be the same that T).
  */

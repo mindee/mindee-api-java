@@ -14,8 +14,8 @@ public final class LineGenerator {
   }
 
   public static Collection<Line> prepareLines(
-      Map<String, ListField> fields,
-      Anchor fieldAsAnchor) {
+    Map<String, ListField> fields,
+    Anchor fieldAsAnchor) {
     HashMap<Integer, Line> table = new HashMap<>();
 
     ListField anchor = fields.get(fieldAsAnchor.getName());
@@ -40,12 +40,12 @@ public final class LineGenerator {
       Bbox currentFieldBbox = BboxUtils.generate(currentValue.getPolygon());
 
       if (Precision.equals(
-          currentLine.getBbox().getMinY(),
-          currentFieldBbox.getMinY(),
-          fieldAsAnchor.getTolerance())) {
+        currentLine.getBbox().getMinY(),
+        currentFieldBbox.getMinY(),
+        fieldAsAnchor.getTolerance())) {
         currentLine.setBbox(BboxUtils
-            .merge(
-                Arrays.asList(currentLine.getBbox(), currentFieldBbox)));
+          .merge(
+            Arrays.asList(currentLine.getBbox(), currentFieldBbox)));
       } else {
         // when it is a new line
         table.put(lineNumber, currentLine);
