@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mindee.parsing.SummaryHelper;
 import com.mindee.parsing.common.field.DateField;
 import com.mindee.parsing.common.field.StringField;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -27,7 +28,7 @@ public class IdCardV1DocumentPrediction {
   * The given name(s) of the card holder.
   */
   @JsonProperty("given_names")
-  private List<StringField> givenNames;
+  private List<StringField> givenNames = new ArrayList<>();
 
   /**
   * The surname of the card holder.
