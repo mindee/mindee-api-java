@@ -1,29 +1,36 @@
 # Mindee Java API Library Changelog
 
-## v3.2.0 - 2023-02-20
+## v3.2.0 - 2023-03-27
 ### Changes
-:sparkles: support lines items post processing reconstruction for API Builder
+* :sparkles: add **experimental** support for line items reconstruction in custom APIs
+* :sparkles: allow the HTTP client to use system properties
+* :white_check_mark: add tests for environment variables
+* :art: start conforming to Google Java standards
+* :art: rename CLI class to more explicit CommandLineInterface
+* :recycle: harmonize output with other client libraries
+### Fixes
+* :bug: fix passport API version
+* :bug: fix for US Bank check API
+* :bug: fix cli version
+
 
 ## v3.1.0 - 2023-02-02
 ### Changes
-:sparkles: support Financial Document V1
-:sparkles: support proof of address V1
-:sparkles: support Ocr property for Invoice and Receipt
-:recycle:! using IllegalStateException instead of NotSerializableException
-:sparkles: add default constructors for ListFieldValue
-:pencil2: some renaming on Financial V1 and Proof of Address V1
-
+* :sparkles: support Financial Document V1
+* :sparkles: support proof of address V1
+* :sparkles: support Ocr property for Invoice and Receipt
+* :recycle: using IllegalStateException instead of NotSerializableException
+* :sparkles: add default constructors for ListFieldValue
+* :pencil2: some renaming on Financial V1 and Proof of Address V1
 ### Fixes
-:bug:! Details property in Error become an object because it can handle both string and object
+* :bug: Details property in Error become an object because it can handle both string and object
 
-### Changes
 
 ## v3.0.0 - 2023-01-16
 ### ¡Breaking Changes!
-:recycle: Mindee class become MindeeClient 
-:recycle: enable the possibility to use your own pdf implementation
-:recycle: improve the creation of MindeeClient and reduce deps
-
+* :recycle: Mindee class become MindeeClient 
+* :recycle: enable the possibility to use your own pdf implementation
+* :recycle: improve the creation of MindeeClient and reduce deps
 ### Changes
 * :sparkles: support document as stream
 * :sparkles: support tax base on Receipt V4
@@ -38,11 +45,13 @@
 * :memo: improve documentation
 * :memo: update Custom V1 to include classification
 
+
 ## v2.1.0 - 2022-12-12
 ### Changes
 * :sparkles: Add support for Invoice v4
 ### Fixes
 * :arrow_up: Bump jackson-databind from 2.13.4 to 2.13.4.2
+
 
 ## v2.0.0 - 2022-12-06
 ### ¡Breaking Changes!
@@ -53,13 +62,16 @@
 * :sparkles: Add support fot Receipt v4
 * :recycle: Improve the internal de-serialization process
 
+
 ## v1.1.1 - 2022-10-10
 ### Fixes
 * :arrow_up: fix for Uncontrolled Resource Consumption in Jackson-databind
 
+
 ## v1.1.0 - 2022-10-03
 ### Changes
 * :sparkles: custom document is handled by sub objects (#21)
+
 
 ## v1.0.0 - 2022-09-21
 * :tada: First official release!

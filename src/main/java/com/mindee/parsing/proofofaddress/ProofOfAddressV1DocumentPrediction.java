@@ -7,6 +7,7 @@ import com.mindee.parsing.common.field.CompanyRegistrationField;
 import com.mindee.parsing.common.field.DateField;
 import com.mindee.parsing.common.field.LocaleField;
 import com.mindee.parsing.common.field.StringField;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -35,7 +36,7 @@ public class ProofOfAddressV1DocumentPrediction {
   * List of company registrations found for the issuer.
   */
   @JsonProperty("issuer_company_registration")
-  private List<CompanyRegistrationField> issuerCompanyRegistration;
+  private List<CompanyRegistrationField> issuerCompanyRegistration = new ArrayList<>();
 
   /**
   * The address of the document's issuer.
@@ -53,7 +54,7 @@ public class ProofOfAddressV1DocumentPrediction {
   * List of company registrations found for the recipient.
   */
   @JsonProperty("recipient_company_registration")
-  private List<CompanyRegistrationField> recipientCompanyRegistration;
+  private List<CompanyRegistrationField> recipientCompanyRegistration = new ArrayList<>();
 
   /**
   * The address of the recipient.
@@ -65,7 +66,7 @@ public class ProofOfAddressV1DocumentPrediction {
   * List of dates found on the document.
   */
   @JsonProperty("dates")
-  private List<DateField> dates;
+  private List<DateField> dates = new ArrayList<>();
 
   /**
   * The date the document was issued.

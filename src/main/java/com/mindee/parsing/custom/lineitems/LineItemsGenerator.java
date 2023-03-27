@@ -9,10 +9,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * WARNING: This feature is experimental!
+ * Results may not always work as intended.
+ * Don't use unless you know what you're doing ;-)
+ */
 public final class LineItemsGenerator {
   private LineItemsGenerator() {
   }
 
+  /**
+   * WARNING: This feature is experimental!
+   * Results may not always work as intended.
+   * Don't use unless you know what you're doing ;-)
+   */
   public static LineItems generate(
     List<String> fieldNames,
     Map<String, ListField> fields,
