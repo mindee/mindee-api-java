@@ -3,13 +3,17 @@ package com.mindee.parsing.receipt;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mindee.parsing.SummaryHelper;
-import com.mindee.parsing.common.field.*;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-
+import com.mindee.parsing.common.field.AmountField;
+import com.mindee.parsing.common.field.DateField;
+import com.mindee.parsing.common.field.DocumentTypeField;
+import com.mindee.parsing.common.field.LocaleField;
+import com.mindee.parsing.common.field.StringField;
+import com.mindee.parsing.common.field.TaxField;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 
 @Getter
 @EqualsAndHashCode

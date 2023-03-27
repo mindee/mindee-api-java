@@ -3,7 +3,6 @@ package com.mindee.parsing.custom;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.mindee.parsing.SummaryHelper;
 import lombok.Getter;
-
 import java.util.HashMap;
 import java.util.TreeMap;
 

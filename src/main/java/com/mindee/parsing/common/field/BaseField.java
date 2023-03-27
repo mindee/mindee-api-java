@@ -40,13 +40,13 @@ public abstract class BaseField {
   private Integer id;
 
   protected BaseField(
-    @JsonProperty("confidence")
-    Double confidence,
-    @JsonProperty("polygon")
-    @JsonDeserialize(using = PolygonDeserializer.class)
-    Polygon polygon,
-    @JsonProperty("page_id")
-    Integer id
+      @JsonProperty("confidence")
+      Double confidence,
+      @JsonProperty("polygon")
+      @JsonDeserialize(using = PolygonDeserializer.class)
+      Polygon polygon,
+      @JsonProperty("page_id")
+      Integer id
   ) {
     this.confidence = confidence;
     this.polygon = polygon;

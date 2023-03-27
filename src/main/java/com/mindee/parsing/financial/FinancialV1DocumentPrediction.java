@@ -3,14 +3,20 @@ package com.mindee.parsing.financial;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mindee.parsing.SummaryHelper;
-import com.mindee.parsing.common.field.*;
+import com.mindee.parsing.common.field.AmountField;
+import com.mindee.parsing.common.field.CompanyRegistrationField;
+import com.mindee.parsing.common.field.DateField;
+import com.mindee.parsing.common.field.DocumentTypeField;
+import com.mindee.parsing.common.field.LocaleField;
+import com.mindee.parsing.common.field.PaymentDetailsField;
+import com.mindee.parsing.common.field.StringField;
+import com.mindee.parsing.common.field.TaxField;
 import com.mindee.parsing.invoice.InvoiceLineItem;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 
 @Getter
 @EqualsAndHashCode
@@ -133,9 +139,9 @@ public class FinancialV1DocumentPrediction {
     String lineItemsSummary = "";
     if (!this.getLineItems().isEmpty()) {
       lineItemsSummary =
-        String.format("%n====================== ======== ========= ========== ================== ====================================%n") +
-          String.format("Code                   QTY      Price     Amount     Tax (Rate)         Description%n") +
-          String.format("====================== ======== ========= ========== ================== ====================================%n");
+        String.format("%n====================== ======== ========= ========== ================== ====================================%n")
+        + String.format("Code                   QTY      Price     Amount     Tax (Rate)         Description%n")
+        + String.format("====================== ======== ========= ========== ================== ====================================%n");
 
       lineItemsSummary += this.getLineItems().stream()
         .map(InvoiceLineItem::toString)
@@ -146,42 +152,42 @@ public class FinancialV1DocumentPrediction {
     }
 
     String summary =
-      String.format(":Document type: %s%n", this.getDocumentType()) +
-        String.format(":Category: %s%n", this.getCategory()) +
-        String.format(":Subcategory: %s%n", this.getSubCategory()) +
-        String.format(":Locale: %s%n", this.getLocale()) +
-        String.format(":Date: %s%n", this.getDate()) +
-        String.format(":Due date: %s%n", this.getDueDate()) +
-        String.format(":Time: %s%n", this.getTime()) +
-        String.format(":Number: %s%n", this.getInvoiceNumber()) +
-        String.format(":Reference numbers: %s%n",
+      String.format(":Document type: %s%n", this.getDocumentType())
+        + String.format(":Category: %s%n", this.getCategory())
+        + String.format(":Subcategory: %s%n", this.getSubCategory())
+        + String.format(":Locale: %s%n", this.getLocale())
+        + String.format(":Date: %s%n", this.getDate())
+        + String.format(":Due date: %s%n", this.getDueDate())
+        + String.format(":Time: %s%n", this.getTime())
+        + String.format(":Number: %s%n", this.getInvoiceNumber())
+        + String.format(":Reference numbers: %s%n",
           this.getReferenceNumbers().stream()
             .map(StringField::toString)
-            .collect(Collectors.joining(", "))) +
-        String.format(":Supplier name: %s%n", this.getSupplierName()) +
-        String.format(":Supplier address: %s%n", this.getSupplierAddress()) +
-        String.format(":Supplier company registrations: %s%n",
+            .collect(Collectors.joining(", ")))
+        + String.format(":Supplier name: %s%n", this.getSupplierName())
+        + String.format(":Supplier address: %s%n", this.getSupplierAddress())
+        + String.format(":Supplier company registrations: %s%n",
           this.getSupplierCompanyRegistrations().stream()
             .map(CompanyRegistrationField::getValue)
-            .collect(Collectors.joining("; "))) +
-        String.format(":Supplier payment details: %s%n", this.getPaymentDetails().stream()
+            .collect(Collectors.joining("; ")))
+        + String.format(":Supplier payment details: %s%n", this.getPaymentDetails().stream()
           .map(PaymentDetailsField::toString)
-          .collect(Collectors.joining("%n                 "))) +
-        String.format(":Customer name: %s%n", this.getCustomerName()) +
-        String.format(":Customer address: %s%n", this.getCustomerAddress()) +
-        String.format(":Customer company registrations: %s%n",
+          .collect(Collectors.joining("%n                 ")))
+        + String.format(":Customer name: %s%n", this.getCustomerName())
+        + String.format(":Customer address: %s%n", this.getCustomerAddress())
+        + String.format(":Customer company registrations: %s%n",
           this.getCustomerCompanyRegistrations().stream()
             .map(CompanyRegistrationField::getValue)
-            .collect(Collectors.joining("; "))) +
-        String.format(":Tip: %s%n", this.getTip()) +
-        String.format(":Taxes: %s%n",
+            .collect(Collectors.joining("; ")))
+        + String.format(":Tip: %s%n", this.getTip())
+        + String.format(":Taxes: %s%n",
           this.getTaxes().stream()
             .map(TaxField::toString)
-            .collect(Collectors.joining("%n       "))) +
-        String.format(":Total taxes: %s%n", this.getTotalTax()) +
-        String.format(":Total net: %s%n", this.getTotalNet()) +
-        String.format(":Total amount: %s%n%n", this.getTotalAmount()) +
-        String.format(":Line Items: %s%n", lineItemsSummary);
+            .collect(Collectors.joining("%n       ")))
+        + String.format(":Total taxes: %s%n", this.getTotalTax())
+        + String.format(":Total net: %s%n", this.getTotalNet())
+        + String.format(":Total amount: %s%n%n", this.getTotalAmount())
+        + String.format(":Line Items: %s%n", lineItemsSummary);
 
     return SummaryHelper.cleanSummary(summary);
   }

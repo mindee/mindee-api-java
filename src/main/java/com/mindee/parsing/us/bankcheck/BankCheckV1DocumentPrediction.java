@@ -7,13 +7,15 @@ import com.mindee.parsing.common.field.AmountField;
 import com.mindee.parsing.common.field.DateField;
 import com.mindee.parsing.common.field.PositionField;
 import com.mindee.parsing.common.field.StringField;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 
+/**
+ * Document data for US Bank Check, API version 1.
+ */
 @Getter
 @EqualsAndHashCode
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -64,12 +66,12 @@ public class BankCheckV1DocumentPrediction {
   public String toString() {
 
     String summary =
-      String.format(":Routing number: %s%n", this.getRoutingNumber()) +
-        String.format(":Account number: %s%n", this.getAccountNumber()) +
-        String.format(":Check number: %s%n", this.getCheckNumber()) +
-        String.format(":Date: %s%n", this.getDate()) +
-        String.format(":Amount: %s%n", this.getAmount()) +
-        String.format(":Payees: %s%n",
+        String.format(":Routing number: %s%n", this.getRoutingNumber())
+        + String.format(":Account number: %s%n", this.getAccountNumber())
+        + String.format(":Check number: %s%n", this.getCheckNumber())
+        + String.format(":Date: %s%n", this.getDate())
+        + String.format(":Amount: %s%n", this.getAmount())
+        + String.format(":Payees: %s%n",
           this.getPayees().stream()
             .map(StringField::toString)
             .collect(Collectors.joining(", ")));

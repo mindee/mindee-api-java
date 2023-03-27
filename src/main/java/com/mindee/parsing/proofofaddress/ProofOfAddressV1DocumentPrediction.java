@@ -7,13 +7,15 @@ import com.mindee.parsing.common.field.CompanyRegistrationField;
 import com.mindee.parsing.common.field.DateField;
 import com.mindee.parsing.common.field.LocaleField;
 import com.mindee.parsing.common.field.StringField;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 
+/**
+ * Document data for Proof of Address, API version 1.
+ */
 @Getter
 @EqualsAndHashCode
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -69,21 +71,21 @@ public class ProofOfAddressV1DocumentPrediction {
   public String toString() {
 
     String summary =
-      String.format(":Locale: %s%n", this.getLocale()) +
-        String.format(":Issuer name: %s%n", this.getIssuerName()) +
-        String.format(":Issuer Address: %s%n", this.getIssuerAddress()) +
-        String.format(":Issuer Company Registrations: %s%n",
+        String.format(":Locale: %s%n", this.getLocale())
+        + String.format(":Issuer name: %s%n", this.getIssuerName())
+        + String.format(":Issuer Address: %s%n", this.getIssuerAddress())
+        + String.format(":Issuer Company Registrations: %s%n",
           this.issuerCompanyRegistration.stream()
             .map(StringField::toString)
-            .collect(Collectors.joining(" "))) +
-        String.format(":Recipient name: %s%n", this.getRecipientName()) +
-        String.format(":Recipient Address: %s%n", this.getRecipientAddress()) +
-        String.format(":Recipient Company Registrations: %s%n",
+            .collect(Collectors.joining(" ")))
+        + String.format(":Recipient name: %s%n", this.getRecipientName())
+        + String.format(":Recipient Address: %s%n", this.getRecipientAddress())
+        + String.format(":Recipient Company Registrations: %s%n",
           this.issuerCompanyRegistration.stream()
             .map(StringField::toString)
-            .collect(Collectors.joining(" "))) +
-        String.format(":Issuance date: %s%n", this.getIssuanceDate()) +
-        String.format(":Dates: %s%n",
+            .collect(Collectors.joining(" ")))
+        + String.format(":Issuance date: %s%n", this.getIssuanceDate())
+        + String.format(":Dates: %s%n",
           this.getDates().stream()
             .map(DateField::toString)
             .collect(Collectors.joining(String.format("%n        "))));
