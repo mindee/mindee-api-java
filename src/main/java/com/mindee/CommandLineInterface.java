@@ -8,6 +8,10 @@ import com.mindee.parsing.custom.CustomV1Inference;
 import com.mindee.parsing.invoice.InvoiceV4Inference;
 import com.mindee.parsing.passport.PassportV1Inference;
 import com.mindee.parsing.receipt.ReceiptV4Inference;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Model.CommandSpec;
@@ -16,16 +20,11 @@ import picocli.CommandLine.Parameters;
 import picocli.CommandLine.ScopeType;
 import picocli.CommandLine.Spec;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 @Command(name = "CLI",
   scope = ScopeType.INHERIT,
   subcommands = {CommandLine.HelpCommand.class},
   description = "Invoke Off The Shelf API for invoice, receipt, and passports")
-public class CLI {
+public class CommandLineInterface {
 
   @Spec
   CommandSpec spec;
@@ -57,7 +56,7 @@ public class CLI {
   boolean cutDoc;
 
   public static void main(String[] args) {
-    int exitCode = new CommandLine(new CLI()).execute(args);
+    int exitCode = new CommandLine(new CommandLineInterface()).execute(args);
     System.exit(exitCode);
   }
 
