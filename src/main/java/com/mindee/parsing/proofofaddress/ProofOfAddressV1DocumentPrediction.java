@@ -69,7 +69,7 @@ public class ProofOfAddressV1DocumentPrediction {
   public String toString() {
 
     String summary =
-        String.format(":Locale: %s%n", this.getLocale()) +
+      String.format(":Locale: %s%n", this.getLocale()) +
         String.format(":Issuer name: %s%n", this.getIssuerName()) +
         String.format(":Issuer Address: %s%n", this.getIssuerAddress()) +
         String.format(":Issuer Company Registrations: %s%n",

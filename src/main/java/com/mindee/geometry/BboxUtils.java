@@ -15,12 +15,12 @@ public final class BboxUtils {
     }
 
     DoubleSummaryStatistics xStatistics = polygon.getCoordinates().stream()
-        .mapToDouble(Point::getX)
-        .summaryStatistics();
+      .mapToDouble(Point::getX)
+      .summaryStatistics();
 
     DoubleSummaryStatistics yStatistics = polygon.getCoordinates()
-        .stream().mapToDouble(Point::getY)
-        .summaryStatistics();
+      .stream().mapToDouble(Point::getY)
+      .summaryStatistics();
 
     return new Bbox(xStatistics.getMin(), xStatistics.getMax(), yStatistics.getMin(), yStatistics.getMax());
   }
@@ -32,7 +32,7 @@ public final class BboxUtils {
     }
 
     Optional<Polygon> mergedPolygon = polygons.stream()
-        .reduce(PolygonUtils::combine);
+      .reduce(PolygonUtils::combine);
 
     if (!mergedPolygon.isPresent()) {
       return null;
@@ -47,14 +47,14 @@ public final class BboxUtils {
     }
 
     return new Bbox(
-        bboxs.stream().map(Bbox::getMinX).min(Double::compare)
-          .get(),
-        bboxs.stream().map(Bbox::getMaxX).max(Double::compare)
-            .get(),
-        bboxs.stream().map(Bbox::getMinY).min(Double::compare)
-            .get(),
-        bboxs.stream().map(Bbox::getMaxY).max(Double::compare)
-            .get());
+      bboxs.stream().map(Bbox::getMinX).min(Double::compare)
+        .get(),
+      bboxs.stream().map(Bbox::getMaxX).max(Double::compare)
+        .get(),
+      bboxs.stream().map(Bbox::getMinY).min(Double::compare)
+        .get(),
+      bboxs.stream().map(Bbox::getMaxY).max(Double::compare)
+        .get());
   }
 
 }

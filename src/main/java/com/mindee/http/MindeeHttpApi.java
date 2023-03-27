@@ -42,9 +42,9 @@ public final class MindeeHttpApi implements MindeeApi {
     CustomEndpoint customEndpoint;
 
     // that means it could be custom document
-    if(endpointAnnotation == null) {
+    if (endpointAnnotation == null) {
       CustomEndpointInfo customEndpointAnnotation = clazz.getAnnotation(CustomEndpointInfo.class);
-      if(customEndpointAnnotation == null) {
+      if (customEndpointAnnotation == null) {
         throw new MindeeException("The class is not supported as a prediction model. " +
           "The endpoint attribute is missing. " +
           "Please refer to the document or contact the support.");
@@ -53,8 +53,7 @@ public final class MindeeHttpApi implements MindeeApi {
         customEndpointAnnotation.endpointName(),
         customEndpointAnnotation.accountName(),
         customEndpointAnnotation.version());
-    }
-    else {
+    } else {
       customEndpoint = new CustomEndpoint(
         endpointAnnotation.endpointName(),
         endpointAnnotation.accountName(),

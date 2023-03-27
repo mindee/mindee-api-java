@@ -111,8 +111,8 @@ public class InvoiceV4DocumentPrediction {
     if (!this.getLineItems().isEmpty()) {
       lineItemsSummary =
         String.format("%n====================== ======== ========= ========== ================== ====================================%n") +
-        String.format("Code                   QTY      Price     Amount     Tax (Rate)         Description%n") +
-        String.format("====================== ======== ========= ========== ================== ====================================%n");
+          String.format("Code                   QTY      Price     Amount     Tax (Rate)         Description%n") +
+          String.format("====================== ======== ========= ========== ================== ====================================%n");
 
       lineItemsSummary += this.getLineItems().stream()
         .map(InvoiceLineItem::toString)
@@ -124,7 +124,7 @@ public class InvoiceV4DocumentPrediction {
 
     String summary =
       String.format(":Locale: %s%n", this.getLocaleField()) +
-      String.format(":Document type: %s%n", this.getDocumentType()) +
+        String.format(":Document type: %s%n", this.getDocumentType()) +
         String.format(":Invoice number: %s%n", this.getInvoiceNumber()) +
         String.format(":Reference numbers: %s%n",
           this.getReferenceNumbers().stream()

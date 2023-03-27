@@ -9,7 +9,8 @@ import com.mindee.pdf.PdfBoxApi;
  */
 public class MindeeClientInit {
 
-  private MindeeClientInit() {}
+  private MindeeClientInit() {
+  }
 
   /**
    * Create a default MindeeClient.
@@ -22,6 +23,7 @@ public class MindeeClientInit {
 
   /**
    * Create a default MindeeClient.
+   *
    * @param apiKey The api key to use.
    */
   public static MindeeClient create(String apiKey) {
@@ -33,6 +35,7 @@ public class MindeeClientInit {
 
   /**
    * Create a default MindeeApi.
+   *
    * @param apiKey The api key to use.
    */
   public static MindeeApi createDefault(String apiKey) {

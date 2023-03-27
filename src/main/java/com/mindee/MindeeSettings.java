@@ -22,7 +22,7 @@ public class MindeeSettings {
 
   public MindeeSettings(String apiKey, String baseUrl) {
 
-    if(apiKey == null || apiKey.trim().isEmpty()) {
+    if (apiKey == null || apiKey.trim().isEmpty()) {
       String apiKeyFromEnv = System.getenv("MINDEE_API_KEY");
       if (apiKeyFromEnv == null || apiKeyFromEnv.trim().isEmpty()) {
         throw new IllegalArgumentException("API KEY is null or empty.");
@@ -32,12 +32,11 @@ public class MindeeSettings {
       this.apiKey = apiKey;
     }
 
-    if(baseUrl == null || baseUrl.trim().isEmpty()) {
+    if (baseUrl == null || baseUrl.trim().isEmpty()) {
       String baseUrlFromEnv = System.getenv("MINDEE_API_URL");
-      if(baseUrlFromEnv != null && !baseUrlFromEnv.trim().isEmpty()) {
+      if (baseUrlFromEnv != null && !baseUrlFromEnv.trim().isEmpty()) {
         this.baseUrl = baseUrlFromEnv;
-      }
-      else {
+      } else {
         this.baseUrl = DEFAULT_MINDEE_API_URL;
       }
     } else {

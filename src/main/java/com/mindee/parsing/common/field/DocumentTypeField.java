@@ -9,7 +9,7 @@ import lombok.Getter;
  */
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
-public final class DocumentTypeField{
+public final class DocumentTypeField {
 
   /**
    * The value of the field.

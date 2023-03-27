@@ -134,8 +134,8 @@ public class FinancialV1DocumentPrediction {
     if (!this.getLineItems().isEmpty()) {
       lineItemsSummary =
         String.format("%n====================== ======== ========= ========== ================== ====================================%n") +
-        String.format("Code                   QTY      Price     Amount     Tax (Rate)         Description%n") +
-        String.format("====================== ======== ========= ========== ================== ====================================%n");
+          String.format("Code                   QTY      Price     Amount     Tax (Rate)         Description%n") +
+          String.format("====================== ======== ========= ========== ================== ====================================%n");
 
       lineItemsSummary += this.getLineItems().stream()
         .map(InvoiceLineItem::toString)

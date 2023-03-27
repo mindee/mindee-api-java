@@ -32,7 +32,7 @@ public class ShippingContainerV1DocumentPrediction {
   public String toString() {
 
     String summary =
-        String.format(":Owner: %s%n", this.getOwner()) +
+      String.format(":Owner: %s%n", this.getOwner()) +
         String.format(":Serial number: %s%n", this.getSerialNumber()) +
         String.format(":Size and type: %s%n", this.getSizeType());
 

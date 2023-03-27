@@ -31,13 +31,14 @@ public class ListFieldValue {
   @JsonProperty("content")
   private String content;
 
-  public ListFieldValue() {}
+  public ListFieldValue() {
+  }
 
   public ListFieldValue(
     String content,
     double confidence,
     Polygon polygon
-    ) {
+  ) {
     this.confidence = confidence;
     this.polygon = polygon;
     this.content = content;

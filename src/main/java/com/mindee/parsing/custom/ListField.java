@@ -23,7 +23,7 @@ public class ListField {
   /**
    * List of defined values available in a field.
    */
-  @JsonProperty("values" )
+  @JsonProperty("values")
   private List<ListFieldValue> values;
 
   public ListField() {

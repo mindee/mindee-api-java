@@ -14,11 +14,11 @@ public final class LineItemsGenerator {
   }
 
   public static LineItems generate(
-      List<String> fieldNames,
-      Map<String, ListField> fields,
-      Anchor anchor) {
+    List<String> fieldNames,
+    Map<String, ListField> fields,
+    Anchor anchor) {
 
-    Map<String, ListField>  fieldsToTransformIntoLines = fields.entrySet()
+    Map<String, ListField> fieldsToTransformIntoLines = fields.entrySet()
       .stream()
       .filter(field -> fieldNames.contains(field.getKey()))
       .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
@@ -31,8 +31,8 @@ public final class LineItemsGenerator {
   }
 
   private static List<Line> populateLines(
-      Map<String, ListField> fields,
-      List<Line> lines) {
+    Map<String, ListField> fields,
+    List<Line> lines) {
 
     List<Line> populatedLines = new ArrayList<>();
 
@@ -42,7 +42,7 @@ public final class LineItemsGenerator {
           double minYCurrentValue = PolygonUtils.getMinYCoordinate(listFieldValue.getPolygon());
 
           if (minYCurrentValue < currentLine.getBbox().getMaxY()
-              && minYCurrentValue >= currentLine.getBbox().getMinY()) {
+            && minYCurrentValue >= currentLine.getBbox().getMinY()) {
             currentLine.addField(field.getKey(), listFieldValue);
           }
         }

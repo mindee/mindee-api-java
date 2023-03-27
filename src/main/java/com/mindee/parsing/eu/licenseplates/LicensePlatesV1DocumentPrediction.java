@@ -26,10 +26,10 @@ public class LicensePlatesV1DocumentPrediction {
   public String toString() {
 
     String summary =
-        String.format(":License plates: %s%n",
-          this.getLicensePlates().stream()
-            .map(StringField::toString)
-            .collect(Collectors.joining(", ")));
+      String.format(":License plates: %s%n",
+        this.getLicensePlates().stream()
+          .map(StringField::toString)
+          .collect(Collectors.joining(", ")));
 
     return SummaryHelper.cleanSummary(summary);
   }

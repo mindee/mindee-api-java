@@ -6,6 +6,7 @@ public interface PdfOperation {
 
   /**
    * To split a pdf file.
+   *
    * @param splitQuery Options to perform the query.
    * @return The split pdf.
    */

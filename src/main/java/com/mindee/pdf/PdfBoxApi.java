@@ -25,8 +25,7 @@ public final class PdfBoxApi implements PdfOperation {
       try (PDDocument splitDocument = new PDDocument()) {
         int totalOriginalPages = countPages(splitQuery.getFile());
 
-        if (totalOriginalPages < splitQuery.getPageOptions().getOnMinPages())
-        {
+        if (totalOriginalPages < splitQuery.getPageOptions().getOnMinPages()) {
           return new SplitPdf(splitQuery.getFile(), totalOriginalPages);
         }
 
@@ -76,9 +75,9 @@ public final class PdfBoxApi implements PdfOperation {
   }
 
   private int countPages(byte[] documentFile) throws IOException {
-      PDDocument document = PDDocument.load(documentFile);
-      int pageCount = document.getNumberOfPages();
-      document.close();
-      return pageCount;
+    PDDocument document = PDDocument.load(documentFile);
+    int pageCount = document.getNumberOfPages();
+    document.close();
+    return pageCount;
   }
 }

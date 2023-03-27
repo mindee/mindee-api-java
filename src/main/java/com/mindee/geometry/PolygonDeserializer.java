@@ -15,6 +15,7 @@ public class PolygonDeserializer extends StdDeserializer<Polygon> {
 
 
   private static ObjectMapper MAPPER = new ObjectMapper();
+
   public PolygonDeserializer(Class<?> vc) {
     super(vc);
   }
@@ -25,7 +26,7 @@ public class PolygonDeserializer extends StdDeserializer<Polygon> {
 
   @Override
   public Polygon deserialize(JsonParser jsonParser,
-    DeserializationContext deserializationContext) throws IOException, JacksonException {
+                             DeserializationContext deserializationContext) throws IOException, JacksonException {
     ArrayNode node = jsonParser.getCodec().readTree(jsonParser);
 
     List<List<Double>> polygonList = MAPPER.readerFor(new TypeReference<List<List<Double>>>() {
