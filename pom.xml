@@ -5,8 +5,8 @@
 
   <groupId>com.mindee.sdk</groupId>
   <artifactId>mindee-api-java</artifactId>
-  <modelVersion>4.0.0</modelVersion>
   <version>3.2.0</version>
+  <modelVersion>4.0.0</modelVersion>
   <name>Mindee Java Helper Library</name>
   <description>Java Library to call Mindee's Off The Shelf and Custom APIs</description>
   <url>https://github.com/mindee/mindee-api-java</url>
@@ -18,7 +18,7 @@
   </licenses>
   <developers>
     <developer>
-      <name>Mindee team</name>
+      <name>Mindee Team</name>
       <email>devrel@mindee.com</email>
       <organization>Mindee</organization>
       <organizationUrl>https://mindee.com/</organizationUrl>
@@ -55,6 +55,7 @@
         </plugin>
         <plugin>
           <artifactId>maven-jar-plugin</artifactId>
+          <version>3.3.0</version>
           <configuration>
             <archive>
               <manifest>
@@ -63,7 +64,6 @@
               </manifest>
             </archive>
           </configuration>
-          <version>3.0.2</version>
         </plugin>
         <plugin>
           <artifactId>maven-install-plugin</artifactId>
@@ -71,7 +71,7 @@
         </plugin>
         <plugin>
           <artifactId>maven-deploy-plugin</artifactId>
-          <version>2.8.2</version>
+          <version>3.1.1</version>
         </plugin>
         <!-- site lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#site_Lifecycle -->
         <plugin>
@@ -84,6 +84,8 @@
         </plugin>
         <plugin>
           <artifactId>maven-compiler-plugin</artifactId>
+          <groupId>org.apache.maven.plugins</groupId>
+          <version>3.10.1</version>
           <configuration>
             <annotationProcessorPaths>
               <path>
@@ -105,8 +107,6 @@
             <source>1.8</source>
             <target>1.8</target>
           </configuration>
-          <groupId>org.apache.maven.plugins</groupId>
-          <version>3.8.1</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -114,7 +114,6 @@
           <version>3.2.1</version>
           <configuration>
             <configLocation>google_checks.xml</configLocation>
-            <encoding>UTF-8</encoding>
             <consoleOutput>true</consoleOutput>
           </configuration>
           <executions>
@@ -129,7 +128,7 @@
         <plugin>
           <groupId>org.sonatype.plugins</groupId>
           <artifactId>nexus-staging-maven-plugin</artifactId>
-          <version>1.6.7</version>
+          <version>1.6.12</version>
           <extensions>true</extensions>
           <configuration>
             <serverId>ossrh</serverId>
@@ -148,8 +147,21 @@
         <plugins>
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-source-plugin</artifactId>
+            <version>3.2.1</version>
+            <executions>
+              <execution>
+                <id>attach-sources</id>
+                <goals>
+                  <goal>jar-no-fork</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-javadoc-plugin</artifactId>
-            <version>2.9.1</version>
+            <version>3.2.0</version>
             <executions>
               <execution>
                 <id>attach-javadocs</id>
@@ -185,45 +197,40 @@
   </profiles>
 
   <dependencies>
-    <!-- https://mvnrepository.com/artifact/org.apache.pdfbox/pdfbox -->
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-math3</artifactId>
+      <version>3.6.1</version>
+    </dependency>
+    <dependency>
+      <artifactId>mapstruct</artifactId>
+      <groupId>org.mapstruct</groupId>
+      <version>${org.mapstruct.version}</version>
+    </dependency>
     <dependency>
       <artifactId>pdfbox</artifactId>
       <groupId>org.apache.pdfbox</groupId>
-      <version>2.0.26</version>
+      <version>2.0.27</version>
     </dependency>
-
-    <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
-    <dependency>
-      <artifactId>lombok</artifactId>
-      <groupId>org.projectlombok</groupId>
-      <scope>provided</scope>
-      <version>${org.projectlombok.version}</version>
-    </dependency>
-
-    <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
     <dependency>
       <artifactId>jackson-databind</artifactId>
       <groupId>com.fasterxml.jackson.core</groupId>
-      <version>2.14.1</version>
+      <version>2.14.2</version>
     </dependency>
-
-    <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.datatype/jackson-datatype-jsr310 -->
     <dependency>
       <artifactId>jackson-datatype-jsr310</artifactId>
       <groupId>com.fasterxml.jackson.datatype</groupId>
-      <version>2.14.1</version>
+      <version>2.14.2</version>
     </dependency>
-
     <dependency>
       <artifactId>httpclient</artifactId>
       <groupId>org.apache.httpcomponents</groupId>
-      <version>4.5.13</version>
+      <version>4.5.14</version>
     </dependency>
-
     <dependency>
       <artifactId>httpmime</artifactId>
       <groupId>org.apache.httpcomponents</groupId>
-      <version>4.5.13</version>
+      <version>4.5.14</version>
     </dependency>
 
     <dependency>
@@ -233,19 +240,18 @@
     </dependency>
 
     <dependency>
-      <artifactId>mapstruct</artifactId>
-      <groupId>org.mapstruct</groupId>
-      <version>${org.mapstruct.version}</version>
+      <artifactId>lombok</artifactId>
+      <groupId>org.projectlombok</groupId>
+      <scope>provided</scope>
+      <version>${org.projectlombok.version}</version>
     </dependency>
 
-    <!-- https://mvnrepository.com/artifact/com.squareup.okhttp3/mockwebserver -->
     <dependency>
       <artifactId>mockwebserver</artifactId>
       <groupId>com.squareup.okhttp3</groupId>
       <scope>test</scope>
-      <version>4.9.3</version>
+      <version>4.10.0</version>
     </dependency>
-
     <dependency>
       <artifactId>junit-jupiter-engine</artifactId>
       <groupId>org.junit.jupiter</groupId>
@@ -270,41 +276,24 @@
       <scope>test</scope>
       <version>${junit.platform.version}</version>
     </dependency>
-
-    <!-- version 2.0 is not compatible with java 8 -->
     <dependency>
       <artifactId>junit-pioneer</artifactId>
       <groupId>org.junit-pioneer</groupId>
       <scope>test</scope>
+      <!-- version 2.0 is not compatible with java 8 -->
       <version>1.9.1</version>
     </dependency>
-
-    <!-- https://mvnrepository.com/artifact/org.mockito/mockito-junit-jupiter -->
     <dependency>
       <artifactId>mockito-junit-jupiter</artifactId>
       <groupId>org.mockito</groupId>
       <scope>test</scope>
       <version>4.5.1</version>
     </dependency>
-
-    <!-- https://mvnrepository.com/artifact/org.mockito/mockito-inline -->
     <dependency>
       <artifactId>mockito-inline</artifactId>
       <groupId>org.mockito</groupId>
       <scope>test</scope>
       <version>4.6.1</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.apache.maven.plugins</groupId>
-      <artifactId>maven-checkstyle-plugin</artifactId>
-      <version>2.8</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-math3</artifactId>
-      <version>3.6.1</version>
     </dependency>
 
   </dependencies>
@@ -316,14 +305,13 @@
   </scm>
 
   <properties>
-    <junit.jupiter.version>5.8.1</junit.jupiter.version>
-    <junit.platform.version>1.8.1</junit.platform.version>
+    <junit.jupiter.version>5.8.2</junit.jupiter.version>
+    <junit.platform.version>1.8.2</junit.platform.version>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
     <org.mapstruct.version>1.5.3.Final</org.mapstruct.version>
-    <org.projectlombok.lombok-mapstruct-binding.version>0.2.0
-    </org.projectlombok.lombok-mapstruct-binding.version>
-    <org.projectlombok.version>1.18.24</org.projectlombok.version>
+    <org.projectlombok.lombok-mapstruct-binding.version>0.2.0</org.projectlombok.lombok-mapstruct-binding.version>
+    <org.projectlombok.version>1.18.26</org.projectlombok.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 

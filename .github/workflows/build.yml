@@ -32,7 +32,7 @@ jobs:
           cache: "maven"
 
       - name: Check style
-        run: mvn checkstyle:check
+        run: mvn --update-snapshots --no-transfer-progress checkstyle:check
 
       - name: Verify with Maven
         run: mvn --update-snapshots --no-transfer-progress verify
