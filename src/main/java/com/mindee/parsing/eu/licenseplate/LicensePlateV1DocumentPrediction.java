@@ -1,35 +1,37 @@
-package com.mindee.parsing.eu.licenseplates;
+package com.mindee.parsing.eu.licenseplate;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mindee.parsing.SummaryHelper;
 import com.mindee.parsing.common.field.StringField;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
+/**
+* Document data for License Plate, API version 1.
+*/
 @Getter
 @EqualsAndHashCode
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class LicensePlatesV1DocumentPrediction {
+public class LicensePlateV1DocumentPrediction {
 
   /**
-   * A list of license plates.
-   */
+  * List of all license plates found in the image.
+  */
   @JsonProperty("license_plates")
-  private List<StringField> licensePlates = new ArrayList<>();
+  private List<StringField> licensePlates;
 
   @Override
   public String toString() {
-
     String summary =
-      String.format(":License plates: %s%n",
-        this.getLicensePlates().stream()
-          .map(StringField::toString)
-          .collect(Collectors.joining(", ")));
-
+        String.format(
+          ":License Plates: %s%n",
+          SummaryHelper.arrayToString(
+            this.getLicensePlates(),
+            "%n                 "
+          )
+        );
     return SummaryHelper.cleanSummary(summary);
   }
 }

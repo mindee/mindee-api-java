@@ -1,4 +1,4 @@
-package com.mindee.parsing.eu.licenseplates;
+package com.mindee.parsing.eu.licenseplate;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.mindee.parsing.EndpointInfo;
@@ -6,11 +6,11 @@ import com.mindee.parsing.common.Inference;
 import lombok.Getter;
 
 /**
- * The EU licence plates model for the v1.
- */
+* The definition for license_plates v1.
+*/
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
 @EndpointInfo(endpointName = "license_plates", version = "1")
-public class LicensePlatesV1Inference
-    extends Inference<LicensePlatesV1DocumentPrediction, LicensePlatesV1DocumentPrediction> {
+public class LicensePlateV1Inference
+    extends Inference<LicensePlateV1DocumentPrediction, LicensePlateV1DocumentPrediction> {
 }
