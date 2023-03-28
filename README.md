@@ -19,7 +19,10 @@ Include the following maven dependency in your project to use the helper library
 </dependency>
 ```
 
-Where `${mindee.sdk.version}` is the version shown in the badge above.
+Where `${mindee.sdk.version}` is the version shown here:
+
+![Version](https://img.shields.io/maven-central/v/com.mindee.sdk/mindee-api-java)
+
 
 ## Loading a File and Parsing It
 The `MindeeClient` class is the entry point for most of the helper library features.
