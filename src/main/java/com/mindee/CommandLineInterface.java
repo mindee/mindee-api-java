@@ -4,6 +4,7 @@ import com.mindee.parsing.CustomEndpoint;
 import com.mindee.parsing.PageOptions;
 import com.mindee.parsing.PageOptionsOperation;
 import com.mindee.parsing.common.Document;
+import com.mindee.parsing.common.Inference;
 import com.mindee.parsing.custom.CustomV1Inference;
 import com.mindee.parsing.invoice.InvoiceV4Inference;
 import com.mindee.parsing.passport.PassportV1Inference;
@@ -20,40 +21,53 @@ import picocli.CommandLine.Parameters;
 import picocli.CommandLine.ScopeType;
 import picocli.CommandLine.Spec;
 
-@Command(name = "CLI",
-  scope = ScopeType.INHERIT,
-  subcommands = {CommandLine.HelpCommand.class},
-  description = "Invoke Off The Shelf API for invoice, receipt, and passports")
+/**
+ * Command Line Interface for the Mindee client.
+ */
+@Command(
+    name = "CLI",
+    scope = ScopeType.INHERIT,
+    subcommands = {CommandLine.HelpCommand.class},
+    description = "Invoke Off The Shelf API for invoice, receipt, and passports"
+)
 public class CommandLineInterface {
 
   @Spec
   CommandSpec spec;
 
-  @Parameters(index = "0",
-    paramLabel = "<path>",
-    scope = ScopeType.INHERIT)
-  File file;
+  @Option(
+      names = {"-w", "--words"},
+      scope = ScopeType.INHERIT,
+      paramLabel = "WORDS",
+      description = "Include words in response"
+  )
+  private boolean words;
 
-  @Option(names = {"-w",
-    "--words"},
-    scope = ScopeType.INHERIT,
-    paramLabel = "<AllWords>",
-    description = "Flag to set all words")
-  boolean words;
+  private enum OutputChoices { summary, full }
 
-  @Option(names = {"-k",
-    "--api-key"},
-    scope = ScopeType.INHERIT,
-    paramLabel = "MINDEE_API_KEY",
-    description = "API key, if not set, will use system property")
-  String apiKey;
+  @Option(
+      names = {"-o", "--output-type"},
+      scope = ScopeType.INHERIT,
+      paramLabel = "OUTPUT_TYPE",
+      description = "Output type, one of:\n"
+          + "  summary - document level predictions\n"
+          + "  full - all parsed data"
+  )
+  private OutputChoices outputType;
 
-  @Option(names = {"-c",
-    "--cut-doc"},
-    scope = ScopeType.INHERIT,
-    paramLabel = "<CutDoc>",
-    description = "Keep only the first 5 pages of the document")
-  boolean cutDoc;
+  @Option(
+      names = {"-k", "--api-key"},
+      scope = ScopeType.INHERIT,
+      paramLabel = "MINDEE_API_KEY",
+      description = "API key, if not set, will use system property")
+  private String apiKey;
+
+  @Option(
+      names = {"-c", "--cut-doc"},
+      scope = ScopeType.INHERIT,
+      paramLabel = "<CutDoc>",
+      description = "Keep only the first 5 pages of the document")
+  private boolean cutDoc;
 
   public static void main(String[] args) {
     int exitCode = new CommandLine(new CommandLineInterface()).execute(args);
@@ -61,90 +75,43 @@ public class CommandLineInterface {
   }
 
   @Command(name = "invoice", description = "Invokes the invoice API")
-  void invoiceMethod() throws IOException {
-
-    MindeeClient mindeeClient = MindeeClientInit.create(apiKey);
-
-    Document<InvoiceV4Inference> document;
-
-    if (cutDoc) {
-      document = mindeeClient.parse(
-        InvoiceV4Inference.class,
-        new DocumentToParse(file),
-        words,
-        getDefaultPageOptions());
-    } else {
-      document = mindeeClient.parse(
-        InvoiceV4Inference.class,
-        new DocumentToParse(file),
-        words);
-    }
-
-    System.out.println(document.toString());
+  void invoiceMethod(
+      @Parameters(index = "0", paramLabel = "<path>", scope = ScopeType.LOCAL)
+      File file
+  ) throws IOException {
+    System.out.println(standardProductOutput(InvoiceV4Inference.class, file));
   }
 
   @Command(name = "receipt", description = "Invokes the receipt API")
-  void receiptMethod() throws IOException {
-
-    MindeeClient mindeeClient = MindeeClientInit.create(apiKey);
-
-    Document<ReceiptV4Inference> document;
-
-    if (cutDoc) {
-      document = mindeeClient.parse(
-        ReceiptV4Inference.class,
-        new DocumentToParse(file),
-        words,
-        getDefaultPageOptions());
-    } else {
-      document = mindeeClient.parse(
-        ReceiptV4Inference.class,
-        new DocumentToParse(file),
-        words);
-    }
-
-    System.out.println(document.toString());
+  void receiptMethod(
+      @Parameters(index = "0", paramLabel = "<path>", scope = ScopeType.LOCAL)
+      File file
+  ) throws IOException {
+    System.out.println(standardProductOutput(ReceiptV4Inference.class, file));
   }
 
   @Command(name = "passport", description = "Invokes the passport API")
-  void passportMethod() throws IOException {
-
-    MindeeClient mindeeClient = MindeeClientInit.create(apiKey);
-
-    Document<PassportV1Inference> document;
-
-    if (cutDoc) {
-      document = mindeeClient.parse(
-        PassportV1Inference.class,
-        new DocumentToParse(file),
-        words,
-        getDefaultPageOptions());
-    } else {
-      document = mindeeClient.parse(
-        PassportV1Inference.class,
-        new DocumentToParse(file),
-        words);
-    }
-
-    System.out.println(document.toString());
+  void passportMethod(
+      @Parameters(index = "0", paramLabel = "<path>", scope = ScopeType.LOCAL)
+      File file
+  ) throws IOException {
+    System.out.println(standardProductOutput(PassportV1Inference.class, file));
   }
 
   @Command(name = "custom", description = "Invokes a builder API")
   void customMethod(
-    @Parameters(
-      index = "0",
-      scope = ScopeType.INHERIT,
-      paramLabel = "<path>") File file,
-    @Parameters(
-      index = "1",
-      scope = ScopeType.LOCAL,
-      paramLabel = "<productName>") String productName,
-    @Option(names = {"-an",
-      "--account-name"},
-      scope = ScopeType.LOCAL,
-      required = true,
-      paramLabel = "accountName",
-      description = "The name of the account") String accountName
+      @Option(
+          names = {"-a", "--account"},
+          scope = ScopeType.LOCAL,
+          required = true,
+          paramLabel = "accountName",
+          description = "The name of the account"
+      )
+      String accountName,
+      @Parameters(index = "0", scope = ScopeType.LOCAL, paramLabel = "<productName>")
+      String productName,
+      @Parameters(index = "1", scope = ScopeType.LOCAL, paramLabel = "<path>")
+      File file
   ) throws IOException {
 
     MindeeClient mindeeClient = MindeeClientInit.create(apiKey);
@@ -162,11 +129,10 @@ public class CommandLineInterface {
         new DocumentToParse(file),
         customEndpoint);
     }
-
     System.out.println(document.toString());
   }
 
-  PageOptions getDefaultPageOptions() {
+  protected PageOptions getDefaultPageOptions() {
 
     List<Integer> pageNumbers = new ArrayList<>();
     pageNumbers.add(0);
@@ -176,5 +142,24 @@ public class CommandLineInterface {
     pageNumbers.add(4);
 
     return new PageOptions(pageNumbers, PageOptionsOperation.KEEP_ONLY_LISTED_PAGES);
+  }
+
+  private <T extends Inference<?, ?>> String standardProductOutput(
+      Class<T> docClass,
+      File file
+  ) throws IOException {
+    MindeeClient mindeeClient = MindeeClientInit.create(apiKey);
+    DocumentToParse input = new DocumentToParse(file);
+    Document<T> response;
+    if (cutDoc) {
+      response = mindeeClient.parse(docClass, input, words, getDefaultPageOptions());
+    } else {
+      response = mindeeClient.parse(docClass, input, words);
+    }
+
+    if (outputType == OutputChoices.full) {
+      return response.toString();
+    }
+    return response.getInference().getDocumentPrediction().toString();
   }
 }
