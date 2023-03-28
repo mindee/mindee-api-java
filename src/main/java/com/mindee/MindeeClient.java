@@ -9,7 +9,6 @@ import com.mindee.parsing.custom.CustomV1Inference;
 import com.mindee.pdf.PdfOperation;
 import com.mindee.pdf.SplitQuery;
 import com.mindee.utils.FileUtils;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,13 +25,17 @@ public class MindeeClient {
     this.mindeeApi = mindeeApi;
   }
 
-  public DocumentToParse loadDocument(InputStream fileStream,
-                                      String fileName) throws IOException {
+  public DocumentToParse loadDocument(
+      InputStream fileStream,
+      String fileName
+  ) throws IOException {
     return new DocumentToParse(fileStream, fileName);
   }
 
-  public DocumentToParse loadDocument(byte[] fileAsByteArray,
-                                      String filename) {
+  public DocumentToParse loadDocument(
+      byte[] fileAsByteArray,
+      String filename
+  ) {
     return new DocumentToParse(fileAsByteArray, filename);
   }
 
@@ -40,15 +43,17 @@ public class MindeeClient {
     return new DocumentToParse(file);
   }
 
-  public DocumentToParse loadDocument(String fileInBase64Code,
-                                      String filename) {
+  public DocumentToParse loadDocument(
+      String fileInBase64Code,
+      String filename
+  ) {
     return new DocumentToParse(fileInBase64Code, filename);
   }
 
   public <T extends Inference> Document<T> parse(
-    Class<T> type,
-    DocumentToParse documentToParse) throws IOException {
-
+      Class<T> type,
+      DocumentToParse documentToParse
+  ) throws IOException {
     return this.mindeeApi.predict(
       type,
       ParseParameter.builder()
@@ -58,10 +63,10 @@ public class MindeeClient {
   }
 
   public <T extends Inference> Document<T> parse(
-    Class<T> type,
-    DocumentToParse documentToParse,
-    boolean includeWords) throws IOException {
-
+      Class<T> type,
+      DocumentToParse documentToParse,
+      boolean includeWords
+  ) throws IOException {
     return this.mindeeApi.predict(
       type,
       ParseParameter.builder()
@@ -72,10 +77,10 @@ public class MindeeClient {
   }
 
   public <T extends Inference> Document<T> parse(
-    Class<T> type,
-    DocumentToParse documentToParse,
-    PageOptions pageOptions) throws IOException {
-
+      Class<T> type,
+      DocumentToParse documentToParse,
+      PageOptions pageOptions
+  ) throws IOException {
     return this.mindeeApi.predict(
       type,
       ParseParameter.builder()
@@ -85,11 +90,11 @@ public class MindeeClient {
   }
 
   public <T extends Inference> Document<T> parse(
-    Class<T> type,
-    DocumentToParse documentToParse,
-    boolean includeWords,
-    PageOptions pageOptions) throws IOException {
-
+      Class<T> type,
+      DocumentToParse documentToParse,
+      boolean includeWords,
+      PageOptions pageOptions
+  ) throws IOException {
     return this.mindeeApi.predict(
       type,
       ParseParameter.builder()
@@ -100,9 +105,9 @@ public class MindeeClient {
   }
 
   public Document<CustomV1Inference> parse(
-    DocumentToParse documentToParse,
-    CustomEndpoint customEndpoint) throws IOException {
-
+      DocumentToParse documentToParse,
+      CustomEndpoint customEndpoint
+  ) throws IOException {
     return this.mindeeApi.predict(
       CustomV1Inference.class,
       customEndpoint,
@@ -113,10 +118,10 @@ public class MindeeClient {
   }
 
   public Document<CustomV1Inference> parse(
-    DocumentToParse documentToParse,
-    CustomEndpoint customEndpoint,
-    PageOptions pageOptions) throws IOException {
-
+      DocumentToParse documentToParse,
+      CustomEndpoint customEndpoint,
+      PageOptions pageOptions
+  ) throws IOException {
     return this.mindeeApi.predict(
       CustomV1Inference.class,
       customEndpoint,
@@ -126,9 +131,11 @@ public class MindeeClient {
         .build());
   }
 
-  private byte[] getSplitFile(DocumentToParse documentToParse, PageOptions pageOptions) throws IOException {
+  private byte[] getSplitFile(
+      DocumentToParse documentToParse,
+      PageOptions pageOptions
+  ) throws IOException {
     byte[] splitFile;
-
     if (FileUtils.getFileExtension(documentToParse.getFilename())
       .equalsIgnoreCase("pdf")) {
       splitFile = pdfOperation.split(
@@ -136,7 +143,6 @@ public class MindeeClient {
     } else {
       splitFile = documentToParse.getFile();
     }
-
     return splitFile;
   }
 }
