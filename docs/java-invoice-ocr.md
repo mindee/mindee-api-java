@@ -1,24 +1,25 @@
 The java client library supports the [invoice API](https://developers.mindee.com/docs/invoice-ocr) for extracting data from invoices.
 
-Using this [sample invoice](https://files.readme.io/a74eaa5-c8e283b-sample_invoice.jpeg) below, we are going to illustrate how to extract the data that we want using the client library.
+Using this [sample invoice](https://files.readme.io/a74eaa5-c8e283b-sample_invoice.jpeg) below,
+we are going to illustrate how to extract the data that we want using the client library.
 ![sample invoice](https://files.readme.io/a74eaa5-c8e283b-sample_invoice.jpeg)
 
 ## Quick Start
 ```java
 
 // Init a new client
-MindeeClient client = MindeeClientInit.create("<your mindee api key>");
+MindeeClient client = MindeeClientInit.create("my-api-key");
 
 // Load a file from disk and parse it
 DocumentToParse documentToParse = mindeeClient.loadDocument(
   new File("./a74eaa5-c8e283b-sample_invoice.jpeg")
 );
-Document<InvoiceV4Inference> invoiceDocument = mindeeClient.parse(
+Document<InvoiceV4Inference> document = mindeeClient.parse(
   InvoiceV4Inference.class, documentToParse
 );
 
 // Print a summary of the parsed data
-logger.info(invoiceDocument.toString());
+logger.info(document.toString());
 ```
 Output:
 ```rst

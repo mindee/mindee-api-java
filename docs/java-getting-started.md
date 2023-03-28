@@ -46,7 +46,10 @@ mvn clean install
 ```
 
 ## Updating the Library
-When starting out it is recommended that you use the latest release version of the library from our [maven central repository](https://mvnrepository.com/artifact/com.mindee.sdk/mindee-api-java). Future updates can be made using the [maven versions plugin](https://www.mojohaus.org/versions-maven-plugin/).
+When starting out it is recommended that you use the latest release version of the library from
+our [maven central repository](https://mvnrepository.com/artifact/com.mindee.sdk/mindee-api-java).
+
+Future updates can be made using the [maven versions plugin](https://www.mojohaus.org/versions-maven-plugin/).
 
 ```shell
 mvn versions:use-next-releases -Dincludes=com.mindee.sdk:mindee-api-java
@@ -105,10 +108,12 @@ There are a few different ways of loading a document file, depending on your use
 * [Base64](#base64)
 * [Byte Array](#bytes)
 
-The `MindeeClient` class provides overloaded `loadDocument` methods for these three input types. The `loadDocument` method returns an object of the `DocumentToParse` class which can be used for further interactions with the API.
+The `MindeeClient` class provides overloaded `loadDocument` methods for these three input types.
+The `loadDocument` method returns an object of the `DocumentToParse` class which can be used for further interactions with the API.
 
 #### File Object
-Load a `java.io.File` object. When using this option you do not need to pass in a file name - the API uses the `file.getName()` method to get the file name.
+Load a `java.io.File` object.
+When using this option you do not need to pass in a file name - the API uses the `file.getName()` method to get the file name.
 
 ```java
 DocumentToParse documentToParse = mindeeClient.loadDocument(
@@ -140,7 +145,9 @@ DocumentToParse documentToParse = mindeeClient.loadDocument(fileAsBytes,"documen
 The `MindeeClient` has multiple overloaded `parse` methods available for parsing the documents 
 and you will get `DocumentToParse`.
 
-This can be done by implicitly by calling the `parse(Class<T> type)` method with the expected response type from the parse method (`InvoiceResponse`, `ReceiptResponse`, `PassportResponse`, or even you custom class !)
+This can be done by implicitly by calling the `parse(Class<T> type)` method with the expected response type from
+the parse method (`InvoiceResponse`, `ReceiptResponse`, `PassportResponse`, or even you custom class).
+
 Each document type available in the library has its corresponding `Response` class.
 This is detailed in each document-specific guide.
 

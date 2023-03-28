@@ -6,15 +6,18 @@ Using this [sample receipt](https://files.readme.io/ffc127d-sample_receipt.jpg) 
 ## Quick Start
 ```java
 // Init a new client
-MindeeClient client = MindeeClientInit.create("<your mindee api key>");
+MindeeClient client = MindeeClientInit.create("my-api-key");
 
 // Load a file from disk and parse it
-DocumentToParse documentToParse = mindeeClient.loadDocument(new File("./ffc127d-sample_receipt.jpg"));
-Document<ReceiptV4Inference> receiptDocument =
- mindeeClient.parse(ReceiptV4Inference.class, documentToParse);
+DocumentToParse documentToParse = mindeeClient.loadDocument(
+  new File("./ffc127d-sample_receipt.jpg")
+);
+Document<ReceiptV4Inference> document = mindeeClient.parse(
+  ReceiptV4Inference.class, documentToParse
+);
 
 // Print a summary of the parsed data
-logger.info(receiptDocument.toString());
+logger.info(document.toString());
 ```
 
 Output:

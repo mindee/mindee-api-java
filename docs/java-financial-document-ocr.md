@@ -1,20 +1,24 @@
 The Java OCR SDK supports the [Financial document OCR API](https://developers.mindee.com/docs/financial-documents-ocr).
 
-Using this [sample](https://files.readme.io/a8e8cfa-a74eaa5-c8e283b-sample_invoice.jpeg) below, we are going to illustrate how to extract the data that we want using the OCR SDK.
+Using this [sample](https://files.readme.io/a8e8cfa-a74eaa5-c8e283b-sample_invoice.jpeg) below,
+we are going to illustrate how to extract the data that we want using the OCR SDK.
 ![sample](https://files.readme.io/a8e8cfa-a74eaa5-c8e283b-sample_invoice.jpeg)
 
 ## Quick Start
 ```java
 // Init a new client
-MindeeClient client = MindeeClientInit.create("<your mindee api key>");
+MindeeClient client = MindeeClientInit.create("my-api-key");
 
 // Load a file from disk and parse it
-  DocumentToParse documentToParse = mindeeClient.loadDocument(new File("./a8e8cfa-a74eaa5-c8e283b-sample_invoice.jpeg"));
-  Document<FinancialV1Inference> document =
-  mindeeClient.parse(FinancialV1Inference.class, documentToParse);
+DocumentToParse documentToParse = mindeeClient.loadDocument(
+  new File("./a8e8cfa-a74eaa5-c8e283b-sample_invoice.jpeg")
+);
+Document<FinancialV1Inference> document = mindeeClient.parse(
+  FinancialV1Inference.class, documentToParse
+);
 
 // Print a summary of the parsed data
-  logger.info(document.getInference().getDocumentPrediction().toString());
+logger.info(document.getInference().getDocumentPrediction().toString());
 ```
 
 Output:

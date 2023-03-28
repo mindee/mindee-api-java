@@ -6,15 +6,18 @@ Using this [sample passport](https://files.readme.io/4a16b1d-passport_pic.jpg) b
 ## Quick Start
 ```java
 // Init a new client
-MindeeClient client = MindeeClientInit.create("<your mindee api key>");
+MindeeClient client = MindeeClientInit.create("my-api-key");
 
 // Load a file from disk and parse it
-DocumentToParse documentToParse = mindeeClient.loadDocument(new File("./4a16b1d-passport_pic.jpg"));
-Document<PassportV1Inference> passportDocument =
- mindeeClient.parse(PassportV1Inference.class, documentToParse);
+DocumentToParse documentToParse = mindeeClient.loadDocument(
+  new File("./4a16b1d-passport_pic.jpg")
+);
+Document<PassportV1Inference> document = mindeeClient.parse(
+  PassportV1Inference.class, documentToParse
+);
 
 // Print a summary of the parsed data
-logger.info(passportDocument.toString());
+logger.info(document.toString());
 ```
 
 Output:
