@@ -1,5 +1,10 @@
 # Mindee Java API Library Changelog
 
+## v3.2.1 - 2023-03-28
+### Changes
+* :arrow_up: update httpClient and picocli
+
+
 ## v3.2.0 - 2023-03-27
 ### Changes
 * :sparkles: add **experimental** support for line items reconstruction in custom APIs
