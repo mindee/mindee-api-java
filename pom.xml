@@ -10,6 +10,11 @@
   <name>Mindee Java Helper Library</name>
   <description>Java Library to call Mindee's Off The Shelf and Custom APIs</description>
   <url>https://github.com/mindee/mindee-api-java</url>
+  <inceptionYear>2022</inceptionYear>
+  <organization>
+    <name>Mindee</name>
+    <url>https://mindee.com/</url>
+  </organization>
   <licenses>
     <license>
       <name>MIT License</name>
@@ -223,9 +228,9 @@
       <version>2.14.2</version>
     </dependency>
     <dependency>
-      <artifactId>httpclient</artifactId>
-      <groupId>org.apache.httpcomponents</groupId>
-      <version>4.5.14</version>
+      <groupId>org.apache.httpcomponents.client5</groupId>
+      <artifactId>httpclient5</artifactId>
+      <version>5.2.1</version>
     </dependency>
     <dependency>
       <artifactId>httpmime</artifactId>
@@ -236,7 +241,7 @@
     <dependency>
       <artifactId>picocli</artifactId>
       <groupId>info.picocli</groupId>
-      <version>4.6.3</version>
+      <version>4.7.1</version>
     </dependency>
 
     <dependency>
