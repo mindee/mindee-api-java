@@ -10,8 +10,12 @@ Using this [sample invoice](https://files.readme.io/a74eaa5-c8e283b-sample_invoi
 MindeeClient client = MindeeClientInit.create("<your mindee api key>");
 
 // Load a file from disk and parse it
-DocumentToParse documentToParse = mindeeClient.loadDocument(new File("./a74eaa5-c8e283b-sample_invoice.jpeg"));
-Document<InvoiceV4Inference> invoiceDocument = mindeeClient.parse(InvoiceV4Inference.class, documentToParse);
+DocumentToParse documentToParse = mindeeClient.loadDocument(
+  new File("./a74eaa5-c8e283b-sample_invoice.jpeg")
+);
+Document<InvoiceV4Inference> invoiceDocument = mindeeClient.parse(
+  InvoiceV4Inference.class, documentToParse
+);
 
 // Print a summary of the parsed data
 logger.info(invoiceDocument.toString());
@@ -232,17 +236,18 @@ invoiceDocument.getInference().getDocumentPrediction().getSupplierPaymentDetails
 
 ### Line items
 
-**`LineItems`** (List<InvoiceLineItem>):  Line items details. Each object in the list contains:
-* `productCode` (String)
-* `description` (String)
-* `quantity` (Double)
-* `unitPrice` (Double)
-* `totalAmount` (Double)
-* `taxRate` (Double)
-* `taxAmount` (Double)
-* `confidence` (Double)
-* `pageId` (Double)
-* `polygon` (Polygon)
+**`LineItems`** (List<InvoiceLineItem>):  Line items details.
+Each object in the list contains the following getter methods:
+* `getProductCode()` (String)
+* `geDescription()` (String)
+* `getQuantity()` (Double)
+* `getUnitPrice()` (Double)
+* `getTotalAmount()` (Double)
+* `getTaxRate()` (Double)
+* `getTaxAmount()` (Double)
+* `getConfidence()` (Double)
+* `getPageId()` (Double)
+* `getPolygon()` (Polygon)
 
 ### Taxes and Amounts
 
