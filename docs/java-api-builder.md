@@ -1,7 +1,9 @@
 The JAVA OCR SDK supports [custom-built API](https://developers.mindee.com/docs/build-your-first-document-parsing-api) from the API Builder.
-If your document isn't covered by one of Mindee's Off-the-Shelf APIs, you can create your own API using the [API Builder](https://developers.mindee.com/docs/overview).
+If your document isn't covered by one of Mindee's Off-the-Shelf APIs,
+you can create your own API using the [API Builder](https://developers.mindee.com/docs/overview).
 
-For the following examples, we are using our own [W9s custom API](https://developers.mindee.com/docs/w9-forms-ocr) created with the [API Builder](https://developers.mindee.com/docs/overview).
+For the following examples, we are using our own [W9s custom API](https://developers.mindee.com/docs/w9-forms-ocr)
+created with the [API Builder](https://developers.mindee.com/docs/overview).
 
 ## Quick Start
 
@@ -104,7 +106,5 @@ Document<WNineV1Inference> myCustomDocument = mindeeClient
 ListField employerId = document.getInference().getDocumentPrediction().get("employer_id");
 ```
 
-&nbsp;
-&nbsp;
-**Questions?**
-<img alt="Slack Logo Icon" style="display:inline!important" src="https://files.readme.io/5b83947-Slack.png" width="20" height="20">&nbsp;&nbsp;[Join our Slack](https://join.slack.com/t/mindee-community/shared_invite/zt-1jv6nawjq-FDgFcF2T5CmMmRpl9LLptw)
+## Questions?
+[Join our Slack](https://join.slack.com/t/mindee-community/shared_invite/zt-1jv6nawjq-FDgFcF2T5CmMmRpl9LLptw)

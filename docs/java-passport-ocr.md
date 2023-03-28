@@ -1,6 +1,7 @@
 The JAVA OCR SDK supports the [passport API](https://developers.mindee.com/docs/passport-ocr) for extracting data from passports.
 
-Using this [sample passport](https://files.readme.io/4a16b1d-passport_pic.jpg) below, we are going to illustrate how to extract the data that we want using the  OCR SDK.
+Using this [sample passport](https://files.readme.io/4a16b1d-passport_pic.jpg) below,
+we are going to illustrate how to extract the data that we want using the  OCR SDK.
 ![sample passport](https://files.readme.io/4a16b1d-passport_pic.jpg)
 
 ## Quick Start
@@ -128,7 +129,5 @@ The following date fields are available:
 ### Surname
 * **`surname`** (StringField): Passport's owner surname.
 
-&nbsp;
-&nbsp;
-**Questions?**
-<img alt="Slack Logo Icon" style="display:inline!important" src="https://files.readme.io/5b83947-Slack.png" width="20" height="20">&nbsp;&nbsp;[Join our Slack](https://join.slack.com/t/mindee-community/shared_invite/zt-1jv6nawjq-FDgFcF2T5CmMmRpl9LLptw)
+## Questions?
+[Join our Slack](https://join.slack.com/t/mindee-community/shared_invite/zt-1jv6nawjq-FDgFcF2T5CmMmRpl9LLptw)

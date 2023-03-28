@@ -1,6 +1,4 @@
-[![License: MIT](https://img.shields.io/github/license/mindee/mindee-api-java)](https://opensource.org/licenses/MIT)
-[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/mindee/mindee-api-java/build.yml)](https://github.com/mindee/mindee-api-java)
-[![Version](https://img.shields.io/maven-central/v/com.mindee.sdk/mindee-api-java)](https://mvnrepository.com/artifact/com.mindee.sdk/mindee-api-java)
+[![License: MIT](https://img.shields.io/github/license/mindee/mindee-api-java)](https://opensource.org/licenses/MIT) [![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/mindee/mindee-api-java/build.yml)](https://github.com/mindee/mindee-api-java) [![Version](https://img.shields.io/maven-central/v/com.mindee.sdk/mindee-api-java)](https://mvnrepository.com/artifact/com.mindee.sdk/mindee-api-java)
 
 # Mindee API Helper Library for Java
 Quickly and easily connect to Mindee's API services using Java.
@@ -45,7 +43,7 @@ Document<InvoiceV4Inference> invoiceDocument = mindeeClient.parse(
 ```
 
 ### Region-Specific Documents
-Each region will have its own package within the genral `com.mindee.parsing` package.
+Each region will have its own package within the general `com.mindee.parsing` package.
 
 For example USA-specific classes will be in the `com.mindee.parsing.us` package:
 
@@ -91,8 +89,8 @@ Client supports multiple input types:
 ## Further Reading
 Complete details on the working of the library are available in the following guides:
 
-* [Getting started](https://developers.mindee.com/docs/java-ocr-getting-started)
-* [Output Fields](https://developers.mindee.com/docs/java-field)
+* [Java Library: Overview](https://developers.mindee.com/docs/java-ocr-getting-started)
+* [Java Library: Output Fields](https://developers.mindee.com/docs/java-field)
 * [Custom APIs (API Builder)](https://developers.mindee.com/docs/java-api-builder)
 * [Invoice API](https://developers.mindee.com/docs/java-invoice-ocr)
 * [Receipt API](https://developers.mindee.com/docs/java-receipt-ocr)
