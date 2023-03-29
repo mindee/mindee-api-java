@@ -33,11 +33,9 @@ do
     sed -i "s/my-version/1/" $OUTPUT_FILE
   fi
 
-  if echo "$f" | grep -q "invoices_v4.txt"
-  then
-    sed -i "s/my-api-key/$API_KEY/" $OUTPUT_FILE
-    sed -i "s/\/path\/to\/the\/file.ext/src\/test\/resources\/data\/pdf\/blank_1.pdf/" $OUTPUT_FILE
-  fi
+  sed -i "s/my-api-key/$API_KEY/" $OUTPUT_FILE
+  sed -i "s/\/path\/to\/the\/file.ext/src\/test\/resources\/data\/pdf\/blank_1.pdf/" $OUTPUT_FILE
+  
   javac -cp ./target/dependency/*:./target/* SimpleMindeeClient.java
   java -cp  .:./target/dependency/*:./target/* SimpleMindeeClient
 
