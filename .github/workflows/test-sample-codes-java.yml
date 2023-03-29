@@ -1,6 +1,6 @@
 name: Test Code Samples - Java Classes
 on:
-  push:
+  - push
   pull_request:
   schedule:
     - cron:  '0 23 * * *'
