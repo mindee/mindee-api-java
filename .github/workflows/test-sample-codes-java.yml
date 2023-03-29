@@ -1,6 +1,9 @@
 name: Test Samples Java Classes
 on:
-  - push
+  push:
+    branches:
+      - main
+      - 'task/**'
   pull_request:
   schedule:
     - cron:  '0 23 * * *'
