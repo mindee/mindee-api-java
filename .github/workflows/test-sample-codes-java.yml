@@ -1,4 +1,4 @@
-name: Test Code Samples - Java Classes
+name: Test Samples Java Classes
 on:
   - push
   pull_request:
