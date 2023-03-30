@@ -3,6 +3,7 @@ target/
 
 # test jshell file
 _test.jsh
+SimpleMindeeClient.java
 
 # Compiled class file
 *.class
