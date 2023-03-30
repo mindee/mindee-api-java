@@ -14,15 +14,20 @@ public final class Bbox {
   private final double maxY;
 
   /**
-   * @param xMin
-   * @param xMax
-   * @param yMin
-   * @param yMax
+   * The default constructor.
+   *
+   * @param minX The minimum X coordinate.
+   *
+   * @param maxX The maximum X coordinate.
+   *
+   * @param minY The minimal Y coordinate.
+   *
+   * @param maxY The maximum Y coordinate.
    */
-  public Bbox(double xMin, double xMax, double yMin, double yMax) {
-    this.minX = xMin;
-    this.minY = yMin;
-    this.maxX = xMax;
-    this.maxY = yMax;
+  public Bbox(double minX, double maxX, double minY, double maxY) {
+    this.minX = minX;
+    this.minY = minY;
+    this.maxX = maxX;
+    this.maxY = maxY;
   }
 }

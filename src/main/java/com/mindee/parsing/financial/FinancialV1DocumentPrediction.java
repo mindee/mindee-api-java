@@ -152,7 +152,7 @@ public class FinancialV1DocumentPrediction {
     }
 
     String summary =
-      String.format(":Document type: %s%n", this.getDocumentType())
+        String.format(":Document type: %s%n", this.getDocumentType())
         + String.format(":Category: %s%n", this.getCategory())
         + String.format(":Subcategory: %s%n", this.getSubCategory())
         + String.format(":Locale: %s%n", this.getLocale())

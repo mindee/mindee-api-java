@@ -1,12 +1,12 @@
 package com.mindee;
 
-import lombok.Getter;
-import org.apache.pdfbox.io.IOUtils;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.util.Base64;
+import lombok.Getter;
+import org.apache.pdfbox.io.IOUtils;
 
 @Getter
 public final class DocumentToParse {

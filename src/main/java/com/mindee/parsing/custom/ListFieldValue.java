@@ -3,10 +3,11 @@ package com.mindee.parsing.custom;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.mindee.geometry.PolygonDeserializer;
 import com.mindee.geometry.Polygon;
+import com.mindee.geometry.PolygonDeserializer;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+
 
 @Getter
 @EqualsAndHashCode
@@ -35,9 +36,9 @@ public class ListFieldValue {
   }
 
   public ListFieldValue(
-    String content,
-    double confidence,
-    Polygon polygon
+      String content,
+      double confidence,
+      Polygon polygon
   ) {
     this.confidence = confidence;
     this.polygon = polygon;

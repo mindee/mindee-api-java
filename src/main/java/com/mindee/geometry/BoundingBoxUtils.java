@@ -9,12 +9,12 @@ public final class BoundingBoxUtils {
 
   public static Polygon createBoundingBoxFrom(Polygon polygon) {
     DoubleSummaryStatistics xStatistics = polygon.getCoordinates().stream()
-      .mapToDouble(Point::getX)
-      .summaryStatistics();
+        .mapToDouble(Point::getX)
+        .summaryStatistics();
 
     DoubleSummaryStatistics yStatistics = polygon.getCoordinates()
-      .stream().mapToDouble(Point::getY)
-      .summaryStatistics();
+        .stream().mapToDouble(Point::getY)
+        .summaryStatistics();
 
     return new Polygon(Arrays.asList(
       new Point(xStatistics.getMin(), yStatistics.getMin()),

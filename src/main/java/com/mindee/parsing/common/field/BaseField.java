@@ -5,8 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.mindee.geometry.BoundingBoxUtils;
-import com.mindee.geometry.PolygonDeserializer;
 import com.mindee.geometry.Polygon;
+import com.mindee.geometry.PolygonDeserializer;
 import lombok.Getter;
 
 /**

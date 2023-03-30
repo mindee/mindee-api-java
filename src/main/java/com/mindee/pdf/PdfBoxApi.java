@@ -2,8 +2,6 @@ package com.mindee.pdf;
 
 import com.mindee.parsing.PageOptions;
 import com.mindee.utils.MindeeException;
-import org.apache.pdfbox.pdmodel.PDDocument;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -11,6 +9,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import org.apache.pdfbox.pdmodel.PDDocument;
 
 public final class PdfBoxApi implements PdfOperation {
 
@@ -32,8 +31,8 @@ public final class PdfBoxApi implements PdfOperation {
         List<Integer> pageRange = getPageRanges(splitQuery.getPageOptions(), totalOriginalPages);
 
         pageRange.stream()
-          .filter(i -> i < totalOriginalPages)
-          .forEach(i -> splitDocument.addPage(originalDocument.getPage(i)));
+            .filter(i -> i < totalOriginalPages)
+            .forEach(i -> splitDocument.addPage(originalDocument.getPage(i)));
 
         try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
           splitDocument.save(outputStream);
@@ -46,10 +45,10 @@ public final class PdfBoxApi implements PdfOperation {
 
   private List<Integer> getPageRanges(PageOptions pageOptions, Integer numberOfPages) {
     Set<Integer> pages = pageOptions
-      .getPages().stream()
-      .filter(x -> x > (numberOfPages) * (-1) && x <= (numberOfPages - 1))
-      .map(x -> (numberOfPages + x) % numberOfPages)
-      .collect(Collectors.toSet());
+        .getPages().stream()
+        .filter(x -> x > (numberOfPages) * (-1) && x <= (numberOfPages - 1))
+        .map(x -> (numberOfPages + x) % numberOfPages)
+        .collect(Collectors.toSet());
     List<Integer> allPages = IntStream.range(0, numberOfPages).boxed().collect(Collectors.toList());
 
     switch (pageOptions.getMode()) {
