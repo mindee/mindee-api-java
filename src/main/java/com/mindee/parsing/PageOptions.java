@@ -1,8 +1,7 @@
 package com.mindee.parsing;
 
-import lombok.Value;
-
 import java.util.List;
+import lombok.Value;
 
 /**
  * Represent options to cut a document.

@@ -17,8 +17,10 @@ public class ErrorDetailsDeserializer extends StdDeserializer<ErrorDetails> {
   }
 
   @Override
-  public ErrorDetails deserialize(JsonParser jsonParser, DeserializationContext deserializationContext)
-    throws IOException {
+  public ErrorDetails deserialize(
+      JsonParser jsonParser,
+      DeserializationContext deserializationContext
+  ) throws IOException {
 
     JsonNode node = jsonParser.getCodec().readTree(jsonParser);
     String details;

@@ -17,8 +17,9 @@ public class MindeeClientInit {
    */
   public static MindeeClient create() {
     return new MindeeClient(
-      new PdfBoxApi(),
-      createDefault(""));
+        new PdfBoxApi(),
+        createDefault("")
+    );
   }
 
   /**
@@ -29,8 +30,9 @@ public class MindeeClientInit {
   public static MindeeClient create(String apiKey) {
 
     return new MindeeClient(
-      new PdfBoxApi(),
-      createDefault(apiKey));
+        new PdfBoxApi(),
+        createDefault(apiKey)
+    );
   }
 
   /**

@@ -3,7 +3,6 @@ package com.mindee.parsing.custom.lineitems;
 import com.mindee.geometry.PolygonUtils;
 import com.mindee.parsing.custom.ListField;
 import com.mindee.parsing.custom.ListFieldValue;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -24,25 +23,28 @@ public final class LineItemsGenerator {
    * Don't use unless you know what you're doing ;-)
    */
   public static LineItems generate(
-    List<String> fieldNames,
-    Map<String, ListField> fields,
-    Anchor anchor) {
+      List<String> fieldNames,
+      Map<String, ListField> fields,
+      Anchor anchor
+  ) {
 
     Map<String, ListField> fieldsToTransformIntoLines = fields.entrySet()
-      .stream()
-      .filter(field -> fieldNames.contains(field.getKey()))
-      .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+        .stream()
+        .filter(field -> fieldNames.contains(field.getKey()))
+        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
     List<Line> lines = populateLines(
-      fieldsToTransformIntoLines,
-      new ArrayList<>(LineGenerator.prepareLines(fieldsToTransformIntoLines, anchor)));
+        fieldsToTransformIntoLines,
+        new ArrayList<>(LineGenerator.prepareLines(fieldsToTransformIntoLines, anchor))
+    );
 
     return new LineItems(lines);
   }
 
   private static List<Line> populateLines(
-    Map<String, ListField> fields,
-    List<Line> lines) {
+      Map<String, ListField> fields,
+      List<Line> lines
+  ) {
 
     List<Line> populatedLines = new ArrayList<>();
 
@@ -51,17 +53,16 @@ public final class LineItemsGenerator {
         for (ListFieldValue listFieldValue : field.getValue().getValues()) {
           double minYCurrentValue = PolygonUtils.getMinYCoordinate(listFieldValue.getPolygon());
 
-          if (minYCurrentValue < currentLine.getBbox().getMaxY()
-            && minYCurrentValue >= currentLine.getBbox().getMinY()) {
+          if (
+              minYCurrentValue < currentLine.getBbox().getMaxY()
+              && minYCurrentValue >= currentLine.getBbox().getMinY()
+          ) {
             currentLine.addField(field.getKey(), listFieldValue);
           }
         }
       }
-
       populatedLines.add(currentLine);
     }
-
     return populatedLines;
-
   }
 }

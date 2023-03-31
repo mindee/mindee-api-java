@@ -6,10 +6,10 @@ import com.mindee.geometry.Polygon;
 import com.mindee.geometry.PolygonUtils;
 import com.mindee.parsing.common.field.StringField;
 import com.mindee.parsing.custom.ListFieldValue;
-import lombok.Getter;
-
 import java.util.HashMap;
 import java.util.Map;
+import lombok.Getter;
+
 
 @Getter
 public class Line {
@@ -19,8 +19,9 @@ public class Line {
   private final Double heightTolerance;
 
   public Line(
-    Integer rowNumber,
-    Map<String, StringField> fields) {
+      Integer rowNumber,
+      Map<String, StringField> fields
+  ) {
     this.rowNumber = rowNumber;
     this.fields = fields;
     this.heightTolerance = 0.0;
@@ -33,30 +34,37 @@ public class Line {
   }
 
   public void addField(
-    String name,
-    ListFieldValue fieldValue) {
+      String name,
+      ListFieldValue fieldValue
+  ) {
     if (fields.containsKey(name)) {
       StringField existingField = fields.get(name);
 
       Polygon mergedPolygon = PolygonUtils.combine(
-        BoundingBoxUtils.createBoundingBoxFrom(existingField.getPolygon()),
-        BoundingBoxUtils.createBoundingBoxFrom(fieldValue.getPolygon()));
+          BoundingBoxUtils.createBoundingBoxFrom(existingField.getPolygon()),
+          BoundingBoxUtils.createBoundingBoxFrom(fieldValue.getPolygon())
+      );
 
-      String content = existingField.getValue() == null ?
-        fieldValue.getContent() :
-        String.join(" ", existingField.getValue(), fieldValue.getContent());
+      String content = existingField.getValue() == null
+          ? fieldValue.getContent()
+          : String.join(" ", existingField.getValue(), fieldValue.getContent());
 
       fields.replace(
-        name,
-        new StringField(
-          content,
-          existingField.getConfidence() * fieldValue.getConfidence(),
-          mergedPolygon));
+          name,
+          new StringField(
+            content,
+            existingField.getConfidence() * fieldValue.getConfidence(),
+            mergedPolygon
+          )
+      );
     } else {
-      fields.put(name, new StringField(
-        fieldValue.getContent(),
-        fieldValue.getConfidence(),
-        fieldValue.getPolygon())
+      fields.put(
+          name,
+          new StringField(
+            fieldValue.getContent(),
+            fieldValue.getConfidence(),
+            fieldValue.getPolygon()
+          )
       );
     }
   }

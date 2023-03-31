@@ -85,23 +85,21 @@ public class ReceiptV4DocumentPrediction {
   public String toString() {
 
     String summary =
-      String.format(":Locale: %s%n", this.getLocaleField()) +
-        String.format(":Date: %s%n", this.getDate()) +
-        String.format(":Category: %s%n", this.getCategory()) +
-        String.format(":Subcategory: %s%n", this.getSubCategory()) +
-        String.format(":Document type: %s%n", this.getDocumentType()) +
-        String.format(":Time: %s%n", this.getTime()) +
-        String.format(":Supplier name: %s%n", this.getSupplierName()) +
-        String.format(":Taxes: %s%n",
+        String.format(":Locale: %s%n", this.getLocaleField())
+        + String.format(":Date: %s%n", this.getDate())
+        + String.format(":Category: %s%n", this.getCategory())
+        + String.format(":Subcategory: %s%n", this.getSubCategory())
+        + String.format(":Document type: %s%n", this.getDocumentType())
+        + String.format(":Time: %s%n", this.getTime())
+        + String.format(":Supplier name: %s%n", this.getSupplierName())
+        + String.format(":Taxes: %s%n",
           this.getTaxes().stream()
             .map(TaxField::toString)
-            .collect(Collectors.joining("%n       "))) +
-        String.format(":Total net: %s%n", this.getTotalNet()) +
-        String.format(":Total taxes: %s%n", this.getTotalTax()) +
-        String.format(":Tip: %s%n",
-          this.getTip()) +
-        String.format(":Total amount: %s%n",
-          this.getTotalAmount());
+            .collect(Collectors.joining("%n       ")))
+        + String.format(":Total net: %s%n", this.getTotalNet())
+        + String.format(":Total taxes: %s%n", this.getTotalTax())
+        + String.format(":Tip: %s%n", this.getTip())
+        + String.format(":Total amount: %s%n", this.getTotalAmount());
 
     return SummaryHelper.cleanSummary(summary);
   }

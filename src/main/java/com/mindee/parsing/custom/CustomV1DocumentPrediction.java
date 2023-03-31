@@ -3,10 +3,11 @@ package com.mindee.parsing.custom;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.mindee.parsing.SummaryHelper;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 import java.util.Map;
 import java.util.TreeMap;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
 
 @AllArgsConstructor
 @Getter

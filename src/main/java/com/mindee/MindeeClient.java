@@ -18,9 +18,7 @@ public class MindeeClient {
   private final MindeeApi mindeeApi;
   private final PdfOperation pdfOperation;
 
-  public MindeeClient(
-    PdfOperation pdfOperation,
-    MindeeApi mindeeApi) {
+  public MindeeClient(PdfOperation pdfOperation, MindeeApi mindeeApi) {
     this.pdfOperation = pdfOperation;
     this.mindeeApi = mindeeApi;
   }
@@ -136,8 +134,9 @@ public class MindeeClient {
       PageOptions pageOptions
   ) throws IOException {
     byte[] splitFile;
-    if (FileUtils.getFileExtension(documentToParse.getFilename())
-      .equalsIgnoreCase("pdf")) {
+    boolean isPDF = FileUtils.getFileExtension(documentToParse.getFilename())
+        .equalsIgnoreCase("pdf");
+    if (isPDF) {
       splitFile = pdfOperation.split(
         new SplitQuery(documentToParse.getFile(), pageOptions)).getFile();
     } else {
