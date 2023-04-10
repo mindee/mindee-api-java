@@ -1,5 +1,6 @@
 package com.mindee;
 
+import java.util.Optional;
 import lombok.Getter;
 
 /**
@@ -16,6 +17,11 @@ public class MindeeSettings {
     this("", "");
   }
 
+  public Optional<String> getApiKey()
+  {
+    return Optional.ofNullable(apiKey);
+  }
+
   public MindeeSettings(String apiKey) {
     this(apiKey, "");
   }
@@ -25,9 +31,10 @@ public class MindeeSettings {
     if (apiKey == null || apiKey.trim().isEmpty()) {
       String apiKeyFromEnv = System.getenv("MINDEE_API_KEY");
       if (apiKeyFromEnv == null || apiKeyFromEnv.trim().isEmpty()) {
-        throw new IllegalArgumentException("API KEY is null or empty.");
+        this.apiKey = null;
+      }else{
+        this.apiKey = apiKeyFromEnv;
       }
-      this.apiKey = apiKeyFromEnv;
     } else {
       this.apiKey = apiKey;
     }
