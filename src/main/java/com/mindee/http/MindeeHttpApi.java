@@ -44,7 +44,7 @@ public final class MindeeHttpApi implements MindeeApi {
 
   @Builder
   private MindeeHttpApi(MindeeSettings mindeeSettings, HttpClientBuilder httpClientBuilder,
-    Function<CustomEndpoint, String> urlFromEndpoint) {
+      Function<CustomEndpoint, String> urlFromEndpoint) {
     this.mindeeSettings = mindeeSettings;
 
     if (httpClientBuilder != null) {
@@ -64,8 +64,8 @@ public final class MindeeHttpApi implements MindeeApi {
    * POST a synchronous prediction request for a standard product.
    */
   public <DocT extends Inference> Document<DocT> predict(
-    Class<DocT> documentClass,
-    ParseParameter parseParameter
+      Class<DocT> documentClass,
+      ParseParameter parseParameter
   ) throws MindeeException, IOException {
 
     EndpointInfo endpointAnnotation = documentClass.getAnnotation(EndpointInfo.class);
@@ -74,24 +74,24 @@ public final class MindeeHttpApi implements MindeeApi {
     // that means it could be custom document
     if (endpointAnnotation == null) {
       CustomEndpointInfo customEndpointAnnotation = documentClass.getAnnotation(
-        CustomEndpointInfo.class
+          CustomEndpointInfo.class
       );
       if (customEndpointAnnotation == null) {
         throw new MindeeException(
-          "The class is not supported as a prediction model. "
-            + "The endpoint attribute is missing. "
-            + "Please refer to the document or contact the support."
+            "The class is not supported as a prediction model. "
+                + "The endpoint attribute is missing. "
+                + "Please refer to the document or contact the support."
         );
       }
       customEndpoint = new CustomEndpoint(
-        customEndpointAnnotation.endpointName(),
-        customEndpointAnnotation.accountName(),
-        customEndpointAnnotation.version());
+          customEndpointAnnotation.endpointName(),
+          customEndpointAnnotation.accountName(),
+          customEndpointAnnotation.version());
     } else {
       customEndpoint = new CustomEndpoint(
-        endpointAnnotation.endpointName(),
-        endpointAnnotation.accountName(),
-        endpointAnnotation.version());
+          endpointAnnotation.endpointName(),
+          endpointAnnotation.accountName(),
+          endpointAnnotation.version());
     }
 
     return predict(documentClass, customEndpoint, parseParameter);
@@ -101,9 +101,9 @@ public final class MindeeHttpApi implements MindeeApi {
    * POST a synchronous prediction request for a custom product.
    */
   public <DocT extends Inference> Document<DocT> predict(
-    Class<DocT> documentClass,
-    CustomEndpoint customEndpoint,
-    ParseParameter parseParameter
+      Class<DocT> documentClass,
+      CustomEndpoint customEndpoint,
+      ParseParameter parseParameter
   ) throws MindeeException, IOException {
 
     // required to register jackson date module format to deserialize
@@ -113,10 +113,10 @@ public final class MindeeHttpApi implements MindeeApi {
     MultipartEntityBuilder builder = MultipartEntityBuilder.create();
     builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
     builder.addBinaryBody(
-      "document",
-      parseParameter.getFile(),
-      ContentType.DEFAULT_BINARY,
-      parseParameter.getFileName()
+        "document",
+        parseParameter.getFile(),
+        ContentType.DEFAULT_BINARY,
+        parseParameter.getFileName()
     );
     if (Boolean.TRUE.equals(parseParameter.getIncludeWords())) {
       builder.addTextBody("include_mvision", "true");
@@ -133,15 +133,15 @@ public final class MindeeHttpApi implements MindeeApi {
     PredictResponse<DocT> predictResponse;
 
     try (
-      CloseableHttpClient httpClient = httpClientBuilder.build();
-      CloseableHttpResponse response = httpClient.execute(post)
+        CloseableHttpClient httpClient = httpClientBuilder.build();
+        CloseableHttpResponse response = httpClient.execute(post)
     ) {
       HttpEntity responseEntity = response.getEntity();
 
       if (responseEntity.getContentLength() != 0) {
         JavaType type = mapper.getTypeFactory().constructParametricType(
-          PredictResponse.class,
-          documentClass
+            PredictResponse.class,
+            documentClass
         );
         predictResponse = mapper.readValue(responseEntity.getContent(), type);
 
@@ -159,9 +159,9 @@ public final class MindeeHttpApi implements MindeeApi {
           contentRead.write(buffer, 0, length);
         }
         errorMessage += " Unhandled - HTTP Status code "
-          + response.getStatusLine().getStatusCode()
-          + " - Content "
-          + contentRead.toString("UTF-8");
+            + response.getStatusLine().getStatusCode()
+            + " - Content "
+            + contentRead.toString("UTF-8");
       }
     } catch (IOException err) {
       throw new MindeeException(err.getMessage(), err);
@@ -200,12 +200,12 @@ public final class MindeeHttpApi implements MindeeApi {
   private String buildUrl(CustomEndpoint customEndpoint) {
 
     return this.mindeeSettings.getBaseUrl()
-      + "/products/"
-      + customEndpoint.getAccountName()
-      + "/"
-      + customEndpoint.getEndpointName()
-      + "/v"
-      + customEndpoint.getVersion()
-      + "/predict";
+        + "/products/"
+        + customEndpoint.getAccountName()
+        + "/"
+        + customEndpoint.getEndpointName()
+        + "/v"
+        + customEndpoint.getVersion()
+        + "/predict";
   }
 }

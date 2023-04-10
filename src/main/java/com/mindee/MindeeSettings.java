@@ -17,8 +17,7 @@ public class MindeeSettings {
     this("", "");
   }
 
-  public Optional<String> getApiKey()
-  {
+  public Optional<String> getApiKey() {
     return Optional.ofNullable(apiKey);
   }
 
@@ -32,7 +31,7 @@ public class MindeeSettings {
       String apiKeyFromEnv = System.getenv("MINDEE_API_KEY");
       if (apiKeyFromEnv == null || apiKeyFromEnv.trim().isEmpty()) {
         this.apiKey = null;
-      }else{
+      } else {
         this.apiKey = apiKeyFromEnv;
       }
     } else {
