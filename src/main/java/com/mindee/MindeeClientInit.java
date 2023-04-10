@@ -17,8 +17,8 @@ public class MindeeClientInit {
    */
   public static MindeeClient create() {
     return new MindeeClient(
-      new PdfBoxApi(),
-      createDefault("")
+        new PdfBoxApi(),
+        createDefault("")
     );
   }
 
@@ -30,8 +30,8 @@ public class MindeeClientInit {
   public static MindeeClient create(String apiKey) {
 
     return new MindeeClient(
-      new PdfBoxApi(),
-      createDefault(apiKey)
+        new PdfBoxApi(),
+        createDefault(apiKey)
     );
   }
 
@@ -44,8 +44,8 @@ public class MindeeClientInit {
   public static MindeeClient create(MindeeApi mindeeApi) {
 
     return new MindeeClient(
-      new PdfBoxApi(),
-      mindeeApi
+        new PdfBoxApi(),
+        mindeeApi
     );
   }
 
@@ -64,7 +64,7 @@ public class MindeeClientInit {
     }
 
     return MindeeHttpApi.builder()
-      .mindeeSettings(mindeeSettings)
-      .build();
+        .mindeeSettings(mindeeSettings)
+        .build();
   }
 }
