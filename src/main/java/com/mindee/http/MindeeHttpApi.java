@@ -16,7 +16,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.function.Function;
 import lombok.Builder;
-import lombok.Value;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHeaders;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -30,13 +29,23 @@ import org.apache.http.impl.client.HttpClientBuilder;
 /**
  * HTTP Client class.
  */
-@Value
 public final class MindeeHttpApi implements MindeeApi {
 
   private static final ObjectMapper mapper = new ObjectMapper();
-  private MindeeSettings mindeeSettings;
-  private HttpClientBuilder httpClientBuilder;
-  private Function<CustomEndpoint, String> urlFromEndpoint;
+  /**
+   * The MindeeSetting needed to make the api call.
+   */
+  private final MindeeSettings mindeeSettings;
+  /**
+   * The HttpClientBuilder used to create HttpClient objects used to make api calls over http.
+   * Defaults to HttpClientBuilder.create().useSystemProperties()
+   */
+  private final HttpClientBuilder httpClientBuilder;
+  /**
+   * The function used to generate the API endpoint URL. Only needs to be set if the api calls need
+   * to be directed through internal URLs.
+   */
+  private final Function<CustomEndpoint, String> urlFromEndpoint;
 
   public MindeeHttpApi(MindeeSettings mindeeSettings) {
     this(mindeeSettings, null, null);
