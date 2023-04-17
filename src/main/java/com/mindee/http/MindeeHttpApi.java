@@ -14,6 +14,8 @@ import com.mindee.parsing.common.PredictResponse;
 import com.mindee.utils.MindeeException;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.function.Function;
+import lombok.Builder;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHeaders;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -30,10 +32,41 @@ import org.apache.http.impl.client.HttpClientBuilder;
 public final class MindeeHttpApi implements MindeeApi {
 
   private static final ObjectMapper mapper = new ObjectMapper();
+  /**
+   * The MindeeSetting needed to make the api call.
+   */
   private final MindeeSettings mindeeSettings;
+  /**
+   * The HttpClientBuilder used to create HttpClient objects used to make api calls over http.
+   * Defaults to HttpClientBuilder.create().useSystemProperties()
+   */
+  private final HttpClientBuilder httpClientBuilder;
+  /**
+   * The function used to generate the API endpoint URL. Only needs to be set if the api calls need
+   * to be directed through internal URLs.
+   */
+  private final Function<CustomEndpoint, String> urlFromEndpoint;
 
   public MindeeHttpApi(MindeeSettings mindeeSettings) {
+    this(mindeeSettings, null, null);
+  }
+
+  @Builder
+  private MindeeHttpApi(MindeeSettings mindeeSettings, HttpClientBuilder httpClientBuilder,
+      Function<CustomEndpoint, String> urlFromEndpoint) {
     this.mindeeSettings = mindeeSettings;
+
+    if (httpClientBuilder != null) {
+      this.httpClientBuilder = httpClientBuilder;
+    } else {
+      this.httpClientBuilder = HttpClientBuilder.create().useSystemProperties();
+    }
+
+    if (urlFromEndpoint != null) {
+      this.urlFromEndpoint = urlFromEndpoint;
+    } else {
+      this.urlFromEndpoint = this::buildUrl;
+    }
   }
 
   /**
@@ -55,19 +88,19 @@ public final class MindeeHttpApi implements MindeeApi {
       if (customEndpointAnnotation == null) {
         throw new MindeeException(
             "The class is not supported as a prediction model. "
-            + "The endpoint attribute is missing. "
-            + "Please refer to the document or contact the support."
+                + "The endpoint attribute is missing. "
+                + "Please refer to the document or contact the support."
         );
       }
       customEndpoint = new CustomEndpoint(
-        customEndpointAnnotation.endpointName(),
-        customEndpointAnnotation.accountName(),
-        customEndpointAnnotation.version());
+          customEndpointAnnotation.endpointName(),
+          customEndpointAnnotation.accountName(),
+          customEndpointAnnotation.version());
     } else {
       customEndpoint = new CustomEndpoint(
-        endpointAnnotation.endpointName(),
-        endpointAnnotation.accountName(),
-        endpointAnnotation.version());
+          endpointAnnotation.endpointName(),
+          endpointAnnotation.accountName(),
+          endpointAnnotation.version());
     }
 
     return predict(documentClass, customEndpoint, parseParameter);
@@ -85,7 +118,7 @@ public final class MindeeHttpApi implements MindeeApi {
     // required to register jackson date module format to deserialize
     mapper.findAndRegisterModules();
 
-    HttpPost post = new HttpPost(buildUrl(customEndpoint));
+    HttpPost post = new HttpPost(urlFromEndpoint.apply(customEndpoint));
     MultipartEntityBuilder builder = MultipartEntityBuilder.create();
     builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
     builder.addBinaryBody(
@@ -99,7 +132,9 @@ public final class MindeeHttpApi implements MindeeApi {
     }
 
     HttpEntity entity = builder.build();
-    post.setHeader(HttpHeaders.AUTHORIZATION, this.mindeeSettings.getApiKey());
+    if (this.mindeeSettings.getApiKey().isPresent()) {
+      post.setHeader(HttpHeaders.AUTHORIZATION, this.mindeeSettings.getApiKey().get());
+    }
     post.setHeader(HttpHeaders.USER_AGENT, getUserAgent());
     post.setEntity(entity);
 
@@ -107,7 +142,7 @@ public final class MindeeHttpApi implements MindeeApi {
     PredictResponse<DocT> predictResponse;
 
     try (
-        CloseableHttpClient httpClient = HttpClientBuilder.create().useSystemProperties().build();
+        CloseableHttpClient httpClient = httpClientBuilder.build();
         CloseableHttpResponse response = httpClient.execute(post)
     ) {
       HttpEntity responseEntity = response.getEntity();
@@ -133,9 +168,9 @@ public final class MindeeHttpApi implements MindeeApi {
           contentRead.write(buffer, 0, length);
         }
         errorMessage += " Unhandled - HTTP Status code "
-          + response.getStatusLine().getStatusCode()
-          + " - Content "
-          + contentRead.toString("UTF-8");
+            + response.getStatusLine().getStatusCode()
+            + " - Content "
+            + contentRead.toString("UTF-8");
       }
     } catch (IOException err) {
       throw new MindeeException(err.getMessage(), err);
@@ -174,12 +209,12 @@ public final class MindeeHttpApi implements MindeeApi {
   private String buildUrl(CustomEndpoint customEndpoint) {
 
     return this.mindeeSettings.getBaseUrl()
-      + "/products/"
-      + customEndpoint.getAccountName()
-      + "/"
-      + customEndpoint.getEndpointName()
-      + "/v"
-      + customEndpoint.getVersion()
-      + "/predict";
+        + "/products/"
+        + customEndpoint.getAccountName()
+        + "/"
+        + customEndpoint.getEndpointName()
+        + "/v"
+        + customEndpoint.getVersion()
+        + "/predict";
   }
 }

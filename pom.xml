@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xmlns="http://maven.apache.org/POM/4.0.0"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  xmlns="http://maven.apache.org/POM/4.0.0"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
   <groupId>com.mindee.sdk</groupId>
   <artifactId>mindee-api-java</artifactId>
@@ -310,6 +310,12 @@
       <scope>test</scope>
       <version>4.6.1</version>
     </dependency>
+    <dependency>
+      <groupId>com.github.tomakehurst</groupId>
+      <artifactId>wiremock</artifactId>
+      <version>${wiremock.version}</version>
+      <scope>test</scope>
+    </dependency>
 
   </dependencies>
 
@@ -325,9 +331,11 @@
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
     <org.mapstruct.version>1.5.3.Final</org.mapstruct.version>
-    <org.projectlombok.lombok-mapstruct-binding.version>0.2.0</org.projectlombok.lombok-mapstruct-binding.version>
+    <org.projectlombok.lombok-mapstruct-binding.version>0.2.0
+    </org.projectlombok.lombok-mapstruct-binding.version>
     <org.projectlombok.version>1.18.26</org.projectlombok.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <wiremock.version>2.27.2</wiremock.version>
   </properties>
 
 </project>
