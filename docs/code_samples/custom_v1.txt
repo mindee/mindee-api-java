@@ -16,8 +16,8 @@ public class SimpleMindeeClient {
     MindeeClient mindeeClient = MindeeClientInit.create(apiKey);
     DocumentToParse docToParse = new DocumentToParse(new File(filePath));
 
-    CustomEndpoint customEndpoint = new CustomEndpoint("my-endpoint","my-account");
-    Document<CustomV1Inference> documentParsed =  mindeeClient.parse(docToParse,customEndpoint);
+    CustomEndpoint customEndpoint = new CustomEndpoint("my-endpoint", "my-account");
+    Document<CustomV1Inference> documentParsed =  mindeeClient.parse(docToParse, customEndpoint);
 
     System.out.println(documentParsed.toString());
   }

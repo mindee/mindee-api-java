@@ -15,7 +15,7 @@ public class SimpleMindeeClient {
     MindeeClient mindeeClient = MindeeClientInit.create(apiKey);
     DocumentToParse docToParse = new DocumentToParse(new File(filePath));
 
-    Document<InvoiceV4Inference> documentParsed = mindeeClient.parse(InvoiceV4Inference.class,docToParse);
+    Document<InvoiceV4Inference> documentParsed = mindeeClient.parse(InvoiceV4Inference.class, docToParse);
 
     System.out.println(documentParsed.toString());
   }
