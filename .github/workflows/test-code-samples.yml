@@ -1,9 +1,5 @@
 name: Test Samples Java Classes
 on:
-  push:
-    branches:
-      - main
-      - 'task/**'
   pull_request:
   schedule:
     - cron:  '0 23 * * *'
@@ -41,5 +37,5 @@ jobs:
 
       - name: Tests sample code
         run: |
-          ./tests/test_code_samples_java.sh ${{ secrets.MINDEE_ACCOUNT_SE_TESTS }} ${{ secrets.MINDEE_ENDPOINT_SE_TESTS }} ${{ secrets.MINDEE_API_KEY_SE_TESTS }}
+          ./tests/test_code_samples.sh ${{ secrets.MINDEE_ACCOUNT_SE_TESTS }} ${{ secrets.MINDEE_ENDPOINT_SE_TESTS }} ${{ secrets.MINDEE_API_KEY_SE_TESTS }}
 
