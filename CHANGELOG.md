@@ -1,5 +1,13 @@
 # Mindee Java API Library Changelog
 
+## v3.3.0 - 2023-04-19
+### Changes
+* :recycle: :bug: rework CLI, fix minor bugs along the way
+* :art: use full java classes in sample code
+* :art: ensure checkstyle enforces rules
+* :sparkles: changed MindeeApi implementation to allow custom httpclientbuilders
+
+
 ## v3.2.1 - 2023-03-28
 ### Changes
 * :arrow_up: update httpClient and picocli
