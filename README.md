@@ -79,57 +79,6 @@ Document<CustomV1Inference> customDocument = mindeeClient.parse(
 );
 ```
 
-Client supports multiple input types:
-
-* java.io.File file
-* InputStream fileAsStream, String filename
-* byte[] fileAsByteArray, String filename
-* String fileAsBase64String, String filename
-
-### HttpClient Customizations
-Mindee's API lives on the internet and many internal applications on corporate networks may therefore need to configure an HTTP proxy to access it. This is possble by using a `MindeeClient` configured to use a user provided instance  of the `com.mindee.parsing.MindeeApi` interface. There are a few layers to this:
-
-* The default implementation of `com.mindee.parsing.MindeeApi` interface is `com.mindee.http.MindeeHttpApi` 
-* `MindeeHttpApi` can be initialized with an Apache HttpComponents `HttpClientBuilder`.
-* `HttpClientBuilder` can be configured for use cases like proxying requests, custom authentication schemes, setting SSL Context etc.
-
-To Configure a `MindeeClient` to use a proxy, the following code can be referenced.
-```java
-import org.apache.http.HttpHost;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.impl.conn.DefaultProxyRoutePlanner;
-import com.mindee.parsing;
-import com.mindee.parsing.invoice;
-import com.mindee.MindeeClient;
-import com.mindee.MindeeClientInit;
-import com.mindee.DocumentToParse;
-import com.mindee.MindeeSettings;
-import com.mindee.http.MindeeHttpApi;
-import com.mindee.parsing.common.Document;
-import com.mindee.parsing.invoice.InvoiceV4Inference;
-
-// you can also configure things like caching, custom HTTPS certs,
-// timeouts and connection pool sizes here.
-// See: https://hc.apache.org/httpcomponents-client-5.1.x/current/httpclient5/apidocs/org/apache/hc/client5/http/impl/classic/HttpClientBuilder.html
-HttpHost proxy = new HttpHost("<proxy-host>", <proxy-port>);
-DefaultProxyRoutePlanner routePlanner = new DefaultProxyRoutePlanner(proxy);
-HttpClientBuilder httpclientBuilder = HttpClients.custom().setRoutePlanner(routePlanner);
-
-// Build MindeeHttpAPI using the HtppClientBuilder
-MindeeHttpApi mindeeHttpApi =  MindeeHttpApi.builder()
-       .mindeeSettings(new MindeeSettings("<my-api-key>"))
-       .httpClientBuilder(httpclientBuilder)
-       .build();
-
-MindeeClient mindeeClient = MindeeClientInit.create(mindeeHttpApi);
-Document<InvoiceV4Inference> invoiceDocument = mindeeClient.parse(
-    InvoiceV4Inference.class,
-    documentToParse
-    );
-
-```
-
 ## Further Reading
 Complete details on the working of the library are available in the following guides:
 
