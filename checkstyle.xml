@@ -232,6 +232,7 @@
                value="Record type name ''{0}'' must match pattern ''{1}''."/>
     </module>
     <module name="MethodTypeParameterName">
+      <property name="severity" value="error"/>
       <property name="format" value="(^[A-Z][0-9]?)$|([A-Z][a-zA-Z0-9]*[T]$)"/>
       <message key="name.invalidPattern"
              value="Method type name ''{0}'' must match pattern ''{1}''."/>
@@ -243,6 +244,7 @@
     </module>
     <module name="NoFinalizer"/>
     <module name="GenericWhitespace">
+      <property name="severity" value="error"/>
       <message key="ws.followed"
              value="GenericWhitespace ''{0}'' is followed by whitespace."/>
       <message key="ws.preceded"

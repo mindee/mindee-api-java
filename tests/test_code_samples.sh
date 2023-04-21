@@ -6,6 +6,9 @@ ACCOUNT=$1
 ENDPOINT=$2
 API_KEY=$3
 
+# We need the dependencies otherwise we get class not found exceptions
+mvn dependency:copy-dependencies
+
 for f in $(find docs/code_samples -maxdepth 1 -name "*.txt" | sort -h)
 do
   echo "###############################################"
