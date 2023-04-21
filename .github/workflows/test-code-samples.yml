@@ -13,6 +13,7 @@ jobs:
     strategy:
       matrix:
         java-version:
+          - "17"
           - "11"
           - "8"
         distribution:
@@ -32,10 +33,6 @@ jobs:
       - name: Install mindee-java-api
         run: mvn clean install -DskipTests
 
-      - name: Download Dependencies
-        run: mvn dependency:copy-dependencies
-
       - name: Tests sample code
         run: |
           ./tests/test_code_samples.sh ${{ secrets.MINDEE_ACCOUNT_SE_TESTS }} ${{ secrets.MINDEE_ENDPOINT_SE_TESTS }} ${{ secrets.MINDEE_API_KEY_SE_TESTS }}
-
