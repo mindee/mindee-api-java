@@ -6,8 +6,8 @@ import com.mindee.parsing.common.Inference;
 import lombok.Getter;
 
 /**
-* The definition for idcard_fr v1.
-*/
+ * The definition for idcard_fr v1.
+ */
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
 @EndpointInfo(endpointName = "idcard_fr", version = "1")

@@ -2,10 +2,13 @@ package com.mindee.pdf;
 
 import java.io.IOException;
 
+/**
+ * Minimum PDF operations.
+ */
 public interface PdfOperation {
 
   /**
-   * To split a pdf file.
+   * Split a PDF file.
    *
    * @param splitQuery Options to perform the query.
    * @return The split pdf.

@@ -4,7 +4,7 @@ import com.mindee.parsing.PageOptions;
 import lombok.Value;
 
 /**
- * Represent parameter to split a pdf.
+ * Represent parameter to split a PDF.
  */
 @Value
 public class SplitQuery {

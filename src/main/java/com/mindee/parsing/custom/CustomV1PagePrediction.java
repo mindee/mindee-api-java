@@ -7,6 +7,9 @@ import java.util.TreeMap;
 import lombok.Getter;
 
 
+/**
+ * Page data for custom documents, API version 1.x.
+ */
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CustomV1PagePrediction extends HashMap<String, ListField> {

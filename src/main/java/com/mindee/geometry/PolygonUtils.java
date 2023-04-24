@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.OptionalDouble;
 import java.util.stream.Collectors;
 
+/**
+ * Methods for working with Polygons.
+ */
 public final class PolygonUtils {
   private PolygonUtils() {
   }

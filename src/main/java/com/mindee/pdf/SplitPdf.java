@@ -3,7 +3,7 @@ package com.mindee.pdf;
 import lombok.Value;
 
 /**
- * The split pdf.
+ * The split PDF.
  */
 @Value
 public class SplitPdf {

@@ -4,6 +4,9 @@ import lombok.Builder;
 import lombok.Value;
 import lombok.extern.jackson.Jacksonized;
 
+/**
+ * A relative set of coordinates (X, Y) on the document.
+ */
 @Value
 public final class Point {
   private Double x;

@@ -19,7 +19,7 @@ import lombok.Getter;
 public abstract class Inference<T, U> {
 
   /**
-   * Was a rotation applied to parse the document ?
+   * Whether a rotation was applied to parse the document.
    */
   @JsonProperty("is_rotation_applied")
   private boolean isRotationApplied;

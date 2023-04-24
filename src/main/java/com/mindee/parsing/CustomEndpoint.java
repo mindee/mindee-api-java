@@ -2,6 +2,9 @@ package com.mindee.parsing;
 
 import lombok.Getter;
 
+/**
+ * Endpoint for custom documents.
+ */
 @Getter
 public final class CustomEndpoint {
 

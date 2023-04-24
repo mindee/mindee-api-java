@@ -6,6 +6,9 @@ import com.mindee.parsing.common.Inference;
 import com.mindee.utils.MindeeException;
 import java.io.IOException;
 
+/**
+ * Defines required methods for an API.
+ */
 public interface MindeeApi {
 
   /**

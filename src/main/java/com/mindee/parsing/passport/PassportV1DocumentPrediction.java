@@ -22,51 +22,61 @@ public class PassportV1DocumentPrediction {
    */
   @JsonProperty("country")
   private StringField country;
+
   /**
    * The passport number.
    */
   @JsonProperty("id_number")
   private StringField idNumber;
+
   /**
    * The birth date of the person.
    */
   @JsonProperty("birth_date")
   private DateField birthDate;
+
   /**
    * The birth place of the person.
    */
   @JsonProperty("birth_place")
   private StringField birthPlace;
+
   /**
    * The expiry date.
    */
   @JsonProperty("expiry_date")
   private DateField expiryDate;
+
   /**
    * The gender of the person.
    */
   @JsonProperty("gender")
   private StringField gender;
+
   /**
    * The list of the person given names.
    */
   @JsonProperty("given_names")
   private List<StringField> givenNames;
+
   /**
    * The surname of the person.
    */
   @JsonProperty("surname")
   private StringField surname;
+
   /**
    * The date of issuance of the passport.
    */
   @JsonProperty("issuance_date")
   private DateField issuanceDate;
+
   /**
    * The first MRZ line.
    */
   @JsonProperty("mrz1")
   private StringField mrz1;
+
   /**
    * The second MRZ line.
    */

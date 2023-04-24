@@ -2,14 +2,16 @@ package com.mindee.parsing.custom.lineitems;
 
 import lombok.Getter;
 
+/**
+ * An anchor column.
+ */
 @Getter
 public final class Anchor {
   private final String name;
   private final Double tolerance;
 
   /**
-   * @param name
-   * @param tolerance
+   * Define an anchor with height tolerance.
    */
   public Anchor(String name, Double tolerance) {
     this.name = name;
@@ -17,7 +19,7 @@ public final class Anchor {
   }
 
   /**
-   * @param name
+   * Define an anchor with no tolerance.
    */
   public Anchor(String name) {
     this.name = name;

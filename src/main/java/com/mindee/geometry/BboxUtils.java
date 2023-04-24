@@ -4,6 +4,9 @@ import java.util.DoubleSummaryStatistics;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Methods for working with BBoxes.
+ */
 public final class BboxUtils {
   private BboxUtils() {
   }

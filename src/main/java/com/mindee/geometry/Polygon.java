@@ -6,6 +6,9 @@ import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
 
+/**
+ * Contains any number of vertex coordinates (Points).
+ */
 @Getter
 @JsonDeserialize(using = PolygonDeserializer.class)
 public class Polygon {

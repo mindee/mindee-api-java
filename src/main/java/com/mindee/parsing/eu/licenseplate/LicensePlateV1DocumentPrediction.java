@@ -18,8 +18,8 @@ import lombok.Getter;
 public class LicensePlateV1DocumentPrediction {
 
   /**
-  * List of all license plates found in the image.
-  */
+   * List of all license plates found in the image.
+   */
   @JsonProperty("license_plates")
   private List<StringField> licensePlates = new ArrayList<>();
 
