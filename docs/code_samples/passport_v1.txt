@@ -15,7 +15,10 @@ public class SimpleMindeeClient {
     MindeeClient mindeeClient = MindeeClientInit.create(apiKey);
     DocumentToParse docToParse = new DocumentToParse(new File(filePath));
 
-    Document<PassportV1Inference> documentParsed = mindeeClient.parse(PassportV1Inference.class, docToParse);
+    Document<PassportV1Inference> documentParsed = mindeeClient.parse(
+      PassportV1Inference.class,
+      docToParse
+    );
 
     System.out.println(documentParsed.toString());
   }
