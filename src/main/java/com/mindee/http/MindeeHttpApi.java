@@ -15,7 +15,6 @@ import com.mindee.parsing.common.PredictResponse;
 import com.mindee.utils.MindeeException;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.util.HashMap;
@@ -28,12 +27,8 @@ import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
-import org.apache.http.entity.mime.FormBodyPart;
-import org.apache.http.entity.mime.FormBodyPartBuilder;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
-import org.apache.http.entity.mime.content.ContentBody;
-import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 
@@ -219,8 +214,7 @@ public final class MindeeHttpApi implements MindeeApi {
 
   private HttpEntity buildHttpBody(ParseParameter parseParameter)
       throws JsonProcessingException, UnsupportedEncodingException {
-    if(parseParameter.getFile()!=null)
-    {
+    if (parseParameter.getFile() != null) {
       MultipartEntityBuilder builder = MultipartEntityBuilder.create();
       builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
       builder.addBinaryBody(
@@ -233,14 +227,13 @@ public final class MindeeHttpApi implements MindeeApi {
         builder.addTextBody("include_mvision", "true");
       }
       return builder.build();
-    }
-    else if (parseParameter.getFileUrl()!=null){
+    } else if (parseParameter.getFileUrl() != null) {
       Map<String, URL> urlMap = new HashMap<>();
-      urlMap.put("document",parseParameter.getFileUrl());
-      final StringEntity entity = new StringEntity(mapper.writeValueAsString(urlMap),ContentType.APPLICATION_JSON);
+      urlMap.put("document", parseParameter.getFileUrl());
+      final StringEntity entity = new StringEntity(mapper.writeValueAsString(urlMap),
+          ContentType.APPLICATION_JSON);
       return entity;
-    }
-    else{
+    } else {
       throw new MindeeException("Either document bytes or a document url are needed");
     }
 

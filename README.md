@@ -41,6 +41,20 @@ Document<InvoiceV4Inference> invoiceDocument = mindeeClient.parse(
   documentToParse
 );
 ```
+Alternatively, documents can be parsed by providing a HTTPS URL
+```java
+import com.mindee.parsing;
+import com.mindee.parsing.invoice;
+
+MindeeClient mindeeClient = MindeeClientInit.create("my-api-key");
+
+URL documentUrl = new URL("https://path/to/document");
+
+Document<InvoiceV4Inference> invoiceDocument = mindeeClient.parse(
+  InvoiceV4Inference.class,
+  documentUrl
+);
+```
 
 ### Region-Specific Documents
 Each region will have its own package within the general `com.mindee.parsing` package.
@@ -78,7 +92,21 @@ Document<CustomV1Inference> customDocument = mindeeClient.parse(
   customEndpoint
 );
 ```
+Alternatively, documents can be parsed by providing a HTTPS URL
 
+```java
+import com.mindee.parsing;
+import com.mindee.parsing.custom;
+
+MindeeClient mindeeClient = MindeeClientInit.create("my-api-key");
+CustomEndpoint customEndpoint = new CustomEndpoint("my-endpoint", "my-account");
+
+URL documentUrl = new URL("https://path/to/document");
+Document<CustomV1Inference> customDocument = mindeeClient.parse(
+  documentUrl,
+  customEndpoint
+);
+```
 ## Further Reading
 Complete details on the working of the library are available in the following guides:
 

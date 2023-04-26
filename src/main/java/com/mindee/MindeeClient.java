@@ -54,7 +54,7 @@ public class MindeeClient {
       Class<T> type,
       DocumentToParse documentToParse
   ) throws IOException {
-    return this.parse(type,documentToParse.getFile(),documentToParse.getFilename(),false,null);
+    return this.parse(type, documentToParse.getFile(), documentToParse.getFilename(), false, null);
   }
 
   public <T extends Inference> Document<T> parse(
@@ -62,7 +62,8 @@ public class MindeeClient {
       DocumentToParse documentToParse,
       boolean includeWords
   ) throws IOException {
-    return this.parse(type,documentToParse.getFile(),documentToParse.getFilename(),includeWords,null);
+    return this.parse(type, documentToParse.getFile(), documentToParse.getFilename(), includeWords,
+        null);
   }
 
   public <T extends Inference> Document<T> parse(
@@ -70,7 +71,8 @@ public class MindeeClient {
       DocumentToParse documentToParse,
       PageOptions pageOptions
   ) throws IOException {
-    return this.parse(type,getSplitFile(documentToParse, pageOptions),documentToParse.getFilename(),false,null);
+    return this.parse(type, getSplitFile(documentToParse, pageOptions),
+        documentToParse.getFilename(), false, null);
   }
 
   public <T extends Inference> Document<T> parse(
@@ -79,7 +81,8 @@ public class MindeeClient {
       boolean includeWords,
       PageOptions pageOptions
   ) throws IOException {
-    return this.parse(type,getSplitFile(documentToParse, pageOptions),documentToParse.getFilename(),includeWords,null);
+    return this.parse(type, getSplitFile(documentToParse, pageOptions),
+        documentToParse.getFilename(), includeWords, null);
   }
 
   public <T extends Inference> Document<T> parse(
@@ -87,7 +90,7 @@ public class MindeeClient {
       URL documentUrl
   ) throws IOException {
     validateUrl(documentUrl);
-    return this.parse(type,null,null,false,documentUrl);
+    return this.parse(type, null, null, false, documentUrl);
   }
 
   private <T extends Inference> Document<T> parse(
@@ -111,7 +114,8 @@ public class MindeeClient {
       DocumentToParse documentToParse,
       CustomEndpoint customEndpoint
   ) throws IOException {
-     return this.parse(documentToParse.getFile(),documentToParse.getFilename(),customEndpoint,null);
+    return this.parse(documentToParse.getFile(), documentToParse.getFilename(), customEndpoint,
+        null);
   }
 
   public Document<CustomV1Inference> parse(
@@ -119,7 +123,7 @@ public class MindeeClient {
       CustomEndpoint customEndpoint
   ) throws IOException {
     validateUrl(documentUrl);
-    return this.parse(null,null,customEndpoint,documentUrl);
+    return this.parse(null, null, customEndpoint, documentUrl);
   }
 
   public Document<CustomV1Inference> parse(
@@ -127,7 +131,8 @@ public class MindeeClient {
       CustomEndpoint customEndpoint,
       PageOptions pageOptions
   ) throws IOException {
-    return this.parse(getSplitFile(documentToParse, pageOptions),documentToParse.getFilename(),customEndpoint,null);
+    return this.parse(getSplitFile(documentToParse, pageOptions), documentToParse.getFilename(),
+        customEndpoint, null);
   }
 
   private Document<CustomV1Inference> parse(
@@ -146,10 +151,10 @@ public class MindeeClient {
             .build());
   }
 
-  private boolean validateUrl(URL documentUrl)
-  {
-    if(!"https".equalsIgnoreCase(documentUrl.getProtocol()))
+  private boolean validateUrl(URL documentUrl) {
+    if (!"https".equalsIgnoreCase(documentUrl.getProtocol())) {
       throw new MindeeException("Only HTTPS document urls are allowed");
+    }
     return true;
   }
 
@@ -160,11 +165,12 @@ public class MindeeClient {
     byte[] splitFile;
     boolean isPDF = FileUtils.getFileExtension(documentToParse.getFilename())
         .equalsIgnoreCase("pdf");
-    if(pageOptions == null || !isPDF)
+    if (pageOptions == null || !isPDF) {
       splitFile = documentToParse.getFile();
-    else
+    } else {
       splitFile = pdfOperation.split(
           new SplitQuery(documentToParse.getFile(), pageOptions)).getFile();
+    }
     return splitFile;
   }
 }
