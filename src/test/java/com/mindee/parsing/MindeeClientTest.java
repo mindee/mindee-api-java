@@ -2,16 +2,19 @@ package com.mindee.parsing;
 
 import com.mindee.DocumentToParse;
 import com.mindee.MindeeClient;
+import com.mindee.ParseParameter;
 import com.mindee.parsing.common.Document;
 import com.mindee.parsing.custom.CustomV1Inference;
 import com.mindee.parsing.invoice.InvoiceV4Inference;
 import com.mindee.pdf.PdfOperation;
 import com.mindee.pdf.SplitPdf;
+import java.net.URL;
 import org.apache.commons.codec.binary.Base64;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -238,5 +241,46 @@ class MindeeClientTest {
 
     Assertions.assertNotNull(documentToParse);
     Assertions.assertArrayEquals(documentToParse.getFile(), Files.readAllBytes(file.toPath()));
+  }
+
+  @Test
+  void givenADocumentUrl_whenParsed_shouldCallApiWithCorrectParams() throws IOException {
+
+
+    ArgumentCaptor<Class> classArgumentCaptor = ArgumentCaptor.forClass(Class.class);
+    ArgumentCaptor<ParseParameter> parseParameterArgumentCaptor = ArgumentCaptor.forClass(ParseParameter.class);
+
+    URL docUrl = new URL("https://this.document.does.not.exist");
+    Document<InvoiceV4Inference> document = client.parse(
+        InvoiceV4Inference.class, docUrl);
+
+    Mockito.verify(mindeeApi, Mockito.times(1))
+        .predict(classArgumentCaptor.capture(),parseParameterArgumentCaptor.capture());
+    Assertions.assertEquals(InvoiceV4Inference.class,classArgumentCaptor.getValue());
+    Assertions.assertEquals(docUrl,parseParameterArgumentCaptor.getValue().getFileUrl());
+    Assertions.assertNull(parseParameterArgumentCaptor.getValue().getFile());
+    Assertions.assertNull(parseParameterArgumentCaptor.getValue().getFileName());
+  }
+
+  @Test
+  void givenACustomDocumentUrl_whenParsed_shouldCallApiWithCorrectParams() throws IOException {
+
+
+    ArgumentCaptor<Class> classArgumentCaptor = ArgumentCaptor.forClass(Class.class);
+    ArgumentCaptor<CustomEndpoint> customEndpointArgumentCaptor = ArgumentCaptor.forClass(CustomEndpoint.class);
+    ArgumentCaptor<ParseParameter> parseParameterArgumentCaptor = ArgumentCaptor.forClass(ParseParameter.class);
+
+    URL docUrl = new URL("https://this.document.does.not.exist");
+    CustomEndpoint endpoint = new CustomEndpoint("dsddw", "dcsdcd", "dsfdd");
+    Document<CustomV1Inference> document = client.parse(
+        docUrl,endpoint);
+
+    Mockito.verify(mindeeApi, Mockito.times(1))
+        .predict(classArgumentCaptor.capture(),customEndpointArgumentCaptor.capture(),parseParameterArgumentCaptor.capture());
+    Assertions.assertEquals(CustomV1Inference.class,classArgumentCaptor.getValue());
+    Assertions.assertEquals(docUrl,parseParameterArgumentCaptor.getValue().getFileUrl());
+    Assertions.assertEquals(endpoint,customEndpointArgumentCaptor.getValue());
+    Assertions.assertNull(parseParameterArgumentCaptor.getValue().getFile());
+    Assertions.assertNull(parseParameterArgumentCaptor.getValue().getFileName());
   }
 }

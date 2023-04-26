@@ -1,5 +1,6 @@
 package com.mindee.http;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mindee.MindeeSettings;
@@ -14,6 +15,11 @@ import com.mindee.parsing.common.PredictResponse;
 import com.mindee.utils.MindeeException;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Function;
 import lombok.Builder;
 import org.apache.http.HttpEntity;
@@ -21,8 +27,13 @@ import org.apache.http.HttpHeaders;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.entity.mime.FormBodyPart;
+import org.apache.http.entity.mime.FormBodyPartBuilder;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.entity.mime.content.ContentBody;
+import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 
@@ -119,19 +130,7 @@ public final class MindeeHttpApi implements MindeeApi {
     mapper.findAndRegisterModules();
 
     HttpPost post = new HttpPost(urlFromEndpoint.apply(customEndpoint));
-    MultipartEntityBuilder builder = MultipartEntityBuilder.create();
-    builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
-    builder.addBinaryBody(
-        "document",
-        parseParameter.getFile(),
-        ContentType.DEFAULT_BINARY,
-        parseParameter.getFileName()
-    );
-    if (Boolean.TRUE.equals(parseParameter.getIncludeWords())) {
-      builder.addTextBody("include_mvision", "true");
-    }
-
-    HttpEntity entity = builder.build();
+    HttpEntity entity = buildHttpBody(parseParameter);
     if (this.mindeeSettings.getApiKey().isPresent()) {
       post.setHeader(HttpHeaders.AUTHORIZATION, this.mindeeSettings.getApiKey().get());
     }
@@ -216,5 +215,34 @@ public final class MindeeHttpApi implements MindeeApi {
         + "/v"
         + customEndpoint.getVersion()
         + "/predict";
+  }
+
+  private HttpEntity buildHttpBody(ParseParameter parseParameter)
+      throws JsonProcessingException, UnsupportedEncodingException {
+    if(parseParameter.getFile()!=null)
+    {
+      MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+      builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
+      builder.addBinaryBody(
+          "document",
+          parseParameter.getFile(),
+          ContentType.DEFAULT_BINARY,
+          parseParameter.getFileName()
+      );
+      if (Boolean.TRUE.equals(parseParameter.getIncludeWords())) {
+        builder.addTextBody("include_mvision", "true");
+      }
+      return builder.build();
+    }
+    else if (parseParameter.getFileUrl()!=null){
+      Map<String, URL> urlMap = new HashMap<>();
+      urlMap.put("document",parseParameter.getFileUrl());
+      final StringEntity entity = new StringEntity(mapper.writeValueAsString(urlMap),ContentType.APPLICATION_JSON);
+      return entity;
+    }
+    else{
+      throw new MindeeException("Either document bytes or a document url are needed");
+    }
+
   }
 }

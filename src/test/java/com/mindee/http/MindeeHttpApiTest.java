@@ -6,7 +6,10 @@ import static com.github.tomakehurst.wiremock.client.WireMock.post;
 import static com.github.tomakehurst.wiremock.client.WireMock.postRequestedFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlMatching;
+import static org.hamcrest.MatcherAssert.assertThat;
 
+import org.hamcrest.collection.IsMapContaining;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.mindee.MindeeSettings;
 import com.mindee.ParseParameter;
@@ -15,13 +18,17 @@ import com.mindee.parsing.invoice.InvoiceV4Inference;
 import com.mindee.utils.MindeeException;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import junit.framework.TestCase;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
+import okhttp3.mockwebserver.RecordedRequest;
 import org.apache.http.HttpHost;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
@@ -32,6 +39,7 @@ import org.junit.jupiter.api.Test;
 public class MindeeHttpApiTest extends TestCase {
 
   MockWebServer mockWebServer = new MockWebServer();
+  private static ObjectMapper objectMapper = new ObjectMapper();
 
   public void setUp() throws Exception {
     super.setUp();
@@ -77,6 +85,60 @@ public class MindeeHttpApiTest extends TestCase {
   }
 
   @Test
+  void givenParseParametersWithFile_whenParsed_shouldBuildRequestCorrectly() throws IOException, InterruptedException{
+    String url = String.format("http://localhost:%s", mockWebServer.getPort());
+    Path path = Paths.get("src/test/resources/data/invoice/response_v4/complete.json");
+    mockWebServer.enqueue(new MockResponse()
+        .setResponseCode(200)
+        .setBody(new String(Files.readAllBytes(path))));
+
+    File file = new File("src/test/resources/data/invoice/invoice.pdf");
+    byte[] fileBytes = Files.readAllBytes(file.toPath());
+    MindeeHttpApi client = MindeeHttpApi.builder().mindeeSettings(new MindeeSettings("abc", url))
+        .build();
+    Document<InvoiceV4Inference> document = client.predict(
+        InvoiceV4Inference.class,
+        ParseParameter.builder()
+            .file(fileBytes)
+            .fileName(file.getName())
+            .build());
+
+    RecordedRequest recordedRequest =  mockWebServer.takeRequest();
+    Assertions.assertEquals("abc",recordedRequest.getHeader("Authorization"));
+    Assertions.assertEquals(Long.toString(recordedRequest.getBodySize()),recordedRequest.getHeader("Content-Length"));
+    Assertions.assertTrue(recordedRequest.getBodySize()>fileBytes.length);
+
+  }
+
+  @Test
+  void givenParseParametersWithFileUrl_whenParsed_shouldBuildRequestCorrectly() throws IOException, InterruptedException{
+    String url = String.format("http://localhost:%s", mockWebServer.getPort());
+    Path path = Paths.get("src/test/resources/data/invoice/response_v4/complete.json");
+    mockWebServer.enqueue(new MockResponse()
+        .setResponseCode(200)
+        .setBody(new String(Files.readAllBytes(path))));
+
+    MindeeHttpApi client = MindeeHttpApi.builder().mindeeSettings(new MindeeSettings("abc", url))
+        .build();
+    Document<InvoiceV4Inference> document = client.predict(
+        InvoiceV4Inference.class,
+        ParseParameter.builder()
+            .file(null)
+            .fileName(null)
+            .fileUrl(new URL("https://thisfile.does.not.exist"))
+            .build());
+
+    RecordedRequest recordedRequest =  mockWebServer.takeRequest();
+
+    Assertions.assertEquals("abc",recordedRequest.getHeader("Authorization"));
+    Assertions.assertEquals(Long.toString(recordedRequest.getBodySize()),recordedRequest.getHeader("Content-Length"));
+    Assertions.assertTrue(recordedRequest.getHeader("Content-Type").contains("application/json"));
+    Map<String, String> requestMap = objectMapper.readValue(recordedRequest.getBody().readUtf8(),Map.class);
+    assertThat(requestMap,IsMapContaining.hasEntry("document","https://thisfile.does.not.exist"));
+
+  }
+
+  @Test
   void givenAUrlBuilderFunction_whenParsed_callsTheCorrectUrl()
     throws IOException, InterruptedException {
 
@@ -96,7 +158,7 @@ public class MindeeHttpApiTest extends TestCase {
       .build();
     Document<InvoiceV4Inference> document = client.predict(
       InvoiceV4Inference.class,
-      ParseParameter.builder()
+        ParseParameter.builder()
         .file(Files.readAllBytes(file.toPath()))
         .fileName(file.getName())
         .build());
