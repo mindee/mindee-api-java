@@ -1,5 +1,12 @@
 # Mindee Java API Library Changelog
 
+## v3.4.0 - 2023-05-02
+### Changes
+* :memo: make code samples easier to read
+* :sparkles: add support for FR bank account details
+* :sparkles: Allow passing an URL to parse
+
+
 ## v3.3.0 - 2023-04-19
 ### Changes
 * :recycle: :bug: rework CLI, fix minor bugs along the way
