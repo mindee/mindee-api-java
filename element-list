@@ -8,6 +8,7 @@ com.mindee.parsing.custom
 com.mindee.parsing.custom.lineitems
 com.mindee.parsing.eu.licenseplate
 com.mindee.parsing.financial
+com.mindee.parsing.fr.bankaccountdetails
 com.mindee.parsing.fr.cartevitale
 com.mindee.parsing.fr.idcard
 com.mindee.parsing.invoice

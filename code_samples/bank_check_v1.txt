@@ -15,7 +15,10 @@ public class SimpleMindeeClient {
     MindeeClient mindeeClient = MindeeClientInit.create(apiKey);
     DocumentToParse docToParse = new DocumentToParse(new File(filePath));
 
-    Document<BankCheckV1Inference> documentParsed = mindeeClient.parse(BankCheckV1Inference.class, docToParse);
+    Document<BankCheckV1Inference> documentParsed = mindeeClient.parse(
+      BankCheckV1Inference.class,
+      docToParse
+    );
 
     System.out.println(documentParsed.toString());
   }
