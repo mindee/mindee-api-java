@@ -4,6 +4,9 @@ import java.util.List;
 import lombok.Getter;
 
 
+/**
+ * Line items details.
+ */
 @Getter
 public class LineItems {
   private List<Line> rows;

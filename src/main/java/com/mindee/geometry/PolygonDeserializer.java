@@ -10,6 +10,9 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * JSON deserializer for polygons.
+ */
 public class PolygonDeserializer extends StdDeserializer<Polygon> {
 
 

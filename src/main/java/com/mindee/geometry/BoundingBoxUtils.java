@@ -3,6 +3,9 @@ package com.mindee.geometry;
 import java.util.Arrays;
 import java.util.DoubleSummaryStatistics;
 
+/**
+ * Methods for working with BoundingBoxes.
+ */
 public final class BoundingBoxUtils {
   private BoundingBoxUtils() {
   }

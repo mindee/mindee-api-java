@@ -1,5 +1,8 @@
 package com.mindee.utils;
 
+/**
+ * Utilities for working with files.
+ */
 public class FileUtils {
 
   private FileUtils() {

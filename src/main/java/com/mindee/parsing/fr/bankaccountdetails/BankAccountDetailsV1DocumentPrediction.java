@@ -8,28 +8,28 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 /**
-* Document data for Bank Account Details, API version 1.
-*/
+ * Document data for Bank Account Details, API version 1.
+ */
 @Getter
 @EqualsAndHashCode
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class BankAccountDetailsV1DocumentPrediction {
 
   /**
-  * The International Bank Account Number (IBAN).
-  */
+   * The International Bank Account Number (IBAN).
+   */
   @JsonProperty("iban")
   private StringField iban;
 
   /**
-  * The name of the account holder as seen on the document.
-  */
+   * The name of the account holder as seen on the document.
+   */
   @JsonProperty("account_holder_name")
   private StringField accountHolderName;
 
   /**
-  * The bank's SWIFT Business Identifier Code (BIC).
-  */
+   * The bank's SWIFT Business Identifier Code (BIC).
+   */
   @JsonProperty("swift")
   private StringField swift;
 

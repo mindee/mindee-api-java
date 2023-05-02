@@ -18,6 +18,9 @@ import java.util.stream.Collectors;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
+/**
+ * Document data for Financial Document, API version 1.
+ */
 @Getter
 @EqualsAndHashCode
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -28,106 +31,127 @@ public class FinancialV1DocumentPrediction {
    */
   @JsonProperty("locale")
   private LocaleField locale;
+
   /**
    * The type of the parsed document (see official documentation for the list).
    */
   @JsonProperty("document_type")
   private DocumentTypeField documentType;
+
   /**
    * The creation date.
    */
   @JsonProperty("date")
   private DateField date;
+
   /**
    * The invoice number.
    */
   @JsonProperty("invoice_number")
   private StringField invoiceNumber;
+
   /**
    * List of Reference numbers including PO number.
    */
   @JsonProperty("reference_numbers")
   private List<StringField> referenceNumbers = new ArrayList<>();
+
   /**
    * The due date of the invoice.
    */
   @JsonProperty("due_date")
   private DateField dueDate;
+
   /**
    * The supplier name.
    */
   @JsonProperty("supplier_name")
   private StringField supplierName;
+
   /**
    * The supplier company registration information.
    */
   @JsonProperty("supplier_company_registrations")
   private List<CompanyRegistrationField> supplierCompanyRegistrations = new ArrayList<>();
+
   /**
    * The supplier address.
    */
   @JsonProperty("supplier_address")
   private StringField supplierAddress;
+
   /**
    * The name of the customer.
    */
   @JsonProperty("customer_name")
   private StringField customerName;
+
   /**
    * The company registration information for the customer.
    */
   @JsonProperty("customer_company_registrations")
   private List<CompanyRegistrationField> customerCompanyRegistrations = new ArrayList<>();
+
   /**
    * The address of the customer.
    */
   @JsonProperty("customer_address")
   private StringField customerAddress;
+
   /**
    * The payment information's.
    */
   @JsonProperty("supplier_payment_details")
   private List<PaymentDetailsField> paymentDetails = new ArrayList<>();
+
   /**
    * The list of the taxes.
    */
   @JsonProperty("taxes")
   private List<TaxField> taxes;
+
   /**
    * The total amount with tax included.
    */
   @JsonProperty("total_amount")
   private AmountField totalAmount;
+
   /**
    * The total amount without the tax value.
    */
   @JsonProperty("total_net")
   private AmountField totalNet;
+
   /**
    * The time of the purchase.
    */
   @JsonProperty("time")
   private StringField time;
+
   /**
    * The type of purchase among a certain list of it (see official documentation for the list).
    */
   @JsonProperty("category")
   private StringField category;
+
   /**
    * The subcategory of purchase among a certain list of it (see official documentation for the list).
    */
   @JsonProperty("subcategory")
   private StringField subCategory;
+
   /**
    * Total tax amount of the purchase.
    */
   @JsonProperty("total_tax")
   private AmountField totalTax;
+
   /**
    * Total amount of tip and gratuity.
    */
   @JsonProperty("tip")
   private AmountField tip;
+
   /**
    * Line items details.
    */

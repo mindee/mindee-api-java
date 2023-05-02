@@ -10,6 +10,9 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDResources;
 
+/**
+ * Utilities for working with PDFs.
+ */
 public final class PDFUtils {
 
   private PDFUtils() {
@@ -42,7 +45,7 @@ public final class PDFUtils {
     }
   }
 
-  private static byte[] createPdfFromExistingPDF(
+  private static byte[] createPdfFromExistingPdf(
       PDDocument document,
       List<Integer> pageNumbers
   ) throws IOException {
@@ -67,7 +70,7 @@ public final class PDFUtils {
       List<Integer> pageNumbers
   ) throws IOException {
     PDDocument document = PDDocument.load(file);
-    return createPdfFromExistingPDF(document, pageNumbers);
+    return createPdfFromExistingPdf(document, pageNumbers);
   }
 
   public static byte[] mergePdfPages(
@@ -75,7 +78,7 @@ public final class PDFUtils {
       List<Integer> pageNumbers
   ) throws IOException {
     PDDocument document = PDDocument.load(fileBytes);
-    return createPdfFromExistingPDF(document, pageNumbers);
+    return createPdfFromExistingPdf(document, pageNumbers);
   }
 
   public static byte[] mergePdfPages(
@@ -84,7 +87,7 @@ public final class PDFUtils {
   ) throws IOException {
     try {
       PDDocument document = PDDocument.load(inputStream);
-      byte[] bytes = createPdfFromExistingPDF(document, pageNumbers);
+      byte[] bytes = createPdfFromExistingPdf(document, pageNumbers);
       document.close();
       return bytes;
     } finally {

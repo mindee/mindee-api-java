@@ -15,6 +15,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
+/**
+ * Main entrypoint for Mindee operations.
+ */
 public class MindeeClient {
 
   private final MindeeApi mindeeApi;

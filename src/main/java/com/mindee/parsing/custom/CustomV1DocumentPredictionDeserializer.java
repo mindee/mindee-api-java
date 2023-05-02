@@ -12,6 +12,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+/**
+ * JSON deserializer for custom documents v1.x.
+ */
 public class CustomV1DocumentPredictionDeserializer extends StdDeserializer<CustomV1DocumentPrediction> {
 
   private static ObjectMapper mapper = new ObjectMapper();

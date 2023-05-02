@@ -25,14 +25,14 @@ public class CarteVitaleV1DocumentPrediction {
   private List<StringField> givenNames = new ArrayList<>();
 
   /**
-  * The surname of the card holder.
-  */
+   * The surname of the card holder.
+   */
   @JsonProperty("surname")
   private StringField surname;
 
   /**
-  * The Social Security Number (Numéro de Sécurité Sociale) of the card holder
-  */
+   * The Social Security Number (Numéro de Sécurité Sociale) of the card holder.
+   */
   @JsonProperty("social_security")
   private StringField socialSecurity;
 

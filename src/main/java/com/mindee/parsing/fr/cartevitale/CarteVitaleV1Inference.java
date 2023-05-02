@@ -6,8 +6,8 @@ import com.mindee.parsing.common.Inference;
 import lombok.Getter;
 
 /**
-* The definition for carte_vitale v1.
-*/
+ * The definition for carte_vitale v1.
+ */
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
 @EndpointInfo(endpointName = "carte_vitale", version = "1")

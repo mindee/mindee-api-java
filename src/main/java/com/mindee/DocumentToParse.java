@@ -8,6 +8,9 @@ import java.util.Base64;
 import lombok.Getter;
 import org.apache.pdfbox.io.IOUtils;
 
+/**
+ * A source document for Mindee API operations.
+ */
 @Getter
 public final class DocumentToParse {
 

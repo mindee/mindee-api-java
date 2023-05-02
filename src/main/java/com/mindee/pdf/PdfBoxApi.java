@@ -14,6 +14,9 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import org.apache.pdfbox.pdmodel.PDDocument;
 
+/**
+ * Allows performing various operations on PDFs.
+ */
 public final class PdfBoxApi implements PdfOperation {
 
   @Override

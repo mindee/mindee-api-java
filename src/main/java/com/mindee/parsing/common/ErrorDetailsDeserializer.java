@@ -6,6 +6,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import java.io.IOException;
 
+/**
+ * JSON deserializer for the error portion of the return.
+ */
 public class ErrorDetailsDeserializer extends StdDeserializer<ErrorDetails> {
 
   public ErrorDetailsDeserializer(Class<?> vc) {

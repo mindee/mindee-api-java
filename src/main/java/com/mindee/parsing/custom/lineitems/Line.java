@@ -11,6 +11,9 @@ import java.util.Map;
 import lombok.Getter;
 
 
+/**
+ * Represent a single line.
+ */
 @Getter
 public class Line {
   private final Integer rowNumber;

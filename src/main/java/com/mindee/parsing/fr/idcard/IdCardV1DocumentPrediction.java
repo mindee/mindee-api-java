@@ -11,70 +11,70 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 /**
-* Document data for Carte Nationale d'Identité, API version 1.
-*/
+ * Document data for Carte Nationale d'Identité, API version 1.
+ */
 @Getter
 @EqualsAndHashCode
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class IdCardV1DocumentPrediction {
 
   /**
-  * The identification card number.
-  */
+   * The identification card number.
+   */
   @JsonProperty("id_number")
   private StringField idNumber;
 
   /**
-  * The given name(s) of the card holder.
-  */
+   * The given name(s) of the card holder.
+   */
   @JsonProperty("given_names")
   private List<StringField> givenNames = new ArrayList<>();
 
   /**
-  * The surname of the card holder.
-  */
+   * The surname of the card holder.
+   */
   @JsonProperty("surname")
   private StringField surname;
 
   /**
-  * The date of birth of the card holder.
-  */
+   * The date of birth of the card holder.
+   */
   @JsonProperty("birth_date")
   private DateField birthDate;
 
   /**
-  * The place of birth of the card holder.
-  */
+   * The place of birth of the card holder.
+   */
   @JsonProperty("birth_place")
   private StringField birthPlace;
 
   /**
-  * The expiry date of the identification card.
-  */
+   * The expiry date of the identification card.
+   */
   @JsonProperty("expiry_date")
   private DateField expiryDate;
 
   /**
-  * The name of the issuing authority.
-  */
+   * The name of the issuing authority.
+   */
   @JsonProperty("authority")
   private StringField authority;
 
   /**
-  * The gender of the card holder.
-  */
+   * The gender of the card holder.
+   */
   @JsonProperty("gender")
   private StringField gender;
 
   /**
-  * Machine Readable Zone, first line
-  */
+   * Machine Readable Zone, first line
+   */
   @JsonProperty("mrz1")
   private StringField mrz1;
 
   /**
-  * Machine Readable Zone, second line
-  */
+   * Machine Readable Zone, second line
+   */
   @JsonProperty("mrz2")
   private StringField mrz2;
 
