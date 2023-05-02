@@ -5,10 +5,13 @@ import com.mindee.utils.MindeeException;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 import org.apache.pdfbox.pdmodel.PDDocument;
 
 public final class PdfBoxApi implements PdfOperation {
@@ -44,8 +47,10 @@ public final class PdfBoxApi implements PdfOperation {
   }
 
   private List<Integer> getPageRanges(PageOptions pageOptions, Integer numberOfPages) {
-    Set<Integer> pages = pageOptions
-        .getPages().stream()
+
+    Set<Integer> pages = Optional.ofNullable(pageOptions.getPages())
+        .map(Collection::stream)
+        .orElseGet(Stream::empty)
         .filter(x -> x > (numberOfPages) * (-1) && x <= (numberOfPages - 1))
         .map(x -> (numberOfPages + x) % numberOfPages)
         .collect(Collectors.toSet());
