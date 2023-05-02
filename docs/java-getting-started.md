@@ -186,6 +186,22 @@ byte[] fileAsBytes = ....;
 DocumentToParse documentToParse = mindeeClient.loadDocument(fileAsBytes,"document.pdf");
 ```
 
+### Loading an URL
+Alternatively, an HTTPS URL can be loaded:
+```java
+import com.mindee.parsing;
+import com.mindee.parsing.invoice;
+
+MindeeClient mindeeClient = MindeeClientInit.create("my-api-key");
+
+URL documentUrl = new URL("https://path/to/document");
+
+Document<InvoiceV4Inference> invoiceDocument = mindeeClient.parse(
+  InvoiceV4Inference.class,
+  documentUrl
+);
+```
+
 ### Parsing a Document
 The `MindeeClient` has multiple overloaded `parse` methods available for parsing the documents 
 and you will get `DocumentToParse`.
