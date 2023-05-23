@@ -4,6 +4,7 @@ import com.mindee.DocumentToParse;
 import com.mindee.MindeeClient;
 import com.mindee.ParseParameter;
 import com.mindee.parsing.common.Document;
+import com.mindee.parsing.common.PredictResponse;
 import com.mindee.parsing.custom.CustomV1Inference;
 import com.mindee.parsing.invoice.InvoiceV4Inference;
 import com.mindee.pdf.PdfOperation;
@@ -44,12 +45,16 @@ class MindeeClientTest {
 
     File file = new File("src/test/resources/invoice/invoice.pdf");
 
+    PredictResponse predictResponse = new PredictResponse();
+    predictResponse.setDocument(new Document<>());
+    predictResponse.setApiRequest(null);
+    predictResponse.setJob(null);
     Mockito.when(
             mindeeApi.predict(
                 Mockito.any(),
                 Mockito.any(),
                 Mockito.any()))
-        .thenReturn(new Document<>());
+        .thenReturn(predictResponse);
 
     Document<CustomV1Inference> document = client.parse(
         new DocumentToParse(file),
@@ -68,12 +73,16 @@ class MindeeClientTest {
     List<Integer> pageNumberToKeep = new ArrayList<>();
     pageNumberToKeep.add(1);
 
+    PredictResponse predictResponse = new PredictResponse();
+    predictResponse.setDocument(new Document<>());
+    predictResponse.setApiRequest(null);
+    predictResponse.setJob(null);
     Mockito.when(
             mindeeApi.predict(
                 Mockito.any(),
                 Mockito.any(),
                 Mockito.any()))
-        .thenReturn(new Document<>());
+        .thenReturn(predictResponse);
     Mockito.when(
             pdfOperation.split(
                 Mockito.any()))
@@ -97,12 +106,16 @@ class MindeeClientTest {
       throws IOException {
 
     File file = new File("src/test/resources/invoice/invoice.pdf");
+    PredictResponse predictResponse = new PredictResponse();
+    predictResponse.setDocument(new Document<>());
+    predictResponse.setApiRequest(null);
+    predictResponse.setJob(null);
 
     Mockito.when(
             mindeeApi.predict(
                 Mockito.any(),
                 Mockito.any()))
-        .thenReturn(new Document<>());
+        .thenReturn(predictResponse);
 
     Document<InvoiceV4Inference> document = client.parse(
         InvoiceV4Inference.class,
@@ -119,11 +132,15 @@ class MindeeClientTest {
 
     File file = new File("src/test/resources/invoice/invoice.pdf");
 
+    PredictResponse predictResponse = new PredictResponse();
+    predictResponse.setDocument(new Document<>());
+    predictResponse.setApiRequest(null);
+    predictResponse.setJob(null);
     Mockito.when(
             mindeeApi.predict(
                 Mockito.any(),
                 Mockito.any()))
-        .thenReturn(new Document<>());
+        .thenReturn(predictResponse);
 
     Document<InvoiceV4Inference> document = client.parse(
         InvoiceV4Inference.class,
@@ -141,12 +158,15 @@ class MindeeClientTest {
       throws IOException {
 
     File file = new File("src/test/resources/invoice/invoice.pdf");
-
+    PredictResponse predictResponse = new PredictResponse();
+    predictResponse.setDocument(new Document<>());
+    predictResponse.setApiRequest(null);
+    predictResponse.setJob(null);
     Mockito.when(
             mindeeApi.predict(
                 Mockito.any(),
                 Mockito.any()))
-        .thenReturn(new Document<>());
+        .thenReturn(predictResponse);
 
     Document<InvoiceV4Inference> document = client.parse(
         InvoiceV4Inference.class,
@@ -166,12 +186,15 @@ class MindeeClientTest {
     File file = new File("src/test/resources/invoice/invoice.pdf");
     List<Integer> pageNumberToKeep = new ArrayList<>();
     pageNumberToKeep.add(1);
-
+    PredictResponse predictResponse = new PredictResponse();
+    predictResponse.setDocument(new Document<>());
+    predictResponse.setApiRequest(null);
+    predictResponse.setJob(null);
     Mockito.when(
             mindeeApi.predict(
                 Mockito.any(),
                 Mockito.any()))
-        .thenReturn(new Document<>());
+        .thenReturn(predictResponse);
     Mockito.when(
             pdfOperation.split(
                 Mockito.any()))
@@ -246,19 +269,19 @@ class MindeeClientTest {
   void givenADocumentUrl_whenParsed_shouldCallApiWithCorrectParams() throws IOException {
 
     ArgumentCaptor<Class> classArgumentCaptor = ArgumentCaptor.forClass(Class.class);
-    ArgumentCaptor<ParseParameter> parseParameterArgumentCaptor = ArgumentCaptor.forClass(
-        ParseParameter.class);
+    ArgumentCaptor<RequestParameters> requestParametersArgumentCaptor = ArgumentCaptor.forClass(
+        RequestParameters.class);
 
     URL docUrl = new URL("https://this.document.does.not.exist");
     Document<InvoiceV4Inference> document = client.parse(
         InvoiceV4Inference.class, docUrl);
 
     Mockito.verify(mindeeApi, Mockito.times(1))
-        .predict(classArgumentCaptor.capture(), parseParameterArgumentCaptor.capture());
+        .predict(classArgumentCaptor.capture(), requestParametersArgumentCaptor.capture());
     Assertions.assertEquals(InvoiceV4Inference.class, classArgumentCaptor.getValue());
-    Assertions.assertEquals(docUrl, parseParameterArgumentCaptor.getValue().getFileUrl());
-    Assertions.assertNull(parseParameterArgumentCaptor.getValue().getFile());
-    Assertions.assertNull(parseParameterArgumentCaptor.getValue().getFileName());
+    Assertions.assertEquals(docUrl, requestParametersArgumentCaptor.getValue().getFileUrl());
+    Assertions.assertNull(requestParametersArgumentCaptor.getValue().getFile());
+    Assertions.assertNull(requestParametersArgumentCaptor.getValue().getFileName());
   }
 
   @Test
@@ -267,8 +290,8 @@ class MindeeClientTest {
     ArgumentCaptor<Class> classArgumentCaptor = ArgumentCaptor.forClass(Class.class);
     ArgumentCaptor<CustomEndpoint> customEndpointArgumentCaptor = ArgumentCaptor.forClass(
         CustomEndpoint.class);
-    ArgumentCaptor<ParseParameter> parseParameterArgumentCaptor = ArgumentCaptor.forClass(
-        ParseParameter.class);
+    ArgumentCaptor<RequestParameters> requestParametersArgumentCaptor = ArgumentCaptor.forClass(
+        RequestParameters.class);
 
     URL docUrl = new URL("https://this.document.does.not.exist");
     CustomEndpoint endpoint = new CustomEndpoint("dsddw", "dcsdcd", "dsfdd");
@@ -277,11 +300,11 @@ class MindeeClientTest {
 
     Mockito.verify(mindeeApi, Mockito.times(1))
         .predict(classArgumentCaptor.capture(), customEndpointArgumentCaptor.capture(),
-            parseParameterArgumentCaptor.capture());
+            requestParametersArgumentCaptor.capture());
     Assertions.assertEquals(CustomV1Inference.class, classArgumentCaptor.getValue());
-    Assertions.assertEquals(docUrl, parseParameterArgumentCaptor.getValue().getFileUrl());
+    Assertions.assertEquals(docUrl, requestParametersArgumentCaptor.getValue().getFileUrl());
     Assertions.assertEquals(endpoint, customEndpointArgumentCaptor.getValue());
-    Assertions.assertNull(parseParameterArgumentCaptor.getValue().getFile());
-    Assertions.assertNull(parseParameterArgumentCaptor.getValue().getFileName());
+    Assertions.assertNull(requestParametersArgumentCaptor.getValue().getFile());
+    Assertions.assertNull(requestParametersArgumentCaptor.getValue().getFileName());
   }
 }

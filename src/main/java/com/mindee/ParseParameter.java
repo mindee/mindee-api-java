@@ -9,6 +9,7 @@ import lombok.Value;
  */
 @Value
 @Builder
+@Deprecated
 public class ParseParameter {
 
   byte[] file;

@@ -1,9 +1,7 @@
 package com.mindee.parsing;
 
-import com.mindee.ParseParameter;
-import com.mindee.parsing.common.Document;
 import com.mindee.parsing.common.Inference;
-import com.mindee.utils.MindeeException;
+import com.mindee.parsing.common.PredictResponse;
 import java.io.IOException;
 
 /**
@@ -11,20 +9,23 @@ import java.io.IOException;
  */
 public interface MindeeApi {
 
+  <DocT extends Inference> PredictResponse<DocT> checkJobStatus(
+      Class<DocT> documentClass, String jobId);
+
   /**
    * Predict according to a specific model.
    */
-  <DocT extends Inference> Document<DocT> predict(
+  <DocT extends Inference> PredictResponse<DocT> predict(
       Class<DocT> documentClass,
-      ParseParameter parseParameter
-  ) throws MindeeException, IOException;
+      RequestParameters requestParameters
+  ) throws IOException;
 
   /**
    * Predict according to a custom model for API Builder.
    */
-  <DocT extends Inference> Document<DocT> predict(
+  <DocT extends Inference> PredictResponse<DocT> predict(
       Class<DocT> clazz,
       CustomEndpoint customEndpoint,
-      ParseParameter parseParameter
-  ) throws MindeeException, IOException;
+      RequestParameters requestParameters
+  ) throws IOException;
 }

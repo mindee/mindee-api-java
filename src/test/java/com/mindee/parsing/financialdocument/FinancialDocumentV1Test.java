@@ -47,7 +47,7 @@ class FinancialDocumentV1Test {
       new File("src/test/resources/financial_document/response_v1/complete_invoice.json"),
       type);
 
-    String[] actualLines = prediction.getDocument().getInference()
+    String[] actualLines = prediction.getDocument().get().getInference()
       .getPages()
       .get(0).toString().split(System.lineSeparator());
     List<String> expectedLines = Files
@@ -91,7 +91,7 @@ class FinancialDocumentV1Test {
       new File("src/test/resources/financial_document/response_v1/complete_receipt.json"),
       type);
 
-    String[] actualLines = prediction.getDocument().getInference()
+    String[] actualLines = prediction.getDocument().get().getInference()
       .getPages()
       .get(0).toString().split(System.lineSeparator());
     List<String> expectedLines = Files
