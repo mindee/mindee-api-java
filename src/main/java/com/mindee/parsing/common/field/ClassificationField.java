@@ -5,14 +5,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 
 /**
- * Represent a string field.
+ * Represents a classifier value.
  */
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
-public final class DocumentTypeField {
+public final class ClassificationField {
 
   /**
-   * The value of the field.
+   * The value as a String.
    */
   @JsonProperty("value")
   private String value;
