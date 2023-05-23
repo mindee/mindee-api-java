@@ -4,9 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mindee.parsing.SummaryHelper;
 import com.mindee.parsing.common.field.AmountField;
+import com.mindee.parsing.common.field.ClassificationField;
 import com.mindee.parsing.common.field.CompanyRegistrationField;
 import com.mindee.parsing.common.field.DateField;
-import com.mindee.parsing.common.field.DocumentTypeField;
 import com.mindee.parsing.common.field.LocaleField;
 import com.mindee.parsing.common.field.PaymentDetailsField;
 import com.mindee.parsing.common.field.StringField;
@@ -36,7 +36,7 @@ public class FinancialV1DocumentPrediction {
    * The type of the parsed document (see official documentation for the list).
    */
   @JsonProperty("document_type")
-  private DocumentTypeField documentType;
+  private ClassificationField documentType;
 
   /**
    * The creation date.
@@ -132,13 +132,13 @@ public class FinancialV1DocumentPrediction {
    * The type of purchase among a certain list of it (see official documentation for the list).
    */
   @JsonProperty("category")
-  private StringField category;
+  private ClassificationField category;
 
   /**
    * The subcategory of purchase among a certain list of it (see official documentation for the list).
    */
   @JsonProperty("subcategory")
-  private StringField subCategory;
+  private ClassificationField subCategory;
 
   /**
    * Total tax amount of the purchase.
