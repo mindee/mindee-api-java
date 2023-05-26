@@ -36,9 +36,9 @@ public final class StringField extends BaseField {
       @JsonDeserialize(using = PolygonDeserializer.class)
       Polygon polygon,
       @JsonProperty("page_id")
-      Integer id
+      Integer pageId
   ) {
-    super(confidence, polygon, id);
+    super(confidence, polygon, pageId);
     this.value = value;
   }
 
