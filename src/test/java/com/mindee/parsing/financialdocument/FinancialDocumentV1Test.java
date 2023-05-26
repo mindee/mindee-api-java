@@ -1,4 +1,4 @@
-package com.mindee.parsing.financial;
+package com.mindee.parsing.financialdocument;
 
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -21,8 +21,8 @@ class FinancialDocumentV1Test {
     objectMapper.findAndRegisterModules();
 
     JavaType type = objectMapper.getTypeFactory().constructParametricType(PredictResponse.class,
-      FinancialV1Inference.class);
-    PredictResponse<FinancialV1Inference> prediction = objectMapper.readValue(
+      FinancialDocumentV1Inference.class);
+    PredictResponse<FinancialDocumentV1Inference> prediction = objectMapper.readValue(
         new File("src/test/resources/financial_document/response_v1/complete_invoice.json"),
         type);
 
@@ -42,8 +42,8 @@ class FinancialDocumentV1Test {
     objectMapper.findAndRegisterModules();
 
     JavaType type = objectMapper.getTypeFactory().constructParametricType(PredictResponse.class,
-      FinancialV1Inference.class);
-    PredictResponse<FinancialV1Inference> prediction = objectMapper.readValue(
+      FinancialDocumentV1Inference.class);
+    PredictResponse<FinancialDocumentV1Inference> prediction = objectMapper.readValue(
       new File("src/test/resources/financial_document/response_v1/complete_invoice.json"),
       type);
 
@@ -65,8 +65,8 @@ class FinancialDocumentV1Test {
     objectMapper.findAndRegisterModules();
 
     JavaType type = objectMapper.getTypeFactory().constructParametricType(PredictResponse.class,
-      FinancialV1Inference.class);
-    PredictResponse<FinancialV1Inference> prediction = objectMapper.readValue(
+      FinancialDocumentV1Inference.class);
+    PredictResponse<FinancialDocumentV1Inference> prediction = objectMapper.readValue(
       new File("src/test/resources/financial_document/response_v1/complete_receipt.json"),
       type);
 
@@ -86,8 +86,8 @@ class FinancialDocumentV1Test {
     objectMapper.findAndRegisterModules();
 
     JavaType type = objectMapper.getTypeFactory().constructParametricType(PredictResponse.class,
-      FinancialV1Inference.class);
-    PredictResponse<FinancialV1Inference> prediction = objectMapper.readValue(
+      FinancialDocumentV1Inference.class);
+    PredictResponse<FinancialDocumentV1Inference> prediction = objectMapper.readValue(
       new File("src/test/resources/financial_document/response_v1/complete_receipt.json"),
       type);
 
