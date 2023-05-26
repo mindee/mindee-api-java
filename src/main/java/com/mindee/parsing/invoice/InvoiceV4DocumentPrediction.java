@@ -2,6 +2,7 @@ package com.mindee.parsing.invoice;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.mindee.parsing.SummaryHelper;
 import com.mindee.parsing.common.field.AmountField;
 import com.mindee.parsing.common.field.ClassificationField;
@@ -11,6 +12,7 @@ import com.mindee.parsing.common.field.LocaleField;
 import com.mindee.parsing.common.field.PaymentDetailsField;
 import com.mindee.parsing.common.field.StringField;
 import com.mindee.parsing.common.field.TaxField;
+import com.mindee.parsing.common.field.TaxesDeserializer;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.EqualsAndHashCode;
@@ -93,6 +95,7 @@ public class InvoiceV4DocumentPrediction {
    * The list of the taxes.
    */
   @JsonProperty("taxes")
+  @JsonDeserialize(using = TaxesDeserializer.class)
   private List<TaxField> taxes;
   /**
    * The total amount with tax included.
@@ -108,7 +111,7 @@ public class InvoiceV4DocumentPrediction {
    * Line items details.
    */
   @JsonProperty("line_items")
-  private List<InvoiceLineItem> lineItems;
+  private List<InvoiceV4LineItem> lineItems;
 
   public Double getTotalTaxes() {
     return taxes.stream().mapToDouble(TaxField::getValue).sum();
@@ -116,19 +119,22 @@ public class InvoiceV4DocumentPrediction {
 
   @Override
   public String toString() {
+    int[] columnSizes = new int[]{22, 9, 9, 10, 18, 38};
     String lineItemsSummary = String.format("%n");
     if (!this.getLineItems().isEmpty()) {
       lineItemsSummary =
-        String.format("%n====================== ======== ========= ========== ================== ====================================%n")
-        + String.format("Code                   QTY      Price     Amount     Tax (Rate)         Description%n")
-        + String.format("====================== ======== ========= ========== ================== ====================================%n");
+        String.format("%n%s", SummaryHelper.lineSeparator(columnSizes, "-"))
+        + String.format("%n  | Code                 | QTY     | Price   | Amount   | Tax (Rate)       | Description                          |")
+        + String.format("%n%s%n  ", SummaryHelper.lineSeparator(columnSizes, "="));
 
       lineItemsSummary += this.getLineItems().stream()
-        .map(InvoiceLineItem::toString)
-        .collect(Collectors.joining(String.format("%n")));
+        .map(InvoiceV4LineItem::toTableLine)
+        .collect(Collectors.joining(
+          String.format("%n%s%n  ", SummaryHelper.lineSeparator(columnSizes, "-")))
+        );
 
       lineItemsSummary +=
-        String.format("%n====================== ======== ========= ========== ================== ====================================");
+        String.format("%n%s", SummaryHelper.lineSeparator(columnSizes, "-"));
     }
 
     String summary =
@@ -156,13 +162,10 @@ public class InvoiceV4DocumentPrediction {
           this.getCustomerCompanyRegistrations().stream()
             .map(CompanyRegistrationField::getValue)
             .collect(Collectors.joining("; ")))
-        + String.format(":Taxes: %s%n",
-          this.getTaxes().stream()
-            .map(TaxField::toString)
-            .collect(Collectors.joining("%n       ")))
+        + String.format(":Taxes: %s%n", this.taxes.toString())
         + String.format(":Total net: %s%n", this.getTotalNet())
-        + String.format(":Total taxes: %s%n", SummaryHelper.formatAmount(this.getTotalTaxes()))
-        + String.format(":Total amount: %s%n%n",
+        + String.format(":Total tax: %s%n", SummaryHelper.formatAmount(this.getTotalTaxes()))
+        + String.format(":Total amount: %s%n",
           this.getTotalAmount())
         + String.format(":Line Items: %s%n", lineItemsSummary);
 

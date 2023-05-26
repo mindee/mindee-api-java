@@ -29,4 +29,15 @@ public final class SummaryHelper {
       .map(T::toString)
       .collect(Collectors.joining(String.format(delimiter)));
   }
+
+  /**
+   * Format an rST table line separator.
+   */
+  public static String lineSeparator(int[] columnSizes, String str) {
+    StringBuilder outStr = new StringBuilder("  +");
+    for (int size : columnSizes) {
+      outStr.append(String.format("%" + size + "s+", "").replace(" ", str));
+    }
+    return outStr.toString();
+  }
 }
