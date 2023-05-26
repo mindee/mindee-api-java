@@ -2,6 +2,7 @@ package com.mindee.parsing.receipt;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.mindee.parsing.SummaryHelper;
 import com.mindee.parsing.common.field.AmountField;
 import com.mindee.parsing.common.field.ClassificationField;
@@ -9,9 +10,8 @@ import com.mindee.parsing.common.field.DateField;
 import com.mindee.parsing.common.field.LocaleField;
 import com.mindee.parsing.common.field.StringField;
 import com.mindee.parsing.common.field.TaxField;
-import java.util.ArrayList;
+import com.mindee.parsing.common.field.TaxesDeserializer;
 import java.util.List;
-import java.util.stream.Collectors;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
@@ -62,7 +62,8 @@ public class ReceiptV4DocumentPrediction {
    * List of taxes detected on the receipt.
    */
   @JsonProperty("taxes")
-  private List<TaxField> taxes = new ArrayList<>();
+  @JsonDeserialize(using = TaxesDeserializer.class)
+  private List<TaxField> taxes;
   /**
    * total spent including taxes, discounts, fees, tips, and gratuity.
    */
@@ -95,12 +96,9 @@ public class ReceiptV4DocumentPrediction {
         + String.format(":Document type: %s%n", this.getDocumentType())
         + String.format(":Time: %s%n", this.getTime())
         + String.format(":Supplier name: %s%n", this.getSupplierName())
-        + String.format(":Taxes: %s%n",
-          this.getTaxes().stream()
-            .map(TaxField::toString)
-            .collect(Collectors.joining("%n       ")))
+        + String.format(":Taxes: %s%n", this.taxes.toString())
         + String.format(":Total net: %s%n", this.getTotalNet())
-        + String.format(":Total taxes: %s%n", this.getTotalTax())
+        + String.format(":Total tax: %s%n", this.getTotalTax())
         + String.format(":Tip: %s%n", this.getTip())
         + String.format(":Total amount: %s%n", this.getTotalAmount());
 

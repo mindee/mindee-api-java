@@ -24,11 +24,11 @@ public class OcrTest {
       PredictResponse.class,
       ReceiptV4Inference.class);
     PredictResponse<ReceiptV4Inference> prediction = objectMapper.readValue(
-      new File("src/test/resources/data/ocr/complete_with_ocr.json"),
+      new File("src/test/resources/ocr/complete_with_ocr.json"),
       type);
 
     List<String> expectedLines = Files
-      .readAllLines(Paths.get("src/test/resources/data/ocr/ocr.txt"));
+      .readAllLines(Paths.get("src/test/resources/ocr/ocr.txt"));
     String expectedSummary = String.join(String.format("%n"), expectedLines);
 
     Assertions.assertEquals(expectedSummary, prediction.getDocument().getOcr().toString());

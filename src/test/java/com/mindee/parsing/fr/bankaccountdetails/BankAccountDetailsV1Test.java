@@ -24,13 +24,13 @@ public class BankAccountDetailsV1Test {
       BankAccountDetailsV1Inference.class
     );
     PredictResponse<BankAccountDetailsV1Inference> prediction = objectMapper.readValue(
-      new File("src/test/resources/data/fr/bank_account_details/response_v1/complete.json"),
+      new File("src/test/resources/fr/bank_account_details/response_v1/complete.json"),
       type
     );
 
     String[] actualLines = prediction.getDocument().toString().split(System.lineSeparator());
     List<String> expectedLines = Files.readAllLines(
-      Paths.get("src/test/resources/data/fr/bank_account_details/response_v1/summary_full.rst")
+      Paths.get("src/test/resources/fr/bank_account_details/response_v1/summary_full.rst")
     );
     String expectedSummary = String.join(String.format("%n"), expectedLines);
     String actualSummary = String.join(String.format("%n"), actualLines);
