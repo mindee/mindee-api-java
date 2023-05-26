@@ -11,12 +11,12 @@ import lombok.Getter;
 /**
  * Common inference data.
  *
- * @param <T> Page prediction (could be the same that U).
- * @param <U> Document prediction (could be the same that T).
+ * @param <PageT> Page prediction (can be the same as DocT).
+ * @param <DocT> Document prediction (can be the same as PageT).
  */
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
-public abstract class Inference<T, U> {
+public abstract class Inference<PageT, DocT> {
 
   /**
    * Whether a rotation was applied to parse the document.
@@ -32,12 +32,12 @@ public abstract class Inference<T, U> {
    * The prediction on each pages of the document.
    */
   @JsonProperty("pages")
-  private ArrayList<Page<T>> pages;
+  private ArrayList<Page<PageT>> pages;
   /**
    * The prediction on the document level.
    */
   @JsonProperty("prediction")
-  private U documentPrediction;
+  private DocT prediction;
 
   @Override
   public String toString() {
@@ -49,7 +49,7 @@ public abstract class Inference<T, U> {
         + String.format("%n")
         + String.format("Prediction%n")
         + String.format("==========%n")
-        + documentPrediction.toString()
+        + prediction.toString()
         + String.format("%nPage Predictions%n")
         + String.format("================%n%n")
         + pages.stream().map(Page::toString).collect(Collectors.joining(String.format("%n")))
