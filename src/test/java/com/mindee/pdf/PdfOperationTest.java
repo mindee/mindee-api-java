@@ -26,7 +26,7 @@ public class PdfOperationTest {
     pageNumberToKeep.add(2);
 
     SplitQuery splitQuery = new SplitQuery(
-      Files.readAllBytes(new File("src/test/resources/data/pdf/multipage.pdf").toPath()),
+      Files.readAllBytes(new File("src/test/resources/pdf/multipage.pdf").toPath()),
       new PageOptions(pageNumberToKeep, PageOptionsOperation.KEEP_ONLY_LISTED_PAGES, 0));
 
     SplitPdf splitPdf = pdfOperation.split(splitQuery);
@@ -45,7 +45,7 @@ public class PdfOperationTest {
     pageNumberToKeep.add(2);
 
     SplitQuery splitQuery = new SplitQuery(
-      Files.readAllBytes(new File("src/test/resources/data/pdf/multipage.pdf").toPath()),
+      Files.readAllBytes(new File("src/test/resources/pdf/multipage.pdf").toPath()),
       new PageOptions(pageNumberToKeep, PageOptionsOperation.KEEP_ONLY_LISTED_PAGES, 0));
 
     SplitPdf splitPdf = pdfOperation.split(splitQuery);
@@ -65,7 +65,7 @@ public class PdfOperationTest {
     pageNumberToKeep.add(3);
 
     SplitQuery splitQuery = new SplitQuery(
-      Files.readAllBytes(new File("src/test/resources/data/pdf/multipage.pdf").toPath()),
+      Files.readAllBytes(new File("src/test/resources/pdf/multipage.pdf").toPath()),
       new PageOptions(pageNumberToKeep, PageOptionsOperation.REMOVE_LISTED_PAGES, 0));
 
     SplitPdf splitPdf = pdfOperation.split(splitQuery);
@@ -85,7 +85,7 @@ public class PdfOperationTest {
     pageNumberToKeep.add(3);
 
     SplitQuery splitQuery = new SplitQuery(
-      Files.readAllBytes(new File("src/test/resources/data/passport/passport.jpeg").toPath()),
+      Files.readAllBytes(new File("src/test/resources/passport/passport.jpeg").toPath()),
       new PageOptions(pageNumberToKeep, PageOptionsOperation.REMOVE_LISTED_PAGES, 0));
 
     Assertions.assertThrows(
@@ -101,7 +101,7 @@ public class PdfOperationTest {
     pageNumberToKeep.add(1);
 
     SplitQuery splitQuery = new SplitQuery(
-      Files.readAllBytes(new File("src/test/resources/data/pdf/multipage_cut-2.pdf").toPath()),
+      Files.readAllBytes(new File("src/test/resources/pdf/multipage_cut-2.pdf").toPath()),
       new PageOptions(pageNumberToKeep, PageOptionsOperation.REMOVE_LISTED_PAGES, 5));
 
     SplitPdf splitPdf = pdfOperation.split(splitQuery);
@@ -121,7 +121,7 @@ public class PdfOperationTest {
     pageNumberToKeep.add(-1);
 
     SplitQuery splitQuery = new SplitQuery(
-      Files.readAllBytes(new File("src/test/resources/data/pdf/multipage.pdf").toPath()),
+      Files.readAllBytes(new File("src/test/resources/pdf/multipage.pdf").toPath()),
       new PageOptions(pageNumberToKeep, PageOptionsOperation.KEEP_ONLY_LISTED_PAGES, 0));
 
     SplitPdf splitPdf = pdfOperation.split(splitQuery);

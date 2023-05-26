@@ -22,12 +22,12 @@ class InvoiceV4Test {
     JavaType type = objectMapper.getTypeFactory().constructParametricType(PredictResponse.class,
         InvoiceV4Inference.class);
     PredictResponse<InvoiceV4Inference> invoiceV4Prediction = objectMapper.readValue(
-        new File("src/test/resources/data/invoice/response_v4/complete.json"),
+        new File("src/test/resources/invoice/response_v4/complete.json"),
         type);
 
     String[] actualLines = invoiceV4Prediction.getDocument().toString().split(System.lineSeparator());
     List<String> expectedLines = Files
-        .readAllLines(Paths.get("src/test/resources/data/invoice/response_v4/summary_full.rst"));
+        .readAllLines(Paths.get("src/test/resources/invoice/response_v4/summary_full.rst"));
     String expectedSummary = String.join(String.format("%n"), expectedLines);
     String actualSummary = String.join(String.format("%n"), actualLines);
 

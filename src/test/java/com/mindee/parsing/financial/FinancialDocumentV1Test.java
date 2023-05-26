@@ -12,7 +12,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 
-class FinancialV1Test {
+class FinancialDocumentV1Test {
 
   @Test
   void givenFinancialV1_withInvoice_whenDeserialized_MustHaveAValidSummary() throws IOException {
@@ -23,12 +23,12 @@ class FinancialV1Test {
     JavaType type = objectMapper.getTypeFactory().constructParametricType(PredictResponse.class,
       FinancialV1Inference.class);
     PredictResponse<FinancialV1Inference> prediction = objectMapper.readValue(
-        new File("src/test/resources/data/financial_document/response_v1/complete_invoice.json"),
+        new File("src/test/resources/financial_document/response_v1/complete_invoice.json"),
         type);
 
     String[] actualLines = prediction.getDocument().toString().split(System.lineSeparator());
     List<String> expectedLines = Files
-        .readAllLines(Paths.get("src/test/resources/data/financial_document/response_v1/summary_full_invoice.rst"));
+        .readAllLines(Paths.get("src/test/resources/financial_document/response_v1/summary_full_invoice.rst"));
     String expectedSummary = String.join(String.format("%n"), expectedLines);
     String actualSummary = String.join(String.format("%n"), actualLines);
 
@@ -44,14 +44,14 @@ class FinancialV1Test {
     JavaType type = objectMapper.getTypeFactory().constructParametricType(PredictResponse.class,
       FinancialV1Inference.class);
     PredictResponse<FinancialV1Inference> prediction = objectMapper.readValue(
-      new File("src/test/resources/data/financial_document/response_v1/complete_invoice.json"),
+      new File("src/test/resources/financial_document/response_v1/complete_invoice.json"),
       type);
 
     String[] actualLines = prediction.getDocument().getInference()
       .getPages()
       .get(0).toString().split(System.lineSeparator());
     List<String> expectedLines = Files
-      .readAllLines(Paths.get("src/test/resources/data/financial_document/response_v1/summary_page0_invoice.rst"));
+      .readAllLines(Paths.get("src/test/resources/financial_document/response_v1/summary_page0_invoice.rst"));
     String expectedSummary = String.join(String.format("%n"), expectedLines);
     String actualSummary = String.join(String.format("%n"), actualLines);
 
@@ -67,12 +67,12 @@ class FinancialV1Test {
     JavaType type = objectMapper.getTypeFactory().constructParametricType(PredictResponse.class,
       FinancialV1Inference.class);
     PredictResponse<FinancialV1Inference> prediction = objectMapper.readValue(
-      new File("src/test/resources/data/financial_document/response_v1/complete_receipt.json"),
+      new File("src/test/resources/financial_document/response_v1/complete_receipt.json"),
       type);
 
     String[] actualLines = prediction.getDocument().toString().split(System.lineSeparator());
     List<String> expectedLines = Files
-      .readAllLines(Paths.get("src/test/resources/data/financial_document/response_v1/summary_full_receipt.rst"));
+      .readAllLines(Paths.get("src/test/resources/financial_document/response_v1/summary_full_receipt.rst"));
     String expectedSummary = String.join(String.format("%n"), expectedLines);
     String actualSummary = String.join(String.format("%n"), actualLines);
 
@@ -88,14 +88,14 @@ class FinancialV1Test {
     JavaType type = objectMapper.getTypeFactory().constructParametricType(PredictResponse.class,
       FinancialV1Inference.class);
     PredictResponse<FinancialV1Inference> prediction = objectMapper.readValue(
-      new File("src/test/resources/data/financial_document/response_v1/complete_receipt.json"),
+      new File("src/test/resources/financial_document/response_v1/complete_receipt.json"),
       type);
 
     String[] actualLines = prediction.getDocument().getInference()
       .getPages()
       .get(0).toString().split(System.lineSeparator());
     List<String> expectedLines = Files
-      .readAllLines(Paths.get("src/test/resources/data/financial_document/response_v1/summary_page0_receipt.rst"));
+      .readAllLines(Paths.get("src/test/resources/financial_document/response_v1/summary_page0_receipt.rst"));
     String expectedSummary = String.join(String.format("%n"), expectedLines);
     String actualSummary = String.join(String.format("%n"), actualLines);
 
