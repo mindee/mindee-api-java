@@ -37,7 +37,7 @@ public abstract class BaseField {
    * The index of the page where the current field was found.
    */
   @JsonProperty("page_id")
-  private Integer id;
+  private Integer pageId;
 
   protected BaseField(
       @JsonProperty("confidence")
@@ -46,11 +46,11 @@ public abstract class BaseField {
       @JsonDeserialize(using = PolygonDeserializer.class)
       Polygon polygon,
       @JsonProperty("page_id")
-      Integer id
+      Integer pageId
   ) {
     this.confidence = confidence;
     this.polygon = polygon;
-    this.id = id;
+    this.pageId = pageId;
     if (polygon != null) {
       this.boundingBox = BoundingBoxUtils.createBoundingBoxFrom(this.polygon);
     } else {

@@ -32,7 +32,7 @@ do
   fi
 
   sed -i "s/my-api-key/$API_KEY/" $OUTPUT_FILE
-  sed -i "s/\/path\/to\/the\/file.ext/src\/test\/resources\/data\/pdf\/blank_1.pdf/" $OUTPUT_FILE
+  sed -i "s/\/path\/to\/the\/file.ext/src\/test\/resources\/pdf\/blank_1.pdf/" $OUTPUT_FILE
 
   javac -cp ./target/dependency/*:./target/* SimpleMindeeClient.java
   java -cp  .:./target/dependency/*:./target/* SimpleMindeeClient
