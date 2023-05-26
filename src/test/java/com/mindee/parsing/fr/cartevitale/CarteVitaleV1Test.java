@@ -23,12 +23,12 @@ public class CarteVitaleV1Test {
     JavaType type = objectMapper.getTypeFactory().constructParametricType(PredictResponse.class,
       CarteVitaleV1Inference.class);
     PredictResponse<CarteVitaleV1Inference> prediction = objectMapper.readValue(
-      new File("src/test/resources/data/fr/carte_vitale/response_v1/complete.json"),
+      new File("src/test/resources/fr/carte_vitale/response_v1/complete.json"),
       type);
 
     String[] actualLines = prediction.getDocument().toString().split(System.lineSeparator());
     List<String> expectedLines = Files
-      .readAllLines(Paths.get("src/test/resources/data/fr/carte_vitale/response_v1/summary_full.rst"));
+      .readAllLines(Paths.get("src/test/resources/fr/carte_vitale/response_v1/summary_full.rst"));
     String expectedSummary = String.join(String.format("%n"), expectedLines);
     String actualSummary = String.join(String.format("%n"), actualLines);
 

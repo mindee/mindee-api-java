@@ -1,5 +1,6 @@
 package com.mindee.parsing.common.field;
 
+import com.mindee.parsing.SummaryHelper;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
@@ -7,17 +8,6 @@ import java.util.stream.Collectors;
  * Represent all the tax lines.
  */
 public class Taxes extends ArrayList<TaxField> {
-  protected String lineSeparator(String str) {
-    return "  +"
-      + String.format("%15s", "").replace(" ", str)
-      + "+"
-      + String.format("%8s", "").replace(" ", str)
-      + "+"
-      + String.format("%10s", "").replace(" ", str)
-      + "+"
-      + String.format("%15s", "").replace(" ", str)
-      + "+";
-  }
 
   /**
    * Default string representation.
@@ -26,10 +16,13 @@ public class Taxes extends ArrayList<TaxField> {
     if (this.isEmpty()) {
       return "";
     }
-    return String.format("%n%s%n", this.lineSeparator("-"))
+    int[] columnSizes = new int[]{15, 8, 10, 15};
+    return String.format("%n%s%n", SummaryHelper.lineSeparator(columnSizes, "-"))
       + "  | Base          | Code   | Rate (%) | Amount        |"
-      + String.format("%n%s%n  ", this.lineSeparator("="))
-      + this.stream().map(TaxField::toTableLine).collect(Collectors.joining("%n  "))
-      + String.format("%n%s", this.lineSeparator("-"));
+      + String.format("%n%s%n  ", SummaryHelper.lineSeparator(columnSizes, "="))
+      + this.stream().map(TaxField::toTableLine).collect(Collectors.joining(
+          String.format("%n%s%n  ", SummaryHelper.lineSeparator(columnSizes, "-")))
+        )
+      + String.format("%n%s", SummaryHelper.lineSeparator(columnSizes, "-"));
   }
 }

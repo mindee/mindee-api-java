@@ -17,7 +17,7 @@ public class ErrorTest extends TestCase {
     objectMapper.findAndRegisterModules();
 
     Error error = objectMapper.readValue(
-      new File("src/test/resources/data/errors/with_object_response_in_detail.json"),
+      new File("src/test/resources/errors/with_object_response_in_detail.json"),
       Error.class);
 
     Assertions.assertNotNull(error);
@@ -34,7 +34,7 @@ public class ErrorTest extends TestCase {
     objectMapper.findAndRegisterModules();
 
     Error error = objectMapper.readValue(
-      new File("src/test/resources/data/errors/with_string_response_in_detail.json"),
+      new File("src/test/resources/errors/with_string_response_in_detail.json"),
       Error.class);
 
     Assertions.assertNotNull(error);
