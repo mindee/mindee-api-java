@@ -160,6 +160,6 @@ public class CommandLineInterface {
     if (outputType == OutputChoices.full) {
       return response.toString();
     }
-    return response.getInference().getDocumentPrediction().toString();
+    return response.getInference().getPrediction().toString();
   }
 }

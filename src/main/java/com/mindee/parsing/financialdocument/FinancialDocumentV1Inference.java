@@ -1,4 +1,4 @@
-package com.mindee.parsing.financial;
+package com.mindee.parsing.financialdocument;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.mindee.parsing.EndpointInfo;
@@ -11,6 +11,6 @@ import lombok.Getter;
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
 @EndpointInfo(endpointName = "financial_document", version = "1")
-public class FinancialV1Inference
+public class FinancialDocumentV1Inference
     extends Inference<FinancialV1DocumentPrediction, FinancialV1DocumentPrediction> {
 }
