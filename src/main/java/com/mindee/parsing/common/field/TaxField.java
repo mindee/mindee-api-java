@@ -6,14 +6,14 @@ import com.mindee.parsing.SummaryHelper;
 import lombok.Getter;
 
 /**
- * Represent a tax.
+ * Represent a tax line.
  */
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TaxField extends BaseField {
 
   /**
-   * The total amount of the tax.
+   * The tax amount.
    */
   @JsonProperty("value")
   private Double value;
@@ -23,7 +23,7 @@ public class TaxField extends BaseField {
   @JsonProperty("code")
   private String code;
   /**
-   * The rate of the taxe.
+   * The tax rate in percentage.
    */
   @JsonProperty("rate")
   private Double rate;
@@ -33,25 +33,41 @@ public class TaxField extends BaseField {
   @JsonProperty("base")
   private Double base;
 
+  /**
+   * Output the line in a format suitable for inclusion in an rST table.
+   */
+  public String toTableLine() {
+    String[] printable = this.printableValues();
+    return "| "
+      + String.format("%-13s", printable[0])
+      + " | "
+      + String.format("%-6s", printable[1])
+      + " | "
+      + String.format("%-8s", printable[2])
+      + " | "
+      + String.format("%-13s", printable[3])
+      + " |";
+  }
+
   @Override
   public String toString() {
-    StringBuilder stringBuilder = new StringBuilder();
-    if (value != null) {
-      stringBuilder.append(SummaryHelper.formatAmount(this.value));
-    }
-    if (rate != null) {
-      stringBuilder.append(" ");
-      stringBuilder.append(SummaryHelper.formatAmount(rate));
-      stringBuilder.append("%");
-    }
-    if (code != null) {
-      stringBuilder.append(" ");
-      stringBuilder.append(code);
-    }
-    if (base != null) {
-      stringBuilder.append(" ");
-      stringBuilder.append(SummaryHelper.formatAmount(base));
-    }
-    return stringBuilder.toString().trim();
+    String[] printable = this.printableValues();
+    return "Base: "
+      + printable[0]
+      + ", Code: "
+      + printable[1]
+      + ", Rate (%): "
+      + printable[2]
+      + ", Amount: "
+      + printable[3].trim();
+  }
+
+  protected String[] printableValues() {
+    return new String[]{
+      this.base != null ? SummaryHelper.formatAmount(this.base) : "",
+      this.code != null ? this.code : "",
+      this.rate != null ? SummaryHelper.formatAmount(this.rate) : "",
+      this.value != null ? SummaryHelper.formatAmount(this.value) : "",
+    };
   }
 }
