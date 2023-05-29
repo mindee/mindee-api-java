@@ -2,11 +2,8 @@ package com.mindee.parsing.invoicesplitter;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.mindee.parsing.SummaryHelper;
-import com.mindee.parsing.common.field.PageIndexes;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
@@ -20,14 +17,38 @@ public class InvoiceSplitterV1DocumentPrediction {
 
   @Override
   public String toString() {
-    if (invoicePageGroups == null) {
-      return "";
-    }
-    String summary = IntStream.range(0, invoicePageGroups.size())
-        .mapToObj((index) -> String.format("Group %s ", index)
-            .concat(invoicePageGroups.get(index).toString()))
-        .collect(Collectors.joining("\n"));
-    return SummaryHelper.cleanSummary(summary);
+    
+    String pageGroupsString = invoicePageGroups == null ? "" : this.getInvoicePageGroups().stream()
+        .map(PageIndexes::toString)
+        .collect(Collectors.joining(String.format("%n")));
+    return String.format(":Invoice Page Groups: %n%s%n", pageGroupsString);
+
   }
 
+  /**
+   * Represents a grouping of pages
+   */
+  @Getter
+  @JsonIgnoreProperties(ignoreUnknown = true)
+  public static class PageIndexes {
+
+    /**
+     * The confidence about the zone of the value extracted. A value from 0 to 1.
+     */
+    @JsonProperty("confidence")
+    private Double confidence;
+
+    /**
+     * The page indexes in the document that are grouped together
+     */
+    @JsonProperty("page_indexes")
+    private List<Integer> pageIndexes;
+
+    @Override
+    public String toString() {
+      return "  :Page indexes: ".concat(
+          pageIndexes.stream().map((index) -> index.toString()).collect(Collectors.joining("-")));
+    }
+
+  }
 }

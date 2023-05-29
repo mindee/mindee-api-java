@@ -17,5 +17,4 @@ public class ParseParameter {
   String fileName;
   @Builder.Default
   Boolean includeWords = Boolean.FALSE;
-  PageOptions pageOptions;
 }

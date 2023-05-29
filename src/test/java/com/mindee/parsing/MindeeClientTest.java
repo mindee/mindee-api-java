@@ -4,6 +4,7 @@ import com.mindee.DocumentToParse;
 import com.mindee.MindeeClient;
 import com.mindee.ParseParameter;
 import com.mindee.parsing.common.Document;
+import com.mindee.parsing.common.Job;
 import com.mindee.parsing.common.PredictResponse;
 import com.mindee.parsing.custom.CustomV1Inference;
 import com.mindee.parsing.invoice.InvoiceV4Inference;
@@ -13,9 +14,12 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.apache.commons.codec.binary.Base64;
+import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -273,6 +277,15 @@ class MindeeClientTest {
         RequestParameters.class);
 
     URL docUrl = new URL("https://this.document.does.not.exist");
+    PredictResponse predictResponse = new PredictResponse();
+    predictResponse.setDocument(new Document<>());
+    predictResponse.setApiRequest(null);
+    predictResponse.setJob(null);
+    Mockito.when(
+            mindeeApi.predict(
+                Mockito.any(),
+                Mockito.any()))
+        .thenReturn(predictResponse);
     Document<InvoiceV4Inference> document = client.parse(
         InvoiceV4Inference.class, docUrl);
 
@@ -295,6 +308,16 @@ class MindeeClientTest {
 
     URL docUrl = new URL("https://this.document.does.not.exist");
     CustomEndpoint endpoint = new CustomEndpoint("dsddw", "dcsdcd", "dsfdd");
+    PredictResponse predictResponse = new PredictResponse();
+    predictResponse.setDocument(new Document<>());
+    predictResponse.setApiRequest(null);
+    predictResponse.setJob(null);
+    Mockito.when(
+            mindeeApi.predict(
+                Mockito.any(),
+                Mockito.any(),
+                Mockito.any()))
+        .thenReturn(predictResponse);
     Document<CustomV1Inference> document = client.parse(
         docUrl, endpoint);
 
@@ -306,5 +329,74 @@ class MindeeClientTest {
     Assertions.assertEquals(endpoint, customEndpointArgumentCaptor.getValue());
     Assertions.assertNull(requestParametersArgumentCaptor.getValue().getFile());
     Assertions.assertNull(requestParametersArgumentCaptor.getValue().getFileName());
+  }
+
+  @Test
+  void givenAnAsyncDoc_whenEnqued_shouldInvokeApiCorrectly() throws IOException {
+    File file = new File("src/test/resources/data/invoice/invoice.pdf");
+    DocumentToParse documentToParse = client.loadDocument(file);
+
+
+    Job job = new Job(LocalDateTime.now(),"someid",LocalDateTime.now(),"Completed");
+    PredictResponse predictResponse = new PredictResponse();
+    predictResponse.setDocument(new Document<>());
+    predictResponse.setApiRequest(null);
+    predictResponse.setJob(job);
+    Mockito.when(
+            mindeeApi.predict(
+                Mockito.any(),
+                Mockito.any()))
+        .thenReturn(predictResponse);
+    String jobId = client.enqueue(InvoiceV4Inference.class,documentToParse,Boolean.TRUE, null);
+
+    ArgumentCaptor<Class> classArgumentCaptor = ArgumentCaptor.forClass(Class.class);
+    ArgumentCaptor<RequestParameters> requestParametersArgumentCaptor = ArgumentCaptor.forClass(
+        RequestParameters.class);
+    Mockito.verify(mindeeApi, Mockito.times(1))
+        .predict(classArgumentCaptor.capture(), requestParametersArgumentCaptor.capture());
+
+    RequestParameters requestParameters = requestParametersArgumentCaptor.getValue();
+    Assertions.assertEquals(InvoiceV4Inference.class,classArgumentCaptor.getValue());
+    Assertions.assertEquals(Boolean.TRUE,requestParameters.getAsyncCall());
+    Assertions.assertEquals("invoice.pdf",requestParameters.getFileName());
+    Assertions.assertEquals(Boolean.TRUE,requestParameters.getIncludeWords());
+    Assertions.assertNotNull(requestParameters.getFile());
+    Assertions.assertTrue(requestParameters.getFile().length > 0);
+    Assertions.assertNull(requestParameters.getFileUrl());
+    Assertions.assertEquals("someid",jobId);
+
+  }
+
+  @Test
+  void givenAnAsyncUrl_whenEnqued_shouldInvokeApiCorrectly() throws IOException {
+
+
+    Job job = new Job(LocalDateTime.now(),"someid",LocalDateTime.now(),"Completed");
+    PredictResponse predictResponse = new PredictResponse();
+    predictResponse.setDocument(new Document<>());
+    predictResponse.setApiRequest(null);
+    predictResponse.setJob(job);
+    Mockito.when(
+            mindeeApi.predict(
+                Mockito.any(),
+                Mockito.any()))
+        .thenReturn(predictResponse);
+    String jobId = client.enqueue(InvoiceV4Inference.class,new URL("https://fake.pdf"));
+
+    ArgumentCaptor<Class> classArgumentCaptor = ArgumentCaptor.forClass(Class.class);
+    ArgumentCaptor<RequestParameters> requestParametersArgumentCaptor = ArgumentCaptor.forClass(
+        RequestParameters.class);
+    Mockito.verify(mindeeApi, Mockito.times(1))
+        .predict(classArgumentCaptor.capture(), requestParametersArgumentCaptor.capture());
+
+    RequestParameters requestParameters = requestParametersArgumentCaptor.getValue();
+    Assertions.assertEquals(InvoiceV4Inference.class,classArgumentCaptor.getValue());
+    Assertions.assertEquals(Boolean.TRUE,requestParameters.getAsyncCall());
+    Assertions.assertNull(requestParameters.getFileName());
+    Assertions.assertEquals(Boolean.FALSE,requestParameters.getIncludeWords());
+    Assertions.assertNull(requestParameters.getFile());
+    Assertions.assertEquals(new URL("https://fake.pdf"),requestParameters.getFileUrl());
+    Assertions.assertEquals("someid",jobId);
+
   }
 }
