@@ -7,6 +7,9 @@ import java.util.stream.Collectors;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
+/**
+ * Document data for Invoice Splitter, API version 1.
+ */
 @Getter
 @EqualsAndHashCode
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -17,7 +20,7 @@ public class InvoiceSplitterV1DocumentPrediction {
 
   @Override
   public String toString() {
-    
+
     String pageGroupsString = invoicePageGroups == null ? "" : this.getInvoicePageGroups().stream()
         .map(PageIndexes::toString)
         .collect(Collectors.joining(String.format("%n")));

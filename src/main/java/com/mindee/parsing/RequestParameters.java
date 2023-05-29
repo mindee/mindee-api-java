@@ -4,7 +4,9 @@ import java.net.URL;
 import lombok.Builder;
 import lombok.Value;
 
-
+/**
+ * Parameters for making api calls to the endpoint
+ */
 @Value
 public class RequestParameters {
 
