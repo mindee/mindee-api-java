@@ -333,7 +333,7 @@ class MindeeClientTest {
 
   @Test
   void givenAnAsyncDoc_whenEnqued_shouldInvokeApiCorrectly() throws IOException {
-    File file = new File("src/test/resources/data/invoice/invoice.pdf");
+    File file = new File("src/test/resources/invoice/invoice.pdf");
     DocumentToParse documentToParse = client.loadDocument(file);
 
 

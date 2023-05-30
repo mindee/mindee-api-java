@@ -269,7 +269,7 @@ public class MindeeHttpApiTest extends TestCase {
       throws IOException, InterruptedException {
 
     String url = String.format("http://localhost:%s", mockWebServer.getPort());
-    Path path = Paths.get("src/test/resources/data/async/get_completed.json");
+    Path path = Paths.get("src/test/resources/async/get_completed.json");
     mockWebServer.enqueue(new MockResponse()
         .setResponseCode(200)
         .setBody(new String(Files.readAllBytes(path))));
