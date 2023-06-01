@@ -1,4 +1,4 @@
-package com.mindee.parsing.common;
+package com.mindee.parsing.common.ocr;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -7,12 +7,12 @@ import java.util.List;
 import lombok.Getter;
 
 /**
- * Represents a page.
+ * List all pages that have ocr results.
  */
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class OcrPage {
+public class MvisionV1 {
 
-  @JsonProperty("all_words")
-  private List<Word> words = new ArrayList<>();
+  @JsonProperty("pages")
+  private List<OcrPage> pages = new ArrayList<>();
 }

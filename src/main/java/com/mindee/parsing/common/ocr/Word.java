@@ -1,4 +1,4 @@
-package com.mindee.parsing.common;
+package com.mindee.parsing.common.ocr;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;

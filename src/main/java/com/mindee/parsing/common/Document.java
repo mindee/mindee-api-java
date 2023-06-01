@@ -2,6 +2,7 @@ package com.mindee.parsing.common;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.mindee.parsing.common.ocr.Ocr;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
