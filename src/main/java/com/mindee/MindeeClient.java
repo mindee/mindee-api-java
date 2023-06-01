@@ -55,17 +55,17 @@ public class MindeeClient {
     return new DocumentToParse(fileInBase64Code, filename);
   }
 
-  public <T extends Inference> PredictResponse<T> jobStatusForId(Class<T> type, String jobId) {
+  public <T extends Inference> PredictResponse<T> parseQueued(Class<T> type, String jobId) {
     return this.mindeeApi.checkJobStatus(type, jobId);
   }
 
-  public <T extends Inference> String enqueue(Class<T> type, DocumentToParse documentToParse)
+  public <T extends Inference> PredictResponse<T> enqueue(Class<T> type, DocumentToParse documentToParse)
       throws IOException {
     return this.enqueue(type, documentToParse.getFile(), documentToParse.getFilename(),
         Boolean.FALSE, null);
   }
 
-  public <T extends Inference> String enqueue(
+  public <T extends Inference> PredictResponse<T> enqueue(
       Class<T> type,
       DocumentToParse documentToParse,
       boolean includeWords,
@@ -75,7 +75,7 @@ public class MindeeClient {
         documentToParse.getFilename(), includeWords, null);
   }
 
-  public <T extends Inference> String enqueue(
+  public <T extends Inference> PredictResponse<T> enqueue(
       Class<T> type,
       URL documentUrl
   ) throws IOException {
@@ -84,7 +84,7 @@ public class MindeeClient {
         null, Boolean.FALSE, documentUrl);
   }
 
-  private <T extends Inference> String enqueue(
+  private <T extends Inference> PredictResponse<T> enqueue(
       Class<T> type,
       byte[] file,
       String filename,
@@ -99,8 +99,7 @@ public class MindeeClient {
                 .includeWords(includeWords)
                 .fileUrl(fileUrl)
                 .asyncCall(Boolean.TRUE)
-                .build()).getJob().orElseThrow(() -> new MindeeException("No Job Returned by endpoint"))
-        .getId();
+                .build());
   }
 
   public <T extends Inference> Document<T> parse(

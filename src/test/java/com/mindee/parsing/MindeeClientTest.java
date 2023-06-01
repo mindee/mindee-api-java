@@ -2,7 +2,6 @@ package com.mindee.parsing;
 
 import com.mindee.DocumentToParse;
 import com.mindee.MindeeClient;
-import com.mindee.ParseParameter;
 import com.mindee.parsing.common.Document;
 import com.mindee.parsing.common.Job;
 import com.mindee.parsing.common.PredictResponse;
@@ -16,10 +15,8 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import org.apache.commons.codec.binary.Base64;
-import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -347,7 +344,10 @@ class MindeeClientTest {
                 Mockito.any(),
                 Mockito.any()))
         .thenReturn(predictResponse);
-    String jobId = client.enqueue(InvoiceV4Inference.class,documentToParse,Boolean.TRUE, null);
+    String jobId = client.enqueue(InvoiceV4Inference.class,documentToParse,Boolean.TRUE, null)
+        .getJob()
+        .map(Job::getId)
+        .orElse("");
 
     ArgumentCaptor<Class> classArgumentCaptor = ArgumentCaptor.forClass(Class.class);
     ArgumentCaptor<RequestParameters> requestParametersArgumentCaptor = ArgumentCaptor.forClass(
@@ -381,8 +381,10 @@ class MindeeClientTest {
                 Mockito.any(),
                 Mockito.any()))
         .thenReturn(predictResponse);
-    String jobId = client.enqueue(InvoiceV4Inference.class,new URL("https://fake.pdf"));
-
+    String jobId = client.enqueue(InvoiceV4Inference.class,new URL("https://fake.pdf"))
+        .getJob()
+        .map(Job::getId)
+        .orElse("");
     ArgumentCaptor<Class> classArgumentCaptor = ArgumentCaptor.forClass(Class.class);
     ArgumentCaptor<RequestParameters> requestParametersArgumentCaptor = ArgumentCaptor.forClass(
         RequestParameters.class);
