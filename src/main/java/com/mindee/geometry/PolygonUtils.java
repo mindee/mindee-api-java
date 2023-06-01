@@ -1,6 +1,7 @@
 package com.mindee.geometry;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.OptionalDouble;
 import java.util.stream.Collectors;
@@ -21,11 +22,8 @@ public final class PolygonUtils {
   }
 
   /**
-   * Get the central coordinates (centroid) given a list of coordinates (aka a
-   * polygon).
-   *
-   * @param polygon
-   * @return
+   * Get the central coordinates (centroid) given a list of coordinates
+   * (AKA a polygon).
    */
   public static Point getCentroid(Polygon polygon) {
     int verticesSum = polygon.getCoordinates().size();
@@ -38,6 +36,53 @@ public final class PolygonUtils {
         .mapToDouble(Double::doubleValue).sum();
 
     return new Point(xSum / verticesSum, ySum / verticesSum);
+  }
+
+  /**
+   * Compare two polygons based on their Y coordinates.
+   * Useful for sorting lists.
+   */
+  public static int CompareOnY(Polygon polygon1, Polygon polygon2) {
+    double sort = getMinYCoordinate(polygon1) - getMinYCoordinate(polygon2);
+    if (sort == 0) {
+      return 0;
+    }
+    return sort < 0 ? -1 : 1;
+  }
+
+  /**
+   * Compare two polygons based on their X coordinates.
+   * Useful for sorting lists.
+   */
+  public static int CompareOnX(Polygon polygon1, Polygon polygon2) {
+    double sort = getMinXCoordinate(polygon1) - getMinXCoordinate(polygon2);
+    if (sort == 0) {
+      return 0;
+    }
+    return sort < 0 ? -1 : 1;
+  }
+
+  /**
+   * Get the maximum and minimum Y coordinates in a given list of Points.
+   */
+  public static MinMax getMinMaxY(List<Point> vertices) {
+    List<Double> points = vertices.stream().map(Point::getY).collect(Collectors.toList());
+    return new MinMax(Collections.min(points), Collections.max(points));
+  }
+
+  /**
+   * Determine if a Point is within two Y coordinates.
+   */
+  public static boolean isPointInY(Point centroid, Double yMin, Double yMax) {
+    return yMin <= centroid.getY() && centroid.getY() <= yMax;
+  }
+
+  /**
+   * Determine if a Point is within a Polygon's Y axis.
+   */
+  public static boolean isPointInPolygonY(Point centroid, Polygon polygon) {
+    MinMax yCoords = getMinMaxY(polygon.getCoordinates());
+    return isPointInY(centroid, yCoords.getMin(), yCoords.getMax());
   }
 
   public static Double getMinYCoordinate(Polygon polygon) {
