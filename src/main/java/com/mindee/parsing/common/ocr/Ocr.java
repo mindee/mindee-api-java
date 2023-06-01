@@ -1,4 +1,4 @@
-package com.mindee.parsing.common;
+package com.mindee.parsing.common.ocr;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -17,15 +17,8 @@ public class Ocr {
 
   @Override
   public String toString() {
-    return
-      mVisionV1.getPages()
-        .stream()
-        .map(p -> p.getWords()
-          .stream().map(Word::getText)
-          .collect(
-            Collectors.joining(" ")))
-        .collect(Collectors.joining(" "));
+    return this.mVisionV1.getPages().stream()
+        .map(OcrPage::toString)
+        .collect(Collectors.joining(String.format("%n")));
   }
 }
-
-
