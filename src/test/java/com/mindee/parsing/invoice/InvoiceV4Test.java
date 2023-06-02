@@ -25,7 +25,7 @@ class InvoiceV4Test {
         new File("src/test/resources/invoice/response_v4/complete.json"),
         type);
 
-    String[] actualLines = invoiceV4Prediction.getDocument().toString().split(System.lineSeparator());
+    String[] actualLines = invoiceV4Prediction.getDocument().get().toString().split(System.lineSeparator());
     List<String> expectedLines = Files
         .readAllLines(Paths.get("src/test/resources/invoice/response_v4/summary_full.rst"));
     String expectedSummary = String.join(String.format("%n"), expectedLines);

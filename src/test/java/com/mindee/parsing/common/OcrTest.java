@@ -31,6 +31,6 @@ public class OcrTest {
       .readAllLines(Paths.get("src/test/resources/ocr/ocr.txt"));
     String expectedSummary = String.join(String.format("%n"), expectedLines);
 
-    Assertions.assertEquals(expectedSummary, prediction.getDocument().getOcr().toString());
+    Assertions.assertEquals(expectedSummary, prediction.getDocument().get().getOcr().toString());
   }
 }

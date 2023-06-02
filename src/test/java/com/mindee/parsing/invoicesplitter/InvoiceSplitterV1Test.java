@@ -1,34 +1,33 @@
-package com.mindee.parsing.receipt;
+package com.mindee.parsing.invoicesplitter;
 
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mindee.parsing.common.PredictResponse;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-
+import com.mindee.parsing.invoice.InvoiceV4Inference;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
-class ReceiptV4Test {
-
+public class InvoiceSplitterV1Test {
   @Test
-  void givenAReceiptV4_whenDeserialized_MustHaveAValidSummary() throws IOException {
+  void givenAnInvoiceSplitterResponse_whenDeserialized_MustHaveAValidSummary() throws IOException {
 
     ObjectMapper objectMapper = new ObjectMapper();
     objectMapper.findAndRegisterModules();
 
     JavaType type = objectMapper.getTypeFactory().constructParametricType(PredictResponse.class,
-        ReceiptV4Inference.class);
-    PredictResponse<ReceiptV4Inference> prediction = objectMapper.readValue(
-        new File("src/test/resources/receipt/response_v4/complete.json"),
+        InvoiceSplitterV1Inference.class);
+    PredictResponse<InvoiceSplitterV1Inference> splitterPrediction = objectMapper.readValue(
+        new File("src/test/resources/invoice_splitter/response_v1/2_invoices_response.json"),
         type);
 
-    String[] actualLines = prediction.getDocument().get().toString().split(System.lineSeparator());
+    String[] actualLines = splitterPrediction.getDocument().get().toString().split(System.lineSeparator());
     List<String> expectedLines = Files
-        .readAllLines(Paths.get("src/test/resources/receipt/response_v4/summary_full.rst"));
+        .readAllLines(Paths.get("src/test/resources/invoice_splitter/response_v1/2_invoices_summary.rst"));
     String expectedSummary = String.join(String.format("%n"), expectedLines);
     String actualSummary = String.join(String.format("%n"), actualLines);
 
