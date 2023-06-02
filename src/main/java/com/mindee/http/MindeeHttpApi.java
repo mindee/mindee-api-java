@@ -4,12 +4,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mindee.MindeeSettings;
-import com.mindee.ParseParameter;
 import com.mindee.parsing.CustomEndpoint;
 import com.mindee.parsing.CustomEndpointInfo;
 import com.mindee.parsing.EndpointInfo;
 import com.mindee.parsing.MindeeApi;
-import com.mindee.parsing.common.Document;
+import com.mindee.parsing.RequestParameters;
 import com.mindee.parsing.common.Inference;
 import com.mindee.parsing.common.PredictResponse;
 import com.mindee.utils.MindeeException;
@@ -24,6 +23,7 @@ import lombok.Builder;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHeaders;
 import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
@@ -38,6 +38,7 @@ import org.apache.http.impl.client.HttpClientBuilder;
 public final class MindeeHttpApi implements MindeeApi {
 
   private static final ObjectMapper mapper = new ObjectMapper();
+  private final Function<CustomEndpoint, String> buildBaseUrl = this::buildUrl;
   /**
    * The MindeeSetting needed to make the api call.
    */
@@ -53,13 +54,27 @@ public final class MindeeHttpApi implements MindeeApi {
    */
   private final Function<CustomEndpoint, String> urlFromEndpoint;
 
+  /**
+   * The function used to generate the API endpoint URL for Async calls. Only needs to be set if the
+   * api calls need to be directed through internal URLs.
+   */
+  private final Function<CustomEndpoint, String> asyncUrlFromEndpoint;
+
+  /**
+   * The function used to generate the Job status URL for Async calls. Only needs to be set if the
+   * api calls need to be directed through internal URLs.
+   */
+  private final Function<CustomEndpoint, String> jobStatusUrlFromEndpoint;
+
   public MindeeHttpApi(MindeeSettings mindeeSettings) {
-    this(mindeeSettings, null, null);
+    this(mindeeSettings, null, null, null, null);
   }
 
   @Builder
   private MindeeHttpApi(MindeeSettings mindeeSettings, HttpClientBuilder httpClientBuilder,
-      Function<CustomEndpoint, String> urlFromEndpoint) {
+      Function<CustomEndpoint, String> urlFromEndpoint,
+      Function<CustomEndpoint, String> asyncUrlFromEndpoint,
+      Function<CustomEndpoint, String> jobStatusUrlFromEndpoint) {
     this.mindeeSettings = mindeeSettings;
 
     if (httpClientBuilder != null) {
@@ -71,61 +86,86 @@ public final class MindeeHttpApi implements MindeeApi {
     if (urlFromEndpoint != null) {
       this.urlFromEndpoint = urlFromEndpoint;
     } else {
-      this.urlFromEndpoint = this::buildUrl;
+      this.urlFromEndpoint = buildBaseUrl.andThen((url) -> url.concat("/predict"));
     }
-  }
 
-  /**
-   * POST a synchronous prediction request for a standard product.
-   */
-  public <DocT extends Inference> Document<DocT> predict(
-      Class<DocT> documentClass,
-      ParseParameter parseParameter
-  ) throws MindeeException, IOException {
-
-    EndpointInfo endpointAnnotation = documentClass.getAnnotation(EndpointInfo.class);
-    CustomEndpoint customEndpoint;
-
-    // that means it could be custom document
-    if (endpointAnnotation == null) {
-      CustomEndpointInfo customEndpointAnnotation = documentClass.getAnnotation(
-          CustomEndpointInfo.class
-      );
-      if (customEndpointAnnotation == null) {
-        throw new MindeeException(
-            "The class is not supported as a prediction model. "
-                + "The endpoint attribute is missing. "
-                + "Please refer to the document or contact the support."
-        );
-      }
-      customEndpoint = new CustomEndpoint(
-          customEndpointAnnotation.endpointName(),
-          customEndpointAnnotation.accountName(),
-          customEndpointAnnotation.version());
+    if (asyncUrlFromEndpoint != null) {
+      this.asyncUrlFromEndpoint = asyncUrlFromEndpoint;
     } else {
-      customEndpoint = new CustomEndpoint(
-          endpointAnnotation.endpointName(),
-          endpointAnnotation.accountName(),
-          endpointAnnotation.version());
+      this.asyncUrlFromEndpoint = this.urlFromEndpoint.andThen((url) -> url.concat("_async"));
     }
 
-    return predict(documentClass, customEndpoint, parseParameter);
+    if (jobStatusUrlFromEndpoint != null) {
+      this.jobStatusUrlFromEndpoint = jobStatusUrlFromEndpoint;
+    } else {
+      this.jobStatusUrlFromEndpoint = this.buildBaseUrl.andThen(
+          (url) -> url.concat("/documents/queue/"));
+    }
   }
 
   /**
-   * POST a synchronous prediction request for a custom product.
+   * GET job status and document for an enqued job
    */
-  public <DocT extends Inference> Document<DocT> predict(
+  public <DocT extends Inference> PredictResponse<DocT> checkJobStatus(
+      Class<DocT> documentClass, String jobId) {
+    // required to register jackson date module format to deserialize
+    mapper.findAndRegisterModules();
+    CustomEndpoint customEndpoint = customEndpointFromClass(documentClass);
+    String endpoint = jobStatusUrlFromEndpoint.apply(customEndpoint).concat(jobId);
+    HttpGet get = new HttpGet(endpoint);
+
+    if (this.mindeeSettings.getApiKey().isPresent()) {
+      get.setHeader(HttpHeaders.AUTHORIZATION, this.mindeeSettings.getApiKey().get());
+    }
+    get.setHeader(HttpHeaders.USER_AGENT, getUserAgent());
+
+    try (CloseableHttpClient httpClient = httpClientBuilder.build();
+        CloseableHttpResponse response = httpClient.execute(get)) {
+      HttpEntity responseEntity = response.getEntity();
+
+      if (is2xxStatusCode(response.getStatusLine().getStatusCode())) {
+        JavaType type = mapper.getTypeFactory().constructParametricType(
+            PredictResponse.class,
+            documentClass
+        );
+        return mapper.readValue(responseEntity.getContent(), type);
+      } else {
+        String errorMessage = "Mindee API client: Unhandled - HTTP Status code "
+            + response.getStatusLine().getStatusCode();
+        throw new MindeeException(errorMessage);
+      }
+    } catch (IOException err) {
+      throw new MindeeException(err.getMessage(), err);
+    }
+  }
+
+  /**
+   * POST a prediction request for a standard product.
+   */
+  public <DocT extends Inference> PredictResponse<DocT> predict(
+      Class<DocT> documentClass,
+      RequestParameters requestParameters
+  ) throws IOException {
+    CustomEndpoint customEndpoint = customEndpointFromClass(documentClass);
+    return predict(documentClass, customEndpoint, requestParameters);
+  }
+
+  /**
+   * POST a prediction request for a custom product.
+   */
+  public <DocT extends Inference> PredictResponse<DocT> predict(
       Class<DocT> documentClass,
       CustomEndpoint customEndpoint,
-      ParseParameter parseParameter
-  ) throws MindeeException, IOException {
+      RequestParameters requestParameters
+  ) throws IOException {
 
     // required to register jackson date module format to deserialize
     mapper.findAndRegisterModules();
 
-    HttpPost post = new HttpPost(urlFromEndpoint.apply(customEndpoint));
-    HttpEntity entity = buildHttpBody(parseParameter);
+    String endpoint = requestParameters.getAsyncCall() ? asyncUrlFromEndpoint.apply(customEndpoint)
+        : urlFromEndpoint.apply(customEndpoint);
+    HttpPost post = new HttpPost(endpoint);
+    HttpEntity entity = buildHttpBody(requestParameters);
     if (this.mindeeSettings.getApiKey().isPresent()) {
       post.setHeader(HttpHeaders.AUTHORIZATION, this.mindeeSettings.getApiKey().get());
     }
@@ -149,7 +189,7 @@ public final class MindeeHttpApi implements MindeeApi {
         predictResponse = mapper.readValue(responseEntity.getContent(), type);
 
         if (is2xxStatusCode(response.getStatusLine().getStatusCode())) {
-          return predictResponse.getDocument();
+          return predictResponse;
         }
         if (predictResponse != null) {
           errorMessage += predictResponse.getApiRequest().getError().toString();
@@ -208,28 +248,27 @@ public final class MindeeHttpApi implements MindeeApi {
         + "/"
         + customEndpoint.getEndpointName()
         + "/v"
-        + customEndpoint.getVersion()
-        + "/predict";
+        + customEndpoint.getVersion();
   }
 
-  private HttpEntity buildHttpBody(ParseParameter parseParameter)
+  private HttpEntity buildHttpBody(RequestParameters requestParameters)
       throws JsonProcessingException, UnsupportedEncodingException {
-    if (parseParameter.getFile() != null) {
+    if (requestParameters.getFile() != null) {
       MultipartEntityBuilder builder = MultipartEntityBuilder.create();
       builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
       builder.addBinaryBody(
           "document",
-          parseParameter.getFile(),
+          requestParameters.getFile(),
           ContentType.DEFAULT_BINARY,
-          parseParameter.getFileName()
+          requestParameters.getFileName()
       );
-      if (Boolean.TRUE.equals(parseParameter.getIncludeWords())) {
+      if (Boolean.TRUE.equals(requestParameters.getIncludeWords())) {
         builder.addTextBody("include_mvision", "true");
       }
       return builder.build();
-    } else if (parseParameter.getFileUrl() != null) {
+    } else if (requestParameters.getFileUrl() != null) {
       Map<String, URL> urlMap = new HashMap<>();
-      urlMap.put("document", parseParameter.getFileUrl());
+      urlMap.put("document", requestParameters.getFileUrl());
       final StringEntity entity = new StringEntity(mapper.writeValueAsString(urlMap),
           ContentType.APPLICATION_JSON);
       return entity;
@@ -237,5 +276,35 @@ public final class MindeeHttpApi implements MindeeApi {
       throw new MindeeException("Either document bytes or a document url are needed");
     }
 
+  }
+
+  private <DocT extends Inference> CustomEndpoint customEndpointFromClass(
+      Class<DocT> documentClass) {
+    EndpointInfo endpointAnnotation = documentClass.getAnnotation(EndpointInfo.class);
+    CustomEndpoint customEndpoint;
+
+    // that means it could be custom document
+    if (endpointAnnotation == null) {
+      CustomEndpointInfo customEndpointAnnotation = documentClass.getAnnotation(
+          CustomEndpointInfo.class
+      );
+      if (customEndpointAnnotation == null) {
+        throw new MindeeException(
+            "The class is not supported as a prediction model. "
+                + "The endpoint attribute is missing. "
+                + "Please refer to the document or contact the support."
+        );
+      }
+      customEndpoint = new CustomEndpoint(
+          customEndpointAnnotation.endpointName(),
+          customEndpointAnnotation.accountName(),
+          customEndpointAnnotation.version());
+    } else {
+      customEndpoint = new CustomEndpoint(
+          endpointAnnotation.endpointName(),
+          endpointAnnotation.accountName(),
+          endpointAnnotation.version());
+    }
+    return customEndpoint;
   }
 }

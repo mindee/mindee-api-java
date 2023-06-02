@@ -26,7 +26,7 @@ class FinancialDocumentV1Test {
         new File("src/test/resources/financial_document/response_v1/complete_invoice.json"),
         type);
 
-    String[] actualLines = prediction.getDocument().toString().split(System.lineSeparator());
+    String[] actualLines = prediction.getDocument().get().toString().split(System.lineSeparator());
     List<String> expectedLines = Files
         .readAllLines(Paths.get("src/test/resources/financial_document/response_v1/summary_full_invoice.rst"));
     String expectedSummary = String.join(String.format("%n"), expectedLines);
@@ -47,7 +47,7 @@ class FinancialDocumentV1Test {
       new File("src/test/resources/financial_document/response_v1/complete_invoice.json"),
       type);
 
-    String[] actualLines = prediction.getDocument().getInference()
+    String[] actualLines = prediction.getDocument().get().getInference()
       .getPages()
       .get(0).toString().split(System.lineSeparator());
     List<String> expectedLines = Files
@@ -70,7 +70,7 @@ class FinancialDocumentV1Test {
       new File("src/test/resources/financial_document/response_v1/complete_receipt.json"),
       type);
 
-    String[] actualLines = prediction.getDocument().toString().split(System.lineSeparator());
+    String[] actualLines = prediction.getDocument().get().toString().split(System.lineSeparator());
     List<String> expectedLines = Files
       .readAllLines(Paths.get("src/test/resources/financial_document/response_v1/summary_full_receipt.rst"));
     String expectedSummary = String.join(String.format("%n"), expectedLines);
@@ -91,7 +91,7 @@ class FinancialDocumentV1Test {
       new File("src/test/resources/financial_document/response_v1/complete_receipt.json"),
       type);
 
-    String[] actualLines = prediction.getDocument().getInference()
+    String[] actualLines = prediction.getDocument().get().getInference()
       .getPages()
       .get(0).toString().split(System.lineSeparator());
     List<String> expectedLines = Files
