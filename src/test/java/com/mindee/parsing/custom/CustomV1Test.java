@@ -26,7 +26,7 @@ class CustomV1Test {
       new File("src/test/resources/custom/response_v1/complete.json"),
       type);
 
-    String[] actualLines = customDocumentInference.getDocument().toString().split(System.lineSeparator());
+    String[] actualLines = customDocumentInference.getDocument().get().toString().split(System.lineSeparator());
     List<String> expectedLines = Files
       .readAllLines(Paths.get("src/test/resources/custom/response_v1/summary_full.rst"));
     String expectedSummary = String.join(String.format("%n"), expectedLines);

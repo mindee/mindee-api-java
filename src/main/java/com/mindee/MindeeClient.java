@@ -3,8 +3,10 @@ package com.mindee;
 import com.mindee.parsing.CustomEndpoint;
 import com.mindee.parsing.MindeeApi;
 import com.mindee.parsing.PageOptions;
+import com.mindee.parsing.RequestParameters;
 import com.mindee.parsing.common.Document;
 import com.mindee.parsing.common.Inference;
+import com.mindee.parsing.common.PredictResponse;
 import com.mindee.parsing.custom.CustomV1Inference;
 import com.mindee.pdf.PdfOperation;
 import com.mindee.pdf.SplitQuery;
@@ -51,6 +53,53 @@ public class MindeeClient {
       String filename
   ) {
     return new DocumentToParse(fileInBase64Code, filename);
+  }
+
+  public <T extends Inference> PredictResponse<T> parseQueued(Class<T> type, String jobId) {
+    return this.mindeeApi.checkJobStatus(type, jobId);
+  }
+
+  public <T extends Inference> PredictResponse<T> enqueue(Class<T> type, DocumentToParse documentToParse)
+      throws IOException {
+    return this.enqueue(type, documentToParse.getFile(), documentToParse.getFilename(),
+        Boolean.FALSE, null);
+  }
+
+  public <T extends Inference> PredictResponse<T> enqueue(
+      Class<T> type,
+      DocumentToParse documentToParse,
+      boolean includeWords,
+      PageOptions pageOptions
+  ) throws IOException {
+    return this.enqueue(type, getSplitFile(documentToParse, pageOptions),
+        documentToParse.getFilename(), includeWords, null);
+  }
+
+  public <T extends Inference> PredictResponse<T> enqueue(
+      Class<T> type,
+      URL documentUrl
+  ) throws IOException {
+    validateUrl(documentUrl);
+    return this.enqueue(type, null,
+        null, Boolean.FALSE, documentUrl);
+  }
+
+  private <T extends Inference> PredictResponse<T> enqueue(
+      Class<T> type,
+      byte[] file,
+      String filename,
+      boolean includeWords,
+      URL fileUrl
+  ) throws IOException {
+    return this.mindeeApi.predict(
+            type,
+            RequestParameters.builder()
+                .file(file)
+                .fileName(filename)
+                .includeWords(includeWords)
+                .fileUrl(fileUrl)
+                .asyncCall(Boolean.TRUE)
+                .build());
   }
 
   public <T extends Inference> Document<T> parse(
@@ -104,13 +153,14 @@ public class MindeeClient {
       URL fileUrl
   ) throws IOException {
     return this.mindeeApi.predict(
-        type,
-        ParseParameter.builder()
-            .file(file)
-            .fileName(filename)
-            .includeWords(includeWords)
-            .fileUrl(fileUrl)
-            .build());
+            type,
+            RequestParameters.builder()
+                .file(file)
+                .fileName(filename)
+                .includeWords(includeWords)
+                .fileUrl(fileUrl)
+                .build()).getDocument()
+        .orElseThrow(() -> new MindeeException("No Document Returned by endpoint"));
   }
 
   public Document<CustomV1Inference> parse(
@@ -145,13 +195,14 @@ public class MindeeClient {
       URL fileUrl
   ) throws IOException {
     return this.mindeeApi.predict(
-        CustomV1Inference.class,
-        customEndpoint,
-        ParseParameter.builder()
-            .file(file)
-            .fileName(filename)
-            .fileUrl(fileUrl)
-            .build());
+            CustomV1Inference.class,
+            customEndpoint,
+            RequestParameters.builder()
+                .file(file)
+                .fileName(filename)
+                .fileUrl(fileUrl)
+                .build()).getDocument()
+        .orElseThrow(() -> new MindeeException("No Document Returned by endpoint"));
   }
 
   private boolean validateUrl(URL documentUrl) {

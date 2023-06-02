@@ -1,0 +1,59 @@
+import com.mindee.MindeeClient;
+import com.mindee.MindeeClientInit;
+import com.mindee.DocumentToParse;
+import com.mindee.parsing.common.Document;
+import com.mindee.parsing.common.Job;
+import com.mindee.parsing.common.PredictResponse;
+import com.mindee.parsing.invoicesplitter.InvoiceSplitterV1Inference;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Optional;
+
+public class SimpleMindeeClient {
+
+  public static void main(String[] args) throws IOException, InterruptedException {
+    String apiKey = "my-api-key";
+    String filePath = "/path/to/the/file.ext";
+
+    // Don't try to get the document more than this many times
+    final int maxRetries = 10;
+
+    // Wait this many seconds between each try
+    final int intervalSec = 6;
+
+    MindeeClient mindeeClient = MindeeClientInit.create(apiKey);
+    DocumentToParse docToParse = new DocumentToParse(new File(filePath));
+
+    PredictResponse<InvoiceSplitterV1Inference> enqueueResponse = mindeeClient.enqueue(
+        InvoiceSplitterV1Inference.class,
+        docToParse
+    );
+
+    Optional<Job> jobOptional = enqueueResponse.getJob();
+    // Safe to do a .get on this jobOptional
+    String jobId = jobOptional.get().getId();
+
+    PredictResponse<InvoiceSplitterV1Inference> jobResponse = null;
+    int retryCount = 0;
+
+    while (retryCount < maxRetries) {
+      jobResponse = mindeeClient.parseQueued(InvoiceSplitterV1Inference.class, jobId);
+      Optional<Document<InvoiceSplitterV1Inference>> documentOptional = jobResponse.getDocument();
+
+      if (documentOptional.isPresent()) {
+        Document<InvoiceSplitterV1Inference> documentParsed = documentOptional.get();
+        System.out.println(documentParsed.toString());
+        break;
+      }
+
+      retryCount++;
+      Thread.sleep(intervalSec * 1000); // Wait for intervalSec seconds before retrying
+
+    }
+
+    if (jobResponse == null || !jobResponse.getDocument().isPresent()) {
+      throw new RuntimeException("Max retries exceeded. Failed to get the document.");
+    }
+  }
+}
