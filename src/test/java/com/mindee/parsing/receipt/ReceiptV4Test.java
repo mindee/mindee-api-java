@@ -5,13 +5,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mindee.parsing.common.PredictResponse;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 
+/**
+ * Unit tests for ReceiptV4.
+ */
 class ReceiptV4Test {
 
   @Test
