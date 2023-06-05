@@ -6,11 +6,11 @@ import com.mindee.parsing.common.Inference;
 import lombok.Getter;
 
 /**
- * The financial V1 inference.
+ * The definition for financial_document v1.
  */
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
 @EndpointInfo(endpointName = "financial_document", version = "1")
 public class FinancialDocumentV1Inference
-    extends Inference<FinancialV1DocumentPrediction, FinancialV1DocumentPrediction> {
+    extends Inference<FinancialDocumentV1DocumentPrediction, FinancialDocumentV1DocumentPrediction> {
 }

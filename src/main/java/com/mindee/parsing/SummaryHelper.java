@@ -1,6 +1,7 @@
 package com.mindee.parsing;
 
 import com.mindee.parsing.common.field.BaseField;
+import com.mindee.parsing.common.field.LineItemField;
 import java.text.DecimalFormat;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,6 +29,14 @@ public final class SummaryHelper {
     return list.stream()
       .map(T::toString)
       .collect(Collectors.joining(String.format(delimiter)));
+  }
+
+  public static <T extends LineItemField> String arrayToString(List<T> lineItems, int[] columnSizes) {
+    return lineItems.stream()
+      .map(T::toTableLine)
+      .collect(Collectors.joining(
+        String.format("%n%s%n  ", SummaryHelper.lineSeparator(columnSizes, "-")))
+      );
   }
 
   /**
