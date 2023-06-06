@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mindee.parsing.SummaryHelper;
 import java.util.HashMap;
+import java.util.Map;
 import lombok.Getter;
 
 
@@ -12,7 +13,7 @@ import lombok.Getter;
  */
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class TaxField extends LineItemField {
+public class TaxField extends BaseField implements LineItemField {
 
   /**
    * The tax amount.
@@ -39,7 +40,7 @@ public class TaxField extends LineItemField {
    * Output the line in a format suitable for inclusion in an rST table.
    */
   public String toTableLine() {
-    HashMap<String, String> printable = this.printableValues();
+    Map<String, String> printable = this.printableValues();
     return "| "
       + String.format("%-13s", printable.get("base"))
       + " | "
@@ -53,7 +54,7 @@ public class TaxField extends LineItemField {
 
   @Override
   public String toString() {
-    HashMap<String, String> printable = this.printableValues();
+    Map<String, String> printable = this.printableValues();
     return "Base: "
       + printable.get("base")
       + ", Code: "
@@ -64,8 +65,8 @@ public class TaxField extends LineItemField {
       + printable.get("value").trim();
   }
 
-  protected HashMap<String, String> printableValues() {
-    HashMap<String, String> printable = new HashMap<>();
+  private Map<String, String> printableValues() {
+    Map<String, String> printable = new HashMap<>();
     printable.put("base", this.base != null ? SummaryHelper.formatAmount(this.base) : "");
     printable.put("code", this.code != null ? this.code : "");
     printable.put("rate", this.rate != null ? SummaryHelper.formatAmount(this.rate) : "");
