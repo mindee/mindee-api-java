@@ -13,17 +13,18 @@ public final class PolygonUtils {
   private PolygonUtils() {
   }
 
+  /**
+   * Create a Polygon from a list of a list of floats.
+   */
   public static Polygon getFrom(List<List<Double>> polygon) {
     List<Point> coordinates = polygon.stream()
         .map(coordinate -> new Point(coordinate.get(0), coordinate.get(1)))
         .collect(Collectors.toList());
-
     return new Polygon(coordinates);
   }
 
   /**
-   * Get the central coordinates (centroid) given a list of coordinates
-   * (AKA a polygon).
+   * Get the central coordinates (centroid) of a Polygon.
    */
   public static Point getCentroid(Polygon polygon) {
     int verticesSum = polygon.getCoordinates().size();
@@ -34,7 +35,6 @@ public final class PolygonUtils {
     double ySum = polygon.getCoordinates().stream()
         .map(Point::getY)
         .mapToDouble(Double::doubleValue).sum();
-
     return new Point(xSum / verticesSum, ySum / verticesSum);
   }
 
@@ -143,11 +143,7 @@ public final class PolygonUtils {
   }
 
   /**
-   * Merge the coordinates of the two polygons
-   *
-   * @param base
-   * @param target
-   * @return the new merged polygon
+   * Merge the coordinates of the two polygons.
    */
   public static Polygon combine(Polygon base, Polygon target) {
     if (base == null && target == null) {

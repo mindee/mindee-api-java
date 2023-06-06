@@ -3,9 +3,10 @@ package com.mindee.parsing.common;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mindee.parsing.receipt.ReceiptV4Inference;
+import com.mindee.parsing.common.ocr.Word;
+import com.mindee.parsing.common.ocr.Ocr;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -14,9 +15,7 @@ import java.util.List;
 
 public class OcrTest {
 
-  @Test
-  void givenLicensePlatesV1_whenDeserialized_MustHaveAValidSummary() throws IOException {
-
+  private Ocr loadOcr() throws IOException {
     ObjectMapper objectMapper = new ObjectMapper();
     objectMapper.findAndRegisterModules();
 
@@ -27,10 +26,35 @@ public class OcrTest {
       new File("src/test/resources/ocr/complete_with_ocr.json"),
       type);
 
+    return prediction.getDocument().get().getOcr();
+  }
+
+  @Test
+  void whenGettingAllLines_shouldNotAffectWordOrder() throws IOException {
+
+    Ocr ocr = loadOcr();
+
+    // get the word list as deserialized from JSON
+    List<Word> allWordsStart = ocr.getMVisionV1().getPages().get(0).getAllWords();
+
+    // trigger any potential changes to the list order
+    ocr.getMVisionV1().getPages().get(0).getAllLines();
+
+    // get the word list as after any potential manipulations
+    List<Word> allWordsEnd = ocr.getMVisionV1().getPages().get(0).getAllWords();
+
+    Assertions.assertEquals(allWordsStart, allWordsEnd, "Word list should not change.");
+  }
+
+  @Test
+  void whenDeserializedToString_shouldBeOrdered() throws IOException {
+
+    Ocr ocr = loadOcr();
+
     List<String> expectedLines = Files
       .readAllLines(Paths.get("src/test/resources/ocr/ocr.txt"));
     String expectedSummary = String.join(String.format("%n"), expectedLines);
 
-    Assertions.assertEquals(expectedSummary, prediction.getDocument().get().getOcr().toString());
+    Assertions.assertEquals(expectedSummary, ocr.toString(), "Should match expected string exactly.");
   }
 }
