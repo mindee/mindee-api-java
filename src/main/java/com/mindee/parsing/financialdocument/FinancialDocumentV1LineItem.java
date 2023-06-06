@@ -3,8 +3,10 @@ package com.mindee.parsing.financialdocument;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mindee.parsing.SummaryHelper;
+import com.mindee.parsing.common.field.BaseField;
 import com.mindee.parsing.common.field.LineItemField;
 import java.util.HashMap;
+import java.util.Map;
 import lombok.Getter;
 
 /**
@@ -12,7 +14,7 @@ import lombok.Getter;
  */
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class FinancialDocumentV1LineItem extends LineItemField {
+public class FinancialDocumentV1LineItem extends BaseField implements LineItemField {
 
   /**
    * The item description.
@@ -54,7 +56,7 @@ public class FinancialDocumentV1LineItem extends LineItemField {
    * Output the line in a format suitable for inclusion in an rST table.
    */
   public String toTableLine() {
-    HashMap<String, String> printable = this.printableValues();
+    Map<String, String> printable = this.printableValues();
     return String.format("| %-36s ", printable.get("description"))
       + String.format("| %-12s ", printable.get("productCode"))
       + String.format("| %-8s ", printable.get("quantity"))
@@ -66,7 +68,7 @@ public class FinancialDocumentV1LineItem extends LineItemField {
 
   @Override
   public String toString() {
-    HashMap<String, String> printable = this.printableValues();
+    Map<String, String> printable = this.printableValues();
     return String.format("Description: %s", printable.get("description"))
       + String.format("Product code: %s", printable.get("productCode"))
       + String.format("Quantity: %s", printable.get("quantity"))
@@ -76,8 +78,8 @@ public class FinancialDocumentV1LineItem extends LineItemField {
       + String.format("Unit Price: %s", printable.get("unitPrice"));
   }
 
-  protected HashMap<String, String> printableValues() {
-    HashMap<String, String> printable = new HashMap<>();
+  private Map<String, String> printableValues() {
+    Map<String, String> printable = new HashMap<>();
 
     String descriptionSummary = (this.description != null ? this.description : "");
     if (descriptionSummary.length() > 33) {
