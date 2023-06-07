@@ -7,8 +7,11 @@ This guide will help you get the most of the Mindee Java client library to easil
 ## Installation
 
 ### Prerequisites
-You'll need [Apache Maven](https://maven.apache.org/download.cgi) downloaded 
-and [installed](https://maven.apache.org/install.html)
+Installation using [Apache Maven](https://maven.apache.org/install.html) is recommended.
+
+The library is tested on Java versions 8 and 11.
+
+Other installation methods and/or Java versions may work, but are not officially supported.
 
 ### Maven
 The easiest way to use the Mindee client library for your project is by adding 

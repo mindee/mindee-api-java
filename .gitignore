@@ -32,6 +32,7 @@ hs_err_pid*
 # IDE
 .vscode/
 .idea
+*.iml
 
 # Mac OS
 .DS_Store
