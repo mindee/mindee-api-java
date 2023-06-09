@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.mindee.parsing.SummaryHelper;
 import java.util.HashMap;
 import java.util.TreeMap;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 
@@ -11,6 +12,7 @@ import lombok.Getter;
  * Page data for custom documents, API version 1.x.
  */
 @Getter
+@EqualsAndHashCode
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CustomV1PagePrediction extends HashMap<String, ListField> {
 

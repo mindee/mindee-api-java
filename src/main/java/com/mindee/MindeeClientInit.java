@@ -1,7 +1,7 @@
 package com.mindee;
 
+import com.mindee.http.MindeeApi;
 import com.mindee.http.MindeeHttpApi;
-import com.mindee.parsing.MindeeApi;
 import com.mindee.pdf.PdfBoxApi;
 
 /**

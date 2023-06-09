@@ -99,47 +99,38 @@ MindeeClient client = MindeeClientInit.create();
 
 ### HttpClient Customizations
 Mindee's API lives on the internet and many internal applications on corporate networks may therefore need to configure an HTTP proxy to access it.
-This is possible by using a `MindeeClient` configured to use a user provided instance  of the `com.mindee.parsing.MindeeApi` interface.
+This is possible by using a `MindeeClient` configured to use a user provided instance  of the `com.mindee.http.MindeeApi` interface.
 
 There are a few layers to this:
-* The default implementation of `com.mindee.parsing.MindeeApi` interface is `com.mindee.http.MindeeHttpApi`
+* The default implementation of `com.mindee.http.MindeeApi` interface is `com.mindee.http.MindeeHttpApi`
 * `MindeeHttpApi` can be initialized with an Apache HttpComponents `HttpClientBuilder`.
 * `HttpClientBuilder` can be configured for use cases like proxying requests, custom authentication schemes, setting SSL Context etc.
 
 To Configure a `MindeeClient` to use a proxy, the following code can be referenced.
+
 ```java
-import org.apache.http.HttpHost;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.impl.conn.DefaultProxyRoutePlanner;
+
 import com.mindee.parsing;
 import com.mindee.parsing.invoice;
-import com.mindee.MindeeClient;
-import com.mindee.MindeeClientInit;
-import com.mindee.DocumentToParse;
-import com.mindee.MindeeSettings;
-import com.mindee.http.MindeeHttpApi;
-import com.mindee.parsing.common.Document;
-import com.mindee.parsing.invoice.InvoiceV4Inference;
 
 // you can also configure things like caching, custom HTTPS certs,
 // timeouts and connection pool sizes here.
 // See: https://hc.apache.org/httpcomponents-client-5.1.x/current/httpclient5/apidocs/org/apache/hc/client5/http/impl/classic/HttpClientBuilder.html
-HttpHost proxy = new HttpHost("<proxy-host>", <proxy-port>);
-DefaultProxyRoutePlanner routePlanner = new DefaultProxyRoutePlanner(proxy);
-HttpClientBuilder httpclientBuilder = HttpClients.custom().setRoutePlanner(routePlanner);
+HttpHost proxy=new HttpHost("<proxy-host>",<proxy-port>);
+  DefaultProxyRoutePlanner routePlanner=new DefaultProxyRoutePlanner(proxy);
+  HttpClientBuilder httpclientBuilder=HttpClients.custom().setRoutePlanner(routePlanner);
 
 // Build MindeeHttpAPI using the HtppClientBuilder
-MindeeHttpApi mindeeHttpApi =  MindeeHttpApi.builder()
-       .mindeeSettings(new MindeeSettings("<my-api-key>"))
-       .httpClientBuilder(httpclientBuilder)
-       .build();
+  MindeeHttpApi mindeeHttpApi=MindeeHttpApi.builder()
+  .mindeeSettings(new MindeeSettings("<my-api-key>"))
+  .httpClientBuilder(httpclientBuilder)
+  .build();
 
-MindeeClient mindeeClient = MindeeClientInit.create(mindeeHttpApi);
-Document<InvoiceV4Inference> invoiceDocument = mindeeClient.parse(
-    InvoiceV4Inference.class,
-    documentToParse
-    );
+  MindeeClient mindeeClient=MindeeClientInit.create(mindeeHttpApi);
+  Document<InvoiceV4Inference> invoiceDocument=mindeeClient.parse(
+  InvoiceV4Inference.class,
+  LocalInputSource
+  );
 ```
 
 ### Loading a Document File
@@ -157,14 +148,14 @@ There are a few different ways of loading a document file, depending on your use
 * [Byte Array](#bytes)
 
 The `MindeeClient` class provides overloaded `loadDocument` methods for these three input types.
-The `loadDocument` method returns an object of the `DocumentToParse` class which can be used for further interactions with the API.
+The `loadDocument` method returns an object of the `LocalInputSource` class which can be used for further interactions with the API.
 
 #### File Object
 Load a `java.io.File` object.
 When using this option you do not need to pass in a file name - the API uses the `file.getName()` method to get the file name.
 
 ```java
-DocumentToParse documentToParse = mindeeClient.loadDocument(
+LocalInputSource localInputSource = mindeeClient.loadDocument(
     new File("path/to/document/document.pdf"));
 ```
 
@@ -175,7 +166,7 @@ Load file contents from a base64-encoded string.
 
 ```java
 String b64String = "/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLD....";
-DocumentToParse documentToParse = mindeeClient.loadDocument(b64String,"document.pdf");
+LocalInputSource localInputSource = mindeeClient.loadDocument(b64String,"document.pdf");
 ```
 
 #### Bytes
@@ -186,7 +177,7 @@ Load file contents from a byte array.
 ```java
 // Get Byte Array from a File, Multipart File, Input Stream, or as a method parameter
 byte[] fileAsBytes = ....;
-DocumentToParse documentToParse = mindeeClient.loadDocument(fileAsBytes,"document.pdf");
+LocalInputSource localInputSource = mindeeClient.loadDocument(fileAsBytes,"document.pdf");
 ```
 
 ### Loading an URL
@@ -207,7 +198,7 @@ Document<InvoiceV4Inference> invoiceDocument = mindeeClient.parse(
 
 ### Parsing a Document
 The `MindeeClient` has multiple overloaded `parse` methods available for parsing the documents 
-and you will get `DocumentToParse`.
+and you will get `LocalInputSource`.
 
 This can be done by implicitly by calling the `parse(Class<T> type)` method with the expected response type from
 the parse method (`InvoiceResponse`, `ReceiptResponse`, `PassportResponse`, or even you custom class).
@@ -221,7 +212,7 @@ Simply setting the correct class is enough:
 ```java
 // After the document has been loaded
 Document<ReceiptV4Inference> receiptV4Inference = 
-  mindeeClient.parse(ReceiptV4Inference.class, documentToParse);
+  mindeeClient.parse(ReceiptV4Inference.class, localInputSource);
 ```
 
 For more finer grained control over parsing the documents you can have a look on the `parse` override method.
@@ -241,7 +232,7 @@ CustomEndpoint myEndpoint = new CustomEndpoint(
 );
 
 Document<CustomV1Inference> customDocument = mindeeClient
-    .parse(documentToParse, myEndpoint);
+    .parse(localInputSource, myEndpoint);
 ```
 
 The second one is using your own class.
@@ -263,7 +254,7 @@ will be shown (this is all done automatically at the API level).
 
 ```java
 Document<InvoiceV4Inference> invoiceDocument = 
-  documentClient.parse(InvoiceV4Inference.class, documentToParse);
+  documentClient.parse(InvoiceV4Inference.class, localInputSource);
 // print the complete object
 logger.info(invoiceDocument.toString());
 

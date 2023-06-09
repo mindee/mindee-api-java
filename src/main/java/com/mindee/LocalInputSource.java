@@ -12,27 +12,27 @@ import org.apache.pdfbox.io.IOUtils;
  * A source document for Mindee API operations.
  */
 @Getter
-public final class DocumentToParse {
+public final class LocalInputSource {
 
   private final byte[] file;
   private final String filename;
 
-  public DocumentToParse(InputStream file, String filename) throws IOException {
+  public LocalInputSource(InputStream file, String filename) throws IOException {
     this.file = IOUtils.toByteArray(file);
     this.filename = filename;
   }
 
-  public DocumentToParse(File file) throws IOException {
+  public LocalInputSource(File file) throws IOException {
     this.file = Files.readAllBytes(file.toPath());
     this.filename = file.getName();
   }
 
-  public DocumentToParse(byte[] fileAsByteArray, String filename) {
+  public LocalInputSource(byte[] fileAsByteArray, String filename) {
     this.file = fileAsByteArray;
     this.filename = filename;
   }
 
-  public DocumentToParse(String fileAsBase64, String filename) {
+  public LocalInputSource(String fileAsBase64, String filename) {
     this.file = Base64.getDecoder().decode(fileAsBase64.getBytes());
     this.filename = filename;
   }

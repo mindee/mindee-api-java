@@ -1,9 +1,15 @@
 package com.mindee.parsing;
 
 /**
- * List the available page operation on a document.
+ * Possible page operations on a document.
  */
 public enum PageOptionsOperation {
-  KEEP_ONLY_LISTED_PAGES,
-  REMOVE_LISTED_PAGES
+  /**
+   * Keep only the specified pages, and remove all others.
+   */
+  KEEP_ONLY,
+  /**
+   * Remove the specified pages, and keep all others.
+   */
+  REMOVE
 }

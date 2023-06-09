@@ -10,11 +10,11 @@ we are going to illustrate how to extract the data that we want using the OCR SD
 MindeeClient client = MindeeClientInit.create("my-api-key");
 
 // Load a file from disk and parse it
-DocumentToParse documentToParse = mindeeClient.loadDocument(
+LocalInputSource localInputSource = mindeeClient.loadDocument(
   new File("./a8e8cfa-a74eaa5-c8e283b-sample_invoice.jpeg")
 );
 Document<FinancialV1Inference> document = mindeeClient.parse(
-  FinancialV1Inference.class, documentToParse
+  FinancialV1Inference.class, localInputSource
 );
 
 // Print a summary of the parsed data

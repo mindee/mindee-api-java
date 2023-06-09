@@ -51,7 +51,7 @@ public final class PdfBoxApi implements PdfOperation {
 
   private List<Integer> getPageRanges(PageOptions pageOptions, Integer numberOfPages) {
 
-    Set<Integer> pages = Optional.ofNullable(pageOptions.getPages())
+    Set<Integer> pages = Optional.ofNullable(pageOptions.getPageIndexes())
         .map(Collection::stream)
         .orElseGet(Stream::empty)
         .filter(x -> x > (numberOfPages) * (-1) && x <= (numberOfPages - 1))
@@ -59,10 +59,10 @@ public final class PdfBoxApi implements PdfOperation {
         .collect(Collectors.toSet());
     List<Integer> allPages = IntStream.range(0, numberOfPages).boxed().collect(Collectors.toList());
 
-    switch (pageOptions.getMode()) {
-      case KEEP_ONLY_LISTED_PAGES:
+    switch (pageOptions.getOperation()) {
+      case KEEP_ONLY:
         return new ArrayList<>(pages);
-      case REMOVE_LISTED_PAGES:
+      case REMOVE:
         allPages.removeAll(pages);
         return allPages;
       default:

@@ -10,11 +10,11 @@ we are going to illustrate how to extract the data that we want using the  OCR S
 MindeeClient client = MindeeClientInit.create("my-api-key");
 
 // Load a file from disk and parse it
-DocumentToParse documentToParse = mindeeClient.loadDocument(
+LocalInputSource localInputSource = mindeeClient.loadDocument(
   new File("./4a16b1d-passport_pic.jpg")
 );
 Document<PassportV1Inference> document = mindeeClient.parse(
-  PassportV1Inference.class, documentToParse
+  PassportV1Inference.class, localInputSource
 );
 
 // Print a summary of the parsed data
