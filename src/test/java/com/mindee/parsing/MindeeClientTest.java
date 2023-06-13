@@ -1,7 +1,9 @@
 package com.mindee.parsing;
 
-import com.mindee.DocumentToParse;
+import com.mindee.LocalInputSource;
 import com.mindee.MindeeClient;
+import com.mindee.http.MindeeApi;
+import com.mindee.http.RequestParameters;
 import com.mindee.parsing.common.Document;
 import com.mindee.parsing.common.Job;
 import com.mindee.parsing.common.PredictResponse;
@@ -58,7 +60,7 @@ class MindeeClientTest {
         .thenReturn(predictResponse);
 
     Document<CustomV1Inference> document = client.parse(
-        new DocumentToParse(file),
+        new LocalInputSource(file),
         new CustomEndpoint("", "", ""));
 
     Assertions.assertNotNull(document);
@@ -90,10 +92,10 @@ class MindeeClientTest {
         .thenReturn(new SplitPdf(new byte[0], 0));
 
     Document<CustomV1Inference> document = client.parse(
-        new DocumentToParse(file),
+        new LocalInputSource(file),
         new CustomEndpoint("", "", ""),
         new PageOptions(
-            pageNumberToKeep, PageOptionsOperation.KEEP_ONLY_LISTED_PAGES, 0));
+            pageNumberToKeep, PageOptionsOperation.KEEP_ONLY, 0));
 
     Assertions.assertNotNull(document);
     Mockito.verify(mindeeApi, Mockito.times(1))
@@ -120,7 +122,7 @@ class MindeeClientTest {
 
     Document<InvoiceV4Inference> document = client.parse(
         InvoiceV4Inference.class,
-        new DocumentToParse(file));
+        new LocalInputSource(file));
 
     Assertions.assertNotNull(document);
     Mockito.verify(mindeeApi, Mockito.times(1))
@@ -145,7 +147,7 @@ class MindeeClientTest {
 
     Document<InvoiceV4Inference> document = client.parse(
         InvoiceV4Inference.class,
-        new DocumentToParse(
+        new LocalInputSource(
             Files.newInputStream(file.toPath()),
             ""));
 
@@ -171,7 +173,7 @@ class MindeeClientTest {
 
     Document<InvoiceV4Inference> document = client.parse(
         InvoiceV4Inference.class,
-        new DocumentToParse(
+        new LocalInputSource(
             Files.readAllBytes(file.toPath()),
             ""));
 
@@ -203,9 +205,9 @@ class MindeeClientTest {
 
     Document<InvoiceV4Inference> document = client.parse(
         InvoiceV4Inference.class,
-        new DocumentToParse(file),
+        new LocalInputSource(file),
         new PageOptions(
-            pageNumberToKeep, PageOptionsOperation.KEEP_ONLY_LISTED_PAGES, 0));
+            pageNumberToKeep, PageOptionsOperation.KEEP_ONLY, 0));
 
     Assertions.assertNotNull(document);
     Mockito.verify(mindeeApi, Mockito.times(1))
@@ -215,55 +217,55 @@ class MindeeClientTest {
   }
 
   @Test
-  void loadDocument_withFile_mustReturnAValidDocumentToParse() throws IOException {
+  void loadDocument_withFile_mustReturnAValidLocalInputSource() throws IOException {
 
     File file = new File("src/test/resources/invoice/invoice.pdf");
 
-    DocumentToParse documentToParse = client.loadDocument(file);
+    LocalInputSource localInputSource = client.loadDocument(file);
 
-    Assertions.assertNotNull(documentToParse);
-    Assertions.assertArrayEquals(documentToParse.getFile(), Files.readAllBytes(file.toPath()));
+    Assertions.assertNotNull(localInputSource);
+    Assertions.assertArrayEquals(localInputSource.getFile(), Files.readAllBytes(file.toPath()));
   }
 
   @Test
-  void loadDocument_withInputStream_mustReturnAValidDocumentToParse() throws IOException {
+  void loadDocument_withInputStream_mustReturnAValidLocalInputSource() throws IOException {
 
     File file = new File("src/test/resources/invoice/invoice.pdf");
 
-    DocumentToParse documentToParse = client.loadDocument(
+    LocalInputSource localInputSource = client.loadDocument(
         Files.newInputStream(file.toPath()),
         "");
 
-    Assertions.assertNotNull(documentToParse);
-    Assertions.assertArrayEquals(documentToParse.getFile(), Files.readAllBytes(file.toPath()));
+    Assertions.assertNotNull(localInputSource);
+    Assertions.assertArrayEquals(localInputSource.getFile(), Files.readAllBytes(file.toPath()));
   }
 
   @Test
-  void loadDocument_withByteArray_mustReturnAValidDocumentToParse() throws IOException {
+  void loadDocument_withByteArray_mustReturnAValidLocalInputSource() throws IOException {
 
     File file = new File("src/test/resources/invoice/invoice.pdf");
 
-    DocumentToParse documentToParse = client.loadDocument(
+    LocalInputSource localInputSource = client.loadDocument(
         Files.readAllBytes(file.toPath()),
         "");
 
-    Assertions.assertNotNull(documentToParse);
-    Assertions.assertArrayEquals(documentToParse.getFile(), Files.readAllBytes(file.toPath()));
+    Assertions.assertNotNull(localInputSource);
+    Assertions.assertArrayEquals(localInputSource.getFile(), Files.readAllBytes(file.toPath()));
   }
 
   @Test
-  void loadDocument_withBase64Encoded_mustReturnAValidDocumentToParse() throws IOException {
+  void loadDocument_withBase64Encoded_mustReturnAValidLocalInputSource() throws IOException {
 
     File file = new File("src/test/resources/invoice/invoice.pdf");
 
     String encodedFile = Base64.encodeBase64String(Files.readAllBytes(file.toPath()));
 
-    DocumentToParse documentToParse = client.loadDocument(
+    LocalInputSource localInputSource = client.loadDocument(
         encodedFile,
         "");
 
-    Assertions.assertNotNull(documentToParse);
-    Assertions.assertArrayEquals(documentToParse.getFile(), Files.readAllBytes(file.toPath()));
+    Assertions.assertNotNull(localInputSource);
+    Assertions.assertArrayEquals(localInputSource.getFile(), Files.readAllBytes(file.toPath()));
   }
 
   @Test
@@ -331,7 +333,7 @@ class MindeeClientTest {
   @Test
   void givenAnAsyncDoc_whenEnqued_shouldInvokeApiCorrectly() throws IOException {
     File file = new File("src/test/resources/invoice/invoice.pdf");
-    DocumentToParse documentToParse = client.loadDocument(file);
+    LocalInputSource localInputSource = client.loadDocument(file);
 
 
     Job job = new Job(LocalDateTime.now(),"someid",LocalDateTime.now(),"Completed");
@@ -344,7 +346,7 @@ class MindeeClientTest {
                 Mockito.any(),
                 Mockito.any()))
         .thenReturn(predictResponse);
-    String jobId = client.enqueue(InvoiceV4Inference.class,documentToParse,Boolean.TRUE, null)
+    String jobId = client.enqueue(InvoiceV4Inference.class, localInputSource,Boolean.TRUE, null)
         .getJob()
         .map(Job::getId)
         .orElse("");
@@ -359,7 +361,7 @@ class MindeeClientTest {
     Assertions.assertEquals(InvoiceV4Inference.class,classArgumentCaptor.getValue());
     Assertions.assertEquals(Boolean.TRUE,requestParameters.getAsyncCall());
     Assertions.assertEquals("invoice.pdf",requestParameters.getFileName());
-    Assertions.assertEquals(Boolean.TRUE,requestParameters.getIncludeWords());
+    Assertions.assertEquals(Boolean.TRUE,requestParameters.getAllWords());
     Assertions.assertNotNull(requestParameters.getFile());
     Assertions.assertTrue(requestParameters.getFile().length > 0);
     Assertions.assertNull(requestParameters.getFileUrl());
@@ -395,7 +397,7 @@ class MindeeClientTest {
     Assertions.assertEquals(InvoiceV4Inference.class,classArgumentCaptor.getValue());
     Assertions.assertEquals(Boolean.TRUE,requestParameters.getAsyncCall());
     Assertions.assertNull(requestParameters.getFileName());
-    Assertions.assertEquals(Boolean.FALSE,requestParameters.getIncludeWords());
+    Assertions.assertEquals(Boolean.FALSE,requestParameters.getAllWords());
     Assertions.assertNull(requestParameters.getFile());
     Assertions.assertEquals(new URL("https://fake.pdf"),requestParameters.getFileUrl());
     Assertions.assertEquals("someid",jobId);

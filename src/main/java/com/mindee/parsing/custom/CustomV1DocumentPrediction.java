@@ -6,6 +6,7 @@ import com.mindee.parsing.SummaryHelper;
 import java.util.Map;
 import java.util.TreeMap;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 
@@ -14,6 +15,7 @@ import lombok.Getter;
  */
 @AllArgsConstructor
 @Getter
+@EqualsAndHashCode
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonDeserialize(using = CustomV1DocumentPredictionDeserializer.class)
 public class CustomV1DocumentPrediction {

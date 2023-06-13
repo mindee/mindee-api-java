@@ -34,11 +34,11 @@ import com.mindee.parsing.invoice;
 
 MindeeClient mindeeClient = MindeeClientInit.create("my-api-key");
 
-DocumentToParse documentToParse = mindeeClient.loadDocument(new File("/path/to/the/file.ext"));
+LocalInputSource localInputSource = mindeeClient.loadDocument(new File("/path/to/the/file.ext"));
 
 Document<InvoiceV4Inference> invoiceDocument = mindeeClient.parse(
   InvoiceV4Inference.class,
-  documentToParse
+  localInputSource
 );
 ```
 
@@ -53,11 +53,11 @@ import com.mindee.parsing.us.bankcheck;
 
 MindeeClient mindeeClient = MindeeClientInit.create("my-api-key");
 
-DocumentToParse documentToParse = mindeeClient.loadDocument(new File("/path/to/the/file.ext"));
+LocalInputSource localInputSource = mindeeClient.loadDocument(new File("/path/to/the/file.ext"));
 
 Document<BankCheckV1Inference> bankCheckDocument = mindeeClient.parse(
   BankCheckV1Inference.class,
-  documentToParse
+  localInputSource
 );
 ```
 
@@ -69,12 +69,12 @@ import com.mindee.parsing.custom;
 MindeeClient mindeeClient = MindeeClientInit.create("my-api-key");
 CustomEndpoint customEndpoint = new CustomEndpoint("my-endpoint", "my-account");
 
-DocumentToParse documentToParse = mindeeClient.loadDocument(
+LocalInputSource localInputSource = mindeeClient.loadDocument(
   new File("src/main/resources/invoices/invoice1.pdf")
 );
 
 Document<CustomV1Inference> customDocument = mindeeClient.parse(
-  documentToParse,
+  localInputSource,
   customEndpoint
 );
 ```

@@ -18,5 +18,5 @@ public @interface EndpointInfo {
 
   String version();
 
-  String accountName() default "Mindee";
+  String accountName() default "mindee";
 }

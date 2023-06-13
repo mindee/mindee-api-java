@@ -9,11 +9,11 @@ Using this [sample](https://files.readme.io/853f15a-shipping_containers.jpg) bel
 MindeeClient client = MindeeClientInit.create("<your mindee api key>");
 
 // Load a file from disk and parse it
-DocumentToParse documentToParse = mindeeClient.loadDocument(
+LocalInputSource localInputSource = mindeeClient.loadDocument(
   new File("./853f15a-shipping_containers.jpg")
 );
 Document<ShippingContainerV1Inference> document = mindeeClient.parse(
-  ShippingContainerV1Inference.class, documentToParse
+  ShippingContainerV1Inference.class, localInputSource
 );
 
 // Print a summary of the parsed data

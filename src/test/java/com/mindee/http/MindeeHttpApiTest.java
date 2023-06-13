@@ -11,7 +11,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.mindee.MindeeSettings;
-import com.mindee.parsing.RequestParameters;
 import com.mindee.parsing.common.Document;
 import com.mindee.parsing.common.PredictResponse;
 import com.mindee.parsing.invoice.InvoiceV4Inference;
@@ -111,7 +110,6 @@ public class MindeeHttpApiTest extends TestCase {
     Assertions.assertEquals(Long.toString(recordedRequest.getBodySize()),
         recordedRequest.getHeader("Content-Length"));
     Assertions.assertTrue(recordedRequest.getBodySize() > fileBytes.length);
-
   }
 
   @Test
@@ -130,7 +128,7 @@ public class MindeeHttpApiTest extends TestCase {
         RequestParameters.builder()
             .file(null)
             .fileName(null)
-            .fileUrl(new URL("https://thisfile.does.not.exist"))
+            .urlInputSource(new URL("https://thisfile.does.not.exist"))
             .build()).getDocument().get();
 
     RecordedRequest recordedRequest = mockWebServer.takeRequest();
@@ -142,7 +140,6 @@ public class MindeeHttpApiTest extends TestCase {
     Map<String, String> requestMap = objectMapper.readValue(recordedRequest.getBody().readUtf8(),
         Map.class);
     assertThat(requestMap, IsMapContaining.hasEntry("document", "https://thisfile.does.not.exist"));
-
   }
 
   @Test
@@ -227,12 +224,11 @@ public class MindeeHttpApiTest extends TestCase {
       .readAllLines(Paths.get("src/test/resources/invoice/response_v4/summary_full.rst"));
     String expectedSummary = String.join(String.format("%n"), expectedLines);
 
-    proxyMock.verify(postRequestedFor(urlEqualTo("/products/Mindee/invoices/v4/predict"))
+    proxyMock.verify(postRequestedFor(urlEqualTo("/products/mindee/invoices/v4/predict"))
         .withHeader("Authorization", containing("abc")));
     Assertions.assertNotNull(document);
     Assertions.assertEquals(expectedSummary, actualSummary);
     proxyMock.shutdown();
-
   }
 
   @Test
@@ -289,10 +285,7 @@ public class MindeeHttpApiTest extends TestCase {
 
     Assertions.assertEquals("abc", recordedRequest.getHeader("Authorization"));
     Assertions.assertEquals("GET", recordedRequest.getMethod());
-    Assertions.assertEquals("/products/Mindee/invoice_splitter/v1/documents/queue/2134e243244",
+    Assertions.assertEquals("/products/mindee/invoice_splitter/v1/documents/queue/2134e243244",
         recordedRequest.getPath());
-
   }
-
-
 }
