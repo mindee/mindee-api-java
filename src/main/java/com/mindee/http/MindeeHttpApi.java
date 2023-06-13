@@ -172,7 +172,7 @@ public final class MindeeHttpApi implements MindeeApi {
     post.setHeader(HttpHeaders.USER_AGENT, getUserAgent());
     post.setEntity(entity);
 
-    String errorMessage = "Mindee API client : ";
+    String errorMessage = "Mindee API client: ";
     PredictResponse<DocT> predictResponse;
 
     try (

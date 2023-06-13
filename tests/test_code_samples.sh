@@ -6,6 +6,9 @@ ACCOUNT=$1
 ENDPOINT=$2
 API_KEY=$3
 
+if [ -z "${ACCOUNT}" ]; then echo "ACCOUNT is required"; exit 1; fi
+if [ -z "${ENDPOINT}" ]; then echo "ENDPOINT is required"; exit 1; fi
+
 # We need the dependencies otherwise we get class not found exceptions
 mvn dependency:copy-dependencies
 
