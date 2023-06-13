@@ -7,8 +7,6 @@ import com.mindee.MindeeSettings;
 import com.mindee.parsing.CustomEndpoint;
 import com.mindee.parsing.CustomEndpointInfo;
 import com.mindee.parsing.EndpointInfo;
-import com.mindee.parsing.MindeeApi;
-import com.mindee.parsing.RequestParameters;
 import com.mindee.parsing.common.Inference;
 import com.mindee.parsing.common.PredictResponse;
 import com.mindee.utils.MindeeException;
@@ -53,13 +51,11 @@ public final class MindeeHttpApi implements MindeeApi {
    * to be directed through internal URLs.
    */
   private final Function<CustomEndpoint, String> urlFromEndpoint;
-
   /**
    * The function used to generate the API endpoint URL for Async calls. Only needs to be set if the
    * api calls need to be directed through internal URLs.
    */
   private final Function<CustomEndpoint, String> asyncUrlFromEndpoint;
-
   /**
    * The function used to generate the Job status URL for Async calls. Only needs to be set if the
    * api calls need to be directed through internal URLs.
@@ -71,10 +67,13 @@ public final class MindeeHttpApi implements MindeeApi {
   }
 
   @Builder
-  private MindeeHttpApi(MindeeSettings mindeeSettings, HttpClientBuilder httpClientBuilder,
+  private MindeeHttpApi(
+      MindeeSettings mindeeSettings,
+      HttpClientBuilder httpClientBuilder,
       Function<CustomEndpoint, String> urlFromEndpoint,
       Function<CustomEndpoint, String> asyncUrlFromEndpoint,
-      Function<CustomEndpoint, String> jobStatusUrlFromEndpoint) {
+      Function<CustomEndpoint, String> jobStatusUrlFromEndpoint
+  ) {
     this.mindeeSettings = mindeeSettings;
 
     if (httpClientBuilder != null) {
@@ -155,16 +154,16 @@ public final class MindeeHttpApi implements MindeeApi {
    */
   public <DocT extends Inference> PredictResponse<DocT> predict(
       Class<DocT> documentClass,
-      CustomEndpoint customEndpoint,
+      CustomEndpoint endpoint,
       RequestParameters requestParameters
   ) throws IOException {
 
     // required to register jackson date module format to deserialize
     mapper.findAndRegisterModules();
 
-    String endpoint = requestParameters.getAsyncCall() ? asyncUrlFromEndpoint.apply(customEndpoint)
-        : urlFromEndpoint.apply(customEndpoint);
-    HttpPost post = new HttpPost(endpoint);
+    String url = requestParameters.getAsyncCall() ? asyncUrlFromEndpoint.apply(endpoint)
+        : urlFromEndpoint.apply(endpoint);
+    HttpPost post = new HttpPost(url);
     HttpEntity entity = buildHttpBody(requestParameters);
     if (this.mindeeSettings.getApiKey().isPresent()) {
       post.setHeader(HttpHeaders.AUTHORIZATION, this.mindeeSettings.getApiKey().get());
@@ -262,7 +261,7 @@ public final class MindeeHttpApi implements MindeeApi {
           ContentType.DEFAULT_BINARY,
           requestParameters.getFileName()
       );
-      if (Boolean.TRUE.equals(requestParameters.getIncludeWords())) {
+      if (Boolean.TRUE.equals(requestParameters.getAllWords())) {
         builder.addTextBody("include_mvision", "true");
       }
       return builder.build();

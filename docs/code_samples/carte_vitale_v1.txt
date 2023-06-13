@@ -1,6 +1,6 @@
 import com.mindee.MindeeClient;
 import com.mindee.MindeeClientInit;
-import com.mindee.DocumentToParse;
+import com.mindee.LocalInputSource;
 import com.mindee.parsing.common.Document;
 import com.mindee.parsing.fr.cartevitale.CarteVitaleV1Inference;
 import java.io.File;
@@ -13,11 +13,11 @@ public class SimpleMindeeClient {
     String filePath = "/path/to/the/file.ext";
 
     MindeeClient mindeeClient = MindeeClientInit.create(apiKey);
-    DocumentToParse docToParse = new DocumentToParse(new File(filePath));
+    LocalInputSource inputSource = new LocalInputSource(new File(filePath));
 
     Document<CarteVitaleV1Inference> documentParsed = mindeeClient.parse(
       CarteVitaleV1Inference.class,
-      docToParse
+      inputSource
     );
 
     System.out.println(documentParsed.toString());
