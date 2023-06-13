@@ -9,7 +9,7 @@ created with the [API Builder](https://developers.mindee.com/docs/overview).
 
 ```java
 String path = "/path/to/the/file.ext";
-DocumentToParse documentToParse = new DocumentToParse(new File(path));
+LocalInputSource inputSource = new LocalInputSource(new File(path));
 CustomEndpoint myEndpoint = new CustomEndpoint(
     "wnine",
     "john",
@@ -17,7 +17,7 @@ CustomEndpoint myEndpoint = new CustomEndpoint(
 );
 
 Document<CustomV1Inference> customDocument = mindeeClient
-    .parse(documentToParse, myEndpoint);
+    .parse(inputSource, myEndpoint);
 ```
 
 If the `version` argument is set, you'll be required to update it every time a new model is trained.
@@ -33,14 +33,14 @@ You have two different ways to parse a custom document.
 ```java
 
 String path = "/path/to/the/file.ext";
-DocumentToParse documentToParse = new DocumentToParse(new File(path));
+LocalInputSource inputSource = new LocalInputSource(new File(path));
 CustomEndpoint myEndpoint = new CustomEndpoint(
     "wnine",
     "john",
     "1.0" // optional
 );
 
-Document<CustomV1Inference> customDocument = mindeeClient.parse(documentToParse, myEndpoint);
+Document<CustomV1Inference> customDocument = mindeeClient.parse(inputSource, myEndpoint);
 ```
 
 2. You can also use your own class which will represent the required fields. For example:
@@ -65,10 +65,10 @@ public class WNineV1Inference
 }
 
 String path = "/path/to/the/file.ext";
-DocumentToParse documentToParse = new DocumentToParse(new File(path));
+LocalInputSource inputSource = new LocalInputSource(new File(path));
 
 Document<WNineV1Inference> myCustomDocument = mindeeClient
-    .parse(WNineV1Inference.class, documentToParse);
+    .parse(WNineV1Inference.class, inputSource);
 ```
 
 ## CustomV1Inference object
@@ -98,10 +98,10 @@ In the examples below we'll use the `employer_id` field.
 
 ```java
 String path = "/path/to/the/file.ext";
-DocumentToParse documentToParse = new DocumentToParse(new File(path));
+LocalInputSource inputSource = new LocalInputSource(new File(path));
 
 Document<WNineV1Inference> myCustomDocument = mindeeClient
-    .parse(WNineV1Inference.class, documentToParse);
+    .parse(WNineV1Inference.class, inputSource);
 
 ListField employerId = document.getInference().getDocumentPrediction().get("employer_id");
 ```

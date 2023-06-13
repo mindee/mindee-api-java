@@ -121,12 +121,12 @@ public class CommandLineInterface {
 
     if (cutDoc) {
       document = mindeeClient.parse(
-        new DocumentToParse(file),
+        new LocalInputSource(file),
         customEndpoint,
         getDefaultPageOptions());
     } else {
       document = mindeeClient.parse(
-        new DocumentToParse(file),
+        new LocalInputSource(file),
         customEndpoint);
     }
     System.out.println(document.toString());
@@ -141,7 +141,7 @@ public class CommandLineInterface {
     pageNumbers.add(3);
     pageNumbers.add(4);
 
-    return new PageOptions(pageNumbers, PageOptionsOperation.KEEP_ONLY_LISTED_PAGES);
+    return new PageOptions(pageNumbers, PageOptionsOperation.KEEP_ONLY);
   }
 
   private <T extends Inference<?, ?>> String standardProductOutput(
@@ -149,12 +149,12 @@ public class CommandLineInterface {
       File file
   ) throws IOException {
     MindeeClient mindeeClient = MindeeClientInit.create(apiKey);
-    DocumentToParse input = new DocumentToParse(file);
+    LocalInputSource inputSource = new LocalInputSource(file);
     Document<T> response;
     if (cutDoc) {
-      response = mindeeClient.parse(docClass, input, words, getDefaultPageOptions());
+      response = mindeeClient.parse(docClass, inputSource, words, getDefaultPageOptions());
     } else {
-      response = mindeeClient.parse(docClass, input, words);
+      response = mindeeClient.parse(docClass, inputSource, words);
     }
 
     if (outputType == OutputChoices.full) {

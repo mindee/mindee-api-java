@@ -1,6 +1,6 @@
 import com.mindee.MindeeClient;
 import com.mindee.MindeeClientInit;
-import com.mindee.DocumentToParse;
+import com.mindee.LocalInputSource;
 import com.mindee.parsing.common.Document;
 import com.mindee.parsing.common.Job;
 import com.mindee.parsing.common.PredictResponse;
@@ -23,11 +23,11 @@ public class SimpleMindeeClient {
     final int intervalSec = 6;
 
     MindeeClient mindeeClient = MindeeClientInit.create(apiKey);
-    DocumentToParse docToParse = new DocumentToParse(new File(filePath));
+    LocalInputSource inputSource = new LocalInputSource(new File(filePath));
 
     PredictResponse<InvoiceSplitterV1Inference> enqueueResponse = mindeeClient.enqueue(
         InvoiceSplitterV1Inference.class,
-        docToParse
+        inputSource
     );
 
     Optional<Job> jobOptional = enqueueResponse.getJob();
