@@ -1,6 +1,5 @@
 package com.mindee.http;
 
-import com.mindee.parsing.CustomEndpoint;
 import com.mindee.parsing.common.Inference;
 import com.mindee.parsing.common.PredictResponse;
 import java.io.IOException;
