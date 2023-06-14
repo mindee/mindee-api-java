@@ -1,6 +1,6 @@
 package com.mindee;
 
-import com.mindee.parsing.CustomEndpoint;
+import com.mindee.http.CustomEndpoint;
 import com.mindee.parsing.PageOptions;
 import com.mindee.parsing.PageOptionsOperation;
 import com.mindee.parsing.common.Document;

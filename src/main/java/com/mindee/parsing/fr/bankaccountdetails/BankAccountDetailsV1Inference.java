@@ -1,7 +1,7 @@
 package com.mindee.parsing.fr.bankaccountdetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.mindee.parsing.EndpointInfo;
+import com.mindee.http.EndpointInfo;
 import com.mindee.parsing.common.Inference;
 import lombok.Getter;
 
