@@ -1,8 +1,8 @@
 package com.mindee;
 
+import com.mindee.http.CustomEndpoint;
 import com.mindee.http.MindeeApi;
 import com.mindee.http.RequestParameters;
-import com.mindee.parsing.CustomEndpoint;
 import com.mindee.parsing.PageOptions;
 import com.mindee.parsing.common.Document;
 import com.mindee.parsing.common.Inference;
