@@ -1,4 +1,4 @@
-package com.mindee.parsing;
+package com.mindee.http;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

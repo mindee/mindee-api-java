@@ -2,6 +2,7 @@ package com.mindee.parsing;
 
 import com.mindee.LocalInputSource;
 import com.mindee.MindeeClient;
+import com.mindee.http.CustomEndpoint;
 import com.mindee.http.MindeeApi;
 import com.mindee.http.RequestParameters;
 import com.mindee.parsing.common.Document;
