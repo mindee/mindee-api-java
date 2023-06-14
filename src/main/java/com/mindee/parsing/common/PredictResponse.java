@@ -7,32 +7,25 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * Represent a predict response from Mindee API.
+ * Represent a `predict` response from Mindee API.
  *
  * @param <T> Set the prediction model used to parse the document. The response object will be
  *            instantiated based on this parameter.
  */
 @Data
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = true)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class PredictResponse<T extends Inference> {
-
+public class PredictResponse<T extends Inference> extends ApiResponse {
   /**
-   * Information from Mindee about the api request.
-   */
-  @JsonProperty("api_request")
-  ApiRequest apiRequest;
-
-  /**
-   * Set the prediction model used to parse the document. The response object will be instantiated
-   * based on this parameter.
+   * Set the prediction model used to parse the document.
+   * The response object will be instantiated based on this parameter.
    */
   @JsonProperty("document")
   Document<T> document;
-
-  /*
-   * Job details for the submitted job
+  /**
+   * Details for the submitted job.
    */
+  @JsonProperty("job")
   private Job job;
 
   public Optional<Job> getJob() {
