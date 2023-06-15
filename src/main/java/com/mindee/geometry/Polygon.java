@@ -18,4 +18,11 @@ public class Polygon {
   public Polygon(List<Point> coordinates) {
     this.coordinates = coordinates;
   }
+
+  /**
+   * Get the central coordinates (centroid) of the Polygon.
+   */
+  public Point getCentroid() {
+    return PolygonUtils.getCentroid(coordinates);
+  }
 }

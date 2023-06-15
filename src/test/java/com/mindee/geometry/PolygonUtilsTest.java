@@ -13,7 +13,7 @@ public class PolygonUtilsTest {
     Polygon polygonWichIsNotRectangle = PolygonSample.getPolygonAsRectangle();
 
     // then
-    Point centroid = PolygonUtils.getCentroid(polygonWichIsNotRectangle);
+    Point centroid = polygonWichIsNotRectangle.getCentroid();
 
     Assertions.assertEquals(new Point(0.149, 0.538),
         centroid);
@@ -30,6 +30,7 @@ public class PolygonUtilsTest {
     Assertions.assertEquals(0.175, maxX);
   }
 
+  @Test
   public void givenAValidPolygonMustGetTheMinX() {
     // given
     Polygon polygonWichIsNotRectangle = PolygonSample.getPolygonAsRectangle();
@@ -37,7 +38,7 @@ public class PolygonUtilsTest {
     // then
     Double minX = PolygonUtils.getMinXCoordinate(polygonWichIsNotRectangle);
 
-    Assertions.assertEquals(0.175, minX);
+    Assertions.assertEquals(0.123, minX);
   }
 
   @Test
