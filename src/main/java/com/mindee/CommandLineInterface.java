@@ -37,10 +37,10 @@ public class CommandLineInterface {
   CommandSpec spec;
 
   @Option(
-      names = {"-w", "--words"},
+      names = {"-w", "--all-words"},
       scope = ScopeType.INHERIT,
       paramLabel = "WORDS",
-      description = "Include words in response"
+      description = "Include all document words in the response"
   )
   private boolean words;
 
@@ -109,16 +109,22 @@ public class CommandLineInterface {
           description = "The name of the account"
       )
       String accountName,
-      @Parameters(index = "0", scope = ScopeType.LOCAL, paramLabel = "<productName>")
-      String productName,
-      @Parameters(index = "1", scope = ScopeType.LOCAL, paramLabel = "<path>")
+      @Option(
+        names = {"-e", "--endpointName"},
+        scope = ScopeType.LOCAL,
+        required = true,
+        paramLabel = "endpointName",
+        description = "The name of the endpoint"
+      )
+      String endpointName,
+      @Parameters(index = "0", scope = ScopeType.LOCAL, paramLabel = "<path>")
       File file
   ) throws IOException {
 
     MindeeClient mindeeClient = new MindeeClient(apiKey);
 
     Document<CustomV1Inference> document;
-    CustomEndpoint customEndpoint = new CustomEndpoint(productName, accountName, "1");
+    CustomEndpoint customEndpoint = new CustomEndpoint(endpointName, accountName, "1");
 
     if (cutDoc) {
       document = mindeeClient.parse(
