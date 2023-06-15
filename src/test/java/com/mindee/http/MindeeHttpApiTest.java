@@ -7,10 +7,10 @@ import static com.github.tomakehurst.wiremock.client.WireMock.postRequestedFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlMatching;
 import static org.hamcrest.MatcherAssert.assertThat;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.mindee.MindeeSettings;
+import com.mindee.parsing.common.AsyncPredictResponse;
 import com.mindee.parsing.common.Document;
 import com.mindee.parsing.common.PredictResponse;
 import com.mindee.product.invoice.InvoiceV4;
@@ -57,21 +57,26 @@ public class MindeeHttpApiTest extends TestCase {
 
     String url = String.format("http://localhost:%s", mockWebServer.getPort());
     Path path = Paths.get("src/test/resources/invoice/response_v4/complete.json");
-    mockWebServer.enqueue(new MockResponse()
-        .setResponseCode(200)
-        .setBody(new String(Files.readAllBytes(path))));
+    mockWebServer.enqueue(
+        new MockResponse()
+            .setResponseCode(200)
+            .setBody(
+                new String(Files.readAllBytes(path))
+            )
+    );
 
     File file = new File("src/test/resources/invoice/invoice.pdf");
     HttpClientBuilder httpClientBuilder = HttpClientBuilder.create().useSystemProperties();
 
     MindeeHttpApi client = MindeeHttpApi.builder().mindeeSettings(new MindeeSettings("abc", url))
         .build();
-    Document<InvoiceV4> document = client.predict(
+    Document<InvoiceV4> document = client.predictPost(
         InvoiceV4.class,
+        new Endpoint("", ""),
         RequestParameters.builder()
             .file(Files.readAllBytes(file.toPath()))
             .fileName(file.getName())
-            .build()).getDocument().get();
+            .build()).getDocument();
 
     Assertions.assertNotNull(document);
 
@@ -92,18 +97,20 @@ public class MindeeHttpApiTest extends TestCase {
     Path path = Paths.get("src/test/resources/invoice/response_v4/complete.json");
     mockWebServer.enqueue(new MockResponse()
         .setResponseCode(200)
-        .setBody(new String(Files.readAllBytes(path))));
+        .setBody(new String(Files.readAllBytes(path)))
+    );
 
     File file = new File("src/test/resources/invoice/invoice.pdf");
     byte[] fileBytes = Files.readAllBytes(file.toPath());
     MindeeHttpApi client = MindeeHttpApi.builder().mindeeSettings(new MindeeSettings("abc", url))
         .build();
-    Document<InvoiceV4> document = client.predict(
+    Document<InvoiceV4> document = client.predictPost(
         InvoiceV4.class,
+        new Endpoint("", ""),
         RequestParameters.builder()
             .file(fileBytes)
             .fileName(file.getName())
-            .build()).getDocument().get();
+            .build()).getDocument();
 
     RecordedRequest recordedRequest = mockWebServer.takeRequest();
     Assertions.assertEquals("abc", recordedRequest.getHeader("Authorization"));
@@ -119,17 +126,19 @@ public class MindeeHttpApiTest extends TestCase {
     Path path = Paths.get("src/test/resources/invoice/response_v4/complete.json");
     mockWebServer.enqueue(new MockResponse()
         .setResponseCode(200)
-        .setBody(new String(Files.readAllBytes(path))));
+        .setBody(new String(Files.readAllBytes(path)))
+    );
 
     MindeeHttpApi client = MindeeHttpApi.builder().mindeeSettings(new MindeeSettings("abc", url))
         .build();
-    Document<InvoiceV4> document = client.predict(
+    Document<InvoiceV4> document = client.predictPost(
         InvoiceV4.class,
+        new Endpoint("", ""),
         RequestParameters.builder()
             .file(null)
             .fileName(null)
             .urlInputSource(new URL("https://thisfile.does.not.exist"))
-            .build()).getDocument().get();
+            .build()).getDocument();
 
     RecordedRequest recordedRequest = mockWebServer.takeRequest();
 
@@ -151,7 +160,8 @@ public class MindeeHttpApiTest extends TestCase {
     Path path = Paths.get("src/test/resources/invoice/response_v4/complete.json");
     mockWebServer.enqueue(new MockResponse()
         .setResponseCode(200)
-        .setBody(new String(Files.readAllBytes(path))));
+        .setBody(new String(Files.readAllBytes(path)))
+    );
 
     File file = new File("src/test/resources/invoice/invoice.pdf");
 
@@ -160,12 +170,13 @@ public class MindeeHttpApiTest extends TestCase {
         .urlFromEndpoint(
             endpoint -> String.format("http://localhost:%s%s", mockWebServer.getPort(), mockPath))
         .build();
-    Document<InvoiceV4> document = client.predict(
+    Document<InvoiceV4> document = client.predictPost(
         InvoiceV4.class,
+        new Endpoint("", ""),
         RequestParameters.builder()
             .file(Files.readAllBytes(file.toPath()))
             .fileName(file.getName())
-            .build()).getDocument().get();
+            .build()).getDocument();
 
     Assertions.assertNotNull(document);
 
@@ -209,12 +220,13 @@ public class MindeeHttpApiTest extends TestCase {
         .mindeeSettings(new MindeeSettings("abc", url))
         .httpClientBuilder(httpclientBuilder)
         .build();
-    Document<InvoiceV4> document = client.predict(
+    Document<InvoiceV4> document = client.predictPost(
         InvoiceV4.class,
+        new Endpoint(InvoiceV4.class),
         RequestParameters.builder()
             .file(Files.readAllBytes(file.toPath()))
             .fileName(file.getName())
-            .build()).getDocument().get();
+            .build()).getDocument();
 
     Assertions.assertNotNull(document);
 
@@ -254,8 +266,9 @@ public class MindeeHttpApiTest extends TestCase {
 
     Assertions.assertThrows(
         MindeeException.class,
-        () -> client.predict(
+        () -> client.predictPost(
             InvoiceV4.class,
+            new Endpoint("", ""),
             parseParameter)
     );
   }
@@ -272,15 +285,16 @@ public class MindeeHttpApiTest extends TestCase {
 
     MindeeHttpApi client = MindeeHttpApi.builder().mindeeSettings(new MindeeSettings("abc", url))
         .build();
-    PredictResponse<InvoiceSplitterV1> invoiceSplitterV1Inference = client.checkJobStatus(
+    AsyncPredictResponse<InvoiceSplitterV1> invoiceSplitterV1Inference = client.documentQueueGet(
         InvoiceSplitterV1.class,
+        new Endpoint(InvoiceSplitterV1.class),
         "2134e243244");
 
     Assertions.assertNotNull(invoiceSplitterV1Inference);
-    Assertions.assertEquals("completed", invoiceSplitterV1Inference.getJob().get().getStatus());
+    Assertions.assertEquals("completed", invoiceSplitterV1Inference.getJob().getStatus());
     Assertions.assertTrue(invoiceSplitterV1Inference.getDocument().isPresent());
 
-    Assert.assertTrue(invoiceSplitterV1Inference.getJob().isPresent());
+    Assert.assertNotNull(invoiceSplitterV1Inference.getJob());
     RecordedRequest recordedRequest = mockWebServer.takeRequest();
 
     Assertions.assertEquals("abc", recordedRequest.getHeader("Authorization"));

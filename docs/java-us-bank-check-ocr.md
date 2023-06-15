@@ -11,7 +11,7 @@ public class SimpleMindeeClient {
     LocalInputSource localInputSource = new LocalInputSource(
         new File("./path/to/the/file.ext")
     );
-    Document<BankCheckV1> document = mindeeClient.parse(
+    PredictResponse<BankCheckV1> document = mindeeClient.parse(
         BankCheckV1.class, localInputSource
     );
 

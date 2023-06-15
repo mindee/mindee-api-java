@@ -15,7 +15,7 @@ public class SimpleMindeeClient {
     LocalInputSource localInputSource = new LocalInputSource(
         new File("./4a16b1d-passport_pic.jpg")
     );
-    Document<PassportV1> document = mindeeClient.parse(
+    PredictResponse<PassportV1> document = mindeeClient.parse(
         PassportV1.class, localInputSource
     );
 

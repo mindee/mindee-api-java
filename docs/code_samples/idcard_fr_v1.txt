@@ -1,6 +1,6 @@
 import com.mindee.MindeeClient;
 import com.mindee.input.LocalInputSource;
-import com.mindee.parsing.common.Document;
+import com.mindee.parsing.common.PredictResponse;
 import com.mindee.product.fr.idcard.IdCardV1;
 import java.io.File;
 import java.io.IOException;
@@ -14,12 +14,12 @@ public class SimpleMindeeClient {
     MindeeClient mindeeClient = new MindeeClient(apiKey);
     LocalInputSource inputSource = new LocalInputSource(new File(filePath));
 
-    Document<IdCardV1> documentParsed = mindeeClient.parse(
+    PredictResponse<IdCardV1> response = mindeeClient.parse(
       IdCardV1.class,
       inputSource
     );
 
-    System.out.println(documentParsed.toString());
+    System.out.println(response.getDocument().toString());
   }
 
 }
