@@ -1,5 +1,4 @@
 import com.mindee.MindeeClient;
-import com.mindee.MindeeClientInit;
 import com.mindee.input.LocalInputSource;
 import com.mindee.parsing.common.Document;
 import com.mindee.parsing.common.Job;
@@ -22,7 +21,7 @@ public class SimpleMindeeClient {
     // Wait this many seconds between each try
     final int intervalSec = 6;
 
-    MindeeClient mindeeClient = MindeeClientInit.create(apiKey);
+    MindeeClient mindeeClient = new MindeeClient(apiKey);
     LocalInputSource inputSource = new LocalInputSource(new File(filePath));
 
     PredictResponse<InvoiceSplitterV1Inference> enqueueResponse = mindeeClient.enqueue(

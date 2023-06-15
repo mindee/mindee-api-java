@@ -248,7 +248,7 @@ public final class MindeeHttpApi implements MindeeApi {
   }
 
   private HttpEntity buildHttpBody(RequestParameters requestParameters)
-      throws JsonProcessingException, UnsupportedEncodingException {
+      throws JsonProcessingException {
     if (requestParameters.getFile() != null) {
       MultipartEntityBuilder builder = MultipartEntityBuilder.create();
       builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
@@ -271,7 +271,6 @@ public final class MindeeHttpApi implements MindeeApi {
     } else {
       throw new MindeeException("Either document bytes or a document url are needed");
     }
-
   }
 
   private <DocT extends Inference> CustomEndpoint customEndpointFromClass(
