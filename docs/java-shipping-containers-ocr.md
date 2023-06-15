@@ -5,19 +5,23 @@ Using this [sample](https://files.readme.io/853f15a-shipping_containers.jpg) bel
 
 ## Quick Start
 ```java
-// Init a new client
-MindeeClient client = MindeeClientInit.create("<your mindee api key>");
+public class SimpleMindeeClient {
+  public static void main(String[] args) throws IOException {
+    // Init a new client
+    MindeeClient client = new MindeeClient("<your mindee api key>");
 
-// Load a file from disk and parse it
-LocalInputSource localInputSource = new LocalInputSource(
-  new File("./853f15a-shipping_containers.jpg")
-);
-Document<ShippingContainerV1Inference> document = mindeeClient.parse(
-  ShippingContainerV1Inference.class, localInputSource
-);
+    // Load a file from disk and parse it
+    LocalInputSource localInputSource = new LocalInputSource(
+        new File("./853f15a-shipping_containers.jpg")
+    );
+    Document<ShippingContainerV1Inference> document = mindeeClient.parse(
+        ShippingContainerV1Inference.class, localInputSource
+    );
 
-// Print a summary of the parsed data
-logger.info(document.toString());
+    // Print a summary of the parsed data
+    logger.info(document.toString());
+  }
+}
 ```
 
 Output:
