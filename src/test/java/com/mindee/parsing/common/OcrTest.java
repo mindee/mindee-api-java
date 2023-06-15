@@ -26,7 +26,7 @@ public class OcrTest {
       new File("src/test/resources/ocr/complete_with_ocr.json"),
       type);
 
-    return prediction.getDocument().get().getOcr();
+    return prediction.getDocument().getOcr();
   }
 
   @Test

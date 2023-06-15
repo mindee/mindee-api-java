@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.stream.Collectors;
 import lombok.Getter;
 
-
 /**
  * Common inference data.
  *

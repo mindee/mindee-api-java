@@ -1,11 +1,12 @@
 package com.mindee;
 
-import com.mindee.http.CustomEndpoint;
+import com.mindee.http.Endpoint;
 import com.mindee.input.LocalInputSource;
 import com.mindee.input.PageOptions;
 import com.mindee.input.PageOptionsOperation;
 import com.mindee.parsing.common.Document;
 import com.mindee.parsing.common.Inference;
+import com.mindee.parsing.common.PredictResponse;
 import com.mindee.product.custom.CustomV1;
 import com.mindee.product.invoice.InvoiceV4;
 import com.mindee.product.passport.PassportV1;
@@ -123,18 +124,18 @@ public class CommandLineInterface {
 
     MindeeClient mindeeClient = new MindeeClient(apiKey);
 
-    Document<CustomV1> document;
-    CustomEndpoint customEndpoint = new CustomEndpoint(endpointName, accountName, "1");
+    PredictResponse<CustomV1> document;
+    Endpoint endpoint = new Endpoint(endpointName, accountName, "1");
 
     if (cutDoc) {
       document = mindeeClient.parse(
         new LocalInputSource(file),
-        customEndpoint,
+        endpoint,
         getDefaultPageOptions());
     } else {
       document = mindeeClient.parse(
         new LocalInputSource(file),
-        customEndpoint);
+        endpoint);
     }
     System.out.println(document.toString());
   }
@@ -157,7 +158,7 @@ public class CommandLineInterface {
   ) throws IOException {
     MindeeClient mindeeClient = new MindeeClient(apiKey);
     LocalInputSource inputSource = new LocalInputSource(file);
-    Document<T> response;
+    PredictResponse<T> response;
     if (cutDoc) {
       response = mindeeClient.parse(docClass, inputSource, words, getDefaultPageOptions());
     } else {
@@ -167,6 +168,7 @@ public class CommandLineInterface {
     if (outputType == OutputChoices.full) {
       return response.toString();
     }
-    return response.getInference().getPrediction().toString();
+    Document<T> document = response.getDocument();
+    return document.getInference().getPrediction().toString();
   }
 }

@@ -35,7 +35,7 @@ public class ReceiptV5Test {
   @Test
   void whenDeserialized_mustHaveValidDocumentSummary() throws IOException {
     PredictResponse<ReceiptV5> prediction = getPrediction();
-    Document<ReceiptV5> doc = prediction.getDocument().get();
+    Document<ReceiptV5> doc = prediction.getDocument();
     String[] actualLines = doc.toString().split(System.lineSeparator());
     List<String> expectedLines = Files.readAllLines(
       Paths.get("src/test/resources/receipt/response_v5/summary_full.rst")
@@ -49,7 +49,7 @@ public class ReceiptV5Test {
   @Test
   void whenDeserialized_mustHaveValidPage0Summary() throws IOException {
     PredictResponse<ReceiptV5> prediction = getPrediction();
-    Page<ReceiptV5Document> page = prediction.getDocument().get().getInference().getPages().get(0);
+    Page<ReceiptV5Document> page = prediction.getDocument().getInference().getPages().get(0);
     String[] actualLines = page.toString().split(System.lineSeparator());
     List<String> expectedLines = Files.readAllLines(
       Paths.get("src/test/resources/receipt/response_v5/summary_page0.rst")

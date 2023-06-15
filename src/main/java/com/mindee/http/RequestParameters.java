@@ -14,7 +14,6 @@ public class RequestParameters {
   byte[] file;
   Boolean allWords;
   String fileName;
-  Boolean asyncCall;
 
   @Builder
   private RequestParameters(
@@ -34,12 +33,6 @@ public class RequestParameters {
     }
     this.fileUrl = urlInputSource;
     this.file = file;
-
     this.fileName = fileName;
-    if (asyncCall == null) {
-      this.asyncCall = Boolean.FALSE;
-    } else {
-      this.asyncCall = asyncCall;
-    }
   }
 }

@@ -30,7 +30,7 @@ class CustomV1WithLineItemsTest {
 
     LineItems lineItems = LineItemsGenerator.generate(
       Arrays.asList("beneficiary_birth_date", "beneficiary_number", "beneficiary_name", "beneficiary_rank"),
-      customDocumentInference.getDocument().get().getInference().getPrediction().getFields(),
+      customDocumentInference.getDocument().getInference().getPrediction().getFields(),
       new Anchor("beneficiary_name", 0.011d)
     );
 

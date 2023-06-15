@@ -111,7 +111,7 @@ To Configure a `MindeeClient` to use a proxy, the following code can be referenc
 ```java
 
 import com.mindee.parsing;
-import com.mindee.parsing.invoice;
+import com.mindee.product.invoice.InvoiceV4;
 
 // you can also configure things like caching, custom HTTPS certs,
 // timeouts and connection pool sizes here.
@@ -129,7 +129,7 @@ MindeeHttpApi mindeeHttpApi = MindeeHttpApi.builder()
 
 MindeeClient mindeeClient = new MindeeClient(mindeeHttpApi);
 
-Document<InvoiceV4> invoiceDocument=mindeeClient.parse(
+PredictResponse<InvoiceV4> invoiceDocument=mindeeClient.parse(
     InvoiceV4.class,
     LocalInputSource
 );
@@ -193,7 +193,7 @@ MindeeClient mindeeClient = new MindeeClient("my-api-key");
 
 URL documentUrl = new URL("https://path/to/document");
 
-Document<InvoiceV4> invoiceDocument = mindeeClient.parse(InvoiceV4.class, documentUrl);
+PredictResponse<InvoiceV4> invoiceDocument = mindeeClient.parse(InvoiceV4.class, documentUrl);
 ```
 
 ### Parsing a Document
@@ -211,7 +211,7 @@ This is detailed in each document-specific guide.
 Simply setting the correct class is enough:
 ```java
 // After the document has been loaded
-Document<ReceiptV4> receiptV4Inference = mindeeClient.parse(ReceiptV4.class, localInputSource);
+PredictResponse<ReceiptV4> receiptV4Inference = mindeeClient.parse(ReceiptV4.class, localInputSource);
 ```
 
 For more finer grained control over parsing the documents you can have a look on the `parse` override method.
@@ -230,7 +230,7 @@ CustomEndpoint endpoint = new CustomEndpoint(
     "1.0" // optional
 );
 
-Document<CustomV1> customDocument = mindeeClient.parse(localInputSource, endpoint);
+PredictResponse<CustomV1> customDocument = mindeeClient.parse(localInputSource, endpoint);
 ```
 
 The second one is using your own class.
@@ -251,7 +251,7 @@ It's possible to have the same field in various pages, but at the document level
 will be shown (this is all done automatically at the API level).
 
 ```java
-Document<InvoiceV4> invoiceDocument = documentClient.parse(InvoiceV4.class, localInputSource);
+PredictResponse<InvoiceV4> invoiceDocument = documentClient.parse(InvoiceV4.class, localInputSource);
 
 // print the complete object
 logger.info(invoiceDocument.toString());
