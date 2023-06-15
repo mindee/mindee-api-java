@@ -2,9 +2,7 @@ package com.mindee.parsing.custom.lineitems;
 
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-
 import com.mindee.geometry.Point;
 import com.mindee.geometry.Polygon;
 import com.mindee.parsing.custom.ListField;

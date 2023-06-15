@@ -1,6 +1,6 @@
 package com.mindee.pdf;
 
-import com.mindee.parsing.PageOptions;
+import com.mindee.input.PageOptions;
 import lombok.Value;
 
 /**
