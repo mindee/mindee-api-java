@@ -12,13 +12,13 @@ import lombok.Getter;
 @Getter
 @EqualsAndHashCode
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Document<T extends Inference> {
+public class Document<DocT extends Inference> {
 
   /**
    * Define the inference model of values.
    */
   @JsonProperty("inference")
-  private T inference;
+  private DocT inference;
   /**
    * The original file name of the parsed document.
    */

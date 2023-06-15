@@ -1,13 +1,13 @@
 package com.mindee;
 
-import com.mindee.http.CustomEndpoint;
+import com.mindee.http.Endpoint;
 import com.mindee.http.MindeeApi;
 import com.mindee.http.MindeeHttpApi;
 import com.mindee.http.RequestParameters;
 import com.mindee.input.InputSourceUtils;
 import com.mindee.input.LocalInputSource;
 import com.mindee.input.PageOptions;
-import com.mindee.parsing.common.Document;
+import com.mindee.parsing.common.AsyncPredictResponse;
 import com.mindee.parsing.common.Inference;
 import com.mindee.parsing.common.PredictResponse;
 import com.mindee.pdf.PdfBoxApi;
@@ -75,17 +75,26 @@ public class MindeeClient {
       .build();
   }
 
-  public <T extends Inference> PredictResponse<T> parseQueued(Class<T> type, String jobId) {
-    return this.mindeeApi.checkJobStatus(type, jobId);
+  public <T extends Inference> AsyncPredictResponse<T> parseQueued(Class<T> type, String jobId) {
+    return this.mindeeApi.documentQueueGet(
+        type,
+        new Endpoint(type),
+        jobId
+    );
   }
 
-  public <T extends Inference> PredictResponse<T> enqueue(Class<T> type, LocalInputSource localInputSource)
+  public <T extends Inference> AsyncPredictResponse<T> enqueue(Class<T> type, LocalInputSource localInputSource)
       throws IOException {
-    return this.enqueue(type, localInputSource.getFile(), localInputSource.getFilename(),
-        Boolean.FALSE, null);
+    return this.enqueue(
+        type,
+        new Endpoint(type),
+        localInputSource.getFile(),
+        localInputSource.getFilename(),
+        Boolean.FALSE,
+        null);
   }
 
-  public <T extends Inference> PredictResponse<T> enqueue(
+  public <T extends Inference> AsyncPredictResponse<T> enqueue(
       Class<T> type,
       LocalInputSource localInputSource,
       boolean allWords,
@@ -93,6 +102,7 @@ public class MindeeClient {
   ) throws IOException {
     return this.enqueue(
         type,
+        new Endpoint(type),
         getSplitFile(localInputSource, pageOptions),
         localInputSource.getFilename(),
         allWords,
@@ -100,140 +110,168 @@ public class MindeeClient {
     );
   }
 
-  public <T extends Inference> PredictResponse<T> enqueue(
+  public <T extends Inference> AsyncPredictResponse<T> enqueue(
       Class<T> type,
       URL sourceUrl
   ) throws IOException {
     InputSourceUtils.validateUrl(sourceUrl);
-    return this.enqueue(type, null,
-        null, Boolean.FALSE, sourceUrl);
+    return this.enqueue(
+        type,
+        new Endpoint(type),
+        null,
+        null,
+        Boolean.FALSE,
+        sourceUrl
+    );
   }
 
-  private <T extends Inference> PredictResponse<T> enqueue(
+  private <T extends Inference> AsyncPredictResponse<T> enqueue(
       Class<T> type,
+      Endpoint endpoint,
       byte[] file,
       String filename,
       boolean allWords,
       URL urlInputSource
   ) throws IOException {
-    return this.mindeeApi.predict(
-            type,
-            RequestParameters.builder()
-                .file(file)
-                .fileName(filename)
-                .allWords(allWords)
-                .urlInputSource(urlInputSource)
-                .asyncCall(Boolean.TRUE)
-                .build());
+    RequestParameters params = RequestParameters.builder()
+        .file(file)
+        .fileName(filename)
+        .allWords(allWords)
+        .urlInputSource(urlInputSource)
+        .build();
+    return this.mindeeApi.predictAsyncPost(type, endpoint, params);
   }
 
-  public <T extends Inference> Document<T> parse(
+  public <T extends Inference> PredictResponse<T> parse(
       Class<T> type,
       LocalInputSource localInputSource
   ) throws IOException {
-    return this.parse(type, localInputSource.getFile(), localInputSource.getFilename(), false, null);
+    return this.parse(
+        type,
+        new Endpoint(type),
+        localInputSource.getFile(),
+        localInputSource.getFilename(),
+        false,
+        null
+    );
   }
 
-  public <T extends Inference> Document<T> parse(
+  public <T extends Inference> PredictResponse<T> parse(
       Class<T> type,
       LocalInputSource localInputSource,
       boolean allWords
   ) throws IOException {
-    return this.parse(type, localInputSource.getFile(), localInputSource.getFilename(), allWords,
-        null);
+    return this.parse(
+        type,
+        new Endpoint(type),
+        localInputSource.getFile(),
+        localInputSource.getFilename(),
+        allWords,
+        null
+    );
   }
 
-  public <T extends Inference> Document<T> parse(
+  public <T extends Inference> PredictResponse<T> parse(
       Class<T> type,
       LocalInputSource localInputSource,
       PageOptions pageOptions
   ) throws IOException {
-    return this.parse(type, getSplitFile(localInputSource, pageOptions),
-        localInputSource.getFilename(), false, null);
+    return this.parse(
+        type,
+        new Endpoint(type),
+        getSplitFile(localInputSource, pageOptions),
+        localInputSource.getFilename(),
+        false,
+        null
+    );
   }
 
-  public <T extends Inference> Document<T> parse(
+  public <T extends Inference> PredictResponse<T> parse(
       Class<T> type,
       LocalInputSource localInputSource,
       boolean allWords,
       PageOptions pageOptions
   ) throws IOException {
-    return this.parse(type, getSplitFile(localInputSource, pageOptions),
-        localInputSource.getFilename(), allWords, null);
+    return this.parse(
+        type,
+        new Endpoint(type),
+        getSplitFile(localInputSource, pageOptions),
+        localInputSource.getFilename(),
+        allWords,
+        null
+    );
   }
 
-  public <T extends Inference> Document<T> parse(
+  public <T extends Inference> PredictResponse<T> parse(
       Class<T> type,
       URL urlInputSource
   ) throws IOException {
     InputSourceUtils.validateUrl(urlInputSource);
-    return this.parse(type, null, null, false, urlInputSource);
+    return this.parse(type, new Endpoint(type),null, null, false, urlInputSource);
   }
 
-  private <T extends Inference> Document<T> parse(
+  private <T extends Inference> PredictResponse<T> parse(
       Class<T> type,
+      Endpoint endpoint,
       byte[] file,
       String filename,
       boolean allWords,
       URL urlInputSource
   ) throws IOException {
-    return this.mindeeApi.predict(
-            type,
-            RequestParameters.builder()
-                .file(file)
-                .fileName(filename)
-                .allWords(allWords)
-                .urlInputSource(urlInputSource)
-                .build()).getDocument()
-        .orElseThrow(() -> new MindeeException("No Document Returned by endpoint"));
+    RequestParameters params = RequestParameters.builder()
+        .file(file)
+        .fileName(filename)
+        .allWords(allWords)
+        .urlInputSource(urlInputSource)
+        .build();
+    return this.mindeeApi.predictPost(type, endpoint, params);
   }
 
-  public Document<CustomV1> parse(
+  public PredictResponse<CustomV1> parse(
       LocalInputSource localInputSource,
-      CustomEndpoint customEndpoint
+      Endpoint endpoint
   ) throws IOException {
     return this.parse(
         localInputSource.getFile(),
         localInputSource.getFilename(),
-        customEndpoint,
+      endpoint,
         null);
   }
 
-  public Document<CustomV1> parse(
+  public PredictResponse<CustomV1> parse(
       URL documentUrl,
-      CustomEndpoint customEndpoint
+      Endpoint endpoint
   ) throws IOException {
     InputSourceUtils.validateUrl(documentUrl);
-    return this.parse(null, null, customEndpoint, documentUrl);
+    return this.parse(null, null, endpoint, documentUrl);
   }
 
-  public Document<CustomV1> parse(
+  public PredictResponse<CustomV1> parse(
       LocalInputSource localInputSource,
-      CustomEndpoint customEndpoint,
+      Endpoint endpoint,
       PageOptions pageOptions
   ) throws IOException {
     return this.parse(
         getSplitFile(localInputSource, pageOptions),
         localInputSource.getFilename(),
-        customEndpoint, null
+      endpoint, null
     );
   }
 
-  private Document<CustomV1> parse(
+  private PredictResponse<CustomV1> parse(
       byte[] file,
       String filename,
-      CustomEndpoint customEndpoint,
+      Endpoint endpoint,
       URL urlInputSource
   ) throws IOException {
-    return this.mindeeApi.predict(
+    return this.mindeeApi.predictPost(
             CustomV1.class,
-            customEndpoint,
+      endpoint,
             RequestParameters.builder()
                 .file(file)
                 .fileName(filename)
                 .urlInputSource(urlInputSource)
-                .build()).getDocument()
-        .orElseThrow(() -> new MindeeException("No Document Returned by endpoint"));
+                .build());
   }
 
   private byte[] getSplitFile(
@@ -251,4 +289,5 @@ public class MindeeClient {
     }
     return splitFile;
   }
+
 }

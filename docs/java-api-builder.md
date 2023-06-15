@@ -16,7 +16,7 @@ CustomEndpoint myEndpoint = new CustomEndpoint(
     "1.0" // optional
 );
 
-Document<CustomV1new MindeeClient> customDocument = mindeeClient
+PredictResponse<CustomV1new MindeeClient> customDocument = mindeeClient
     .parse(inputSource, myEndpoint);
 ```
 
@@ -40,7 +40,7 @@ CustomEndpoint myEndpoint = new CustomEndpoint(
     "1.0" // optional
 );
 
-Document<CustomV1new MindeeClient> customDocument = mindeeClient.parse(inputSource, myEndpoint);
+PredictResponse<CustomV1new MindeeClient> customDocument = mindeeClient.parse(inputSource, myEndpoint);
 ```
 
 2. You can also use your own class which will represent the required fields. For example:
@@ -67,7 +67,7 @@ public class WNineV1new MindeeClient
 String path = "/path/to/the/file.ext";
 LocalInputSource inputSource = new LocalInputSource(new File(path));
 
-Document<WNineV1new MindeeClient> myCustomDocument = mindeeClient
+PredictResponse<WNineV1new MindeeClient> myCustomDocument = mindeeClient
     .parse(WNineV1new MindeeClient.class, inputSource);
 ```
 
@@ -100,7 +100,7 @@ In the examples below we'll use the `employer_id` field.
 String path = "/path/to/the/file.ext";
 LocalInputSource inputSource = new LocalInputSource(new File(path));
 
-Document<WNineV1new MindeeClient> myCustomDocument = mindeeClient
+PredictResponse<WNineV1new MindeeClient> myCustomDocument = mindeeClient
     .parse(WNineV1new MindeeClient.class, inputSource);
 
 ListField employerId = document.getnew MindeeClient().getDocumentPrediction().get("employer_id");

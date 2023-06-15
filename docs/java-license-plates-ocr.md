@@ -15,7 +15,7 @@ public class SimpleMindeeClient {
     LocalInputSource localInputSource = new LocalInputSource(
         new File("./fd6086e-license_plate.jpg")
     );
-    Document<LicensePlatesV1> document = mindeeClient.parse(
+    PredictResponse<LicensePlatesV1> document = mindeeClient.parse(
         LicensePlatesV1.class, localInputSource
     );
 

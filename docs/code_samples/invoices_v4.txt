@@ -1,6 +1,6 @@
 import com.mindee.MindeeClient;
 import com.mindee.input.LocalInputSource;
-import com.mindee.parsing.common.Document;
+import com.mindee.parsing.common.PredictResponse;
 import com.mindee.product.invoice.InvoiceV4;
 import java.io.File;
 import java.io.IOException;
@@ -14,12 +14,12 @@ public class SimpleMindeeClient {
     MindeeClient mindeeClient = new MindeeClient(apiKey);
     LocalInputSource inputSource = new LocalInputSource(new File(filePath));
 
-    Document<InvoiceV4> documentParsed = mindeeClient.parse(
+    PredictResponse<InvoiceV4> response = mindeeClient.parse(
       InvoiceV4.class,
       inputSource
     );
 
-    System.out.println(documentParsed.toString());
+    System.out.println(response.getDocument().toString());
   }
 
 }
