@@ -1,5 +1,4 @@
 import com.mindee.MindeeClient;
-import com.mindee.MindeeClientInit;
 import com.mindee.input.LocalInputSource;
 import com.mindee.parsing.common.Document;
 import com.mindee.product.shippingcontainer.ShippingContainerV1Inference;
@@ -12,7 +11,7 @@ public class SimpleMindeeClient {
     String apiKey = "my-api-key";
     String filePath = "/path/to/the/file.ext";
 
-    MindeeClient mindeeClient = MindeeClientInit.create(apiKey);
+    MindeeClient mindeeClient = new MindeeClient(apiKey);
     LocalInputSource inputSource = new LocalInputSource(new File(filePath));
 
     Document<ShippingContainerV1Inference> documentParsed = mindeeClient.parse(

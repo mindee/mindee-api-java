@@ -115,7 +115,7 @@ public class CommandLineInterface {
       File file
   ) throws IOException {
 
-    MindeeClient mindeeClient = MindeeClientInit.create(apiKey);
+    MindeeClient mindeeClient = new MindeeClient(apiKey);
 
     Document<CustomV1Inference> document;
     CustomEndpoint customEndpoint = new CustomEndpoint(productName, accountName, "1");
@@ -149,7 +149,7 @@ public class CommandLineInterface {
       Class<T> docClass,
       File file
   ) throws IOException {
-    MindeeClient mindeeClient = MindeeClientInit.create(apiKey);
+    MindeeClient mindeeClient = new MindeeClient(apiKey);
     LocalInputSource inputSource = new LocalInputSource(file);
     Document<T> response;
     if (cutDoc) {
