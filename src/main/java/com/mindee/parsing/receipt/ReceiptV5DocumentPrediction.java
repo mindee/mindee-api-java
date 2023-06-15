@@ -18,7 +18,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 /**
- * Document data for Receipt, API version 5.
+ * Document data for Expense Receipt, API version 5.
  */
 @Getter
 @EqualsAndHashCode
@@ -26,7 +26,7 @@ import lombok.Getter;
 public class ReceiptV5DocumentPrediction {
 
   /**
-   * The receipt category among predefined classes.
+   * The purchase category among predefined classes.
    */
   @JsonProperty("category")
   private ClassificationField category;
@@ -36,32 +36,32 @@ public class ReceiptV5DocumentPrediction {
   @JsonProperty("date")
   private DateField date;
   /**
-   * The receipt document type provides the information whether the document is an expense receipt or a credit card receipt.
+   * One of: 'CREDIT CARD RECEIPT', 'EXPENSE RECEIPT'.
    */
   @JsonProperty("document_type")
   private ClassificationField documentType;
   /**
-   * Full extraction of lines, including: description, quantity, unit price and total.
+   * List of line item details.
    */
   @JsonProperty("line_items")
   private List<ReceiptV5LineItem> lineItems = new ArrayList<>();
   /**
-   * The locale identifier in BCP 47 (RFC 5646) format: ISO language code, '-', ISO country code.
+   * The locale detected on the document.
    */
   @JsonProperty("locale")
   private LocaleField locale;
   /**
-   * The receipt sub category among predefined classes for transport and food.
+   * The purchase subcategory among predefined classes for transport and food.
    */
   @JsonProperty("subcategory")
   private ClassificationField subcategory;
   /**
-   * The address of the supplier or merchant returned as a single string.
+   * The address of the supplier or merchant.
    */
   @JsonProperty("supplier_address")
   private StringField supplierAddress;
   /**
-   * List of supplier company registrations or identifiers.
+   * List of company registrations associated to the supplier.
    */
   @JsonProperty("supplier_company_registrations")
   private List<CompanyRegistrationField> supplierCompanyRegistrations = new ArrayList<>();
@@ -71,18 +71,18 @@ public class ReceiptV5DocumentPrediction {
   @JsonProperty("supplier_name")
   private StringField supplierName;
   /**
-   * The Phone number of the supplier or merchant returned as a single string.
+   * The phone number of the supplier or merchant.
    */
   @JsonProperty("supplier_phone_number")
   private StringField supplierPhoneNumber;
   /**
-   * List of tax lines information including: Amount, tax rate, tax base amount and tax code.
+   * List of tax lines information.
    */
   @JsonProperty("taxes")
   @JsonDeserialize(using = TaxesDeserializer.class)
   private Taxes taxes;
   /**
-   * Time of purchase with 24 hours formatting (HH:MM).
+   * The time the purchase was made.
    */
   @JsonProperty("time")
   private StringField time;
@@ -92,12 +92,12 @@ public class ReceiptV5DocumentPrediction {
   @JsonProperty("tip")
   private AmountField tip;
   /**
-   * The total amount paid including taxes, discounts, fees, tips, and gratuity.
+   * The total amount paid: includes taxes, discounts, fees, tips, and gratuity.
    */
   @JsonProperty("total_amount")
   private AmountField totalAmount;
   /**
-   * The total amount excluding taxes.
+   * The net amount paid: does not include taxes, fees, and discounts.
    */
   @JsonProperty("total_net")
   private AmountField totalNet;
@@ -115,10 +115,10 @@ public class ReceiptV5DocumentPrediction {
         String.format(":Expense Locale: %s%n", this.getLocale())
     );
     outStr.append(
-        String.format(":Expense Category: %s%n", this.getCategory())
+        String.format(":Purchase Category: %s%n", this.getCategory())
     );
     outStr.append(
-        String.format(":Expense Sub Category: %s%n", this.getSubcategory())
+        String.format(":Purchase Subcategory: %s%n", this.getSubcategory())
     );
     outStr.append(
         String.format(":Document Type: %s%n", this.getDocumentType())
@@ -133,7 +133,7 @@ public class ReceiptV5DocumentPrediction {
         String.format(":Total Amount: %s%n", this.getTotalAmount())
     );
     outStr.append(
-        String.format(":Total Excluding Taxes: %s%n", this.getTotalNet())
+        String.format(":Total Net: %s%n", this.getTotalNet())
     );
     outStr.append(
         String.format(":Total Tax: %s%n", this.getTotalTax())

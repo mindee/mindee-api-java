@@ -22,12 +22,12 @@ public class InvoiceSplitterV1Test {
     JavaType type = objectMapper.getTypeFactory().constructParametricType(PredictResponse.class,
         InvoiceSplitterV1Inference.class);
     PredictResponse<InvoiceSplitterV1Inference> splitterPrediction = objectMapper.readValue(
-        new File("src/test/resources/invoice_splitter/response_v1/2_invoices_response.json"),
+        new File("src/test/resources/invoice_splitter/response_v1/complete.json"),
         type);
 
     String[] actualLines = splitterPrediction.getDocument().get().toString().split(System.lineSeparator());
     List<String> expectedLines = Files
-        .readAllLines(Paths.get("src/test/resources/invoice_splitter/response_v1/2_invoices_summary.rst"));
+        .readAllLines(Paths.get("src/test/resources/invoice_splitter/response_v1/summary_full.rst"));
     String expectedSummary = String.join(String.format("%n"), expectedLines);
     String actualSummary = String.join(String.format("%n"), actualLines);
 
