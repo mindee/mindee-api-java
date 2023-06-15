@@ -20,6 +20,7 @@ public class SimpleMindeeClient {
     // Wait this many seconds between each try
     final int intervalSec = 6;
 
+    // Init a new client
     MindeeClient mindeeClient = new MindeeClient(apiKey);
     LocalInputSource inputSource = new LocalInputSource(new File(filePath));
 

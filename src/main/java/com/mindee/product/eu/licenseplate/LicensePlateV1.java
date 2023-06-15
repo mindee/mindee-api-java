@@ -6,8 +6,8 @@ import com.mindee.parsing.common.Inference;
 import lombok.Getter;
 
 /**
-* The definition for license_plates v1.
-*/
+ * The definition for license_plates v1.
+ */
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
 @EndpointInfo(endpointName = "license_plates", version = "1")

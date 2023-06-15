@@ -19,84 +19,94 @@ import lombok.Getter;
 public class IdCardV1Document {
 
   /**
-   * The identification card number.
+   * The name of the issuing authority.
    */
-  @JsonProperty("id_number")
-  private StringField idNumber;
-
+  @JsonProperty("authority")
+  private StringField authority;
+  /**
+   * The date of birth of the card holder.
+   */
+  @JsonProperty("birth_date")
+  private DateField birthDate;
+  /**
+   * The place of birth of the card holder.
+   */
+  @JsonProperty("birth_place")
+  private StringField birthPlace;
+  /**
+   * The expiry date of the identification card.
+   */
+  @JsonProperty("expiry_date")
+  private DateField expiryDate;
+  /**
+   * The gender of the card holder.
+   */
+  @JsonProperty("gender")
+  private StringField gender;
   /**
    * The given name(s) of the card holder.
    */
   @JsonProperty("given_names")
   private List<StringField> givenNames = new ArrayList<>();
-
+  /**
+   * The identification card number.
+   */
+  @JsonProperty("id_number")
+  private StringField idNumber;
+  /**
+   * Machine Readable Zone, first line
+   */
+  @JsonProperty("mrz1")
+  private StringField mrz1;
+  /**
+   * Machine Readable Zone, second line
+   */
+  @JsonProperty("mrz2")
+  private StringField mrz2;
   /**
    * The surname of the card holder.
    */
   @JsonProperty("surname")
   private StringField surname;
 
-  /**
-   * The date of birth of the card holder.
-   */
-  @JsonProperty("birth_date")
-  private DateField birthDate;
-
-  /**
-   * The place of birth of the card holder.
-   */
-  @JsonProperty("birth_place")
-  private StringField birthPlace;
-
-  /**
-   * The expiry date of the identification card.
-   */
-  @JsonProperty("expiry_date")
-  private DateField expiryDate;
-
-  /**
-   * The name of the issuing authority.
-   */
-  @JsonProperty("authority")
-  private StringField authority;
-
-  /**
-   * The gender of the card holder.
-   */
-  @JsonProperty("gender")
-  private StringField gender;
-
-  /**
-   * Machine Readable Zone, first line
-   */
-  @JsonProperty("mrz1")
-  private StringField mrz1;
-
-  /**
-   * Machine Readable Zone, second line
-   */
-  @JsonProperty("mrz2")
-  private StringField mrz2;
-
   @Override
   public String toString() {
-    String summary =
+    StringBuilder outStr = new StringBuilder();
+
+    outStr.append(
         String.format(":Identity Number: %s%n", this.getIdNumber())
-        + String.format(
-          ":Given Name(s): %s%n",
-          SummaryHelper.arrayToString(
-            this.getGivenNames(),
-            "%n              "
-          )
-        )
-        + String.format(":Surname: %s%n", this.getSurname())
-        + String.format(":Date of Birth: %s%n", this.getBirthDate())
-        + String.format(":Place of Birth: %s%n", this.getBirthPlace())
-        + String.format(":Expiry Date: %s%n", this.getExpiryDate())
-        + String.format(":Issuing Authority: %s%n", this.getAuthority())
-        + String.format(":Gender: %s%n", this.getGender())
-        + String.format(":MRZ Line 1: %s%n", this.getMrz1())
-        + String.format(":MRZ Line 2: %s%n", this.getMrz2());
-    return SummaryHelper.cleanSummary(summary);
+    );
+    String givenNames = SummaryHelper.arrayToString(
+        this.getGivenNames(),
+        "%n              "
+    );
+    outStr.append(
+        String.format(":Given Name(s): %s%n", givenNames)
+    );
+    outStr.append(
+        String.format(":Surname: %s%n", this.getSurname())
+    );
+    outStr.append(
+        String.format(":Date of Birth: %s%n", this.getBirthDate())
+    );
+    outStr.append(
+        String.format(":Place of Birth: %s%n", this.getBirthPlace())
+    );
+    outStr.append(
+        String.format(":Expiry Date: %s%n", this.getExpiryDate())
+    );
+    outStr.append(
+        String.format(":Issuing Authority: %s%n", this.getAuthority())
+    );
+    outStr.append(
+        String.format(":Gender: %s%n", this.getGender())
+    );
+    outStr.append(
+        String.format(":MRZ Line 1: %s%n", this.getMrz1())
+    );
+    outStr.append(
+        String.format(":MRZ Line 2: %s%n", this.getMrz2())
+    );
+    return SummaryHelper.cleanSummary(outStr.toString());
   }
 }
