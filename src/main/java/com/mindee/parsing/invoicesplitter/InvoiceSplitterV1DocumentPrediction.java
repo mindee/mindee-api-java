@@ -20,16 +20,20 @@ public class InvoiceSplitterV1DocumentPrediction {
 
   @Override
   public String toString() {
+    StringBuilder outStr = new StringBuilder();
 
-    String pageGroupsString = invoicePageGroups == null ? "" : this.getInvoicePageGroups().stream()
-        .map(PageIndexes::toString)
-        .collect(Collectors.joining(String.format("%n")));
-    return String.format(":Invoice Page Groups: %n%s%n", pageGroupsString);
-
+    outStr.append(String.format(":Invoice Page Groups: %n"));
+    if (invoicePageGroups != null) {
+      String pageGroupsString = this.getInvoicePageGroups().stream()
+          .map(PageIndexes::toString)
+          .collect(Collectors.joining(String.format("%n")));
+      outStr.append(String.format("%s%n", pageGroupsString));
+    }
+    return outStr.toString();
   }
 
   /**
-   * Represents a grouping of pages
+   * Represents a grouping of pages.
    */
   @Getter
   @JsonIgnoreProperties(ignoreUnknown = true)
@@ -50,8 +54,9 @@ public class InvoiceSplitterV1DocumentPrediction {
     @Override
     public String toString() {
       return "  :Page indexes: ".concat(
-          pageIndexes.stream().map((index) -> index.toString()).collect(Collectors.joining("-")));
+          pageIndexes.stream().map((index) -> index.toString())
+            .collect(Collectors.joining(", "))
+      );
     }
-
   }
 }

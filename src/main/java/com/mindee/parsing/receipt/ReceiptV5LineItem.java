@@ -10,7 +10,7 @@ import java.util.Map;
 import lombok.Getter;
 
 /**
- * Full extraction of lines, including: description, quantity, unit price and total.
+ * List of line item details.
  */
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
