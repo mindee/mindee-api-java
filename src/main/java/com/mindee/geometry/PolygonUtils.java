@@ -24,15 +24,15 @@ public final class PolygonUtils {
   }
 
   /**
-   * Get the central coordinates (centroid) of a Polygon.
+   * Get the central coordinates (centroid) of a list of Points.
    */
-  public static Point getCentroid(Polygon polygon) {
-    int verticesSum = polygon.getCoordinates().size();
+  public static Point getCentroid(List<Point> vertices) {
+    int verticesSum = vertices.size();
 
-    double xSum = polygon.getCoordinates().stream()
+    double xSum = vertices.stream()
         .map(Point::getX)
         .mapToDouble(Double::doubleValue).sum();
-    double ySum = polygon.getCoordinates().stream()
+    double ySum = vertices.stream()
         .map(Point::getY)
         .mapToDouble(Double::doubleValue).sum();
     return new Point(xSum / verticesSum, ySum / verticesSum);
