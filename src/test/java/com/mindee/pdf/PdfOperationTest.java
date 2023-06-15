@@ -1,8 +1,8 @@
 package com.mindee.pdf;
 
-import com.mindee.parsing.PageOptions;
-import com.mindee.parsing.PageOptionsOperation;
-import com.mindee.utils.MindeeException;
+import com.mindee.input.PageOptions;
+import com.mindee.input.PageOptionsOperation;
+import com.mindee.MindeeException;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;

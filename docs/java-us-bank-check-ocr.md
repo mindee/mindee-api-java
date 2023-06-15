@@ -6,7 +6,7 @@ The JAVA OCR SDK supports the [Bank Checks OCR API](https://developers.mindee.co
 MindeeClient client = MindeeClientInit.create("my-api-key");
 
 // Load a file from disk and parse it
-LocalInputSource localInputSource = mindeeClient.loadDocument(
+LocalInputSource localInputSource = new LocalInputSource(
   new File("./path/to/the/file.ext")
 );
 Document<BankCheckV1Inference> document = mindeeClient.parse(

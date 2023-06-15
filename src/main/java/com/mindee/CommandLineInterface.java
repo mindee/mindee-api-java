@@ -1,14 +1,15 @@
 package com.mindee;
 
 import com.mindee.http.CustomEndpoint;
-import com.mindee.parsing.PageOptions;
-import com.mindee.parsing.PageOptionsOperation;
+import com.mindee.input.LocalInputSource;
+import com.mindee.input.PageOptions;
+import com.mindee.input.PageOptionsOperation;
 import com.mindee.parsing.common.Document;
 import com.mindee.parsing.common.Inference;
-import com.mindee.parsing.custom.CustomV1Inference;
-import com.mindee.parsing.invoice.InvoiceV4Inference;
-import com.mindee.parsing.passport.PassportV1Inference;
-import com.mindee.parsing.receipt.ReceiptV4Inference;
+import com.mindee.product.custom.CustomV1Inference;
+import com.mindee.product.invoice.InvoiceV4Inference;
+import com.mindee.product.passport.PassportV1Inference;
+import com.mindee.product.receipt.ReceiptV4Inference;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;

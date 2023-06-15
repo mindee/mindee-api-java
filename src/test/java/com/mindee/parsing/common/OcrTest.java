@@ -2,7 +2,7 @@ package com.mindee.parsing.common;
 
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mindee.parsing.receipt.ReceiptV4Inference;
+import com.mindee.product.receipt.ReceiptV4Inference;
 import com.mindee.parsing.common.ocr.Word;
 import com.mindee.parsing.common.ocr.Ocr;
 import org.junit.jupiter.api.Assertions;
