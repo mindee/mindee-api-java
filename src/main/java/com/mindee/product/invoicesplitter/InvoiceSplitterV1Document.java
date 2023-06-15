@@ -13,7 +13,7 @@ import lombok.Getter;
 @Getter
 @EqualsAndHashCode
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class InvoiceSplitterV1DocumentPrediction {
+public class InvoiceSplitterV1Document {
 
   @JsonProperty("invoice_page_groups")
   private List<PageIndexes> invoicePageGroups;

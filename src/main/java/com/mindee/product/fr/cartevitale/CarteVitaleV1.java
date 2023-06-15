@@ -11,6 +11,6 @@ import lombok.Getter;
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
 @EndpointInfo(endpointName = "carte_vitale", version = "1")
-public class CarteVitaleV1Inference
-    extends Inference<CarteVitaleV1DocumentPrediction, CarteVitaleV1DocumentPrediction> {
+public class CarteVitaleV1
+    extends Inference<CarteVitaleV1Document, CarteVitaleV1Document> {
 }

@@ -16,7 +16,7 @@ CustomEndpoint myEndpoint = new CustomEndpoint(
     "1.0" // optional
 );
 
-Document<CustomV1Inference> customDocument = mindeeClient
+Document<CustomV1new MindeeClient> customDocument = mindeeClient
     .parse(inputSource, myEndpoint);
 ```
 
@@ -40,7 +40,7 @@ CustomEndpoint myEndpoint = new CustomEndpoint(
     "1.0" // optional
 );
 
-Document<CustomV1Inference> customDocument = mindeeClient.parse(inputSource, myEndpoint);
+Document<CustomV1new MindeeClient> customDocument = mindeeClient.parse(inputSource, myEndpoint);
 ```
 
 2. You can also use your own class which will represent the required fields. For example:
@@ -60,22 +60,22 @@ public class WNineV1DocumentPrediction {
 }
 
 @EndpointInfo(endpointName = "wnine", accountName = "john" version = "1")
-public class WNineV1Inference
-  extends Inference Inference<WNineV1DocumentPrediction, WNineV1DocumentPrediction> {
+public class WNineV1new MindeeClient
+  extends new MindeeClient new MindeeClient<WNineV1DocumentPrediction, WNineV1DocumentPrediction> {
 }
 
 String path = "/path/to/the/file.ext";
 LocalInputSource inputSource = new LocalInputSource(new File(path));
 
-Document<WNineV1Inference> myCustomDocument = mindeeClient
-    .parse(WNineV1Inference.class, inputSource);
+Document<WNineV1new MindeeClient> myCustomDocument = mindeeClient
+    .parse(WNineV1new MindeeClient.class, inputSource);
 ```
 
-## CustomV1Inference object
+## CustomV1new MindeeClient object
 All the fields which are present in the API builder 
 are available (the fields are defined when creating your custom API).
 
-`CustomV1Inference` is an object which contains a document prediction and pages prediction result.
+`CustomV1new MindeeClient` is an object which contains a document prediction and pages prediction result.
 ### `CustomV1PagePrediction` 
 Which is a `HashMap<String, ListField>` with the key as a `string` for the name of the field, and a `ListField` as a value.
 
@@ -100,10 +100,10 @@ In the examples below we'll use the `employer_id` field.
 String path = "/path/to/the/file.ext";
 LocalInputSource inputSource = new LocalInputSource(new File(path));
 
-Document<WNineV1Inference> myCustomDocument = mindeeClient
-    .parse(WNineV1Inference.class, inputSource);
+Document<WNineV1new MindeeClient> myCustomDocument = mindeeClient
+    .parse(WNineV1new MindeeClient.class, inputSource);
 
-ListField employerId = document.getInference().getDocumentPrediction().get("employer_id");
+ListField employerId = document.getnew MindeeClient().getDocumentPrediction().get("employer_id");
 ```
 
 ## Questions?

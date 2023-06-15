@@ -6,10 +6,10 @@ import com.mindee.input.PageOptions;
 import com.mindee.input.PageOptionsOperation;
 import com.mindee.parsing.common.Document;
 import com.mindee.parsing.common.Inference;
-import com.mindee.product.custom.CustomV1Inference;
-import com.mindee.product.invoice.InvoiceV4Inference;
-import com.mindee.product.passport.PassportV1Inference;
-import com.mindee.product.receipt.ReceiptV4Inference;
+import com.mindee.product.custom.CustomV1;
+import com.mindee.product.invoice.InvoiceV4;
+import com.mindee.product.passport.PassportV1;
+import com.mindee.product.receipt.ReceiptV4;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -80,7 +80,7 @@ public class CommandLineInterface {
       @Parameters(index = "0", paramLabel = "<path>", scope = ScopeType.LOCAL)
       File file
   ) throws IOException {
-    System.out.println(standardProductOutput(InvoiceV4Inference.class, file));
+    System.out.println(standardProductOutput(InvoiceV4.class, file));
   }
 
   @Command(name = "receipt", description = "Invokes the receipt API")
@@ -88,7 +88,7 @@ public class CommandLineInterface {
       @Parameters(index = "0", paramLabel = "<path>", scope = ScopeType.LOCAL)
       File file
   ) throws IOException {
-    System.out.println(standardProductOutput(ReceiptV4Inference.class, file));
+    System.out.println(standardProductOutput(ReceiptV4.class, file));
   }
 
   @Command(name = "passport", description = "Invokes the passport API")
@@ -96,7 +96,7 @@ public class CommandLineInterface {
       @Parameters(index = "0", paramLabel = "<path>", scope = ScopeType.LOCAL)
       File file
   ) throws IOException {
-    System.out.println(standardProductOutput(PassportV1Inference.class, file));
+    System.out.println(standardProductOutput(PassportV1.class, file));
   }
 
   @Command(name = "custom", description = "Invokes a builder API")
@@ -123,7 +123,7 @@ public class CommandLineInterface {
 
     MindeeClient mindeeClient = new MindeeClient(apiKey);
 
-    Document<CustomV1Inference> document;
+    Document<CustomV1> document;
     CustomEndpoint customEndpoint = new CustomEndpoint(endpointName, accountName, "1");
 
     if (cutDoc) {

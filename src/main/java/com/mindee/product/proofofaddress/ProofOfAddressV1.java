@@ -11,6 +11,6 @@ import lombok.Getter;
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
 @EndpointInfo(endpointName = "proof_of_address", version = "1")
-public class ProofOfAddressV1Inference
-    extends Inference<ProofOfAddressV1DocumentPrediction, ProofOfAddressV1DocumentPrediction> {
+public class ProofOfAddressV1
+    extends Inference<ProofOfAddressV1Document, ProofOfAddressV1Document> {
 }

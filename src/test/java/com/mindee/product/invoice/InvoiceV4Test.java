@@ -20,8 +20,8 @@ class InvoiceV4Test {
     objectMapper.findAndRegisterModules();
 
     JavaType type = objectMapper.getTypeFactory().constructParametricType(PredictResponse.class,
-        InvoiceV4Inference.class);
-    PredictResponse<InvoiceV4Inference> invoiceV4Prediction = objectMapper.readValue(
+        InvoiceV4.class);
+    PredictResponse<InvoiceV4> invoiceV4Prediction = objectMapper.readValue(
         new File("src/test/resources/invoice/response_v4/complete.json"),
         type);
 

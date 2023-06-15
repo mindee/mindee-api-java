@@ -20,8 +20,8 @@ class BankCheckV1Test {
     objectMapper.findAndRegisterModules();
 
     JavaType type = objectMapper.getTypeFactory().constructParametricType(PredictResponse.class,
-      BankCheckV1Inference.class);
-    PredictResponse<BankCheckV1Inference> prediction = objectMapper.readValue(
+      BankCheckV1.class);
+    PredictResponse<BankCheckV1> prediction = objectMapper.readValue(
         new File("src/test/resources/us/bank_check/response_v1/complete.json"),
         type);
 

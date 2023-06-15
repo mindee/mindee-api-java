@@ -21,9 +21,9 @@ public class BankAccountDetailsV1Test {
 
     JavaType type = objectMapper.getTypeFactory().constructParametricType(
       PredictResponse.class,
-      BankAccountDetailsV1Inference.class
+      BankAccountDetailsV1.class
     );
-    PredictResponse<BankAccountDetailsV1Inference> prediction = objectMapper.readValue(
+    PredictResponse<BankAccountDetailsV1> prediction = objectMapper.readValue(
       new File("src/test/resources/fr/bank_account_details/response_v1/complete.json"),
       type
     );

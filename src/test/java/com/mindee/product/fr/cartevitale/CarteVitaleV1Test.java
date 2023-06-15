@@ -21,8 +21,8 @@ public class CarteVitaleV1Test {
     objectMapper.findAndRegisterModules();
 
     JavaType type = objectMapper.getTypeFactory().constructParametricType(PredictResponse.class,
-      CarteVitaleV1Inference.class);
-    PredictResponse<CarteVitaleV1Inference> prediction = objectMapper.readValue(
+      CarteVitaleV1.class);
+    PredictResponse<CarteVitaleV1> prediction = objectMapper.readValue(
       new File("src/test/resources/fr/carte_vitale/response_v1/complete.json"),
       type);
 
