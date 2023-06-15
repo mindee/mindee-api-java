@@ -8,36 +8,42 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 /**
-* Document data for Shipping Container, API version 1.
-*/
+ * Document data for Shipping Container, API version 1.
+ */
 @Getter
 @EqualsAndHashCode
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ShippingContainerV1Document {
+
   /**
-  * The ISO-6346 code for container owner and equipment identifier.
-  */
+   * The ISO-6346 code for container owner and equipment identifier.
+   */
   @JsonProperty("owner")
   private StringField owner;
-
   /**
-  * ISO-6346 code for container serial number.
-  */
+   * ISO-6346 code for container serial number.
+   */
   @JsonProperty("serial_number")
   private StringField serialNumber;
-
   /**
-  * ISO 6346 code for container length, height and type.
-  */
+   * ISO 6346 code for container length, height and type.
+   */
   @JsonProperty("size_type")
   private StringField sizeType;
 
   @Override
   public String toString() {
-    String summary =
+    StringBuilder outStr = new StringBuilder();
+
+    outStr.append(
         String.format(":Owner: %s%n", this.getOwner())
-        + String.format(":Serial Number: %s%n", this.getSerialNumber())
-        + String.format(":Size and Type: %s%n", this.getSizeType());
-    return SummaryHelper.cleanSummary(summary);
+    );
+    outStr.append(
+        String.format(":Serial Number: %s%n", this.getSerialNumber())
+    );
+    outStr.append(
+        String.format(":Size and Type: %s%n", this.getSizeType())
+    );
+    return SummaryHelper.cleanSummary(outStr.toString());
   }
 }
