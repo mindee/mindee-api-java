@@ -2,6 +2,8 @@ package com.mindee.product.fr.idcard;
 
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mindee.parsing.common.Document;
+import com.mindee.parsing.common.Page;
 import com.mindee.parsing.common.PredictResponse;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -16,9 +18,7 @@ import java.util.List;
  */
 public class IdCardV1Test {
 
-  @Test
-  void givenIdCardV1_whenDeserialized_MustHaveAValidSummary() throws IOException {
-
+  protected PredictResponse<IdCardV1> getPrediction() throws IOException {
     ObjectMapper objectMapper = new ObjectMapper();
     objectMapper.findAndRegisterModules();
 
@@ -26,14 +26,33 @@ public class IdCardV1Test {
       PredictResponse.class,
       IdCardV1.class
     );
-    PredictResponse<IdCardV1> prediction = objectMapper.readValue(
+    return objectMapper.readValue(
       new File("src/test/resources/fr/id_card/response_v1/complete.json"),
       type
     );
+  }
 
-    String[] actualLines = prediction.getDocument().toString().split(System.lineSeparator());
+  @Test
+  void whenCompleteDeserialized_mustHaveValidDocumentSummary() throws IOException {
+    PredictResponse<IdCardV1> prediction = getPrediction();
+    Document<IdCardV1> doc = prediction.getDocument();
+    String[] actualLines = doc.toString().split(System.lineSeparator());
     List<String> expectedLines = Files.readAllLines(
       Paths.get("src/test/resources/fr/id_card/response_v1/summary_full.rst")
+    );
+    String expectedSummary = String.join(String.format("%n"), expectedLines);
+    String actualSummary = String.join(String.format("%n"), actualLines);
+
+    Assertions.assertEquals(expectedSummary, actualSummary);
+  }
+
+  @Test
+  void whenCompleteDeserialized_mustHaveValidPage0Summary() throws IOException {
+    PredictResponse<IdCardV1> prediction = getPrediction();
+    Page<IdCardV1Page> page = prediction.getDocument().getInference().getPages().get(0);
+    String[] actualLines = page.toString().split(System.lineSeparator());
+    List<String> expectedLines = Files.readAllLines(
+      Paths.get("src/test/resources/fr/id_card/response_v1/summary_page0.rst")
     );
     String expectedSummary = String.join(String.format("%n"), expectedLines);
     String actualSummary = String.join(String.format("%n"), actualLines);

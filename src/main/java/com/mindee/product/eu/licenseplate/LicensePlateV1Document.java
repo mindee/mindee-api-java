@@ -10,8 +10,8 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 /**
-* Document data for License Plate, API version 1.
-*/
+ * Document data for License Plate, API version 1.
+ */
 @Getter
 @EqualsAndHashCode
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -25,14 +25,15 @@ public class LicensePlateV1Document {
 
   @Override
   public String toString() {
-    String summary =
-        String.format(
-          ":License Plates: %s%n",
-          SummaryHelper.arrayToString(
-            this.getLicensePlates(),
-            "%n                 "
-          )
-        );
-    return SummaryHelper.cleanSummary(summary);
+    StringBuilder outStr = new StringBuilder();
+
+    String licensePlates = SummaryHelper.arrayToString(
+        this.getLicensePlates(),
+        "%n                 "
+    );
+    outStr.append(
+        String.format(":License Plates: %s%n", licensePlates)
+    );
+    return SummaryHelper.cleanSummary(outStr.toString());
   }
 }

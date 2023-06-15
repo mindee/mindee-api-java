@@ -3,7 +3,7 @@ package com.mindee.product.fr.idcard;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mindee.parsing.SummaryHelper;
-import com.mindee.parsing.standard.field.StringField;
+import com.mindee.parsing.standard.field.ClassificationField;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
@@ -19,7 +19,7 @@ public class IdCardV1Page extends IdCardV1Document {
    * The side of the document which is visible.
    */
   @JsonProperty("document_side")
-  private StringField documentSide;
+  private ClassificationField documentSide;
 
   @Override
   public String toString() {
