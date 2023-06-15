@@ -38,11 +38,11 @@ public class OcrPage {
    */
   private boolean areWordsOnSameLine(Word currentWord, Word nextWord) {
     boolean currentInNext = PolygonUtils.isPointInPolygonY(
-        PolygonUtils.getCentroid(currentWord.getPolygon()),
+        currentWord.getPolygon().getCentroid(),
         nextWord.getPolygon()
     );
     boolean nextInCurrent = PolygonUtils.isPointInPolygonY(
-        PolygonUtils.getCentroid(nextWord.getPolygon()),
+        nextWord.getPolygon().getCentroid(),
         currentWord.getPolygon()
     );
     // We need to check both to eliminate any issues due to word order.
