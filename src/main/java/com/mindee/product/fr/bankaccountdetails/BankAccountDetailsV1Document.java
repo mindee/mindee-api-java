@@ -16,17 +16,15 @@ import lombok.Getter;
 public class BankAccountDetailsV1Document {
 
   /**
-   * The International Bank Account Number (IBAN).
-   */
-  @JsonProperty("iban")
-  private StringField iban;
-
-  /**
    * The name of the account holder as seen on the document.
    */
   @JsonProperty("account_holder_name")
   private StringField accountHolderName;
-
+  /**
+   * The International Bank Account Number (IBAN).
+   */
+  @JsonProperty("iban")
+  private StringField iban;
   /**
    * The bank's SWIFT Business Identifier Code (BIC).
    */
@@ -35,10 +33,17 @@ public class BankAccountDetailsV1Document {
 
   @Override
   public String toString() {
-    String summary =
+    StringBuilder outStr = new StringBuilder();
+
+    outStr.append(
         String.format(":IBAN: %s%n", this.getIban())
-        + String.format(":Account Holder's Name: %s%n", this.getAccountHolderName())
-        + String.format(":SWIFT Code: %s%n", this.getSwift());
-    return SummaryHelper.cleanSummary(summary);
+    );
+    outStr.append(
+        String.format(":Account Holder's Name: %s%n", this.getAccountHolderName())
+    );
+    outStr.append(
+        String.format(":SWIFT Code: %s%n", this.getSwift())
+    );
+    return SummaryHelper.cleanSummary(outStr.toString());
   }
 }

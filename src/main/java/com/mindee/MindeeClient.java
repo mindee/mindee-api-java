@@ -25,12 +25,9 @@ public class MindeeClient {
   private final MindeeApi mindeeApi;
   private final PdfOperation pdfOperation;
 
-  public MindeeClient(PdfOperation pdfOperation, MindeeApi mindeeApi) {
-    this.pdfOperation = pdfOperation;
-    this.mindeeApi = mindeeApi;
-  }
   /**
    * Create a default MindeeClient.
+   * You'll need to set the API key in the environment for this approach to work properly.
    */
   public MindeeClient() {
     this.pdfOperation = new PdfBoxApi();
@@ -58,12 +55,16 @@ public class MindeeClient {
   }
 
   /**
-   * Create a default MindeeApi.
-   *
-   * @param apiKey The api key to use.
+   * Create a MindeeClient.
+   * @param pdfOperation
+   * @param mindeeApi
    */
-  public static MindeeApi createDefaultApi(String apiKey) {
+  public MindeeClient(PdfOperation pdfOperation, MindeeApi mindeeApi) {
+    this.pdfOperation = pdfOperation;
+    this.mindeeApi = mindeeApi;
+  }
 
+  private static MindeeApi createDefaultApi(String apiKey) {
     MindeeSettings mindeeSettings;
     if (apiKey != null && !apiKey.trim().isEmpty()) {
       mindeeSettings = new MindeeSettings(apiKey);

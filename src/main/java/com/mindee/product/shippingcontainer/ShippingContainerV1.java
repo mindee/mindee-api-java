@@ -6,8 +6,8 @@ import com.mindee.parsing.common.Inference;
 import lombok.Getter;
 
 /**
-* The definition for shipping_containers v1.
-*/
+ * The definition for shipping_containers v1.
+ */
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
 @EndpointInfo(endpointName = "shipping_containers", version = "1")
