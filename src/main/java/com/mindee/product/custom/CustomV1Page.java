@@ -15,7 +15,7 @@ import lombok.Getter;
 @Getter
 @EqualsAndHashCode
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class CustomV1PagePrediction extends HashMap<String, ListField> {
+public class CustomV1Page extends HashMap<String, ListField> {
 
   @Override
   public String toString() {

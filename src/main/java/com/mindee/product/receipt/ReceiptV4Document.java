@@ -21,7 +21,7 @@ import lombok.Getter;
 @Getter
 @EqualsAndHashCode
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ReceiptV4DocumentPrediction {
+public class ReceiptV4Document {
 
   /**
    * Where the purchase was made, the language, and the currency.

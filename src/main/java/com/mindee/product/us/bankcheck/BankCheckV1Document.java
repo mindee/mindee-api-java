@@ -19,7 +19,7 @@ import lombok.Getter;
 @Getter
 @EqualsAndHashCode
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class BankCheckV1DocumentPrediction {
+public class BankCheckV1Document {
 
   /**
    * Payer's bank account number.

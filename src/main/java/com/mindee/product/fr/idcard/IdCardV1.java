@@ -11,6 +11,6 @@ import lombok.Getter;
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
 @EndpointInfo(endpointName = "idcard_fr", version = "1")
-public class IdCardV1Inference
-    extends Inference<IdCardV1PagePrediction, IdCardV1DocumentPrediction> {
+public class IdCardV1
+    extends Inference<IdCardV1Page, IdCardV1Document> {
 }

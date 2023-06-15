@@ -13,7 +13,7 @@ import lombok.Getter;
 @Getter
 @EqualsAndHashCode
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class BankAccountDetailsV1DocumentPrediction {
+public class BankAccountDetailsV1Document {
 
   /**
    * The International Bank Account Number (IBAN).

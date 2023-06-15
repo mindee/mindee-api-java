@@ -13,7 +13,7 @@ import com.mindee.parsing.common.PredictResponse;
 import com.mindee.pdf.PdfBoxApi;
 import com.mindee.pdf.PdfOperation;
 import com.mindee.pdf.SplitQuery;
-import com.mindee.product.custom.CustomV1Inference;
+import com.mindee.product.custom.CustomV1;
 import java.io.IOException;
 import java.net.URL;
 
@@ -188,7 +188,7 @@ public class MindeeClient {
         .orElseThrow(() -> new MindeeException("No Document Returned by endpoint"));
   }
 
-  public Document<CustomV1Inference> parse(
+  public Document<CustomV1> parse(
       LocalInputSource localInputSource,
       CustomEndpoint customEndpoint
   ) throws IOException {
@@ -199,7 +199,7 @@ public class MindeeClient {
         null);
   }
 
-  public Document<CustomV1Inference> parse(
+  public Document<CustomV1> parse(
       URL documentUrl,
       CustomEndpoint customEndpoint
   ) throws IOException {
@@ -207,7 +207,7 @@ public class MindeeClient {
     return this.parse(null, null, customEndpoint, documentUrl);
   }
 
-  public Document<CustomV1Inference> parse(
+  public Document<CustomV1> parse(
       LocalInputSource localInputSource,
       CustomEndpoint customEndpoint,
       PageOptions pageOptions
@@ -219,14 +219,14 @@ public class MindeeClient {
     );
   }
 
-  private Document<CustomV1Inference> parse(
+  private Document<CustomV1> parse(
       byte[] file,
       String filename,
       CustomEndpoint customEndpoint,
       URL urlInputSource
   ) throws IOException {
     return this.mindeeApi.predict(
-            CustomV1Inference.class,
+            CustomV1.class,
             customEndpoint,
             RequestParameters.builder()
                 .file(file)

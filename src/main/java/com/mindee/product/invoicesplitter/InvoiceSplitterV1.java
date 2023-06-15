@@ -11,7 +11,7 @@ import lombok.Getter;
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
 @EndpointInfo(endpointName = "invoice_splitter", version = "1")
-public class InvoiceSplitterV1Inference extends
-    Inference<InvoiceSplitterV1DocumentPrediction, InvoiceSplitterV1DocumentPrediction> {
+public class InvoiceSplitterV1 extends
+    Inference<InvoiceSplitterV1Document, InvoiceSplitterV1Document> {
 
 }

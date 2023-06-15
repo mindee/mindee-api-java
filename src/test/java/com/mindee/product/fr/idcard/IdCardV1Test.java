@@ -24,9 +24,9 @@ public class IdCardV1Test {
 
     JavaType type = objectMapper.getTypeFactory().constructParametricType(
       PredictResponse.class,
-      IdCardV1Inference.class
+      IdCardV1.class
     );
-    PredictResponse<IdCardV1Inference> prediction = objectMapper.readValue(
+    PredictResponse<IdCardV1> prediction = objectMapper.readValue(
       new File("src/test/resources/fr/id_card/response_v1/complete.json"),
       type
     );

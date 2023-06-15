@@ -7,7 +7,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.mindee.product.custom.CustomV1DocumentPrediction;
+import com.mindee.product.custom.CustomV1Document;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -16,7 +16,7 @@ import java.util.Map;
 /**
  * JSON deserializer for custom documents v1.x.
  */
-public class CustomV1DocumentPredictionDeserializer extends StdDeserializer<CustomV1DocumentPrediction> {
+public class CustomV1DocumentPredictionDeserializer extends StdDeserializer<CustomV1Document> {
 
   private static ObjectMapper mapper = new ObjectMapper();
 
@@ -29,7 +29,7 @@ public class CustomV1DocumentPredictionDeserializer extends StdDeserializer<Cust
   }
 
   @Override
-  public CustomV1DocumentPrediction deserialize(
+  public CustomV1Document deserialize(
       JsonParser jsonParser,
       DeserializationContext deserializationContext
   ) throws IOException {
@@ -58,6 +58,6 @@ public class CustomV1DocumentPredictionDeserializer extends StdDeserializer<Cust
       }
     }
 
-    return new CustomV1DocumentPrediction(classificationFields, fields);
+    return new CustomV1Document(classificationFields, fields);
   }
 }

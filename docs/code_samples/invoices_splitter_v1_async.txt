@@ -3,7 +3,7 @@ import com.mindee.input.LocalInputSource;
 import com.mindee.parsing.common.Document;
 import com.mindee.parsing.common.Job;
 import com.mindee.parsing.common.PredictResponse;
-import com.mindee.product.invoicesplitter.InvoiceSplitterV1Inference;
+import com.mindee.product.invoicesplitter.InvoiceSplitterV1;
 
 import java.io.File;
 import java.io.IOException;
@@ -24,8 +24,8 @@ public class SimpleMindeeClient {
     MindeeClient mindeeClient = new MindeeClient(apiKey);
     LocalInputSource inputSource = new LocalInputSource(new File(filePath));
 
-    PredictResponse<InvoiceSplitterV1Inference> enqueueResponse = mindeeClient.enqueue(
-        InvoiceSplitterV1Inference.class,
+    PredictResponse<InvoiceSplitterV1> enqueueResponse = mindeeClient.enqueue(
+        InvoiceSplitterV1.class,
         inputSource
     );
 
@@ -33,15 +33,15 @@ public class SimpleMindeeClient {
     // Safe to do a .get on this jobOptional
     String jobId = jobOptional.get().getId();
 
-    PredictResponse<InvoiceSplitterV1Inference> jobResponse = null;
+    PredictResponse<InvoiceSplitterV1> jobResponse = null;
     int retryCount = 0;
 
     while (retryCount < maxRetries) {
-      jobResponse = mindeeClient.parseQueued(InvoiceSplitterV1Inference.class, jobId);
-      Optional<Document<InvoiceSplitterV1Inference>> documentOptional = jobResponse.getDocument();
+      jobResponse = mindeeClient.parseQueued(InvoiceSplitterV1.class, jobId);
+      Optional<Document<InvoiceSplitterV1>> documentOptional = jobResponse.getDocument();
 
       if (documentOptional.isPresent()) {
-        Document<InvoiceSplitterV1Inference> documentParsed = documentOptional.get();
+        Document<InvoiceSplitterV1> documentParsed = documentOptional.get();
         System.out.println(documentParsed.toString());
         break;
       }

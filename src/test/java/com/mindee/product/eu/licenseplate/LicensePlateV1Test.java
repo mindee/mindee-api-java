@@ -21,8 +21,8 @@ public class LicensePlateV1Test {
     objectMapper.findAndRegisterModules();
 
     JavaType type = objectMapper.getTypeFactory().constructParametricType(PredictResponse.class,
-      LicensePlateV1Inference.class);
-    PredictResponse<LicensePlateV1Inference> prediction = objectMapper.readValue(
+      LicensePlateV1.class);
+    PredictResponse<LicensePlateV1> prediction = objectMapper.readValue(
       new File("src/test/resources/eu/license_plate/response_v1/complete.json"),
       type);
 

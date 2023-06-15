@@ -11,6 +11,6 @@ import lombok.Getter;
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
 @EndpointInfo(endpointName = "license_plates", version = "1")
-public class LicensePlateV1Inference
-    extends Inference<LicensePlateV1DocumentPrediction, LicensePlateV1DocumentPrediction> {
+public class LicensePlateV1
+    extends Inference<LicensePlateV1Document, LicensePlateV1Document> {
 }

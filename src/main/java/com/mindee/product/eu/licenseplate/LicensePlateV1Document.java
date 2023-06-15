@@ -15,7 +15,7 @@ import lombok.Getter;
 @Getter
 @EqualsAndHashCode
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class LicensePlateV1DocumentPrediction {
+public class LicensePlateV1Document {
 
   /**
    * List of all license plates found in the image.
