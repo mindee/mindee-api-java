@@ -6,19 +6,23 @@ we are going to illustrate how to extract the data that we want using the OCR SD
 
 ## Quick Start
 ```java
-// Init a new client
-MindeeClient client = MindeeClientInit.create("my-api-key");
+public class SimpleMindeeClient {
+  public static void main(String[] args) throws IOException {
+    // Init a new client
+    MindeeClient client = new MindeeClient("my-api-key");
 
-// Load a file from disk and parse it
-LocalInputSource localInputSource = new LocalInputSource(
-  new File("./ffc127d-sample_receipt.jpg")
-);
-Document<ReceiptV4Inference> document = mindeeClient.parse(
-  ReceiptV4Inference.class, localInputSource
-);
+    // Load a file from disk and parse it
+    LocalInputSource localInputSource = new LocalInputSource(
+        new File("./ffc127d-sample_receipt.jpg")
+    );
+    Document<ReceiptV4Inference> document = mindeeClient.parse(
+        ReceiptV4Inference.class, localInputSource
+    );
 
-// Print a summary of the parsed data
-logger.info(document.toString());
+    // Print a summary of the parsed data
+    logger.info(document.toString());
+  }
+}
 ```
 
 Output:

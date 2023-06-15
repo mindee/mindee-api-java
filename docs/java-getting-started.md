@@ -80,7 +80,7 @@ You can either pass these directly to the constructor or through environment var
 import com.mindee;
 
 // Init a new client and passing the key directly
-MindeeClient client = MindeeClientInit.create("<your mindee api key>");
+MindeeClient client = new MindeeClient("<your mindee api key>");
 ```
 
 #### Set the API key in the environment
@@ -94,7 +94,7 @@ MINDEE_API_KEY="my-api-key"
 Then in your code:
 ```java
 // Init a new client without an API key
-MindeeClient client = MindeeClientInit.create();
+MindeeClient client = new MindeeClient();
 ```
 
 ### HttpClient Customizations
@@ -116,21 +116,23 @@ import com.mindee.parsing.invoice;
 // you can also configure things like caching, custom HTTPS certs,
 // timeouts and connection pool sizes here.
 // See: https://hc.apache.org/httpcomponents-client-5.1.x/current/httpclient5/apidocs/org/apache/hc/client5/http/impl/classic/HttpClientBuilder.html
-HttpHost proxy=new HttpHost("<proxy-host>",<proxy-port>);
-  DefaultProxyRoutePlanner routePlanner=new DefaultProxyRoutePlanner(proxy);
-  HttpClientBuilder httpclientBuilder=HttpClients.custom().setRoutePlanner(routePlanner);
+HttpHost proxy = new HttpHost("<proxy-host>",<proxy-port>);
+
+DefaultProxyRoutePlanner routePlanner = new DefaultProxyRoutePlanner(proxy);
+HttpClientBuilder httpclientBuilder = HttpClients.custom().setRoutePlanner(routePlanner);
 
 // Build MindeeHttpAPI using the HtppClientBuilder
-  MindeeHttpApi mindeeHttpApi=MindeeHttpApi.builder()
-  .mindeeSettings(new MindeeSettings("<my-api-key>"))
-  .httpClientBuilder(httpclientBuilder)
-  .build();
+MindeeHttpApi mindeeHttpApi = MindeeHttpApi.builder()
+    .mindeeSettings(new MindeeSettings("my-api-key"))
+    .httpClientBuilder(httpclientBuilder)
+    .build();
 
-  MindeeClient mindeeClient=MindeeClientInit.create(mindeeHttpApi);
-  Document<InvoiceV4Inference> invoiceDocument=mindeeClient.parse(
-  InvoiceV4Inference.class,
-  LocalInputSource
-  );
+MindeeClient mindeeClient = new MindeeClient(mindeeHttpApi);
+
+Document<InvoiceV4Inference> invoiceDocument=mindeeClient.parse(
+    InvoiceV4Inference.class,
+    LocalInputSource
+);
 ```
 
 ### Loading a Document File
@@ -186,7 +188,7 @@ Alternatively, an HTTPS URL can be loaded:
 import com.mindee.parsing;
 import com.mindee.parsing.invoice;
 
-MindeeClient mindeeClient = MindeeClientInit.create("my-api-key");
+MindeeClient mindeeClient = new MindeeClient("my-api-key");
 
 URL documentUrl = new URL("https://path/to/document");
 

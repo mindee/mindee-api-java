@@ -2,6 +2,7 @@ package com.mindee;
 
 import com.mindee.http.CustomEndpoint;
 import com.mindee.http.MindeeApi;
+import com.mindee.http.MindeeHttpApi;
 import com.mindee.http.RequestParameters;
 import com.mindee.input.InputSourceUtils;
 import com.mindee.input.LocalInputSource;
@@ -9,6 +10,7 @@ import com.mindee.input.PageOptions;
 import com.mindee.parsing.common.Document;
 import com.mindee.parsing.common.Inference;
 import com.mindee.parsing.common.PredictResponse;
+import com.mindee.pdf.PdfBoxApi;
 import com.mindee.pdf.PdfOperation;
 import com.mindee.pdf.SplitQuery;
 import com.mindee.product.custom.CustomV1Inference;
@@ -26,6 +28,51 @@ public class MindeeClient {
   public MindeeClient(PdfOperation pdfOperation, MindeeApi mindeeApi) {
     this.pdfOperation = pdfOperation;
     this.mindeeApi = mindeeApi;
+  }
+  /**
+   * Create a default MindeeClient.
+   */
+  public MindeeClient() {
+    this.pdfOperation = new PdfBoxApi();
+    this.mindeeApi = createDefaultApi("");
+  }
+
+  /**
+   * Create a default MindeeClient.
+   *
+   * @param apiKey The api key to use.
+   */
+  public MindeeClient(String apiKey) {
+    this.pdfOperation = new PdfBoxApi();
+    this.mindeeApi = createDefaultApi(apiKey);
+  }
+
+  /**
+   * Create a MindeeClient using a MindeeApi.
+   *
+   * @param mindeeApi The MindeeApi implementation to be used by the created MindeeClient.
+   */
+  public MindeeClient(MindeeApi mindeeApi) {
+    this.pdfOperation = new PdfBoxApi();
+    this.mindeeApi = mindeeApi;
+  }
+
+  /**
+   * Create a default MindeeApi.
+   *
+   * @param apiKey The api key to use.
+   */
+  public static MindeeApi createDefaultApi(String apiKey) {
+
+    MindeeSettings mindeeSettings;
+    if (apiKey != null && !apiKey.trim().isEmpty()) {
+      mindeeSettings = new MindeeSettings(apiKey);
+    } else {
+      mindeeSettings = new MindeeSettings();
+    }
+    return MindeeHttpApi.builder()
+      .mindeeSettings(mindeeSettings)
+      .build();
   }
 
   public <T extends Inference> PredictResponse<T> parseQueued(Class<T> type, String jobId) {

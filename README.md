@@ -32,7 +32,7 @@ These classes are available in the `com.mindee.parsing` package:
 import com.mindee.parsing;
 import com.mindee.parsing.invoice;
 
-MindeeClient mindeeClient = MindeeClientInit.create("my-api-key");
+MindeeClient mindeeClient = new MindeeClient("my-api-key");
 
 LocalInputSource localInputSource = mindeeClient.loadDocument(new File("/path/to/the/file.ext"));
 
@@ -51,7 +51,7 @@ For example USA-specific classes will be in the `com.mindee.parsing.us` package:
 import com.mindee.parsing;
 import com.mindee.parsing.us.bankcheck;
 
-MindeeClient mindeeClient = MindeeClientInit.create("my-api-key");
+MindeeClient mindeeClient = new MindeeClient("my-api-key");
 
 LocalInputSource localInputSource = mindeeClient.loadDocument(new File("/path/to/the/file.ext"));
 
@@ -66,7 +66,7 @@ Document<BankCheckV1Inference> bankCheckDocument = mindeeClient.parse(
 import com.mindee.parsing;
 import com.mindee.parsing.custom;
 
-MindeeClient mindeeClient = MindeeClientInit.create("my-api-key");
+MindeeClient mindeeClient = new MindeeClient("my-api-key");
 CustomEndpoint customEndpoint = new CustomEndpoint("my-endpoint", "my-account");
 
 LocalInputSource localInputSource = mindeeClient.loadDocument(
