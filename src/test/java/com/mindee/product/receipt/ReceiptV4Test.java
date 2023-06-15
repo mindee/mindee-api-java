@@ -28,7 +28,7 @@ class ReceiptV4Test {
         new File("src/test/resources/receipt/response_v4/complete.json"),
         type);
 
-    String[] actualLines = prediction.getDocument().get().toString().split(System.lineSeparator());
+    String[] actualLines = prediction.getDocument().toString().split(System.lineSeparator());
     List<String> expectedLines = Files
         .readAllLines(Paths.get("src/test/resources/receipt/response_v4/summary_full.rst"));
     String expectedSummary = String.join(String.format("%n"), expectedLines);

@@ -67,7 +67,7 @@ import com.mindee.parsing;
 import com.mindee.parsing.custom;
 
 MindeeClient mindeeClient = new MindeeClient("my-api-key");
-CustomEndpoint customEndpoint = new CustomEndpoint("my-endpoint", "my-account");
+CustomEndpoint endpoint = new CustomEndpoint("my-endpoint", "my-account");
 
 LocalInputSource localInputSource = mindeeClient.loadDocument(
   new File("src/main/resources/invoices/invoice1.pdf")
@@ -75,7 +75,7 @@ LocalInputSource localInputSource = mindeeClient.loadDocument(
 
 Document<CustomV1Inference> customDocument = mindeeClient.parse(
   localInputSource,
-  customEndpoint
+  endpoint
 );
 ```
 

@@ -15,7 +15,7 @@ public class SimpleMindeeClient {
     LocalInputSource localInputSource = new LocalInputSource(
         new File("./a8e8cfa-a74eaa5-c8e283b-sample_invoice.jpeg")
     );
-    Document<ProofOfAddressV1> document = mindeeClient.parse(
+    PredictResponse<ProofOfAddressV1> document = mindeeClient.parse(
         ProofOfAddressV1.class, localInputSource
     );
 
