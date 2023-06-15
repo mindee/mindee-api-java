@@ -1,7 +1,7 @@
 package com.mindee.parsing;
 
-import com.mindee.parsing.common.field.BaseField;
-import com.mindee.parsing.common.field.LineItemField;
+import com.mindee.parsing.standard.field.BaseField;
+import com.mindee.parsing.standard.field.LineItemField;
 import java.text.DecimalFormat;
 import java.util.List;
 import java.util.stream.Collectors;

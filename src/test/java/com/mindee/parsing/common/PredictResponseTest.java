@@ -3,7 +3,7 @@ package com.mindee.parsing.common;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mindee.parsing.invoicesplitter.InvoiceSplitterV1Inference;
+import com.mindee.product.invoicesplitter.InvoiceSplitterV1Inference;
 import junit.framework.TestCase;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

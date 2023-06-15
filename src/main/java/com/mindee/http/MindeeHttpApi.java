@@ -3,10 +3,10 @@ package com.mindee.http;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mindee.MindeeException;
 import com.mindee.MindeeSettings;
 import com.mindee.parsing.common.Inference;
 import com.mindee.parsing.common.PredictResponse;
-import com.mindee.utils.MindeeException;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -100,7 +100,7 @@ public final class MindeeHttpApi implements MindeeApi {
   }
 
   /**
-   * GET job status and document for an enqued job
+   * GET job status and document for an enqueued job
    */
   public <DocT extends Inference> PredictResponse<DocT> checkJobStatus(
       Class<DocT> documentClass, String jobId) {
