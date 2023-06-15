@@ -129,8 +129,8 @@ MindeeHttpApi mindeeHttpApi = MindeeHttpApi.builder()
 
 MindeeClient mindeeClient = new MindeeClient(mindeeHttpApi);
 
-Document<InvoiceV4Inference> invoiceDocument=mindeeClient.parse(
-    InvoiceV4Inference.class,
+Document<InvoiceV4> invoiceDocument=mindeeClient.parse(
+    InvoiceV4.class,
     LocalInputSource
 );
 ```
@@ -158,7 +158,8 @@ When using this option you do not need to pass in a file name - the API uses the
 
 ```java
 LocalInputSource localInputSource = new LocalInputSource(
-    new File("path/to/document/document.pdf"));
+    new File("path/to/document/document.pdf")
+);
 ```
 
 #### Base64
@@ -179,7 +180,7 @@ Load file contents from a byte array.
 ```java
 // Get Byte Array from a File, Multipart File, Input Stream, or as a method parameter
 byte[] fileAsBytes = ....;
-LocalInputSource localInputSource = new LocalInputSource(fileAsBytes,"document.pdf");
+LocalInputSource localInputSource = new LocalInputSource(fileAsBytes, "document.pdf");
 ```
 
 ### Loading an URL
@@ -192,10 +193,7 @@ MindeeClient mindeeClient = new MindeeClient("my-api-key");
 
 URL documentUrl = new URL("https://path/to/document");
 
-Document<InvoiceV4Inference> invoiceDocument = mindeeClient.parse(
-  InvoiceV4Inference.class,
-  documentUrl
-);
+Document<InvoiceV4> invoiceDocument = mindeeClient.parse(InvoiceV4.class, documentUrl);
 ```
 
 ### Parsing a Document
@@ -213,8 +211,7 @@ This is detailed in each document-specific guide.
 Simply setting the correct class is enough:
 ```java
 // After the document has been loaded
-Document<ReceiptV4Inference> receiptV4Inference = 
-  mindeeClient.parse(ReceiptV4Inference.class, localInputSource);
+Document<ReceiptV4> receiptV4Inference = mindeeClient.parse(ReceiptV4.class, localInputSource);
 ```
 
 For more finer grained control over parsing the documents you can have a look on the `parse` override method.
@@ -227,14 +224,13 @@ keys will be the name of each field define in your Custom API model (on the Mind
 
 It also requires that you instantiate a new `CustomEndpoint` object to define the information of your custom API built.
 ```java
-CustomEndpoint myEndpoint = new CustomEndpoint(
+CustomEndpoint endpoint = new CustomEndpoint(
     "wnine",
     "john",
     "1.0" // optional
 );
 
-Document<CustomV1Inference> customDocument = mindeeClient
-    .parse(localInputSource, myEndpoint);
+Document<CustomV1> customDocument = mindeeClient.parse(localInputSource, endpoint);
 ```
 
 The second one is using your own class.
@@ -255,8 +251,8 @@ It's possible to have the same field in various pages, but at the document level
 will be shown (this is all done automatically at the API level).
 
 ```java
-Document<InvoiceV4Inference> invoiceDocument = 
-  documentClient.parse(InvoiceV4Inference.class, localInputSource);
+Document<InvoiceV4> invoiceDocument = documentClient.parse(InvoiceV4.class, localInputSource);
+
 // print the complete object
 logger.info(invoiceDocument.toString());
 
@@ -265,7 +261,6 @@ logger.info(invoiceResponse.documentPrediction.toString());
 
 // print the page-level info
 logger.info(invoiceResponse.documentPrediction.toString());
-
 ```
 
 Each inference specific class will have its own specific attributes, these correspond to the various fields extracted from the document.

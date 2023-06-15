@@ -13,8 +13,8 @@ import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.mindee.MindeeSettings;
 import com.mindee.parsing.common.Document;
 import com.mindee.parsing.common.PredictResponse;
-import com.mindee.product.invoice.InvoiceV4Inference;
-import com.mindee.product.invoicesplitter.InvoiceSplitterV1Inference;
+import com.mindee.product.invoice.InvoiceV4;
+import com.mindee.product.invoicesplitter.InvoiceSplitterV1;
 import com.mindee.MindeeException;
 import java.io.File;
 import java.io.IOException;
@@ -66,8 +66,8 @@ public class MindeeHttpApiTest extends TestCase {
 
     MindeeHttpApi client = MindeeHttpApi.builder().mindeeSettings(new MindeeSettings("abc", url))
         .build();
-    Document<InvoiceV4Inference> document = client.predict(
-        InvoiceV4Inference.class,
+    Document<InvoiceV4> document = client.predict(
+        InvoiceV4.class,
         RequestParameters.builder()
             .file(Files.readAllBytes(file.toPath()))
             .fileName(file.getName())
@@ -98,8 +98,8 @@ public class MindeeHttpApiTest extends TestCase {
     byte[] fileBytes = Files.readAllBytes(file.toPath());
     MindeeHttpApi client = MindeeHttpApi.builder().mindeeSettings(new MindeeSettings("abc", url))
         .build();
-    Document<InvoiceV4Inference> document = client.predict(
-        InvoiceV4Inference.class,
+    Document<InvoiceV4> document = client.predict(
+        InvoiceV4.class,
         RequestParameters.builder()
             .file(fileBytes)
             .fileName(file.getName())
@@ -123,8 +123,8 @@ public class MindeeHttpApiTest extends TestCase {
 
     MindeeHttpApi client = MindeeHttpApi.builder().mindeeSettings(new MindeeSettings("abc", url))
         .build();
-    Document<InvoiceV4Inference> document = client.predict(
-        InvoiceV4Inference.class,
+    Document<InvoiceV4> document = client.predict(
+        InvoiceV4.class,
         RequestParameters.builder()
             .file(null)
             .fileName(null)
@@ -160,8 +160,8 @@ public class MindeeHttpApiTest extends TestCase {
         .urlFromEndpoint(
             endpoint -> String.format("http://localhost:%s%s", mockWebServer.getPort(), mockPath))
         .build();
-    Document<InvoiceV4Inference> document = client.predict(
-        InvoiceV4Inference.class,
+    Document<InvoiceV4> document = client.predict(
+        InvoiceV4.class,
         RequestParameters.builder()
             .file(Files.readAllBytes(file.toPath()))
             .fileName(file.getName())
@@ -209,8 +209,8 @@ public class MindeeHttpApiTest extends TestCase {
         .mindeeSettings(new MindeeSettings("abc", url))
         .httpClientBuilder(httpclientBuilder)
         .build();
-    Document<InvoiceV4Inference> document = client.predict(
-        InvoiceV4Inference.class,
+    Document<InvoiceV4> document = client.predict(
+        InvoiceV4.class,
         RequestParameters.builder()
             .file(Files.readAllBytes(file.toPath()))
             .fileName(file.getName())
@@ -255,7 +255,7 @@ public class MindeeHttpApiTest extends TestCase {
     Assertions.assertThrows(
         MindeeException.class,
         () -> client.predict(
-            InvoiceV4Inference.class,
+            InvoiceV4.class,
             parseParameter)
     );
   }
@@ -272,8 +272,8 @@ public class MindeeHttpApiTest extends TestCase {
 
     MindeeHttpApi client = MindeeHttpApi.builder().mindeeSettings(new MindeeSettings("abc", url))
         .build();
-    PredictResponse<InvoiceSplitterV1Inference> invoiceSplitterV1Inference = client.checkJobStatus(
-        InvoiceSplitterV1Inference.class,
+    PredictResponse<InvoiceSplitterV1> invoiceSplitterV1Inference = client.checkJobStatus(
+        InvoiceSplitterV1.class,
         "2134e243244");
 
     Assertions.assertNotNull(invoiceSplitterV1Inference);

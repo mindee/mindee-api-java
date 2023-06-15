@@ -19,8 +19,8 @@ public class InvoiceSplitterV1Test {
     objectMapper.findAndRegisterModules();
 
     JavaType type = objectMapper.getTypeFactory().constructParametricType(PredictResponse.class,
-        InvoiceSplitterV1Inference.class);
-    PredictResponse<InvoiceSplitterV1Inference> splitterPrediction = objectMapper.readValue(
+        InvoiceSplitterV1.class);
+    PredictResponse<InvoiceSplitterV1> splitterPrediction = objectMapper.readValue(
         new File("src/test/resources/invoice_splitter/response_v1/complete.json"),
         type);
 

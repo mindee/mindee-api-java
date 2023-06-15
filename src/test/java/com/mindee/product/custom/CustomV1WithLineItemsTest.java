@@ -23,8 +23,8 @@ class CustomV1WithLineItemsTest {
     objectMapper.findAndRegisterModules();
 
     JavaType type = objectMapper.getTypeFactory().constructParametricType(PredictResponse.class,
-      CustomV1Inference.class);
-    PredictResponse<CustomV1Inference> customDocumentInference = objectMapper.readValue(
+      CustomV1.class);
+    PredictResponse<CustomV1> customDocumentInference = objectMapper.readValue(
       new File("src/test/resources/custom/response_v1/line_items/single_table_01.json"),
       type);
 

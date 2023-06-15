@@ -24,7 +24,7 @@ import lombok.Getter;
 @Getter
 @EqualsAndHashCode
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class InvoiceV4DocumentPrediction {
+public class InvoiceV4Document {
 
   /**
    * Locale information.

@@ -16,7 +16,7 @@ import lombok.Getter;
 @Getter
 @EqualsAndHashCode
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class IdCardV1DocumentPrediction {
+public class IdCardV1Document {
 
   /**
    * The identification card number.

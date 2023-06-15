@@ -13,7 +13,7 @@ import lombok.Getter;
 @Getter
 @EqualsAndHashCode(callSuper = true)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class IdCardV1PagePrediction extends IdCardV1DocumentPrediction {
+public class IdCardV1Page extends IdCardV1Document {
 
   /**
    * The side of the document which is visible.

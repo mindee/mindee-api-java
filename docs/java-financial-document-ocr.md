@@ -15,8 +15,8 @@ public class SimpleMindeeClient {
     LocalInputSource localInputSource = new LocalInputSource(
       new File("./a8e8cfa-a74eaa5-c8e283b-sample_invoice.jpeg")
     );
-    Document<FinancialV1Inference> document = mindeeClient.parse(
-      FinancialV1Inference.class, localInputSource
+    Document<FinancialDocumentV1> document = mindeeClient.parse(
+      FinancialDocumentV1.class, localInputSource
     );
 
     // Print a summary of the parsed data

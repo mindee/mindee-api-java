@@ -14,8 +14,8 @@ public class SimpleMindeeClient {
     LocalInputSource localInputSource = new LocalInputSource(
         new File("./853f15a-shipping_containers.jpg")
     );
-    Document<ShippingContainerV1Inference> document = mindeeClient.parse(
-        ShippingContainerV1Inference.class, localInputSource
+    Document<ShippingContainerV1> document = mindeeClient.parse(
+        ShippingContainerV1.class, localInputSource
     );
 
     // Print a summary of the parsed data

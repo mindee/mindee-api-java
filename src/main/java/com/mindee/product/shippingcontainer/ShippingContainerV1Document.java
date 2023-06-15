@@ -13,7 +13,7 @@ import lombok.Getter;
 @Getter
 @EqualsAndHashCode
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ShippingContainerV1DocumentPrediction {
+public class ShippingContainerV1Document {
   /**
   * The ISO-6346 code for container owner and equipment identifier.
   */

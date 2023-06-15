@@ -21,7 +21,7 @@ import lombok.Getter;
 @EqualsAndHashCode
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonDeserialize(using = CustomV1DocumentPredictionDeserializer.class)
-public class CustomV1DocumentPrediction {
+public class CustomV1Document {
 
   /**
    * Classification fields.

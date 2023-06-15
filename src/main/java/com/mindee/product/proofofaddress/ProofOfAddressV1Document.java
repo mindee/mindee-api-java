@@ -18,7 +18,7 @@ import lombok.Getter;
 @Getter
 @EqualsAndHashCode
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ProofOfAddressV1DocumentPrediction {
+public class ProofOfAddressV1Document {
 
   /**
   * The locale detected on the document.

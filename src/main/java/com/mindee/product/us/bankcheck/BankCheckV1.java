@@ -11,6 +11,6 @@ import lombok.Getter;
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
 @EndpointInfo(endpointName = "bank_check", version = "1")
-public class BankCheckV1Inference
-    extends Inference<BankCheckV1DocumentPrediction, BankCheckV1DocumentPrediction> {
+public class BankCheckV1
+    extends Inference<BankCheckV1Document, BankCheckV1Document> {
 }

@@ -9,8 +9,8 @@ import com.mindee.input.PageOptionsOperation;
 import com.mindee.parsing.common.Document;
 import com.mindee.parsing.common.Job;
 import com.mindee.parsing.common.PredictResponse;
-import com.mindee.product.custom.CustomV1Inference;
-import com.mindee.product.invoice.InvoiceV4Inference;
+import com.mindee.product.custom.CustomV1;
+import com.mindee.product.invoice.InvoiceV4;
 import com.mindee.pdf.PdfOperation;
 import com.mindee.pdf.SplitPdf;
 import java.io.File;
@@ -60,7 +60,7 @@ class MindeeClientTest {
                 Mockito.any()))
         .thenReturn(predictResponse);
 
-    Document<CustomV1Inference> document = client.parse(
+    Document<CustomV1> document = client.parse(
         new LocalInputSource(file),
         new CustomEndpoint("", "", ""));
 
@@ -92,7 +92,7 @@ class MindeeClientTest {
                 Mockito.any()))
         .thenReturn(new SplitPdf(new byte[0], 0));
 
-    Document<CustomV1Inference> document = client.parse(
+    Document<CustomV1> document = client.parse(
         new LocalInputSource(file),
         new CustomEndpoint("", "", ""),
         new PageOptions(
@@ -121,8 +121,8 @@ class MindeeClientTest {
                 Mockito.any()))
         .thenReturn(predictResponse);
 
-    Document<InvoiceV4Inference> document = client.parse(
-        InvoiceV4Inference.class,
+    Document<InvoiceV4> document = client.parse(
+        InvoiceV4.class,
         new LocalInputSource(file));
 
     Assertions.assertNotNull(document);
@@ -146,8 +146,8 @@ class MindeeClientTest {
                 Mockito.any()))
         .thenReturn(predictResponse);
 
-    Document<InvoiceV4Inference> document = client.parse(
-        InvoiceV4Inference.class,
+    Document<InvoiceV4> document = client.parse(
+        InvoiceV4.class,
         new LocalInputSource(
             Files.newInputStream(file.toPath()),
             ""));
@@ -172,8 +172,8 @@ class MindeeClientTest {
                 Mockito.any()))
         .thenReturn(predictResponse);
 
-    Document<InvoiceV4Inference> document = client.parse(
-        InvoiceV4Inference.class,
+    Document<InvoiceV4> document = client.parse(
+        InvoiceV4.class,
         new LocalInputSource(
             Files.readAllBytes(file.toPath()),
             ""));
@@ -204,8 +204,8 @@ class MindeeClientTest {
                 Mockito.any()))
         .thenReturn(new SplitPdf(new byte[0], 0));
 
-    Document<InvoiceV4Inference> document = client.parse(
-        InvoiceV4Inference.class,
+    Document<InvoiceV4> document = client.parse(
+        InvoiceV4.class,
         new LocalInputSource(file),
         new PageOptions(
             pageNumberToKeep, PageOptionsOperation.KEEP_ONLY, 0));
@@ -234,12 +234,12 @@ class MindeeClientTest {
                 Mockito.any(),
                 Mockito.any()))
         .thenReturn(predictResponse);
-    Document<InvoiceV4Inference> document = client.parse(
-        InvoiceV4Inference.class, docUrl);
+    Document<InvoiceV4> document = client.parse(
+        InvoiceV4.class, docUrl);
 
     Mockito.verify(mindeeApi, Mockito.times(1))
         .predict(classArgumentCaptor.capture(), requestParametersArgumentCaptor.capture());
-    Assertions.assertEquals(InvoiceV4Inference.class, classArgumentCaptor.getValue());
+    Assertions.assertEquals(InvoiceV4.class, classArgumentCaptor.getValue());
     Assertions.assertEquals(docUrl, requestParametersArgumentCaptor.getValue().getFileUrl());
     Assertions.assertNull(requestParametersArgumentCaptor.getValue().getFile());
     Assertions.assertNull(requestParametersArgumentCaptor.getValue().getFileName());
@@ -266,13 +266,13 @@ class MindeeClientTest {
                 Mockito.any(),
                 Mockito.any()))
         .thenReturn(predictResponse);
-    Document<CustomV1Inference> document = client.parse(
+    Document<CustomV1> document = client.parse(
         docUrl, endpoint);
 
     Mockito.verify(mindeeApi, Mockito.times(1))
         .predict(classArgumentCaptor.capture(), customEndpointArgumentCaptor.capture(),
             requestParametersArgumentCaptor.capture());
-    Assertions.assertEquals(CustomV1Inference.class, classArgumentCaptor.getValue());
+    Assertions.assertEquals(CustomV1.class, classArgumentCaptor.getValue());
     Assertions.assertEquals(docUrl, requestParametersArgumentCaptor.getValue().getFileUrl());
     Assertions.assertEquals(endpoint, customEndpointArgumentCaptor.getValue());
     Assertions.assertNull(requestParametersArgumentCaptor.getValue().getFile());
@@ -295,7 +295,7 @@ class MindeeClientTest {
                 Mockito.any(),
                 Mockito.any()))
         .thenReturn(predictResponse);
-    String jobId = client.enqueue(InvoiceV4Inference.class, localInputSource,Boolean.TRUE, null)
+    String jobId = client.enqueue(InvoiceV4.class, localInputSource,Boolean.TRUE, null)
         .getJob()
         .map(Job::getId)
         .orElse("");
@@ -307,7 +307,7 @@ class MindeeClientTest {
         .predict(classArgumentCaptor.capture(), requestParametersArgumentCaptor.capture());
 
     RequestParameters requestParameters = requestParametersArgumentCaptor.getValue();
-    Assertions.assertEquals(InvoiceV4Inference.class,classArgumentCaptor.getValue());
+    Assertions.assertEquals(InvoiceV4.class,classArgumentCaptor.getValue());
     Assertions.assertEquals(Boolean.TRUE,requestParameters.getAsyncCall());
     Assertions.assertEquals("invoice.pdf",requestParameters.getFileName());
     Assertions.assertEquals(Boolean.TRUE,requestParameters.getAllWords());
@@ -330,7 +330,7 @@ class MindeeClientTest {
                 Mockito.any(),
                 Mockito.any()))
         .thenReturn(predictResponse);
-    String jobId = client.enqueue(InvoiceV4Inference.class,new URL("https://fake.pdf"))
+    String jobId = client.enqueue(InvoiceV4.class,new URL("https://fake.pdf"))
         .getJob()
         .map(Job::getId)
         .orElse("");
@@ -341,7 +341,7 @@ class MindeeClientTest {
         .predict(classArgumentCaptor.capture(), requestParametersArgumentCaptor.capture());
 
     RequestParameters requestParameters = requestParametersArgumentCaptor.getValue();
-    Assertions.assertEquals(InvoiceV4Inference.class,classArgumentCaptor.getValue());
+    Assertions.assertEquals(InvoiceV4.class,classArgumentCaptor.getValue());
     Assertions.assertEquals(Boolean.TRUE,requestParameters.getAsyncCall());
     Assertions.assertNull(requestParameters.getFileName());
     Assertions.assertEquals(Boolean.FALSE,requestParameters.getAllWords());
