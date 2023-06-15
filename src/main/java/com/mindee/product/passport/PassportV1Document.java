@@ -16,7 +16,7 @@ import lombok.Getter;
 @Getter
 @EqualsAndHashCode
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class PassportV1DocumentPrediction {
+public class PassportV1Document {
   /**
    * The country of issue.
    */

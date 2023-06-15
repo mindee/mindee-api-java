@@ -3,7 +3,7 @@ package com.mindee.parsing.common;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mindee.product.invoicesplitter.InvoiceSplitterV1Inference;
+import com.mindee.product.invoicesplitter.InvoiceSplitterV1;
 import junit.framework.TestCase;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -12,13 +12,13 @@ import java.io.IOException;
 
 public class PredictResponseTest extends TestCase {
 
-  private PredictResponse<InvoiceSplitterV1Inference> loadAsyncResponse(String filePath) throws IOException {
+  private PredictResponse<InvoiceSplitterV1> loadAsyncResponse(String filePath) throws IOException {
     ObjectMapper objectMapper = new ObjectMapper();
     objectMapper.findAndRegisterModules();
 
     JavaType type = objectMapper.getTypeFactory().constructParametricType(
       PredictResponse.class,
-      InvoiceSplitterV1Inference.class
+      InvoiceSplitterV1.class
     );
     return objectMapper.readValue(new File(filePath), type);
   }
@@ -36,7 +36,7 @@ public class PredictResponseTest extends TestCase {
 
   @Test
   void whenAsyncPost_returnsErrorForbidden_mustBeDeserialized() throws IOException {
-    PredictResponse<InvoiceSplitterV1Inference> response = loadAsyncResponse(
+    PredictResponse<InvoiceSplitterV1> response = loadAsyncResponse(
         "src/test/resources/async/post_fail_forbidden.json"
     );
     Assertions.assertNotNull(response);
@@ -49,7 +49,7 @@ public class PredictResponseTest extends TestCase {
 
   @Test
   void whenAsyncPost_returnsSuccess_mustBeDeserialized() throws IOException {
-    PredictResponse<InvoiceSplitterV1Inference> response = loadAsyncResponse(
+    PredictResponse<InvoiceSplitterV1> response = loadAsyncResponse(
       "src/test/resources/async/post_success.json"
     );
     Assertions.assertNotNull(response);
@@ -62,7 +62,7 @@ public class PredictResponseTest extends TestCase {
 
   @Test
   void whenAsyncGet_returnsProcessing_mustBeDeserialized() throws IOException {
-    PredictResponse<InvoiceSplitterV1Inference> response = loadAsyncResponse(
+    PredictResponse<InvoiceSplitterV1> response = loadAsyncResponse(
         "src/test/resources/async/get_processing.json"
     );
     Assertions.assertNotNull(response);
@@ -74,7 +74,7 @@ public class PredictResponseTest extends TestCase {
 
   @Test
   void whenAsyncGet_returnsCompleted_mustBeDeserialized() throws IOException {
-    PredictResponse<InvoiceSplitterV1Inference> response = loadAsyncResponse(
+    PredictResponse<InvoiceSplitterV1> response = loadAsyncResponse(
         "src/test/resources/async/get_completed.json"
     );
     Assertions.assertNotNull(response);

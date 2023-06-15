@@ -20,8 +20,8 @@ class PassportV1Test {
     objectMapper.findAndRegisterModules();
 
     JavaType type = objectMapper.getTypeFactory().constructParametricType(PredictResponse.class,
-      PassportV1Inference.class);
-    PredictResponse<PassportV1Inference> prediction = objectMapper.readValue(
+      PassportV1.class);
+    PredictResponse<PassportV1> prediction = objectMapper.readValue(
         new File("src/test/resources/passport/response_v1/complete.json"),
         type);
 

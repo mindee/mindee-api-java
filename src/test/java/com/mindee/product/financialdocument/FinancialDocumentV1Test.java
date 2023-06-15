@@ -20,8 +20,8 @@ class FinancialDocumentV1Test {
     objectMapper.findAndRegisterModules();
 
     JavaType type = objectMapper.getTypeFactory().constructParametricType(PredictResponse.class,
-      FinancialDocumentV1Inference.class);
-    PredictResponse<FinancialDocumentV1Inference> prediction = objectMapper.readValue(
+      FinancialDocumentV1.class);
+    PredictResponse<FinancialDocumentV1> prediction = objectMapper.readValue(
         new File("src/test/resources/financial_document/response_v1/complete_invoice.json"),
         type);
 
@@ -41,8 +41,8 @@ class FinancialDocumentV1Test {
     objectMapper.findAndRegisterModules();
 
     JavaType type = objectMapper.getTypeFactory().constructParametricType(PredictResponse.class,
-      FinancialDocumentV1Inference.class);
-    PredictResponse<FinancialDocumentV1Inference> prediction = objectMapper.readValue(
+      FinancialDocumentV1.class);
+    PredictResponse<FinancialDocumentV1> prediction = objectMapper.readValue(
       new File("src/test/resources/financial_document/response_v1/complete_invoice.json"),
       type);
 
@@ -64,8 +64,8 @@ class FinancialDocumentV1Test {
     objectMapper.findAndRegisterModules();
 
     JavaType type = objectMapper.getTypeFactory().constructParametricType(PredictResponse.class,
-      FinancialDocumentV1Inference.class);
-    PredictResponse<FinancialDocumentV1Inference> prediction = objectMapper.readValue(
+      FinancialDocumentV1.class);
+    PredictResponse<FinancialDocumentV1> prediction = objectMapper.readValue(
       new File("src/test/resources/financial_document/response_v1/complete_receipt.json"),
       type);
 
@@ -85,8 +85,8 @@ class FinancialDocumentV1Test {
     objectMapper.findAndRegisterModules();
 
     JavaType type = objectMapper.getTypeFactory().constructParametricType(PredictResponse.class,
-      FinancialDocumentV1Inference.class);
-    PredictResponse<FinancialDocumentV1Inference> prediction = objectMapper.readValue(
+      FinancialDocumentV1.class);
+    PredictResponse<FinancialDocumentV1> prediction = objectMapper.readValue(
       new File("src/test/resources/financial_document/response_v1/complete_receipt.json"),
       type);
 

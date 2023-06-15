@@ -20,8 +20,8 @@ class ProofOfAddressV1Test {
     objectMapper.findAndRegisterModules();
 
     JavaType type = objectMapper.getTypeFactory().constructParametricType(PredictResponse.class,
-      ProofOfAddressV1Inference.class);
-    PredictResponse<ProofOfAddressV1Inference> prediction = objectMapper.readValue(
+      ProofOfAddressV1.class);
+    PredictResponse<ProofOfAddressV1> prediction = objectMapper.readValue(
         new File("src/test/resources/proof_of_address/response_v1/complete.json"),
         type);
 

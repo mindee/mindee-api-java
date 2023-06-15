@@ -21,8 +21,8 @@ class ShippingContainerV1Test {
     objectMapper.findAndRegisterModules();
 
     JavaType type = objectMapper.getTypeFactory().constructParametricType(PredictResponse.class,
-      ShippingContainerV1Inference.class);
-    PredictResponse<ShippingContainerV1Inference> prediction = objectMapper.readValue(
+      ShippingContainerV1.class);
+    PredictResponse<ShippingContainerV1> prediction = objectMapper.readValue(
         new File("src/test/resources/shipping_container/response_v1/complete.json"),
         type);
 

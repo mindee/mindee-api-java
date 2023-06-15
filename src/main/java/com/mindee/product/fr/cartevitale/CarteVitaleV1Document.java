@@ -16,7 +16,7 @@ import lombok.Getter;
 @Getter
 @EqualsAndHashCode
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class CarteVitaleV1DocumentPrediction {
+public class CarteVitaleV1Document {
 
   /**
   * The given name(s) of the card holder.
