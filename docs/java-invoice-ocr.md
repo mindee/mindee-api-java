@@ -11,7 +11,7 @@ we are going to illustrate how to extract the data that we want using the client
 MindeeClient client = MindeeClientInit.create("my-api-key");
 
 // Load a file from disk and parse it
-LocalInputSource localInputSource = mindeeClient.loadDocument(
+LocalInputSource localInputSource = new LocalInputSource(
   new File("./a74eaa5-c8e283b-sample_invoice.jpeg")
 );
 Document<InvoiceV4Inference> document = mindeeClient.parse(

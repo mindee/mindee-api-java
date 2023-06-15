@@ -155,7 +155,7 @@ Load a `java.io.File` object.
 When using this option you do not need to pass in a file name - the API uses the `file.getName()` method to get the file name.
 
 ```java
-LocalInputSource localInputSource = mindeeClient.loadDocument(
+LocalInputSource localInputSource = new LocalInputSource(
     new File("path/to/document/document.pdf"));
 ```
 
@@ -166,7 +166,7 @@ Load file contents from a base64-encoded string.
 
 ```java
 String b64String = "/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLD....";
-LocalInputSource localInputSource = mindeeClient.loadDocument(b64String,"document.pdf");
+LocalInputSource localInputSource = new LocalInputSource(b64String,"document.pdf");
 ```
 
 #### Bytes
@@ -177,7 +177,7 @@ Load file contents from a byte array.
 ```java
 // Get Byte Array from a File, Multipart File, Input Stream, or as a method parameter
 byte[] fileAsBytes = ....;
-LocalInputSource localInputSource = mindeeClient.loadDocument(fileAsBytes,"document.pdf");
+LocalInputSource localInputSource = new LocalInputSource(fileAsBytes,"document.pdf");
 ```
 
 ### Loading an URL

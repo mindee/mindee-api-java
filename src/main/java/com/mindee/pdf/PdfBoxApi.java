@@ -1,7 +1,7 @@
 package com.mindee.pdf;
 
-import com.mindee.parsing.PageOptions;
-import com.mindee.utils.MindeeException;
+import com.mindee.MindeeException;
+import com.mindee.input.PageOptions;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;

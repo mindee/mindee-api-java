@@ -3,18 +3,16 @@ package com.mindee;
 import com.mindee.http.CustomEndpoint;
 import com.mindee.http.MindeeApi;
 import com.mindee.http.RequestParameters;
-import com.mindee.parsing.PageOptions;
+import com.mindee.input.InputSourceUtils;
+import com.mindee.input.LocalInputSource;
+import com.mindee.input.PageOptions;
 import com.mindee.parsing.common.Document;
 import com.mindee.parsing.common.Inference;
 import com.mindee.parsing.common.PredictResponse;
-import com.mindee.parsing.custom.CustomV1Inference;
 import com.mindee.pdf.PdfOperation;
 import com.mindee.pdf.SplitQuery;
-import com.mindee.utils.FileUtils;
-import com.mindee.utils.MindeeException;
-import java.io.File;
+import com.mindee.product.custom.CustomV1Inference;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 
 /**
@@ -28,31 +26,6 @@ public class MindeeClient {
   public MindeeClient(PdfOperation pdfOperation, MindeeApi mindeeApi) {
     this.pdfOperation = pdfOperation;
     this.mindeeApi = mindeeApi;
-  }
-
-  public LocalInputSource loadDocument(
-      InputStream fileStream,
-      String fileName
-  ) throws IOException {
-    return new LocalInputSource(fileStream, fileName);
-  }
-
-  public LocalInputSource loadDocument(
-      byte[] fileAsByteArray,
-      String filename
-  ) {
-    return new LocalInputSource(fileAsByteArray, filename);
-  }
-
-  public LocalInputSource loadDocument(File file) throws IOException {
-    return new LocalInputSource(file);
-  }
-
-  public LocalInputSource loadDocument(
-      String fileInBase64Code,
-      String filename
-  ) {
-    return new LocalInputSource(fileInBase64Code, filename);
   }
 
   public <T extends Inference> PredictResponse<T> parseQueued(Class<T> type, String jobId) {
@@ -84,7 +57,7 @@ public class MindeeClient {
       Class<T> type,
       URL sourceUrl
   ) throws IOException {
-    validateUrl(sourceUrl);
+    InputSourceUtils.validateUrl(sourceUrl);
     return this.enqueue(type, null,
         null, Boolean.FALSE, sourceUrl);
   }
@@ -146,7 +119,7 @@ public class MindeeClient {
       Class<T> type,
       URL urlInputSource
   ) throws IOException {
-    validateUrl(urlInputSource);
+    InputSourceUtils.validateUrl(urlInputSource);
     return this.parse(type, null, null, false, urlInputSource);
   }
 
@@ -183,7 +156,7 @@ public class MindeeClient {
       URL documentUrl,
       CustomEndpoint customEndpoint
   ) throws IOException {
-    validateUrl(documentUrl);
+    InputSourceUtils.validateUrl(documentUrl);
     return this.parse(null, null, customEndpoint, documentUrl);
   }
 
@@ -216,18 +189,12 @@ public class MindeeClient {
         .orElseThrow(() -> new MindeeException("No Document Returned by endpoint"));
   }
 
-  private void validateUrl(URL documentUrl) {
-    if (!"https".equalsIgnoreCase(documentUrl.getProtocol())) {
-      throw new MindeeException("Only HTTPS source URLs are allowed");
-    }
-  }
-
   private byte[] getSplitFile(
       LocalInputSource localInputSource,
       PageOptions pageOptions
   ) throws IOException {
     byte[] splitFile;
-    boolean isPDF = FileUtils.getFileExtension(localInputSource.getFilename())
+    boolean isPDF = InputSourceUtils.getFileExtension(localInputSource.getFilename())
         .equalsIgnoreCase("pdf");
     if (pageOptions == null || !isPDF) {
       splitFile = localInputSource.getFile();

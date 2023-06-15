@@ -1,8 +1,8 @@
 import com.mindee.MindeeClient;
 import com.mindee.MindeeClientInit;
-import com.mindee.LocalInputSource;
+import com.mindee.input.LocalInputSource;
 import com.mindee.parsing.common.Document;
-import com.mindee.parsing.financialdocument.FinancialDocumentV1Inference;
+import com.mindee.product.financialdocument.FinancialDocumentV1Inference;
 import java.io.File;
 import java.io.IOException;
 
