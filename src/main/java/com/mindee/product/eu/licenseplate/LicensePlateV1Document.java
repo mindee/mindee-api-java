@@ -3,7 +3,7 @@ package com.mindee.product.eu.licenseplate;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mindee.parsing.SummaryHelper;
-import com.mindee.parsing.standard.field.StringField;
+import com.mindee.parsing.standard.StringField;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.EqualsAndHashCode;

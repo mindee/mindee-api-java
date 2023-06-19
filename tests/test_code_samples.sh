@@ -14,9 +14,9 @@ mvn dependency:copy-dependencies
 
 for f in $(find docs/code_samples -maxdepth 1 -name "*.txt" | sort -h)
 do
-  echo "###############################################"
+  echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
   echo "${f}"
-  echo "###############################################"
+  echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
   echo
 
   cat "${f}" > $OUTPUT_FILE
