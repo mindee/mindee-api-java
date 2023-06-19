@@ -29,6 +29,9 @@ public class Error {
 
   @Override
   public String toString() {
+    if (this.code == null) {
+      return "";
+    }
     return this.code + " : " + this.message + " - " + this.details;
   }
 }

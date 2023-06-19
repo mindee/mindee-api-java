@@ -110,47 +110,64 @@ To Configure a `MindeeClient` to use a proxy, the following code can be referenc
 
 ```java
 
-import com.mindee.parsing;
+import com.mindee.MindeeClient;
+import com.mindee.input.LocalInputSource;
+import com.mindee.parsing.common.PredictResponse;
 import com.mindee.product.invoice.InvoiceV4;
+import java.io.File;
+import java.io.IOException;
 
-// you can also configure things like caching, custom HTTPS certs,
-// timeouts and connection pool sizes here.
-// See: https://hc.apache.org/httpcomponents-client-5.1.x/current/httpclient5/apidocs/org/apache/hc/client5/http/impl/classic/HttpClientBuilder.html
-HttpHost proxy = new HttpHost("<proxy-host>",<proxy-port>);
+public class SimpleMindeeClient {
+    public static void main(String[] args) throws IOException {
 
-DefaultProxyRoutePlanner routePlanner = new DefaultProxyRoutePlanner(proxy);
-HttpClientBuilder httpclientBuilder = HttpClients.custom().setRoutePlanner(routePlanner);
+      // You can also configure things like caching, custom HTTPS certs,
+      // timeouts and connection pool sizes here.
+      // See: https://hc.apache.org/httpcomponents-client-5.1.x/current/httpclient5/apidocs/org/apache/hc/client5/http/impl/classic/HttpClientBuilder.html
+      String proxyHost = "myproxy.local";
+      int proxyPort = 8181;
+      HttpHost proxy = new HttpHost(proxyHost, proxyPort);
 
-// Build MindeeHttpAPI using the HtppClientBuilder
-MindeeHttpApi mindeeHttpApi = MindeeHttpApi.builder()
-    .mindeeSettings(new MindeeSettings("my-api-key"))
-    .httpClientBuilder(httpclientBuilder)
-    .build();
+      DefaultProxyRoutePlanner routePlanner = new DefaultProxyRoutePlanner(proxy);
+      HttpClientBuilder httpclientBuilder = HttpClients.custom().setRoutePlanner(routePlanner);
 
-MindeeClient mindeeClient = new MindeeClient(mindeeHttpApi);
+      // Build MindeeHttpAPI using the HtppClientBuilder
+      MindeeHttpApi mindeeHttpApi = MindeeHttpApi.builder()
+          .mindeeSettings(new MindeeSettings("my-api-key"))
+          .httpClientBuilder(httpclientBuilder)
+          .build();
 
-PredictResponse<InvoiceV4> invoiceDocument=mindeeClient.parse(
-    InvoiceV4.class,
-    LocalInputSource
-);
+      // Inject the MindeeHttpAPI instance directly into the MindeeClient
+      MindeeClient mindeeClient = new MindeeClient(mindeeHttpApi);
+      
+      // Parse a file as usual
+      PredictResponse<InvoiceV4> invoiceDocument = mindeeClient.parse(
+          InvoiceV4.class,
+          LocalInputSource(new File("/path/to/the/file.ext"))
+      );
+    }
+}
 ```
 
-### Loading a Document File
-Before being able to send a document to the API, it must first be loaded.
+### Loading a Source File
+Before being able to send a file to the API, it must first be loaded.
 
 You don't need to worry about different MIME types, the library will take care of handling
 all supported types automatically.
 
-Once a document is loaded, interacting with it is done in exactly the same way, regardless
+Once a file is loaded, interacting with it is done in exactly the same way, regardless
 of how it was loaded.
+
+Loading a file allows performing PDF operations on it.
 
 There are a few different ways of loading a document file, depending on your use case:
 * [File](#file-object)
 * [Base64](#base64)
 * [Byte Array](#bytes)
 
-The `MindeeClient` class provides overloaded `loadDocument` methods for these three input types.
-The `loadDocument` method returns an object of the `LocalInputSource` class which can be used for further interactions with the API.
+You can also send distant files.
+However, in this case nothing is done or can be done locally.
+* [URL](#URL)
+
 
 #### File Object
 Load a `java.io.File` object.
@@ -169,7 +186,7 @@ Load file contents from a base64-encoded string.
 
 ```java
 String b64String = "/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLD....";
-LocalInputSource localInputSource = new LocalInputSource(b64String,"document.pdf");
+LocalInputSource localInputSource = new LocalInputSource(b64String, "document.pdf");
 ```
 
 #### Bytes
@@ -181,19 +198,14 @@ Load file contents from a byte array.
 // Get Byte Array from a File, Multipart File, Input Stream, or as a method parameter
 byte[] fileAsBytes = ....;
 LocalInputSource localInputSource = new LocalInputSource(fileAsBytes, "document.pdf");
+PredictResponse<InvoiceV4> response = mindeeClient.parse(InvoiceV4.class, LocalInputSource);
 ```
 
-### Loading an URL
+### URL
 Alternatively, an HTTPS URL can be loaded:
 ```java
-import com.mindee.parsing;
-import com.mindee.parsing.invoice;
-
-MindeeClient mindeeClient = new MindeeClient("my-api-key");
-
 URL documentUrl = new URL("https://path/to/document");
-
-PredictResponse<InvoiceV4> invoiceDocument = mindeeClient.parse(InvoiceV4.class, documentUrl);
+PredictResponse<InvoiceV4> response = mindeeClient.parse(InvoiceV4.class, documentUrl);
 ```
 
 ### Parsing a Document
@@ -214,7 +226,7 @@ Simply setting the correct class is enough:
 PredictResponse<ReceiptV4> receiptV4Inference = mindeeClient.parse(ReceiptV4.class, localInputSource);
 ```
 
-For more finer grained control over parsing the documents you can have a look on the `parse` override method.
+For more fine-grained control over parsing the documents you can have a look on the `parse` override method.
 
 #### Custom Documents
 In this case, you will have two ways to handle them.
@@ -222,7 +234,7 @@ In this case, you will have two ways to handle them.
 The first one enables the possibility to use a class object which represents a kind of dictionary where,
 keys will be the name of each field define in your Custom API model (on the Mindee platform).
 
-It also requires that you instantiate a new `CustomEndpoint` object to define the information of your custom API built.
+It also requires that you instantiate a new `Endpoint` object to define the information of your custom API built.
 ```java
 CustomEndpoint endpoint = new CustomEndpoint(
     "wnine",
@@ -251,16 +263,26 @@ It's possible to have the same field in various pages, but at the document level
 will be shown (this is all done automatically at the API level).
 
 ```java
-PredictResponse<InvoiceV4> invoiceDocument = documentClient.parse(InvoiceV4.class, localInputSource);
+PredictResponse<InvoiceV4> response = documentClient.parse(
+    InvoiceV4.class,
+    localInputSource
+);
 
-// print the complete object
-logger.info(invoiceDocument.toString());
+// print the complete response
+System.out.println(response.toString());
 
-// print the document-level info
-logger.info(invoiceResponse.documentPrediction.toString());
+// print all prediction data
+System.out.println(response.getDocument().toString());
 
-// print the page-level info
-logger.info(invoiceResponse.documentPrediction.toString());
+// print the document-level prediction
+System.out.println(
+    response.getDocument().getInference().getPrediction().toString()
+);
+
+// print the page-level predictions
+response.getDocument().getInference().getPages().forEach(
+  page -> System.out.println(page.toString())
+);
 ```
 
 Each inference specific class will have its own specific attributes, these correspond to the various fields extracted from the document.

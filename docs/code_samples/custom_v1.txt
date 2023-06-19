@@ -23,13 +23,26 @@ public class SimpleMindeeClient {
         "my-endpoint",
         "my-account"
     );
+
+    // Parse the file
     PredictResponse<CustomV1> response =  mindeeClient.parse(
         inputSource,
         endpoint
     );
 
-    // Print a summary of the parsed data
-    System.out.println(response.getDocument().toString());
+    // Print a summary of the response
+    System.out.println(response.toString());
+
+    // Print a summary of the predictions
+//  System.out.println(response.getDocument().toString());
+
+    // Print the document-level predictions
+//    System.out.println(response.getDocument().getInference().getPrediction().toString());
+
+    // Print the page-level predictions
+//    response.getDocument().getInference().getPages().forEach(
+//        page -> System.out.println(page.toString())
+//    );
   }
 
 }

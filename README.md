@@ -26,57 +26,102 @@ Where `${mindee.sdk.version}` is the version shown here:
 The `MindeeClient` class is the entry point for most of the helper library features.
 
 ### Global Documents
-These classes are available in the `com.mindee.parsing` package: 
+These classes are available in the `com.mindee.product` package: 
 
 ```java
-import com.mindee.parsing;
-import com.mindee.parsing.invoice;
+import com.mindee.MindeeClient;
+import com.mindee.input.LocalInputSource;
+import com.mindee.parsing.common.PredictResponse;
+import com.mindee.product.invoice.InvoiceV4;
+import java.io.File;
+import java.io.IOException;
 
-MindeeClient mindeeClient = new MindeeClient("my-api-key");
+public class SimpleMindeeClient {
+  public static void main(String[] args) throws IOException {
 
-LocalInputSource localInputSource = mindeeClient.loadDocument(new File("/path/to/the/file.ext"));
+    // Init a new client
+    MindeeClient mindeeClient = new MindeeClient("my-api-key");
 
-Document<InvoiceV4Inference> invoiceDocument = mindeeClient.parse(
-  InvoiceV4Inference.class,
-  localInputSource
-);
+    // Load a file from disk
+    LocalInputSource localInputSource = new LocalInputSource(
+        new File("/path/to/the/file.ext")
+    );
+    // Parse the file
+    Document<InvoiceV4> response = mindeeClient.parse(
+        InvoiceV4.class,
+        localInputSource
+    );
+    // Print a summary of the parsed data
+    System.out.println(response.getDocument().toString());
+  }
+}
+
 ```
 
 ### Region-Specific Documents
-Each region will have its own package within the general `com.mindee.parsing` package.
+Each region will have its own package within the general `com.mindee.product` package.
 
-For example USA-specific classes will be in the `com.mindee.parsing.us` package:
+For example USA-specific classes will be in the `com.mindee.product.us` package:
 
 ```java
-import com.mindee.parsing;
-import com.mindee.parsing.us.bankcheck;
+import com.mindee.MindeeClient;
+import com.mindee.input.LocalInputSource;
+import com.mindee.parsing.common.PredictResponse;
+import com.mindee.product.us.bankcheck.BankCheckV1;
+import java.io.File;
+import java.io.IOException;
 
-MindeeClient mindeeClient = new MindeeClient("my-api-key");
+public class SimpleMindeeClient {
+  public static void main(String[] args) throws IOException {
 
-LocalInputSource localInputSource = mindeeClient.loadDocument(new File("/path/to/the/file.ext"));
+    // Init a new client
+    MindeeClient mindeeClient = new MindeeClient("my-api-key");
 
-Document<BankCheckV1Inference> bankCheckDocument = mindeeClient.parse(
-  BankCheckV1Inference.class,
-  localInputSource
-);
+    // Load a file from disk
+    LocalInputSource localInputSource = new LocalInputSource(
+        new File("/path/to/the/file.ext")
+    );
+    // Parse the file
+    Document<BankCheckV1> response = mindeeClient.parse(
+            BankCheckV1.class,
+            localInputSource
+    );
+    // Print a summary of the parsed data
+    System.out.println(response.getDocument().toString());
+  }
+}
 ```
 
 ### Custom Documents (API Builder)
 ```java
-import com.mindee.parsing;
-import com.mindee.parsing.custom;
+import com.mindee.MindeeClient;
+import com.mindee.input.LocalInputSource;
+import com.mindee.parsing.common.PredictResponse;
+import com.mindee.product.custom.CustomV1;
+import com.mindee.http.Endpoint;
+import java.io.File;
+import java.io.IOException;
 
-MindeeClient mindeeClient = new MindeeClient("my-api-key");
-CustomEndpoint endpoint = new CustomEndpoint("my-endpoint", "my-account");
+public class SimpleMindeeClient {
+  public static void main(String[] args) throws IOException {
 
-LocalInputSource localInputSource = mindeeClient.loadDocument(
-  new File("src/main/resources/invoices/invoice1.pdf")
-);
+    // Init a new client
+    MindeeClient mindeeClient = new MindeeClient("my-api-key");
+    
+    // Init the endpoint for the custom document
+    Endpoint endpoint = new Endpoint("my-endpoint", "my-account");
 
-Document<CustomV1Inference> customDocument = mindeeClient.parse(
-  localInputSource,
-  endpoint
-);
+    // Load a file from disk
+    LocalInputSource localInputSource = new LocalInputSource(
+        new File("src/main/resources/invoices/invoice1.pdf")
+    );
+    // Parse the file
+    Document<CustomV1> customDocument = mindeeClient.parse(
+        localInputSource,
+        endpoint
+    );
+  }
+}
 ```
 
 ## Further Reading
