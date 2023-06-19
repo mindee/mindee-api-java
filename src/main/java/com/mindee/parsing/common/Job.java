@@ -32,6 +32,7 @@ public class Job {
    * The time at which the job finished
    */
   @JsonProperty("available_at")
+  @JsonDeserialize(using = LocalDateTimeDeserializer.class)
   private LocalDateTime availableAt;
   /*
    * Identifier for the job

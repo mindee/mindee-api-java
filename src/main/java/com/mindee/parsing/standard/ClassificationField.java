@@ -1,26 +1,21 @@
-package com.mindee.parsing.standard.field;
+package com.mindee.parsing.standard;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 
 /**
- * Represent a company registration.
+ * Represents a classifier value.
  */
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
-public final class CompanyRegistrationField extends BaseField {
+public final class ClassificationField {
 
   /**
-   * The value of the field.
+   * The value as a String.
    */
   @JsonProperty("value")
   private String value;
-  /**
-   * Type of the company registration number.
-   */
-  @JsonProperty("type")
-  private String type;
 
   @Override
   public String toString() {
