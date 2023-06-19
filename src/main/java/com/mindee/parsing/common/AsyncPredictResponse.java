@@ -31,4 +31,14 @@ public class AsyncPredictResponse<T extends Inference> extends ApiResponse {
   public Optional<Document<T>> getDocument() {
     return Optional.ofNullable(this.document);
   }
+
+  public String toString() {
+    String document;
+    if (this.getDocument().isPresent()) {
+      document = String.format("%n%n%s", this.getDocument());
+    } else {
+      document = "";
+    }
+    return String.format("%s%n%n%s%s", this.apiRequest, this.job, document);
+  }
 }
