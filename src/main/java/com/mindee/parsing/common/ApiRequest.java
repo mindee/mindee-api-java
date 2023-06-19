@@ -41,4 +41,14 @@ public class ApiRequest {
    */
   @JsonProperty("url")
   private String url;
+
+  public String toString() {
+    return
+      String.format("###########%n")
+        + String.format("API Request%n")
+        + String.format("###########%n")
+        + String.format(":Status: %s%n", this.status)
+        + String.format(":Status Code: %s%n", this.statusCode)
+        + String.format(":Error: %s%n", this.error);
+  }
 }
