@@ -21,4 +21,8 @@ public class PredictResponse<T extends Inference> extends ApiResponse {
    */
   @JsonProperty("document")
   Document<T> document;
+
+  public String toString() {
+    return String.format("%s%n%n%s", this.apiRequest, this.document);
+  }
 }
