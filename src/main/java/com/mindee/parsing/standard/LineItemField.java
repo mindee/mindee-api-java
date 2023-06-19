@@ -1,4 +1,4 @@
-package com.mindee.parsing.standard.field;
+package com.mindee.parsing.standard;
 
 /**
  * Represent a single line in a field printable as an rST table.

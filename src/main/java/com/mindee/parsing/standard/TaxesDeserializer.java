@@ -1,4 +1,4 @@
-package com.mindee.parsing.standard.field;
+package com.mindee.parsing.standard;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.type.TypeReference;
