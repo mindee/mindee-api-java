@@ -3,7 +3,7 @@ package com.mindee.product.fr.idcard;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mindee.parsing.SummaryHelper;
-import com.mindee.parsing.standard.field.ClassificationField;
+import com.mindee.parsing.standard.ClassificationField;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 

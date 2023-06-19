@@ -5,7 +5,7 @@ import com.mindee.geometry.BoundingBoxUtils;
 import com.mindee.geometry.Polygon;
 import com.mindee.geometry.PolygonUtils;
 import com.mindee.parsing.custom.ListFieldValue;
-import com.mindee.parsing.standard.field.StringField;
+import com.mindee.parsing.standard.StringField;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.Getter;
