@@ -1,5 +1,29 @@
 # Mindee Java API Library Changelog
 
+## v4.0.0 - 2023-06-20
+### ¡Breaking Changes!
+* :art: harmonize variable and class names with API response
+* :art: improve code structure
+* :recycle: harmonize naming with other client libraries
+* :art: put all the api classes in the http package
+* :recycle: simplify getting a polygon's centroid
+* :art: simplify MindeeClient creation
+* :art: simplify product class names
+### Changes
+* :sparkles: add support for asynchronous endpoints
+* :sparkles: add support for invoice splitter v1
+* :sparkles: add support for financial document v1.1
+* :sparkles: add support for FR bank account details v2
+* :sparkles: add receipt v5 support
+* :sparkles: allow printing of the entire response
+* :sparkles: better printing of tax information
+* :recycle: use better table output for line items
+* :art: harmonize CLI with other libraries
+* :speech_balloon: update product property descriptions
+### Fixes
+:bug: fix for proper ordering of words
+:bug: make sure account and endpoint is set on test script
+
 ## v3.4.0 - 2023-05-02
 ### Changes
 * :memo: make code samples easier to read
