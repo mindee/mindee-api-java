@@ -135,7 +135,6 @@ Complete details on the working of the library are available in the following gu
 * [Financial Document API](https://developers.mindee.com/docs/java-financial-document-ocr)
 * [Passport API](https://developers.mindee.com/docs/java-passport-ocr)
 * [License Plate API](https://developers.mindee.com/docs/java-license-plates-ocr)
-* [Shipping Container API](https://developers.mindee.com/docs/java-shipping-containers-ocr)
 * [US Bank Check API](https://developers.mindee.com/docs/java-us-bank-check-ocr)
 
 You can view the source code on [GitHub](https://github.com/mindee/mindee-api-nodejs).
