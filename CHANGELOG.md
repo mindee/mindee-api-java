@@ -1,5 +1,13 @@
 # Mindee Java API Library Changelog
 
+## v4.1.0 - 2023-07-24
+### Changes
+* :coffin: remove shipping container
+### Fixes
+* :bug: fix for missing page data in us bank check
+* :bug: fix passport to match API return
+
+
 ## v4.0.0 - 2023-06-20
 ### ¡Breaking Changes!
 * :art: harmonize variable and class names with API response
@@ -21,8 +29,9 @@
 * :art: harmonize CLI with other libraries
 * :speech_balloon: update product property descriptions
 ### Fixes
-:bug: fix for proper ordering of words
-:bug: make sure account and endpoint is set on test script
+* :bug: fix for proper ordering of words
+* :bug: make sure account and endpoint is set on test script
+
 
 ## v3.4.0 - 2023-05-02
 ### Changes
