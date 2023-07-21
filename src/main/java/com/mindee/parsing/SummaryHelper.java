@@ -22,10 +22,14 @@ public final class SummaryHelper {
     return amountValue == null ? "" : new DecimalFormat("#.00#").format(amountValue);
   }
 
+  public static String formatString(String str) {
+    return str != null ? str : "";
+  }
+
   /**
    * Given a list of fields, return a string.
    */
-  public static <T extends BaseField> String arrayToString(List<T> list, String delimiter) {
+  public static <T> String arrayToString(List<T> list, String delimiter) {
     return list.stream()
       .map(T::toString)
       .collect(Collectors.joining(String.format(delimiter)));

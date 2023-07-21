@@ -39,7 +39,6 @@ public class BankAccountDetailsV2Document {
   @Override
   public String toString() {
     StringBuilder outStr = new StringBuilder();
-
     outStr.append(
         String.format(":Account Holder's Names: %s%n", this.getAccountHoldersNames())
     );

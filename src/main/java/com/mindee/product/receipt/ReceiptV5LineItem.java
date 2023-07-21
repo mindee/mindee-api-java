@@ -52,9 +52,9 @@ public class ReceiptV5LineItem extends BaseField implements LineItemField {
   public String toString() {
     Map<String, String> printable = this.printableValues();
     return String.format("Description: %s", printable.get("description"))
-      + String.format("Quantity: %s", printable.get("quantity"))
-      + String.format("Total Amount: %s", printable.get("totalAmount"))
-      + String.format("Unit Price: %s", printable.get("unitPrice"));
+      + String.format(", Quantity: %s", printable.get("quantity"))
+      + String.format(", Total Amount: %s", printable.get("totalAmount"))
+      + String.format(", Unit Price: %s", printable.get("unitPrice"));
   }
 
   private Map<String, String> printableValues() {

@@ -23,9 +23,11 @@ public class IdCardV1Page extends IdCardV1Document {
 
   @Override
   public String toString() {
-    String summary =
+    StringBuilder outStr = new StringBuilder();
+    outStr.append(
         String.format(":Document Side: %s%n", this.getDocumentSide())
-        + super.toString();
-    return SummaryHelper.cleanSummary(summary);
+    );
+    outStr.append(super.toString());
+    return SummaryHelper.cleanSummary(outStr.toString());
   }
 }

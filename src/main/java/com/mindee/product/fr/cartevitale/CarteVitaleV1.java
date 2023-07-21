@@ -6,7 +6,7 @@ import com.mindee.parsing.common.Inference;
 import lombok.Getter;
 
 /**
- * The definition for carte_vitale v1.
+ * The definition for Carte Vitale, API version 1.
  */
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)

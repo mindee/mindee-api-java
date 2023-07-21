@@ -70,12 +70,12 @@ public class FinancialDocumentV1LineItem extends BaseField implements LineItemFi
   public String toString() {
     Map<String, String> printable = this.printableValues();
     return String.format("Description: %s", printable.get("description"))
-      + String.format("Product code: %s", printable.get("productCode"))
-      + String.format("Quantity: %s", printable.get("quantity"))
-      + String.format("Tax Amount: %s", printable.get("taxAmount"))
-      + String.format("Tax Rate (%%): %s", printable.get("taxRate"))
-      + String.format("Total Amount: %s", printable.get("totalAmount"))
-      + String.format("Unit Price: %s", printable.get("unitPrice"));
+      + String.format(", Product code: %s", printable.get("productCode"))
+      + String.format(", Quantity: %s", printable.get("quantity"))
+      + String.format(", Tax Amount: %s", printable.get("taxAmount"))
+      + String.format(", Tax Rate (%%): %s", printable.get("taxRate"))
+      + String.format(", Total Amount: %s", printable.get("totalAmount"))
+      + String.format(", Unit Price: %s", printable.get("unitPrice"));
   }
 
   private Map<String, String> printableValues() {
@@ -86,7 +86,7 @@ public class FinancialDocumentV1LineItem extends BaseField implements LineItemFi
       descriptionSummary = descriptionSummary.substring(0, 33) + "...";
     }
     printable.put("description", descriptionSummary);
-    printable.put("productCode", this.productCode != null ? this.productCode : "");
+    printable.put("productCode", SummaryHelper.formatString(this.productCode));
     printable.put(
         "quantity",
         this.quantity != null ? SummaryHelper.formatAmount(this.quantity) : ""

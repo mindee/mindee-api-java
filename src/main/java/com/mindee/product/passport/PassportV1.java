@@ -6,7 +6,7 @@ import com.mindee.parsing.common.Inference;
 import lombok.Getter;
 
 /**
- * The passport V1 inference.
+ * The definition for Passport, API version 1.
  */
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
