@@ -5,8 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mindee.parsing.SummaryHelper;
 import com.mindee.parsing.standard.DateField;
 import com.mindee.parsing.standard.StringField;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
@@ -17,108 +17,103 @@ import lombok.Getter;
 @EqualsAndHashCode
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PassportV1Document {
-  /**
-   * The country of issue.
-   */
-  @JsonProperty("country")
-  private StringField country;
 
   /**
-   * The passport number.
-   */
-  @JsonProperty("id_number")
-  private StringField idNumber;
-
-  /**
-   * The birth date of the person.
+   * The date of birth of the passport holder.
    */
   @JsonProperty("birth_date")
   private DateField birthDate;
-
   /**
-   * The birth place of the person.
+   * The place of birth of the passport holder.
    */
   @JsonProperty("birth_place")
   private StringField birthPlace;
-
   /**
-   * The expiry date.
+   * The country's 3 letter code (ISO 3166-1 alpha-3).
+   */
+  @JsonProperty("country")
+  private StringField country;
+  /**
+   * The expiry date of the passport.
    */
   @JsonProperty("expiry_date")
   private DateField expiryDate;
-
   /**
-   * The gender of the person.
+   * The gender of the passport holder.
    */
   @JsonProperty("gender")
   private StringField gender;
-
   /**
-   * The list of the person given names.
+   * The given name(s) of the passport holder.
    */
   @JsonProperty("given_names")
-  private List<StringField> givenNames;
-
+  private List<StringField> givenNames = new ArrayList<>();
   /**
-   * The surname of the person.
+   * The passport's identification number.
+   */
+  @JsonProperty("id_number")
+  private StringField idNumber;
+  /**
+   * The date the passport was issued.
+   */
+  @JsonProperty("issuance_date")
+  private DateField issuanceDate;
+  /**
+   * Machine Readable Zone, first line
+   */
+  @JsonProperty("mrz1")
+  private StringField mrz1;
+  /**
+   * Machine Readable Zone, second line
+   */
+  @JsonProperty("mrz2")
+  private StringField mrz2;
+  /**
+   * The surname of the passport holder.
    */
   @JsonProperty("surname")
   private StringField surname;
 
-  /**
-   * The date of issuance of the passport.
-   */
-  @JsonProperty("issuance_date")
-  private DateField issuanceDate;
-
-  /**
-   * The first MRZ line.
-   */
-  @JsonProperty("mrz1")
-  private StringField mrz1;
-
-  /**
-   * The second MRZ line.
-   */
-  @JsonProperty("mrz2")
-  private StringField mrz2;
-
-  /**
-   * Combine the MRZ lines.
-   */
-  public String getMrz() {
-    return mrz1.getValue() + mrz2.getValue();
-  }
-
-  /**
-   * Get the full name of the person.
-   */
-  public String getFullName() {
-    return this.givenNames.stream()
-      .map(StringField::toString)
-      .collect(Collectors.joining(" "))
-      + " " + this.surname;
-  }
-
   @Override
   public String toString() {
-
-    String summary =
-        String.format(":Full name: %s%n", this.getFullName())
-        + String.format(":Given names: %s%n",
-          this.getGivenNames().stream()
-            .map(StringField::toString)
-            .collect(Collectors.joining(" ")))
-        + String.format(":Surname: %s%n", this.getSurname())
-        + String.format(":Country: %s%n", this.getCountry())
-        + String.format(":ID Number: %s%n", this.getIdNumber())
-        + String.format(":Issuance date: %s%n", this.getIssuanceDate())
-        + String.format(":Birth date: %s%n", this.getBirthDate())
-        + String.format(":Expiry date: %s%n", this.getExpiryDate())
-        + String.format(":MRZ 1: %s%n", this.getMrz1())
-        + String.format(":MRZ 2: %s%n", this.getMrz2())
-        + String.format(":MRZ: %s%n", this.getMrz());
-
-    return SummaryHelper.cleanSummary(summary);
+    StringBuilder outStr = new StringBuilder();
+    outStr.append(
+        String.format(":Country Code: %s%n", this.getCountry())
+    );
+    outStr.append(
+        String.format(":ID Number: %s%n", this.getIdNumber())
+    );
+    String givenNames = SummaryHelper.arrayToString(
+        this.getGivenNames(),
+        "%n              "
+    );
+    outStr.append(
+        String.format(":Given Name(s): %s%n", givenNames)
+    );
+    outStr.append(
+        String.format(":Surname: %s%n", this.getSurname())
+    );
+    outStr.append(
+        String.format(":Date of Birth: %s%n", this.getBirthDate())
+    );
+    outStr.append(
+        String.format(":Place of Birth: %s%n", this.getBirthPlace())
+    );
+    outStr.append(
+        String.format(":Gender: %s%n", this.getGender())
+    );
+    outStr.append(
+        String.format(":Date of Issue: %s%n", this.getIssuanceDate())
+    );
+    outStr.append(
+        String.format(":Expiry Date: %s%n", this.getExpiryDate())
+    );
+    outStr.append(
+        String.format(":MRZ Line 1: %s%n", this.getMrz1())
+    );
+    outStr.append(
+        String.format(":MRZ Line 2: %s%n", this.getMrz2())
+    );
+    return SummaryHelper.cleanSummary(outStr.toString());
   }
 }
