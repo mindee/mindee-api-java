@@ -26,7 +26,6 @@ public class LicensePlateV1Document {
   @Override
   public String toString() {
     StringBuilder outStr = new StringBuilder();
-
     String licensePlates = SummaryHelper.arrayToString(
         this.getLicensePlates(),
         "%n                 "

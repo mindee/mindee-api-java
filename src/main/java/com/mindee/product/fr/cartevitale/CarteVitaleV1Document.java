@@ -42,7 +42,6 @@ public class CarteVitaleV1Document {
   @Override
   public String toString() {
     StringBuilder outStr = new StringBuilder();
-
     String givenNames = SummaryHelper.arrayToString(
         this.getGivenNames(),
         "%n              "

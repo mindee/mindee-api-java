@@ -18,7 +18,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 /**
- * Document data for Expense Receipt, API version 5.
+ * Document data for Receipt, API version 5.
  */
 @Getter
 @EqualsAndHashCode
@@ -110,7 +110,6 @@ public class ReceiptV5Document {
   @Override
   public String toString() {
     StringBuilder outStr = new StringBuilder();
-
     outStr.append(
         String.format(":Expense Locale: %s%n", this.getLocale())
     );

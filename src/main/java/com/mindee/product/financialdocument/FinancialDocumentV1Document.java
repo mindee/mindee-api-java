@@ -146,7 +146,6 @@ public class FinancialDocumentV1Document {
   @Override
   public String toString() {
     StringBuilder outStr = new StringBuilder();
-
     outStr.append(
         String.format(":Locale: %s%n", this.getLocale())
     );

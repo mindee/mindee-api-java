@@ -2,6 +2,7 @@ package com.mindee.product.fr.bankaccountdetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.mindee.parsing.SummaryHelper;
 import com.mindee.parsing.standard.BaseField;
 import java.util.HashMap;
 import java.util.Map;
@@ -50,18 +51,18 @@ public class BankAccountDetailsV2Bban extends BaseField {
   public String toString() {
     Map<String, String> printable = this.printableValues();
     return String.format("Bank Code: %s", printable.get("bbanBankCode"))
-        + String.format(", Branch Code: %s", printable.get("bbanBranchCode"))
-        + String.format(", Key: %s", printable.get("bbanKey"))
-        + String.format(", Account Number: %s", printable.get("bbanNumber"));
+      + String.format(", Branch Code: %s", printable.get("bbanBranchCode"))
+      + String.format(", Key: %s", printable.get("bbanKey"))
+      + String.format(", Account Number: %s", printable.get("bbanNumber"));
   }
 
   private Map<String, String> printableValues() {
     Map<String, String> printable = new HashMap<>();
 
-    printable.put("bbanBankCode", this.bbanBankCode != null ? this.bbanBankCode : "");
-    printable.put("bbanBranchCode", this.bbanBranchCode != null ? this.bbanBranchCode : "");
-    printable.put("bbanKey", this.bbanKey != null ? this.bbanKey : "");
-    printable.put("bbanNumber", this.bbanNumber != null ? this.bbanNumber : "");
+    printable.put("bbanBankCode", SummaryHelper.formatString(this.bbanBankCode));
+    printable.put("bbanBranchCode", SummaryHelper.formatString(this.bbanBranchCode));
+    printable.put("bbanKey", SummaryHelper.formatString(this.bbanKey));
+    printable.put("bbanNumber", SummaryHelper.formatString(this.bbanNumber));
     return printable;
   }
 }

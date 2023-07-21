@@ -6,7 +6,7 @@ import com.mindee.parsing.common.Inference;
 import lombok.Getter;
 
 /**
- * The definition for idcard_fr v1.
+ * The definition for Carte Nationale d'Identité, API version 1.
  */
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)

@@ -34,7 +34,6 @@ public class BankAccountDetailsV1Document {
   @Override
   public String toString() {
     StringBuilder outStr = new StringBuilder();
-
     outStr.append(
         String.format(":IBAN: %s%n", this.getIban())
     );

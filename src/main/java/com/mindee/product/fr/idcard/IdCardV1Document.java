@@ -72,7 +72,6 @@ public class IdCardV1Document {
   @Override
   public String toString() {
     StringBuilder outStr = new StringBuilder();
-
     outStr.append(
         String.format(":Identity Number: %s%n", this.getIdNumber())
     );

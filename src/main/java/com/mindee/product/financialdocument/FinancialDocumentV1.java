@@ -6,7 +6,7 @@ import com.mindee.parsing.common.Inference;
 import lombok.Getter;
 
 /**
- * The definition for financial_document v1.
+ * The definition for Financial Document, API version 1.
  */
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)

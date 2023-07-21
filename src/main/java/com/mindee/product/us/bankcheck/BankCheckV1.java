@@ -6,11 +6,11 @@ import com.mindee.parsing.common.Inference;
 import lombok.Getter;
 
 /**
- * The bank check V1 inference.
+ * The definition for Bank Check, API version 1.
  */
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
 @EndpointInfo(endpointName = "bank_check", version = "1")
 public class BankCheckV1
-    extends Inference<BankCheckV1Document, BankCheckV1Document> {
+    extends Inference<BankCheckV1Page, BankCheckV1Document> {
 }

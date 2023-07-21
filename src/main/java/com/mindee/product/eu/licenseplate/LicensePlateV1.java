@@ -6,7 +6,7 @@ import com.mindee.parsing.common.Inference;
 import lombok.Getter;
 
 /**
- * The definition for license_plates v1.
+ * The definition for License Plate, API version 1.
  */
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
