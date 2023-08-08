@@ -1,5 +1,11 @@
 # Mindee Java API Library Changelog
 
+## v4.2.0 - 2023-08-08
+### Changes
+* :white_check_mark: add unit tests for receipt v4, invoice v4
+* :sparkles: add support for US driver license v1
+
+
 ## v4.1.0 - 2023-07-24
 ### Changes
 * :coffin: remove shipping container
