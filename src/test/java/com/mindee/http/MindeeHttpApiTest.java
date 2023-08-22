@@ -10,9 +10,9 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.mindee.MindeeSettings;
+import com.mindee.PredictOptions;
 import com.mindee.parsing.common.AsyncPredictResponse;
 import com.mindee.parsing.common.Document;
-import com.mindee.parsing.common.PredictResponse;
 import com.mindee.product.invoice.InvoiceV4;
 import com.mindee.product.invoicesplitter.InvoiceSplitterV1;
 import com.mindee.MindeeException;
@@ -116,6 +116,44 @@ public class MindeeHttpApiTest extends TestCase {
     Assertions.assertEquals("abc", recordedRequest.getHeader("Authorization"));
     Assertions.assertEquals(Long.toString(recordedRequest.getBodySize()),
         recordedRequest.getHeader("Content-Length"));
+    Assertions.assertTrue(recordedRequest.getBodySize() > fileBytes.length);
+  }
+
+  @Test
+  void givenPredictOptions_whenParsed_shouldBuildRequestCorrectly()
+    throws IOException, InterruptedException {
+    String url = String.format("http://localhost:%s", mockWebServer.getPort());
+    Path path = Paths.get("src/test/resources/products/invoices/response_v4/complete.json");
+    mockWebServer.enqueue(new MockResponse()
+      .setResponseCode(200)
+      .setBody(new String(Files.readAllBytes(path)))
+    );
+
+    File file = new File("src/test/resources/products/invoices/invoice.pdf");
+    byte[] fileBytes = Files.readAllBytes(file.toPath());
+    MindeeHttpApi client = MindeeHttpApi.builder().mindeeSettings(new MindeeSettings("abc", url))
+      .build();
+    PredictOptions predictOptions = PredictOptions.builder()
+      .cropper(true)
+      .allWords(true)
+      .build();
+    Document<InvoiceV4> document = client.predictPost(
+      InvoiceV4.class,
+      new Endpoint("", ""),
+      RequestParameters.builder()
+        .file(fileBytes)
+        .fileName(file.getName())
+        .predictOptions(predictOptions)
+        .build()).getDocument();
+
+    RecordedRequest recordedRequest = mockWebServer.takeRequest();
+    Assertions.assertEquals("abc", recordedRequest.getHeader("Authorization"));
+    Assertions.assertEquals(
+      Long.toString(recordedRequest.getBodySize()),
+      recordedRequest.getHeader("Content-Length")
+    );
+    Assertions.assertTrue(recordedRequest.getRequestUrl().toString().contains("cropper=true"));
+    Assertions.assertTrue(recordedRequest.getBody().readUtf8().contains("include_mvision"));
     Assertions.assertTrue(recordedRequest.getBodySize() > fileBytes.length);
   }
 

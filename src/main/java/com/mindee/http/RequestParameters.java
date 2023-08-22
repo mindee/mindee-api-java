@@ -1,5 +1,6 @@
 package com.mindee.http;
 
+import com.mindee.PredictOptions;
 import java.net.URL;
 import lombok.Builder;
 import lombok.Value;
@@ -12,24 +13,23 @@ public class RequestParameters {
 
   URL fileUrl;
   byte[] file;
-  Boolean allWords;
   String fileName;
+  PredictOptions predictOptions;
 
   @Builder
   private RequestParameters(
       URL urlInputSource,
       byte[] file,
-      Boolean allWords,
-      String fileName,
-      Boolean asyncCall
+      PredictOptions predictOptions,
+      String fileName
   ) {
     if (file != null && urlInputSource != null) {
       throw new IllegalArgumentException("Only one of urlInputSource or file bytes are allowed");
     }
-    if (allWords == null) {
-      this.allWords = Boolean.FALSE;
+    if (predictOptions == null) {
+      this.predictOptions = PredictOptions.builder().build();
     } else {
-      this.allWords = allWords;
+      this.predictOptions = predictOptions;
     }
     this.fileUrl = urlInputSource;
     this.file = file;

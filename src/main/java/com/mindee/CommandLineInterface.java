@@ -159,10 +159,11 @@ public class CommandLineInterface {
     MindeeClient mindeeClient = new MindeeClient(apiKey);
     LocalInputSource inputSource = new LocalInputSource(file);
     PredictResponse<T> response;
+    PredictOptions predictOptions = PredictOptions.builder().allWords(words).build();
     if (cutDoc) {
-      response = mindeeClient.parse(docClass, inputSource, words, getDefaultPageOptions());
+      response = mindeeClient.parse(docClass, inputSource, predictOptions, getDefaultPageOptions());
     } else {
-      response = mindeeClient.parse(docClass, inputSource, words);
+      response = mindeeClient.parse(docClass, inputSource, predictOptions);
     }
 
     if (outputType == OutputChoices.full) {

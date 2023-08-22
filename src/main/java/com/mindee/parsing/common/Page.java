@@ -19,6 +19,11 @@ public class Page<T> {
   @JsonProperty("id")
   private int pageId;
   /**
+   * Optional information.
+   */
+  @JsonProperty("extras")
+  private Extras extras;
+  /**
    * The orientation which was applied from the original page.
    */
   @JsonProperty("orientation")

@@ -10,22 +10,28 @@ import com.mindee.parsing.common.Inference;
 import com.mindee.parsing.common.PredictResponse;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import lombok.Builder;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHeaders;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.message.BasicNameValuePair;
 
 /**
  * HTTP Client class.
@@ -247,13 +253,23 @@ public final class MindeeHttpApi extends MindeeApi {
       String url,
       RequestParameters requestParameters
   ) throws JsonProcessingException {
-    HttpPost post = new HttpPost(url);
-    HttpEntity entity = buildHttpBody(requestParameters);
+    HttpPost post;
+    try {
+      URIBuilder uriBuilder = new URIBuilder(url);
+      uriBuilder.addParameters(buildPostParams(requestParameters));
+      post = new HttpPost(uriBuilder.build());
+    }
+    // This exception will never happen because we are providing the URL internally.
+    // Do this to avoid declaring the exception in the method signature.
+    catch (URISyntaxException err) {
+      return new HttpPost("invalid URI");
+    }
+
     if (this.mindeeSettings.getApiKey().isPresent()) {
       post.setHeader(HttpHeaders.AUTHORIZATION, this.mindeeSettings.getApiKey().get());
     }
     post.setHeader(HttpHeaders.USER_AGENT, getUserAgent());
-    post.setEntity(entity);
+    post.setEntity(buildHttpBody(requestParameters));
     return post;
   }
 
@@ -272,6 +288,16 @@ public final class MindeeHttpApi extends MindeeApi {
       + contentRead.toString("UTF-8");
   }
 
+  private List<NameValuePair> buildPostParams(
+      RequestParameters requestParameters
+  ) {
+    ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
+    if (Boolean.TRUE.equals(requestParameters.getPredictOptions().getCropper())) {
+      params.add(new BasicNameValuePair("cropper", "true"));
+    }
+    return params;
+  }
+
   private HttpEntity buildHttpBody(
       RequestParameters requestParameters
   ) throws JsonProcessingException {
@@ -284,7 +310,7 @@ public final class MindeeHttpApi extends MindeeApi {
           ContentType.DEFAULT_BINARY,
           requestParameters.getFileName()
       );
-      if (Boolean.TRUE.equals(requestParameters.getAllWords())) {
+      if (Boolean.TRUE.equals(requestParameters.getPredictOptions().getAllWords())) {
         builder.addTextBody("include_mvision", "true");
       }
       return builder.build();

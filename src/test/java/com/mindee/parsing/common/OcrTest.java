@@ -15,7 +15,7 @@ import java.util.List;
 
 public class OcrTest {
 
-  private Ocr loadOcr() throws IOException {
+  private Ocr loadResult() throws IOException {
     ObjectMapper objectMapper = new ObjectMapper();
     objectMapper.findAndRegisterModules();
 
@@ -32,7 +32,7 @@ public class OcrTest {
   @Test
   void whenGettingAllLines_shouldNotAffectWordOrder() throws IOException {
 
-    Ocr ocr = loadOcr();
+    Ocr ocr = loadResult();
 
     // get the word list as deserialized from JSON
     List<Word> allWordsStart = ocr.getMVisionV1().getPages().get(0).getAllWords();
@@ -49,7 +49,7 @@ public class OcrTest {
   @Test
   void whenDeserializedToString_shouldBeOrdered() throws IOException {
 
-    Ocr ocr = loadOcr();
+    Ocr ocr = loadResult();
 
     List<String> expectedLines = Files
       .readAllLines(Paths.get("src/test/resources/extras/ocr/ocr.txt"));

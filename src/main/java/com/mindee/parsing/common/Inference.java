@@ -3,7 +3,7 @@ package com.mindee.parsing.common;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mindee.parsing.SummaryHelper;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 import lombok.Getter;
 
@@ -31,7 +31,7 @@ public abstract class Inference<PageT, DocT> {
    * The prediction on each pages of the document.
    */
   @JsonProperty("pages")
-  private ArrayList<Page<PageT>> pages;
+  private List<Page<PageT>> pages;
   /**
    * The prediction on the document level.
    */
