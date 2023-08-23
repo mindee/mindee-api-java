@@ -10,7 +10,7 @@ import java.nio.file.Files;
 public class LocalInputSourceTest {
   @Test
   void loadDocument_withFile_mustReturnAValidLocalInputSource() throws IOException {
-    File file = new File("src/test/resources/invoice/invoice.pdf");
+    File file = new File("src/test/resources/file_types/pdf/multipage.pdf");
     LocalInputSource localInputSource = new LocalInputSource(file);
     Assertions.assertNotNull(localInputSource);
     Assertions.assertArrayEquals(localInputSource.getFile(), Files.readAllBytes(file.toPath()));
@@ -18,31 +18,31 @@ public class LocalInputSourceTest {
 
   @Test
   void loadDocument_withInputStream_mustReturnAValidLocalInputSource() throws IOException {
-    File file = new File("src/test/resources/invoice/invoice.pdf");
+    File file = new File("src/test/resources/file_types/pdf/multipage.pdf");
     LocalInputSource localInputSource = new LocalInputSource(
         Files.newInputStream(file.toPath()),
-        "");
+        "multipage.pdf");
     Assertions.assertNotNull(localInputSource);
     Assertions.assertArrayEquals(localInputSource.getFile(), Files.readAllBytes(file.toPath()));
   }
 
   @Test
   void loadDocument_withByteArray_mustReturnAValidLocalInputSource() throws IOException {
-    File file = new File("src/test/resources/invoice/invoice.pdf");
+    File file = new File("src/test/resources/file_types/pdf/multipage.pdf");
     LocalInputSource localInputSource = new LocalInputSource(
         Files.readAllBytes(file.toPath()),
-        "");
+        "multipage.pdf");
     Assertions.assertNotNull(localInputSource);
     Assertions.assertArrayEquals(localInputSource.getFile(), Files.readAllBytes(file.toPath()));
   }
 
   @Test
   void loadDocument_withBase64Encoded_mustReturnAValidLocalInputSource() throws IOException {
-    File file = new File("src/test/resources/invoice/invoice.pdf");
+    File file = new File("src/test/resources/file_types/pdf/multipage.pdf");
     String encodedFile = Base64.encodeBase64String(Files.readAllBytes(file.toPath()));
     LocalInputSource localInputSource = new LocalInputSource(
         encodedFile,
-        "");
+        "multipage.pdf");
     Assertions.assertNotNull(localInputSource);
     Assertions.assertArrayEquals(localInputSource.getFile(), Files.readAllBytes(file.toPath()));
   }

@@ -47,7 +47,7 @@ class MindeeClientTest {
   void givenAClientForCustom_withFile_parse_thenShouldCallMindeeApi()
       throws IOException {
 
-    File file = new File("src/test/resources/invoice/invoice.pdf");
+    File file = new File("src/test/resources/file_types/pdf/blank_1.pdf");
 
     PredictResponse predictResponse = new PredictResponse();
     predictResponse.setDocument(new Document<>());
@@ -72,7 +72,7 @@ class MindeeClientTest {
   void givenAClientForCustomAndPageOptions_parse_thenShouldOperateCutOnPagesAndCallTheHttpClientCorrectly()
       throws IOException {
 
-    File file = new File("src/test/resources/invoice/invoice.pdf");
+    File file = new File("src/test/resources/file_types/pdf/multipage.pdf");
     List<Integer> pageNumberToKeep = new ArrayList<>();
     pageNumberToKeep.add(1);
 
@@ -105,7 +105,7 @@ class MindeeClientTest {
   void givenAClientForInvoice_withFile_parse_thenShouldCallMindeeApi()
       throws IOException {
 
-    File file = new File("src/test/resources/invoice/invoice.pdf");
+    File file = new File("src/test/resources/file_types/pdf/blank_1.pdf");
     PredictResponse predictResponse = new PredictResponse();
     predictResponse.setDocument(new Document<>());
     predictResponse.setApiRequest(null);
@@ -130,7 +130,7 @@ class MindeeClientTest {
   void givenAClientForInvoice_withInputStream_parse_thenShouldCallMindeeApi()
       throws IOException {
 
-    File file = new File("src/test/resources/invoice/invoice.pdf");
+    File file = new File("src/test/resources/file_types/pdf/blank_1.pdf");
 
     PredictResponse predictResponse = new PredictResponse();
     predictResponse.setDocument(new Document<>());
@@ -157,7 +157,7 @@ class MindeeClientTest {
   void givenAClientForInvoice_withByteArray_parse_thenShouldCallMindeeApi()
       throws IOException {
 
-    File file = new File("src/test/resources/invoice/invoice.pdf");
+    File file = new File("src/test/resources/file_types/pdf/blank_1.pdf");
     PredictResponse predictResponse = new PredictResponse();
     predictResponse.setDocument(new Document<>());
     predictResponse.setApiRequest(null);
@@ -183,7 +183,7 @@ class MindeeClientTest {
   void givenAClientForInvoiceAndPageOptions_parse_thenShouldOperateCutOnPagesAndCallTheHttpClientCorrectly()
       throws IOException {
 
-    File file = new File("src/test/resources/invoice/invoice.pdf");
+    File file = new File("src/test/resources/file_types/pdf/multipage.pdf");
     List<Integer> pageNumberToKeep = new ArrayList<>();
     pageNumberToKeep.add(1);
     PredictResponse predictResponse = new PredictResponse();
@@ -282,7 +282,7 @@ class MindeeClientTest {
   @Test
   void givenAnAsyncDoc_whenEnqueued_shouldInvokeApiCorrectly() throws IOException {
 
-    File file = new File("src/test/resources/invoice/invoice.pdf");
+    File file = new File("src/test/resources/file_types/pdf/blank_1.pdf");
     LocalInputSource localInputSource = new LocalInputSource(file);
 
     Job job = new Job(LocalDateTime.now(),"someid",LocalDateTime.now(),"Completed");
@@ -296,7 +296,7 @@ class MindeeClientTest {
                 Mockito.any(),
                 Mockito.any()))
         .thenReturn(predictResponse);
-    String jobId = client.enqueue(InvoiceV4.class, localInputSource,Boolean.TRUE, null)
+    String jobId = client.enqueue(InvoiceV4.class, localInputSource, Boolean.TRUE, null)
         .getJob().getId();
 
     ArgumentCaptor<Class> classArgumentCaptor = ArgumentCaptor.forClass(Class.class);
@@ -310,8 +310,8 @@ class MindeeClientTest {
         );
     RequestParameters requestParameters = requestParametersArgumentCaptor.getValue();
     Assertions.assertEquals(InvoiceV4.class, classArgumentCaptor.getValue());
-    Assertions.assertEquals("invoice.pdf", requestParameters.getFileName());
-    Assertions.assertEquals(Boolean.TRUE,requestParameters.getAllWords());
+    Assertions.assertEquals("blank_1.pdf", requestParameters.getFileName());
+    Assertions.assertEquals(Boolean.TRUE, requestParameters.getAllWords());
     Assertions.assertNotNull(requestParameters.getFile());
     Assertions.assertTrue(requestParameters.getFile().length > 0);
     Assertions.assertNull(requestParameters.getFileUrl());

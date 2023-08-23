@@ -27,7 +27,7 @@ public class IdCardV1Test {
       IdCardV1.class
     );
     return objectMapper.readValue(
-      new File("src/test/resources/fr/id_card/response_v1/complete.json"),
+      new File("src/test/resources/products/idcard_fr/response_v1/complete.json"),
       type
     );
   }
@@ -38,7 +38,7 @@ public class IdCardV1Test {
     Document<IdCardV1> doc = prediction.getDocument();
     String[] actualLines = doc.toString().split(System.lineSeparator());
     List<String> expectedLines = Files.readAllLines(
-      Paths.get("src/test/resources/fr/id_card/response_v1/summary_full.rst")
+      Paths.get("src/test/resources/products/idcard_fr/response_v1/summary_full.rst")
     );
     String expectedSummary = String.join(String.format("%n"), expectedLines);
     String actualSummary = String.join(String.format("%n"), actualLines);
@@ -52,7 +52,7 @@ public class IdCardV1Test {
     Page<IdCardV1Page> page = prediction.getDocument().getInference().getPages().get(0);
     String[] actualLines = page.toString().split(System.lineSeparator());
     List<String> expectedLines = Files.readAllLines(
-      Paths.get("src/test/resources/fr/id_card/response_v1/summary_page0.rst")
+      Paths.get("src/test/resources/products/idcard_fr/response_v1/summary_page0.rst")
     );
     String expectedSummary = String.join(String.format("%n"), expectedLines);
     String actualSummary = String.join(String.format("%n"), actualLines);
