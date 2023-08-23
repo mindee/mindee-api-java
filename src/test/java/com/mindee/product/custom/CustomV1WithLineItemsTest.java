@@ -25,7 +25,7 @@ class CustomV1WithLineItemsTest {
     JavaType type = objectMapper.getTypeFactory().constructParametricType(PredictResponse.class,
       CustomV1.class);
     PredictResponse<CustomV1> customDocumentInference = objectMapper.readValue(
-      new File("src/test/resources/custom/response_v1/line_items/single_table_01.json"),
+      new File("src/test/resources/products/custom/response_v1/line_items/single_table_01.json"),
       type);
 
     LineItems lineItems = LineItemsGenerator.generate(

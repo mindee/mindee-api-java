@@ -23,12 +23,12 @@ class CustomV1Test {
     JavaType type = objectMapper.getTypeFactory().constructParametricType(PredictResponse.class,
       CustomV1.class);
     PredictResponse<CustomV1> customDocumentInference = objectMapper.readValue(
-      new File("src/test/resources/custom/response_v1/complete.json"),
+      new File("src/test/resources/products/custom/response_v1/complete.json"),
       type);
 
     String[] actualLines = customDocumentInference.getDocument().toString().split(System.lineSeparator());
     List<String> expectedLines = Files
-      .readAllLines(Paths.get("src/test/resources/custom/response_v1/summary_full.rst"));
+      .readAllLines(Paths.get("src/test/resources/products/custom/response_v1/summary_full.rst"));
     String expectedSummary = String.join(String.format("%n"), expectedLines);
     String actualSummary = String.join(String.format("%n"), actualLines);
 

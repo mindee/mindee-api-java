@@ -23,7 +23,7 @@ public class OcrTest {
       PredictResponse.class,
       ReceiptV4.class);
     PredictResponse<ReceiptV4> prediction = objectMapper.readValue(
-      new File("src/test/resources/ocr/complete_with_ocr.json"),
+      new File("src/test/resources/extras/ocr/complete.json"),
       type);
 
     return prediction.getDocument().getOcr();
@@ -52,7 +52,7 @@ public class OcrTest {
     Ocr ocr = loadOcr();
 
     List<String> expectedLines = Files
-      .readAllLines(Paths.get("src/test/resources/ocr/ocr.txt"));
+      .readAllLines(Paths.get("src/test/resources/extras/ocr/ocr.txt"));
     String expectedSummary = String.join(String.format("%n"), expectedLines);
 
     Assertions.assertEquals(expectedSummary, ocr.toString(), "Should match expected string exactly.");

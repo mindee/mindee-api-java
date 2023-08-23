@@ -27,7 +27,7 @@ public class ReceiptV5Test {
       ReceiptV5.class
     );
     return objectMapper.readValue(
-      new File("src/test/resources/receipt/response_v5/complete.json"),
+      new File("src/test/resources/products/expense_receipts/response_v5/complete.json"),
       type
     );
   }
@@ -38,7 +38,7 @@ public class ReceiptV5Test {
     Document<ReceiptV5> doc = prediction.getDocument();
     String[] actualLines = doc.toString().split(System.lineSeparator());
     List<String> expectedLines = Files.readAllLines(
-      Paths.get("src/test/resources/receipt/response_v5/summary_full.rst")
+      Paths.get("src/test/resources/products/expense_receipts/response_v5/summary_full.rst")
     );
     String expectedSummary = String.join(String.format("%n"), expectedLines);
     String actualSummary = String.join(String.format("%n"), actualLines);
@@ -52,7 +52,7 @@ public class ReceiptV5Test {
     Page<ReceiptV5Document> page = prediction.getDocument().getInference().getPages().get(0);
     String[] actualLines = page.toString().split(System.lineSeparator());
     List<String> expectedLines = Files.readAllLines(
-      Paths.get("src/test/resources/receipt/response_v5/summary_page0.rst")
+      Paths.get("src/test/resources/products/expense_receipts/response_v5/summary_page0.rst")
     );
     String expectedSummary = String.join(String.format("%n"), expectedLines);
     String actualSummary = String.join(String.format("%n"), actualLines);

@@ -27,7 +27,7 @@ public class BankAccountDetailsV2Test {
       BankAccountDetailsV2.class
     );
     return objectMapper.readValue(
-      new File("src/test/resources/fr/bank_account_details/response_v2/complete.json"),
+      new File("src/test/resources/products/bank_account_details/response_v2/complete.json"),
       type
     );
   }
@@ -38,7 +38,7 @@ public class BankAccountDetailsV2Test {
     Document<BankAccountDetailsV2> doc = prediction.getDocument();
     String[] actualLines = doc.toString().split(System.lineSeparator());
     List<String> expectedLines = Files.readAllLines(
-      Paths.get("src/test/resources/fr/bank_account_details/response_v2/summary_full.rst")
+      Paths.get("src/test/resources/products/bank_account_details/response_v2/summary_full.rst")
     );
     String expectedSummary = String.join(String.format("%n"), expectedLines);
     String actualSummary = String.join(String.format("%n"), actualLines);
@@ -52,7 +52,7 @@ public class BankAccountDetailsV2Test {
     Page<BankAccountDetailsV2Document> page = prediction.getDocument().getInference().getPages().get(0);
     String[] actualLines = page.toString().split(System.lineSeparator());
     List<String> expectedLines = Files.readAllLines(
-      Paths.get("src/test/resources/fr/bank_account_details/response_v2/summary_page0.rst")
+      Paths.get("src/test/resources/products/bank_account_details/response_v2/summary_page0.rst")
     );
     String expectedSummary = String.join(String.format("%n"), expectedLines);
     String actualSummary = String.join(String.format("%n"), actualLines);
