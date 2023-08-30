@@ -25,4 +25,11 @@ public class Polygon {
   public Point getCentroid() {
     return PolygonUtils.getCentroid(coordinates);
   }
+
+  /**
+   * Returns true if there are no coordinates.
+   */
+  public boolean isEmpty() {
+    return coordinates.isEmpty();
+  }
 }

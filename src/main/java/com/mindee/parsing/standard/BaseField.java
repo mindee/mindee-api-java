@@ -19,7 +19,7 @@ import lombok.Getter;
 public abstract class BaseField {
 
   /**
-   * The bouding box equivalent of the polygon.
+   * The bounding box equivalent of the polygon.
    */
   @JsonIgnore
   private final Polygon boundingBox;
