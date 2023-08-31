@@ -40,6 +40,9 @@ public class PositionField {
   private Polygon rectangle;
 
   public String toString() {
-    return String.format("Polygon with %s points.", getPolygon().getCoordinates().size());
+    if (polygon.isEmpty()) {
+      return "";
+    }
+    return String.format("Polygon with %s points.", polygon.getCoordinates().size());
   }
 }
