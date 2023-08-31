@@ -212,11 +212,8 @@ PredictResponse<InvoiceV4> response = mindeeClient.parse(InvoiceV4.class, docume
 The `MindeeClient` has multiple overloaded `parse` methods available for parsing the documents 
 and you will get `LocalInputSource`.
 
-This can be done by implicitly by calling the `parse(Class<T> type)` method with the expected response type from
-the parse method (`InvoiceResponse`, `ReceiptResponse`, `PassportResponse`, or even you custom class).
-
-Each document type available in the library has its corresponding `Response` class.
-This is detailed in each document-specific guide.
+This can be done by implicitly by calling the `parse(Class<T> type)` method with the product type's class.
+This is detailed in each product-specific guide.
 
 
 #### Off-the-Shelf Documents

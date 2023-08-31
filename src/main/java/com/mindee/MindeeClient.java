@@ -56,8 +56,8 @@ public class MindeeClient {
 
   /**
    * Create a MindeeClient.
-   * @param pdfOperation
-   * @param mindeeApi
+   * @param pdfOperation The PdfOperation implementation to be used by the created MindeeClient.
+   * @param mindeeApi The MindeeApi implementation to be used by the created MindeeClient.
    */
   public MindeeClient(PdfOperation pdfOperation, MindeeApi mindeeApi) {
     this.pdfOperation = pdfOperation;
@@ -91,14 +91,14 @@ public class MindeeClient {
         new Endpoint(type),
         localInputSource.getFile(),
         localInputSource.getFilename(),
-        Boolean.FALSE,
+        null,
         null);
   }
 
   public <T extends Inference> AsyncPredictResponse<T> enqueue(
       Class<T> type,
       LocalInputSource localInputSource,
-      boolean allWords,
+      PredictOptions predictOptions,
       PageOptions pageOptions
   ) throws IOException {
     return this.enqueue(
@@ -106,7 +106,7 @@ public class MindeeClient {
         new Endpoint(type),
         getSplitFile(localInputSource, pageOptions),
         localInputSource.getFilename(),
-        allWords,
+        predictOptions,
       null
     );
   }
@@ -121,7 +121,7 @@ public class MindeeClient {
         new Endpoint(type),
         null,
         null,
-        Boolean.FALSE,
+        null,
         sourceUrl
     );
   }
@@ -131,13 +131,13 @@ public class MindeeClient {
       Endpoint endpoint,
       byte[] file,
       String filename,
-      boolean allWords,
+      PredictOptions predictOptions,
       URL urlInputSource
   ) throws IOException {
     RequestParameters params = RequestParameters.builder()
         .file(file)
         .fileName(filename)
-        .allWords(allWords)
+        .predictOptions(predictOptions)
         .urlInputSource(urlInputSource)
         .build();
     return this.mindeeApi.predictAsyncPost(type, endpoint, params);
@@ -152,7 +152,7 @@ public class MindeeClient {
         new Endpoint(type),
         localInputSource.getFile(),
         localInputSource.getFilename(),
-        false,
+        null,
         null
     );
   }
@@ -160,14 +160,14 @@ public class MindeeClient {
   public <T extends Inference> PredictResponse<T> parse(
       Class<T> type,
       LocalInputSource localInputSource,
-      boolean allWords
+      PredictOptions predictOptions
   ) throws IOException {
     return this.parse(
         type,
         new Endpoint(type),
         localInputSource.getFile(),
         localInputSource.getFilename(),
-        allWords,
+        predictOptions,
         null
     );
   }
@@ -182,7 +182,7 @@ public class MindeeClient {
         new Endpoint(type),
         getSplitFile(localInputSource, pageOptions),
         localInputSource.getFilename(),
-        false,
+        null,
         null
     );
   }
@@ -190,7 +190,7 @@ public class MindeeClient {
   public <T extends Inference> PredictResponse<T> parse(
       Class<T> type,
       LocalInputSource localInputSource,
-      boolean allWords,
+      PredictOptions predictOptions,
       PageOptions pageOptions
   ) throws IOException {
     return this.parse(
@@ -198,7 +198,7 @@ public class MindeeClient {
         new Endpoint(type),
         getSplitFile(localInputSource, pageOptions),
         localInputSource.getFilename(),
-        allWords,
+        predictOptions,
         null
     );
   }
@@ -208,7 +208,7 @@ public class MindeeClient {
       URL urlInputSource
   ) throws IOException {
     InputSourceUtils.validateUrl(urlInputSource);
-    return this.parse(type, new Endpoint(type),null, null, false, urlInputSource);
+    return this.parse(type, new Endpoint(type),null, null, null, urlInputSource);
   }
 
   private <T extends Inference> PredictResponse<T> parse(
@@ -216,13 +216,13 @@ public class MindeeClient {
       Endpoint endpoint,
       byte[] file,
       String filename,
-      boolean allWords,
+      PredictOptions predictOptions,
       URL urlInputSource
   ) throws IOException {
     RequestParameters params = RequestParameters.builder()
         .file(file)
         .fileName(filename)
-        .allWords(allWords)
+        .predictOptions(predictOptions)
         .urlInputSource(urlInputSource)
         .build();
     return this.mindeeApi.predictPost(type, endpoint, params);

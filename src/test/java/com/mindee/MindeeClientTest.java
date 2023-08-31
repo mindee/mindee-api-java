@@ -296,7 +296,8 @@ class MindeeClientTest {
                 Mockito.any(),
                 Mockito.any()))
         .thenReturn(predictResponse);
-    String jobId = client.enqueue(InvoiceV4.class, localInputSource, Boolean.TRUE, null)
+    PredictOptions predictOptions = PredictOptions.builder().allWords(Boolean.TRUE).build();
+    String jobId = client.enqueue(InvoiceV4.class, localInputSource, predictOptions, null)
         .getJob().getId();
 
     ArgumentCaptor<Class> classArgumentCaptor = ArgumentCaptor.forClass(Class.class);
@@ -311,7 +312,7 @@ class MindeeClientTest {
     RequestParameters requestParameters = requestParametersArgumentCaptor.getValue();
     Assertions.assertEquals(InvoiceV4.class, classArgumentCaptor.getValue());
     Assertions.assertEquals("blank_1.pdf", requestParameters.getFileName());
-    Assertions.assertEquals(Boolean.TRUE, requestParameters.getAllWords());
+    Assertions.assertEquals(Boolean.TRUE, requestParameters.getPredictOptions().getAllWords());
     Assertions.assertNotNull(requestParameters.getFile());
     Assertions.assertTrue(requestParameters.getFile().length > 0);
     Assertions.assertNull(requestParameters.getFileUrl());
@@ -346,7 +347,7 @@ class MindeeClientTest {
     RequestParameters requestParameters = requestParametersArgumentCaptor.getValue();
     Assertions.assertEquals(InvoiceV4.class, classArgumentCaptor.getValue());
     Assertions.assertNull(requestParameters.getFileName());
-    Assertions.assertEquals(Boolean.FALSE, requestParameters.getAllWords());
+    Assertions.assertEquals(Boolean.FALSE, requestParameters.getPredictOptions().getAllWords());
     Assertions.assertNull(requestParameters.getFile());
     Assertions.assertEquals(new URL("https://fake.pdf"), requestParameters.getFileUrl());
     Assertions.assertEquals("someid", jobId);
