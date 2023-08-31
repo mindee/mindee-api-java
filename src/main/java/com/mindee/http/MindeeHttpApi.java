@@ -5,10 +5,11 @@ import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mindee.MindeeException;
 import com.mindee.MindeeSettings;
+import com.mindee.parsing.common.ApiResponse;
 import com.mindee.parsing.common.AsyncPredictResponse;
+import com.mindee.parsing.common.ErrorDetails;
 import com.mindee.parsing.common.Inference;
 import com.mindee.parsing.common.PredictResponse;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -124,6 +125,10 @@ public final class MindeeHttpApi extends MindeeApi {
 
     // required to register jackson date module format to deserialize
     mapper.findAndRegisterModules();
+    JavaType type = mapper.getTypeFactory().constructParametricType(
+        AsyncPredictResponse.class,
+        documentClass
+    );
 
     if (this.mindeeSettings.getApiKey().isPresent()) {
       get.setHeader(HttpHeaders.AUTHORIZATION, this.mindeeSettings.getApiKey().get());
@@ -135,16 +140,11 @@ public final class MindeeHttpApi extends MindeeApi {
         CloseableHttpResponse response = httpClient.execute(get)
     ) {
       HttpEntity responseEntity = response.getEntity();
-
-      if (is2xxStatusCode(response.getStatusLine().getStatusCode())) {
-        JavaType type = mapper.getTypeFactory().constructParametricType(
-            AsyncPredictResponse.class,
-            documentClass
-        );
-        return mapper.readValue(responseEntity.getContent(), type);
-      } else {
-        throw new MindeeException(parseUnhandledError(responseEntity, response));
+      int statusCode = response.getStatusLine().getStatusCode();
+      if (!is2xxStatusCode(statusCode)) {
+        throw getHttpError(type, response);
       }
+      return mapper.readValue(responseEntity.getContent(), type);
     } catch (IOException err) {
       throw new MindeeException(err.getMessage(), err);
     }
@@ -164,35 +164,26 @@ public final class MindeeHttpApi extends MindeeApi {
 
     // required to register jackson date module format to deserialize
     mapper.findAndRegisterModules();
-
-    String errorMessage = "Mindee API client: ";
-    PredictResponse<DocT> predictResponse;
-
+    JavaType type = mapper.getTypeFactory().constructParametricType(
+        PredictResponse.class,
+        documentClass
+    );
     try (
         CloseableHttpClient httpClient = httpClientBuilder.build();
         CloseableHttpResponse response = httpClient.execute(post)
     ) {
       HttpEntity responseEntity = response.getEntity();
-      if (responseEntity.getContentLength() != 0) {
-        JavaType type = mapper.getTypeFactory().constructParametricType(
-            PredictResponse.class,
-            documentClass
-        );
-        predictResponse = mapper.readValue(responseEntity.getContent(), type);
-
-        if (is2xxStatusCode(response.getStatusLine().getStatusCode())) {
-          return predictResponse;
-        }
-        if (predictResponse != null) {
-          errorMessage += predictResponse.getApiRequest().getError().toString();
-        }
-      } else {
-        throw new MindeeException(parseUnhandledError(responseEntity, response));
+      int statusCode = response.getStatusLine().getStatusCode();
+      if (!is2xxStatusCode(statusCode)) {
+        throw getHttpError(type, response);
       }
+      if (responseEntity.getContentLength() == 0) {
+        throw new MindeeException("Empty response from server.");
+      }
+      return mapper.readValue(responseEntity.getContent(), type);
     } catch (IOException err) {
       throw new MindeeException(err.getMessage(), err);
     }
-    throw new MindeeException(errorMessage);
   }
 
   /**
@@ -209,34 +200,58 @@ public final class MindeeHttpApi extends MindeeApi {
 
     // required to register jackson date module format to deserialize
     mapper.findAndRegisterModules();
-
-    String errorMessage = "Mindee API client: ";
-    AsyncPredictResponse<DocT> predictResponse;
-
+    JavaType type = mapper.getTypeFactory().constructParametricType(
+        AsyncPredictResponse.class,
+        documentClass
+    );
     try (
         CloseableHttpClient httpClient = httpClientBuilder.build();
         CloseableHttpResponse response = httpClient.execute(post)
     ) {
       HttpEntity responseEntity = response.getEntity();
-      if (responseEntity.getContentLength() != 0) {
-        JavaType type = mapper.getTypeFactory().constructParametricType(
-            AsyncPredictResponse.class,
-            documentClass
-        );
-        predictResponse = mapper.readValue(responseEntity.getContent(), type);
-        if (is2xxStatusCode(response.getStatusLine().getStatusCode())) {
-          return predictResponse;
-        }
-        if (predictResponse != null) {
-          errorMessage += predictResponse.getApiRequest().getError().toString();
-        }
-      } else {
-        throw new MindeeException(parseUnhandledError(responseEntity, response));
+      int statusCode = response.getStatusLine().getStatusCode();
+      if (!is2xxStatusCode(statusCode)) {
+        throw getHttpError(type, response);
       }
+      if (responseEntity.getContentLength() == 0) {
+        throw new MindeeException("Empty response from server.");
+      }
+      return mapper.readValue(responseEntity.getContent(), type);
     } catch (IOException err) {
       throw new MindeeException(err.getMessage(), err);
     }
-    throw new MindeeException(errorMessage);
+  }
+
+  private <ResponseT extends ApiResponse> MindeeHttpException getHttpError(
+      JavaType javaType,
+      CloseableHttpResponse response
+  ) {
+    int statusCode = response.getStatusLine().getStatusCode();
+    String message = "HTTP Status " + statusCode + " - ";
+    String details;
+    String rawResponse;
+    try {
+      rawResponse = readRawResponse(response.getEntity());
+    } catch (IOException err) {
+      message += "Could not read server response, check details.";
+      details = err.getMessage();
+      return new MindeeHttpException(statusCode, message, details);
+    }
+    try {
+      ResponseT predictResponse = mapper.readValue(rawResponse, javaType);
+      message = predictResponse.getApiRequest().getError().getMessage();
+      ErrorDetails errorDetails = predictResponse.getApiRequest().getError().getDetails();
+      if (errorDetails != null) {
+        details = errorDetails.toString();
+      }
+      else {
+        details = "";
+      }
+    } catch (IOException mapperError) {
+      message += "Unhandled server response, check details.";
+      details = rawResponse;
+    }
+    return new MindeeHttpException(statusCode, message, details);
   }
 
   private String buildUrl(Endpoint endpoint) {
