@@ -273,21 +273,6 @@ public final class MindeeHttpApi extends MindeeApi {
     return post;
   }
 
-  private String parseUnhandledError(
-      HttpEntity responseEntity,
-      CloseableHttpResponse response
-  ) throws IOException {
-    ByteArrayOutputStream contentRead = new ByteArrayOutputStream();
-    byte[] buffer = new byte[1024];
-    for (int length; (length = responseEntity.getContent().read(buffer)) != -1; ) {
-      contentRead.write(buffer, 0, length);
-    }
-    return "Mindee API client: Unhandled - HTTP Status code "
-      + response.getStatusLine().getStatusCode()
-      + " - Content "
-      + contentRead.toString("UTF-8");
-  }
-
   private List<NameValuePair> buildPostParams(
       RequestParameters requestParameters
   ) {

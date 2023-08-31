@@ -3,6 +3,10 @@ package com.mindee.http;
 import com.mindee.parsing.common.AsyncPredictResponse;
 import com.mindee.parsing.common.Inference;
 import com.mindee.parsing.common.PredictResponse;
+import org.apache.http.HttpEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 /**
@@ -60,5 +64,20 @@ abstract public class MindeeApi {
 
   protected boolean is2xxStatusCode(int statusCode) {
     return statusCode >= 200 && statusCode <= 299;
+  }
+
+  protected String parseUnhandledError(
+    HttpEntity responseEntity,
+    CloseableHttpResponse response
+  ) throws IOException {
+    ByteArrayOutputStream contentRead = new ByteArrayOutputStream();
+    byte[] buffer = new byte[1024];
+    for (int length; (length = responseEntity.getContent().read(buffer)) != -1; ) {
+      contentRead.write(buffer, 0, length);
+    }
+    return "Mindee API client: Unhandled - HTTP Status code "
+      + response.getStatusLine().getStatusCode()
+      + " - Content "
+      + contentRead.toString("UTF-8");
   }
 }
