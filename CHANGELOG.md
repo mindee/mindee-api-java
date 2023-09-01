@@ -1,5 +1,12 @@
 # Mindee Java API Library Changelog
 
+## v4.3.0 - 2023-09-01
+### Changes
+* :sparkles: add cropper option
+* :sparkles: add support for US w9 v1
+* :sparkles: add better handling of HTTP errors
+
+
 ## v4.2.0 - 2023-08-08
 ### Changes
 * :white_check_mark: add unit tests for receipt v4, invoice v4
