@@ -36,7 +36,7 @@ public class BankCheckV1Page extends BankCheckV1Document {
     );
     String signaturesPositions = SummaryHelper.arrayToString(
         this.getSignaturesPositions(),
-        "%n                       "
+        "%n                      "
     );
     outStr.append(
         String.format(":Signature Positions: %s%n", signaturesPositions)

@@ -77,7 +77,7 @@ public class IdCardV1Document {
     );
     String givenNames = SummaryHelper.arrayToString(
         this.getGivenNames(),
-        "%n              "
+        "%n                "
     );
     outStr.append(
         String.format(":Given Name(s): %s%n", givenNames)

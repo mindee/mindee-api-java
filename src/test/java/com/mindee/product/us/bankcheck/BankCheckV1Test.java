@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class BankCheckV1Test {
 
-  protected PredictResponse<BankCheckV1> getPrediction() throws IOException {
+  protected PredictResponse<BankCheckV1> getPrediction(String name) throws IOException {
     ObjectMapper objectMapper = new ObjectMapper();
     objectMapper.findAndRegisterModules();
 
@@ -27,15 +27,23 @@ public class BankCheckV1Test {
       BankCheckV1.class
     );
     return objectMapper.readValue(
-      new File("src/test/resources/products/bank_check/response_v1/complete.json"),
+      new File("src/test/resources/products/bank_check/response_v1/" + name + ".json"),
       type
     );
   }
 
   @Test
+  void whenEmptyDeserialized_mustHaveValidProperties() throws IOException {
+    PredictResponse<BankCheckV1> response = getPrediction("empty");
+    Page<BankCheckV1Page> page = response.getDocument().getInference().getPages().get(0);
+    Assertions.assertTrue(page.getPrediction().getCheckPosition().getPolygon().isEmpty());
+    Assertions.assertTrue(page.getPrediction().getSignaturesPositions().isEmpty());
+  }
+
+  @Test
   void whenCompleteDeserialized_mustHaveValidDocumentSummary() throws IOException {
-    PredictResponse<BankCheckV1> prediction = getPrediction();
-    Document<BankCheckV1> doc = prediction.getDocument();
+    PredictResponse<BankCheckV1> response = getPrediction("complete");
+    Document<BankCheckV1> doc = response.getDocument();
     String[] actualLines = doc.toString().split(System.lineSeparator());
     List<String> expectedLines = Files.readAllLines(
       Paths.get("src/test/resources/products/bank_check/response_v1/summary_full.rst")
@@ -48,8 +56,8 @@ public class BankCheckV1Test {
 
   @Test
   void whenCompleteDeserialized_mustHaveValidPage0Summary() throws IOException {
-    PredictResponse<BankCheckV1> prediction = getPrediction();
-    Page<BankCheckV1Page> page = prediction.getDocument().getInference().getPages().get(0);
+    PredictResponse<BankCheckV1> response = getPrediction("complete");
+    Page<BankCheckV1Page> page = response.getDocument().getInference().getPages().get(0);
     String[] actualLines = page.toString().split(System.lineSeparator());
     List<String> expectedLines = Files.readAllLines(
       Paths.get("src/test/resources/products/bank_check/response_v1/summary_page0.rst")

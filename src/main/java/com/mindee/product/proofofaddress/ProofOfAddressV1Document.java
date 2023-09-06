@@ -77,7 +77,7 @@ public class ProofOfAddressV1Document {
     );
     String issuerCompanyRegistration = SummaryHelper.arrayToString(
         this.getIssuerCompanyRegistration(),
-        "%n                              "
+        "%n                               "
     );
     outStr.append(
         String.format(":Issuer Company Registrations: %s%n", issuerCompanyRegistration)
@@ -90,7 +90,7 @@ public class ProofOfAddressV1Document {
     );
     String recipientCompanyRegistration = SummaryHelper.arrayToString(
         this.getRecipientCompanyRegistration(),
-        "%n                                 "
+        "%n                                  "
     );
     outStr.append(
         String.format(":Recipient Company Registrations: %s%n", recipientCompanyRegistration)

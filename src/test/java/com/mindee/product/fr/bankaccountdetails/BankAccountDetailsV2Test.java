@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class BankAccountDetailsV2Test {
 
-  protected PredictResponse<BankAccountDetailsV2> getPrediction() throws IOException {
+  protected PredictResponse<BankAccountDetailsV2> getPrediction(String name) throws IOException {
     ObjectMapper objectMapper = new ObjectMapper();
     objectMapper.findAndRegisterModules();
 
@@ -27,15 +27,20 @@ public class BankAccountDetailsV2Test {
       BankAccountDetailsV2.class
     );
     return objectMapper.readValue(
-      new File("src/test/resources/products/bank_account_details/response_v2/complete.json"),
+      new File("src/test/resources/products/bank_account_details/response_v2/" + name + ".json"),
       type
     );
   }
 
   @Test
+  void whenEmptyDeserialized_mustHaveValidProperties() throws IOException {
+    PredictResponse<BankAccountDetailsV2> response = getPrediction("empty");
+  }
+
+  @Test
   void whenCompleteDeserialized_mustHaveValidDocumentSummary() throws IOException {
-    PredictResponse<BankAccountDetailsV2> prediction = getPrediction();
-    Document<BankAccountDetailsV2> doc = prediction.getDocument();
+    PredictResponse<BankAccountDetailsV2> response = getPrediction("complete");
+    Document<BankAccountDetailsV2> doc = response.getDocument();
     String[] actualLines = doc.toString().split(System.lineSeparator());
     List<String> expectedLines = Files.readAllLines(
       Paths.get("src/test/resources/products/bank_account_details/response_v2/summary_full.rst")
@@ -48,8 +53,8 @@ public class BankAccountDetailsV2Test {
 
   @Test
   void whenCompleteDeserialized_mustHaveValidPage0Summary() throws IOException {
-    PredictResponse<BankAccountDetailsV2> prediction = getPrediction();
-    Page<BankAccountDetailsV2Document> page = prediction.getDocument().getInference().getPages().get(0);
+    PredictResponse<BankAccountDetailsV2> response = getPrediction("complete");
+    Page<BankAccountDetailsV2Document> page = response.getDocument().getInference().getPages().get(0);
     String[] actualLines = page.toString().split(System.lineSeparator());
     List<String> expectedLines = Files.readAllLines(
       Paths.get("src/test/resources/products/bank_account_details/response_v2/summary_page0.rst")

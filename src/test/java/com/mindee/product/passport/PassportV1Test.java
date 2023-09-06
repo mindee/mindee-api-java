@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class PassportV1Test {
 
-  protected PredictResponse<PassportV1> getPrediction() throws IOException {
+  protected PredictResponse<PassportV1> getPrediction(String name) throws IOException {
     ObjectMapper objectMapper = new ObjectMapper();
     objectMapper.findAndRegisterModules();
 
@@ -27,15 +27,20 @@ public class PassportV1Test {
       PassportV1.class
     );
     return objectMapper.readValue(
-      new File("src/test/resources/products/passport/response_v1/complete.json"),
+      new File("src/test/resources/products/passport/response_v1/" + name + ".json"),
       type
     );
   }
 
   @Test
+  void whenEmptyDeserialized_mustHaveValidProperties() throws IOException {
+    PredictResponse<PassportV1> response = getPrediction("empty");
+  }
+
+  @Test
   void whenCompleteDeserialized_mustHaveValidDocumentSummary() throws IOException {
-    PredictResponse<PassportV1> prediction = getPrediction();
-    Document<PassportV1> doc = prediction.getDocument();
+    PredictResponse<PassportV1> response = getPrediction("complete");
+    Document<PassportV1> doc = response.getDocument();
     String[] actualLines = doc.toString().split(System.lineSeparator());
     List<String> expectedLines = Files.readAllLines(
       Paths.get("src/test/resources/products/passport/response_v1/summary_full.rst")
@@ -48,8 +53,8 @@ public class PassportV1Test {
 
   @Test
   void whenCompleteDeserialized_mustHaveValidPage0Summary() throws IOException {
-    PredictResponse<PassportV1> prediction = getPrediction();
-    Page<PassportV1Document> page = prediction.getDocument().getInference().getPages().get(0);
+    PredictResponse<PassportV1> response = getPrediction("complete");
+    Page<PassportV1Document> page = response.getDocument().getInference().getPages().get(0);
     String[] actualLines = page.toString().split(System.lineSeparator());
     List<String> expectedLines = Files.readAllLines(
       Paths.get("src/test/resources/products/passport/response_v1/summary_page0.rst")

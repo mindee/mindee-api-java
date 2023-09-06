@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class IdCardV1Test {
 
-  protected PredictResponse<IdCardV1> getPrediction() throws IOException {
+  protected PredictResponse<IdCardV1> getPrediction(String name) throws IOException {
     ObjectMapper objectMapper = new ObjectMapper();
     objectMapper.findAndRegisterModules();
 
@@ -27,15 +27,21 @@ public class IdCardV1Test {
       IdCardV1.class
     );
     return objectMapper.readValue(
-      new File("src/test/resources/products/idcard_fr/response_v1/complete.json"),
+      new File("src/test/resources/products/idcard_fr/response_v1/" + name + ".json"),
       type
     );
   }
 
   @Test
+  void whenEmptyDeserialized_mustHaveValidProperties() throws IOException {
+    PredictResponse<IdCardV1> response = getPrediction("empty");
+    Page<IdCardV1Page> page = response.getDocument().getInference().getPages().get(0);
+  }
+
+  @Test
   void whenCompleteDeserialized_mustHaveValidDocumentSummary() throws IOException {
-    PredictResponse<IdCardV1> prediction = getPrediction();
-    Document<IdCardV1> doc = prediction.getDocument();
+    PredictResponse<IdCardV1> response = getPrediction("complete");
+    Document<IdCardV1> doc = response.getDocument();
     String[] actualLines = doc.toString().split(System.lineSeparator());
     List<String> expectedLines = Files.readAllLines(
       Paths.get("src/test/resources/products/idcard_fr/response_v1/summary_full.rst")
@@ -48,8 +54,8 @@ public class IdCardV1Test {
 
   @Test
   void whenCompleteDeserialized_mustHaveValidPage0Summary() throws IOException {
-    PredictResponse<IdCardV1> prediction = getPrediction();
-    Page<IdCardV1Page> page = prediction.getDocument().getInference().getPages().get(0);
+    PredictResponse<IdCardV1> response = getPrediction("complete");
+    Page<IdCardV1Page> page = response.getDocument().getInference().getPages().get(0);
     String[] actualLines = page.toString().split(System.lineSeparator());
     List<String> expectedLines = Files.readAllLines(
       Paths.get("src/test/resources/products/idcard_fr/response_v1/summary_page0.rst")

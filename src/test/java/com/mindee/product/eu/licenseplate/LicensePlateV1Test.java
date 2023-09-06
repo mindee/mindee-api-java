@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class LicensePlateV1Test {
 
-  protected PredictResponse<LicensePlateV1> getPrediction() throws IOException {
+  protected PredictResponse<LicensePlateV1> getPrediction(String name) throws IOException {
     ObjectMapper objectMapper = new ObjectMapper();
     objectMapper.findAndRegisterModules();
 
@@ -27,15 +27,20 @@ public class LicensePlateV1Test {
       LicensePlateV1.class
     );
     return objectMapper.readValue(
-      new File("src/test/resources/products/license_plates/response_v1/complete.json"),
+      new File("src/test/resources/products/license_plates/response_v1/" + name + ".json"),
       type
     );
   }
 
   @Test
+  void whenEmptyDeserialized_mustHaveValidProperties() throws IOException {
+    PredictResponse<LicensePlateV1> response = getPrediction("empty");
+  }
+
+  @Test
   void whenCompleteDeserialized_mustHaveValidDocumentSummary() throws IOException {
-    PredictResponse<LicensePlateV1> prediction = getPrediction();
-    Document<LicensePlateV1> doc = prediction.getDocument();
+    PredictResponse<LicensePlateV1> response = getPrediction("complete");
+    Document<LicensePlateV1> doc = response.getDocument();
     String[] actualLines = doc.toString().split(System.lineSeparator());
     List<String> expectedLines = Files.readAllLines(
       Paths.get("src/test/resources/products/license_plates/response_v1/summary_full.rst")
@@ -48,8 +53,8 @@ public class LicensePlateV1Test {
 
   @Test
   void whenCompleteDeserialized_mustHaveValidPage0Summary() throws IOException {
-    PredictResponse<LicensePlateV1> prediction = getPrediction();
-    Page<LicensePlateV1Document> page = prediction.getDocument().getInference().getPages().get(0);
+    PredictResponse<LicensePlateV1> response = getPrediction("complete");
+    Page<LicensePlateV1Document> page = response.getDocument().getInference().getPages().get(0);
     String[] actualLines = page.toString().split(System.lineSeparator());
     List<String> expectedLines = Files.readAllLines(
       Paths.get("src/test/resources/products/license_plates/response_v1/summary_page0.rst")

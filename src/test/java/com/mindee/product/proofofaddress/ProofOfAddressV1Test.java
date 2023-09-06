@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class ProofOfAddressV1Test {
 
-  protected PredictResponse<ProofOfAddressV1> getPrediction() throws IOException {
+  protected PredictResponse<ProofOfAddressV1> getPrediction(String name) throws IOException {
     ObjectMapper objectMapper = new ObjectMapper();
     objectMapper.findAndRegisterModules();
 
@@ -27,15 +27,20 @@ public class ProofOfAddressV1Test {
       ProofOfAddressV1.class
     );
     return objectMapper.readValue(
-      new File("src/test/resources/products/proof_of_address/response_v1/complete.json"),
+      new File("src/test/resources/products/proof_of_address/response_v1/" + name + ".json"),
       type
     );
   }
 
   @Test
+  void whenEmptyDeserialized_mustHaveValidProperties() throws IOException {
+    PredictResponse<ProofOfAddressV1> response = getPrediction("empty");
+  }
+
+  @Test
   void whenCompleteDeserialized_mustHaveValidDocumentSummary() throws IOException {
-    PredictResponse<ProofOfAddressV1> prediction = getPrediction();
-    Document<ProofOfAddressV1> doc = prediction.getDocument();
+    PredictResponse<ProofOfAddressV1> response = getPrediction("complete");
+    Document<ProofOfAddressV1> doc = response.getDocument();
     String[] actualLines = doc.toString().split(System.lineSeparator());
     List<String> expectedLines = Files.readAllLines(
       Paths.get("src/test/resources/products/proof_of_address/response_v1/summary_full.rst")
@@ -48,8 +53,8 @@ public class ProofOfAddressV1Test {
 
   @Test
   void whenCompleteDeserialized_mustHaveValidPage0Summary() throws IOException {
-    PredictResponse<ProofOfAddressV1> prediction = getPrediction();
-    Page<ProofOfAddressV1Document> page = prediction.getDocument().getInference().getPages().get(0);
+    PredictResponse<ProofOfAddressV1> response = getPrediction("complete");
+    Page<ProofOfAddressV1Document> page = response.getDocument().getInference().getPages().get(0);
     String[] actualLines = page.toString().split(System.lineSeparator());
     List<String> expectedLines = Files.readAllLines(
       Paths.get("src/test/resources/products/proof_of_address/response_v1/summary_page0.rst")

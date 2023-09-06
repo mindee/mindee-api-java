@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class DriverLicenseV1Test {
 
-  protected PredictResponse<DriverLicenseV1> getPrediction() throws IOException {
+  protected PredictResponse<DriverLicenseV1> getPrediction(String name) throws IOException {
     ObjectMapper objectMapper = new ObjectMapper();
     objectMapper.findAndRegisterModules();
 
@@ -27,15 +27,23 @@ public class DriverLicenseV1Test {
       DriverLicenseV1.class
     );
     return objectMapper.readValue(
-      new File("src/test/resources/products/us_driver_license/response_v1/complete.json"),
+      new File("src/test/resources/products/us_driver_license/response_v1/" + name + ".json"),
       type
     );
   }
 
   @Test
+  void whenEmptyDeserialized_mustHaveValidProperties() throws IOException {
+    PredictResponse<DriverLicenseV1> response = getPrediction("empty");
+    Page<DriverLicenseV1Page> page = response.getDocument().getInference().getPages().get(0);
+    Assertions.assertTrue(page.getPrediction().getPhoto().getPolygon().isEmpty());
+    Assertions.assertTrue(page.getPrediction().getSignature().getPolygon().isEmpty());
+  }
+
+  @Test
   void whenCompleteDeserialized_mustHaveValidDocumentSummary() throws IOException {
-    PredictResponse<DriverLicenseV1> prediction = getPrediction();
-    Document<DriverLicenseV1> doc = prediction.getDocument();
+    PredictResponse<DriverLicenseV1> response = getPrediction("complete");
+    Document<DriverLicenseV1> doc = response.getDocument();
     String[] actualLines = doc.toString().split(System.lineSeparator());
     List<String> expectedLines = Files.readAllLines(
       Paths.get("src/test/resources/products/us_driver_license/response_v1/summary_full.rst")
@@ -48,8 +56,8 @@ public class DriverLicenseV1Test {
 
   @Test
   void whenCompleteDeserialized_mustHaveValidPage0Summary() throws IOException {
-    PredictResponse<DriverLicenseV1> prediction = getPrediction();
-    Page<DriverLicenseV1Page> page = prediction.getDocument().getInference().getPages().get(0);
+    PredictResponse<DriverLicenseV1> response = getPrediction("complete");
+    Page<DriverLicenseV1Page> page = response.getDocument().getInference().getPages().get(0);
     String[] actualLines = page.toString().split(System.lineSeparator());
     List<String> expectedLines = Files.readAllLines(
       Paths.get("src/test/resources/products/us_driver_license/response_v1/summary_page0.rst")
