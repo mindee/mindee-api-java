@@ -1,0 +1,151 @@
+package com.mindee.product.fr.idcard;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.mindee.parsing.SummaryHelper;
+import com.mindee.parsing.standard.DateField;
+import com.mindee.parsing.standard.StringField;
+import java.util.ArrayList;
+import java.util.List;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+
+/**
+ * Document data for Carte Nationale d'Identité, API version 2.
+ */
+@Getter
+@EqualsAndHashCode
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class IdCardV2Document {
+
+  /**
+   * The alternate name of the card holder.
+   */
+  @JsonProperty("alternate_name")
+  private StringField alternateName;
+  /**
+   * The name of the issuing authority.
+   */
+  @JsonProperty("authority")
+  private StringField authority;
+  /**
+   * The date of birth of the card holder.
+   */
+  @JsonProperty("birth_date")
+  private DateField birthDate;
+  /**
+   * The place of birth of the card holder.
+   */
+  @JsonProperty("birth_place")
+  private StringField birthPlace;
+  /**
+   * The card access number (CAN).
+   */
+  @JsonProperty("card_access_number")
+  private StringField cardAccessNumber;
+  /**
+   * The document number.
+   */
+  @JsonProperty("document_number")
+  private StringField documentNumber;
+  /**
+   * The expiry date of the identification card.
+   */
+  @JsonProperty("expiry_date")
+  private DateField expiryDate;
+  /**
+   * The gender of the card holder.
+   */
+  @JsonProperty("gender")
+  private StringField gender;
+  /**
+   * The given name(s) of the card holder.
+   */
+  @JsonProperty("given_names")
+  private List<StringField> givenNames = new ArrayList<>();
+  /**
+   * The date of issue of the identification card.
+   */
+  @JsonProperty("issue_date")
+  private DateField issueDate;
+  /**
+   * The Machine Readable Zone, first line.
+   */
+  @JsonProperty("mrz1")
+  private StringField mrz1;
+  /**
+   * The Machine Readable Zone, second line.
+   */
+  @JsonProperty("mrz2")
+  private StringField mrz2;
+  /**
+   * The Machine Readable Zone, third line.
+   */
+  @JsonProperty("mrz3")
+  private StringField mrz3;
+  /**
+   * The nationality of the card holder.
+   */
+  @JsonProperty("nationality")
+  private StringField nationality;
+  /**
+   * The surname of the card holder.
+   */
+  @JsonProperty("surname")
+  private StringField surname;
+
+  @Override
+  public String toString() {
+    StringBuilder outStr = new StringBuilder();
+    outStr.append(
+        String.format(":Nationality: %s%n", this.getNationality())
+    );
+    outStr.append(
+        String.format(":Card Access Number: %s%n", this.getCardAccessNumber())
+    );
+    outStr.append(
+        String.format(":Document Number: %s%n", this.getDocumentNumber())
+    );
+    String givenNames = SummaryHelper.arrayToString(
+        this.getGivenNames(),
+        "%n                "
+    );
+    outStr.append(
+        String.format(":Given Name(s): %s%n", givenNames)
+    );
+    outStr.append(
+        String.format(":Surname: %s%n", this.getSurname())
+    );
+    outStr.append(
+        String.format(":Alternate Name: %s%n", this.getAlternateName())
+    );
+    outStr.append(
+        String.format(":Date of Birth: %s%n", this.getBirthDate())
+    );
+    outStr.append(
+        String.format(":Place of Birth: %s%n", this.getBirthPlace())
+    );
+    outStr.append(
+        String.format(":Gender: %s%n", this.getGender())
+    );
+    outStr.append(
+        String.format(":Expiry Date: %s%n", this.getExpiryDate())
+    );
+    outStr.append(
+        String.format(":Mrz Line 1: %s%n", this.getMrz1())
+    );
+    outStr.append(
+        String.format(":Mrz Line 2: %s%n", this.getMrz2())
+    );
+    outStr.append(
+        String.format(":Mrz Line 3: %s%n", this.getMrz3())
+    );
+    outStr.append(
+        String.format(":Date of Issue: %s%n", this.getIssueDate())
+    );
+    outStr.append(
+        String.format(":Issuing Authority: %s%n", this.getAuthority())
+    );
+    return SummaryHelper.cleanSummary(outStr.toString());
+  }
+}
