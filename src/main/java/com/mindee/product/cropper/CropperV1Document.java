@@ -17,7 +17,6 @@ public class CropperV1Document {
 
   @Override
   public String toString() {
-    StringBuilder outStr = new StringBuilder();
-    return SummaryHelper.cleanSummary(outStr.toString());
+    return "";
   }
 }
