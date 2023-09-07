@@ -1,7 +1,7 @@
 import com.mindee.MindeeClient;
 import com.mindee.input.LocalInputSource;
 import com.mindee.parsing.common.PredictResponse;
-import com.mindee.product.us.w9.W9V1;
+import com.mindee.product.cropper.CropperV1;
 import java.io.File;
 import java.io.IOException;
 
@@ -18,8 +18,8 @@ public class SimpleMindeeClient {
     LocalInputSource inputSource = new LocalInputSource(new File(filePath));
 
     // Parse the file
-    PredictResponse<W9V1> response = mindeeClient.parse(
-        W9V1.class,
+    PredictResponse<CropperV1> response = mindeeClient.parse(
+        CropperV1.class,
         inputSource
     );
 

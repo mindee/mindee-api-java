@@ -1,4 +1,4 @@
-package com.mindee.product.us.w9;
+package com.mindee.product.cropper;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -7,12 +7,12 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 /**
- * Document data for US W9, API version 1.
+ * Document data for Cropper, API version 1.
  */
 @Getter
 @EqualsAndHashCode
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class W9V1Document {
+public class CropperV1Document {
 
 
   @Override
