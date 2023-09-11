@@ -35,6 +35,14 @@ public class BankAccountDetailsV2Test {
   @Test
   void whenEmptyDeserialized_mustHaveValidProperties() throws IOException {
     PredictResponse<BankAccountDetailsV2> response = getPrediction("empty");
+    BankAccountDetailsV2Document docPrediction = response.getDocument().getInference().getPrediction();
+    Assertions.assertNull(docPrediction.getAccountHoldersNames().getValue());
+    Assertions.assertNull(docPrediction.getBban().getBbanBankCode());
+    Assertions.assertNull(docPrediction.getBban().getBbanBranchCode());
+    Assertions.assertNull(docPrediction.getBban().getBbanKey());
+    Assertions.assertNull(docPrediction.getBban().getBbanNumber());
+    Assertions.assertNull(docPrediction.getIban().getValue());
+    Assertions.assertNull(docPrediction.getSwiftCode().getValue());
   }
 
   @Test

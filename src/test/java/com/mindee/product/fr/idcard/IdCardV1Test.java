@@ -35,7 +35,19 @@ public class IdCardV1Test {
   @Test
   void whenEmptyDeserialized_mustHaveValidProperties() throws IOException {
     PredictResponse<IdCardV1> response = getPrediction("empty");
-    Page<IdCardV1Page> page = response.getDocument().getInference().getPages().get(0);
+    IdCardV1Document docPrediction = response.getDocument().getInference().getPrediction();
+    Assertions.assertNull(docPrediction.getIdNumber().getValue());
+    Assertions.assertTrue(docPrediction.getGivenNames().isEmpty());
+    Assertions.assertNull(docPrediction.getSurname().getValue());
+    Assertions.assertNull(docPrediction.getBirthDate().getValue());
+    Assertions.assertNull(docPrediction.getBirthPlace().getValue());
+    Assertions.assertNull(docPrediction.getExpiryDate().getValue());
+    Assertions.assertNull(docPrediction.getAuthority().getValue());
+    Assertions.assertNull(docPrediction.getGender().getValue());
+    Assertions.assertNull(docPrediction.getMrz1().getValue());
+    Assertions.assertNull(docPrediction.getMrz2().getValue());
+    IdCardV1Page pagePrediction = response.getDocument().getInference().getPages().get(0).getPrediction();
+    Assertions.assertNotNull(pagePrediction.getDocumentSide().getValue());
   }
 
   @Test

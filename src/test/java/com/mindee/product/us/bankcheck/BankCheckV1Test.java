@@ -35,9 +35,16 @@ public class BankCheckV1Test {
   @Test
   void whenEmptyDeserialized_mustHaveValidProperties() throws IOException {
     PredictResponse<BankCheckV1> response = getPrediction("empty");
-    Page<BankCheckV1Page> page = response.getDocument().getInference().getPages().get(0);
-    Assertions.assertTrue(page.getPrediction().getCheckPosition().getPolygon().isEmpty());
-    Assertions.assertTrue(page.getPrediction().getSignaturesPositions().isEmpty());
+    BankCheckV1Document docPrediction = response.getDocument().getInference().getPrediction();
+    Assertions.assertNull(docPrediction.getDate().getValue());
+    Assertions.assertNull(docPrediction.getAmount().getValue());
+    Assertions.assertTrue(docPrediction.getPayees().isEmpty());
+    Assertions.assertNull(docPrediction.getRoutingNumber().getValue());
+    Assertions.assertNull(docPrediction.getAccountNumber().getValue());
+    Assertions.assertNull(docPrediction.getCheckNumber().getValue());
+    BankCheckV1Page pagePrediction = response.getDocument().getInference().getPages().get(0).getPrediction();
+    Assertions.assertTrue(pagePrediction.getCheckPosition().getPolygon().isEmpty());
+    Assertions.assertTrue(pagePrediction.getSignaturesPositions().isEmpty());
   }
 
   @Test

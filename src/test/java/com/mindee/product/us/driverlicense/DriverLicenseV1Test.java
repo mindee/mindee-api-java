@@ -35,9 +35,27 @@ public class DriverLicenseV1Test {
   @Test
   void whenEmptyDeserialized_mustHaveValidProperties() throws IOException {
     PredictResponse<DriverLicenseV1> response = getPrediction("empty");
-    Page<DriverLicenseV1Page> page = response.getDocument().getInference().getPages().get(0);
-    Assertions.assertTrue(page.getPrediction().getPhoto().getPolygon().isEmpty());
-    Assertions.assertTrue(page.getPrediction().getSignature().getPolygon().isEmpty());
+    DriverLicenseV1Document docPrediction = response.getDocument().getInference().getPrediction();
+    Assertions.assertNull(docPrediction.getState().getValue());
+    Assertions.assertNull(docPrediction.getDriverLicenseId().getValue());
+    Assertions.assertNull(docPrediction.getExpiryDate().getValue());
+    Assertions.assertNull(docPrediction.getIssuedDate().getValue());
+    Assertions.assertNull(docPrediction.getLastName().getValue());
+    Assertions.assertNull(docPrediction.getFirstName().getValue());
+    Assertions.assertNull(docPrediction.getAddress().getValue());
+    Assertions.assertNull(docPrediction.getDateOfBirth().getValue());
+    Assertions.assertNull(docPrediction.getRestrictions().getValue());
+    Assertions.assertNull(docPrediction.getEndorsements().getValue());
+    Assertions.assertNull(docPrediction.getDlClass().getValue());
+    Assertions.assertNull(docPrediction.getSex().getValue());
+    Assertions.assertNull(docPrediction.getHeight().getValue());
+    Assertions.assertNull(docPrediction.getWeight().getValue());
+    Assertions.assertNull(docPrediction.getHairColor().getValue());
+    Assertions.assertNull(docPrediction.getEyeColor().getValue());
+    Assertions.assertNull(docPrediction.getDdNumber().getValue());
+    DriverLicenseV1Page pagePrediction = response.getDocument().getInference().getPages().get(0).getPrediction();
+    Assertions.assertTrue(pagePrediction.getPhoto().getPolygon().isEmpty());
+    Assertions.assertTrue(pagePrediction.getSignature().getPolygon().isEmpty());
   }
 
   @Test
