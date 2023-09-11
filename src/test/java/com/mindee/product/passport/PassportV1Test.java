@@ -35,6 +35,18 @@ public class PassportV1Test {
   @Test
   void whenEmptyDeserialized_mustHaveValidProperties() throws IOException {
     PredictResponse<PassportV1> response = getPrediction("empty");
+    PassportV1Document docPrediction = response.getDocument().getInference().getPrediction();
+    Assertions.assertNull(docPrediction.getCountry().getValue());
+    Assertions.assertNull(docPrediction.getIdNumber().getValue());
+    Assertions.assertTrue(docPrediction.getGivenNames().isEmpty());
+    Assertions.assertNull(docPrediction.getSurname().getValue());
+    Assertions.assertNull(docPrediction.getBirthDate().getValue());
+    Assertions.assertNull(docPrediction.getBirthPlace().getValue());
+    Assertions.assertNull(docPrediction.getGender().getValue());
+    Assertions.assertNull(docPrediction.getIssuanceDate().getValue());
+    Assertions.assertNull(docPrediction.getExpiryDate().getValue());
+    Assertions.assertNull(docPrediction.getMrz1().getValue());
+    Assertions.assertNull(docPrediction.getMrz2().getValue());
   }
 
   @Test

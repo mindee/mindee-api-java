@@ -35,6 +35,8 @@ public class LicensePlateV1Test {
   @Test
   void whenEmptyDeserialized_mustHaveValidProperties() throws IOException {
     PredictResponse<LicensePlateV1> response = getPrediction("empty");
+    LicensePlateV1Document docPrediction = response.getDocument().getInference().getPrediction();
+    Assertions.assertTrue(docPrediction.getLicensePlates().isEmpty());
   }
 
   @Test

@@ -35,6 +35,23 @@ public class ReceiptV5Test {
   @Test
   void whenEmptyDeserialized_mustHaveValidProperties() throws IOException {
     PredictResponse<ReceiptV5> response = getPrediction("empty");
+    ReceiptV5Document docPrediction = response.getDocument().getInference().getPrediction();
+    Assertions.assertNull(docPrediction.getLocale().getValue());
+    Assertions.assertNotNull(docPrediction.getCategory().getValue());
+    Assertions.assertNotNull(docPrediction.getSubcategory().getValue());
+    Assertions.assertNotNull(docPrediction.getDocumentType().getValue());
+    Assertions.assertNull(docPrediction.getDate().getValue());
+    Assertions.assertNull(docPrediction.getTime().getValue());
+    Assertions.assertNull(docPrediction.getTotalAmount().getValue());
+    Assertions.assertNull(docPrediction.getTotalNet().getValue());
+    Assertions.assertNull(docPrediction.getTotalTax().getValue());
+    Assertions.assertNull(docPrediction.getTip().getValue());
+    Assertions.assertTrue(docPrediction.getTaxes().isEmpty());
+    Assertions.assertNull(docPrediction.getSupplierName().getValue());
+    Assertions.assertTrue(docPrediction.getSupplierCompanyRegistrations().isEmpty());
+    Assertions.assertNull(docPrediction.getSupplierAddress().getValue());
+    Assertions.assertNull(docPrediction.getSupplierPhoneNumber().getValue());
+    Assertions.assertTrue(docPrediction.getLineItems().isEmpty());
   }
 
   @Test

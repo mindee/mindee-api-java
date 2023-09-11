@@ -35,6 +35,16 @@ public class ProofOfAddressV1Test {
   @Test
   void whenEmptyDeserialized_mustHaveValidProperties() throws IOException {
     PredictResponse<ProofOfAddressV1> response = getPrediction("empty");
+    ProofOfAddressV1Document docPrediction = response.getDocument().getInference().getPrediction();
+    Assertions.assertNull(docPrediction.getLocale().getValue());
+    Assertions.assertNull(docPrediction.getIssuerName().getValue());
+    Assertions.assertTrue(docPrediction.getIssuerCompanyRegistration().isEmpty());
+    Assertions.assertNull(docPrediction.getIssuerAddress().getValue());
+    Assertions.assertNull(docPrediction.getRecipientName().getValue());
+    Assertions.assertTrue(docPrediction.getRecipientCompanyRegistration().isEmpty());
+    Assertions.assertNull(docPrediction.getRecipientAddress().getValue());
+    Assertions.assertTrue(docPrediction.getDates().isEmpty());
+    Assertions.assertNull(docPrediction.getDate().getValue());
   }
 
   @Test

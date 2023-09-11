@@ -35,7 +35,25 @@ public class IdCardV2Test {
   @Test
   void whenEmptyDeserialized_mustHaveValidProperties() throws IOException {
     PredictResponse<IdCardV2> response = getPrediction("empty");
-    Page<IdCardV2Page> page = response.getDocument().getInference().getPages().get(0);
+    IdCardV2Document docPrediction = response.getDocument().getInference().getPrediction();
+    Assertions.assertNull(docPrediction.getNationality().getValue());
+    Assertions.assertNull(docPrediction.getCardAccessNumber().getValue());
+    Assertions.assertNull(docPrediction.getDocumentNumber().getValue());
+    Assertions.assertTrue(docPrediction.getGivenNames().isEmpty());
+    Assertions.assertNull(docPrediction.getSurname().getValue());
+    Assertions.assertNull(docPrediction.getAlternateName().getValue());
+    Assertions.assertNull(docPrediction.getBirthDate().getValue());
+    Assertions.assertNull(docPrediction.getBirthPlace().getValue());
+    Assertions.assertNull(docPrediction.getGender().getValue());
+    Assertions.assertNull(docPrediction.getExpiryDate().getValue());
+    Assertions.assertNull(docPrediction.getMrz1().getValue());
+    Assertions.assertNull(docPrediction.getMrz2().getValue());
+    Assertions.assertNull(docPrediction.getMrz3().getValue());
+    Assertions.assertNull(docPrediction.getIssueDate().getValue());
+    Assertions.assertNull(docPrediction.getAuthority().getValue());
+    IdCardV2Page pagePrediction = response.getDocument().getInference().getPages().get(0).getPrediction();
+    Assertions.assertNotNull(pagePrediction.getDocumentType().getValue());
+    Assertions.assertNotNull(pagePrediction.getDocumentSide().getValue());
   }
 
   @Test

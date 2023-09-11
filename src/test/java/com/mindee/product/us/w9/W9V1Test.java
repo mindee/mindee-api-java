@@ -35,19 +35,19 @@ public class W9V1Test {
   @Test
   void whenEmptyDeserialized_mustHaveValidProperties() throws IOException {
     PredictResponse<W9V1> response = getPrediction("empty");
-    Page<W9V1Page> page = response.getDocument().getInference().getPages().get(0);
-    Assertions.assertNull(page.getPrediction().getName().getValue());
-    Assertions.assertNull(page.getPrediction().getSsn().getValue());
-    Assertions.assertNull(page.getPrediction().getAddress().getValue());
-    Assertions.assertNull(page.getPrediction().getCityStateZip().getValue());
-    Assertions.assertNull(page.getPrediction().getBusinessName().getValue());
-    Assertions.assertNull(page.getPrediction().getEin().getValue());
-    Assertions.assertNull(page.getPrediction().getTaxClassification().getValue());
-    Assertions.assertNull(page.getPrediction().getTaxClassificationOtherDetails().getValue());
-    Assertions.assertNull(page.getPrediction().getW9RevisionDate().getValue());
-    Assertions.assertTrue(page.getPrediction().getSignaturePosition().getPolygon().isEmpty());
-    Assertions.assertTrue(page.getPrediction().getSignatureDatePosition().getPolygon().isEmpty());
-    Assertions.assertNull(page.getPrediction().getTaxClassificationLlc().getValue());
+    W9V1Page pagePrediction = response.getDocument().getInference().getPages().get(0).getPrediction();
+    Assertions.assertNull(pagePrediction.getName().getValue());
+    Assertions.assertNull(pagePrediction.getSsn().getValue());
+    Assertions.assertNull(pagePrediction.getAddress().getValue());
+    Assertions.assertNull(pagePrediction.getCityStateZip().getValue());
+    Assertions.assertNull(pagePrediction.getBusinessName().getValue());
+    Assertions.assertNull(pagePrediction.getEin().getValue());
+    Assertions.assertNull(pagePrediction.getTaxClassification().getValue());
+    Assertions.assertNull(pagePrediction.getTaxClassificationOtherDetails().getValue());
+    Assertions.assertNull(pagePrediction.getW9RevisionDate().getValue());
+    Assertions.assertTrue(pagePrediction.getSignaturePosition().getPolygon().isEmpty());
+    Assertions.assertTrue(pagePrediction.getSignatureDatePosition().getPolygon().isEmpty());
+    Assertions.assertNull(pagePrediction.getTaxClassificationLlc().getValue());
   }
 
   @Test

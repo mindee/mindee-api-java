@@ -35,6 +35,11 @@ public class CarteVitaleV1Test {
   @Test
   void whenEmptyDeserialized_mustHaveValidProperties() throws IOException {
     PredictResponse<CarteVitaleV1> response = getPrediction("empty");
+    CarteVitaleV1Document docPrediction = response.getDocument().getInference().getPrediction();
+    Assertions.assertTrue(docPrediction.getGivenNames().isEmpty());
+    Assertions.assertNull(docPrediction.getSurname().getValue());
+    Assertions.assertNull(docPrediction.getSocialSecurity().getValue());
+    Assertions.assertNull(docPrediction.getIssuanceDate().getValue());
   }
 
   @Test

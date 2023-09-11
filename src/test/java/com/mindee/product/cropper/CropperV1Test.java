@@ -35,8 +35,8 @@ public class CropperV1Test {
   @Test
   void whenEmptyDeserialized_mustHaveValidProperties() throws IOException {
     PredictResponse<CropperV1> response = getPrediction("empty");
-    Page<CropperV1Page> page = response.getDocument().getInference().getPages().get(0);
-    Assertions.assertTrue(page.getPrediction().getCropping().isEmpty());
+    CropperV1Page pagePrediction = response.getDocument().getInference().getPages().get(0).getPrediction();
+    Assertions.assertTrue(pagePrediction.getCropping().isEmpty());
   }
 
   @Test
