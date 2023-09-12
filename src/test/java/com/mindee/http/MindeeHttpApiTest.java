@@ -13,9 +13,9 @@ import com.mindee.MindeeSettings;
 import com.mindee.PredictOptions;
 import com.mindee.parsing.common.AsyncPredictResponse;
 import com.mindee.parsing.common.Document;
+import com.mindee.parsing.common.PredictResponse;
 import com.mindee.product.invoice.InvoiceV4;
 import com.mindee.product.invoicesplitter.InvoiceSplitterV1;
-
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -51,14 +51,18 @@ public class MindeeHttpApiTest extends TestCase {
     mockWebServer.shutdown();
   }
 
-  private MindeeHttpApi getClientForResponse(String filePath, int statusCode) throws IOException {
+  private MindeeHttpApi getClientForResponse(Path filePath, int statusCode) throws IOException {
     String url = String.format("http://localhost:%s", mockWebServer.getPort());
-    Path path = Paths.get("src/test/resources/" + filePath);
     mockWebServer.enqueue(new MockResponse()
       .setResponseCode(statusCode)
-      .setBody(new String(Files.readAllBytes(path)))
+      .setBody(new String(Files.readAllBytes(filePath)))
     );
     return MindeeHttpApi.builder().mindeeSettings(new MindeeSettings("abc", url)).build();
+  }
+
+  private MindeeHttpApi getClientForResponse(String filePath, int statusCode) throws IOException {
+    Path path = Paths.get("src/test/resources/" + filePath);
+    return getClientForResponse(path, statusCode);
   }
 
   @Test
@@ -68,7 +72,6 @@ public class MindeeHttpApiTest extends TestCase {
     MindeeHttpApi client = getClientForResponse("products/invoices/response_v4/complete.json", 200);
 
     File file = new File("src/test/resources/products/invoices/invoice.pdf");
-    HttpClientBuilder httpClientBuilder = HttpClientBuilder.create().useSystemProperties();
 
     Document<InvoiceV4> document = client.predictPost(
         InvoiceV4.class,
@@ -246,18 +249,22 @@ public class MindeeHttpApiTest extends TestCase {
         .httpClientBuilder(httpclientBuilder)
         .build();
 
-    Document<InvoiceV4> document = client.predictPost(
+    PredictResponse<InvoiceV4> response = client.predictPost(
         InvoiceV4.class,
         new Endpoint(InvoiceV4.class),
         RequestParameters.builder()
             .file(Files.readAllBytes(file.toPath()))
             .fileName(file.getName())
-            .build())
-      .getDocument();
+            .build()
+    );
 
-    Assertions.assertNotNull(document);
+    Assertions.assertNotNull(response);
+    Assertions.assertEquals(
+      new String(Files.readAllBytes(path)),
+      response.getRawResponse()
+    );
 
-    String[] actualLines = document.toString().split(System.lineSeparator());
+    String[] actualLines = response.getDocument().toString().split(System.lineSeparator());
     String actualSummary = String.join(String.format("%n"), actualLines);
     List<String> expectedLines = Files
       .readAllLines(Paths.get("src/test/resources/products/invoices/response_v4/summary_full.rst"));
@@ -265,7 +272,7 @@ public class MindeeHttpApiTest extends TestCase {
 
     proxyMock.verify(postRequestedFor(urlEqualTo("/products/mindee/invoices/v4/predict"))
         .withHeader("Authorization", containing("abc")));
-    Assertions.assertNotNull(document);
+    Assertions.assertNotNull(response.getDocument());
     Assertions.assertEquals(expectedSummary, actualSummary);
     proxyMock.shutdown();
   }
@@ -274,7 +281,8 @@ public class MindeeHttpApiTest extends TestCase {
   void givenAnAsncResponse_whenDeserialized_mustHaveValidJob()
     throws IOException, InterruptedException
   {
-    MindeeHttpApi client = getClientForResponse("async/post_success.json", 200);
+    Path path = Paths.get("src/test/resources/async/post_success.json");
+    MindeeHttpApi client = getClientForResponse(path, 200);
 
     File file = new File("src/test/resources/products/invoices/invoice.pdf");
     AsyncPredictResponse<InvoiceV4> response = client.predictAsyncPost(
@@ -286,6 +294,10 @@ public class MindeeHttpApiTest extends TestCase {
         .build());
 
     Assertions.assertNotNull(response);
+    Assertions.assertEquals(
+      new String(Files.readAllBytes(path)),
+      response.getRawResponse()
+    );
     Assertions.assertEquals("waiting", response.getJob().getStatus());
     Assertions.assertFalse(response.getDocument().isPresent());
 
@@ -302,18 +314,23 @@ public class MindeeHttpApiTest extends TestCase {
   void givenAResponseFromTheJobEndpoint_whenDeserialized_mustHaveValidJobAndDocument()
       throws IOException, InterruptedException
   {
-    MindeeHttpApi client = getClientForResponse("async/get_completed.json", 200);
+    Path path = Paths.get("src/test/resources/async/get_completed.json");
+    MindeeHttpApi client = getClientForResponse(path, 200);
 
-    AsyncPredictResponse<InvoiceSplitterV1> invoiceSplitterV1Inference = client.documentQueueGet(
+    AsyncPredictResponse<InvoiceSplitterV1> response = client.documentQueueGet(
         InvoiceSplitterV1.class,
         new Endpoint(InvoiceSplitterV1.class),
         "2134e243244");
 
-    Assertions.assertNotNull(invoiceSplitterV1Inference);
-    Assertions.assertEquals("completed", invoiceSplitterV1Inference.getJob().getStatus());
-    Assertions.assertTrue(invoiceSplitterV1Inference.getDocument().isPresent());
+    Assertions.assertNotNull(response);
+    Assertions.assertEquals(
+      new String(Files.readAllBytes(path)),
+      response.getRawResponse()
+    );
+    Assertions.assertEquals("completed", response.getJob().getStatus());
+    Assertions.assertTrue(response.getDocument().isPresent());
 
-    Assert.assertNotNull(invoiceSplitterV1Inference.getJob());
+    Assert.assertNotNull(response.getJob());
     RecordedRequest recordedRequest = mockWebServer.takeRequest();
 
     Assertions.assertEquals("abc", recordedRequest.getHeader("Authorization"));

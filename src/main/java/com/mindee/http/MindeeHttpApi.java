@@ -144,7 +144,10 @@ public final class MindeeHttpApi extends MindeeApi {
       if (!is2xxStatusCode(statusCode)) {
         throw getHttpError(type, response);
       }
-      return mapper.readValue(responseEntity.getContent(), type);
+      String rawResponse = readRawResponse(responseEntity);
+      AsyncPredictResponse<DocT> mappedResponse = mapper.readValue(rawResponse, type);
+      mappedResponse.setRawResponse(rawResponse);
+      return mappedResponse;
     } catch (IOException err) {
       throw new MindeeException(err.getMessage(), err);
     }
@@ -180,7 +183,10 @@ public final class MindeeHttpApi extends MindeeApi {
       if (responseEntity.getContentLength() == 0) {
         throw new MindeeException("Empty response from server.");
       }
-      return mapper.readValue(responseEntity.getContent(), type);
+      String rawResponse = readRawResponse(responseEntity);
+      PredictResponse<DocT> mappedResponse = mapper.readValue(rawResponse, type);
+      mappedResponse.setRawResponse(rawResponse);
+      return mappedResponse;
     } catch (IOException err) {
       throw new MindeeException(err.getMessage(), err);
     }
@@ -216,7 +222,10 @@ public final class MindeeHttpApi extends MindeeApi {
       if (responseEntity.getContentLength() == 0) {
         throw new MindeeException("Empty response from server.");
       }
-      return mapper.readValue(responseEntity.getContent(), type);
+      String rawResponse = readRawResponse(responseEntity);
+      AsyncPredictResponse<DocT> mappedResponse = mapper.readValue(rawResponse, type);
+      mappedResponse.setRawResponse(rawResponse);
+      return mappedResponse;
     } catch (IOException err) {
       throw new MindeeException(err.getMessage(), err);
     }
