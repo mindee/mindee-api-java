@@ -229,13 +229,15 @@ public final class MindeeHttpApi extends MindeeApi {
     int statusCode = response.getStatusLine().getStatusCode();
     String message = "HTTP Status " + statusCode + " - ";
     String details;
+    String errorCode;
     String rawResponse;
     try {
       rawResponse = readRawResponse(response.getEntity());
     } catch (IOException err) {
       message += "Could not read server response, check details.";
+      errorCode = "";
       details = err.getMessage();
-      return new MindeeHttpException(statusCode, message, details);
+      return new MindeeHttpException(statusCode, message, details, errorCode);
     }
     try {
       ResponseT predictResponse = mapper.readValue(rawResponse, javaType);
@@ -247,11 +249,13 @@ public final class MindeeHttpApi extends MindeeApi {
       else {
         details = "";
       }
+      errorCode = predictResponse.getApiRequest().getError().getCode();
     } catch (IOException mapperError) {
       message += "Unhandled server response, check details.";
       details = rawResponse;
+      errorCode = "";
     }
-    return new MindeeHttpException(statusCode, message, details);
+    return new MindeeHttpException(statusCode, message, details, errorCode);
   }
 
   private String buildUrl(Endpoint endpoint) {

@@ -372,6 +372,7 @@ public class MindeeHttpApiTest extends TestCase {
     assertEquals(429, httpError.getStatusCode());
     assertEquals("Too many requests", httpError.getMessage());
     assertEquals("Too Many Requests.", httpError.getDetails());
+    assertEquals("TooManyRequests", httpError.getCode());
   }
 
   @Test
@@ -398,6 +399,7 @@ public class MindeeHttpApiTest extends TestCase {
     assertEquals(413, httpError.getStatusCode());
     assertEquals("HTTP Status 413 - Unhandled server response, check details.", httpError.getMessage());
     assertTrue(httpError.getDetails().contains("<h1>An error occurred.</h1>"));
+    assertEquals("", httpError.getCode());
   }
 
   @Test
@@ -424,5 +426,6 @@ public class MindeeHttpApiTest extends TestCase {
     assertEquals(400, httpError.getStatusCode());
     assertEquals("Some scary message here", httpError.getMessage());
     assertEquals("", httpError.getDetails());
+    assertEquals("SomeCode", httpError.getCode());
   }
 }
