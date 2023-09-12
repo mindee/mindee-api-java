@@ -18,8 +18,10 @@ abstract public class ApiResponse {
    */
   @JsonProperty("api_request")
   ApiRequest apiRequest;
-
-  @Getter
+  /**
+   * The raw server response.
+   * This is not formatted in any way by the library and may contain newline and tab characters.
+   */
   private String rawResponse;
 
   public void setRawResponse(String contents) {
