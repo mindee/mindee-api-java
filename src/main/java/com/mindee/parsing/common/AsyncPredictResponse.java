@@ -35,7 +35,7 @@ public class AsyncPredictResponse<T extends Inference> extends ApiResponse {
   public String toString() {
     String document;
     if (this.getDocument().isPresent()) {
-      document = String.format("%n%n%s", this.getDocument());
+      document = String.format("%n%n%s", this.getDocument().get());
     } else {
       document = "";
     }

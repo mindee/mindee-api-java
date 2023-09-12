@@ -15,6 +15,9 @@ public class InputSourceUtils {
   private static final String UNIX_FILE_SEPARATOR = "/";
   private static final String FILE_EXTENSION = ".";
 
+  /**
+   * Returns the file's extension.
+   */
   public static String getFileExtension(String fileName) {
     if (fileName == null) {
       throw new IllegalArgumentException("fileName must not be null!");
@@ -37,6 +40,13 @@ public class InputSourceUtils {
     }
 
     return extension;
+  }
+
+  /**
+   * Returns true if the file is a PDF.
+   */
+  public static boolean isPdf(String fileName) {
+    return getFileExtension(fileName).equalsIgnoreCase("pdf");
   }
 
   /**

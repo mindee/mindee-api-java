@@ -24,32 +24,24 @@ public class SimpleMindeeClient {
     MindeeClient mindeeClient = new MindeeClient(apiKey);
     LocalInputSource inputSource = new LocalInputSource(new File(filePath));
 
-    AsyncPredictResponse<InvoiceSplitterV1> enqueueResponse = mindeeClient.enqueue(
+    // Parse the file asynchronously
+    AsyncPredictResponse<InvoiceSplitterV1> response = mindeeClient.enqueueAndParse(
         InvoiceSplitterV1.class,
         inputSource
     );
 
-    String jobId = enqueueResponse.getJob().getId();
+    // Print a summary of the response
+    System.out.println(response.toString());
 
-    AsyncPredictResponse<InvoiceSplitterV1> jobResponse = null;
-    int retryCount = 0;
+    // Print a summary of the predictions
+//  System.out.println(response.getDocument().toString());
 
-    while (retryCount < maxRetries) {
-      jobResponse = mindeeClient.parseQueued(InvoiceSplitterV1.class, jobId);
-      Optional<Document<InvoiceSplitterV1>> documentOptional = jobResponse.getDocument();
+    // Print the document-level predictions
+//    System.out.println(response.getDocument().getInference().getPrediction().toString());
 
-      if (documentOptional.isPresent()) {
-        Document<InvoiceSplitterV1> document = documentOptional.get();
-        System.out.println(document.toString());
-        break;
-      }
-
-      retryCount++;
-      Thread.sleep(intervalSec * 1000); // Wait for intervalSec seconds before retrying
-    }
-
-    if (jobResponse == null || !jobResponse.getDocument().isPresent()) {
-      throw new RuntimeException("Max retries exceeded. Failed to get the document.");
-    }
+    // Print the page-level predictions
+//    response.getDocument().getInference().getPages().forEach(
+//        page -> System.out.println(page.toString())
+//    );
   }
 }

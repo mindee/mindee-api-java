@@ -107,6 +107,7 @@
                                      or preceding-sibling::*[last()][self::LCURLY]]"/>
     </module>
     <module name="WhitespaceAfter">
+      <property name="severity" value="error"/>
       <property name="tokens"
                value="COMMA, SEMI, TYPECAST, LITERAL_IF, LITERAL_ELSE, LITERAL_RETURN,
                     LITERAL_WHILE, LITERAL_DO, LITERAL_FOR, LITERAL_FINALLY, DO_WHILE, ELLIPSIS,

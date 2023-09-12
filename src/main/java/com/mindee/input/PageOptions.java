@@ -30,11 +30,18 @@ public class PageOptions {
     this(pages, PageOptionsOperation.KEEP_ONLY, 0);
   }
 
-  public PageOptions(List<Integer> pages, PageOptionsOperation operation) {
+  public PageOptions(
+      List<Integer> pages,
+      PageOptionsOperation operation
+  ) {
     this(pages, operation, 0);
   }
 
-  public PageOptions(List<Integer> pageIndexes, PageOptionsOperation operation, Integer onMinPages) {
+  public PageOptions(
+      List<Integer> pageIndexes,
+      PageOptionsOperation operation,
+      Integer onMinPages
+  ) {
     this.pageIndexes = pageIndexes;
     this.operation = operation;
     this.onMinPages = onMinPages;

@@ -4,11 +4,13 @@ import com.mindee.http.Endpoint;
 import com.mindee.input.LocalInputSource;
 import com.mindee.input.PageOptions;
 import com.mindee.input.PageOptionsOperation;
+import com.mindee.parsing.common.AsyncPredictResponse;
 import com.mindee.parsing.common.Document;
 import com.mindee.parsing.common.Inference;
 import com.mindee.parsing.common.PredictResponse;
 import com.mindee.product.custom.CustomV1;
 import com.mindee.product.invoice.InvoiceV4;
+import com.mindee.product.invoicesplitter.InvoiceSplitterV1;
 import com.mindee.product.passport.PassportV1;
 import com.mindee.product.receipt.ReceiptV4;
 import java.io.File;
@@ -100,6 +102,14 @@ public class CommandLineInterface {
     System.out.println(standardProductOutput(PassportV1.class, file));
   }
 
+  @Command(name = "invoice-splitter", description = "Invokes the invoice-splitter API")
+  void invoiceSplitterMethod(
+      @Parameters(index = "0", paramLabel = "<path>", scope = ScopeType.LOCAL)
+      File file
+  ) throws IOException, InterruptedException {
+    System.out.println(standardProductAsyncOutput(InvoiceSplitterV1.class, file));
+  }
+
   @Command(name = "custom", description = "Invokes a builder API")
   void customMethod(
       @Option(
@@ -170,6 +180,31 @@ public class CommandLineInterface {
       return response.toString();
     }
     Document<T> document = response.getDocument();
+    return document.getInference().getPrediction().toString();
+  }
+
+  private <T extends Inference<?, ?>> String standardProductAsyncOutput(
+      Class<T> docClass,
+      File file
+  ) throws IOException, InterruptedException {
+    MindeeClient mindeeClient = new MindeeClient(apiKey);
+    LocalInputSource inputSource = new LocalInputSource(file);
+    AsyncPredictResponse<T> response;
+    PredictOptions predictOptions = PredictOptions.builder().allWords(words).build();
+    if (cutDoc) {
+      response = mindeeClient.enqueueAndParse(
+        docClass, inputSource, predictOptions, getDefaultPageOptions(), null
+      );
+    } else {
+      response = mindeeClient.enqueueAndParse(
+        docClass, inputSource, predictOptions, null, null
+      );
+    }
+
+    if (outputType == OutputChoices.full) {
+      return response.toString();
+    }
+    Document<T> document = response.getDocument().get();
     return document.getInference().getPrediction().toString();
   }
 }
