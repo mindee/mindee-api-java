@@ -312,7 +312,7 @@ class MindeeClientTest {
     RequestParameters requestParameters = requestParametersArgumentCaptor.getValue();
     Assertions.assertEquals(InvoiceV4.class, classArgumentCaptor.getValue());
     Assertions.assertEquals("blank_1.pdf", requestParameters.getFileName());
-    Assertions.assertEquals(Boolean.TRUE, requestParameters.getPredictOptions().getAllWords());
+    Assertions.assertTrue(requestParameters.getPredictOptions().getAllWords());
     Assertions.assertNotNull(requestParameters.getFile());
     Assertions.assertTrue(requestParameters.getFile().length > 0);
     Assertions.assertNull(requestParameters.getFileUrl());
@@ -320,7 +320,46 @@ class MindeeClientTest {
   }
 
   @Test
-  void givenAnAsyncUrl_whenEnqued_shouldInvokeApiCorrectly() throws IOException {
+  void givenAnAsyncDoc_whenEnqueuedNoParams_shouldInvokeApiCorrectly() throws IOException {
+
+    File file = new File("src/test/resources/file_types/pdf/blank_1.pdf");
+    LocalInputSource localInputSource = new LocalInputSource(file);
+
+    Job job = new Job(LocalDateTime.now(),"someid",LocalDateTime.now(),"Completed");
+    AsyncPredictResponse predictResponse = new AsyncPredictResponse();
+    predictResponse.setDocument(new Document<>());
+    predictResponse.setApiRequest(null);
+    predictResponse.setJob(job);
+    Mockito.when(
+        mindeeApi.predictAsyncPost(
+          Mockito.any(),
+          Mockito.any(),
+          Mockito.any()))
+      .thenReturn(predictResponse);
+    String jobId = client.enqueue(InvoiceV4.class, localInputSource)
+      .getJob().getId();
+
+    ArgumentCaptor<Class> classArgumentCaptor = ArgumentCaptor.forClass(Class.class);
+    ArgumentCaptor<RequestParameters> requestParametersArgumentCaptor = ArgumentCaptor.forClass(
+      RequestParameters.class);
+    Mockito.verify(mindeeApi, Mockito.times(1))
+      .predictAsyncPost(
+        classArgumentCaptor.capture(),
+        Mockito.any(),
+        requestParametersArgumentCaptor.capture()
+      );
+    RequestParameters requestParameters = requestParametersArgumentCaptor.getValue();
+    Assertions.assertEquals(InvoiceV4.class, classArgumentCaptor.getValue());
+    Assertions.assertEquals("blank_1.pdf", requestParameters.getFileName());
+    Assertions.assertFalse(requestParameters.getPredictOptions().getAllWords());
+    Assertions.assertNotNull(requestParameters.getFile());
+    Assertions.assertTrue(requestParameters.getFile().length > 0);
+    Assertions.assertNull(requestParameters.getFileUrl());
+    Assertions.assertEquals("someid", jobId);
+  }
+
+  @Test
+  void givenAnAsyncUrl_whenEnqueued_shouldInvokeApiCorrectly() throws IOException {
 
     Job job = new Job(LocalDateTime.now(),"someid",LocalDateTime.now(),"completed");
     AsyncPredictResponse predictResponse = new AsyncPredictResponse();

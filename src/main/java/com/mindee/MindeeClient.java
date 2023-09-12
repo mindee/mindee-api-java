@@ -76,7 +76,10 @@ public class MindeeClient {
       .build();
   }
 
-  public <T extends Inference> AsyncPredictResponse<T> parseQueued(Class<T> type, String jobId) {
+  public <T extends Inference> AsyncPredictResponse<T> parseQueued(
+      Class<T> type,
+      String jobId
+  ) {
     return this.mindeeApi.documentQueueGet(
         type,
         new Endpoint(type),
@@ -84,8 +87,10 @@ public class MindeeClient {
     );
   }
 
-  public <T extends Inference> AsyncPredictResponse<T> enqueue(Class<T> type, LocalInputSource localInputSource)
-      throws IOException {
+  public <T extends Inference> AsyncPredictResponse<T> enqueue(
+      Class<T> type,
+      LocalInputSource localInputSource
+  ) throws IOException {
     return this.enqueue(
         type,
         new Endpoint(type),
