@@ -35,9 +35,9 @@ public class BarcodeReaderV1Test {
   @Test
   void whenEmptyDeserialized_mustHaveValidProperties() throws IOException {
     PredictResponse<BarcodeReaderV1> response = getPrediction("empty");
-    Page<BarcodeReaderV1Page> page = response.getDocument().getInference().getPages().get(0);
-    Assertions.assertTrue(page.getPrediction().getCodes1D().isEmpty());
-    Assertions.assertTrue(page.getPrediction().getCodes2D().isEmpty());
+    BarcodeReaderV1Document docPrediction = response.getDocument().getInference().getPrediction();
+    Assertions.assertTrue(docPrediction.getCodes1D().isEmpty());
+    Assertions.assertTrue(docPrediction.getCodes2D().isEmpty());
   }
 
   @Test
@@ -57,7 +57,7 @@ public class BarcodeReaderV1Test {
   @Test
   void whenCompleteDeserialized_mustHaveValidPage0Summary() throws IOException {
     PredictResponse<BarcodeReaderV1> response = getPrediction("complete");
-    Page<BarcodeReaderV1Page> page = response.getDocument().getInference().getPages().get(0);
+    Page<BarcodeReaderV1Document> page = response.getDocument().getInference().getPages().get(0);
     String[] actualLines = page.toString().split(System.lineSeparator());
     List<String> expectedLines = Files.readAllLines(
       Paths.get("src/test/resources/products/barcode_reader/response_v1/summary_page0.rst")
