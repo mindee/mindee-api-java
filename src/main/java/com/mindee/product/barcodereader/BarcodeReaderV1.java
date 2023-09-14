@@ -12,5 +12,5 @@ import lombok.Getter;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @EndpointInfo(endpointName = "barcode_reader", version = "1")
 public class BarcodeReaderV1
-    extends Inference<BarcodeReaderV1Page, BarcodeReaderV1Document> {
+    extends Inference<BarcodeReaderV1Document, BarcodeReaderV1Document> {
 }
