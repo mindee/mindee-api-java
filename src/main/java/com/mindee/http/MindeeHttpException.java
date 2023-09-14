@@ -21,4 +21,12 @@ public class MindeeHttpException extends MindeeException {
     this.details = details;
     this.code = code;
   }
+
+  public String toString() {
+    String outStr = super.toString() + " - HTTP " + getStatusCode();
+    if (!getDetails().isEmpty()) {
+      outStr += " - " + getDetails();
+    }
+    return outStr;
+  }
 }
