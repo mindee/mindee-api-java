@@ -32,4 +32,11 @@ public class Polygon {
   public boolean isEmpty() {
     return coordinates.isEmpty();
   }
+
+  public String toString() {
+    if (!isEmpty()) {
+      return String.format("Polygon with %s points.", getCoordinates().size());
+    }
+    return "";
+  }
 }
