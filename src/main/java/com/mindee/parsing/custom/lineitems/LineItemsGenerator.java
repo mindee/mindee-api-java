@@ -1,5 +1,6 @@
 package com.mindee.parsing.custom.lineitems;
 
+import com.mindee.geometry.MinMax;
 import com.mindee.geometry.PolygonUtils;
 import com.mindee.parsing.custom.ListField;
 import com.mindee.parsing.custom.ListFieldValue;
@@ -20,14 +21,12 @@ public final class LineItemsGenerator {
   /**
    * WARNING: This feature is experimental!
    * Results may not always work as intended.
-   * Don't use unless you know what you're doing ;-)
    */
   public static LineItems generate(
       List<String> fieldNames,
       Map<String, ListField> fields,
       Anchor anchor
   ) {
-
     Map<String, ListField> fieldsToTransformIntoLines = fields.entrySet()
         .stream()
         .filter(field -> fieldNames.contains(field.getKey()))
@@ -35,7 +34,8 @@ public final class LineItemsGenerator {
 
     List<Line> lines = populateLines(
         fieldsToTransformIntoLines,
-        new ArrayList<>(LineGenerator.prepareLines(fieldsToTransformIntoLines, anchor))
+        new ArrayList<>(LineGenerator.prepareLines(fieldsToTransformIntoLines, anchor)),
+        anchor.getTolerance()
     );
 
     return new LineItems(lines);
@@ -43,19 +43,19 @@ public final class LineItemsGenerator {
 
   private static List<Line> populateLines(
       Map<String, ListField> fields,
-      List<Line> lines
+      List<Line> lines,
+      double heightLineTolerance
   ) {
-
     List<Line> populatedLines = new ArrayList<>();
 
     for (Line currentLine : lines) {
       for (Map.Entry<String, ListField> field : fields.entrySet()) {
         for (ListFieldValue listFieldValue : field.getValue().getValues()) {
-          double minYCurrentValue = PolygonUtils.getMinYCoordinate(listFieldValue.getPolygon());
+          MinMax minMaxY = PolygonUtils.getMinMaxY(listFieldValue.getPolygon().getCoordinates());
 
           if (
-              minYCurrentValue < currentLine.getBbox().getMaxY()
-              && minYCurrentValue >= currentLine.getBbox().getMinY()
+              Math.abs(minMaxY.getMax() - currentLine.getBbox().getMaxY()) <= heightLineTolerance
+              && Math.abs(minMaxY.getMin() - currentLine.getBbox().getMinY()) <= heightLineTolerance
           ) {
             currentLine.addField(field.getKey(), listFieldValue);
           }
