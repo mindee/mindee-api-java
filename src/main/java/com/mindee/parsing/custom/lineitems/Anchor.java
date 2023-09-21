@@ -8,12 +8,12 @@ import lombok.Getter;
 @Getter
 public final class Anchor {
   private final String name;
-  private final Double tolerance;
+  private final double tolerance;
 
   /**
    * Define an anchor with height tolerance.
    */
-  public Anchor(String name, Double tolerance) {
+  public Anchor(String name, double tolerance) {
     this.name = name;
     this.tolerance = tolerance;
   }
@@ -23,6 +23,6 @@ public final class Anchor {
    */
   public Anchor(String name) {
     this.name = name;
-    this.tolerance = 0.001d;
+    this.tolerance = 0.01d;
   }
 }
