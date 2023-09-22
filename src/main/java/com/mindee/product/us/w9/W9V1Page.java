@@ -9,7 +9,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 /**
- * Page data for US W9, API version 1.
+ * Page data for W9, API version 1.
  */
 @Getter
 @EqualsAndHashCode(callSuper = true)
