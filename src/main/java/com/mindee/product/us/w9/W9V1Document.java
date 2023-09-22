@@ -7,7 +7,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 /**
- * Document data for US W9, API version 1.
+ * Document data for W9, API version 1.
  */
 @Getter
 @EqualsAndHashCode

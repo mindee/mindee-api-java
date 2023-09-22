@@ -6,7 +6,7 @@ import com.mindee.parsing.common.Inference;
 import lombok.Getter;
 
 /**
- * The definition for US W9, API version 1.
+ * The definition for W9, API version 1.
  */
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)

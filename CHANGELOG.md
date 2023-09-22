@@ -1,5 +1,21 @@
 # Mindee Java API Library Changelog
 
+## v4.4.0 - 2023-09-23
+### Changes
+* :sparkles: add barcode reader v1
+* :sparkles: add support for FR ID card v2
+* :sparkles: add support for cropper v1
+* :sparkles: add error code in HTTP exceptions
+* :sparkles: add raw response string in response object
+* :sparkles: add built-in async call polling
+* :sparkles: add multi receipts detector v1
+* :sparkles: better HTTP error printing
+
+### Fixes
+* :bug: fix minor spacing issue when printing lists
+* :bug: take line height tolerance into account when evaluating fields
+
+
 ## v4.3.0 - 2023-09-01
 ### Changes
 * :sparkles: add cropper option
