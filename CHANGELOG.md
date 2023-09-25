@@ -1,5 +1,10 @@
 # Mindee Java API Library Changelog
 
+## v4.4.1 - 2023-09-25
+### Changes
+* :sparkles: add a method to simplify getting the document object
+
+
 ## v4.4.0 - 2023-09-23
 ### Changes
 * :sparkles: add barcode reader v1
