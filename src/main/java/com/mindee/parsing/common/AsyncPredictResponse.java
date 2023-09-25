@@ -28,8 +28,22 @@ public class AsyncPredictResponse<T extends Inference> extends ApiResponse {
   @JsonProperty("job")
   private Job job;
 
+  /**
+   * Get the document optional.
+   */
   public Optional<Document<T>> getDocument() {
     return Optional.ofNullable(this.document);
+  }
+
+  /**
+   * Get the document object if it is present.
+   * Shortcut for when the document optional is known to be present.
+   */
+  public Document<T> getDocumentObj() {
+    if (getDocument().isPresent()) {
+      return this.document;
+    }
+    return null;
   }
 
   public String toString() {
