@@ -14,6 +14,12 @@ public class SimpleMindeeClient {
     String apiKey = "my-api-key";
     String filePath = "/path/to/the/file.ext";
 
+    // Don't try to get the document more than this many times
+    final int maxRetries = 10;
+
+    // Wait this many seconds between each try
+    final int intervalSec = 6;
+
     // Init a new client
     MindeeClient mindeeClient = new MindeeClient(apiKey);
     LocalInputSource inputSource = new LocalInputSource(new File(filePath));
@@ -28,13 +34,13 @@ public class SimpleMindeeClient {
     System.out.println(response.toString());
 
     // Print a summary of the predictions
-//  System.out.println(response.getDocumentObj().toString());
+//  System.out.println(response.getDocument().toString());
 
     // Print the document-level predictions
-//    System.out.println(response.getDocumentObj().getInference().getPrediction().toString());
+//    System.out.println(response.getDocument().getInference().getPrediction().toString());
 
     // Print the page-level predictions
-//    response.getDocumentObj().getInference().getPages().forEach(
+//    response.getDocument().getInference().getPages().forEach(
 //        page -> System.out.println(page.toString())
 //    );
   }
