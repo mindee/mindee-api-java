@@ -23,6 +23,16 @@ jobs:
           distribution: "temurin"
           cache: "maven"
 
+      - name: Copy dependencies
+        run: mvn dependency:copy-dependencies
+
+      - name: Delombok
+        run: |
+          LOMBOK_VERSION=$(mvn help:evaluate -Dexpression=org.projectlombok.version -q -DforceStdout)
+          java -jar ./target/dependency/lombok-$LOMBOK_VERSION.jar delombok src -d src-delomboked
+          mv src src-lomboked
+          mv src-delomboked src
+
       - name: Build Javadocs
         run: mvn --update-snapshots --no-transfer-progress javadoc:javadoc
 
