@@ -19,7 +19,7 @@ public final class SummaryHelper {
   }
 
   public static String formatAmount(Double amountValue) {
-    return amountValue == null ? "" : new DecimalFormat("#.00#").format(amountValue);
+    return amountValue == null ? "" : new DecimalFormat("0.00#").format(amountValue);
   }
 
   public static String formatString(String str) {

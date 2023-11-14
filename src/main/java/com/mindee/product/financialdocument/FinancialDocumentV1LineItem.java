@@ -82,30 +82,30 @@ public class FinancialDocumentV1LineItem extends BaseField implements LineItemFi
     Map<String, String> printable = new HashMap<>();
 
     String descriptionSummary = (this.description != null ? this.description : "");
-    if (descriptionSummary.length() > 33) {
+    if (descriptionSummary.length() >= 36) {
       descriptionSummary = descriptionSummary.substring(0, 33) + "...";
     }
     printable.put("description", descriptionSummary);
     printable.put("productCode", SummaryHelper.formatString(this.productCode));
     printable.put(
         "quantity",
-        this.quantity != null ? SummaryHelper.formatAmount(this.quantity) : ""
+        SummaryHelper.formatAmount(this.quantity)
     );
     printable.put(
         "taxAmount",
-        this.taxAmount != null ? SummaryHelper.formatAmount(this.taxAmount) : ""
+        SummaryHelper.formatAmount(this.taxAmount)
     );
     printable.put(
         "taxRate",
-        this.taxRate != null ? SummaryHelper.formatAmount(this.taxRate) : ""
+        SummaryHelper.formatAmount(this.taxRate)
     );
     printable.put(
         "totalAmount",
-        this.totalAmount != null ? SummaryHelper.formatAmount(this.totalAmount) : ""
+        SummaryHelper.formatAmount(this.totalAmount)
     );
     printable.put(
         "unitPrice",
-        this.unitPrice != null ? SummaryHelper.formatAmount(this.unitPrice) : ""
+        SummaryHelper.formatAmount(this.unitPrice)
     );
     return printable;
   }

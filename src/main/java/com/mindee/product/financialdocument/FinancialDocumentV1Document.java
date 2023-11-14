@@ -182,7 +182,7 @@ public class FinancialDocumentV1Document {
         String.format(":Supplier Payment Details: %s%n", supplierPaymentDetails)
     );
     outStr.append(
-        String.format(":Supplier name: %s%n", this.getSupplierName())
+        String.format(":Supplier Name: %s%n", this.getSupplierName())
     );
     String supplierCompanyRegistrations = SummaryHelper.arrayToString(
         this.getSupplierCompanyRegistrations(),
@@ -198,7 +198,7 @@ public class FinancialDocumentV1Document {
         String.format(":Supplier Phone Number: %s%n", this.getSupplierPhoneNumber())
     );
     outStr.append(
-        String.format(":Customer name: %s%n", this.getCustomerName())
+        String.format(":Customer Name: %s%n", this.getCustomerName())
     );
     String customerCompanyRegistrations = SummaryHelper.arrayToString(
         this.getCustomerCompanyRegistrations(),
