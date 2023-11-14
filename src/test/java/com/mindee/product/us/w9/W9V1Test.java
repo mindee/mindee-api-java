@@ -45,8 +45,8 @@ public class W9V1Test {
     Assertions.assertNull(pagePrediction.getTaxClassification().getValue());
     Assertions.assertNull(pagePrediction.getTaxClassificationOtherDetails().getValue());
     Assertions.assertNull(pagePrediction.getW9RevisionDate().getValue());
-    Assertions.assertTrue(pagePrediction.getSignaturePosition().getPolygon().isEmpty());
-    Assertions.assertTrue(pagePrediction.getSignatureDatePosition().getPolygon().isEmpty());
+    Assertions.assertNull(pagePrediction.getSignaturePosition().getPolygon());
+    Assertions.assertNull(pagePrediction.getSignatureDatePosition().getPolygon());
     Assertions.assertNull(pagePrediction.getTaxClassificationLlc().getValue());
   }
 

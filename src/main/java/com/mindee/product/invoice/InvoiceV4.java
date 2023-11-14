@@ -6,7 +6,7 @@ import com.mindee.parsing.common.Inference;
 import lombok.Getter;
 
 /**
- * The invoice V4 inference.
+ * The definition for Invoice, API version 4.
  */
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)

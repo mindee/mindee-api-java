@@ -14,7 +14,6 @@ import com.mindee.parsing.standard.StringField;
 import com.mindee.parsing.standard.TaxField;
 import com.mindee.parsing.standard.TaxesDeserializer;
 import java.util.List;
-import java.util.stream.Collectors;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
@@ -119,56 +118,90 @@ public class InvoiceV4Document {
 
   @Override
   public String toString() {
-    int[] columnSizes = new int[]{22, 9, 9, 10, 18, 38};
-    String lineItemsSummary = String.format("%n");
-    if (!this.getLineItems().isEmpty()) {
-      lineItemsSummary =
-        String.format("%n%s", SummaryHelper.lineSeparator(columnSizes, "-"))
-        + String.format("%n  | Code                 | QTY     | Price   | Amount   | Tax (Rate)       | Description                          |")
-        + String.format("%n%s%n  ", SummaryHelper.lineSeparator(columnSizes, "="));
-
-      lineItemsSummary += this.getLineItems().stream()
-        .map(InvoiceV4LineItem::toTableLine)
-        .collect(Collectors.joining(
-          String.format("%n%s%n  ", SummaryHelper.lineSeparator(columnSizes, "-")))
-        );
-
-      lineItemsSummary +=
-        String.format("%n%s", SummaryHelper.lineSeparator(columnSizes, "-"));
-    }
-
-    String summary =
+    StringBuilder outStr = new StringBuilder();
+    outStr.append(
         String.format(":Locale: %s%n", this.getLocaleField())
-        + String.format(":Document type: %s%n", this.getDocumentType())
-        + String.format(":Invoice number: %s%n", this.getInvoiceNumber())
-        + String.format(":Reference numbers: %s%n",
-          this.getReferenceNumbers().stream()
-            .map(StringField::toString)
-            .collect(Collectors.joining(", ")))
-        + String.format(":Invoice date: %s%n", this.getInvoiceDateField())
-        + String.format(":Invoice due date: %s%n", this.getDueDateField())
-        + String.format(":Supplier name: %s%n", this.getSupplierName())
-        + String.format(":Supplier address: %s%n", this.getSupplierAddress())
-        + String.format(":Supplier company registrations: %s%n",
-          this.getSupplierCompanyRegistrations().stream()
-            .map(CompanyRegistrationField::getValue)
-            .collect(Collectors.joining("; ")))
-        + String.format(":Supplier payment details: %s%n", this.getSupplierPaymentDetails().stream()
-          .map(PaymentDetailsField::toString)
-          .collect(Collectors.joining("%n                 ")))
-        + String.format(":Customer name: %s%n", this.getCustomerName())
-        + String.format(":Customer address: %s%n", this.getCustomerAddress())
-        + String.format(":Customer company registrations: %s%n",
-          this.getCustomerCompanyRegistrations().stream()
-            .map(CompanyRegistrationField::getValue)
-            .collect(Collectors.joining("; ")))
-        + String.format(":Taxes: %s%n", this.taxes.toString())
-        + String.format(":Total net: %s%n", this.getTotalNet())
-        + String.format(":Total tax: %s%n", SummaryHelper.formatAmount(this.getTotalTaxes()))
-        + String.format(":Total amount: %s%n",
-          this.getTotalAmount())
-        + String.format(":Line Items: %s%n", lineItemsSummary);
-
-    return SummaryHelper.cleanSummary(summary);
+    );
+    outStr.append(
+        String.format(":Invoice Number: %s%n", this.getInvoiceNumber())
+    );
+    String referenceNumbers = SummaryHelper.arrayToString(
+        this.getReferenceNumbers(),
+        "%n                    "
+    );
+    outStr.append(
+        String.format(":Reference Numbers: %s%n", referenceNumbers)
+    );
+    outStr.append(
+        String.format(":Purchase Date: %s%n", this.getInvoiceDateField())
+    );
+    outStr.append(
+        String.format(":Due Date: %s%n", this.getDueDateField())
+    );
+    outStr.append(
+        String.format(":Total Net: %s%n", this.getTotalNet())
+    );
+    outStr.append(
+        String.format(":Total Amount: %s%n", this.getTotalAmount())
+    );
+    outStr.append(
+        String.format(":Taxes: %s%n", this.getTaxes())
+    );
+    String supplierPaymentDetails = SummaryHelper.arrayToString(
+        this.getSupplierPaymentDetails(),
+        "%n                           "
+    );
+    outStr.append(
+        String.format(":Supplier Payment Details: %s%n", supplierPaymentDetails)
+    );
+    outStr.append(
+        String.format(":Supplier Name: %s%n", this.getSupplierName())
+    );
+    String supplierCompanyRegistrations = SummaryHelper.arrayToString(
+        this.getSupplierCompanyRegistrations(),
+        "%n                                 "
+    );
+    outStr.append(
+        String.format(":Supplier Company Registrations: %s%n", supplierCompanyRegistrations)
+    );
+    outStr.append(
+        String.format(":Supplier Address: %s%n", this.getSupplierAddress())
+    );
+    outStr.append(
+        String.format(":Customer Name: %s%n", this.getCustomerName())
+    );
+    String customerCompanyRegistrations = SummaryHelper.arrayToString(
+        this.getCustomerCompanyRegistrations(),
+        "%n                                 "
+    );
+    outStr.append(
+        String.format(":Customer Company Registrations: %s%n", customerCompanyRegistrations)
+    );
+    outStr.append(
+        String.format(":Customer Address: %s%n", this.getCustomerAddress())
+    );
+    outStr.append(
+        String.format(":Document Type: %s%n", this.getDocumentType())
+    );
+    String lineItemsSummary = "";
+    if (!this.getLineItems().isEmpty()) {
+      int[] lineItemsColSizes = new int[]{38, 14, 10, 12, 14, 14, 12};
+      lineItemsSummary =
+        String.format("%n%s%n  ", SummaryHelper.lineSeparator(lineItemsColSizes, "-"))
+          + "| Description                          "
+          + "| Product code "
+          + "| Quantity "
+          + "| Tax Amount "
+          + "| Tax Rate (%) "
+          + "| Total Amount "
+          + "| Unit Price "
+          + String.format("|%n%s%n  ", SummaryHelper.lineSeparator(lineItemsColSizes, "="));
+      lineItemsSummary += SummaryHelper.arrayToString(this.getLineItems(), lineItemsColSizes);
+      lineItemsSummary += String.format("%n%s", SummaryHelper.lineSeparator(lineItemsColSizes, "-"));
+    }
+    outStr.append(
+        String.format(":Line Items: %s%n", lineItemsSummary)
+    );
+    return SummaryHelper.cleanSummary(outStr.toString());
   }
 }
