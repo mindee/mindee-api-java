@@ -25,7 +25,7 @@ public class Document<DocT extends Inference> {
   @JsonProperty("name")
   private String filename;
   /**
-   * The Mindee Id of the current document.
+   * Document identifier, generated on each API call.
    */
   @JsonProperty("id")
   private String id;
@@ -34,6 +34,11 @@ public class Document<DocT extends Inference> {
    */
   @JsonProperty("ocr")
   private Ocr ocr;
+  /**
+   * Number of pages in the document.
+   */
+  @JsonProperty("n_pages")
+  private int nPages;
 
   @Override
   public String toString() {

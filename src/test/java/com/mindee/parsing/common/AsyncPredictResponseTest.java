@@ -85,6 +85,7 @@ public class AsyncPredictResponseTest extends TestCase {
     Assertions.assertEquals(response.getJob().getIssuedAt().toString(), "2023-03-21T13:52:56.326107");
     Assertions.assertEquals(response.getJob().getAvailableAt().toString(), "2023-03-21T13:53:00.990339");
     Assertions.assertTrue(response.getDocument().isPresent());
+    Assertions.assertEquals(2, response.getDocumentObj().getNPages());
   }
 
 }
