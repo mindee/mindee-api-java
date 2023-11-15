@@ -34,6 +34,11 @@ public class ListFieldValue {
    */
   @JsonProperty("content")
   private String content;
+  /**
+   * The document page on which the information was found.
+   */
+  @JsonProperty("page_id")
+  private Integer pageId;
 
   public ListFieldValue() {
   }

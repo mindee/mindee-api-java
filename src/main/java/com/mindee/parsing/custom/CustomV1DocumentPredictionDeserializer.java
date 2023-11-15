@@ -52,8 +52,8 @@ public class CustomV1DocumentPredictionDeserializer extends StdDeserializer<Cust
       } else {
         fields.put(
             pageNode.getKey(),
-            mapper.readerFor(new TypeReference<ListField>() {
-            }).readValue(pageNode.getValue())
+            mapper.readerFor(new TypeReference<ListField>() {})
+                .readValue(pageNode.getValue())
         );
       }
     }

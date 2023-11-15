@@ -5,12 +5,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 /**
  * A field containing a list of values.
  */
+@AllArgsConstructor
 @Getter
 @EqualsAndHashCode
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -30,11 +32,6 @@ public class ListField {
 
   public ListField() {
     this.values = new ArrayList<>();
-  }
-
-  public ListField(double confidence, List<ListFieldValue> values) {
-    this.confidence = confidence;
-    this.values = values;
   }
 
   @Override
