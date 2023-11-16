@@ -39,10 +39,10 @@ public class AsyncPredictResponseTest extends TestCase {
         "src/test/resources/async/post_fail_forbidden.json"
     );
     Assertions.assertNotNull(response);
-    Assertions.assertEquals("failure",response.getApiRequest().getStatus());
-    Assertions.assertEquals(403,response.getApiRequest().getStatusCode());
+    Assertions.assertEquals("failure", response.getApiRequest().getStatus());
+    Assertions.assertEquals(403, response.getApiRequest().getStatusCode());
     Assertions.assertNull(response.getJob().getStatus());
-    Assertions.assertEquals("2023-01-01T00:00",response.getJob().getIssuedAt().toString());
+    Assertions.assertEquals("2023-01-01T00:00", response.getJob().getIssuedAt().toString());
     Assertions.assertNull(response.getJob().getAvailableAt());
     Assertions.assertFalse(response.getDocument().isPresent());
   }
@@ -53,10 +53,10 @@ public class AsyncPredictResponseTest extends TestCase {
       "src/test/resources/async/post_success.json"
     );
     Assertions.assertNotNull(response);
-    Assertions.assertEquals("success",response.getApiRequest().getStatus());
-    Assertions.assertEquals(200,response.getApiRequest().getStatusCode());
-    Assertions.assertEquals("waiting",response.getJob().getStatus());
-    Assertions.assertEquals("2023-02-16T12:33:49.602947",response.getJob().getIssuedAt().toString());
+    Assertions.assertEquals("success", response.getApiRequest().getStatus());
+    Assertions.assertEquals(200, response.getApiRequest().getStatusCode());
+    Assertions.assertEquals("waiting", response.getJob().getStatus());
+    Assertions.assertEquals("2023-02-16T12:33:49.602947", response.getJob().getIssuedAt().toString());
     Assertions.assertNull(response.getJob().getAvailableAt());
     Assertions.assertFalse(response.getDocument().isPresent());
   }
@@ -68,8 +68,8 @@ public class AsyncPredictResponseTest extends TestCase {
     );
     Assertions.assertNotNull(response);
     Assertions.assertEquals("success", response.getApiRequest().getStatus());
-    Assertions.assertEquals("processing",response.getJob().getStatus());
-    Assertions.assertEquals("2023-03-16T12:33:49.602947",response.getJob().getIssuedAt().toString());
+    Assertions.assertEquals("processing", response.getJob().getStatus());
+    Assertions.assertEquals("2023-03-16T12:33:49.602947", response.getJob().getIssuedAt().toString());
     Assertions.assertNull(response.getJob().getAvailableAt());
     Assertions.assertFalse(response.getDocument().isPresent());
   }
@@ -80,10 +80,10 @@ public class AsyncPredictResponseTest extends TestCase {
         "src/test/resources/async/get_completed.json"
     );
     Assertions.assertNotNull(response);
-    Assertions.assertEquals(response.getApiRequest().getStatus(), "success");
-    Assertions.assertEquals(response.getJob().getStatus(), "completed");
-    Assertions.assertEquals(response.getJob().getIssuedAt().toString(), "2023-03-21T13:52:56.326107");
-    Assertions.assertEquals(response.getJob().getAvailableAt().toString(), "2023-03-21T13:53:00.990339");
+    Assertions.assertEquals("success", response.getApiRequest().getStatus());
+    Assertions.assertEquals("completed", response.getJob().getStatus());
+    Assertions.assertEquals("2023-03-21T13:52:56.326107", response.getJob().getIssuedAt().toString());
+    Assertions.assertEquals("2023-03-21T13:53:00.990339", response.getJob().getAvailableAt().toString());
     Assertions.assertTrue(response.getDocument().isPresent());
     Assertions.assertEquals(2, response.getDocumentObj().getNPages());
   }
