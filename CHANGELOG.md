@@ -1,5 +1,12 @@
 # Mindee Java API Library Changelog
 
+## v4.5.0 - 2023-11-17
+### Changes
+* :memo: use delombok to document lombok methods
+* :sparkles: add nPages to Document class
+* :sparkles: add pageId to custom values
+
+
 ## v4.4.1 - 2023-09-25
 ### Changes
 * :sparkles: add a method to simplify getting the document object
