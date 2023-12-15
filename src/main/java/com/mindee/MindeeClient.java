@@ -29,7 +29,8 @@ public class MindeeClient {
 
   /**
    * Create a default MindeeClient.
-   * You'll need to set the API key in the environment for this approach to work properly.
+   * You'll need to set the API key in the environment for this approach to work
+   * properly.
    */
   public MindeeClient() {
     this.pdfOperation = new PdfBoxApi();
@@ -49,7 +50,8 @@ public class MindeeClient {
   /**
    * Create a MindeeClient using a MindeeApi.
    *
-   * @param mindeeApi The MindeeApi implementation to be used by the created MindeeClient.
+   * @param mindeeApi The MindeeApi implementation to be used by the created
+   *                  MindeeClient.
    */
   public MindeeClient(MindeeApi mindeeApi) {
     this.pdfOperation = new PdfBoxApi();
@@ -58,8 +60,11 @@ public class MindeeClient {
 
   /**
    * Create a MindeeClient.
-   * @param pdfOperation The PdfOperation implementation to be used by the created MindeeClient.
-   * @param mindeeApi The MindeeApi implementation to be used by the created MindeeClient.
+   * 
+   * @param pdfOperation The PdfOperation implementation to be used by the created
+   *                     MindeeClient.
+   * @param mindeeApi    The MindeeApi implementation to be used by the created
+   *                     MindeeClient.
    */
   public MindeeClient(PdfOperation pdfOperation, MindeeApi mindeeApi) {
     this.pdfOperation = pdfOperation;
@@ -74,8 +79,8 @@ public class MindeeClient {
       mindeeSettings = new MindeeSettings();
     }
     return MindeeHttpApi.builder()
-      .mindeeSettings(mindeeSettings)
-      .build();
+        .mindeeSettings(mindeeSettings)
+        .build();
   }
 
   /**
@@ -83,13 +88,11 @@ public class MindeeClient {
    */
   public <T extends Inference> AsyncPredictResponse<T> parseQueued(
       Class<T> type,
-      String jobId
-  ) {
+      String jobId) {
     return this.mindeeApi.documentQueueGet(
         type,
         new Endpoint(type),
-        jobId
-    );
+        jobId);
   }
 
   /**
@@ -97,8 +100,7 @@ public class MindeeClient {
    */
   public <T extends Inference> AsyncPredictResponse<T> enqueue(
       Class<T> type,
-      LocalInputSource localInputSource
-  ) throws IOException {
+      LocalInputSource localInputSource) throws IOException {
     return this.enqueue(
         type,
         new Endpoint(type),
@@ -115,16 +117,14 @@ public class MindeeClient {
       Class<T> type,
       LocalInputSource localInputSource,
       PredictOptions predictOptions,
-      PageOptions pageOptions
-  ) throws IOException {
+      PageOptions pageOptions) throws IOException {
     return this.enqueue(
         type,
         new Endpoint(type),
         getSplitFile(localInputSource, pageOptions),
         localInputSource.getFilename(),
         predictOptions,
-      null
-    );
+        null);
   }
 
   /**
@@ -132,8 +132,7 @@ public class MindeeClient {
    */
   public <T extends Inference> AsyncPredictResponse<T> enqueue(
       Class<T> type,
-      URL sourceUrl
-  ) throws IOException {
+      URL sourceUrl) throws IOException {
     InputSourceUtils.validateUrl(sourceUrl);
     return this.enqueue(
         type,
@@ -141,8 +140,7 @@ public class MindeeClient {
         null,
         null,
         null,
-        sourceUrl
-    );
+        sourceUrl);
   }
 
   /**
@@ -151,17 +149,15 @@ public class MindeeClient {
   public <T extends Inference> AsyncPredictResponse<T> enqueue(
       Class<T> type,
       URL sourceUrl,
-      PredictOptions predictOptions
-  ) throws IOException {
+      PredictOptions predictOptions) throws IOException {
     InputSourceUtils.validateUrl(sourceUrl);
     return this.enqueue(
-      type,
-      new Endpoint(type),
-      null,
-      null,
-      predictOptions,
-      sourceUrl
-    );
+        type,
+        new Endpoint(type),
+        null,
+        null,
+        predictOptions,
+        sourceUrl);
   }
 
   private <T extends Inference> AsyncPredictResponse<T> enqueue(
@@ -170,8 +166,7 @@ public class MindeeClient {
       byte[] file,
       String filename,
       PredictOptions predictOptions,
-      URL urlInputSource
-  ) throws IOException {
+      URL urlInputSource) throws IOException {
     RequestParameters params = RequestParameters.builder()
         .file(file)
         .fileName(filename)
@@ -186,16 +181,15 @@ public class MindeeClient {
    */
   public <T extends Inference> AsyncPredictResponse<T> enqueueAndParse(
       Class<T> type,
-      LocalInputSource localInputSource
-  ) throws IOException, InterruptedException {
+      LocalInputSource localInputSource) throws IOException, InterruptedException {
     return this.enqueueAndParse(
-      type,
-      new Endpoint(type),
-      null,
-      localInputSource.getFile(),
-      localInputSource.getFilename(),
-      null,
-      null);
+        type,
+        new Endpoint(type),
+        null,
+        localInputSource.getFile(),
+        localInputSource.getFilename(),
+        null,
+        null);
   }
 
   /**
@@ -204,17 +198,15 @@ public class MindeeClient {
   public <T extends Inference> AsyncPredictResponse<T> enqueueAndParse(
       Class<T> type,
       LocalInputSource localInputSource,
-      AsyncPollingOptions pollingOptions
-  ) throws IOException, InterruptedException {
+      AsyncPollingOptions pollingOptions) throws IOException, InterruptedException {
     return this.enqueueAndParse(
-      type,
-      new Endpoint(type),
-      pollingOptions,
-      localInputSource.getFile(),
-      localInputSource.getFilename(),
-      null,
-      null
-    );
+        type,
+        new Endpoint(type),
+        pollingOptions,
+        localInputSource.getFile(),
+        localInputSource.getFilename(),
+        null,
+        null);
   }
 
   /**
@@ -225,17 +217,15 @@ public class MindeeClient {
       LocalInputSource localInputSource,
       PredictOptions predictOptions,
       PageOptions pageOptions,
-      AsyncPollingOptions pollingOptions
-  ) throws IOException, InterruptedException {
+      AsyncPollingOptions pollingOptions) throws IOException, InterruptedException {
     return this.enqueueAndParse(
-      type,
-      new Endpoint(type),
-      pollingOptions,
-      getSplitFile(localInputSource, pageOptions),
-      localInputSource.getFilename(),
-      predictOptions,
-      null
-    );
+        type,
+        new Endpoint(type),
+        pollingOptions,
+        getSplitFile(localInputSource, pageOptions),
+        localInputSource.getFilename(),
+        predictOptions,
+        null);
   }
 
   /**
@@ -243,18 +233,42 @@ public class MindeeClient {
    */
   public <T extends Inference> AsyncPredictResponse<T> enqueueAndParse(
       Class<T> type,
-      URL sourceUrl
-  ) throws IOException, InterruptedException {
+      URL sourceUrl) throws IOException, InterruptedException {
     InputSourceUtils.validateUrl(sourceUrl);
     return this.enqueueAndParse(
-      type,
-      new Endpoint(type),
-      null,
-      null,
-      null,
-      null,
-      sourceUrl
-    );
+        type,
+        new Endpoint(type),
+        null,
+        null,
+        null,
+        null,
+        sourceUrl);
+  }
+
+  /**
+   * 
+   * @param initialDelaySec Initial delay.
+   * @param intervalSec Intervall between async requests.
+   * @param maxRetry Maximum amount of attempts.
+   * @throws MindeeException Throws if any of the provided parameters are invalid.
+   */
+  private void validateAsyncParams(
+      Double initialDelaySec,
+      Double intervalSec,
+      Integer maxRetry) throws MindeeException {
+    Double minimumInitialDelaySec = 1.0;
+    Double minimumIntervalSec = 2.0;
+    Integer minimumRetry = 2;
+    if (initialDelaySec < minimumInitialDelaySec) {
+      throw new MindeeException(
+          String.format("Cannot set initial delay to less than %.0f seconds", minimumInitialDelaySec));
+    }
+    if (intervalSec < minimumIntervalSec) {
+      throw new MindeeException(String.format("Cannot set auto-poll delay to less than %.0f seconds", minimumIntervalSec));
+    }
+    if (maxRetry < minimumRetry) {
+      throw new MindeeException(String.format("Cannot set async retries to less than %d attempts", minimumRetry));
+    }
   }
 
   private <T extends Inference> AsyncPredictResponse<T> enqueueAndParse(
@@ -264,11 +278,12 @@ public class MindeeClient {
       byte[] file,
       String filename,
       PredictOptions predictOptions,
-      URL urlInputSource
-  ) throws IOException, InterruptedException {
+      URL urlInputSource) throws IOException, InterruptedException {
     if (pollingOptions == null) {
       pollingOptions = AsyncPollingOptions.builder().build();
     }
+    this.validateAsyncParams(pollingOptions.getInitialDelaySec(), pollingOptions.getIntervalSec(),
+        pollingOptions.getMaxRetries());
     final int initialDelaySec = (int) (pollingOptions.getInitialDelaySec() * 1000);
     final int intervalSec = (int) (pollingOptions.getIntervalSec() * 1000);
 
@@ -278,8 +293,7 @@ public class MindeeClient {
         file,
         filename,
         predictOptions,
-        urlInputSource
-    );
+        urlInputSource);
 
     String jobId = enqueueResponse.getJob().getId();
 
@@ -304,16 +318,14 @@ public class MindeeClient {
    */
   public <T extends Inference> PredictResponse<T> parse(
       Class<T> type,
-      LocalInputSource localInputSource
-  ) throws IOException {
+      LocalInputSource localInputSource) throws IOException {
     return this.parse(
         type,
         new Endpoint(type),
         localInputSource.getFile(),
         localInputSource.getFilename(),
         null,
-        null
-    );
+        null);
   }
 
   /**
@@ -322,16 +334,14 @@ public class MindeeClient {
   public <T extends Inference> PredictResponse<T> parse(
       Class<T> type,
       LocalInputSource localInputSource,
-      PredictOptions predictOptions
-  ) throws IOException {
+      PredictOptions predictOptions) throws IOException {
     return this.parse(
         type,
         new Endpoint(type),
         localInputSource.getFile(),
         localInputSource.getFilename(),
         predictOptions,
-        null
-    );
+        null);
   }
 
   /**
@@ -340,16 +350,14 @@ public class MindeeClient {
   public <T extends Inference> PredictResponse<T> parse(
       Class<T> type,
       LocalInputSource localInputSource,
-      PageOptions pageOptions
-  ) throws IOException {
+      PageOptions pageOptions) throws IOException {
     return this.parse(
         type,
         new Endpoint(type),
         getSplitFile(localInputSource, pageOptions),
         localInputSource.getFilename(),
         null,
-        null
-    );
+        null);
   }
 
   /**
@@ -359,16 +367,14 @@ public class MindeeClient {
       Class<T> type,
       LocalInputSource localInputSource,
       PredictOptions predictOptions,
-      PageOptions pageOptions
-  ) throws IOException {
+      PageOptions pageOptions) throws IOException {
     return this.parse(
         type,
         new Endpoint(type),
         getSplitFile(localInputSource, pageOptions),
         localInputSource.getFilename(),
         predictOptions,
-        null
-    );
+        null);
   }
 
   /**
@@ -376,8 +382,7 @@ public class MindeeClient {
    */
   public <T extends Inference> PredictResponse<T> parse(
       Class<T> type,
-      URL urlInputSource
-  ) throws IOException {
+      URL urlInputSource) throws IOException {
     InputSourceUtils.validateUrl(urlInputSource);
     return this.parse(type, new Endpoint(type), null, null, null, urlInputSource);
   }
@@ -388,8 +393,7 @@ public class MindeeClient {
   public <T extends Inference> PredictResponse<T> parse(
       Class<T> type,
       URL urlInputSource,
-      PredictOptions predictOptions
-  ) throws IOException {
+      PredictOptions predictOptions) throws IOException {
     InputSourceUtils.validateUrl(urlInputSource);
     return this.parse(type, new Endpoint(type), null, null, predictOptions, urlInputSource);
   }
@@ -400,8 +404,7 @@ public class MindeeClient {
       byte[] file,
       String filename,
       PredictOptions predictOptions,
-      URL urlInputSource
-  ) throws IOException {
+      URL urlInputSource) throws IOException {
     RequestParameters params = RequestParameters.builder()
         .file(file)
         .fileName(filename)
@@ -416,12 +419,11 @@ public class MindeeClient {
    */
   public PredictResponse<CustomV1> parse(
       LocalInputSource localInputSource,
-      Endpoint endpoint
-  ) throws IOException {
+      Endpoint endpoint) throws IOException {
     return this.parse(
         localInputSource.getFile(),
         localInputSource.getFilename(),
-      endpoint,
+        endpoint,
         null);
   }
 
@@ -431,13 +433,11 @@ public class MindeeClient {
   public PredictResponse<CustomV1> parse(
       LocalInputSource localInputSource,
       Endpoint endpoint,
-      PageOptions pageOptions
-  ) throws IOException {
+      PageOptions pageOptions) throws IOException {
     return this.parse(
         getSplitFile(localInputSource, pageOptions),
         localInputSource.getFilename(),
-      endpoint, null
-    );
+        endpoint, null);
   }
 
   /**
@@ -445,8 +445,7 @@ public class MindeeClient {
    */
   public PredictResponse<CustomV1> parse(
       URL documentUrl,
-      Endpoint endpoint
-  ) throws IOException {
+      Endpoint endpoint) throws IOException {
     InputSourceUtils.validateUrl(documentUrl);
     return this.parse(null, null, endpoint, documentUrl);
   }
@@ -455,30 +454,27 @@ public class MindeeClient {
       byte[] file,
       String filename,
       Endpoint endpoint,
-      URL urlInputSource
-  ) throws IOException {
+      URL urlInputSource) throws IOException {
     return this.mindeeApi.predictPost(
-            CustomV1.class,
-      endpoint,
-            RequestParameters.builder()
-                .file(file)
-                .fileName(filename)
-                .urlInputSource(urlInputSource)
-                .build());
+        CustomV1.class,
+        endpoint,
+        RequestParameters.builder()
+            .file(file)
+            .fileName(filename)
+            .urlInputSource(urlInputSource)
+            .build());
   }
 
   private byte[] getSplitFile(
       LocalInputSource localInputSource,
-      PageOptions pageOptions
-  ) throws IOException {
+      PageOptions pageOptions) throws IOException {
     byte[] splitFile;
     boolean isPDF = InputSourceUtils.isPdf(localInputSource.getFilename());
     if (pageOptions == null || !isPDF) {
       splitFile = localInputSource.getFile();
     } else {
       splitFile = pdfOperation.split(
-          new SplitQuery(localInputSource.getFile(), pageOptions)
-      ).getFile();
+          new SplitQuery(localInputSource.getFile(), pageOptions)).getFile();
     }
     return splitFile;
   }
