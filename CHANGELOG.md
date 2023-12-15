@@ -1,5 +1,10 @@
 # Mindee Java API Library Changelog
 
+## v4.5.1 - 2023-12-15
+* :recycle: change async timers & retry values
+* :arrow_up: implement stricter value checks for async timers & retry
+
+
 ## v4.5.0 - 2023-11-17
 ### Changes
 * :memo: use delombok to document lombok methods
