@@ -257,6 +257,22 @@ public class MindeeClient {
     );
   }
 
+  private void validateAsyncParams(AsyncPollingOptions pollingOptions) throws MindeeException {
+    Double minimumInitialDelaySec = 1.0;
+    Double minimumIntervalSec = 2.0;
+    Integer minimumRetry = 2;
+    if (pollingOptions.getInitialDelaySec() < minimumInitialDelaySec) {
+      throw new MindeeException(
+          String.format("Cannot set initial delay to less than %.0f seconds", minimumInitialDelaySec));
+    }
+    if (pollingOptions.getIntervalSec() < minimumIntervalSec) {
+      throw new MindeeException(String.format("Cannot set auto-poll delay to less than %.0f seconds", minimumIntervalSec));
+    }
+    if (pollingOptions.getMaxRetries() < minimumRetry) {
+      throw new MindeeException(String.format("Cannot set async retries to less than %d attempts", minimumRetry));
+    }
+  }
+
   private <T extends Inference> AsyncPredictResponse<T> enqueueAndParse(
       Class<T> type,
       Endpoint endpoint,
@@ -269,6 +285,7 @@ public class MindeeClient {
     if (pollingOptions == null) {
       pollingOptions = AsyncPollingOptions.builder().build();
     }
+    this.validateAsyncParams(pollingOptions);
     final int initialDelaySec = (int) (pollingOptions.getInitialDelaySec() * 1000);
     final int intervalSec = (int) (pollingOptions.getIntervalSec() * 1000);
 

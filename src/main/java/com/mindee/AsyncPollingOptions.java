@@ -27,8 +27,8 @@ public class AsyncPollingOptions {
       Double intervalSec,
       Integer maxRetries
   ) {
-    this.initialDelaySec = initialDelaySec == null ? 6.0 : initialDelaySec;
-    this.intervalSec = intervalSec == null ? 3.0 : intervalSec;
-    this.maxRetries = maxRetries == null ? 10 : maxRetries;
+    this.initialDelaySec = initialDelaySec == null ? 4.0 : initialDelaySec;
+    this.intervalSec = intervalSec == null ? 2.0 : intervalSec;
+    this.maxRetries = maxRetries == null ? 30 : maxRetries;
   }
 }
