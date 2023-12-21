@@ -3,6 +3,7 @@ package com.mindee.product.fr.bankaccountdetails;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mindee.parsing.SummaryHelper;
+import com.mindee.parsing.common.Prediction;
 import com.mindee.parsing.standard.StringField;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -11,9 +12,9 @@ import lombok.Getter;
  * Document data for Bank Account Details, API version 2.
  */
 @Getter
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class BankAccountDetailsV2Document {
+public class BankAccountDetailsV2Document extends Prediction {
 
   /**
    * Full extraction of the account holders names.
@@ -35,6 +36,16 @@ public class BankAccountDetailsV2Document {
    */
   @JsonProperty("swift_code")
   private StringField swiftCode;
+
+  @Override
+  public boolean isEmpty() {
+    return (
+      this.accountHoldersNames == null
+      && this.bban == null
+      && this.iban == null
+      && this.swiftCode == null
+      );
+  }
 
   @Override
   public String toString() {

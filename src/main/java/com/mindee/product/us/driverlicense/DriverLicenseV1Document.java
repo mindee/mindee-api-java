@@ -3,6 +3,7 @@ package com.mindee.product.us.driverlicense;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mindee.parsing.SummaryHelper;
+import com.mindee.parsing.common.Prediction;
 import com.mindee.parsing.standard.DateField;
 import com.mindee.parsing.standard.StringField;
 import lombok.EqualsAndHashCode;
@@ -12,9 +13,9 @@ import lombok.Getter;
  * Document data for Driver License, API version 1.
  */
 @Getter
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class DriverLicenseV1Document {
+public class DriverLicenseV1Document extends Prediction {
 
   /**
    * US driver license holders address
@@ -101,6 +102,29 @@ public class DriverLicenseV1Document {
    */
   @JsonProperty("weight")
   private StringField weight;
+
+  @Override
+  public boolean isEmpty() {
+    return (
+      this.state == null
+      && this.driverLicenseId == null
+      && this.expiryDate == null
+      && this.issuedDate == null
+      && this.lastName == null
+      && this.firstName == null
+      && this.address == null
+      && this.dateOfBirth == null
+      && this.restrictions == null
+      && this.endorsements == null
+      && this.dlClass == null
+      && this.sex == null
+      && this.height == null
+      && this.weight == null
+      && this.hairColor == null
+      && this.eyeColor == null
+      && this.ddNumber == null
+      );
+  }
 
   @Override
   public String toString() {

@@ -27,6 +27,14 @@ public class DriverLicenseV1Page extends DriverLicenseV1Document {
   private PositionField signature;
 
   @Override
+  public boolean isEmpty() {
+    return (
+      this.photo == null
+      && this.signature == null
+      );
+  }
+
+  @Override
   public String toString() {
     StringBuilder outStr = new StringBuilder();
     outStr.append(

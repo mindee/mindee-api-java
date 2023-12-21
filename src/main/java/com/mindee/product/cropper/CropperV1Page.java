@@ -24,6 +24,13 @@ public class CropperV1Page extends CropperV1Document {
   private List<PositionField> cropping = new ArrayList<>();
 
   @Override
+  public boolean isEmpty() {
+    return (
+      (this.cropping == null || this.cropping.isEmpty())
+      );
+  }
+
+  @Override
   public String toString() {
     StringBuilder outStr = new StringBuilder();
     String cropping = SummaryHelper.arrayToString(

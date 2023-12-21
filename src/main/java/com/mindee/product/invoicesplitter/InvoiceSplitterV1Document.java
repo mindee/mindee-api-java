@@ -2,6 +2,7 @@ package com.mindee.product.invoicesplitter;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.mindee.parsing.common.Prediction;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.EqualsAndHashCode;
@@ -11,9 +12,9 @@ import lombok.Getter;
  * Document data for Invoice Splitter, API version 1.
  */
 @Getter
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class InvoiceSplitterV1Document {
+public class InvoiceSplitterV1Document extends Prediction {
 
   @JsonProperty("invoice_page_groups")
   private List<PageIndexes> invoicePageGroups;
@@ -30,6 +31,11 @@ public class InvoiceSplitterV1Document {
       outStr.append(String.format("%s%n", pageGroupsString));
     }
     return outStr.toString();
+  }
+
+  @Override
+  public boolean isEmpty() {
+    return invoicePageGroups.isEmpty();
   }
 
   /**

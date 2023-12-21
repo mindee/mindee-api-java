@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.mindee.parsing.SummaryHelper;
+import com.mindee.parsing.common.Prediction;
 import com.mindee.parsing.standard.AmountField;
 import com.mindee.parsing.standard.ClassificationField;
 import com.mindee.parsing.standard.CompanyRegistrationField;
@@ -21,9 +22,9 @@ import lombok.Getter;
  * Document data for Receipt, API version 5.
  */
 @Getter
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ReceiptV5Document {
+public class ReceiptV5Document extends Prediction {
 
   /**
    * The purchase category among predefined classes.
@@ -106,6 +107,28 @@ public class ReceiptV5Document {
    */
   @JsonProperty("total_tax")
   private AmountField totalTax;
+
+  @Override
+  public boolean isEmpty() {
+    return (
+      this.locale == null
+      && this.category == null
+      && this.subcategory == null
+      && this.documentType == null
+      && this.date == null
+      && this.time == null
+      && this.totalAmount == null
+      && this.totalNet == null
+      && this.totalTax == null
+      && this.tip == null
+      && (this.taxes == null || this.taxes.isEmpty())
+      && this.supplierName == null
+      && (this.supplierCompanyRegistrations == null || this.supplierCompanyRegistrations.isEmpty())
+      && this.supplierAddress == null
+      && this.supplierPhoneNumber == null
+      && (this.lineItems == null || this.lineItems.isEmpty())
+      );
+  }
 
   @Override
   public String toString() {

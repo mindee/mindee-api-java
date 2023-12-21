@@ -27,6 +27,14 @@ public class IdCardV2Page extends IdCardV2Document {
   private ClassificationField documentType;
 
   @Override
+  public boolean isEmpty() {
+    return (
+      this.documentType == null
+      && this.documentSide == null
+      );
+  }
+
+  @Override
   public String toString() {
     StringBuilder outStr = new StringBuilder();
     outStr.append(

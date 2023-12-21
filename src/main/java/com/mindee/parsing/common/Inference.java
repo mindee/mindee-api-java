@@ -3,19 +3,17 @@ package com.mindee.parsing.common;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mindee.parsing.SummaryHelper;
-import java.util.List;
-import java.util.stream.Collectors;
 import lombok.Getter;
 
 /**
  * Common inference data.
  *
- * @param <PageT> Page prediction (can be the same as DocT).
- * @param <DocT> Document prediction (can be the same as PageT).
+ * @param <TPagePrediction> Page prediction (can be the same as TDocumentPrediction).
+ * @param <TDocumentPrediction> Document prediction (can be the same as TPagePrediction).
  */
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
-public abstract class Inference<PageT, DocT> {
+public abstract class Inference<TPagePrediction, TDocumentPrediction extends Prediction> {
 
   /**
    * Whether a rotation was applied to parse the document.
@@ -31,12 +29,12 @@ public abstract class Inference<PageT, DocT> {
    * The prediction on each pages of the document.
    */
   @JsonProperty("pages")
-  private List<Page<PageT>> pages;
+  protected Pages<TPagePrediction> pages;
   /**
    * The prediction on the document level.
    */
   @JsonProperty("prediction")
-  private DocT prediction;
+  private TDocumentPrediction prediction;
 
   @Override
   public String toString() {
@@ -48,11 +46,13 @@ public abstract class Inference<PageT, DocT> {
         + String.format("%n")
         + String.format("Prediction%n")
         + String.format("==========%n")
-        + prediction.toString()
-        + String.format("%nPage Predictions%n")
+        + prediction.toString();
+    if (pages.hasPrediction()) {
+      summary += String.format("%nPage Predictions%n")
         + String.format("================%n%n")
-        + pages.stream().map(Page::toString).collect(Collectors.joining(String.format("%n")))
-        + String.format("%n");
+        + pages.toString();
+    }
+    summary += String.format("%n");
     return SummaryHelper.cleanSummary(summary);
   }
 }
