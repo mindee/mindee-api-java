@@ -3,6 +3,7 @@ package com.mindee.product.passport;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mindee.parsing.SummaryHelper;
+import com.mindee.parsing.common.Prediction;
 import com.mindee.parsing.standard.DateField;
 import com.mindee.parsing.standard.StringField;
 import java.util.ArrayList;
@@ -14,9 +15,9 @@ import lombok.Getter;
  * Document data for Passport, API version 1.
  */
 @Getter
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class PassportV1Document {
+public class PassportV1Document extends Prediction {
 
   /**
    * The date of birth of the passport holder.
@@ -73,6 +74,23 @@ public class PassportV1Document {
    */
   @JsonProperty("surname")
   private StringField surname;
+
+  @Override
+  public boolean isEmpty() {
+    return (
+      this.country == null
+      && this.idNumber == null
+      && (this.givenNames == null || this.givenNames.isEmpty())
+      && this.surname == null
+      && this.birthDate == null
+      && this.birthPlace == null
+      && this.gender == null
+      && this.issuanceDate == null
+      && this.expiryDate == null
+      && this.mrz1 == null
+      && this.mrz2 == null
+      );
+  }
 
   @Override
   public String toString() {

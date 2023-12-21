@@ -3,6 +3,7 @@ package com.mindee.product.fr.idcard;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mindee.parsing.SummaryHelper;
+import com.mindee.parsing.common.Prediction;
 import com.mindee.parsing.standard.DateField;
 import com.mindee.parsing.standard.StringField;
 import java.util.ArrayList;
@@ -14,9 +15,9 @@ import lombok.Getter;
  * Document data for Carte Nationale d'Identité, API version 2.
  */
 @Getter
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class IdCardV2Document {
+public class IdCardV2Document extends Prediction {
 
   /**
    * The alternate name of the card holder.
@@ -93,6 +94,27 @@ public class IdCardV2Document {
    */
   @JsonProperty("surname")
   private StringField surname;
+
+  @Override
+  public boolean isEmpty() {
+    return (
+      this.nationality == null
+      && this.cardAccessNumber == null
+      && this.documentNumber == null
+      && (this.givenNames == null || this.givenNames.isEmpty())
+      && this.surname == null
+      && this.alternateName == null
+      && this.birthDate == null
+      && this.birthPlace == null
+      && this.gender == null
+      && this.expiryDate == null
+      && this.mrz1 == null
+      && this.mrz2 == null
+      && this.mrz3 == null
+      && this.issueDate == null
+      && this.authority == null
+      );
+  }
 
   @Override
   public String toString() {

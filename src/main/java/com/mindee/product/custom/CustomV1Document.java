@@ -3,6 +3,7 @@ package com.mindee.product.custom;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.mindee.parsing.SummaryHelper;
+import com.mindee.parsing.common.Prediction;
 import com.mindee.parsing.custom.ClassificationField;
 import com.mindee.parsing.custom.CustomV1DocumentPredictionDeserializer;
 import com.mindee.parsing.custom.ListField;
@@ -18,10 +19,10 @@ import lombok.Getter;
  */
 @AllArgsConstructor
 @Getter
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonDeserialize(using = CustomV1DocumentPredictionDeserializer.class)
-public class CustomV1Document {
+public class CustomV1Document extends Prediction {
 
   /**
    * Classification fields.
@@ -32,6 +33,13 @@ public class CustomV1Document {
    * Fields that are not classifications.
    */
   private Map<String, ListField> fields;
+
+  /**
+   * Returns <code>true</code> if there are no predictions values.
+   */
+  public boolean isEmpty() {
+    return fields.isEmpty() && classificationFields.isEmpty();
+  }
 
   @Override
   public String toString() {

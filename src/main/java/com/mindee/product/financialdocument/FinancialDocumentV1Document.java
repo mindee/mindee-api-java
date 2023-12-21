@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.mindee.parsing.SummaryHelper;
+import com.mindee.parsing.common.Prediction;
 import com.mindee.parsing.standard.AmountField;
 import com.mindee.parsing.standard.ClassificationField;
 import com.mindee.parsing.standard.CompanyRegistrationField;
@@ -22,9 +23,9 @@ import lombok.Getter;
  * Document data for Financial Document, API version 1.
  */
 @Getter
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class FinancialDocumentV1Document {
+public class FinancialDocumentV1Document extends Prediction {
 
   /**
    * The purchase category among predefined classes.
@@ -142,6 +143,35 @@ public class FinancialDocumentV1Document {
    */
   @JsonProperty("total_tax")
   private AmountField totalTax;
+
+  @Override
+  public boolean isEmpty() {
+    return (
+      this.locale == null
+      && this.invoiceNumber == null
+      && (this.referenceNumbers == null || this.referenceNumbers.isEmpty())
+      && this.date == null
+      && this.dueDate == null
+      && this.totalNet == null
+      && this.totalAmount == null
+      && (this.taxes == null || this.taxes.isEmpty())
+      && (this.supplierPaymentDetails == null || this.supplierPaymentDetails.isEmpty())
+      && this.supplierName == null
+      && (this.supplierCompanyRegistrations == null || this.supplierCompanyRegistrations.isEmpty())
+      && this.supplierAddress == null
+      && this.supplierPhoneNumber == null
+      && this.customerName == null
+      && (this.customerCompanyRegistrations == null || this.customerCompanyRegistrations.isEmpty())
+      && this.customerAddress == null
+      && this.documentType == null
+      && this.subcategory == null
+      && this.category == null
+      && this.totalTax == null
+      && this.tip == null
+      && this.time == null
+      && (this.lineItems == null || this.lineItems.isEmpty())
+      );
+  }
 
   @Override
   public String toString() {

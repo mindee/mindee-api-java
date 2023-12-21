@@ -29,6 +29,14 @@ public class BankCheckV1Page extends BankCheckV1Document {
   private List<PositionField> signaturesPositions = new ArrayList<>();
 
   @Override
+  public boolean isEmpty() {
+    return (
+      this.checkPosition == null
+      && (this.signaturesPositions == null || this.signaturesPositions.isEmpty())
+      );
+  }
+
+  @Override
   public String toString() {
     StringBuilder outStr = new StringBuilder();
     outStr.append(

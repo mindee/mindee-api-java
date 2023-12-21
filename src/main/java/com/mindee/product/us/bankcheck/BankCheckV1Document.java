@@ -3,6 +3,7 @@ package com.mindee.product.us.bankcheck;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mindee.parsing.SummaryHelper;
+import com.mindee.parsing.common.Prediction;
 import com.mindee.parsing.standard.AmountField;
 import com.mindee.parsing.standard.DateField;
 import com.mindee.parsing.standard.StringField;
@@ -15,9 +16,9 @@ import lombok.Getter;
  * Document data for Bank Check, API version 1.
  */
 @Getter
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class BankCheckV1Document {
+public class BankCheckV1Document extends Prediction {
 
   /**
    * The check payer's account number.
@@ -49,6 +50,18 @@ public class BankCheckV1Document {
    */
   @JsonProperty("routing_number")
   private StringField routingNumber;
+
+  @Override
+  public boolean isEmpty() {
+    return (
+      this.date == null
+      && this.amount == null
+      && (this.payees == null || this.payees.isEmpty())
+      && this.routingNumber == null
+      && this.accountNumber == null
+      && this.checkNumber == null
+      );
+  }
 
   @Override
   public String toString() {

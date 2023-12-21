@@ -78,6 +78,24 @@ public class W9V1Page extends W9V1Document {
   private StringField w9RevisionDate;
 
   @Override
+  public boolean isEmpty() {
+    return (
+      this.name == null
+      && this.ssn == null
+      && this.address == null
+      && this.cityStateZip == null
+      && this.businessName == null
+      && this.ein == null
+      && this.taxClassification == null
+      && this.taxClassificationOtherDetails == null
+      && this.w9RevisionDate == null
+      && this.signaturePosition == null
+      && this.signatureDatePosition == null
+      && this.taxClassificationLlc == null
+      );
+  }
+
+  @Override
   public String toString() {
     StringBuilder outStr = new StringBuilder();
     outStr.append(

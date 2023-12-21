@@ -3,6 +3,7 @@ package com.mindee.product.cropper;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mindee.parsing.SummaryHelper;
+import com.mindee.parsing.common.Prediction;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
@@ -10,10 +11,15 @@ import lombok.Getter;
  * Document data for Cropper, API version 1.
  */
 @Getter
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class CropperV1Document {
+public class CropperV1Document extends Prediction {
 
+
+  @Override
+  public boolean isEmpty() {
+    return false;
+  }
 
   @Override
   public String toString() {

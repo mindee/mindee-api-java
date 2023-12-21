@@ -3,6 +3,7 @@ package com.mindee.product.multireceiptsdetector;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mindee.parsing.SummaryHelper;
+import com.mindee.parsing.common.Prediction;
 import com.mindee.parsing.standard.PositionField;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,15 +14,22 @@ import lombok.Getter;
  * Document data for Multi Receipts Detector, API version 1.
  */
 @Getter
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class MultiReceiptsDetectorV1Document {
+public class MultiReceiptsDetectorV1Document extends Prediction {
 
   /**
    * Positions of the receipts on the document.
    */
   @JsonProperty("receipts")
   private List<PositionField> receipts = new ArrayList<>();
+
+  @Override
+  public boolean isEmpty() {
+    return (
+      (this.receipts == null || this.receipts.isEmpty())
+      );
+  }
 
   @Override
   public String toString() {

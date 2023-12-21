@@ -3,6 +3,7 @@ package com.mindee.product.fr.cartevitale;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mindee.parsing.SummaryHelper;
+import com.mindee.parsing.common.Prediction;
 import com.mindee.parsing.standard.DateField;
 import com.mindee.parsing.standard.StringField;
 import java.util.ArrayList;
@@ -14,9 +15,9 @@ import lombok.Getter;
  * Document data for Carte Vitale, API version 1.
  */
 @Getter
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class CarteVitaleV1Document {
+public class CarteVitaleV1Document extends Prediction {
 
   /**
    * The given name(s) of the card holder.
@@ -38,6 +39,16 @@ public class CarteVitaleV1Document {
    */
   @JsonProperty("surname")
   private StringField surname;
+
+  @Override
+  public boolean isEmpty() {
+    return (
+      (this.givenNames == null || this.givenNames.isEmpty())
+      && this.surname == null
+      && this.socialSecurity == null
+      && this.issuanceDate == null
+      );
+  }
 
   @Override
   public String toString() {

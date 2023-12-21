@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.mindee.parsing.SummaryHelper;
+import com.mindee.parsing.common.Prediction;
 import com.mindee.parsing.standard.AmountField;
 import com.mindee.parsing.standard.ClassificationField;
 import com.mindee.parsing.standard.CompanyRegistrationField;
@@ -21,9 +22,9 @@ import lombok.Getter;
  * Document data for Invoice, API version 4.
  */
 @Getter
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class InvoiceV4Document {
+public class InvoiceV4Document extends Prediction {
 
   /**
    * Locale information.
@@ -114,6 +115,28 @@ public class InvoiceV4Document {
 
   public Double getTotalTaxes() {
     return taxes.stream().mapToDouble(TaxField::getValue).sum();
+  }
+
+  public boolean isEmpty() {
+    return (
+      this.localeField == null
+      && this.invoiceNumber == null
+      && (this.referenceNumbers == null || this.referenceNumbers.isEmpty())
+      && this.invoiceDateField == null
+      && this.dueDateField == null
+      && this.totalNet == null
+      && this.totalAmount == null
+      && (this.taxes == null || this.taxes.isEmpty())
+      && (this.supplierPaymentDetails == null || this.supplierPaymentDetails.isEmpty())
+      && this.supplierName == null
+      && (this.supplierCompanyRegistrations == null || this.supplierCompanyRegistrations.isEmpty())
+      && this.supplierAddress == null
+      && this.customerName == null
+      && (this.customerCompanyRegistrations == null || this.customerCompanyRegistrations.isEmpty())
+      && this.customerAddress == null
+      && this.documentType == null
+      && (this.lineItems == null || this.lineItems.isEmpty())
+      );
   }
 
   @Override

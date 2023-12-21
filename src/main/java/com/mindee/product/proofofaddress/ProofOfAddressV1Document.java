@@ -3,6 +3,7 @@ package com.mindee.product.proofofaddress;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mindee.parsing.SummaryHelper;
+import com.mindee.parsing.common.Prediction;
 import com.mindee.parsing.standard.CompanyRegistrationField;
 import com.mindee.parsing.standard.DateField;
 import com.mindee.parsing.standard.LocaleField;
@@ -16,9 +17,9 @@ import lombok.Getter;
  * Document data for Proof of Address, API version 1.
  */
 @Getter
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ProofOfAddressV1Document {
+public class ProofOfAddressV1Document extends Prediction {
 
   /**
    * The date the document was issued.
@@ -65,6 +66,21 @@ public class ProofOfAddressV1Document {
    */
   @JsonProperty("recipient_name")
   private StringField recipientName;
+
+  @Override
+  public boolean isEmpty() {
+    return (
+      this.locale == null
+      && this.issuerName == null
+      && (this.issuerCompanyRegistration == null || this.issuerCompanyRegistration.isEmpty())
+      && this.issuerAddress == null
+      && this.recipientName == null
+      && (this.recipientCompanyRegistration == null || this.recipientCompanyRegistration.isEmpty())
+      && this.recipientAddress == null
+      && (this.dates == null || this.dates.isEmpty())
+      && this.date == null
+      );
+  }
 
   @Override
   public String toString() {

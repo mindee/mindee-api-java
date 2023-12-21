@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.mindee.parsing.SummaryHelper;
+import com.mindee.parsing.common.Prediction;
 import com.mindee.parsing.standard.AmountField;
 import com.mindee.parsing.standard.ClassificationField;
 import com.mindee.parsing.standard.DateField;
@@ -19,9 +20,9 @@ import lombok.Getter;
  * Document data for Receipt, API version 4.
  */
 @Getter
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ReceiptV4Document {
+public class ReceiptV4Document extends Prediction {
 
   /**
    * Where the purchase was made, the language, and the currency.
@@ -103,5 +104,23 @@ public class ReceiptV4Document {
         + String.format(":Total amount: %s%n", this.getTotalAmount());
 
     return SummaryHelper.cleanSummary(summary);
+  }
+
+  @Override
+  public boolean isEmpty() {
+    return (
+      this.localeField == null
+      && this.category == null
+      && this.subCategory == null
+      && this.documentType == null
+      && this.date == null
+      && this.time == null
+      && this.totalAmount == null
+      && this.totalNet == null
+      && this.totalTax == null
+      && this.tip == null
+      && (this.taxes == null || this.taxes.isEmpty())
+      && this.supplierName == null
+      );
   }
 }
