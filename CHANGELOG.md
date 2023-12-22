@@ -1,8 +1,12 @@
 # Mindee Java API Library Changelog
 
-## v4.5.1 - 2023-12-15
+## v4.6.0 - 2023-12-22
+### Changes
 * :recycle: change async timers & retry values
-* :arrow_up: implement stricter value checks for async timers & retry
+* :recycle: implement stricter value checks for async timers & retry
+* :arrow_up: update dependencies
+* :sparkles: add Carte Grise v1 product
+* :sparkles: add International ID v1 product
 
 
 ## v4.5.0 - 2023-11-17
