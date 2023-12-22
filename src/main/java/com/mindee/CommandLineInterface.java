@@ -47,15 +47,16 @@ public class CommandLineInterface {
   )
   private boolean words;
 
-  private enum OutputChoices { summary, full }
+  private enum OutputChoices { summary, full, raw }
 
   @Option(
       names = {"-o", "--output-type"},
       scope = ScopeType.INHERIT,
       paramLabel = "OUTPUT_TYPE",
       description = "Output type, one of:\n"
-          + "  summary - document level predictions\n"
-          + "  full - all parsed data"
+          + "  summary - document predictions\n"
+          + "  full - all predictions\n"
+          + "  raw - raw response from the server"
   )
   private OutputChoices outputType;
 
@@ -177,7 +178,10 @@ public class CommandLineInterface {
     }
 
     if (outputType == OutputChoices.full) {
-      return response.toString();
+      return response.getDocument().toString();
+    }
+    if (outputType == OutputChoices.raw) {
+      return response.getRawResponse();
     }
     Document<T> document = response.getDocument();
     return document.getInference().getPrediction().toString();
@@ -202,9 +206,12 @@ public class CommandLineInterface {
     }
 
     if (outputType == OutputChoices.full) {
-      return response.toString();
+      return response.getDocumentObj().toString();
     }
-    Document<T> document = response.getDocument().get();
+    if (outputType == OutputChoices.raw) {
+      return response.getRawResponse();
+    }
+    Document<T> document = response.getDocumentObj();
     return document.getInference().getPrediction().toString();
   }
 }
