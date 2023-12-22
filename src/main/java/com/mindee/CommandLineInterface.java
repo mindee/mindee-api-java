@@ -9,6 +9,7 @@ import com.mindee.parsing.common.Document;
 import com.mindee.parsing.common.Inference;
 import com.mindee.parsing.common.PredictResponse;
 import com.mindee.product.custom.CustomV1;
+import com.mindee.product.eu.driverlicense.DriverLicenseV1;
 import com.mindee.product.invoice.InvoiceV4;
 import com.mindee.product.invoicesplitter.InvoiceSplitterV1;
 import com.mindee.product.passport.PassportV1;
@@ -109,6 +110,14 @@ public class CommandLineInterface {
       File file
   ) throws IOException, InterruptedException {
     System.out.println(standardProductAsyncOutput(InvoiceSplitterV1.class, file));
+  }
+
+  @Command(name = "eu-driver-license", description = "Invokes the EU Driver License API")
+  void euDriverLicenseMethod(
+      @Parameters(index = "0", paramLabel = "<path>", scope = ScopeType.LOCAL)
+      File file
+  ) throws IOException {
+    System.out.println(standardProductOutput(DriverLicenseV1.class, file));
   }
 
   @Command(name = "custom", description = "Invokes a builder API")
