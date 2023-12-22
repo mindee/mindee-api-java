@@ -8,7 +8,6 @@ import com.mindee.input.InputSourceUtils;
 import com.mindee.input.LocalInputSource;
 import com.mindee.input.PageOptions;
 import com.mindee.parsing.common.AsyncPredictResponse;
-import com.mindee.parsing.common.Document;
 import com.mindee.parsing.common.Inference;
 import com.mindee.parsing.common.PredictResponse;
 import com.mindee.pdf.PdfBoxApi;
@@ -17,7 +16,6 @@ import com.mindee.pdf.SplitQuery;
 import com.mindee.product.custom.CustomV1;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Optional;
 
 /**
  * Main entrypoint for Mindee operations.
@@ -262,14 +260,19 @@ public class MindeeClient {
     Double minimumIntervalSec = 2.0;
     Integer minimumRetry = 2;
     if (pollingOptions.getInitialDelaySec() < minimumInitialDelaySec) {
-      throw new MindeeException(
-          String.format("Cannot set initial delay to less than %.0f seconds", minimumInitialDelaySec));
+      throw new MindeeException(String.format(
+        "Cannot set initial delay to less than %.0f seconds", minimumInitialDelaySec
+      ));
     }
     if (pollingOptions.getIntervalSec() < minimumIntervalSec) {
-      throw new MindeeException(String.format("Cannot set auto-poll delay to less than %.0f seconds", minimumIntervalSec));
+      throw new MindeeException(String.format(
+        "Cannot set auto-poll delay to less than %.0f seconds", minimumIntervalSec
+      ));
     }
     if (pollingOptions.getMaxRetries() < minimumRetry) {
-      throw new MindeeException(String.format("Cannot set async retries to less than %d attempts", minimumRetry));
+      throw new MindeeException(String.format(
+        "Cannot set async retries to less than %d attempts", minimumRetry
+      ));
     }
   }
 
@@ -436,10 +439,10 @@ public class MindeeClient {
       Endpoint endpoint
   ) throws IOException {
     return this.parse(
-        localInputSource.getFile(),
-        localInputSource.getFilename(),
+      localInputSource.getFile(),
+      localInputSource.getFilename(),
       endpoint,
-        null);
+    null);
   }
 
   /**
@@ -451,8 +454,8 @@ public class MindeeClient {
       PageOptions pageOptions
   ) throws IOException {
     return this.parse(
-        getSplitFile(localInputSource, pageOptions),
-        localInputSource.getFilename(),
+      getSplitFile(localInputSource, pageOptions),
+      localInputSource.getFilename(),
       endpoint, null
     );
   }
@@ -475,13 +478,13 @@ public class MindeeClient {
       URL urlInputSource
   ) throws IOException {
     return this.mindeeApi.predictPost(
-            CustomV1.class,
+      CustomV1.class,
       endpoint,
-            RequestParameters.builder()
-                .file(file)
-                .fileName(filename)
-                .urlInputSource(urlInputSource)
-                .build());
+      RequestParameters.builder()
+          .file(file)
+          .fileName(filename)
+          .urlInputSource(urlInputSource)
+          .build());
   }
 
   private byte[] getSplitFile(
