@@ -27,6 +27,20 @@ public class Polygon {
   }
 
   /**
+   * Get the maximum and minimum Y coordinates.
+   */
+  public MinMax getMinMaxY() {
+    return PolygonUtils.getMinMaxY(coordinates);
+  }
+
+  /**
+   * Get the maximum and minimum Y coordinates.
+   */
+  public MinMax getMinMaxX() {
+    return PolygonUtils.getMinMaxX(coordinates);
+  }
+
+  /**
    * Returns true if there are no coordinates.
    */
   public boolean isEmpty() {
