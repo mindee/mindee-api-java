@@ -71,6 +71,14 @@ public final class PolygonUtils {
   }
 
   /**
+   * Get the maximum and minimum X coordinates in a given list of Points.
+   */
+  public static MinMax getMinMaxX(List<Point> vertices) {
+    List<Double> points = vertices.stream().map(Point::getX).collect(Collectors.toList());
+    return new MinMax(Collections.min(points), Collections.max(points));
+  }
+
+  /**
    * Determine if a Point is within two Y coordinates.
    */
   public static boolean isPointInY(Point centroid, Double yMin, Double yMax) {

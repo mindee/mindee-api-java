@@ -51,7 +51,7 @@ public final class LineItemsGenerator {
     for (Line currentLine : lines) {
       for (Map.Entry<String, ListField> field : fields.entrySet()) {
         for (ListFieldValue listFieldValue : field.getValue().getValues()) {
-          MinMax minMaxY = PolygonUtils.getMinMaxY(listFieldValue.getPolygon().getCoordinates());
+          MinMax minMaxY = listFieldValue.getPolygon().getMinMaxY();
 
           if (
               Math.abs(minMaxY.getMax() - currentLine.getBbox().getMaxY()) <= heightLineTolerance

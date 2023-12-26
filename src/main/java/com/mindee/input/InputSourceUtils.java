@@ -31,15 +31,33 @@ public class InputSourceUtils {
     int lastSeparatorPosWindows = fileName.lastIndexOf(WINDOWS_FILE_SEPARATOR);
     int lastSeparatorPosUnix = fileName.lastIndexOf(UNIX_FILE_SEPARATOR);
 
-    // takes the greater of the two values, which mean last file separator
+    // takes the greater of the two values, which means last file separator
     int indexOflastSeparator = Math.max(lastSeparatorPosWindows, lastSeparatorPosUnix);
 
-    // make sure the file extension appear after the last file separator
+    // make sure the file extension appears after the last file separator
     if (indexOfLastExtension > indexOflastSeparator) {
       extension = fileName.substring(indexOfLastExtension + 1);
     }
 
     return extension;
+  }
+
+  /**
+   * Split the filename into a name and an extension.
+   * @param filename the filename to split.
+   * @return first element is name, second is extension.
+   */
+  public static String[] splitNameStrict(String filename) throws MindeeException {
+    String name;
+    String extension;
+    int index = filename.lastIndexOf(FILE_EXTENSION);
+    if (index > 0) {
+      extension = filename.substring(index + 1);
+      name = filename.substring(0, index);
+    } else {
+      throw new MindeeException("File name must include a valid extension.");
+    }
+    return new String[]{name, extension};
   }
 
   /**

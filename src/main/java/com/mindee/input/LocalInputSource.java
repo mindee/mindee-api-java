@@ -22,6 +22,12 @@ public final class LocalInputSource {
     this.filename = filename;
   }
 
+  public LocalInputSource(String filePath) throws IOException {
+    File file = new File(filePath);
+    this.file = Files.readAllBytes(file.toPath());
+    this.filename = file.getName();
+  }
+
   public LocalInputSource(File file) throws IOException {
     this.file = Files.readAllBytes(file.toPath());
     this.filename = file.getName();

@@ -20,12 +20,14 @@ public final class BboxUtils {
       return null;
     }
 
-    DoubleSummaryStatistics statsX = polygon.getCoordinates().stream()
+    DoubleSummaryStatistics statsX = polygon.getCoordinates()
+        .stream()
         .mapToDouble(Point::getX)
         .summaryStatistics();
 
     DoubleSummaryStatistics statsY = polygon.getCoordinates()
-        .stream().mapToDouble(Point::getY)
+        .stream()
+        .mapToDouble(Point::getY)
         .summaryStatistics();
 
     return new Bbox(

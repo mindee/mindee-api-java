@@ -16,7 +16,7 @@ import lombok.Getter;
 @Getter
 @EqualsAndHashCode
 @JsonIgnoreProperties(ignoreUnknown = true)
-public abstract class BaseField {
+public abstract class BaseField implements PositionData {
 
   /**
    * The bounding box equivalent of the polygon.
@@ -24,17 +24,17 @@ public abstract class BaseField {
   @JsonIgnore
   private final Polygon boundingBox;
   /**
-   * The confidence about the zone of the value extracted.
-   * A value from 0 to 1.
-   */
-  @JsonProperty("confidence")
-  private Double confidence;
-  /**
    * Define the coordinates of the zone in the page where the values has been found.
    */
   @JsonProperty("polygon")
   @JsonDeserialize(using = PolygonDeserializer.class)
   private Polygon polygon;
+  /**
+   * The confidence about the zone of the value extracted.
+   * A value from 0 to 1.
+   */
+  @JsonProperty("confidence")
+  private Double confidence;
   /**
    * The index of the page where the current field was found.
    */

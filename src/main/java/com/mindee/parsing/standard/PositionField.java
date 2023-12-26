@@ -12,7 +12,7 @@ import lombok.Getter;
  */
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class PositionField {
+public class PositionField implements PositionData {
 
   /**
    * Straight rectangle.
