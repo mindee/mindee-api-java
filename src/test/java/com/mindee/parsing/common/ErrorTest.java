@@ -1,13 +1,12 @@
 package com.mindee.parsing.common;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import junit.framework.TestCase;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.io.IOException;
 
-public class ErrorTest extends TestCase {
+public class ErrorTest {
 
   @Test
   void given_details_as_object_mustBeDeserialized() throws IOException {

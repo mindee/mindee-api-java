@@ -4,13 +4,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mindee.product.invoicesplitter.InvoiceSplitterV1;
-import junit.framework.TestCase;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.io.IOException;
 
-public class AsyncPredictResponseTest extends TestCase {
+public class AsyncPredictResponseTest {
 
   private AsyncPredictResponse<InvoiceSplitterV1> loadAsyncResponse(String filePath) throws IOException {
     ObjectMapper objectMapper = new ObjectMapper();
