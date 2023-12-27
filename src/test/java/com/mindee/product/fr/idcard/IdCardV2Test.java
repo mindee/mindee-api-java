@@ -5,13 +5,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mindee.parsing.common.Document;
 import com.mindee.parsing.common.Page;
 import com.mindee.parsing.common.PredictResponse;
+import com.mindee.parsing.standard.ClassificationField;
+import com.mindee.product.ProductTestHelper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.List;
 
 /**
  * Unit tests for IdCardV2.
@@ -52,35 +51,27 @@ public class IdCardV2Test {
     Assertions.assertNull(docPrediction.getIssueDate().getValue());
     Assertions.assertNull(docPrediction.getAuthority().getValue());
     IdCardV2Page pagePrediction = response.getDocument().getInference().getPages().get(0).getPrediction();
-    Assertions.assertNotNull(pagePrediction.getDocumentType().getValue());
-    Assertions.assertNotNull(pagePrediction.getDocumentSide().getValue());
+    Assertions.assertInstanceOf(ClassificationField.class, pagePrediction.getDocumentType());
+    Assertions.assertInstanceOf(ClassificationField.class, pagePrediction.getDocumentSide());
   }
 
   @Test
   void whenCompleteDeserialized_mustHaveValidDocumentSummary() throws IOException {
     PredictResponse<IdCardV2> response = getPrediction("complete");
     Document<IdCardV2> doc = response.getDocument();
-    String[] actualLines = doc.toString().split(System.lineSeparator());
-    List<String> expectedLines = Files.readAllLines(
-      Paths.get("src/test/resources/products/idcard_fr/response_v2/summary_full.rst")
+    ProductTestHelper.assertStringEqualsFile(
+        doc.toString(),
+        "src/test/resources/products/idcard_fr/response_v2/summary_full.rst"
     );
-    String expectedSummary = String.join(String.format("%n"), expectedLines);
-    String actualSummary = String.join(String.format("%n"), actualLines);
-
-    Assertions.assertEquals(expectedSummary, actualSummary);
   }
 
   @Test
   void whenCompleteDeserialized_mustHaveValidPage0Summary() throws IOException {
     PredictResponse<IdCardV2> response = getPrediction("complete");
     Page<IdCardV2Page> page = response.getDocument().getInference().getPages().get(0);
-    String[] actualLines = page.toString().split(System.lineSeparator());
-    List<String> expectedLines = Files.readAllLines(
-      Paths.get("src/test/resources/products/idcard_fr/response_v2/summary_page0.rst")
+    ProductTestHelper.assertStringEqualsFile(
+        page.toString(),
+        "src/test/resources/products/idcard_fr/response_v2/summary_page0.rst"
     );
-    String expectedSummary = String.join(String.format("%n"), expectedLines);
-    String actualSummary = String.join(String.format("%n"), actualLines);
-
-    Assertions.assertEquals(expectedSummary, actualSummary);
   }
 }
