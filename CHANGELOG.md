@@ -1,5 +1,10 @@
 # Mindee Java API Library Changelog
 
+## v4.7.0 - 2023-12-28
+### Changes
+* :sparkles: add ability to extract images from position data
+* :sparkles: allow passing a string path to new `LocalInputSource`
+
 ## v4.6.0 - 2023-12-22
 ### Changes
 * :recycle: change async timers & retry values
