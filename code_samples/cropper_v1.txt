@@ -15,7 +15,7 @@ public class SimpleMindeeClient {
     MindeeClient mindeeClient = new MindeeClient(apiKey);
 
     // Load a file from disk
-    LocalInputSource inputSource = new LocalInputSource(new File(filePath));
+    LocalInputSource inputSource = new LocalInputSource(filePath);
 
     // Parse the file
     PredictResponse<CropperV1> response = mindeeClient.parse(
