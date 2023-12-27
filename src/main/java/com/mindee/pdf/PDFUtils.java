@@ -1,5 +1,6 @@
 package com.mindee.pdf;
 
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -9,6 +10,8 @@ import org.apache.pdfbox.cos.COSName;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDResources;
+import org.apache.pdfbox.rendering.ImageType;
+import org.apache.pdfbox.rendering.PDFRenderer;
 
 /**
  * Utilities for working with PDFs.
@@ -165,5 +168,9 @@ public final class PDFUtils {
     return opens;
   }
 
-
+  public static BufferedImage pdfToImage(String filePath, int dpi) throws IOException {
+    PDDocument document = PDDocument.load(new File(filePath));
+    PDFRenderer pdfRenderer = new PDFRenderer(document);
+    return pdfRenderer.renderImageWithDPI(0, dpi, ImageType.RGB);
+  }
 }

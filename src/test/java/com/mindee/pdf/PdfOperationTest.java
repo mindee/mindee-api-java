@@ -3,9 +3,8 @@ package com.mindee.pdf;
 import com.mindee.input.PageOptions;
 import com.mindee.input.PageOptionsOperation;
 import com.mindee.MindeeException;
-import org.junit.Assert;
-import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,14 +25,14 @@ public class PdfOperationTest {
     pageNumberToKeep.add(2);
 
     SplitQuery splitQuery = new SplitQuery(
-      Files.readAllBytes(new File("src/test/resources/pdf/multipage.pdf").toPath()),
+      Files.readAllBytes(new File("src/test/resources/file_types/pdf/multipage.pdf").toPath()),
       new PageOptions(pageNumberToKeep, PageOptionsOperation.KEEP_ONLY, 0));
 
     SplitPdf splitPdf = pdfOperation.split(splitQuery);
 
-    Assert.assertNotNull(splitPdf);
-    Assert.assertNotNull(splitPdf.getFile());
-    Assert.assertEquals(1, splitPdf.getTotalPageNumber());
+    Assertions.assertNotNull(splitPdf);
+    Assertions.assertNotNull(splitPdf.getFile());
+    Assertions.assertEquals(1, splitPdf.getTotalPageNumber());
   }
 
   @Test
@@ -45,14 +44,14 @@ public class PdfOperationTest {
     pageNumberToKeep.add(2);
 
     SplitQuery splitQuery = new SplitQuery(
-      Files.readAllBytes(new File("src/test/resources/pdf/multipage.pdf").toPath()),
-      new PageOptions(pageNumberToKeep, PageOptionsOperation.KEEP_ONLY, 0));
-
+        Files.readAllBytes(new File("src/test/resources/file_types/pdf/multipage.pdf").toPath()),
+        new PageOptions(pageNumberToKeep, PageOptionsOperation.KEEP_ONLY, 0)
+    );
     SplitPdf splitPdf = pdfOperation.split(splitQuery);
 
-    Assert.assertNotNull(splitPdf);
-    Assert.assertNotNull(splitPdf.getFile());
-    Assert.assertEquals(2, splitPdf.getTotalPageNumber());
+    Assertions.assertNotNull(splitPdf);
+    Assertions.assertNotNull(splitPdf.getFile());
+    Assertions.assertEquals(2, splitPdf.getTotalPageNumber());
   }
 
   @Test
@@ -65,14 +64,14 @@ public class PdfOperationTest {
     pageNumberToKeep.add(3);
 
     SplitQuery splitQuery = new SplitQuery(
-      Files.readAllBytes(new File("src/test/resources/pdf/multipage.pdf").toPath()),
-      new PageOptions(pageNumberToKeep, PageOptionsOperation.REMOVE, 0));
-
+        Files.readAllBytes(new File("src/test/resources/file_types/pdf/multipage.pdf").toPath()),
+        new PageOptions(pageNumberToKeep, PageOptionsOperation.REMOVE, 0)
+    );
     SplitPdf splitPdf = pdfOperation.split(splitQuery);
 
-    Assert.assertNotNull(splitPdf);
-    Assert.assertNotNull(splitPdf.getFile());
-    Assert.assertEquals(9, splitPdf.getTotalPageNumber());
+    Assertions.assertNotNull(splitPdf);
+    Assertions.assertNotNull(splitPdf.getFile());
+    Assertions.assertEquals(9, splitPdf.getTotalPageNumber());
   }
 
   @Test
@@ -85,8 +84,9 @@ public class PdfOperationTest {
     pageNumberToKeep.add(3);
 
     SplitQuery splitQuery = new SplitQuery(
-      Files.readAllBytes(new File("src/test/resources/passport/passport.jpeg").toPath()),
-      new PageOptions(pageNumberToKeep, PageOptionsOperation.REMOVE, 0));
+        Files.readAllBytes(new File("src/test/resources/file_types/receipt.jpg").toPath()),
+        new PageOptions(pageNumberToKeep, PageOptionsOperation.REMOVE, 0)
+    );
 
     Assertions.assertThrows(
       MindeeException.class,
@@ -101,14 +101,14 @@ public class PdfOperationTest {
     pageNumberToKeep.add(1);
 
     SplitQuery splitQuery = new SplitQuery(
-      Files.readAllBytes(new File("src/test/resources/pdf/multipage_cut-2.pdf").toPath()),
-      new PageOptions(pageNumberToKeep, PageOptionsOperation.REMOVE, 5));
-
+        Files.readAllBytes(new File("src/test/resources/file_types/pdf/multipage_cut-2.pdf").toPath()),
+        new PageOptions(pageNumberToKeep, PageOptionsOperation.REMOVE, 5)
+    );
     SplitPdf splitPdf = pdfOperation.split(splitQuery);
 
-    Assert.assertNotNull(splitPdf);
-    Assert.assertNotNull(splitPdf.getFile());
-    Assert.assertEquals(2, splitPdf.getTotalPageNumber());
+    Assertions.assertNotNull(splitPdf);
+    Assertions.assertNotNull(splitPdf.getFile());
+    Assertions.assertEquals(2, splitPdf.getTotalPageNumber());
   }
 
   @Test
@@ -121,13 +121,13 @@ public class PdfOperationTest {
     pageNumberToKeep.add(-1);
 
     SplitQuery splitQuery = new SplitQuery(
-      Files.readAllBytes(new File("src/test/resources/pdf/multipage.pdf").toPath()),
-      new PageOptions(pageNumberToKeep, PageOptionsOperation.KEEP_ONLY, 0));
-
+        Files.readAllBytes(new File("src/test/resources/file_types/pdf/multipage.pdf").toPath()),
+        new PageOptions(pageNumberToKeep, PageOptionsOperation.KEEP_ONLY, 0)
+    );
     SplitPdf splitPdf = pdfOperation.split(splitQuery);
 
-    Assert.assertNotNull(splitPdf);
-    Assert.assertNotNull(splitPdf.getFile());
-    Assert.assertEquals(3, splitPdf.getTotalPageNumber());
+    Assertions.assertNotNull(splitPdf);
+    Assertions.assertNotNull(splitPdf.getFile());
+    Assertions.assertEquals(3, splitPdf.getTotalPageNumber());
   }
 }
