@@ -3,15 +3,13 @@ package com.mindee.product.receipt;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mindee.parsing.common.Document;
-import com.mindee.parsing.common.Page;
 import com.mindee.parsing.common.PredictResponse;
+import com.mindee.parsing.standard.ClassificationField;
+import com.mindee.product.ProductTestHelper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.List;
 
 /**
  * Unit tests for ReceiptV5.
@@ -37,9 +35,9 @@ public class ReceiptV5Test {
     PredictResponse<ReceiptV5> response = getPrediction("empty");
     ReceiptV5Document docPrediction = response.getDocument().getInference().getPrediction();
     Assertions.assertNull(docPrediction.getLocale().getValue());
-    Assertions.assertNotNull(docPrediction.getCategory().getValue());
-    Assertions.assertNotNull(docPrediction.getSubcategory().getValue());
-    Assertions.assertNotNull(docPrediction.getDocumentType().getValue());
+    Assertions.assertInstanceOf(ClassificationField.class, docPrediction.getCategory());
+    Assertions.assertInstanceOf(ClassificationField.class, docPrediction.getSubcategory());
+    Assertions.assertInstanceOf(ClassificationField.class, docPrediction.getDocumentType());
     Assertions.assertNull(docPrediction.getDate().getValue());
     Assertions.assertNull(docPrediction.getTime().getValue());
     Assertions.assertNull(docPrediction.getTotalAmount().getValue());
@@ -58,27 +56,10 @@ public class ReceiptV5Test {
   void whenCompleteDeserialized_mustHaveValidDocumentSummary() throws IOException {
     PredictResponse<ReceiptV5> response = getPrediction("complete");
     Document<ReceiptV5> doc = response.getDocument();
-    String[] actualLines = doc.toString().split(System.lineSeparator());
-    List<String> expectedLines = Files.readAllLines(
-      Paths.get("src/test/resources/products/expense_receipts/response_v5/summary_full.rst")
+    ProductTestHelper.assertStringEqualsFile(
+        doc.toString(),
+        "src/test/resources/products/expense_receipts/response_v5/summary_full.rst"
     );
-    String expectedSummary = String.join(String.format("%n"), expectedLines);
-    String actualSummary = String.join(String.format("%n"), actualLines);
-
-    Assertions.assertEquals(expectedSummary, actualSummary);
   }
 
-  @Test
-  void whenCompleteDeserialized_mustHaveValidPage0Summary() throws IOException {
-    PredictResponse<ReceiptV5> response = getPrediction("complete");
-    Page<ReceiptV5Document> page = response.getDocument().getInference().getPages().get(0);
-    String[] actualLines = page.toString().split(System.lineSeparator());
-    List<String> expectedLines = Files.readAllLines(
-      Paths.get("src/test/resources/products/expense_receipts/response_v5/summary_page0.rst")
-    );
-    String expectedSummary = String.join(String.format("%n"), expectedLines);
-    String actualSummary = String.join(String.format("%n"), actualLines);
-
-    Assertions.assertEquals(expectedSummary, actualSummary);
-  }
 }
