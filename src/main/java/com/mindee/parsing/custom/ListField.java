@@ -34,12 +34,30 @@ public class ListField {
     this.values = new ArrayList<>();
   }
 
-  @Override
-  public String toString() {
+  /**
+   * Get all the value contents.
+   * @return all the values as a list of strings.
+   */
+  public List<String> getContentsList() {
+    return values.stream()
+      .map(ListFieldValue::getContent)
+      .collect(Collectors.toList());
+  }
 
+  /**
+   * Get all the joined value contents.
+   * @param separator the separator to use between values.
+   * @return all the values as a single string.
+   */
+  public String getContentsString(String separator) {
     return String.format("%s",
       values.stream()
         .map(ListFieldValue::toString)
-        .collect(Collectors.joining(" ")));
+        .collect(Collectors.joining(separator)));
+  }
+
+  @Override
+  public String toString() {
+    return getContentsString(" ");
   }
 }

@@ -9,6 +9,7 @@ import com.mindee.parsing.standard.StringField;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.Getter;
+import lombok.Setter;
 
 
 /**
@@ -18,8 +19,9 @@ import lombok.Getter;
 public class Line {
   private final Integer rowNumber;
   private final Map<String, StringField> fields;
-  private Bbox bbox;
   private final Double heightTolerance;
+  @Setter
+  private Bbox bbox;
 
   public Line(
       Integer rowNumber,
@@ -71,12 +73,4 @@ public class Line {
       );
     }
   }
-
-  /**
-   * @param bbox the bbox to set
-   */
-  public void setBbox(Bbox bbox) {
-    this.bbox = bbox;
-  }
-
 }
