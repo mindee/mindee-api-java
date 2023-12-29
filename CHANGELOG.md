@@ -1,5 +1,9 @@
 # Mindee Java API Library Changelog
 
+## v4.8.1 - 2023-12-29
+### Changes
+* :memo: updates and fixes to documentation
+
 ## v4.8.0 - 2023-12-29
 ### Changes
 * :sparkles: add better support for custom value list fields
