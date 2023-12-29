@@ -35,6 +35,14 @@ public class ListField {
   }
 
   /**
+   * Returns <code>true</code> if there are no values.
+   * @return <code>true</code> if there are no values.
+   */
+  public boolean isEmpty() {
+    return this.values.isEmpty();
+  }
+
+  /**
    * Get all the value contents.
    * @return all the values as a list of strings.
    */

@@ -44,7 +44,7 @@ public class SimpleMindeeClient {
 
     // Load a file from disk
     LocalInputSource localInputSource = new LocalInputSource(
-        new File("/path/to/the/file.ext")
+        "/path/to/the/file.ext"
     );
     // Parse the file
     Document<InvoiceV4> response = mindeeClient.parse(
@@ -79,12 +79,12 @@ public class SimpleMindeeClient {
 
     // Load a file from disk
     LocalInputSource localInputSource = new LocalInputSource(
-        new File("/path/to/the/file.ext")
+        "/path/to/the/file.ext"
     );
     // Parse the file
     Document<BankCheckV1> response = mindeeClient.parse(
-            BankCheckV1.class,
-            localInputSource
+        BankCheckV1.class,
+        localInputSource
     );
     // Print a summary of the parsed data
     System.out.println(response.getDocument().toString());
@@ -113,7 +113,7 @@ public class SimpleMindeeClient {
 
     // Load a file from disk
     LocalInputSource localInputSource = new LocalInputSource(
-        new File("src/main/resources/invoices/invoice1.pdf")
+        "src/main/resources/invoices/invoice1.pdf"
     );
     // Parse the file
     Document<CustomV1> customDocument = mindeeClient.parse(

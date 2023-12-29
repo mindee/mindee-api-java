@@ -50,7 +50,7 @@ class CustomV1Test {
     CustomV1Document docPrediction = inference.getPrediction();
     for (Map.Entry<String, ListField> entry : docPrediction.getFields().entrySet()) {
       ListField field = entry.getValue();
-      Assertions.assertFalse(field.getValues().isEmpty());
+      Assertions.assertFalse(field.isEmpty());
       Assertions.assertNotNull(field.getContentsList());
       for (ListFieldValue value : field.getValues()) {
         Assertions.assertNotNull(value.getContent());

@@ -16,7 +16,7 @@ public class SimpleMindeeClient {
     MindeeClient mindeeClient = new MindeeClient(apiKey);
 
     // Load a file from disk
-    LocalInputSource inputSource = new LocalInputSource(new File(filePath));
+    LocalInputSource inputSource = new LocalInputSource(filePath);
 
     // Configure the endpoint
     Endpoint endpoint = new Endpoint(

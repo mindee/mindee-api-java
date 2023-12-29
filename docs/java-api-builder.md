@@ -9,101 +9,124 @@ created with the [API Builder](https://developers.mindee.com/docs/overview).
 
 ```java
 String path = "/path/to/the/file.ext";
-LocalInputSource inputSource = new LocalInputSource(new File(path));
+LocalInputSource inputSource = new LocalInputSource(path);
 CustomEndpoint myEndpoint = new CustomEndpoint(
     "wnine",
     "john",
-    "1.0" // optional
+    // "1.1" // optional
 );
 
-PredictResponse<CustomV1new MindeeClient> customDocument = mindeeClient
+MindeeClient mindeeClient = new MindeeClient(apiKey);
+  
+PredictResponse<CustomV1> response = mindeeClient
     .parse(inputSource, myEndpoint);
+
+// Print a summary of the response
+System.out.println(response.toString());
 ```
 
 If the `version` argument is set, you'll be required to update it every time a new model is trained.
 This is probably not needed for development but essential for production use.
 
-## Parsing Documents
-Use the `ParseAsync` method to call the API prediction on your custom document.
-The response class and document type must be specified when calling this method.
+## The `CustomV1` Object
+The `CustomV1` object contains the results of document-level and page-level predictions.
 
-You have two different ways to parse a custom document.
+All the fields which are present in the API builder are available.
 
-1. Use the default one (named ``CustomPrediction``):
+The fields are defined when creating your custom API.
+
+### Document-Level Predictions
+The document-level predictions are ultimately contained in the `CustomV1Document` object.
+
+The predictions are stored in two properties: `classificationFields` and `fields`. 
+
+Both are a Map where the key is a `String` of the name of the field.
+
+For the values:
+* `classificationFields` have a `ClassificationField` object as value, each containing a single `String` value.
+* `fields` have a `ListField` object as value, each containing a list of all `String` values extracted for this field.
+
+Here are some example usages:
 ```java
-
 String path = "/path/to/the/file.ext";
-LocalInputSource inputSource = new LocalInputSource(new File(path));
-CustomEndpoint myEndpoint = new CustomEndpoint(
-    "wnine",
-    "john",
-    "1.0" // optional
-);
+LocalInputSource inputSource = new LocalInputSource(path);
 
-PredictResponse<CustomV1new MindeeClient> customDocument = mindeeClient.parse(inputSource, myEndpoint);
-```
+PredictResponse<CustomV1> response = mindeeClient
+    .parse(CustomV1.class, inputSource);
 
-2. You can also use your own class which will represent the required fields. For example:
-```java
-
-// The CustomEndpointInfo annotation is required when using your own model.
-// It will be used to know which Mindee API to call.
-
-public class WNineV1DocumentPrediction {
-  @JsonProperty("name")
-  private StringField name;
-
-  @JsonProperty("employerId")
-  private StringField employerId;
+CustomV1 inference = response.getDocument().getInference();
   
-  (...)
+// === Getting a single field === \\
+
+ListField employerName = inference.getPrediction().getFields().get("employer_name");
+
+// get the field as a string
+System.out.println(employerName.toString());
+
+// get the field as a string with a custom separator
+System.out.println(employerName.getContentsString("_"));
+
+// get the list of string values in the field
+System.out.println(employerName.getContentsList());
+
+// == Getting all fields === \\
+
+for (Map.Entry<String, ListField> entry : inference.getPrediction().getFields().entrySet()) {
+  ListField field = entry.getValue();
+
+  // Not really needed, just showing that the method exists ;-)
+  if (field.isEmpty()) {
+      continue;
+  }
+
+  // We can print directly as in the single field example above ...
+  System.out.println(field.toString());
+
+  // ... or go through each value
+  for (ListFieldValue value : field.getValues()) {
+
+    // The actual value (word)
+    System.out.println(value.getContent());
+
+    // The page on which the value was found
+    System.out.println(value.getPageId());
+  }
 }
-
-@EndpointInfo(endpointName = "wnine", accountName = "john" version = "1")
-public class WNineV1new MindeeClient
-  extends new MindeeClient new MindeeClient<WNineV1DocumentPrediction, WNineV1DocumentPrediction> {
-}
-
-String path = "/path/to/the/file.ext";
-LocalInputSource inputSource = new LocalInputSource(new File(path));
-
-PredictResponse<WNineV1new MindeeClient> myCustomDocument = mindeeClient
-    .parse(WNineV1new MindeeClient.class, inputSource);
 ```
 
-## CustomV1new MindeeClient object
-All the fields which are present in the API builder 
-are available (the fields are defined when creating your custom API).
+### Page-Level Predictions
+The page-level predictions are ultimately contained in the  `CustomV1Page` object.
 
-`CustomV1new MindeeClient` is an object which contains a document prediction and pages prediction result.
-### `CustomV1PagePrediction` 
-Which is a `HashMap<String, ListField>` with the key as a `string` for the name of the field, and a `ListField` as a value.
+In the response, there is a list of these objects, each one representing a single page.
 
-### `CustomV1DocumentPrediction` 
-Which contains 2 properties : `classificationFields` and `fields`. 
-Both are a Map and the key is a `string` for the name of the field and for the value :
-* `classificationFields` have a `ClassificationField` object as value. Each `ClassificationField` contains a value.
-* `fields` have a `ListField` object as value. Each `ListField` contains a list of all values extracted for this field.
+The prediction results are stored as a key-value `HashMap<String, ListField>`.
 
-> 📘 **Info**
->
-> Both document level and page level objects work in the same way.
-
-### Fields property
-A Map with the following structure:
-* `confidence`: a `double`
-* `values`: a list of `ListFieldValue` which containing a list of all values found for the field.
-
-In the examples below we'll use the `employer_id` field.
-
+Here are some example usages:
 ```java
 String path = "/path/to/the/file.ext";
-LocalInputSource inputSource = new LocalInputSource(new File(path));
+LocalInputSource inputSource = new LocalInputSource(path);
 
-PredictResponse<WNineV1new MindeeClient> myCustomDocument = mindeeClient
-    .parse(WNineV1new MindeeClient.class, inputSource);
+PredictResponse<CustomV1> response = mindeeClient
+    .parse(CustomV1.class, inputSource);
 
-ListField employerId = document.getnew MindeeClient().getDocumentPrediction().get("employer_id");
+CustomV1 inference = response.getDocument().getInference();
+  
+for (Page<CustomV1Page> page : inference.getPages()) {
+  CustomV1Page pagePrediction = page.getPrediction();
+
+  for (Map.Entry<String, ListField> entry : pagePrediction.entrySet()) {
+    ListField field = entry.getValue();
+    
+    // get the field as a string
+    System.out.println(field.toString());
+
+    // get the field as a string with a custom separator
+    System.out.println(field.getContentsString("_"));
+
+    // get the list of strings in the field
+    System.out.println(field.getContentsList());
+  }
+}
 ```
 
 ## Questions?
