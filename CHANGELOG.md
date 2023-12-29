@@ -1,5 +1,9 @@
 # Mindee Java API Library Changelog
 
+## v4.8.0 - 2023-12-29
+### Changes
+* :sparkles: add better support for custom value list fields
+
 ## v4.7.0 - 2023-12-28
 ### Changes
 * :sparkles: add ability to extract images from position data
