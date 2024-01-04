@@ -15,6 +15,7 @@ import com.mindee.product.invoicesplitter.InvoiceSplitterV1;
 import com.mindee.product.multireceiptsdetector.MultiReceiptsDetectorV1;
 import com.mindee.product.passport.PassportV1;
 import com.mindee.product.receipt.ReceiptV4;
+import com.mindee.product.receiptsitemsclassifier.ReceiptsItemsClassifierV1;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
