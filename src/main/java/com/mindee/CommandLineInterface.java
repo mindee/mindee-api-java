@@ -11,6 +11,7 @@ import com.mindee.parsing.common.PredictResponse;
 import com.mindee.product.custom.CustomV1;
 import com.mindee.product.invoice.InvoiceV4;
 import com.mindee.product.invoicesplitter.InvoiceSplitterV1;
+import com.mindee.product.multireceiptsdetector.MultiReceiptsDetectorV1;
 import com.mindee.product.passport.PassportV1;
 import com.mindee.product.receipt.ReceiptV4;
 import java.io.File;
@@ -79,7 +80,7 @@ public class CommandLineInterface {
     System.exit(exitCode);
   }
 
-  @Command(name = "invoice", description = "Invokes the invoice API")
+  @Command(name = "invoice", description = "Invokes the Invoice API")
   void invoiceMethod(
       @Parameters(index = "0", paramLabel = "<path>", scope = ScopeType.LOCAL)
       File file
@@ -87,7 +88,7 @@ public class CommandLineInterface {
     System.out.println(standardProductOutput(InvoiceV4.class, file));
   }
 
-  @Command(name = "receipt", description = "Invokes the receipt API")
+  @Command(name = "receipt", description = "Invokes the Expense Receipt API")
   void receiptMethod(
       @Parameters(index = "0", paramLabel = "<path>", scope = ScopeType.LOCAL)
       File file
@@ -95,7 +96,15 @@ public class CommandLineInterface {
     System.out.println(standardProductOutput(ReceiptV4.class, file));
   }
 
-  @Command(name = "passport", description = "Invokes the passport API")
+  @Command(name = "multi-receipt-detector", description = "Invokes the Multi Receipts Detector API")
+  void multiReceiptDetectorMethod(
+      @Parameters(index = "0", paramLabel = "<path>", scope = ScopeType.LOCAL)
+      File file
+  ) throws IOException {
+    System.out.println(standardProductOutput(MultiReceiptsDetectorV1.class, file));
+  }
+
+  @Command(name = "passport", description = "Invokes the Passport API")
   void passportMethod(
       @Parameters(index = "0", paramLabel = "<path>", scope = ScopeType.LOCAL)
       File file
@@ -103,7 +112,7 @@ public class CommandLineInterface {
     System.out.println(standardProductOutput(PassportV1.class, file));
   }
 
-  @Command(name = "invoice-splitter", description = "Invokes the invoice-splitter API")
+  @Command(name = "invoice-splitter", description = "Invokes the Invoice Splitter API")
   void invoiceSplitterMethod(
       @Parameters(index = "0", paramLabel = "<path>", scope = ScopeType.LOCAL)
       File file
@@ -111,7 +120,7 @@ public class CommandLineInterface {
     System.out.println(standardProductAsyncOutput(InvoiceSplitterV1.class, file));
   }
 
-  @Command(name = "custom", description = "Invokes a builder API")
+  @Command(name = "custom", description = "Invokes a Custom API")
   void customMethod(
       @Option(
           names = {"-a", "--account"},

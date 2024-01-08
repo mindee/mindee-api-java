@@ -42,4 +42,8 @@ public final class LocalInputSource {
     this.file = Base64.getDecoder().decode(fileAsBase64.getBytes());
     this.filename = filename;
   }
+
+  public boolean isPdf() {
+    return InputSourceUtils.isPdf(this.filename);
+  }
 }
