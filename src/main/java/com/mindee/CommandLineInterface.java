@@ -13,6 +13,7 @@ import com.mindee.product.internationalid.InternationalIdV2;
 import com.mindee.product.invoice.InvoiceV4;
 import com.mindee.product.invoicesplitter.InvoiceSplitterV1;
 import com.mindee.product.multireceiptsdetector.MultiReceiptsDetectorV1;
+import com.mindee.product.ocrdemo.OcrDemoV1;
 import com.mindee.product.passport.PassportV1;
 import com.mindee.product.receipt.ReceiptV4;
 import com.mindee.product.receiptsitemsclassifier.ReceiptsItemsClassifierV1;
@@ -106,7 +107,15 @@ public class CommandLineInterface {
     System.out.println(standardProductOutput(ReceiptV4.class, file));
   }
 
-  @Command(name = "multi-receipt-detector", description = "Parse using Multi Receipts Detector")
+  @Command(name = "receipts-items-classifier", description = "Parse using Receipts Items Classifier")
+  void receiptsItemsClassifierMethod(
+      @Parameters(index = "0", paramLabel = "<path>", scope = ScopeType.LOCAL)
+      File file
+  ) throws IOException, InterruptedException {
+    System.out.println(standardProductAsyncOutput(ReceiptsItemsClassifierV1.class, file));
+  }
+
+  @Command(name = "multi-receipt-detector", description = "Invokes the Multi Receipts Detector API")
   void multiReceiptDetectorMethod(
       @Parameters(index = "0", paramLabel = "<path>", scope = ScopeType.LOCAL)
       File file
@@ -136,6 +145,14 @@ public class CommandLineInterface {
       File file
   ) throws IOException, InterruptedException {
     System.out.println(standardProductAsyncOutput(InternationalIdV2.class, file));
+  }
+
+  @Command(name = "ocr", description = "Invokes the OCR API (demo)")
+  void ocrMethod(
+      @Parameters(index = "0", paramLabel = "<path>", scope = ScopeType.LOCAL)
+      File file
+  ) throws IOException {
+    System.out.println(standardProductOutput(OcrDemoV1.class, file));
   }
 
   @Command(name = "custom", description = "Invokes a Custom API")
