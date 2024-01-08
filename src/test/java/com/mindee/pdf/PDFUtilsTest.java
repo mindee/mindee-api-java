@@ -51,9 +51,8 @@ public class PDFUtilsTest {
 
   @Test
   public void givenANonEmptyDocument_whenEmptyChecked_shouldReturnFalse() throws IOException {
-    Path original = Paths.get("src/test/resources/file_types/pdf/multipage.pdf");
-
-    Assertions.assertFalse(PDFUtils.isPdfEmpty(new FileInputStream(original.toFile())));
+    File pdfFile = new File("src/test/resources/file_types/pdf/multipage.pdf");
+    Assertions.assertFalse(PDFUtils.isPdfEmpty(pdfFile));
   }
 
   @Test
@@ -73,6 +72,13 @@ public class PDFUtilsTest {
 
   @Test
   public void shouldConvertToJpg() throws IOException {
-    PDFUtils.pdfToImage("src/test/resources/file_types/pdf/not_blank_image_only.pdf", 200);
+    List<PdfPageImage> pdfPageImages = PDFUtils.pdfToImages(
+      "src/test/resources/file_types/pdf/not_blank_image_only.pdf"
+    );
+    for (PdfPageImage pdfPageImage : pdfPageImages) {
+      Assertions.assertNotNull(pdfPageImage.getImage());
+      Assertions.assertEquals(pdfPageImage.asInputSource().getFilename(), pdfPageImage.getFilename());
+      pdfPageImage.writeToFile("src/test/resources/output/");
+    }
   }
 }

@@ -10,10 +10,10 @@ import com.mindee.product.multireceiptsdetector.MultiReceiptsDetectorV1;
 import com.mindee.product.multireceiptsdetector.MultiReceiptsDetectorV1Document;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+
 
 public class ImageExtractorTest {
 
@@ -46,7 +46,7 @@ public class ImageExtractorTest {
   }
 
   @Test
-  public void shouldExtractPositionFields() throws IOException {
+  public void givenAnImage_shouldExtractPositionFields() throws IOException {
     LocalInputSource image = new LocalInputSource(
       "src/test/resources/products/multi_receipts_detector/default_sample.jpg"
     );
@@ -60,7 +60,7 @@ public class ImageExtractorTest {
       Assertions.assertNotNull(extractedImage.getImage());
       extractedImage.writeToFile("src/test/resources/output/");
 
-      LocalInputSource source = extractedImage.asSource();
+      LocalInputSource source = extractedImage.asInputSource();
       Assertions.assertEquals(
           String.format("default_sample_%3s.jpg", i + 1).replace(" ", "0"),
           source.getFilename()
@@ -69,7 +69,7 @@ public class ImageExtractorTest {
   }
 
   @Test
-  public void shouldExtractValueFields() throws IOException {
+  public void givenAnImage_shouldExtractValueFields() throws IOException {
     String imagePath = "src/test/resources/products/barcode_reader/default_sample.jpg";
     PredictResponse<BarcodeReaderV1> response = getBarcodeReaderPrediction("complete");
     BarcodeReaderV1Document prediction = response.getDocument().getInference().getPrediction();

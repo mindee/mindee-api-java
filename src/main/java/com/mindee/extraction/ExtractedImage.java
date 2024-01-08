@@ -37,7 +37,11 @@ public class ExtractedImage {
     ImageIO.write(this.image, this.saveFormat, outputfile);
   }
 
-  public LocalInputSource asSource() throws IOException {
+  /**
+   * Return the image in a format suitable for sending to MindeeClient for parsing.
+   * @return an instance of {@link LocalInputSource}
+   */
+  public LocalInputSource asInputSource() throws IOException {
     ByteArrayOutputStream output = new ByteArrayOutputStream();
     ImageIO.write(this.image, this.saveFormat, output);
     return new LocalInputSource(output.toByteArray(), this.filename);

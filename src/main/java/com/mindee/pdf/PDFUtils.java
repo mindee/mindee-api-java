@@ -1,10 +1,12 @@
 package com.mindee.pdf;
 
+import com.mindee.input.LocalInputSource;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 import org.apache.pdfbox.cos.COSName;
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -25,16 +27,6 @@ public final class PDFUtils {
     int pageCount = document.getNumberOfPages();
     document.close();
     return pageCount;
-  }
-
-  public static int countPdfPages(File file) throws IOException {
-    PDDocument document = PDDocument.load(file);
-    return countPDDocumentPages(document);
-  }
-
-  public static int countPdfPages(byte[] bytes) throws IOException {
-    PDDocument document = PDDocument.load(bytes);
-    return countPDDocumentPages(document);
   }
 
   public static int countPdfPages(InputStream inputStream) throws IOException {
@@ -76,39 +68,8 @@ public final class PDFUtils {
     return createPdfFromExistingPdf(document, pageNumbers);
   }
 
-  public static byte[] mergePdfPages(
-      byte[] fileBytes,
-      List<Integer> pageNumbers
-  ) throws IOException {
-    PDDocument document = PDDocument.load(fileBytes);
-    return createPdfFromExistingPdf(document, pageNumbers);
-  }
-
-  public static byte[] mergePdfPages(
-      InputStream inputStream,
-      List<Integer> pageNumbers
-  ) throws IOException {
-    try {
-      PDDocument document = PDDocument.load(inputStream);
-      byte[] bytes = createPdfFromExistingPdf(document, pageNumbers);
-      document.close();
-      return bytes;
-    } finally {
-      inputStream.close();
-    }
-
-  }
-
   public static boolean isPdfEmpty(File file) throws IOException {
     return checkIfPdfIsEmpty(PDDocument.load(file));
-  }
-
-  public static boolean isPdfEmpty(InputStream inputStream) throws IOException {
-    return checkIfPdfIsEmpty(PDDocument.load(inputStream));
-  }
-
-  public static boolean isPdfEmpty(byte[] fileBytes) throws IOException {
-    return checkIfPdfIsEmpty(PDDocument.load(fileBytes));
   }
 
   private static boolean checkIfPdfIsEmpty(PDDocument document) throws IOException {
@@ -135,42 +96,18 @@ public final class PDFUtils {
     return isEmpty;
   }
 
-  public static boolean checkPdfOpen(InputStream inputStream) {
-    boolean opens = false;
-    try {
-      PDDocument.load(inputStream).close();
-      opens = true;
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-    return opens;
+  public static List<PdfPageImage> pdfToImages(String filePath) throws IOException {
+    return pdfToImages(new LocalInputSource(filePath));
   }
 
-  public static boolean checkPdfOpen(File file) {
-    boolean opens = false;
-    try {
-      PDDocument.load(file).close();
-      opens = true;
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-    return opens;
-  }
-
-  public static boolean checkPdfOpen(byte[] fileBytes) {
-    boolean opens = false;
-    try {
-      PDDocument.load(fileBytes).close();
-      opens = true;
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-    return opens;
-  }
-
-  public static BufferedImage pdfToImage(String filePath, int dpi) throws IOException {
-    PDDocument document = PDDocument.load(new File(filePath));
+  public static List<PdfPageImage> pdfToImages(LocalInputSource source) throws IOException {
+    PDDocument document = PDDocument.load(source.getFile());
     PDFRenderer pdfRenderer = new PDFRenderer(document);
-    return pdfRenderer.renderImageWithDPI(0, dpi, ImageType.RGB);
+    List<PdfPageImage> pdfPageImages = new ArrayList<>();
+    for (int i = 0; i < document.getNumberOfPages(); i++) {
+      BufferedImage imageBuffer = pdfRenderer.renderImageWithDPI(i, 220, ImageType.RGB);
+      pdfPageImages.add(new PdfPageImage(imageBuffer, i, source.getFilename(), "jpg"));
+    }
+    return pdfPageImages;
   }
 }
