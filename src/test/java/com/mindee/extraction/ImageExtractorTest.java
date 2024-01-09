@@ -53,22 +53,26 @@ public class ImageExtractorTest {
       "src/test/resources/products/multi_receipts_detector/default_sample.jpg"
     );
     PredictResponse<MultiReceiptsDetectorV1> response = getMultiReceiptsPrediction("complete");
-    MultiReceiptsDetectorV1Document prediction = response.getDocument().getInference().getPrediction();
+    MultiReceiptsDetectorV1 inference = response.getDocument().getInference();
 
     ImageExtractor extractor = new ImageExtractor(image);
     Assertions.assertEquals(1, extractor.getPageCount());
 
-    List<ExtractedImage> subImages = extractor.extractImages(prediction.getReceipts());
-    for (int i = 0; i < subImages.size(); i++) {
-      ExtractedImage extractedImage = subImages.get(i);
-      Assertions.assertNotNull(extractedImage.getImage());
-      extractedImage.writeToFile("src/test/resources/output/");
+    for (Page<MultiReceiptsDetectorV1Document> page : inference.getPages()) {
+      List<ExtractedImage> subImages = extractor.extractImagesFromPage(
+        page.getPrediction().getReceipts(), page.getPageId()
+      );
+      for (int i = 0; i < subImages.size(); i++) {
+        ExtractedImage extractedImage = subImages.get(i);
+        Assertions.assertNotNull(extractedImage.getImage());
+        extractedImage.writeToFile("src/test/resources/output/");
 
-      LocalInputSource source = extractedImage.asInputSource();
-      Assertions.assertEquals(
+        LocalInputSource source = extractedImage.asInputSource();
+        Assertions.assertEquals(
           String.format("default_sample_page-001_%3s.jpg", i + 1).replace(" ", "0"),
           source.getFilename()
-      );
+        );
+      }
     }
   }
 
@@ -76,26 +80,32 @@ public class ImageExtractorTest {
   public void givenAnImage_shouldExtractValueFields() throws IOException {
     String imagePath = "src/test/resources/products/barcode_reader/default_sample.jpg";
     PredictResponse<BarcodeReaderV1> response = getBarcodeReaderPrediction("complete");
-    BarcodeReaderV1Document prediction = response.getDocument().getInference().getPrediction();
+    BarcodeReaderV1 inference = response.getDocument().getInference();
 
     ImageExtractor extractor = new ImageExtractor(imagePath);
     Assertions.assertEquals(1, extractor.getPageCount());
 
-    List<ExtractedImage> codes1D = extractor.extractImages(prediction.getCodes1D(), "barcodes_1D.png");
-    for (int i = 0; i < codes1D.size(); i++) {
-      ExtractedImage extractedImage = codes1D.get(i);
-      Assertions.assertNotNull(extractedImage.getImage());
-      LocalInputSource source = extractedImage.asInputSource();
-      Assertions.assertEquals(
-        String.format("barcodes_1D_page-001_%3s.png", i + 1).replace(" ", "0"),
-        source.getFilename()
+    for (Page<BarcodeReaderV1Document> page : inference.getPages()) {
+      List<ExtractedImage> codes1D = extractor.extractImagesFromPage(
+        page.getPrediction().getCodes1D(), page.getPageId(), "barcodes_1D.png"
       );
-      extractedImage.writeToFile("src/test/resources/output/");
-    }
-    List<ExtractedImage> codes2D = extractor.extractImages(prediction.getCodes2D(), "barcodes_2D.png");
-    for (ExtractedImage extractedImage : codes2D) {
-      Assertions.assertNotNull(extractedImage.getImage());
-      extractedImage.writeToFile("src/test/resources/output/");
+      for (int i = 0; i < codes1D.size(); i++) {
+        ExtractedImage extractedImage = codes1D.get(i);
+        Assertions.assertNotNull(extractedImage.getImage());
+        LocalInputSource source = extractedImage.asInputSource();
+        Assertions.assertEquals(
+          String.format("barcodes_1D_page-001_%3s.png", i + 1).replace(" ", "0"),
+          source.getFilename()
+        );
+        extractedImage.writeToFile("src/test/resources/output/");
+      }
+      List<ExtractedImage> codes2D = extractor.extractImagesFromPage(
+        page.getPrediction().getCodes2D(), page.getPageId(),"barcodes_2D.png"
+      );
+      for (ExtractedImage extractedImage : codes2D) {
+        Assertions.assertNotNull(extractedImage.getImage());
+        extractedImage.writeToFile("src/test/resources/output/");
+      }
     }
   }
 
@@ -110,13 +120,8 @@ public class ImageExtractorTest {
     ImageExtractor extractor = new ImageExtractor(image);
     Assertions.assertEquals(2, extractor.getPageCount());
 
-    Assertions.assertThrows(
-      MindeeException.class,
-      () -> extractor.extractImages(inference.getPrediction().getReceipts())
-    );
-
     for (Page<MultiReceiptsDetectorV1Document> page : inference.getPages()) {
-      List<ExtractedImage> subImages = extractor.extractPageImages(
+      List<ExtractedImage> subImages = extractor.extractImagesFromPage(
         page.getPrediction().getReceipts(),
         page.getPageId()
       );

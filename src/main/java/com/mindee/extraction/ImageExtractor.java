@@ -1,6 +1,5 @@
 package com.mindee.extraction;
 
-import com.mindee.MindeeException;
 import com.mindee.geometry.Bbox;
 import com.mindee.geometry.BboxUtils;
 import com.mindee.geometry.Polygon;
@@ -64,40 +63,16 @@ public class ImageExtractor {
 
   /**
    * Extract images from a list of fields having position data.
-   * Use this when the input file is an image or a single-page PDF.
-   * @param fields List of Fields to extract.
-   * @return A list of {@link ExtractedImage}.
-   */
-  public <FieldT extends PositionData> List<ExtractedImage> extractImages(List<FieldT> fields) {
-    return extractImages(fields, this.filename);
-  }
-
-  /**
-   * Extract images from a list of fields having position data.
-   * Use this when the input file is an image or a single-page PDF.
-   * @param fields List of Fields to extract.
-   * @param outputName The base output filename, must have an image extension.
-   * @return A list of {@link ExtractedImage}.
-   */
-  public <FieldT extends PositionData> List<ExtractedImage> extractImages(List<FieldT> fields, String outputName) {
-    if (this.getPageCount() > 1) {
-      throw new MindeeException("Input file has more than one page, use the `extractPageImages` method instead.");
-    }
-    return extractFromPage(fields, 0, outputName);
-  }
-
-  /**
-   * Extract images from a list of fields having position data.
    * Use this when the input file is a PDF with multiple pages.
    * @param fields List of Fields to extract.
    * @param pageIndex The page index to extract, begins at 0.
    * @return A list of {@link ExtractedImage}.
    */
-  public <FieldT extends PositionData> List<ExtractedImage> extractPageImages(
+  public <FieldT extends PositionData> List<ExtractedImage> extractImagesFromPage(
       List<FieldT> fields,
       int pageIndex
   ) {
-    return extractPageImages(fields, pageIndex, this.filename);
+    return extractImagesFromPage(fields, pageIndex, this.filename);
   }
 
   /**
@@ -108,7 +83,7 @@ public class ImageExtractor {
    * @param outputName The base output filename, must have an image extension.
    * @return A list of {@link ExtractedImage}.
    */
-  public <FieldT extends PositionData> List<ExtractedImage> extractPageImages(
+  public <FieldT extends PositionData> List<ExtractedImage> extractImagesFromPage(
       List<FieldT> fields,
       int pageIndex,
       String outputName
@@ -118,7 +93,7 @@ public class ImageExtractor {
       String[] splitName = InputSourceUtils.splitNameStrict(outputName);
       filename = splitName[0] + "." + this.saveFormat;
     } else {
-      filename = this.filename;
+      filename = outputName;
     }
     return extractFromPage(fields, pageIndex, filename);
   }
