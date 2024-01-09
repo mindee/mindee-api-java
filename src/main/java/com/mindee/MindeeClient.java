@@ -492,8 +492,7 @@ public class MindeeClient {
       PageOptions pageOptions
   ) throws IOException {
     byte[] splitFile;
-    boolean isPDF = InputSourceUtils.isPdf(localInputSource.getFilename());
-    if (pageOptions == null || !isPDF) {
+    if (pageOptions == null || !localInputSource.isPdf()) {
       splitFile = localInputSource.getFile();
     } else {
       splitFile = pdfOperation.split(
