@@ -1,17 +1,26 @@
 # Mindee Java API Library Changelog
 
+## v4.9.0 - 2024-01-09
+### Changes
+* :sparkles: add PDF to images feature
+* :sparkles: add ability to extract sub-images from PDFs
+
+
 ## v4.8.1 - 2023-12-29
 ### Changes
 * :memo: updates and fixes to documentation
+
 
 ## v4.8.0 - 2023-12-29
 ### Changes
 * :sparkles: add better support for custom value list fields
 
+
 ## v4.7.0 - 2023-12-28
 ### Changes
 * :sparkles: add ability to extract images from position data
 * :sparkles: allow passing a string path to new `LocalInputSource`
+
 
 ## v4.6.0 - 2023-12-22
 ### Changes
