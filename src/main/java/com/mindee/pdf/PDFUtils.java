@@ -105,9 +105,10 @@ public final class PDFUtils {
     PDFRenderer pdfRenderer = new PDFRenderer(document);
     List<PdfPageImage> pdfPageImages = new ArrayList<>();
     for (int i = 0; i < document.getNumberOfPages(); i++) {
-      BufferedImage imageBuffer = pdfRenderer.renderImageWithDPI(i, 220, ImageType.RGB);
+      BufferedImage imageBuffer = pdfRenderer.renderImageWithDPI(i, 200, ImageType.RGB);
       pdfPageImages.add(new PdfPageImage(imageBuffer, i, source.getFilename(), "jpg"));
     }
+    document.close();
     return pdfPageImages;
   }
 }
