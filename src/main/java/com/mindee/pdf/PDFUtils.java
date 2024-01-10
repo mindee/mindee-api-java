@@ -12,6 +12,7 @@ import org.apache.pdfbox.cos.COSName;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDResources;
+import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.rendering.ImageType;
 import org.apache.pdfbox.rendering.PDFRenderer;
 
@@ -105,7 +106,17 @@ public final class PDFUtils {
     PDFRenderer pdfRenderer = new PDFRenderer(document);
     List<PdfPageImage> pdfPageImages = new ArrayList<>();
     for (int i = 0; i < document.getNumberOfPages(); i++) {
-      BufferedImage imageBuffer = pdfRenderer.renderImageWithDPI(i, 200, ImageType.RGB);
+      PDRectangle bbox = document.getPage(i).getBBox();
+      float dimension = bbox.getWidth() * bbox.getHeight();
+      int dpi;
+      if (dimension < 200000) {
+        dpi = 300;
+      } else if (dimension < 300000) {
+        dpi = 250;
+      } else {
+        dpi = 200;
+      }
+      BufferedImage imageBuffer = pdfRenderer.renderImageWithDPI(i, dpi, ImageType.RGB);
       pdfPageImages.add(new PdfPageImage(imageBuffer, i, source.getFilename(), "jpg"));
     }
     document.close();

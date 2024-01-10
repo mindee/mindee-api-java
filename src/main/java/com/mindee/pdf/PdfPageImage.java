@@ -56,7 +56,7 @@ public class PdfPageImage {
   public String getFilename() {
     String[] splitName = InputSourceUtils.splitNameStrict(this.originalFilename);
     return splitName[0]
-      + String.format("_page-%3s", this.originalIndex + 1).replace(" ", "0")
+      + String.format("_pdf-%3s", this.originalIndex + 1).replace(" ", "0")
       + "."
       + this.saveFormat;
   }
