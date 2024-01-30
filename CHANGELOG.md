@@ -1,5 +1,11 @@
 # Mindee Java API Library Changelog
 
+## v4.10.0 - 2024-01-30
+### Changes
+* :arrow_up: :boom: update invoice to 4.4
+* :sparkles: add support for rawValue in string fields
+
+
 ## v4.9.0 - 2024-01-09
 ### Changes
 * :sparkles: add PDF to images feature
