@@ -19,17 +19,24 @@ public final class StringField extends BaseField {
    */
   private final String value;
 
+  /**
+   * The value as it appears on the document.
+   */
+  private final String rawValue;
+
   public StringField(
       String value,
       Double confidence,
       Polygon polygon
   ) {
-    this(value, confidence, polygon, null);
+    this(value, null, confidence, polygon, null);
   }
 
   public StringField(
       @JsonProperty("value")
       String value,
+      @JsonProperty("raw_value")
+      String rawValue,
       @JsonProperty("confidence")
       Double confidence,
       @JsonProperty("polygon")
@@ -40,6 +47,7 @@ public final class StringField extends BaseField {
   ) {
     super(confidence, polygon, pageId);
     this.value = value;
+    this.rawValue = rawValue;
   }
 
   @Override
