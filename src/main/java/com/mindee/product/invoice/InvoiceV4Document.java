@@ -108,14 +108,15 @@ public class InvoiceV4Document extends Prediction {
   @JsonProperty("total_net")
   private AmountField totalNet;
   /**
+   * The total tax: includes all the taxes paid for this invoice.
+   */
+  @JsonProperty("total_tax")
+  private AmountField totalTax;
+  /**
    * Line items details.
    */
   @JsonProperty("line_items")
   private List<InvoiceV4LineItem> lineItems;
-
-  public Double getTotalTaxes() {
-    return taxes.stream().mapToDouble(TaxField::getValue).sum();
-  }
 
   public boolean isEmpty() {
     return (
@@ -126,6 +127,7 @@ public class InvoiceV4Document extends Prediction {
       && this.dueDateField == null
       && this.totalNet == null
       && this.totalAmount == null
+      && this.totalTax == null
       && (this.taxes == null || this.taxes.isEmpty())
       && (this.supplierPaymentDetails == null || this.supplierPaymentDetails.isEmpty())
       && this.supplierName == null
@@ -166,6 +168,9 @@ public class InvoiceV4Document extends Prediction {
     );
     outStr.append(
         String.format(":Total Amount: %s%n", this.getTotalAmount())
+    );
+    outStr.append(
+        String.format(":Total Tax: %s%n", this.getTotalTax())
     );
     outStr.append(
         String.format(":Taxes: %s%n", this.getTaxes())

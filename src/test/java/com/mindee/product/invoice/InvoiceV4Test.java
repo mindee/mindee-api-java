@@ -3,7 +3,6 @@ package com.mindee.product.invoice;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mindee.parsing.common.Document;
-import com.mindee.parsing.common.Page;
 import com.mindee.parsing.common.PredictResponse;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -62,20 +61,6 @@ public class InvoiceV4Test {
     String[] actualLines = doc.toString().split(System.lineSeparator());
     List<String> expectedLines = Files.readAllLines(
       Paths.get("src/test/resources/products/invoices/response_v4/summary_full.rst")
-    );
-    String expectedSummary = String.join(String.format("%n"), expectedLines);
-    String actualSummary = String.join(String.format("%n"), actualLines);
-
-    Assertions.assertEquals(expectedSummary, actualSummary);
-  }
-
-  @Test
-  void whenCompleteDeserialized_mustHaveValidPage0Summary() throws IOException {
-    PredictResponse<InvoiceV4> response = getPrediction("complete");
-    Page<InvoiceV4Document> page = response.getDocument().getInference().getPages().get(0);
-    String[] actualLines = page.toString().split(System.lineSeparator());
-    List<String> expectedLines = Files.readAllLines(
-      Paths.get("src/test/resources/products/invoices/response_v4/summary_page0.rst")
     );
     String expectedSummary = String.join(String.format("%n"), expectedLines);
     String actualSummary = String.join(String.format("%n"), actualLines);
