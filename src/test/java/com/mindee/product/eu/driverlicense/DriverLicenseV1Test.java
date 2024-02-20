@@ -1,4 +1,4 @@
-package com.mindee.product.us.driverlicense;
+package com.mindee.product.eu.driverlicense;
 
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -26,7 +26,7 @@ public class DriverLicenseV1Test {
       DriverLicenseV1.class
     );
     return objectMapper.readValue(
-      new File("src/test/resources/products/us_driver_license/response_v1/" + name + ".json"),
+      new File("src/test/resources/products/eu_driver_license/response_v1/" + name + ".json"),
       type
     );
   }
@@ -35,23 +35,18 @@ public class DriverLicenseV1Test {
   void whenEmptyDeserialized_mustHaveValidProperties() throws IOException {
     PredictResponse<DriverLicenseV1> response = getPrediction("empty");
     DriverLicenseV1Document docPrediction = response.getDocument().getInference().getPrediction();
-    Assertions.assertNull(docPrediction.getState().getValue());
-    Assertions.assertNull(docPrediction.getDriverLicenseId().getValue());
-    Assertions.assertNull(docPrediction.getExpiryDate().getValue());
-    Assertions.assertNull(docPrediction.getIssuedDate().getValue());
+    Assertions.assertNull(docPrediction.getCountryCode().getValue());
+    Assertions.assertNull(docPrediction.getDocumentId().getValue());
+    Assertions.assertNull(docPrediction.getCategory().getValue());
     Assertions.assertNull(docPrediction.getLastName().getValue());
     Assertions.assertNull(docPrediction.getFirstName().getValue());
-    Assertions.assertNull(docPrediction.getAddress().getValue());
     Assertions.assertNull(docPrediction.getDateOfBirth().getValue());
-    Assertions.assertNull(docPrediction.getRestrictions().getValue());
-    Assertions.assertNull(docPrediction.getEndorsements().getValue());
-    Assertions.assertNull(docPrediction.getDlClass().getValue());
-    Assertions.assertNull(docPrediction.getSex().getValue());
-    Assertions.assertNull(docPrediction.getHeight().getValue());
-    Assertions.assertNull(docPrediction.getWeight().getValue());
-    Assertions.assertNull(docPrediction.getHairColor().getValue());
-    Assertions.assertNull(docPrediction.getEyeColor().getValue());
-    Assertions.assertNull(docPrediction.getDdNumber().getValue());
+    Assertions.assertNull(docPrediction.getPlaceOfBirth().getValue());
+    Assertions.assertNull(docPrediction.getExpiryDate().getValue());
+    Assertions.assertNull(docPrediction.getIssueDate().getValue());
+    Assertions.assertNull(docPrediction.getIssueAuthority().getValue());
+    Assertions.assertNull(docPrediction.getMrz().getValue());
+    Assertions.assertNull(docPrediction.getAddress().getValue());
     DriverLicenseV1Page pagePrediction = response.getDocument().getInference().getPages().get(0).getPrediction();
     Assertions.assertEquals(pagePrediction.getPhoto().toString(), "");
     Assertions.assertEquals(pagePrediction.getSignature().toString(), "");
@@ -63,7 +58,7 @@ public class DriverLicenseV1Test {
     Document<DriverLicenseV1> doc = response.getDocument();
     ProductTestHelper.assertStringEqualsFile(
         doc.toString(),
-        "src/test/resources/products/us_driver_license/response_v1/summary_full.rst"
+        "src/test/resources/products/eu_driver_license/response_v1/summary_full.rst"
     );
   }
 
@@ -73,7 +68,7 @@ public class DriverLicenseV1Test {
     Page<DriverLicenseV1Page> page = response.getDocument().getInference().getPages().get(0);
     ProductTestHelper.assertStringEqualsFile(
         page.toString(),
-        "src/test/resources/products/us_driver_license/response_v1/summary_page0.rst"
+        "src/test/resources/products/eu_driver_license/response_v1/summary_page0.rst"
     );
   }
 }

@@ -42,7 +42,7 @@ public class BankCheckV1Test {
     Assertions.assertNull(docPrediction.getAccountNumber().getValue());
     Assertions.assertNull(docPrediction.getCheckNumber().getValue());
     BankCheckV1Page pagePrediction = response.getDocument().getInference().getPages().get(0).getPrediction();
-    Assertions.assertTrue(pagePrediction.getCheckPosition().getPolygon().isEmpty());
+    Assertions.assertEquals(pagePrediction.getCheckPosition().toString(), "");
     Assertions.assertTrue(pagePrediction.getSignaturesPositions().isEmpty());
   }
 

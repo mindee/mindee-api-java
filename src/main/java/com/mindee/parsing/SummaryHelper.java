@@ -44,6 +44,23 @@ public final class SummaryHelper {
   }
 
   /**
+   * Truncates a string if it's too long for the requested width.
+   */
+  public static String formatForDisplay(String inputString, Integer maxColSize) {
+    if (inputString == null || inputString.isEmpty()) {
+      return "";
+    }
+    if (maxColSize == null) {
+      return inputString;
+    }
+    if (inputString.length() <= maxColSize) {
+      return inputString;
+    } else {
+      return inputString.substring(0, maxColSize - 3) + "...";
+    }
+  }
+
+  /**
    * Format an rST table line separator.
    */
   public static String lineSeparator(int[] columnSizes, String str) {
