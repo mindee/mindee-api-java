@@ -1,5 +1,12 @@
 # Mindee Java API Library Changelog
 
+## v4.11.0 - 2024-02-21
+### Changes
+* :sparkles: add support for EU Driver License V1
+* :sparkles: add support for International Id V2
+* :sparkles: add support for Resume v1
+
+
 ## v4.10.0 - 2024-01-30
 ### Changes
 * :arrow_up: :boom: update invoice to 4.4
