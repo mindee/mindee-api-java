@@ -13,15 +13,15 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 /**
- * Document data for International ID, API version 1.
+ * Document data for International ID, API version 2.
  */
 @Getter
 @EqualsAndHashCode(callSuper = false)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class InternationalIdV1Document extends Prediction {
+public class InternationalIdV2Document extends Prediction {
 
   /**
-   * The physical location of the document holder's residence.
+   * The physical address of the document holder.
    */
   @JsonProperty("address")
   private StringField address;
@@ -31,32 +31,32 @@ public class InternationalIdV1Document extends Prediction {
   @JsonProperty("birth_date")
   private DateField birthDate;
   /**
-   * The location where the document holder was born.
+   * The place of birth of the document holder.
    */
   @JsonProperty("birth_place")
   private StringField birthPlace;
   /**
-   * The country that issued the identification document.
+   * The country where the document was issued.
    */
   @JsonProperty("country_of_issue")
   private StringField countryOfIssue;
   /**
-   * The unique identifier assigned to the identification document.
+   * The unique identifier assigned to the document.
    */
   @JsonProperty("document_number")
   private StringField documentNumber;
   /**
-   * The type of identification document being used.
+   * The type of personal identification document.
    */
   @JsonProperty("document_type")
   private ClassificationField documentType;
   /**
-   * The date when the document will no longer be valid for use.
+   * The date when the document becomes invalid.
    */
   @JsonProperty("expiry_date")
   private DateField expiryDate;
   /**
-   * The first names or given names of the document holder.
+   * The list of the document holder's given names.
    */
   @JsonProperty("given_names")
   private List<StringField> givenNames = new ArrayList<>();
@@ -66,32 +66,42 @@ public class InternationalIdV1Document extends Prediction {
   @JsonProperty("issue_date")
   private DateField issueDate;
   /**
-   * First line of information in a standardized format for easy machine reading and processing.
+   * The Machine Readable Zone, first line.
    */
-  @JsonProperty("mrz1")
-  private StringField mrz1;
+  @JsonProperty("mrz_line1")
+  private StringField mrzLine1;
   /**
-   * Second line of information in a standardized format for easy machine reading and processing.
+   * The Machine Readable Zone, second line.
    */
-  @JsonProperty("mrz2")
-  private StringField mrz2;
+  @JsonProperty("mrz_line2")
+  private StringField mrzLine2;
   /**
-   * Third line of information in a standardized format for easy machine reading and processing.
+   * The Machine Readable Zone, third line.
    */
-  @JsonProperty("mrz3")
-  private StringField mrz3;
+  @JsonProperty("mrz_line3")
+  private StringField mrzLine3;
   /**
-   * Indicates the country of citizenship or nationality of the document holder.
+   * The country of citizenship of the document holder.
    */
   @JsonProperty("nationality")
   private StringField nationality;
   /**
-   * The document holder's biological sex, such as male or female.
+   * The unique identifier assigned to the document holder.
+   */
+  @JsonProperty("personal_number")
+  private StringField personalNumber;
+  /**
+   * The biological sex of the document holder.
    */
   @JsonProperty("sex")
   private StringField sex;
   /**
-   * The surnames of the document holder.
+   * The state or territory where the document was issued.
+   */
+  @JsonProperty("state_of_issue")
+  private StringField stateOfIssue;
+  /**
+   * The list of the document holder's family names.
    */
   @JsonProperty("surnames")
   private List<StringField> surnames = new ArrayList<>();
@@ -101,19 +111,21 @@ public class InternationalIdV1Document extends Prediction {
     return (
       this.documentType == null
       && this.documentNumber == null
-      && this.countryOfIssue == null
       && (this.surnames == null || this.surnames.isEmpty())
       && (this.givenNames == null || this.givenNames.isEmpty())
       && this.sex == null
       && this.birthDate == null
       && this.birthPlace == null
       && this.nationality == null
+      && this.personalNumber == null
+      && this.countryOfIssue == null
+      && this.stateOfIssue == null
       && this.issueDate == null
       && this.expiryDate == null
       && this.address == null
-      && this.mrz1 == null
-      && this.mrz2 == null
-      && this.mrz3 == null
+      && this.mrzLine1 == null
+      && this.mrzLine2 == null
+      && this.mrzLine3 == null
       );
   }
 
@@ -125,9 +137,6 @@ public class InternationalIdV1Document extends Prediction {
     );
     outStr.append(
         String.format(":Document Number: %s%n", this.getDocumentNumber())
-    );
-    outStr.append(
-        String.format(":Country of Issue: %s%n", this.getCountryOfIssue())
     );
     String surnames = SummaryHelper.arrayToString(
         this.getSurnames(),
@@ -144,10 +153,10 @@ public class InternationalIdV1Document extends Prediction {
         String.format(":Given Names: %s%n", givenNames)
     );
     outStr.append(
-        String.format(":Gender: %s%n", this.getSex())
+        String.format(":Sex: %s%n", this.getSex())
     );
     outStr.append(
-        String.format(":Birth date: %s%n", this.getBirthDate())
+        String.format(":Birth Date: %s%n", this.getBirthDate())
     );
     outStr.append(
         String.format(":Birth Place: %s%n", this.getBirthPlace())
@@ -156,22 +165,31 @@ public class InternationalIdV1Document extends Prediction {
         String.format(":Nationality: %s%n", this.getNationality())
     );
     outStr.append(
+        String.format(":Personal Number: %s%n", this.getPersonalNumber())
+    );
+    outStr.append(
+        String.format(":Country of Issue: %s%n", this.getCountryOfIssue())
+    );
+    outStr.append(
+        String.format(":State of Issue: %s%n", this.getStateOfIssue())
+    );
+    outStr.append(
         String.format(":Issue Date: %s%n", this.getIssueDate())
     );
     outStr.append(
-        String.format(":Expiry Date: %s%n", this.getExpiryDate())
+        String.format(":Expiration Date: %s%n", this.getExpiryDate())
     );
     outStr.append(
         String.format(":Address: %s%n", this.getAddress())
     );
     outStr.append(
-        String.format(":Machine Readable Zone Line 1: %s%n", this.getMrz1())
+        String.format(":MRZ Line 1: %s%n", this.getMrzLine1())
     );
     outStr.append(
-        String.format(":Machine Readable Zone Line 2: %s%n", this.getMrz2())
+        String.format(":MRZ Line 2: %s%n", this.getMrzLine2())
     );
     outStr.append(
-        String.format(":Machine Readable Zone Line 3: %s%n", this.getMrz3())
+        String.format(":MRZ Line 3: %s%n", this.getMrzLine3())
     );
     return SummaryHelper.cleanSummary(outStr.toString());
   }

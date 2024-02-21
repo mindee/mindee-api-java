@@ -59,10 +59,10 @@ public class BankAccountDetailsV2Bban extends BaseField {
   private Map<String, String> printableValues() {
     Map<String, String> printable = new HashMap<>();
 
-    printable.put("bbanBankCode", SummaryHelper.formatString(this.bbanBankCode));
-    printable.put("bbanBranchCode", SummaryHelper.formatString(this.bbanBranchCode));
-    printable.put("bbanKey", SummaryHelper.formatString(this.bbanKey));
-    printable.put("bbanNumber", SummaryHelper.formatString(this.bbanNumber));
+    printable.put("bbanBankCode", SummaryHelper.formatForDisplay(this.bbanBankCode, null));
+    printable.put("bbanBranchCode", SummaryHelper.formatForDisplay(this.bbanBranchCode, null));
+    printable.put("bbanKey", SummaryHelper.formatForDisplay(this.bbanKey, null));
+    printable.put("bbanNumber", SummaryHelper.formatForDisplay(this.bbanNumber, null));
     return printable;
   }
 }
