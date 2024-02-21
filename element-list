@@ -13,6 +13,7 @@ com.mindee.pdf
 com.mindee.product.barcodereader
 com.mindee.product.cropper
 com.mindee.product.custom
+com.mindee.product.eu.driverlicense
 com.mindee.product.eu.licenseplate
 com.mindee.product.financialdocument
 com.mindee.product.fr.bankaccountdetails
@@ -26,6 +27,7 @@ com.mindee.product.multireceiptsdetector
 com.mindee.product.passport
 com.mindee.product.proofofaddress
 com.mindee.product.receipt
+com.mindee.product.resume
 com.mindee.product.us.bankcheck
 com.mindee.product.us.driverlicense
 com.mindee.product.us.w9
