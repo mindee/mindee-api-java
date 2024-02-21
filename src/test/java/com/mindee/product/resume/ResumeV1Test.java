@@ -35,7 +35,7 @@ public class ResumeV1Test {
     PredictResponse<ResumeV1> response = getPrediction("empty");
     ResumeV1Document docPrediction = response.getDocument().getInference().getPrediction();
     Assertions.assertNull(docPrediction.getDocumentLanguage().getValue());
-    Assertions.assertNull(docPrediction.getDocumentType().getValue());
+    Assertions.assertInstanceOf(ClassificationField.class, docPrediction.getDocumentType());
     Assertions.assertTrue(docPrediction.getGivenNames().isEmpty());
     Assertions.assertTrue(docPrediction.getSurnames().isEmpty());
     Assertions.assertNull(docPrediction.getNationality().getValue());

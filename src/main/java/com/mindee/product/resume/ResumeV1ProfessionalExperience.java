@@ -10,49 +10,49 @@ import java.util.Map;
 import lombok.Getter;
 
 /**
- * The list of values that represent the professional experiences of an individual in their global resume.
+ * The list of the candidate's professional experiences.
  */
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ResumeV1ProfessionalExperience extends BaseField implements LineItemField {
 
   /**
-   * The type of contract for a professional experience. Possible values: 'Full-Time', 'Part-Time', 'Internship' and 'Freelance'.
+   * The type of contract for the professional experience.
    */
   @JsonProperty("contract_type")
   String contractType;
   /**
-   * The specific department or division within a company where the professional experience was gained.
+   * The specific department or division within the company.
    */
   @JsonProperty("department")
   String department;
   /**
-   * The name of the company or organization where the candidate has worked.
+   * The name of the company or organization.
    */
   @JsonProperty("employer")
   String employer;
   /**
-   * The month when a professional experience ended.
+   * The month when the professional experience ended.
    */
   @JsonProperty("end_month")
   String endMonth;
   /**
-   * The year when a professional experience ended.
+   * The year when the professional experience ended.
    */
   @JsonProperty("end_year")
   String endYear;
   /**
-   * The position or job title held by the individual in their previous work experience.
+   * The position or job title held by the candidate.
    */
   @JsonProperty("role")
   String role;
   /**
-   * The month when a professional experience began.
+   * The month when the professional experience began.
    */
   @JsonProperty("start_month")
   String startMonth;
   /**
-   * The year when a professional experience began.
+   * The year when the professional experience began.
    */
   @JsonProperty("start_year")
   String startYear;

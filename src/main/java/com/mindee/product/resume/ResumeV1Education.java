@@ -10,34 +10,34 @@ import java.util.Map;
 import lombok.Getter;
 
 /**
- * The list of values that represent the educational background of an individual.
+ * The list of the candidate's educational background.
  */
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ResumeV1Education extends BaseField implements LineItemField {
 
   /**
-   * The area of study or specialization pursued by an individual in their educational background.
+   * The area of study or specialization.
    */
   @JsonProperty("degree_domain")
   String degreeDomain;
   /**
-   * The type of degree obtained by the individual, such as Bachelor's, Master's, or Doctorate.
+   * The type of degree obtained, such as Bachelor's, Master's, or Doctorate.
    */
   @JsonProperty("degree_type")
   String degreeType;
   /**
-   * The month when the education program or course was completed or is expected to be completed.
+   * The month when the education program or course was completed.
    */
   @JsonProperty("end_month")
   String endMonth;
   /**
-   * The year when the education program or course was completed or is expected to be completed.
+   * The year when the education program or course was completed.
    */
   @JsonProperty("end_year")
   String endYear;
   /**
-   * The name of the school the individual went to.
+   * The name of the school.
    */
   @JsonProperty("school")
   String school;

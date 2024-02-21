@@ -22,12 +22,12 @@ public class ResumeV1Certificate extends BaseField implements LineItemField {
   @JsonProperty("grade")
   String grade;
   /**
-   * The name of certifications obtained by the individual.
+   * The name of certification.
    */
   @JsonProperty("name")
   String name;
   /**
-   * The organization or institution that issued the certificates listed in the document.
+   * The organization or institution that issued the certificate.
    */
   @JsonProperty("provider")
   String provider;

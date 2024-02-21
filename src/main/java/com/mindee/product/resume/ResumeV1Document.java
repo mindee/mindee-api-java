@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mindee.parsing.SummaryHelper;
 import com.mindee.parsing.common.Prediction;
+import com.mindee.parsing.standard.ClassificationField;
 import com.mindee.parsing.standard.StringField;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +20,7 @@ import lombok.Getter;
 public class ResumeV1Document extends Prediction {
 
   /**
-   * The location information of the person, including city, state, and country.
+   * The location information of the candidate, including city, state, and country.
    */
   @JsonProperty("address")
   private StringField address;
@@ -34,12 +35,12 @@ public class ResumeV1Document extends Prediction {
   @JsonProperty("document_language")
   private StringField documentLanguage;
   /**
-   * The type of the document sent, possible values being RESUME, MOTIVATION_LETTER and RECOMMENDATION_LETTER.
+   * The type of the document sent.
    */
   @JsonProperty("document_type")
-  private StringField documentType;
+  private ClassificationField documentType;
   /**
-   * The list of values that represent the educational background of an individual.
+   * The list of the candidate's educational background.
    */
   @JsonProperty("education")
   private List<ResumeV1Education> education = new ArrayList<>();
@@ -49,27 +50,27 @@ public class ResumeV1Document extends Prediction {
   @JsonProperty("email_address")
   private StringField emailAddress;
   /**
-   * The list of names that represent a person's first or given names.
+   * The candidate's first or given names.
    */
   @JsonProperty("given_names")
   private List<StringField> givenNames = new ArrayList<>();
   /**
-   * The list of specific technical abilities and knowledge mentioned in a resume.
+   * The list of the candidate's technical abilities and knowledge.
    */
   @JsonProperty("hard_skills")
   private List<StringField> hardSkills = new ArrayList<>();
   /**
-   * The specific industry or job role that the applicant is applying for.
+   * The position that the candidate is applying for.
    */
   @JsonProperty("job_applied")
   private StringField jobApplied;
   /**
-   * The list of languages that a person is proficient in, as stated in their resume.
+   * The list of languages that the candidate is proficient in.
    */
   @JsonProperty("languages")
   private List<ResumeV1Language> languages = new ArrayList<>();
   /**
-   * The ISO 3166 code for the country of citizenship or origin of the person.
+   * The ISO 3166 code for the country of citizenship of the candidate.
    */
   @JsonProperty("nationality")
   private StringField nationality;
@@ -79,27 +80,27 @@ public class ResumeV1Document extends Prediction {
   @JsonProperty("phone_number")
   private StringField phoneNumber;
   /**
-   * The area of expertise or specialization in which the individual has professional experience and qualifications.
+   * The candidate's current profession.
    */
   @JsonProperty("profession")
   private StringField profession;
   /**
-   * The list of values that represent the professional experiences of an individual in their global resume.
+   * The list of the candidate's professional experiences.
    */
   @JsonProperty("professional_experiences")
   private List<ResumeV1ProfessionalExperience> professionalExperiences = new ArrayList<>();
   /**
-   * The list of URLs for social network profiles of the person.
+   * The list of social network profiles of the candidate.
    */
   @JsonProperty("social_networks_urls")
   private List<ResumeV1SocialNetworksUrl> socialNetworksUrls = new ArrayList<>();
   /**
-   * The list of values that represent a person's interpersonal and communication abilities in a global resume.
+   * The list of the candidate's interpersonal and communication abilities.
    */
   @JsonProperty("soft_skills")
   private List<StringField> softSkills = new ArrayList<>();
   /**
-   * The list of last names provided in a resume document.
+   * The candidate's last names.
    */
   @JsonProperty("surnames")
   private List<StringField> surnames = new ArrayList<>();

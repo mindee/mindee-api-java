@@ -10,19 +10,19 @@ import java.util.Map;
 import lombok.Getter;
 
 /**
- * The list of URLs for social network profiles of the person.
+ * The list of social network profiles of the candidate.
  */
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ResumeV1SocialNetworksUrl extends BaseField implements LineItemField {
 
   /**
-   * The name of of the social media concerned.
+   * The name of the social network.
    */
   @JsonProperty("name")
   String name;
   /**
-   * The URL of the profile for this particular social network.
+   * The URL of the social network.
    */
   @JsonProperty("url")
   String url;
