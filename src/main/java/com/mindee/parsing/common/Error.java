@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 
 /**
- * Represent an error information from the API response.
+ * Error information from an API response.
  */
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)

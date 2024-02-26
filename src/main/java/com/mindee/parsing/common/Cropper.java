@@ -14,7 +14,7 @@ import lombok.Getter;
 @EqualsAndHashCode
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Cropper {
-  /*
+  /**
    * List of positions within the image.
    */
   @JsonProperty("cropping")
