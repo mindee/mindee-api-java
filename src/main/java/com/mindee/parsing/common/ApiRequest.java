@@ -16,7 +16,7 @@ import lombok.Getter;
 public class ApiRequest {
 
   /**
-   * Represent an error information from the API response.
+   * Information about an error that occurred during the API request.
    */
   @JsonProperty("error")
   private Error error;

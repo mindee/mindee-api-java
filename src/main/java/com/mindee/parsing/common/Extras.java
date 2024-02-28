@@ -12,7 +12,7 @@ import lombok.Getter;
 @EqualsAndHashCode
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Extras {
-  /*
+  /**
    * Cropping result.
    */
   @JsonProperty("cropper")

@@ -28,26 +28,35 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Job {
 
-  /*
+  /**
    * The time at which the job finished
    */
   @JsonProperty("available_at")
   @JsonDeserialize(using = LocalDateTimeDeserializer.class)
   private LocalDateTime availableAt;
-  /*
+
+  /**
    * Identifier for the job
    */
   private String id;
-  /*
+
+  /**
    * The time at which the job started
    */
   @JsonProperty("issued_at")
   @JsonDeserialize(using = LocalDateTimeDeserializer.class)
   private LocalDateTime issuedAt;
-  /*
+
+  /**
    * Job Status
    */
   private String status;
+
+  /**
+   * Information about an error that occurred during the job processing.
+   */
+  @JsonProperty("error")
+  private Error error;
 
   /**
    * Private Deserializer for LocalDateTime
