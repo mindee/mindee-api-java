@@ -53,12 +53,6 @@ public class Job {
   private String status;
 
   /**
-   * Job Status Code
-   */
-  @JsonProperty("status_code")
-  private Integer statusCode;
-
-  /**
    * Information about an error that occurred during the job processing.
    */
   @JsonProperty("error")

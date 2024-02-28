@@ -285,7 +285,7 @@ class MindeeClientTest {
     File file = new File("src/test/resources/file_types/pdf/blank_1.pdf");
     LocalInputSource localInputSource = new LocalInputSource(file);
 
-    Job job = new Job(LocalDateTime.now(), "someid", LocalDateTime.now(), "Completed", 200, null);
+    Job job = new Job(LocalDateTime.now(), "someid", LocalDateTime.now(), "Completed", null);
     AsyncPredictResponse predictResponse = new AsyncPredictResponse();
     predictResponse.setDocument(new Document<>());
     predictResponse.setApiRequest(null);
@@ -325,7 +325,7 @@ class MindeeClientTest {
     File file = new File("src/test/resources/file_types/pdf/blank_1.pdf");
     LocalInputSource localInputSource = new LocalInputSource(file);
 
-    Job job = new Job(LocalDateTime.now(), "someid", LocalDateTime.now(), "Completed", 200, null);
+    Job job = new Job(LocalDateTime.now(), "someid", LocalDateTime.now(), "Completed", null);
     AsyncPredictResponse predictResponse = new AsyncPredictResponse();
     predictResponse.setDocument(new Document<>());
     predictResponse.setApiRequest(null);
@@ -361,7 +361,7 @@ class MindeeClientTest {
   @Test
   void givenAnAsyncUrl_whenEnqueued_shouldInvokeApiCorrectly() throws IOException {
 
-    Job job = new Job(LocalDateTime.now(), "someid", LocalDateTime.now(), "completed", 200, null);
+    Job job = new Job(LocalDateTime.now(), "someid", LocalDateTime.now(), "completed", null);
     AsyncPredictResponse predictResponse = new AsyncPredictResponse();
     predictResponse.setDocument(new Document<>());
     predictResponse.setApiRequest(null);
