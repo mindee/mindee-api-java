@@ -148,7 +148,8 @@ public final class MindeeHttpApi extends MindeeApi {
       AsyncPredictResponse<DocT> mappedResponse = mapper.readValue(rawResponse, type);
       mappedResponse.setRawResponse(rawResponse);
       if (
-          mappedResponse.getJob().getError() != null
+          mappedResponse.getJob() != null
+          && mappedResponse.getJob().getError() != null
           && mappedResponse.getJob().getError().getCode() != null
       ) {
         throw new MindeeHttpException(
