@@ -1,5 +1,10 @@
 # Mindee Java API Library Changelog
 
+## v4.11.1 - 2024-03-06
+### Changes
+* :sparkles: handle job errors separately from API errors
+
+
 ## v4.11.0 - 2024-02-21
 ### Changes
 * :sparkles: add support for EU Driver License V1
