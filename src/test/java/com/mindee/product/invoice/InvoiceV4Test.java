@@ -45,6 +45,7 @@ public class InvoiceV4Test {
     Assertions.assertTrue(docPrediction.getTaxes().isEmpty());
     Assertions.assertTrue(docPrediction.getSupplierPaymentDetails().isEmpty());
     Assertions.assertNull(docPrediction.getSupplierName().getValue());
+    Assertions.assertNull(docPrediction.getTotalTax().getValue());
     Assertions.assertTrue(docPrediction.getSupplierCompanyRegistrations().isEmpty());
     Assertions.assertNull(docPrediction.getSupplierAddress().getValue());
     Assertions.assertNull(docPrediction.getCustomerName().getValue());
