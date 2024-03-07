@@ -12,8 +12,9 @@ import com.mindee.parsing.standard.DateField;
 import com.mindee.parsing.standard.LocaleField;
 import com.mindee.parsing.standard.PaymentDetailsField;
 import com.mindee.parsing.standard.StringField;
-import com.mindee.parsing.standard.TaxField;
+import com.mindee.parsing.standard.Taxes;
 import com.mindee.parsing.standard.TaxesDeserializer;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -27,83 +28,98 @@ import lombok.Getter;
 public class InvoiceV4Document extends Prediction {
 
   /**
-   * Locale information.
+   * The customer's address used for billing.
    */
-  @JsonProperty("locale")
-  private LocaleField localeField;
-  /**
-   * The type of the parsed document (see official documentation for the list).
-   */
-  @JsonProperty("document_type")
-  private ClassificationField documentType;
-  /**
-   * The creation date of the invoice.
-   */
-  @JsonProperty("date")
-  private DateField invoiceDateField;
-  /**
-   * The invoice number.
-   */
-  @JsonProperty("invoice_number")
-  private StringField invoiceNumber;
-  /**
-   * List of Reference numbers including PO number.
-   */
-  @JsonProperty("reference_numbers")
-  private List<StringField> referenceNumbers;
-  /**
-   * The due date of the invoice.
-   */
-  @JsonProperty("due_date")
-  private DateField dueDateField;
-  /**
-   * The supplier name.
-   */
-  @JsonProperty("supplier_name")
-  private StringField supplierName;
-  /**
-   * The supplier payment information's.
-   */
-  @JsonProperty("supplier_payment_details")
-  private List<PaymentDetailsField> supplierPaymentDetails;
-  /**
-   * The supplier company regitration information.
-   */
-  @JsonProperty("supplier_company_registrations")
-  private List<CompanyRegistrationField> supplierCompanyRegistrations;
-  /**
-   * The supplier address.
-   */
-  @JsonProperty("supplier_address")
-  private StringField supplierAddress;
-  /**
-   * The name of the customer.
-   */
-  @JsonProperty("customer_name")
-  private StringField customerName;
-  /**
-   * The company registration information for the customer.
-   */
-  @JsonProperty("customer_company_registrations")
-  private List<CompanyRegistrationField> customerCompanyRegistrations;
+  @JsonProperty("billing_address")
+  private StringField billingAddress;
   /**
    * The address of the customer.
    */
   @JsonProperty("customer_address")
   private StringField customerAddress;
   /**
-   * The list of the taxes.
+   * List of company registrations associated to the customer.
+   */
+  @JsonProperty("customer_company_registrations")
+  private List<CompanyRegistrationField> customerCompanyRegistrations = new ArrayList<>();
+  /**
+   * The name of the customer or client.
+   */
+  @JsonProperty("customer_name")
+  private StringField customerName;
+  /**
+   * The date the purchase was made.
+   */
+  @JsonProperty("date")
+  private DateField invoiceDateField;
+  /**
+   * One of: 'INVOICE', 'CREDIT NOTE'.
+   */
+  @JsonProperty("document_type")
+  private ClassificationField documentType;
+  /**
+   * The date on which the payment is due.
+   */
+  @JsonProperty("due_date")
+  private DateField dueDateField;
+  /**
+   * The invoice number or identifier.
+   */
+  @JsonProperty("invoice_number")
+  private StringField invoiceNumber;
+  /**
+   * List of line item details.
+   */
+  @JsonProperty("line_items")
+  private List<InvoiceV4LineItem> lineItems = new ArrayList<>();
+  /**
+   * The locale detected on the document.
+   */
+  @JsonProperty("locale")
+  private LocaleField localeField;
+  /**
+   * List of Reference numbers, including PO number.
+   */
+  @JsonProperty("reference_numbers")
+  private List<StringField> referenceNumbers = new ArrayList<>();
+  /**
+   * Customer's delivery address.
+   */
+  @JsonProperty("shipping_address")
+  private StringField shippingAddress;
+  /**
+   * The address of the supplier or merchant.
+   */
+  @JsonProperty("supplier_address")
+  private StringField supplierAddress;
+  /**
+   * List of company registrations associated to the supplier.
+   */
+  @JsonProperty("supplier_company_registrations")
+  private List<CompanyRegistrationField> supplierCompanyRegistrations = new ArrayList<>();
+  /**
+   * The name of the supplier or merchant.
+   */
+  @JsonProperty("supplier_name")
+  private StringField supplierName;
+  /**
+   * List of payment details associated to the supplier.
+   */
+  @JsonProperty("supplier_payment_details")
+  private List<PaymentDetailsField> supplierPaymentDetails = new ArrayList<>();
+  /**
+   * List of tax line details.
    */
   @JsonProperty("taxes")
   @JsonDeserialize(using = TaxesDeserializer.class)
-  private List<TaxField> taxes;
+  private Taxes taxes;
   /**
-   * The total amount with tax included.
+   * The total amount paid: includes taxes, tips, fees, and other charges.
    */
   @JsonProperty("total_amount")
   private AmountField totalAmount;
   /**
-   * The total amount without the tax value.
+   * The net amount paid: does not include taxes, fees, and discounts.
    */
   @JsonProperty("total_net")
   private AmountField totalNet;
@@ -112,12 +128,8 @@ public class InvoiceV4Document extends Prediction {
    */
   @JsonProperty("total_tax")
   private AmountField totalTax;
-  /**
-   * Line items details.
-   */
-  @JsonProperty("line_items")
-  private List<InvoiceV4LineItem> lineItems;
 
+  @Override
   public boolean isEmpty() {
     return (
       this.localeField == null
@@ -136,6 +148,8 @@ public class InvoiceV4Document extends Prediction {
       && this.customerName == null
       && (this.customerCompanyRegistrations == null || this.customerCompanyRegistrations.isEmpty())
       && this.customerAddress == null
+      && this.shippingAddress == null
+      && this.billingAddress == null
       && this.documentType == null
       && (this.lineItems == null || this.lineItems.isEmpty())
       );
@@ -207,6 +221,12 @@ public class InvoiceV4Document extends Prediction {
     );
     outStr.append(
         String.format(":Customer Address: %s%n", this.getCustomerAddress())
+    );
+    outStr.append(
+        String.format(":Shipping Address: %s%n", this.getShippingAddress())
+    );
+    outStr.append(
+        String.format(":Billing Address: %s%n", this.getBillingAddress())
     );
     outStr.append(
         String.format(":Document Type: %s%n", this.getDocumentType())

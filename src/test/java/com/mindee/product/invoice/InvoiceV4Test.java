@@ -4,13 +4,12 @@ import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mindee.parsing.common.Document;
 import com.mindee.parsing.common.PredictResponse;
+import com.mindee.parsing.standard.ClassificationField;
+import com.mindee.product.ProductTestHelper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.List;
 
 /**
  * Unit tests for InvoiceV4.
@@ -42,16 +41,18 @@ public class InvoiceV4Test {
     Assertions.assertNull(docPrediction.getDueDateField().getValue());
     Assertions.assertNull(docPrediction.getTotalNet().getValue());
     Assertions.assertNull(docPrediction.getTotalAmount().getValue());
+    Assertions.assertNull(docPrediction.getTotalTax().getValue());
     Assertions.assertTrue(docPrediction.getTaxes().isEmpty());
     Assertions.assertTrue(docPrediction.getSupplierPaymentDetails().isEmpty());
     Assertions.assertNull(docPrediction.getSupplierName().getValue());
-    Assertions.assertNull(docPrediction.getTotalTax().getValue());
     Assertions.assertTrue(docPrediction.getSupplierCompanyRegistrations().isEmpty());
     Assertions.assertNull(docPrediction.getSupplierAddress().getValue());
     Assertions.assertNull(docPrediction.getCustomerName().getValue());
     Assertions.assertTrue(docPrediction.getCustomerCompanyRegistrations().isEmpty());
     Assertions.assertNull(docPrediction.getCustomerAddress().getValue());
-    Assertions.assertNotNull(docPrediction.getDocumentType().getValue());
+    Assertions.assertNull(docPrediction.getShippingAddress().getValue());
+    Assertions.assertNull(docPrediction.getBillingAddress().getValue());
+    Assertions.assertInstanceOf(ClassificationField.class, docPrediction.getDocumentType());
     Assertions.assertTrue(docPrediction.getLineItems().isEmpty());
   }
 
@@ -59,13 +60,10 @@ public class InvoiceV4Test {
   void whenCompleteDeserialized_mustHaveValidDocumentSummary() throws IOException {
     PredictResponse<InvoiceV4> response = getPrediction("complete");
     Document<InvoiceV4> doc = response.getDocument();
-    String[] actualLines = doc.toString().split(System.lineSeparator());
-    List<String> expectedLines = Files.readAllLines(
-      Paths.get("src/test/resources/products/invoices/response_v4/summary_full.rst")
+    ProductTestHelper.assertStringEqualsFile(
+        doc.toString(),
+        "src/test/resources/products/invoices/response_v4/summary_full.rst"
     );
-    String expectedSummary = String.join(String.format("%n"), expectedLines);
-    String actualSummary = String.join(String.format("%n"), actualLines);
-
-    Assertions.assertEquals(expectedSummary, actualSummary);
   }
+
 }

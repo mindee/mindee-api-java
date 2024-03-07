@@ -86,7 +86,7 @@ public class InvoiceV4LineItem extends BaseField implements LineItemField {
       descriptionSummary = descriptionSummary.substring(0, 33) + "...";
     }
     printable.put("description", descriptionSummary);
-    printable.put("productCode", SummaryHelper.formatString(this.productCode));
+    printable.put("productCode", SummaryHelper.formatForDisplay(this.productCode, null));
     printable.put(
         "quantity",
         SummaryHelper.formatAmount(this.quantity)
