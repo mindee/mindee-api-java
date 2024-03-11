@@ -18,7 +18,7 @@ import java.util.Map;
  */
 public class CustomV1DocumentPredictionDeserializer extends StdDeserializer<CustomV1Document> {
 
-  private static ObjectMapper mapper = new ObjectMapper();
+  private static final ObjectMapper mapper = new ObjectMapper();
 
   public CustomV1DocumentPredictionDeserializer(Class<?> vc) {
     super(vc);
@@ -29,11 +29,9 @@ public class CustomV1DocumentPredictionDeserializer extends StdDeserializer<Cust
   }
 
   @Override
-  public CustomV1Document deserialize(
-      JsonParser jsonParser,
-      DeserializationContext deserializationContext
-  ) throws IOException {
-
+  public CustomV1Document deserialize(JsonParser jsonParser,
+                                      DeserializationContext deserializationContext)
+    throws IOException {
     ObjectNode node = jsonParser.getCodec().readTree(jsonParser);
 
     Map<String, ClassificationField> classificationFields = new HashMap<>();
@@ -44,17 +42,12 @@ public class CustomV1DocumentPredictionDeserializer extends StdDeserializer<Cust
       Map.Entry<String, JsonNode> pageNode = subNode.next();
 
       if (pageNode.getValue().has("value")) {
-        classificationFields.put(
-            pageNode.getKey(),
-            mapper.readerFor(new TypeReference<ClassificationField>() {})
-                .readValue(pageNode.getValue())
-        );
+        classificationFields.put(pageNode.getKey(),
+          mapper.readerFor(new TypeReference<ClassificationField>() {
+          }).readValue(pageNode.getValue()));
       } else {
-        fields.put(
-            pageNode.getKey(),
-            mapper.readerFor(new TypeReference<ListField>() {})
-                .readValue(pageNode.getValue())
-        );
+        fields.put(pageNode.getKey(), mapper.readerFor(new TypeReference<ListField>() {
+        }).readValue(pageNode.getValue()));
       }
     }
 

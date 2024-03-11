@@ -15,7 +15,7 @@ public class Taxes extends ArrayList<TaxField> {
     if (this.isEmpty()) {
       return "";
     }
-    int[] columnSizes = new int[]{15, 8, 10, 15};
+    int[] columnSizes = new int[] {15, 8, 10, 15};
     return String.format("%n%s%n", SummaryHelper.lineSeparator(columnSizes, "-"))
       + "  | Base          | Code   | Rate (%) | Amount        |"
       + String.format("%n%s%n  ", SummaryHelper.lineSeparator(columnSizes, "="))
