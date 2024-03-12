@@ -1,5 +1,7 @@
 package com.mindee;
 
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mindee.http.Endpoint;
 import com.mindee.http.MindeeApi;
 import com.mindee.http.MindeeHttpApi;
@@ -7,6 +9,7 @@ import com.mindee.http.RequestParameters;
 import com.mindee.input.InputSourceUtils;
 import com.mindee.input.LocalInputSource;
 import com.mindee.input.PageOptions;
+import com.mindee.input.WebhookSource;
 import com.mindee.parsing.common.AsyncPredictResponse;
 import com.mindee.parsing.common.Inference;
 import com.mindee.parsing.common.PredictResponse;
@@ -485,6 +488,22 @@ public class MindeeClient {
           .fileName(filename)
           .urlInputSource(urlInputSource)
           .build());
+  }
+
+  /**
+   * Load a prediction from a webhook response.
+   */
+  public <T extends Inference> AsyncPredictResponse<T> loadPrediction(
+      Class<T> type,
+      WebhookSource webhookSource
+  ) throws IOException {
+    ObjectMapper objectMapper = new ObjectMapper();
+    objectMapper.findAndRegisterModules();
+    JavaType parametricType = objectMapper.getTypeFactory().constructParametricType(
+        AsyncPredictResponse.class,
+        type
+    );
+    return objectMapper.readValue(webhookSource.getFile(), parametricType);
   }
 
   private byte[] getSplitFile(

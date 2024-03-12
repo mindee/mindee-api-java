@@ -1,6 +1,7 @@
 package com.mindee;
 
 import com.mindee.http.Endpoint;
+import com.mindee.input.WebhookSource;
 import com.mindee.input.LocalInputSource;
 import com.mindee.http.MindeeApi;
 import com.mindee.http.RequestParameters;
@@ -10,6 +11,7 @@ import com.mindee.parsing.common.AsyncPredictResponse;
 import com.mindee.parsing.common.Document;
 import com.mindee.parsing.common.Job;
 import com.mindee.parsing.common.PredictResponse;
+import com.mindee.product.ProductTestHelper;
 import com.mindee.product.custom.CustomV1;
 import com.mindee.product.invoice.InvoiceV4;
 import com.mindee.pdf.PdfOperation;
@@ -390,5 +392,16 @@ class MindeeClientTest {
     Assertions.assertNull(requestParameters.getFile());
     Assertions.assertEquals(new URL("https://fake.pdf"), requestParameters.getFileUrl());
     Assertions.assertEquals("someid", jobId);
+  }
+
+  @Test
+  void givenJsonInput_whenLoaded_shouldDeserializeCorrectly() throws IOException {
+    File file = new File("src/test/resources/products/invoices/response_v4/complete.json");
+    WebhookSource webhookSource = new WebhookSource(file);
+    AsyncPredictResponse<InvoiceV4> predictResponse = client.loadPrediction(InvoiceV4.class, webhookSource);
+    ProductTestHelper.assertStringEqualsFile(
+      predictResponse.getDocumentObj().toString(),
+      "src/test/resources/products/invoices/response_v4/summary_full.rst"
+    );
   }
 }
