@@ -14,6 +14,7 @@ import com.mindee.parsing.common.PredictResponse;
 import com.mindee.product.ProductTestHelper;
 import com.mindee.product.custom.CustomV1;
 import com.mindee.product.invoice.InvoiceV4;
+import com.mindee.product.internationalid.InternationalIdV2;
 import com.mindee.pdf.PdfOperation;
 import com.mindee.pdf.SplitPdf;
 import java.io.File;
@@ -395,13 +396,27 @@ class MindeeClientTest {
   }
 
   @Test
-  void givenJsonInput_whenLoaded_shouldDeserializeCorrectly() throws IOException {
+  void givenJsonInput_whenSync_shouldDeserializeCorrectly() throws IOException {
     File file = new File("src/test/resources/products/invoices/response_v4/complete.json");
     LocalResponse localResponse = new LocalResponse(file);
     AsyncPredictResponse<InvoiceV4> predictResponse = client.loadPrediction(InvoiceV4.class, localResponse);
     ProductTestHelper.assertStringEqualsFile(
       predictResponse.getDocumentObj().toString(),
       "src/test/resources/products/invoices/response_v4/summary_full.rst"
+    );
+  }
+
+  @Test
+  void givenJsonInput_whenAsync_shouldDeserializeCorrectly() throws IOException {
+    File file = new File("src/test/resources/products/international_id/response_v2/complete.json");
+    LocalResponse localResponse = new LocalResponse(file);
+    AsyncPredictResponse<InternationalIdV2> predictResponse = client.loadPrediction(
+      InternationalIdV2.class,
+      localResponse
+    );
+    ProductTestHelper.assertStringEqualsFile(
+      predictResponse.getDocumentObj().toString(),
+      "src/test/resources/products/international_id/response_v2/summary_full.rst"
     );
   }
 }
