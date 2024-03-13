@@ -52,10 +52,8 @@ public class GeneratedV1PredictionDeserializer
         fields.put(fieldName,
           mapper.readerFor(new TypeReference<GeneratedListField>() {
           }).readValue(fieldValue));
-      } else if (GeneratedObjectField.isGeneratedObject(fieldValue)) {
-        fields.put(fieldName,
-          mapper.readerFor(new TypeReference<GeneratedObjectField>() {
-          }).readValue(fieldValue));
+      } else if (GeneratedHelper.isGeneratedObject(fieldValue)) {
+        fields.put(fieldName, new GeneratedObjectField(fieldValue));
       } else {
         if (fieldValue.has("value")) {
           String value =
