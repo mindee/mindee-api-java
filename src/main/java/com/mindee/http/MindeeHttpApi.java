@@ -125,7 +125,7 @@ public final class MindeeHttpApi extends MindeeApi {
 
     // required to register jackson date module format to deserialize
     mapper.findAndRegisterModules();
-    JavaType type = mapper.getTypeFactory().constructParametricType(
+    JavaType parametricType = mapper.getTypeFactory().constructParametricType(
         AsyncPredictResponse.class,
         documentClass
     );
@@ -142,10 +142,10 @@ public final class MindeeHttpApi extends MindeeApi {
       HttpEntity responseEntity = response.getEntity();
       int statusCode = response.getStatusLine().getStatusCode();
       if (!is2xxStatusCode(statusCode)) {
-        throw getHttpError(type, response);
+        throw getHttpError(parametricType, response);
       }
       String rawResponse = readRawResponse(responseEntity);
-      AsyncPredictResponse<DocT> mappedResponse = mapper.readValue(rawResponse, type);
+      AsyncPredictResponse<DocT> mappedResponse = mapper.readValue(rawResponse, parametricType);
       mappedResponse.setRawResponse(rawResponse);
       if (
           mappedResponse.getJob() != null
@@ -179,7 +179,7 @@ public final class MindeeHttpApi extends MindeeApi {
 
     // required to register jackson date module format to deserialize
     mapper.findAndRegisterModules();
-    JavaType type = mapper.getTypeFactory().constructParametricType(
+    JavaType parametricType = mapper.getTypeFactory().constructParametricType(
         PredictResponse.class,
         documentClass
     );
@@ -190,13 +190,13 @@ public final class MindeeHttpApi extends MindeeApi {
       HttpEntity responseEntity = response.getEntity();
       int statusCode = response.getStatusLine().getStatusCode();
       if (!is2xxStatusCode(statusCode)) {
-        throw getHttpError(type, response);
+        throw getHttpError(parametricType, response);
       }
       if (responseEntity.getContentLength() == 0) {
         throw new MindeeException("Empty response from server.");
       }
       String rawResponse = readRawResponse(responseEntity);
-      PredictResponse<DocT> mappedResponse = mapper.readValue(rawResponse, type);
+      PredictResponse<DocT> mappedResponse = mapper.readValue(rawResponse, parametricType);
       mappedResponse.setRawResponse(rawResponse);
       return mappedResponse;
     } catch (IOException err) {
@@ -218,7 +218,7 @@ public final class MindeeHttpApi extends MindeeApi {
 
     // required to register jackson date module format to deserialize
     mapper.findAndRegisterModules();
-    JavaType type = mapper.getTypeFactory().constructParametricType(
+    JavaType parametricType = mapper.getTypeFactory().constructParametricType(
         AsyncPredictResponse.class,
         documentClass
     );
@@ -229,13 +229,13 @@ public final class MindeeHttpApi extends MindeeApi {
       HttpEntity responseEntity = response.getEntity();
       int statusCode = response.getStatusLine().getStatusCode();
       if (!is2xxStatusCode(statusCode)) {
-        throw getHttpError(type, response);
+        throw getHttpError(parametricType, response);
       }
       if (responseEntity.getContentLength() == 0) {
         throw new MindeeException("Empty response from server.");
       }
       String rawResponse = readRawResponse(responseEntity);
-      AsyncPredictResponse<DocT> mappedResponse = mapper.readValue(rawResponse, type);
+      AsyncPredictResponse<DocT> mappedResponse = mapper.readValue(rawResponse, parametricType);
       mappedResponse.setRawResponse(rawResponse);
       return mappedResponse;
     } catch (IOException err) {
@@ -244,7 +244,7 @@ public final class MindeeHttpApi extends MindeeApi {
   }
 
   private <ResponseT extends ApiResponse> MindeeHttpException getHttpError(
-      JavaType javaType,
+      JavaType parametricType,
       CloseableHttpResponse response
   ) {
     int statusCode = response.getStatusLine().getStatusCode();
@@ -261,7 +261,7 @@ public final class MindeeHttpApi extends MindeeApi {
       return new MindeeHttpException(statusCode, message, details, errorCode);
     }
     try {
-      ResponseT predictResponse = mapper.readValue(rawResponse, javaType);
+      ResponseT predictResponse = mapper.readValue(rawResponse, parametricType);
       message = predictResponse.getApiRequest().getError().getMessage();
       ErrorDetails errorDetails = predictResponse.getApiRequest().getError().getDetails();
       if (errorDetails != null) {

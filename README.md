@@ -25,8 +25,13 @@ Where `${mindee.sdk.version}` is the version shown here:
 ## Loading a File and Parsing It
 The `MindeeClient` class is the entry point for most of the helper library features.
 
+## Synchronously Parsing a File
+This is the easiest and fastest way to integrate into the Mindee API.
+
+However, not all products are available in synchronous mode.
+
 ### Global Documents
-These classes are available in the `com.mindee.product` package: 
+These classes are available in the `com.mindee.product` package:
 
 ```java
 import com.mindee.MindeeClient;
@@ -55,41 +60,15 @@ public class SimpleMindeeClient {
     System.out.println(response.getDocument().toString());
   }
 }
-
 ```
 
-### Region-Specific Documents
+**Note for Region-Specific Documents:**
+
 Each region will have its own package within the general `com.mindee.product` package.
 
 For example USA-specific classes will be in the `com.mindee.product.us` package:
-
 ```java
-import com.mindee.MindeeClient;
-import com.mindee.input.LocalInputSource;
-import com.mindee.parsing.common.PredictResponse;
 import com.mindee.product.us.bankcheck.BankCheckV1;
-import java.io.File;
-import java.io.IOException;
-
-public class SimpleMindeeClient {
-  public static void main(String[] args) throws IOException {
-
-    // Init a new client
-    MindeeClient mindeeClient = new MindeeClient("my-api-key");
-
-    // Load a file from disk
-    LocalInputSource localInputSource = new LocalInputSource(
-        "/path/to/the/file.ext"
-    );
-    // Parse the file
-    Document<BankCheckV1> response = mindeeClient.parse(
-        BankCheckV1.class,
-        localInputSource
-    );
-    // Print a summary of the parsed data
-    System.out.println(response.getDocument().toString());
-  }
-}
 ```
 
 ### Custom Documents (API Builder)
@@ -123,6 +102,96 @@ public class SimpleMindeeClient {
   }
 }
 ```
+
+## Synchronously Parsing a File
+This allows for easier handling of bursts of documents sent.
+
+Some products are only available asynchronously, check the example code
+directly on the Mindee platform.
+
+### Enqueue and Parse a File
+The client library will take care of handling the polling requests for you.
+
+This is the easiest way to get started.
+
+```java
+import com.mindee.MindeeClient;
+import com.mindee.input.LocalInputSource;
+import com.mindee.parsing.common.AsyncPredictResponse;
+import com.mindee.product.internationalid.InternationalIdV2;
+import java.io.File;
+import java.io.IOException;
+
+public class SimpleMindeeClient {
+
+  public static void main(String[] args) throws IOException, InterruptedException {
+    String apiKey = "my-api-key";
+    String filePath = "/path/to/the/file.ext";
+
+    // Init a new client
+    MindeeClient mindeeClient = new MindeeClient(apiKey);
+
+    // Load a file from disk
+    LocalInputSource inputSource = new LocalInputSource(new File(filePath));
+
+    // Parse the file asynchronously
+    AsyncPredictResponse<InternationalIdV2> response = mindeeClient.enqueueAndParse(
+        InternationalIdV2.class,
+        inputSource
+    );
+
+    // Print a summary of the response
+    System.out.println(response.toString());
+  }
+}
+```
+
+### Enqueue and Parse a Webhook Response
+This is an optional way of handling asynchronous APIs.
+
+```java
+import com.mindee.MindeeClient;
+import com.mindee.input.LocalInputSource;
+import com.mindee.input.LocalResponse;
+import com.mindee.input.WebhookSource;
+import com.mindee.product.internationalid.InternationalIdV2;
+
+import java.io.IOException;
+
+public class SimpleMindeeClient {
+  public static void main(String[] args) throws IOException {
+
+    // Init a new client
+    MindeeClient mindeeClient = new MindeeClient("my-api-key");
+
+    // Load a file from disk
+    LocalInputSource localInputSource = new LocalInputSource(
+      "/path/to/the/file.ext"
+    );
+    // Enqueue the file
+    String jobId = client.enqueue(InternationalIdV2.class, localInputSource)
+      .getJob().getId();
+
+    // Load the JSON string sent by the Mindee webhook callback.
+    //
+    // Reading the callback data will vary greatly depending on which
+    // HTTP server you are using, and is beyond the scope of this example.
+    LocalResponse localResponse = new LocalResponse("{'json': 'data'}");
+
+    // You can also use a File object as the input.
+    //LocalResponse localResponse = new LocalResponse(new File("/path/to/file.json"));
+
+    AsyncPredictResponse<InternationalIdV2> response = mindeeClient.loadPrediction(
+      InternationalIdV2.class,
+      new LocalResponse(webhookStream)
+    );
+
+    // Print a summary of the parsed data
+    System.out.println(response.getDocument().toString());
+  }
+}
+```
+
 
 ## Further Reading
 Complete details on the working of the library are available in the following guides:

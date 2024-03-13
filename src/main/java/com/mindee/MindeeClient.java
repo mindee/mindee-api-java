@@ -1,11 +1,14 @@
 package com.mindee;
 
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mindee.http.Endpoint;
 import com.mindee.http.MindeeApi;
 import com.mindee.http.MindeeHttpApi;
 import com.mindee.http.RequestParameters;
 import com.mindee.input.InputSourceUtils;
 import com.mindee.input.LocalInputSource;
+import com.mindee.input.LocalResponse;
 import com.mindee.input.PageOptions;
 import com.mindee.parsing.common.AsyncPredictResponse;
 import com.mindee.parsing.common.Inference;
@@ -485,6 +488,24 @@ public class MindeeClient {
           .fileName(filename)
           .urlInputSource(urlInputSource)
           .build());
+  }
+
+  /**
+   * Load a local prediction.
+   * Typically used when wanting to load from a webhook callback.
+   * However, any kind of Mindee response may be loaded.
+   */
+  public <T extends Inference> AsyncPredictResponse<T> loadPrediction(
+      Class<T> type,
+      LocalResponse localResponse
+  ) throws IOException {
+    ObjectMapper objectMapper = new ObjectMapper();
+    objectMapper.findAndRegisterModules();
+    JavaType parametricType = objectMapper.getTypeFactory().constructParametricType(
+        AsyncPredictResponse.class,
+        type
+    );
+    return objectMapper.readValue(localResponse.getFile(), parametricType);
   }
 
   private byte[] getSplitFile(
