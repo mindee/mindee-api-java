@@ -8,8 +8,8 @@ import com.mindee.http.MindeeHttpApi;
 import com.mindee.http.RequestParameters;
 import com.mindee.input.InputSourceUtils;
 import com.mindee.input.LocalInputSource;
+import com.mindee.input.LocalResponse;
 import com.mindee.input.PageOptions;
-import com.mindee.input.WebhookSource;
 import com.mindee.parsing.common.AsyncPredictResponse;
 import com.mindee.parsing.common.Inference;
 import com.mindee.parsing.common.PredictResponse;
@@ -491,11 +491,13 @@ public class MindeeClient {
   }
 
   /**
-   * Load a prediction from a webhook response.
+   * Load a local prediction.
+   * Typically used when wanting to load from a webhook callback.
+   * However, any kind of Mindee response may be loaded.
    */
   public <T extends Inference> AsyncPredictResponse<T> loadPrediction(
       Class<T> type,
-      WebhookSource webhookSource
+      LocalResponse localResponse
   ) throws IOException {
     ObjectMapper objectMapper = new ObjectMapper();
     objectMapper.findAndRegisterModules();
@@ -503,7 +505,7 @@ public class MindeeClient {
         AsyncPredictResponse.class,
         type
     );
-    return objectMapper.readValue(webhookSource.getFile(), parametricType);
+    return objectMapper.readValue(localResponse.getFile(), parametricType);
   }
 
   private byte[] getSplitFile(

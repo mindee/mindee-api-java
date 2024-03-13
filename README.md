@@ -152,6 +152,7 @@ This is an optional way of handling asynchronous APIs.
 ```java
 import com.mindee.MindeeClient;
 import com.mindee.input.LocalInputSource;
+import com.mindee.input.LocalResponse;
 import com.mindee.input.WebhookSource;
 import com.mindee.product.internationalid.InternationalIdV2;
 
@@ -170,19 +171,19 @@ public class SimpleMindeeClient {
     // Enqueue the file
     String jobId = client.enqueue(InternationalIdV2.class, localInputSource)
       .getJob().getId();
-    
+
     // Load the JSON string sent by the Mindee webhook callback.
     //
     // Reading the callback data will vary greatly depending on which
     // HTTP server you are using, and is beyond the scope of this example.
-    WebhookSource webhookSource = new WebhookSource("{'json': 'data'}");
-    
+    LocalResponse localResponse = new LocalResponse("{'json': 'data'}");
+
     // You can also use a File object as the input.
-    //WebhookSource webhookSource = new WebhookSource(new File("/path/to/file.json"));
+    //LocalResponse localResponse = new LocalResponse(new File("/path/to/file.json"));
 
     AsyncPredictResponse<InternationalIdV2> response = mindeeClient.loadPrediction(
       InternationalIdV2.class,
-      new WebhookSource(webhookStream)
+      new LocalResponse(webhookStream)
     );
 
     // Print a summary of the parsed data

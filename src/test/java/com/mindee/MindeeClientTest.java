@@ -1,7 +1,7 @@
 package com.mindee;
 
 import com.mindee.http.Endpoint;
-import com.mindee.input.WebhookSource;
+import com.mindee.input.LocalResponse;
 import com.mindee.input.LocalInputSource;
 import com.mindee.http.MindeeApi;
 import com.mindee.http.RequestParameters;
@@ -397,8 +397,8 @@ class MindeeClientTest {
   @Test
   void givenJsonInput_whenLoaded_shouldDeserializeCorrectly() throws IOException {
     File file = new File("src/test/resources/products/invoices/response_v4/complete.json");
-    WebhookSource webhookSource = new WebhookSource(file);
-    AsyncPredictResponse<InvoiceV4> predictResponse = client.loadPrediction(InvoiceV4.class, webhookSource);
+    LocalResponse localResponse = new LocalResponse(file);
+    AsyncPredictResponse<InvoiceV4> predictResponse = client.loadPrediction(InvoiceV4.class, localResponse);
     ProductTestHelper.assertStringEqualsFile(
       predictResponse.getDocumentObj().toString(),
       "src/test/resources/products/invoices/response_v4/summary_full.rst"
