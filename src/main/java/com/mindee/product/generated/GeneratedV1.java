@@ -9,6 +9,6 @@ import lombok.Getter;
  */
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class GeneratedV1 extends Inference<GeneratedV1Page, GeneratedV1Document> {
+public class GeneratedV1 extends Inference<GeneratedV1Document, GeneratedV1Document> {
 
 }
