@@ -7,6 +7,7 @@ import com.mindee.parsing.common.PredictResponse;
 import com.mindee.parsing.generated.GeneratedFeature;
 import com.mindee.parsing.generated.GeneratedObject;
 import com.mindee.parsing.standard.AmountField;
+import com.mindee.parsing.standard.ClassificationField;
 import com.mindee.parsing.standard.DateField;
 import com.mindee.parsing.standard.StringField;
 import org.junit.jupiter.api.Assertions;
@@ -15,6 +16,7 @@ import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Map;
+import java.util.Objects;
 
 public class GeneratedV1Test {
   protected AsyncPredictResponse<GeneratedV1> getAsyncPrediction(String name) throws IOException {
@@ -153,7 +155,24 @@ public class GeneratedV1Test {
       dueDateField.getValue()
     );
 
+    // Access as a ClassificationField
+    ClassificationField documentTypeField = features.get("document_type").asClassificationField();
+    Assertions.assertEquals(
+      "INVOICE",
+      documentTypeField.getValue()
+    );
+
     // Access line items
+    GeneratedFeature lineItems = features.get("line_items");
+    Assertions.assertTrue(lineItems.isList());
+    for (GeneratedObject lineItem : lineItems) {
+      Assertions.assertNotNull(lineItem.get("description"));
+    }
+    GeneratedObject firstLineItem = lineItems.get(0);
+    Assertions.assertEquals(0.84, firstLineItem.get("confidence"));
+    Assertions.assertEquals("S)BOIE 5X500 FEUILLES A4", firstLineItem.get("description"));
+    Assertions.assertEquals(0, firstLineItem.get("page_id"));
+    Assertions.assertNull(firstLineItem.get("product_code"));
   }
 
   @Test
@@ -165,11 +184,13 @@ public class GeneratedV1Test {
 
     for (Map.Entry<String, GeneratedFeature> featureEntry : features.entrySet()) {
       GeneratedFeature featureValue = featureEntry.getValue();
-      if (featureValue.isList()) {
+      if (Objects.equals(featureEntry.getKey(), "document_type")) {
+        Assertions.assertEquals("INVOICE", featureValue.get(0).get("value"));
+      }
+      else if (featureValue.isList()) {
         Assertions.assertTrue(featureValue.isEmpty());
       } else {
         Assertions.assertNull(featureValue.get(0).get("value"));
-        // Assertions.assertNull(featureValue.asStringField().getValue());
       }
     }
   }
