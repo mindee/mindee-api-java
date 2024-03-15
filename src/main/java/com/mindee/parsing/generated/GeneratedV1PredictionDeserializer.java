@@ -9,10 +9,13 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.mindee.product.generated.GeneratedV1Document;
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
+/**
+ * JSON deserializer for generated documents v1.x.
+ */
 public class GeneratedV1PredictionDeserializer extends StdDeserializer<GeneratedV1Document> {
 
   public GeneratedV1PredictionDeserializer(Class<?> vc) {
@@ -51,8 +54,8 @@ public class GeneratedV1PredictionDeserializer extends StdDeserializer<Generated
       } else {
         feature = new GeneratedFeature(false);
         GeneratedObject value = mapper
-          .readerFor(new TypeReference<GeneratedObject>() {})
-          .readValue(featureNode.getValue());
+            .readerFor(new TypeReference<GeneratedObject>() {})
+            .readValue(featureNode.getValue());
         feature.add(value);
       }
       features.put(featureName, feature);

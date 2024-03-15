@@ -2,11 +2,10 @@ package com.mindee.parsing.standard;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.time.LocalDate;
-
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.mindee.geometry.Polygon;
 import com.mindee.geometry.PolygonDeserializer;
+import java.time.LocalDate;
 import lombok.Getter;
 
 /**

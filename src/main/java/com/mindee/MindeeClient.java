@@ -17,6 +17,7 @@ import com.mindee.pdf.PdfBoxApi;
 import com.mindee.pdf.PdfOperation;
 import com.mindee.pdf.SplitQuery;
 import com.mindee.product.custom.CustomV1;
+import com.mindee.product.generated.GeneratedV1;
 import java.io.IOException;
 import java.net.URL;
 
@@ -488,6 +489,107 @@ public class MindeeClient {
           .fileName(filename)
           .urlInputSource(urlInputSource)
           .build());
+  }
+
+  /**
+   * Send a local file to a Generated prediction API and parse the results.
+   */
+  public <T extends GeneratedV1> PredictResponse<T> parse(
+      Class<T> type,
+      Endpoint endpoint,
+      LocalInputSource localInputSource
+  ) throws IOException {
+    return this.parse(
+      type,
+      endpoint,
+      localInputSource.getFile(),
+      localInputSource.getFilename(),
+      null,
+      null
+    );
+  }
+
+  /**
+   * Send a local file to a Generated prediction API and parse the results.
+   */
+  public <T extends GeneratedV1> PredictResponse<T> parse(
+      Class<T> type,
+      Endpoint endpoint,
+      LocalInputSource localInputSource,
+      PredictOptions predictOptions
+  ) throws IOException {
+    return this.parse(
+      type,
+      endpoint,
+      localInputSource.getFile(),
+      localInputSource.getFilename(),
+      predictOptions,
+      null
+    );
+  }
+
+  /**
+   * Send a local file to a Generated prediction API and parse the results.
+   */
+  public <T extends GeneratedV1> PredictResponse<T> parse(
+      Class<T> type,
+      Endpoint endpoint,
+      LocalInputSource localInputSource,
+      PageOptions pageOptions
+  ) throws IOException {
+    return this.parse(
+      type,
+      endpoint,
+      getSplitFile(localInputSource, pageOptions),
+      localInputSource.getFilename(),
+      null,
+      null
+    );
+  }
+
+  /**
+   * Send a local file to a Standard prediction API and parse the results.
+   */
+  public <T extends GeneratedV1> PredictResponse<T> parse(
+      Class<T> type,
+      Endpoint endpoint,
+      LocalInputSource localInputSource,
+      PredictOptions predictOptions,
+      PageOptions pageOptions
+  ) throws IOException {
+    return this.parse(
+      type,
+      endpoint,
+      getSplitFile(localInputSource, pageOptions),
+      localInputSource.getFilename(),
+      predictOptions,
+      null
+    );
+  }
+
+  /**
+   * Send a remote file to a Generated prediction API and parse the results.
+   */
+  public <T extends GeneratedV1> PredictResponse<T> parse(
+      Class<T> type,
+      Endpoint endpoint,
+      URL documentUrl
+  ) throws IOException {
+    InputSourceUtils.validateUrl(documentUrl);
+    return this.parse(type, endpoint, null, null, null, documentUrl);
+  }
+
+  /**
+   * Send a remote file to a Generated prediction API and parse the results.
+   */
+  public <T extends GeneratedV1> PredictResponse<T> parse(
+      Class<T> type,
+      Endpoint endpoint,
+      URL documentUrl,
+      PredictOptions predictOptions
+  ) throws IOException {
+    InputSourceUtils.validateUrl(documentUrl);
+    return this.parse(type, endpoint, null, null, predictOptions, documentUrl);
   }
 
   /**
