@@ -1,5 +1,12 @@
 # Mindee Java API Library Changelog
 
+## v4.12.0 - 2024-03-18
+### Changes
+* :sparkles: update Invoice to v4.5
+* :sparkles: add ability to easily load a webhook response
+* :sparkles: Add support for generated v1
+
+
 ## v4.11.1 - 2024-03-06
 ### Changes
 * :sparkles: handle job errors separately from API errors
