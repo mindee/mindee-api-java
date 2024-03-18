@@ -155,7 +155,6 @@ import com.mindee.input.LocalInputSource;
 import com.mindee.input.LocalResponse;
 import com.mindee.input.WebhookSource;
 import com.mindee.product.internationalid.InternationalIdV2;
-
 import java.io.IOException;
 
 public class SimpleMindeeClient {
