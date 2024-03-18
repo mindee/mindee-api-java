@@ -1,6 +1,6 @@
 import com.mindee.MindeeClient;
 import com.mindee.input.LocalInputSource;
-import com.mindee.parsing.common.PredictResponse;
+import com.mindee.parsing.common.AsyncPredictResponse;
 import com.mindee.product.generated.GeneratedV1;
 import com.mindee.http.Endpoint;
 import java.io.File;
@@ -8,7 +8,7 @@ import java.io.IOException;
 
 public class SimpleMindeeClient {
 
-  public static void main(String[] args) throws IOException {
+  public static void main(String[] args) throws IOException, InterruptedException {
     String apiKey = "my-api-key";
     String filePath = "/path/to/the/file.ext";
 
@@ -25,8 +25,8 @@ public class SimpleMindeeClient {
         "my-version"
     );
 
-    // Parse the file
-    PredictResponse<GeneratedV1> response =  mindeeClient.parse(
+    // Parse the file asynchronously
+    AsyncPredictResponse<GeneratedV1> response = mindeeClient.enqueueAndParse(
         GeneratedV1.class,
         endpoint,
         inputSource
@@ -36,13 +36,13 @@ public class SimpleMindeeClient {
     System.out.println(response.toString());
 
     // Print a summary of the predictions
-//  System.out.println(response.getDocument().toString());
+//  System.out.println(response.getDocumentObj().toString());
 
     // Print the document-level predictions
-//    System.out.println(response.getDocument().getInference().getPrediction().toString());
+//    System.out.println(response.getDocumentObj().getInference().getPrediction().toString());
 
     // Print the page-level predictions
-//    response.getDocument().getInference().getPages().forEach(
+//    response.getDocumentObj().getInference().getPages().forEach(
 //        page -> System.out.println(page.toString())
 //    );
   }

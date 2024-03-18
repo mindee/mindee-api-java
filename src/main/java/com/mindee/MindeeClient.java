@@ -17,6 +17,7 @@ import com.mindee.pdf.PdfBoxApi;
 import com.mindee.pdf.PdfOperation;
 import com.mindee.pdf.SplitQuery;
 import com.mindee.product.custom.CustomV1;
+import com.mindee.product.generated.GeneratedV1;
 import java.io.IOException;
 import java.net.URL;
 
@@ -312,7 +313,7 @@ public class MindeeClient {
     Thread.sleep(initialDelaySec);
 
     while (retryCount < pollingOptions.getMaxRetries()) {
-      parseResponse = parseQueued(type, jobId);
+      parseResponse = this.mindeeApi.documentQueueGet(type, endpoint, jobId);
       if (parseResponse.getDocument().isPresent()) {
         return parseResponse;
       }
@@ -488,6 +489,280 @@ public class MindeeClient {
           .fileName(filename)
           .urlInputSource(urlInputSource)
           .build());
+  }
+
+  /**
+   * Send a local file to a Generated prediction async API queue.
+   */
+  public <T extends GeneratedV1> AsyncPredictResponse<T> enqueue(
+      Class<T> type,
+      Endpoint endpoint,
+      LocalInputSource localInputSource
+  ) throws IOException {
+    return this.enqueue(
+      type,
+      endpoint,
+      localInputSource.getFile(),
+      localInputSource.getFilename(),
+      null,
+      null
+    );
+  }
+
+  /**
+   * Send a local file to a Generated prediction async API queue.
+   */
+  public <T extends GeneratedV1> AsyncPredictResponse<T> enqueue(
+      Class<T> type,
+      Endpoint endpoint,
+      LocalInputSource localInputSource,
+      PredictOptions predictOptions,
+      PageOptions pageOptions
+  ) throws IOException {
+    return this.enqueue(
+      type,
+      endpoint,
+      getSplitFile(localInputSource, pageOptions),
+      localInputSource.getFilename(),
+      predictOptions,
+      null
+    );
+  }
+
+  /**
+   * Send a remote file to a Generated prediction async API queue.
+   */
+  public <T extends GeneratedV1> AsyncPredictResponse<T> enqueue(
+      Class<T> type,
+      Endpoint endpoint,
+      URL sourceUrl
+  ) throws IOException {
+    InputSourceUtils.validateUrl(sourceUrl);
+    return this.enqueue(
+      type,
+      endpoint,
+      null,
+      null,
+      null,
+      sourceUrl
+    );
+  }
+
+  /**
+   * Send a remote file to a Generated prediction async API queue.
+   */
+  public <T extends GeneratedV1> AsyncPredictResponse<T> enqueue(
+      Class<T> type,
+      Endpoint endpoint,
+      URL sourceUrl,
+      PredictOptions predictOptions
+  ) throws IOException {
+    InputSourceUtils.validateUrl(sourceUrl);
+    return this.enqueue(
+      type,
+      endpoint,
+      null,
+      null,
+      predictOptions,
+      sourceUrl
+    );
+  }
+
+
+  /**
+   * Send a local file to a Generated prediction API async queue, poll, and parse when complete.
+   */
+  public <T extends GeneratedV1> AsyncPredictResponse<T> enqueueAndParse(
+      Class<T> type,
+      Endpoint endpoint,
+      LocalInputSource localInputSource
+  ) throws IOException, InterruptedException {
+    return this.enqueueAndParse(
+      type,
+      endpoint,
+      null,
+      localInputSource.getFile(),
+      localInputSource.getFilename(),
+      null,
+      null);
+  }
+
+  /**
+   * Send a local file to a Generated prediction API async queue, poll, and parse when complete.
+   */
+  public <T extends GeneratedV1> AsyncPredictResponse<T> enqueueAndParse(
+      Class<T> type,
+      Endpoint endpoint,
+      LocalInputSource localInputSource,
+      AsyncPollingOptions pollingOptions
+  ) throws IOException, InterruptedException {
+    return this.enqueueAndParse(
+      type,
+      endpoint,
+      pollingOptions,
+      localInputSource.getFile(),
+      localInputSource.getFilename(),
+      null,
+      null
+    );
+  }
+
+  /**
+   * Send a local file to a Generated prediction API async queue, poll, and parse when complete.
+   */
+  public <T extends GeneratedV1> AsyncPredictResponse<T> enqueueAndParse(
+      Class<T> type,
+      Endpoint endpoint,
+      LocalInputSource localInputSource,
+      PredictOptions predictOptions,
+      PageOptions pageOptions,
+      AsyncPollingOptions pollingOptions
+  ) throws IOException, InterruptedException {
+    return this.enqueueAndParse(
+      type,
+      endpoint,
+      pollingOptions,
+      getSplitFile(localInputSource, pageOptions),
+      localInputSource.getFilename(),
+      predictOptions,
+      null
+    );
+  }
+
+  /**
+   * Send a remote file to a Generated prediction API async queue, poll, and parse when complete.
+   */
+  public <T extends GeneratedV1> AsyncPredictResponse<T> enqueueAndParse(
+      Class<T> type,
+      Endpoint endpoint,
+      URL sourceUrl
+  ) throws IOException, InterruptedException {
+    InputSourceUtils.validateUrl(sourceUrl);
+    return this.enqueueAndParse(
+      type,
+      endpoint,
+      null,
+      null,
+      null,
+      null,
+      sourceUrl
+    );
+  }
+
+  /**
+   * Send a local file to a Generated prediction API and parse the results.
+   */
+  public <T extends GeneratedV1> PredictResponse<T> parse(
+      Class<T> type,
+      Endpoint endpoint,
+      LocalInputSource localInputSource
+  ) throws IOException {
+    return this.parse(
+      type,
+      endpoint,
+      localInputSource.getFile(),
+      localInputSource.getFilename(),
+      null,
+      null
+    );
+  }
+
+  /**
+   * Send a local file to a Generated prediction API and parse the results.
+   */
+  public <T extends GeneratedV1> PredictResponse<T> parse(
+      Class<T> type,
+      Endpoint endpoint,
+      LocalInputSource localInputSource,
+      PredictOptions predictOptions
+  ) throws IOException {
+    return this.parse(
+      type,
+      endpoint,
+      localInputSource.getFile(),
+      localInputSource.getFilename(),
+      predictOptions,
+      null
+    );
+  }
+
+  /**
+   * Send a local file to a Generated prediction API and parse the results.
+   */
+  public <T extends GeneratedV1> PredictResponse<T> parse(
+      Class<T> type,
+      Endpoint endpoint,
+      LocalInputSource localInputSource,
+      PageOptions pageOptions
+  ) throws IOException {
+    return this.parse(
+      type,
+      endpoint,
+      getSplitFile(localInputSource, pageOptions),
+      localInputSource.getFilename(),
+      null,
+      null
+    );
+  }
+
+  /**
+   * Send a local file to a Standard prediction API and parse the results.
+   */
+  public <T extends GeneratedV1> PredictResponse<T> parse(
+      Class<T> type,
+      Endpoint endpoint,
+      LocalInputSource localInputSource,
+      PredictOptions predictOptions,
+      PageOptions pageOptions
+  ) throws IOException {
+    return this.parse(
+      type,
+      endpoint,
+      getSplitFile(localInputSource, pageOptions),
+      localInputSource.getFilename(),
+      predictOptions,
+      null
+    );
+  }
+
+  /**
+   * Send a remote file to a Generated prediction API and parse the results.
+   */
+  public <T extends GeneratedV1> PredictResponse<T> parse(
+      Class<T> type,
+      Endpoint endpoint,
+      URL documentUrl
+  ) throws IOException {
+    InputSourceUtils.validateUrl(documentUrl);
+    return this.parse(type, endpoint, null, null, null, documentUrl);
+  }
+
+  /**
+   * Send a remote file to a Generated prediction API and parse the results.
+   */
+  public <T extends GeneratedV1> PredictResponse<T> parse(
+      Class<T> type,
+      Endpoint endpoint,
+      URL documentUrl,
+      PredictOptions predictOptions
+  ) throws IOException {
+    InputSourceUtils.validateUrl(documentUrl);
+    return this.parse(type, endpoint, null, null, predictOptions, documentUrl);
+  }
+
+  /**
+   * Parse a document from a Generated prediction API async queue.
+   */
+  public <T extends GeneratedV1> AsyncPredictResponse<T> parseQueued(
+      Class<T> type,
+      Endpoint endpoint,
+      String jobId
+  ) {
+    return this.mindeeApi.documentQueueGet(
+      type,
+      endpoint,
+      jobId
+    );
   }
 
   /**

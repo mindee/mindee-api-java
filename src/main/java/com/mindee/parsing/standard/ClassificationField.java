@@ -17,6 +17,10 @@ public final class ClassificationField {
   @JsonProperty("value")
   private String value;
 
+  public ClassificationField(@JsonProperty("value") String value) {
+    this.value = value;
+  }
+
   @Override
   public String toString() {
     return value == null ? "" : value;
