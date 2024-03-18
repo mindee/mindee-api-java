@@ -13,6 +13,7 @@ import com.mindee.parsing.common.Job;
 import com.mindee.parsing.common.PredictResponse;
 import com.mindee.product.ProductTestHelper;
 import com.mindee.product.custom.CustomV1;
+import com.mindee.product.generated.GeneratedV1;
 import com.mindee.product.invoice.InvoiceV4;
 import com.mindee.product.internationalid.InternationalIdV2;
 import com.mindee.pdf.PdfOperation;
@@ -392,6 +393,46 @@ class MindeeClientTest {
     Assertions.assertEquals(Boolean.FALSE, requestParameters.getPredictOptions().getAllWords());
     Assertions.assertNull(requestParameters.getFile());
     Assertions.assertEquals(new URL("https://fake.pdf"), requestParameters.getFileUrl());
+    Assertions.assertEquals("someid", jobId);
+  }
+
+  @Test
+  void givenAnAsyncGeneratedDoc_whenEnqueuedNoParams_shouldInvokeApiCorrectly() throws IOException, InterruptedException {
+
+    File file = new File("src/test/resources/file_types/pdf/blank_1.pdf");
+    LocalInputSource localInputSource = new LocalInputSource(file);
+
+    Job job = new Job(LocalDateTime.now(), "someid", LocalDateTime.now(), "Completed", null);
+    Endpoint endpoint = new Endpoint("dsddw", "dcsdcd", "dsfdd");
+    AsyncPredictResponse predictResponse = new AsyncPredictResponse();
+    predictResponse.setDocument(new Document<>());
+    predictResponse.setApiRequest(null);
+    predictResponse.setJob(job);
+    Mockito.when(
+        mindeeApi.predictAsyncPost(
+          Mockito.any(),
+          Mockito.any(),
+          Mockito.any()))
+      .thenReturn(predictResponse);
+    String jobId = client.enqueue(GeneratedV1.class, endpoint, localInputSource)
+      .getJob().getId();
+
+    ArgumentCaptor<Class> classArgumentCaptor = ArgumentCaptor.forClass(Class.class);
+    ArgumentCaptor<RequestParameters> requestParametersArgumentCaptor = ArgumentCaptor.forClass(
+      RequestParameters.class);
+    Mockito.verify(mindeeApi, Mockito.times(1))
+      .predictAsyncPost(
+        classArgumentCaptor.capture(),
+        Mockito.any(),
+        requestParametersArgumentCaptor.capture()
+      );
+    RequestParameters requestParameters = requestParametersArgumentCaptor.getValue();
+    Assertions.assertEquals(GeneratedV1.class, classArgumentCaptor.getValue());
+    Assertions.assertEquals("blank_1.pdf", requestParameters.getFileName());
+    Assertions.assertFalse(requestParameters.getPredictOptions().getAllWords());
+    Assertions.assertNotNull(requestParameters.getFile());
+    Assertions.assertTrue(requestParameters.getFile().length > 0);
+    Assertions.assertNull(requestParameters.getFileUrl());
     Assertions.assertEquals("someid", jobId);
   }
 
