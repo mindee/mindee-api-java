@@ -18,14 +18,15 @@ import lombok.Getter;
  * </p>
  * <p>
  *   If you want, you can "cast" the raw hashmap into one of the standard Mindee fields:
- *   <ul>
- *     <li>StringField <-- asStringField()</li>
- *     <li>AmountField <-- asAmountField()</li>
- *     <li>DateField <-- asDateField()</li>
- *     <li>ClassificationField <-- asClassificationField()</li>
- *   </ul>
- *   This will not work for any feature which is a list in the Mindee return.
  * </p>
+ * <ul>
+ *   <li>StringField - asStringField()</li>
+ *   <li>AmountField - asAmountField()</li>
+ *   <li>DateField - asDateField()</li>
+ *   <li>ClassificationField - asClassificationField()</li>
+ * </ul>
+ * This will not work for any feature which is a list in the Mindee return.
+ *
  */
 @Getter
 public class GeneratedFeature extends ArrayList<GeneratedObject> {
