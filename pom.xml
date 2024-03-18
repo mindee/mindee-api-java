@@ -90,7 +90,7 @@
         <plugin>
           <artifactId>maven-compiler-plugin</artifactId>
           <groupId>org.apache.maven.plugins</groupId>
-          <version>3.10.1</version>
+          <version>3.12.1</version>
           <configuration>
             <annotationProcessorPaths>
               <path>
@@ -341,7 +341,7 @@
     <org.mapstruct.version>1.5.3.Final</org.mapstruct.version>
     <org.projectlombok.lombok-mapstruct-binding.version>0.2.0
     </org.projectlombok.lombok-mapstruct-binding.version>
-    <org.projectlombok.version>1.18.26</org.projectlombok.version>
+    <org.projectlombok.version>1.18.30</org.projectlombok.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <wiremock.version>2.27.2</wiremock.version>
   </properties>
