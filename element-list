@@ -8,6 +8,7 @@ com.mindee.parsing.common
 com.mindee.parsing.common.ocr
 com.mindee.parsing.custom
 com.mindee.parsing.custom.lineitems
+com.mindee.parsing.generated
 com.mindee.parsing.standard
 com.mindee.pdf
 com.mindee.product.barcodereader
@@ -20,6 +21,7 @@ com.mindee.product.fr.bankaccountdetails
 com.mindee.product.fr.cartegrise
 com.mindee.product.fr.cartevitale
 com.mindee.product.fr.idcard
+com.mindee.product.generated
 com.mindee.product.internationalid
 com.mindee.product.invoice
 com.mindee.product.invoicesplitter
