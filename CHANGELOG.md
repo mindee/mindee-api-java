@@ -1,5 +1,13 @@
 # Mindee Java API Library Changelog
 
+## v4.12.1 - 2024-03-19
+### Changes
+* :arrow_up: update libraries for Java 21
+
+### Fixes
+* :bug: fix HTML in docs
+
+
 ## v4.12.0 - 2024-03-18
 ### Changes
 * :sparkles: update Invoice to v4.5
