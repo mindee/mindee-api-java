@@ -5,7 +5,7 @@
 
   <groupId>com.mindee.sdk</groupId>
   <artifactId>mindee-api-java</artifactId>
-  <version>4.12.0</version>
+  <version>4.12.1</version>
   <modelVersion>4.0.0</modelVersion>
   <name>Mindee Java Helper Library</name>
   <description>Java Library to call Mindee's Off-The-Shelf and Custom APIs</description>
