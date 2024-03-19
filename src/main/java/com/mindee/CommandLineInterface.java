@@ -9,6 +9,7 @@ import com.mindee.parsing.common.Document;
 import com.mindee.parsing.common.Inference;
 import com.mindee.parsing.common.PredictResponse;
 import com.mindee.product.custom.CustomV1;
+import com.mindee.product.internationalid.InternationalIdV2;
 import com.mindee.product.invoice.InvoiceV4;
 import com.mindee.product.invoicesplitter.InvoiceSplitterV1;
 import com.mindee.product.multireceiptsdetector.MultiReceiptsDetectorV1;
@@ -80,7 +81,7 @@ public class CommandLineInterface {
     System.exit(exitCode);
   }
 
-  @Command(name = "invoice", description = "Invokes the Invoice API")
+  @Command(name = "invoice", description = "Parse using Invoice")
   void invoiceMethod(
       @Parameters(index = "0", paramLabel = "<path>", scope = ScopeType.LOCAL)
       File file
@@ -88,7 +89,7 @@ public class CommandLineInterface {
     System.out.println(standardProductOutput(InvoiceV4.class, file));
   }
 
-  @Command(name = "receipt", description = "Invokes the Expense Receipt API")
+  @Command(name = "receipt", description = "Parse using Expense Receipt")
   void receiptMethod(
       @Parameters(index = "0", paramLabel = "<path>", scope = ScopeType.LOCAL)
       File file
@@ -96,7 +97,7 @@ public class CommandLineInterface {
     System.out.println(standardProductOutput(ReceiptV4.class, file));
   }
 
-  @Command(name = "multi-receipt-detector", description = "Invokes the Multi Receipts Detector API")
+  @Command(name = "multi-receipt-detector", description = "Parse using Multi Receipts Detector")
   void multiReceiptDetectorMethod(
       @Parameters(index = "0", paramLabel = "<path>", scope = ScopeType.LOCAL)
       File file
@@ -104,7 +105,7 @@ public class CommandLineInterface {
     System.out.println(standardProductOutput(MultiReceiptsDetectorV1.class, file));
   }
 
-  @Command(name = "passport", description = "Invokes the Passport API")
+  @Command(name = "passport", description = "Parse using Passport")
   void passportMethod(
       @Parameters(index = "0", paramLabel = "<path>", scope = ScopeType.LOCAL)
       File file
@@ -112,12 +113,20 @@ public class CommandLineInterface {
     System.out.println(standardProductOutput(PassportV1.class, file));
   }
 
-  @Command(name = "invoice-splitter", description = "Invokes the Invoice Splitter API")
+  @Command(name = "invoice-splitter", description = "Parse using Invoice Splitter")
   void invoiceSplitterMethod(
       @Parameters(index = "0", paramLabel = "<path>", scope = ScopeType.LOCAL)
       File file
   ) throws IOException, InterruptedException {
     System.out.println(standardProductAsyncOutput(InvoiceSplitterV1.class, file));
+  }
+
+  @Command(name = "international-id", description = "Parse using International ID")
+  void internationalIdMethod(
+      @Parameters(index = "0", paramLabel = "<path>", scope = ScopeType.LOCAL)
+      File file
+  ) throws IOException, InterruptedException {
+    System.out.println(standardProductAsyncOutput(InternationalIdV2.class, file));
   }
 
   @Command(name = "custom", description = "Invokes a Custom API")

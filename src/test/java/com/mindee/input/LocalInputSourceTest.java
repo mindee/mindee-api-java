@@ -21,7 +21,8 @@ public class LocalInputSourceTest {
     File file = new File("src/test/resources/file_types/pdf/multipage.pdf");
     LocalInputSource localInputSource = new LocalInputSource(
         Files.newInputStream(file.toPath()),
-        "multipage.pdf");
+        "multipage.pdf"
+    );
     Assertions.assertNotNull(localInputSource);
     Assertions.assertArrayEquals(localInputSource.getFile(), Files.readAllBytes(file.toPath()));
   }
@@ -31,7 +32,8 @@ public class LocalInputSourceTest {
     File file = new File("src/test/resources/file_types/pdf/multipage.pdf");
     LocalInputSource localInputSource = new LocalInputSource(
         Files.readAllBytes(file.toPath()),
-        "multipage.pdf");
+        "multipage.pdf"
+    );
     Assertions.assertNotNull(localInputSource);
     Assertions.assertArrayEquals(localInputSource.getFile(), Files.readAllBytes(file.toPath()));
   }
@@ -42,7 +44,8 @@ public class LocalInputSourceTest {
     String encodedFile = Base64.encodeBase64String(Files.readAllBytes(file.toPath()));
     LocalInputSource localInputSource = new LocalInputSource(
         encodedFile,
-        "multipage.pdf");
+        "multipage.pdf"
+    );
     Assertions.assertNotNull(localInputSource);
     Assertions.assertArrayEquals(localInputSource.getFile(), Files.readAllBytes(file.toPath()));
   }
