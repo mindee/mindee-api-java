@@ -54,6 +54,8 @@ public class GeneratedV1Test {
 
     Map<String, GeneratedFeature> features = docPrediction.getFields();
 
+    // Direct access to the hashmap
+
     Assertions.assertFalse(features.get("address").isList());
     Assertions.assertEquals("AVDA DE MADRID S-N MADRID MADRID", features.get("address").get(0).get("value"));
 
@@ -75,6 +77,24 @@ public class GeneratedV1Test {
     Assertions.assertTrue(features.get("surnames").isList());
     Assertions.assertEquals("ESPAÑOLA", features.get("surnames").get(0).get("value"));
     Assertions.assertEquals("ESPAÑOLA", features.get("surnames").get(1).get("value"));
+
+    // Access as a StringField without raw_value
+    StringField addressField = features.get("address").asStringField();
+    Assertions.assertEquals(
+        "AVDA DE MADRID S-N MADRID MADRID",
+        addressField.getValue()
+    );
+    Assertions.assertNull(addressField.getRawValue());
+    Assertions.assertNull(addressField.getConfidence());
+    Assertions.assertNull(addressField.getPageId());
+    Assertions.assertNull(addressField.getPolygon());
+
+    // Access as a DateField
+    DateField expiryDateField = features.get("expiry_date").asDateField();
+    Assertions.assertEquals(
+      LocalDate.parse("2025-01-01"),
+      expiryDateField.getValue()
+    );
   }
 
   @Test
@@ -120,13 +140,12 @@ public class GeneratedV1Test {
       1,
       customerName.get(0).get("page_id")
     );
-    System.out.println(customerName.get(0).get("polygon").getClass());
     Assertions.assertEquals(
       "Polygon with 4 points.",
       customerName.get(0).getAsPolygon("polygon").toString()
     );
 
-    // Access as a StringField
+    // Access as a StringField with raw_value
     StringField customerNameField = customerName.asStringField();
     Assertions.assertEquals(
       "JIRO DOI",
@@ -139,6 +158,36 @@ public class GeneratedV1Test {
     Assertions.assertEquals(
       0.87,
       customerNameField.getConfidence()
+    );
+    Assertions.assertEquals(
+      1,
+      customerNameField.getPageId()
+    );
+    Assertions.assertEquals(
+      "Polygon with 4 points.",
+      customerNameField.getPolygon().toString()
+    );
+
+    // Access as a StringField without raw_value
+    StringField supplierAddressField = features.get("supplier_address").asStringField();
+    Assertions.assertEquals(
+      "156 University Ave, Toronto ON, Canada M5H 2H7",
+      supplierAddressField.getValue()
+    );
+    Assertions.assertNull(
+      supplierAddressField.getRawValue()
+    );
+    Assertions.assertEquals(
+      0.53,
+      supplierAddressField.getConfidence()
+    );
+    Assertions.assertEquals(
+      1,
+      supplierAddressField.getPageId()
+    );
+    Assertions.assertEquals(
+      "Polygon with 4 points.",
+      supplierAddressField.getPolygon().toString()
     );
 
     // Access as an AmountField

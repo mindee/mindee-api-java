@@ -21,9 +21,9 @@ public class GeneratedObject extends HashMap<String, Object> {
   public StringField asStringField() {
     return new StringField(
       (String) this.get("value"),
-      (String) this.get("raw_value"),
+      this.get("raw_value") != null ? (String) this.get("raw_value") : null,
       this.getConfidence(),
-      this.getAsPolygon("polygon"),
+      this.getPolygon(),
       this.getPageId()
     );
   }
@@ -35,7 +35,7 @@ public class GeneratedObject extends HashMap<String, Object> {
     return new AmountField(
       (Double) this.get("value"),
       this.getConfidence(),
-      this.getAsPolygon("polygon"),
+      this.getPolygon(),
       this.getPageId()
     );
   }
@@ -47,7 +47,7 @@ public class GeneratedObject extends HashMap<String, Object> {
     return new DateField(
       LocalDate.parse((String) this.get("value")),
       this.getConfidence(),
-      this.getAsPolygon("polygon"),
+      this.getPolygon(),
       this.getPageId()
     );
   }
@@ -61,15 +61,34 @@ public class GeneratedObject extends HashMap<String, Object> {
     );
   }
 
+  /**
+   * Get the polygon, if present.
+   */
+  public Polygon getPolygon() {
+    return this.getAsPolygon("polygon");
+  }
+
+  /**
+   * Get the specified key as a {@link Polygon} object.
+   */
   public Polygon getAsPolygon(String key) {
-    return PolygonUtils.getFrom((List<List<Double>>) this.get(key));
+    if (this.containsKey(key)) {
+      return PolygonUtils.getFrom((List<List<Double>>) this.get(key));
+    }
+    return null;
   }
 
+  /**
+   * Get the page ID, if present.
+   */
   public Integer getPageId() {
-    return (Integer) this.get("page_id");
+    return this.get("page_id") != null ? (Integer) this.get("page_id") : null;
   }
 
+  /**
+   * Get the confidence score, if present.
+   */
   public Double getConfidence() {
-    return (Double) this.get("confidence");
+    return this.get("confidence") != null ? (Double) this.get("confidence") : null;
   }
 }
