@@ -62,8 +62,7 @@ public class ImageExtractor {
   }
 
   /**
-   * Extract images from a list of fields having position data.
-   * Use this when the input file is a PDF with multiple pages.
+   * Extract multiple images on a given page from a list of fields having position data.
    * @param fields List of Fields to extract.
    * @param pageIndex The page index to extract, begins at 0.
    * @return A list of {@link ExtractedImage}.
@@ -76,8 +75,7 @@ public class ImageExtractor {
   }
 
   /**
-   * Extract images from a list of fields having position data.
-   * Use this when the input file is a PDF with multiple pages.
+   * Extract multiple images on a given page from a list of fields having position data.
    * @param fields List of Fields to extract.
    * @param pageIndex The page index to extract, begins at 0.
    * @param outputName The base output filename, must have an image extension.
@@ -118,7 +116,7 @@ public class ImageExtractor {
   }
 
   /**
-   * Extract an image from a field having position data.
+   * Extract a single image from a field having position data.
    * @param field The field to extract.
    * @param index The index to use for naming the extracted image.
    * @param pageIndex The page index to extract, begins at 0.
@@ -145,7 +143,7 @@ public class ImageExtractor {
   }
 
   /**
-   * Extract an image from a field having position data.
+   * Extract a single image from a field having position data.
    * @param field The field to extract.
    * @param index The index to use for naming the extracted image.
    * @param pageIndex The page index to extract, begins at 0.
