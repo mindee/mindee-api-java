@@ -1,7 +1,7 @@
 package com.mindee.pdf;
 
+import com.mindee.input.LocalInputSource;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -29,7 +29,8 @@ public class PDFUtilsTest {
     document.save("src/test/resources/output/test.pdf");
     document.close();
     File file = new File("src/test/resources/output/test.pdf");
-    Assertions.assertEquals(random, PDFUtils.countPdfPages(new FileInputStream(file)));
+    LocalInputSource source = new LocalInputSource(file);
+    Assertions.assertEquals(random, PDFUtils.getNumberOfPages(source));
     file.delete();
   }
 
@@ -71,14 +72,25 @@ public class PDFUtilsTest {
   }
 
   @Test
-  public void shouldConvertToJpg() throws IOException {
+  public void shouldConvertAllPagesToJpg() throws IOException {
     List<PdfPageImage> pdfPageImages = PDFUtils.pdfToImages(
-      "src/test/resources/file_types/pdf/not_blank_image_only.pdf"
+      "src/test/resources/file_types/pdf/multipage_cut-2.pdf"
     );
     for (PdfPageImage pdfPageImage : pdfPageImages) {
       Assertions.assertNotNull(pdfPageImage.getImage());
       Assertions.assertEquals(pdfPageImage.asInputSource().getFilename(), pdfPageImage.getFilename());
       pdfPageImage.writeToFile("src/test/resources/output/");
+      Assertions.assertTrue(Files.exists(Paths.get("src/test/resources/output/" + pdfPageImage.getFilename())));
     }
+  }
+
+  @Test
+  public void shouldConvertSinglePageToJpg() throws IOException {
+    LocalInputSource source = new LocalInputSource("src/test/resources/file_types/pdf/multipage.pdf");
+    PdfPageImage pdfPageImage = PDFUtils.pdfPageToImage(source, 3);
+    Assertions.assertNotNull(pdfPageImage.getImage());
+    Assertions.assertEquals(pdfPageImage.asInputSource().getFilename(), pdfPageImage.getFilename());
+    pdfPageImage.writeToFile("src/test/resources/output/");
+    Assertions.assertTrue(Files.exists(Paths.get("src/test/resources/output/" + pdfPageImage.getFilename())));
   }
 }
