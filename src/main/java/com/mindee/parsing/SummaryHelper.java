@@ -1,6 +1,5 @@
 package com.mindee.parsing;
 
-import com.mindee.parsing.standard.BaseField;
 import com.mindee.parsing.standard.LineItemField;
 import java.text.DecimalFormat;
 import java.util.List;
@@ -46,17 +45,28 @@ public final class SummaryHelper {
   /**
    * Truncates a string if it's too long for the requested width.
    */
-  public static String formatForDisplay(String inputString, Integer maxColSize) {
-    if (inputString == null || inputString.isEmpty()) {
+  public static String formatForDisplay(String inputValue, Integer maxColSize) {
+    if (inputValue == null || inputValue.isEmpty()) {
       return "";
     }
-    if (maxColSize == null) {
-      return inputString;
-    }
-    if (inputString.length() <= maxColSize) {
-      return inputString;
+    if (maxColSize == null || inputValue.length() <= maxColSize) {
+      return inputValue;
     } else {
-      return inputString.substring(0, maxColSize - 3) + "...";
+      return inputValue.substring(0, maxColSize - 3) + "...";
+    }
+  }
+
+  /**
+   * Truncates a boolean string if it's too long for the requested width.
+   */
+  public static String formatForDisplay(Boolean inputValue, Integer maxColSize) {
+    if (inputValue == null) {
+      return "";
+    }
+    if (maxColSize == null || 3 <= maxColSize) {
+      return inputValue ? "Yes" : "No";
+    } else {
+      return inputValue ? "Y" : "N";
     }
   }
 
