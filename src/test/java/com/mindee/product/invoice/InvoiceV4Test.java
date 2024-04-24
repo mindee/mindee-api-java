@@ -47,9 +47,13 @@ public class InvoiceV4Test {
     Assertions.assertNull(docPrediction.getSupplierName().getValue());
     Assertions.assertTrue(docPrediction.getSupplierCompanyRegistrations().isEmpty());
     Assertions.assertNull(docPrediction.getSupplierAddress().getValue());
+    Assertions.assertNull(docPrediction.getSupplierPhoneNumber().getValue());
+    Assertions.assertNull(docPrediction.getSupplierWebsite().getValue());
+    Assertions.assertNull(docPrediction.getSupplierEmail().getValue());
     Assertions.assertNull(docPrediction.getCustomerName().getValue());
     Assertions.assertTrue(docPrediction.getCustomerCompanyRegistrations().isEmpty());
     Assertions.assertNull(docPrediction.getCustomerAddress().getValue());
+    Assertions.assertNull(docPrediction.getCustomerId().getValue());
     Assertions.assertNull(docPrediction.getShippingAddress().getValue());
     Assertions.assertNull(docPrediction.getBillingAddress().getValue());
     Assertions.assertInstanceOf(ClassificationField.class, docPrediction.getDocumentType());

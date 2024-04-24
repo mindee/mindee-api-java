@@ -20,13 +20,18 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 /**
- * Document data for Financial Document, API version 1.
+ * Financial Document API version 1.6 document data.
  */
 @Getter
 @EqualsAndHashCode(callSuper = false)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class FinancialDocumentV1Document extends Prediction {
 
+  /**
+   * The customer's address used for billing.
+   */
+  @JsonProperty("billing_address")
+  private StringField billingAddress;
   /**
    * The purchase category among predefined classes.
    */
@@ -42,6 +47,11 @@ public class FinancialDocumentV1Document extends Prediction {
    */
   @JsonProperty("customer_company_registrations")
   private List<CompanyRegistrationField> customerCompanyRegistrations = new ArrayList<>();
+  /**
+   * The customer account number or identifier from the supplier.
+   */
+  @JsonProperty("customer_id")
+  private StringField customerId;
   /**
    * The name of the customer.
    */
@@ -83,6 +93,11 @@ public class FinancialDocumentV1Document extends Prediction {
   @JsonProperty("reference_numbers")
   private List<StringField> referenceNumbers = new ArrayList<>();
   /**
+   * The customer's address used for shipping.
+   */
+  @JsonProperty("shipping_address")
+  private StringField shippingAddress;
+  /**
    * The purchase subcategory among predefined classes for transport and food.
    */
   @JsonProperty("subcategory")
@@ -98,6 +113,11 @@ public class FinancialDocumentV1Document extends Prediction {
   @JsonProperty("supplier_company_registrations")
   private List<CompanyRegistrationField> supplierCompanyRegistrations = new ArrayList<>();
   /**
+   * The email of the supplier or merchant.
+   */
+  @JsonProperty("supplier_email")
+  private StringField supplierEmail;
+  /**
    * The name of the supplier or merchant.
    */
   @JsonProperty("supplier_name")
@@ -112,6 +132,11 @@ public class FinancialDocumentV1Document extends Prediction {
    */
   @JsonProperty("supplier_phone_number")
   private StringField supplierPhoneNumber;
+  /**
+   * The website URL of the supplier or merchant.
+   */
+  @JsonProperty("supplier_website")
+  private StringField supplierWebsite;
   /**
    * List of tax lines information.
    */
@@ -161,8 +186,13 @@ public class FinancialDocumentV1Document extends Prediction {
       && this.supplierAddress == null
       && this.supplierPhoneNumber == null
       && this.customerName == null
+      && this.supplierWebsite == null
+      && this.supplierEmail == null
       && (this.customerCompanyRegistrations == null || this.customerCompanyRegistrations.isEmpty())
       && this.customerAddress == null
+      && this.customerId == null
+      && this.shippingAddress == null
+      && this.billingAddress == null
       && this.documentType == null
       && this.subcategory == null
       && this.category == null
@@ -230,6 +260,12 @@ public class FinancialDocumentV1Document extends Prediction {
     outStr.append(
         String.format(":Customer Name: %s%n", this.getCustomerName())
     );
+    outStr.append(
+        String.format(":Supplier Website: %s%n", this.getSupplierWebsite())
+    );
+    outStr.append(
+        String.format(":Supplier Email: %s%n", this.getSupplierEmail())
+    );
     String customerCompanyRegistrations = SummaryHelper.arrayToString(
         this.getCustomerCompanyRegistrations(),
         "%n                                 "
@@ -239,6 +275,15 @@ public class FinancialDocumentV1Document extends Prediction {
     );
     outStr.append(
         String.format(":Customer Address: %s%n", this.getCustomerAddress())
+    );
+    outStr.append(
+        String.format(":Customer ID: %s%n", this.getCustomerId())
+    );
+    outStr.append(
+        String.format(":Shipping Address: %s%n", this.getShippingAddress())
+    );
+    outStr.append(
+        String.format(":Billing Address: %s%n", this.getBillingAddress())
     );
     outStr.append(
         String.format(":Document Type: %s%n", this.getDocumentType())

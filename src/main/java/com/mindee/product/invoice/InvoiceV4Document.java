@@ -20,7 +20,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 /**
- * Document data for Invoice, API version 4.
+ * Invoice API version 4.6 document data.
  */
 @Getter
 @EqualsAndHashCode(callSuper = false)
@@ -42,6 +42,11 @@ public class InvoiceV4Document extends Prediction {
    */
   @JsonProperty("customer_company_registrations")
   private List<CompanyRegistrationField> customerCompanyRegistrations = new ArrayList<>();
+  /**
+   * The customer account number or identifier from the supplier.
+   */
+  @JsonProperty("customer_id")
+  private StringField customerId;
   /**
    * The name of the customer or client.
    */
@@ -98,6 +103,11 @@ public class InvoiceV4Document extends Prediction {
   @JsonProperty("supplier_company_registrations")
   private List<CompanyRegistrationField> supplierCompanyRegistrations = new ArrayList<>();
   /**
+   * The email of the supplier or merchant.
+   */
+  @JsonProperty("supplier_email")
+  private StringField supplierEmail;
+  /**
    * The name of the supplier or merchant.
    */
   @JsonProperty("supplier_name")
@@ -107,6 +117,16 @@ public class InvoiceV4Document extends Prediction {
    */
   @JsonProperty("supplier_payment_details")
   private List<PaymentDetailsField> supplierPaymentDetails = new ArrayList<>();
+  /**
+   * The phone number of the supplier or merchant.
+   */
+  @JsonProperty("supplier_phone_number")
+  private StringField supplierPhoneNumber;
+  /**
+   * The website URL of the supplier or merchant.
+   */
+  @JsonProperty("supplier_website")
+  private StringField supplierWebsite;
   /**
    * List of tax line details.
    */
@@ -145,9 +165,13 @@ public class InvoiceV4Document extends Prediction {
       && this.supplierName == null
       && (this.supplierCompanyRegistrations == null || this.supplierCompanyRegistrations.isEmpty())
       && this.supplierAddress == null
+      && this.supplierPhoneNumber == null
+      && this.supplierWebsite == null
+      && this.supplierEmail == null
       && this.customerName == null
       && (this.customerCompanyRegistrations == null || this.customerCompanyRegistrations.isEmpty())
       && this.customerAddress == null
+      && this.customerId == null
       && this.shippingAddress == null
       && this.billingAddress == null
       && this.documentType == null
@@ -210,6 +234,15 @@ public class InvoiceV4Document extends Prediction {
         String.format(":Supplier Address: %s%n", this.getSupplierAddress())
     );
     outStr.append(
+        String.format(":Supplier Phone Number: %s%n", this.getSupplierPhoneNumber())
+    );
+    outStr.append(
+        String.format(":Supplier Website: %s%n", this.getSupplierWebsite())
+    );
+    outStr.append(
+        String.format(":Supplier Email: %s%n", this.getSupplierEmail())
+    );
+    outStr.append(
         String.format(":Customer Name: %s%n", this.getCustomerName())
     );
     String customerCompanyRegistrations = SummaryHelper.arrayToString(
@@ -221,6 +254,9 @@ public class InvoiceV4Document extends Prediction {
     );
     outStr.append(
         String.format(":Customer Address: %s%n", this.getCustomerAddress())
+    );
+    outStr.append(
+        String.format(":Customer ID: %s%n", this.getCustomerId())
     );
     outStr.append(
         String.format(":Shipping Address: %s%n", this.getShippingAddress())
