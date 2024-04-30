@@ -171,11 +171,22 @@ public class SimpleMindeeClient {
     String jobId = client.enqueue(InternationalIdV2.class, localInputSource)
       .getJob().getId();
 
-    // Load the JSON string sent by the Mindee webhook callback.
+    // Load the JSON string sent by the Mindee webhook POST callback.
     //
-    // Reading the callback data will vary greatly depending on which
-    // HTTP server you are using, and is beyond the scope of this example.
-    LocalResponse localResponse = new LocalResponse("{'json': 'data'}");
+    // Reading the callback data will vary greatly depending on your HTTP server.
+    // This is therefore beyond the scope of this example.
+    String jsonData = myHttpServer.getPostBodyAsString();
+    LocalResponse localResponse = new LocalResponse(jsonData);
+
+    // Verify the HMAC signature.
+    // You'll need to get the "X-Mindee-Hmac-Signature" custom HTTP header.
+    String hmacSignature = myHttpServer.getHeader("X-Mindee-Hmac-Signature");
+    boolean isValid = localResponse.isValidHmacSignature(
+        "obviously-fake-secret-key", hmacSignature
+    );
+    if (!isValid) {
+      throw new MyException("Bad HMAC signature! Is someone trying to do evil?");
+    }
 
     // You can also use a File object as the input.
     //LocalResponse localResponse = new LocalResponse(new File("/path/to/file.json"));
