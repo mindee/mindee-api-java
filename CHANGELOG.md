@@ -1,5 +1,13 @@
 # Mindee Java API Library Changelog
 
+## v4.13.0 - 2024-04-30
+### Changes
+* :sparkles: add HMAC validation for webhooks
+* :art: a few minor improvements to using Generated products
+* :sparkles: allow rendering a single page from a PDF
+* :sparkles: update invoice to 4.6, financial document to 1.6
+
+
 ## v4.12.1 - 2024-03-19
 ### Changes
 * :arrow_up: update libraries for Java 21
