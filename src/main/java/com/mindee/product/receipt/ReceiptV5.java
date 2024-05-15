@@ -6,7 +6,7 @@ import com.mindee.parsing.common.Inference;
 import lombok.Getter;
 
 /**
- * The definition for Receipt, API version 5.
+ * Receipt API version 5 inference prediction.
  */
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)

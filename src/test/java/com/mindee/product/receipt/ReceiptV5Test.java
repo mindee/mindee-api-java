@@ -49,6 +49,7 @@ public class ReceiptV5Test {
     Assertions.assertTrue(docPrediction.getSupplierCompanyRegistrations().isEmpty());
     Assertions.assertNull(docPrediction.getSupplierAddress().getValue());
     Assertions.assertNull(docPrediction.getSupplierPhoneNumber().getValue());
+    Assertions.assertNull(docPrediction.getReceiptNumber().getValue());
     Assertions.assertTrue(docPrediction.getLineItems().isEmpty());
   }
 
