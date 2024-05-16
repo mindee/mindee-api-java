@@ -19,7 +19,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 /**
- * Document data for Receipt, API version 5.
+ * Receipt API version 5.2 document data.
  */
 @Getter
 @EqualsAndHashCode(callSuper = false)
@@ -51,6 +51,11 @@ public class ReceiptV5Document extends Prediction {
    */
   @JsonProperty("locale")
   private LocaleField locale;
+  /**
+   * The receipt number or identifier.
+   */
+  @JsonProperty("receipt_number")
+  private StringField receiptNumber;
   /**
    * The purchase subcategory among predefined classes for transport and food.
    */
@@ -126,6 +131,7 @@ public class ReceiptV5Document extends Prediction {
       && (this.supplierCompanyRegistrations == null || this.supplierCompanyRegistrations.isEmpty())
       && this.supplierAddress == null
       && this.supplierPhoneNumber == null
+      && this.receiptNumber == null
       && (this.lineItems == null || this.lineItems.isEmpty())
       );
   }
@@ -181,6 +187,9 @@ public class ReceiptV5Document extends Prediction {
     );
     outStr.append(
         String.format(":Supplier Phone Number: %s%n", this.getSupplierPhoneNumber())
+    );
+    outStr.append(
+        String.format(":Receipt Number: %s%n", this.getReceiptNumber())
     );
     String lineItemsSummary = "";
     if (!this.getLineItems().isEmpty()) {

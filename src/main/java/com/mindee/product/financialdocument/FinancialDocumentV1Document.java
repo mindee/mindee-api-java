@@ -20,7 +20,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 /**
- * Financial Document API version 1.6 document data.
+ * Financial Document API version 1.7 document data.
  */
 @Getter
 @EqualsAndHashCode(callSuper = false)
@@ -63,6 +63,11 @@ public class FinancialDocumentV1Document extends Prediction {
   @JsonProperty("date")
   private DateField date;
   /**
+   * The document number or identifier.
+   */
+  @JsonProperty("document_number")
+  private StringField documentNumber;
+  /**
    * One of: 'INVOICE', 'CREDIT NOTE', 'CREDIT CARD RECEIPT', 'EXPENSE RECEIPT'.
    */
   @JsonProperty("document_type")
@@ -73,7 +78,7 @@ public class FinancialDocumentV1Document extends Prediction {
   @JsonProperty("due_date")
   private DateField dueDate;
   /**
-   * The invoice number or identifier.
+   * The invoice number or identifier only if document is an invoice.
    */
   @JsonProperty("invoice_number")
   private StringField invoiceNumber;
@@ -87,6 +92,11 @@ public class FinancialDocumentV1Document extends Prediction {
    */
   @JsonProperty("locale")
   private LocaleField locale;
+  /**
+   * The receipt number or identifier only if document is a receipt.
+   */
+  @JsonProperty("receipt_number")
+  private StringField receiptNumber;
   /**
    * List of Reference numbers, including PO number.
    */
@@ -174,6 +184,8 @@ public class FinancialDocumentV1Document extends Prediction {
     return (
       this.locale == null
       && this.invoiceNumber == null
+      && this.receiptNumber == null
+      && this.documentNumber == null
       && (this.referenceNumbers == null || this.referenceNumbers.isEmpty())
       && this.date == null
       && this.dueDate == null
@@ -211,6 +223,12 @@ public class FinancialDocumentV1Document extends Prediction {
     );
     outStr.append(
         String.format(":Invoice Number: %s%n", this.getInvoiceNumber())
+    );
+    outStr.append(
+        String.format(":Receipt Number: %s%n", this.getReceiptNumber())
+    );
+    outStr.append(
+        String.format(":Document Number: %s%n", this.getDocumentNumber())
     );
     String referenceNumbers = SummaryHelper.arrayToString(
         this.getReferenceNumbers(),
