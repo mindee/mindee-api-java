@@ -1,5 +1,11 @@
 # Mindee Java API Library Changelog
 
+## v4.14.0 - 2024-05-16
+### Changes
+* :sparkles: update financial document to v1.7 and receipt to v5.2
+* :memo: add HMAC verification documentation
+
+
 ## v4.13.0 - 2024-04-30
 ### Changes
 * :sparkles: add HMAC validation for webhooks
