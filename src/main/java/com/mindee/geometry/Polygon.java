@@ -20,6 +20,13 @@ public class Polygon {
   }
 
   /**
+   * Get the polygon as a Bbox.
+   */
+  public Bbox getAsBbox() {
+    return BboxUtils.generate(this);
+  }
+
+  /**
    * Get the central coordinates (centroid) of the Polygon.
    */
   public Point getCentroid() {
@@ -52,5 +59,25 @@ public class Polygon {
       return String.format("Polygon with %s points.", getCoordinates().size());
     }
     return "";
+  }
+
+  @Override
+  public boolean equals(Object object) {
+    if (this == object) {
+      return true;
+    }
+    if (object == null || this.getClass() != object.getClass()) {
+      return false;
+    }
+    Polygon polygon = (Polygon) object;
+    if (this.coordinates.size() != polygon.coordinates.size()) {
+      return false;
+    }
+    for (int i = 0; i < this.coordinates.size(); i++) {
+      if (!this.coordinates.get(i).equals(polygon.coordinates.get(i))) {
+        return false;
+      }
+    }
+    return true;
   }
 }

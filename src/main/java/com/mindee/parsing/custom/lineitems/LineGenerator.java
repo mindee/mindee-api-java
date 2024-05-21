@@ -39,12 +39,12 @@ public final class LineGenerator {
     int lineNumber = 1;
     Line currentLine = new Line(lineNumber, fieldAsAnchor.getTolerance());
     ListFieldValue currentValue = anchor.getValues().get(0);
-    currentLine.setBbox(BboxUtils.generate(currentValue.getPolygon()));
+    currentLine.setBbox(currentValue.getPolygon().getAsBbox());
 
     for (int i = 1; i < anchor.getValues().size(); i++) {
 
       currentValue = anchor.getValues().get(i);
-      Bbox currentFieldBbox = BboxUtils.generate(currentValue.getPolygon());
+      Bbox currentFieldBbox = currentValue.getPolygon().getAsBbox();
 
       if (
           Precision.equals(
