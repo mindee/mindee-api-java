@@ -4,9 +4,11 @@ import com.mindee.geometry.Bbox;
 import com.mindee.geometry.BboxUtils;
 import com.mindee.parsing.custom.ListField;
 import com.mindee.parsing.custom.ListFieldValue;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.apache.commons.math3.util.Precision;
 
@@ -19,38 +21,53 @@ public final class LineGenerator {
   private LineGenerator() {
   }
 
-  public static Collection<Line> prepareLines(
+  public static PreparedLines prepareLines(
       Map<String, ListField> fields,
-      Anchor fieldAsAnchor
+      List<Anchor> anchors
   ) {
+    Anchor bestAnchor = null;
+    Collection<Line> lines = null;
+    int lineCount = 0;
+    for (Anchor anchor : anchors) {
+      ListField anchorColumn = fields.get(anchor.getName());
+      if (anchorColumn == null) {
+        throw new IllegalStateException("The field selected for the anchor was not found.");
+      }
+      Collection<Line> currentLines = createLines(
+          anchorColumn.getValues(),
+          anchor.getTolerance()
+      );
+      if (currentLines.size() > lineCount) {
+        bestAnchor = anchor;
+        lines = currentLines;
+        lineCount = currentLines.size();
+      }
+    }
+    if (lines == null) {
+      throw new IllegalStateException("Could not determine which anchor to use.");
+    }
+    return new PreparedLines(
+        bestAnchor,
+        new ArrayList<>(lines)
+    );
+  }
+
+  private static Collection<Line> createLines(List<ListFieldValue> anchorValues, double tolerance) {
     HashMap<Integer, Line> table = new HashMap<>();
-
-    ListField anchor = fields.get(fieldAsAnchor.getName());
-
-    if (anchor == null) {
-      throw new IllegalStateException("The field selected for the anchor was not found.");
-    }
-
-    if (anchor.getValues().isEmpty()) {
-      throw new IllegalStateException("No lines have been detected.");
-    }
 
     // handle one value and the case of one line
     int lineNumber = 1;
-    Line currentLine = new Line(lineNumber, fieldAsAnchor.getTolerance());
-    ListFieldValue currentValue = anchor.getValues().get(0);
+    Line currentLine = new Line(lineNumber, tolerance);
+    ListFieldValue currentValue = anchorValues.get(0);
     currentLine.setBbox(currentValue.getPolygon().getAsBbox());
-
-    for (int i = 1; i < anchor.getValues().size(); i++) {
-
-      currentValue = anchor.getValues().get(i);
+    for (ListFieldValue anchorValue : anchorValues) {
+      currentValue = anchorValue;
       Bbox currentFieldBbox = currentValue.getPolygon().getAsBbox();
-
       if (
           Precision.equals(
             currentLine.getBbox().getMinY(),
             currentFieldBbox.getMinY(),
-            fieldAsAnchor.getTolerance()
+            tolerance
           )
       ) {
         currentLine.setBbox(
@@ -60,13 +77,11 @@ public final class LineGenerator {
         // when it is a new line
         table.put(lineNumber, currentLine);
         lineNumber++;
-        currentLine = new Line(lineNumber, fieldAsAnchor.getTolerance());
+        currentLine = new Line(lineNumber, tolerance);
         currentLine.setBbox(currentFieldBbox);
       }
     }
-
     table.putIfAbsent(lineNumber, currentLine);
-
     return table.values();
   }
 

@@ -1,62 +1,94 @@
 package com.mindee.parsing.custom.lineitems;
 
+import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Collection;
-
+import java.util.Collections;
+import java.util.List;
 import org.apache.commons.math3.util.Precision;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 class LineGeneratorTest {
 
+  private static final List<Anchor> anchors = new ArrayList<>(
+      Collections.singletonList(new Anchor("names", 0.01d))
+  );
+
   @Test
   void prepareLinesWith2ValuesOnEachLineWithPolygonValuesOnExactlyTheSameAxis() {
-    Anchor anchor = new Anchor("names");
-
-    Collection<Line> table = LineGenerator.prepareLines(
+    Collection<Line> lines = LineGenerator.prepareLines(
       FakeListField.getWith2ValuesByExpectedLines(),
-      anchor
-    );
+      anchors
+    ).getLines();
+    Assertions.assertEquals(2, lines.size());
+  }
 
-    Assertions.assertEquals(2, table.size());
+  @Test
+  void prepareLinesWhenAnchorHasMoreLines() {
+    Collection<Line> lines = LineGenerator.prepareLines(
+      FakeListField.get2completeLines1halfLine(),
+      new ArrayList<>(
+        Collections.singletonList(new Anchor("birthDates"))
+      )
+    ).getLines();
+    Assertions.assertEquals(3, lines.size());
+  }
+
+  @Test
+  void prepareLinesWithTwoAnchors() {
+    PreparedLines preparedLines = LineGenerator.prepareLines(
+      FakeListField.get2completeLines1halfLine(),
+      new ArrayList<>(
+        Arrays.asList(
+          new Anchor("names"),
+          new Anchor("birthDates")
+        )
+      )
+    );
+    Assertions.assertEquals("birthDates", preparedLines.getAnchor().getName());
+    Assertions.assertEquals(3, preparedLines.getLines().size());
   }
 
   @Test
   void prepareLinesWith1FieldValueForTheLastLine() {
-    Anchor anchor = new Anchor("names");
-
-    Collection<Line> table = LineGenerator.prepareLines(
-        FakeListField.getWith1FieldValueForTheLastLine(), anchor);
-
-    Assertions.assertEquals(3, table.size());
+    Collection<Line> lines = LineGenerator.prepareLines(
+        FakeListField.getWith1FieldValueForTheLastLine(),
+        anchors
+    ).getLines();
+    Assertions.assertEquals(3, lines.size());
   }
 
   @Test
   void prepareLinesWith1ExpectedLine() {
-    Anchor anchor = new Anchor("names");
-
     Collection<Line> table = LineGenerator.prepareLines(
-        FakeListField.getWith1ExpectedLines(), anchor);
-
+        FakeListField.getWith1ExpectedLines(),
+        anchors
+    ).getLines();
     Assertions.assertEquals(1, table.size());
   }
 
   @Test
   void prepareLinesWithPolygonsNotExactlyOnTheSameAxis() {
-    Anchor anchor = new Anchor("names", 0.005d);
-
+    List<Anchor> anchors = new ArrayList<>(
+      Collections.singletonList(new Anchor("names", 0.005d))
+    );
     Collection<Line> table = LineGenerator.prepareLines(
-        FakeListField.getWithPolygonsNotExactlyOnTheSameAxis(), anchor);
-
+        FakeListField.getWithPolygonsNotExactlyOnTheSameAxis(),
+        anchors
+    ).getLines();
     Assertions.assertEquals(2, table.size());
   }
 
   @Test
   void prepareLinesWhichRender2LinesInsteadOfOne() {
-    Anchor anchor = new Anchor("names", 0.0d);
-
+    List<Anchor> anchors = new ArrayList<>(
+      Collections.singletonList(new Anchor("names", 0.0d))
+    );
     Collection<Line> table = LineGenerator.prepareLines(
-        FakeListField.getSampleWichRender2LinesInsteadOfOne(), anchor);
-
+        FakeListField.getSampleWichRender2LinesInsteadOfOne(),
+        anchors
+    ).getLines();
     Assertions.assertEquals(1, table.size());
   }
 
