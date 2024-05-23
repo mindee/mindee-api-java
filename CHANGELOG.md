@@ -1,5 +1,12 @@
 # Mindee Java API Library Changelog
 
+## v4.15.0 - 2024-05-23
+### Changes
+* :sparkles: add boolean field support
+* :sparkles: allow converting between bboxes and polygons
+* :sparkles: allow sending multiple anchors when building line items
+
+
 ## v4.14.0 - 2024-05-16
 ### Changes
 * :sparkles: update financial document to v1.7 and receipt to v5.2
