@@ -1,7 +1,6 @@
 package com.mindee.parsing.custom.lineitems;
 
 import java.util.Arrays;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -11,8 +10,8 @@ import org.junit.jupiter.api.Test;
 
 class LineGeneratorTest {
 
-  private static final List<Anchor> anchors = new ArrayList<>(
-      Collections.singletonList(new Anchor("names", 0.01d))
+  private static final List<Anchor> anchors = Collections.singletonList(
+    new Anchor("names", 0.01d)
   );
 
   @Test
@@ -28,9 +27,7 @@ class LineGeneratorTest {
   void prepareLinesWhenAnchorHasMoreLines() {
     Collection<Line> lines = LineGenerator.prepareLines(
       FakeListField.get2completeLines1halfLine(),
-      new ArrayList<>(
-        Collections.singletonList(new Anchor("birthDates"))
-      )
+      Collections.singletonList(new Anchor("birthDates"))
     ).getLines();
     Assertions.assertEquals(3, lines.size());
   }
@@ -39,11 +36,9 @@ class LineGeneratorTest {
   void prepareLinesWithTwoAnchors() {
     PreparedLines preparedLines = LineGenerator.prepareLines(
       FakeListField.get2completeLines1halfLine(),
-      new ArrayList<>(
-        Arrays.asList(
+      Arrays.asList(
           new Anchor("names"),
           new Anchor("birthDates")
-        )
       )
     );
     Assertions.assertEquals("birthDates", preparedLines.getAnchor().getName());
@@ -70,8 +65,8 @@ class LineGeneratorTest {
 
   @Test
   void prepareLinesWithPolygonsNotExactlyOnTheSameAxis() {
-    List<Anchor> anchors = new ArrayList<>(
-      Collections.singletonList(new Anchor("names", 0.005d))
+    List<Anchor> anchors = Collections.singletonList(
+        new Anchor("names", 0.005d)
     );
     Collection<Line> table = LineGenerator.prepareLines(
         FakeListField.getWithPolygonsNotExactlyOnTheSameAxis(),
@@ -82,8 +77,8 @@ class LineGeneratorTest {
 
   @Test
   void prepareLinesWhichRender2LinesInsteadOfOne() {
-    List<Anchor> anchors = new ArrayList<>(
-      Collections.singletonList(new Anchor("names", 0.0d))
+    List<Anchor> anchors = Collections.singletonList(
+        new Anchor("names", 0.0d)
     );
     Collection<Line> table = LineGenerator.prepareLines(
         FakeListField.getSampleWichRender2LinesInsteadOfOne(),
