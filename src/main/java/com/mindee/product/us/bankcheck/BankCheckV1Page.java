@@ -10,7 +10,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 /**
- * Page data for Bank Check, API version 1.
+ * Bank Check API version 1.1 page data.
  */
 @Getter
 @EqualsAndHashCode(callSuper = true)
@@ -21,12 +21,12 @@ public class BankCheckV1Page extends BankCheckV1Document {
    * The position of the check on the document.
    */
   @JsonProperty("check_position")
-  private PositionField checkPosition;
+  protected PositionField checkPosition;
   /**
    * List of signature positions
    */
   @JsonProperty("signatures_positions")
-  private List<PositionField> signaturesPositions = new ArrayList<>();
+  protected List<PositionField> signaturesPositions = new ArrayList<>();
 
   @Override
   public boolean isEmpty() {

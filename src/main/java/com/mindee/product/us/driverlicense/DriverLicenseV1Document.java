@@ -10,7 +10,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 /**
- * Document data for Driver License, API version 1.
+ * Driver License API version 1.1 document data.
  */
 @Getter
 @EqualsAndHashCode(callSuper = false)
@@ -21,87 +21,87 @@ public class DriverLicenseV1Document extends Prediction {
    * US driver license holders address
    */
   @JsonProperty("address")
-  private StringField address;
+  protected StringField address;
   /**
    * US driver license holders date of birth
    */
   @JsonProperty("date_of_birth")
-  private DateField dateOfBirth;
+  protected DateField dateOfBirth;
   /**
    * Document Discriminator Number of the US Driver License
    */
   @JsonProperty("dd_number")
-  private StringField ddNumber;
+  protected StringField ddNumber;
   /**
    * US driver license holders class
    */
   @JsonProperty("dl_class")
-  private StringField dlClass;
+  protected StringField dlClass;
   /**
    * ID number of the US Driver License.
    */
   @JsonProperty("driver_license_id")
-  private StringField driverLicenseId;
+  protected StringField driverLicenseId;
   /**
    * US driver license holders endorsements
    */
   @JsonProperty("endorsements")
-  private StringField endorsements;
+  protected StringField endorsements;
   /**
    * Date on which the documents expires.
    */
   @JsonProperty("expiry_date")
-  private DateField expiryDate;
+  protected DateField expiryDate;
   /**
    * US driver license holders eye colour
    */
   @JsonProperty("eye_color")
-  private StringField eyeColor;
+  protected StringField eyeColor;
   /**
    * US driver license holders first name(s)
    */
   @JsonProperty("first_name")
-  private StringField firstName;
+  protected StringField firstName;
   /**
    * US driver license holders hair colour
    */
   @JsonProperty("hair_color")
-  private StringField hairColor;
+  protected StringField hairColor;
   /**
    * US driver license holders hight
    */
   @JsonProperty("height")
-  private StringField height;
+  protected StringField height;
   /**
    * Date on which the documents was issued.
    */
   @JsonProperty("issued_date")
-  private DateField issuedDate;
+  protected DateField issuedDate;
   /**
    * US driver license holders last name
    */
   @JsonProperty("last_name")
-  private StringField lastName;
+  protected StringField lastName;
   /**
    * US driver license holders restrictions
    */
   @JsonProperty("restrictions")
-  private StringField restrictions;
+  protected StringField restrictions;
   /**
    * US driver license holders gender
    */
   @JsonProperty("sex")
-  private StringField sex;
+  protected StringField sex;
   /**
    * US State
    */
   @JsonProperty("state")
-  private StringField state;
+  protected StringField state;
   /**
    * US driver license holders weight
    */
   @JsonProperty("weight")
-  private StringField weight;
+  protected StringField weight;
 
   @Override
   public boolean isEmpty() {

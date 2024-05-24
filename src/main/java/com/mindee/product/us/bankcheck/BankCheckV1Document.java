@@ -13,7 +13,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 /**
- * Document data for Bank Check, API version 1.
+ * Bank Check API version 1.1 document data.
  */
 @Getter
 @EqualsAndHashCode(callSuper = false)
@@ -24,32 +24,32 @@ public class BankCheckV1Document extends Prediction {
    * The check payer's account number.
    */
   @JsonProperty("account_number")
-  private StringField accountNumber;
+  protected StringField accountNumber;
   /**
    * The amount of the check.
    */
   @JsonProperty("amount")
-  private AmountField amount;
+  protected AmountField amount;
   /**
    * The issuer's check number.
    */
   @JsonProperty("check_number")
-  private StringField checkNumber;
+  protected StringField checkNumber;
   /**
    * The date the check was issued.
    */
   @JsonProperty("date")
-  private DateField date;
+  protected DateField date;
   /**
    * List of the check's payees (recipients).
    */
   @JsonProperty("payees")
-  private List<StringField> payees = new ArrayList<>();
+  protected List<StringField> payees = new ArrayList<>();
   /**
    * The check issuer's routing number.
    */
   @JsonProperty("routing_number")
-  private StringField routingNumber;
+  protected StringField routingNumber;
 
   @Override
   public boolean isEmpty() {

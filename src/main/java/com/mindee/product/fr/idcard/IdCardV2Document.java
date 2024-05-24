@@ -12,7 +12,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 /**
- * Document data for Carte Nationale d'Identité, API version 2.
+ * Carte Nationale d'Identité API version 2.0 document data.
  */
 @Getter
 @EqualsAndHashCode(callSuper = false)
@@ -23,77 +23,77 @@ public class IdCardV2Document extends Prediction {
    * The alternate name of the card holder.
    */
   @JsonProperty("alternate_name")
-  private StringField alternateName;
+  protected StringField alternateName;
   /**
    * The name of the issuing authority.
    */
   @JsonProperty("authority")
-  private StringField authority;
+  protected StringField authority;
   /**
    * The date of birth of the card holder.
    */
   @JsonProperty("birth_date")
-  private DateField birthDate;
+  protected DateField birthDate;
   /**
    * The place of birth of the card holder.
    */
   @JsonProperty("birth_place")
-  private StringField birthPlace;
+  protected StringField birthPlace;
   /**
    * The card access number (CAN).
    */
   @JsonProperty("card_access_number")
-  private StringField cardAccessNumber;
+  protected StringField cardAccessNumber;
   /**
    * The document number.
    */
   @JsonProperty("document_number")
-  private StringField documentNumber;
+  protected StringField documentNumber;
   /**
    * The expiry date of the identification card.
    */
   @JsonProperty("expiry_date")
-  private DateField expiryDate;
+  protected DateField expiryDate;
   /**
    * The gender of the card holder.
    */
   @JsonProperty("gender")
-  private StringField gender;
+  protected StringField gender;
   /**
    * The given name(s) of the card holder.
    */
   @JsonProperty("given_names")
-  private List<StringField> givenNames = new ArrayList<>();
+  protected List<StringField> givenNames = new ArrayList<>();
   /**
    * The date of issue of the identification card.
    */
   @JsonProperty("issue_date")
-  private DateField issueDate;
+  protected DateField issueDate;
   /**
    * The Machine Readable Zone, first line.
    */
   @JsonProperty("mrz1")
-  private StringField mrz1;
+  protected StringField mrz1;
   /**
    * The Machine Readable Zone, second line.
    */
   @JsonProperty("mrz2")
-  private StringField mrz2;
+  protected StringField mrz2;
   /**
    * The Machine Readable Zone, third line.
    */
   @JsonProperty("mrz3")
-  private StringField mrz3;
+  protected StringField mrz3;
   /**
    * The nationality of the card holder.
    */
   @JsonProperty("nationality")
-  private StringField nationality;
+  protected StringField nationality;
   /**
    * The surname of the card holder.
    */
   @JsonProperty("surname")
-  private StringField surname;
+  protected StringField surname;
 
   @Override
   public boolean isEmpty() {

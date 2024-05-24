@@ -11,7 +11,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 /**
- * Document data for Barcode Reader, API version 1.
+ * Barcode Reader API version 1.0 document data.
  */
 @Getter
 @EqualsAndHashCode(callSuper = false)
@@ -22,12 +22,12 @@ public class BarcodeReaderV1Document extends Prediction {
    * List of decoded 1D barcodes.
    */
   @JsonProperty("codes_1d")
-  private List<StringField> codes1D = new ArrayList<>();
+  protected List<StringField> codes1D = new ArrayList<>();
   /**
    * List of decoded 2D barcodes.
    */
   @JsonProperty("codes_2d")
-  private List<StringField> codes2D = new ArrayList<>();
+  protected List<StringField> codes2D = new ArrayList<>();
 
   @Override
   public boolean isEmpty() {

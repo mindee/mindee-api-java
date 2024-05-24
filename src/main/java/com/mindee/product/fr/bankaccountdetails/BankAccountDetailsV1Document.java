@@ -20,17 +20,17 @@ public class BankAccountDetailsV1Document extends Prediction {
    * The name of the account holder as seen on the document.
    */
   @JsonProperty("account_holder_name")
-  private StringField accountHolderName;
+  protected StringField accountHolderName;
   /**
    * The International Bank Account Number (IBAN).
    */
   @JsonProperty("iban")
-  private StringField iban;
+  protected StringField iban;
   /**
    * The bank's SWIFT Business Identifier Code (BIC).
    */
   @JsonProperty("swift")
-  private StringField swift;
+  protected StringField swift;
 
   @Override
   public boolean isEmpty() {

@@ -12,7 +12,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 /**
- * Document data for Carte Vitale, API version 1.
+ * Carte Vitale API version 1.1 document data.
  */
 @Getter
 @EqualsAndHashCode(callSuper = false)
@@ -23,22 +23,22 @@ public class CarteVitaleV1Document extends Prediction {
    * The given name(s) of the card holder.
    */
   @JsonProperty("given_names")
-  private List<StringField> givenNames = new ArrayList<>();
+  protected List<StringField> givenNames = new ArrayList<>();
   /**
    * The date the card was issued.
    */
   @JsonProperty("issuance_date")
-  private DateField issuanceDate;
+  protected DateField issuanceDate;
   /**
    * The Social Security Number (Numéro de Sécurité Sociale) of the card holder
    */
   @JsonProperty("social_security")
-  private StringField socialSecurity;
+  protected StringField socialSecurity;
   /**
    * The surname of the card holder.
    */
   @JsonProperty("surname")
-  private StringField surname;
+  protected StringField surname;
 
   @Override
   public boolean isEmpty() {

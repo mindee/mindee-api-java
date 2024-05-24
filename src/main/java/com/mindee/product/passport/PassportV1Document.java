@@ -12,7 +12,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 /**
- * Document data for Passport, API version 1.
+ * Passport API version 1.1 document data.
  */
 @Getter
 @EqualsAndHashCode(callSuper = false)
@@ -23,57 +23,57 @@ public class PassportV1Document extends Prediction {
    * The date of birth of the passport holder.
    */
   @JsonProperty("birth_date")
-  private DateField birthDate;
+  protected DateField birthDate;
   /**
    * The place of birth of the passport holder.
    */
   @JsonProperty("birth_place")
-  private StringField birthPlace;
+  protected StringField birthPlace;
   /**
    * The country's 3 letter code (ISO 3166-1 alpha-3).
    */
   @JsonProperty("country")
-  private StringField country;
+  protected StringField country;
   /**
    * The expiry date of the passport.
    */
   @JsonProperty("expiry_date")
-  private DateField expiryDate;
+  protected DateField expiryDate;
   /**
    * The gender of the passport holder.
    */
   @JsonProperty("gender")
-  private StringField gender;
+  protected StringField gender;
   /**
    * The given name(s) of the passport holder.
    */
   @JsonProperty("given_names")
-  private List<StringField> givenNames = new ArrayList<>();
+  protected List<StringField> givenNames = new ArrayList<>();
   /**
    * The passport's identification number.
    */
   @JsonProperty("id_number")
-  private StringField idNumber;
+  protected StringField idNumber;
   /**
    * The date the passport was issued.
    */
   @JsonProperty("issuance_date")
-  private DateField issuanceDate;
+  protected DateField issuanceDate;
   /**
    * Machine Readable Zone, first line
    */
   @JsonProperty("mrz1")
-  private StringField mrz1;
+  protected StringField mrz1;
   /**
    * Machine Readable Zone, second line
    */
   @JsonProperty("mrz2")
-  private StringField mrz2;
+  protected StringField mrz2;
   /**
    * The surname of the passport holder.
    */
   @JsonProperty("surname")
-  private StringField surname;
+  protected StringField surname;
 
   @Override
   public boolean isEmpty() {

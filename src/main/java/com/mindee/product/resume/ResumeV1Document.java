@@ -23,87 +23,87 @@ public class ResumeV1Document extends Prediction {
    * The location information of the candidate, including city, state, and country.
    */
   @JsonProperty("address")
-  private StringField address;
+  protected StringField address;
   /**
    * The list of certificates obtained by the candidate.
    */
   @JsonProperty("certificates")
-  private List<ResumeV1Certificate> certificates = new ArrayList<>();
+  protected List<ResumeV1Certificate> certificates = new ArrayList<>();
   /**
    * The ISO 639 code of the language in which the document is written.
    */
   @JsonProperty("document_language")
-  private StringField documentLanguage;
+  protected StringField documentLanguage;
   /**
    * The type of the document sent.
    */
   @JsonProperty("document_type")
-  private ClassificationField documentType;
+  protected ClassificationField documentType;
   /**
    * The list of the candidate's educational background.
    */
   @JsonProperty("education")
-  private List<ResumeV1Education> education = new ArrayList<>();
+  protected List<ResumeV1Education> education = new ArrayList<>();
   /**
    * The email address of the candidate.
    */
   @JsonProperty("email_address")
-  private StringField emailAddress;
+  protected StringField emailAddress;
   /**
    * The candidate's first or given names.
    */
   @JsonProperty("given_names")
-  private List<StringField> givenNames = new ArrayList<>();
+  protected List<StringField> givenNames = new ArrayList<>();
   /**
    * The list of the candidate's technical abilities and knowledge.
    */
   @JsonProperty("hard_skills")
-  private List<StringField> hardSkills = new ArrayList<>();
+  protected List<StringField> hardSkills = new ArrayList<>();
   /**
    * The position that the candidate is applying for.
    */
   @JsonProperty("job_applied")
-  private StringField jobApplied;
+  protected StringField jobApplied;
   /**
    * The list of languages that the candidate is proficient in.
    */
   @JsonProperty("languages")
-  private List<ResumeV1Language> languages = new ArrayList<>();
+  protected List<ResumeV1Language> languages = new ArrayList<>();
   /**
    * The ISO 3166 code for the country of citizenship of the candidate.
    */
   @JsonProperty("nationality")
-  private StringField nationality;
+  protected StringField nationality;
   /**
    * The phone number of the candidate.
    */
   @JsonProperty("phone_number")
-  private StringField phoneNumber;
+  protected StringField phoneNumber;
   /**
    * The candidate's current profession.
    */
   @JsonProperty("profession")
-  private StringField profession;
+  protected StringField profession;
   /**
    * The list of the candidate's professional experiences.
    */
   @JsonProperty("professional_experiences")
-  private List<ResumeV1ProfessionalExperience> professionalExperiences = new ArrayList<>();
+  protected List<ResumeV1ProfessionalExperience> professionalExperiences = new ArrayList<>();
   /**
    * The list of social network profiles of the candidate.
    */
   @JsonProperty("social_networks_urls")
-  private List<ResumeV1SocialNetworksUrl> socialNetworksUrls = new ArrayList<>();
+  protected List<ResumeV1SocialNetworksUrl> socialNetworksUrls = new ArrayList<>();
   /**
    * The list of the candidate's interpersonal and communication abilities.
    */
   @JsonProperty("soft_skills")
-  private List<StringField> softSkills = new ArrayList<>();
+  protected List<StringField> softSkills = new ArrayList<>();
   /**
    * The candidate's last names.
    */
   @JsonProperty("surnames")
-  private List<StringField> surnames = new ArrayList<>();
+  protected List<StringField> surnames = new ArrayList<>();
 
   @Override
   public boolean isEmpty() {

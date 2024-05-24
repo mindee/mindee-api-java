@@ -11,7 +11,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 /**
- * Document data for License Plate, API version 1.
+ * License Plate API version 1.1 document data.
  */
 @Getter
 @EqualsAndHashCode(callSuper = false)
@@ -22,7 +22,7 @@ public class LicensePlateV1Document extends Prediction {
    * List of all license plates found in the image.
    */
   @JsonProperty("license_plates")
-  private List<StringField> licensePlates = new ArrayList<>();
+  protected List<StringField> licensePlates = new ArrayList<>();
 
   @Override
   public boolean isEmpty() {

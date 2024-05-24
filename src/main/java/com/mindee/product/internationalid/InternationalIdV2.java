@@ -6,7 +6,7 @@ import com.mindee.parsing.common.Inference;
 import lombok.Getter;
 
 /**
- * The definition for International ID, API version 2.
+ * International ID API version 2 inference prediction.
  */
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)

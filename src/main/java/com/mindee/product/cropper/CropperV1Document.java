@@ -6,7 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 /**
- * Document data for Cropper, API version 1.
+ * Cropper API version 1.1 document data.
  */
 @Getter
 @EqualsAndHashCode(callSuper = false)

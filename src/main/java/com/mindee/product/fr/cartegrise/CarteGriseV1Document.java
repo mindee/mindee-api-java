@@ -10,7 +10,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 /**
- * Document data for Carte Grise, API version 1.
+ * Carte Grise API version 1.1 document data.
  */
 @Getter
 @EqualsAndHashCode(callSuper = false)
@@ -21,207 +21,207 @@ public class CarteGriseV1Document extends Prediction {
    * The vehicle's license plate number.
    */
   @JsonProperty("a")
-  private StringField a;
+  protected StringField a;
   /**
    * The vehicle's first release date.
    */
   @JsonProperty("b")
-  private DateField b;
+  protected DateField b;
   /**
    * The vehicle owner's full name including maiden name.
    */
   @JsonProperty("c1")
-  private StringField c1;
+  protected StringField c1;
   /**
    * The vehicle owner's address.
    */
   @JsonProperty("c3")
-  private StringField c3;
+  protected StringField c3;
   /**
    * Number of owners of the license certificate.
    */
   @JsonProperty("c41")
-  private StringField c41;
+  protected StringField c41;
   /**
    * Mentions about the ownership of the vehicle.
    */
   @JsonProperty("c4a")
-  private StringField c4A;
+  protected StringField c4A;
   /**
    * The vehicle's brand.
    */
   @JsonProperty("d1")
-  private StringField d1;
+  protected StringField d1;
   /**
    * The vehicle's commercial name.
    */
   @JsonProperty("d3")
-  private StringField d3;
+  protected StringField d3;
   /**
    * The Vehicle Identification Number (VIN).
    */
   @JsonProperty("e")
-  private StringField e;
+  protected StringField e;
   /**
    * The vehicle's maximum admissible weight.
    */
   @JsonProperty("f1")
-  private StringField f1;
+  protected StringField f1;
   /**
    * The vehicle's maximum admissible weight within the license's state.
    */
   @JsonProperty("f2")
-  private StringField f2;
+  protected StringField f2;
   /**
    * The vehicle's maximum authorized weight with coupling.
    */
   @JsonProperty("f3")
-  private StringField f3;
+  protected StringField f3;
   /**
    * The document's formula number.
    */
   @JsonProperty("formula_number")
-  private StringField formulaNumber;
+  protected StringField formulaNumber;
   /**
    * The vehicle's weight with coupling if tractor different than category M1.
    */
   @JsonProperty("g")
-  private StringField g;
+  protected StringField g;
   /**
    * The vehicle's national empty weight.
    */
   @JsonProperty("g1")
-  private StringField g1;
+  protected StringField g1;
   /**
    * The car registration date of the given certificate.
    */
   @JsonProperty("i")
-  private DateField i;
+  protected DateField i;
   /**
    * The vehicle's category.
    */
   @JsonProperty("j")
-  private StringField j;
+  protected StringField j;
   /**
    * The vehicle's national type.
    */
   @JsonProperty("j1")
-  private StringField j1;
+  protected StringField j1;
   /**
    * The vehicle's body type (CE).
    */
   @JsonProperty("j2")
-  private StringField j2;
+  protected StringField j2;
   /**
    * The vehicle's body type (National designation).
    */
   @JsonProperty("j3")
-  private StringField j3;
+  protected StringField j3;
   /**
    * Machine Readable Zone, first line.
    */
   @JsonProperty("mrz1")
-  private StringField mrz1;
+  protected StringField mrz1;
   /**
    * Machine Readable Zone, second line.
    */
   @JsonProperty("mrz2")
-  private StringField mrz2;
+  protected StringField mrz2;
   /**
    * The vehicle's owner first name.
    */
   @JsonProperty("owner_first_name")
-  private StringField ownerFirstName;
+  protected StringField ownerFirstName;
   /**
    * The vehicle's owner surname.
    */
   @JsonProperty("owner_surname")
-  private StringField ownerSurname;
+  protected StringField ownerSurname;
   /**
    * The vehicle engine's displacement (cm3).
    */
   @JsonProperty("p1")
-  private StringField p1;
+  protected StringField p1;
   /**
    * The vehicle's maximum net power (kW).
    */
   @JsonProperty("p2")
-  private StringField p2;
+  protected StringField p2;
   /**
    * The vehicle's fuel type or energy source.
    */
   @JsonProperty("p3")
-  private StringField p3;
+  protected StringField p3;
   /**
    * The vehicle's administrative power (fiscal horsepower).
    */
   @JsonProperty("p6")
-  private StringField p6;
+  protected StringField p6;
   /**
    * The vehicle's power to weight ratio.
    */
   @JsonProperty("q")
-  private StringField q;
+  protected StringField q;
   /**
    * The vehicle's number of seats.
    */
   @JsonProperty("s1")
-  private StringField s1;
+  protected StringField s1;
   /**
    * The vehicle's number of standing rooms (person).
    */
   @JsonProperty("s2")
-  private StringField s2;
+  protected StringField s2;
   /**
    * The vehicle's sound level (dB).
    */
   @JsonProperty("u1")
-  private StringField u1;
+  protected StringField u1;
   /**
    * The vehicle engine's rotation speed (RPM).
    */
   @JsonProperty("u2")
-  private StringField u2;
+  protected StringField u2;
   /**
    * The vehicle's CO2 emission (g/km).
    */
   @JsonProperty("v7")
-  private StringField v7;
+  protected StringField v7;
   /**
    * Next technical control date.
    */
   @JsonProperty("x1")
-  private StringField x1;
+  protected StringField x1;
   /**
    * Amount of the regional proportional tax of the registration (in euros).
    */
   @JsonProperty("y1")
-  private StringField y1;
+  protected StringField y1;
   /**
    * Amount of the additional parafiscal tax of the registration (in euros).
    */
   @JsonProperty("y2")
-  private StringField y2;
+  protected StringField y2;
   /**
    * Amount of the additional CO2 tax of the registration (in euros).
    */
   @JsonProperty("y3")
-  private StringField y3;
+  protected StringField y3;
   /**
    * Amount of the fee for managing the registration (in euros).
    */
   @JsonProperty("y4")
-  private StringField y4;
+  protected StringField y4;
   /**
    * Amount of the fee for delivery of the registration certificate in euros.
    */
   @JsonProperty("y5")
-  private StringField y5;
+  protected StringField y5;
   /**
    * Total amount of registration fee to be paid in euros.
    */
   @JsonProperty("y6")
-  private StringField y6;
+  protected StringField y6;
 
   @Override
   public boolean isEmpty() {

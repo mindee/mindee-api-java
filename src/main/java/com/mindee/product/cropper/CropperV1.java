@@ -6,7 +6,7 @@ import com.mindee.parsing.common.Inference;
 import lombok.Getter;
 
 /**
- * The definition for Cropper, API version 1.
+ * Cropper API version 1 inference prediction.
  */
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
