@@ -32,22 +32,31 @@ public class PaymentDetailsField extends BaseField {
   @JsonProperty("swift")
   private String swift;
 
+  public boolean isEmpty() {
+    return (
+        (accountNumber == null || accountNumber.isEmpty())
+        && (iban == null || iban.isEmpty())
+        && (routingNumber == null || routingNumber.isEmpty())
+        && (swift == null || swift.isEmpty())
+      );
+  }
+
   @Override
   public String toString() {
     StringBuilder stringBuilder = new StringBuilder();
-    if (accountNumber != null && accountNumber.length() > 0) {
+    if (accountNumber != null && !accountNumber.isEmpty()) {
       stringBuilder.append(accountNumber);
       stringBuilder.append("; ");
     }
-    if (iban != null && iban.length() > 0) {
+    if (iban != null && !iban.isEmpty()) {
       stringBuilder.append(iban);
       stringBuilder.append("; ");
     }
-    if (routingNumber != null && routingNumber.length() > 0) {
+    if (routingNumber != null && !routingNumber.isEmpty()) {
       stringBuilder.append(routingNumber);
       stringBuilder.append("; ");
     }
-    if (swift != null && swift.length() > 0) {
+    if (swift != null && !swift.isEmpty()) {
       stringBuilder.append(swift);
       stringBuilder.append("; ");
     }

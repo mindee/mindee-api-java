@@ -21,6 +21,10 @@ public final class ClassificationField {
     this.value = value;
   }
 
+  public boolean isEmpty() {
+    return this.value == null;
+  }
+
   @Override
   public String toString() {
     return value == null ? "" : value;

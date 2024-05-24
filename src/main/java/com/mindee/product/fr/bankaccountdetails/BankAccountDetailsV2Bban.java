@@ -36,6 +36,15 @@ public class BankAccountDetailsV2Bban extends BaseField {
   @JsonProperty("bban_number")
   String bbanNumber;
 
+  public boolean isEmpty() {
+    return (
+        (bbanBankCode == null || bbanBankCode.isEmpty())
+        && (bbanBranchCode == null || bbanBranchCode.isEmpty())
+        && (bbanKey == null || bbanKey.isEmpty())
+        && (bbanNumber == null || bbanNumber.isEmpty())
+      );
+  }
+
   /**
    * Output the object in a format suitable for inclusion in an rST field list.
    */

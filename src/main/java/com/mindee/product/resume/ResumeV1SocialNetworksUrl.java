@@ -27,6 +27,13 @@ public class ResumeV1SocialNetworksUrl extends BaseField implements LineItemFiel
   @JsonProperty("url")
   String url;
 
+  public boolean isEmpty() {
+    return (
+        (name == null || name.isEmpty())
+        && (url == null || url.isEmpty())
+      );
+  }
+
   /**
    * Output the line in a format suitable for inclusion in an rST table.
    */

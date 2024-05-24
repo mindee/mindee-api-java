@@ -50,6 +50,10 @@ public final class StringField extends BaseField {
     this.rawValue = rawValue;
   }
 
+  public boolean isEmpty() {
+    return (value == null || value.isEmpty());
+  }
+
   @Override
   public String toString() {
     return value == null ? "" : value;

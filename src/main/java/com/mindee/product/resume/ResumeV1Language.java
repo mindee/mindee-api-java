@@ -27,6 +27,13 @@ public class ResumeV1Language extends BaseField implements LineItemField {
   @JsonProperty("level")
   String level;
 
+  public boolean isEmpty() {
+    return (
+        (language == null || language.isEmpty())
+        && (level == null || level.isEmpty())
+      );
+  }
+
   /**
    * Output the line in a format suitable for inclusion in an rST table.
    */

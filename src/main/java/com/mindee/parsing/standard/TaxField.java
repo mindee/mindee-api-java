@@ -36,6 +36,15 @@ public class TaxField extends BaseField implements LineItemField {
   @JsonProperty("base")
   private Double base;
 
+  public boolean isEmpty() {
+    return (
+        value == null
+        && (code == null || code.isEmpty())
+        && rate == null
+        && base == null
+      );
+  }
+
   /**
    * Output the line in a format suitable for inclusion in an rST table.
    */

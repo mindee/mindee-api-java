@@ -37,6 +37,15 @@ public class ReceiptV5LineItem extends BaseField implements LineItemField {
   @JsonProperty("unit_price")
   Double unitPrice;
 
+  public boolean isEmpty() {
+    return (
+        (description == null || description.isEmpty())
+        && quantity == null
+        && totalAmount == null
+        && unitPrice == null
+      );
+  }
+
   /**
    * Output the line in a format suitable for inclusion in an rST table.
    */
