@@ -35,13 +35,11 @@ public final class Bbox {
    * Get the Bbox as a Polygon.
    */
   public Polygon getAsPolygon() {
-    List<Point> points = new ArrayList<>(
-        Arrays.asList(
-          new Point(this.minX, this.minY),
-          new Point(this.maxX, this.minY),
-          new Point(this.maxX, this.maxY),
-          new Point(this.minX, this.maxY)
-        )
+    List<Point> points = Arrays.asList(
+        new Point(this.minX, this.minY),
+        new Point(this.maxX, this.minY),
+        new Point(this.maxX, this.maxY),
+        new Point(this.minX, this.maxY)
     );
     return new Polygon(points);
   }
