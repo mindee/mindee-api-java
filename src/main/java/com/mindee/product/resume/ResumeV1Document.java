@@ -12,7 +12,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 /**
- * Document data for Resume, API version 1.
+ * Resume API version 1.0 document data.
  */
 @Getter
 @EqualsAndHashCode(callSuper = false)

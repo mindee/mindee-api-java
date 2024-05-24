@@ -37,6 +37,15 @@ public class ResumeV1Certificate extends BaseField implements LineItemField {
   @JsonProperty("year")
   String year;
 
+  public boolean isEmpty() {
+    return (
+        (grade == null || grade.isEmpty())
+        && (name == null || name.isEmpty())
+        && (provider == null || provider.isEmpty())
+        && (year == null || year.isEmpty())
+      );
+  }
+
   /**
    * Output the line in a format suitable for inclusion in an rST table.
    */

@@ -57,6 +57,19 @@ public class ResumeV1ProfessionalExperience extends BaseField implements LineIte
   @JsonProperty("start_year")
   String startYear;
 
+  public boolean isEmpty() {
+    return (
+        (contractType == null || contractType.isEmpty())
+        && (department == null || department.isEmpty())
+        && (employer == null || employer.isEmpty())
+        && (endMonth == null || endMonth.isEmpty())
+        && (endYear == null || endYear.isEmpty())
+        && (role == null || role.isEmpty())
+        && (startMonth == null || startMonth.isEmpty())
+        && (startYear == null || startYear.isEmpty())
+      );
+  }
+
   /**
    * Output the line in a format suitable for inclusion in an rST table.
    */

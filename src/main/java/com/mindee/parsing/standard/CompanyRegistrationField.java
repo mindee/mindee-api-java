@@ -22,6 +22,13 @@ public final class CompanyRegistrationField extends BaseField {
   @JsonProperty("type")
   private String type;
 
+  public boolean isEmpty() {
+    return (
+        (value == null || value.isEmpty())
+        && (type == null || type.isEmpty())
+      );
+  }
+
   @Override
   public String toString() {
     return value == null ? "" : value;

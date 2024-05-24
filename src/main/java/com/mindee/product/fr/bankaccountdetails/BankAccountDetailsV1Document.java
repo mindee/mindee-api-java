@@ -9,7 +9,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 /**
- * Document data for Bank Account Details, API version 1.
+ * Bank Account Details API version 1.0 document data.
  */
 @Getter
 @EqualsAndHashCode(callSuper = false)

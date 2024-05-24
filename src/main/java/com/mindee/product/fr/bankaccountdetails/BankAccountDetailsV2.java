@@ -6,7 +6,7 @@ import com.mindee.parsing.common.Inference;
 import lombok.Getter;
 
 /**
- * The definition for Bank Account Details, API version 2.
+ * Bank Account Details API version 2 inference prediction.
  */
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)

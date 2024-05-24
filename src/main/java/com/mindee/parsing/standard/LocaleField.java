@@ -17,15 +17,18 @@ public class LocaleField extends BaseField {
    */
   @JsonProperty("value")
   private String value;
+
   /**
    * The language which has been detected.
    */
   private String language;
+
   /**
    * The country which has been detected.
    */
   @JsonProperty("country")
   private String country;
+
   /**
    * The currency which has been detected.
    */
@@ -36,6 +39,15 @@ public class LocaleField extends BaseField {
   public void setLanguage(String language) {
     this.language = language;
     this.value = language;
+  }
+
+  public boolean isEmpty() {
+    return (
+        (this.value == null || this.value.isEmpty())
+        && (this.country == null || this.country.isEmpty())
+        && (this.language == null || this.language.isEmpty())
+        && (this.currency == null || this.currency.isEmpty())
+      );
   }
 
   @Override
@@ -57,7 +69,6 @@ public class LocaleField extends BaseField {
       stringBuilder.append(currency);
       stringBuilder.append("; ");
     }
-
     return stringBuilder.toString().trim();
   }
 

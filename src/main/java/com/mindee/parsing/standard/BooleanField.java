@@ -36,6 +36,10 @@ public class BooleanField extends BaseField {
     this.value = value;
   }
 
+  public boolean isEmpty() {
+    return this.value == null;
+  }
+
   /**
    * The value of the field.
    */

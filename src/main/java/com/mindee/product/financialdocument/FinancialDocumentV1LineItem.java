@@ -52,6 +52,18 @@ public class FinancialDocumentV1LineItem extends BaseField implements LineItemFi
   @JsonProperty("unit_price")
   Double unitPrice;
 
+  public boolean isEmpty() {
+    return (
+        (description == null || description.isEmpty())
+        && (productCode == null || productCode.isEmpty())
+        && quantity == null
+        && taxAmount == null
+        && taxRate == null
+        && totalAmount == null
+        && unitPrice == null
+      );
+  }
+
   /**
    * Output the line in a format suitable for inclusion in an rST table.
    */

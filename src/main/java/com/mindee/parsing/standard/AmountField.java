@@ -36,6 +36,10 @@ public class AmountField extends BaseField {
     this.value = value;
   }
 
+  public boolean isEmpty() {
+    return this.value == null;
+  }
+
   @Override
   public String toString() {
     return SummaryHelper.formatAmount(this.value);

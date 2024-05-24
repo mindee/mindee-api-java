@@ -67,4 +67,9 @@ public abstract class BaseField implements PositionData {
       this.boundingBox = null;
     }
   }
+
+  /**
+   * @return true if the field is empty, false otherwise.
+   */
+  public abstract boolean isEmpty();
 }
