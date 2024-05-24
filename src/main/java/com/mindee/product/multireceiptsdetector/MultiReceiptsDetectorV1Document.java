@@ -11,7 +11,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 /**
- * Document data for Multi Receipts Detector, API version 1.
+ * Multi Receipts Detector API version 1.0 document data.
  */
 @Getter
 @EqualsAndHashCode(callSuper = false)
@@ -22,7 +22,7 @@ public class MultiReceiptsDetectorV1Document extends Prediction {
    * Positions of the receipts on the document.
    */
   @JsonProperty("receipts")
-  private List<PositionField> receipts = new ArrayList<>();
+  protected List<PositionField> receipts = new ArrayList<>();
 
   @Override
   public boolean isEmpty() {

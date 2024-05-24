@@ -30,88 +30,88 @@ public class ReceiptV5Document extends Prediction {
    * The purchase category among predefined classes.
    */
   @JsonProperty("category")
-  private ClassificationField category;
+  protected ClassificationField category;
   /**
    * The date the purchase was made.
    */
   @JsonProperty("date")
-  private DateField date;
+  protected DateField date;
   /**
    * One of: 'CREDIT CARD RECEIPT', 'EXPENSE RECEIPT'.
    */
   @JsonProperty("document_type")
-  private ClassificationField documentType;
+  protected ClassificationField documentType;
   /**
    * List of line item details.
    */
   @JsonProperty("line_items")
-  private List<ReceiptV5LineItem> lineItems = new ArrayList<>();
+  protected List<ReceiptV5LineItem> lineItems = new ArrayList<>();
   /**
    * The locale detected on the document.
    */
   @JsonProperty("locale")
-  private LocaleField locale;
+  protected LocaleField locale;
   /**
    * The receipt number or identifier.
    */
   @JsonProperty("receipt_number")
-  private StringField receiptNumber;
+  protected StringField receiptNumber;
   /**
    * The purchase subcategory among predefined classes for transport and food.
    */
   @JsonProperty("subcategory")
-  private ClassificationField subcategory;
+  protected ClassificationField subcategory;
   /**
    * The address of the supplier or merchant.
    */
   @JsonProperty("supplier_address")
-  private StringField supplierAddress;
+  protected StringField supplierAddress;
   /**
    * List of company registrations associated to the supplier.
    */
   @JsonProperty("supplier_company_registrations")
-  private List<CompanyRegistrationField> supplierCompanyRegistrations = new ArrayList<>();
+  protected List<CompanyRegistrationField> supplierCompanyRegistrations = new ArrayList<>();
   /**
    * The name of the supplier or merchant.
    */
   @JsonProperty("supplier_name")
-  private StringField supplierName;
+  protected StringField supplierName;
   /**
    * The phone number of the supplier or merchant.
    */
   @JsonProperty("supplier_phone_number")
-  private StringField supplierPhoneNumber;
+  protected StringField supplierPhoneNumber;
   /**
    * List of tax lines information.
    */
   @JsonProperty("taxes")
   @JsonDeserialize(using = TaxesDeserializer.class)
-  private Taxes taxes;
+  protected Taxes taxes;
   /**
    * The time the purchase was made.
    */
   @JsonProperty("time")
-  private StringField time;
+  protected StringField time;
   /**
    * The total amount of tip and gratuity.
    */
   @JsonProperty("tip")
-  private AmountField tip;
+  protected AmountField tip;
   /**
    * The total amount paid: includes taxes, discounts, fees, tips, and gratuity.
    */
   @JsonProperty("total_amount")
-  private AmountField totalAmount;
+  protected AmountField totalAmount;
   /**
    * The net amount paid: does not include taxes, fees, and discounts.
    */
   @JsonProperty("total_net")
-  private AmountField totalNet;
+  protected AmountField totalNet;
   /**
    * The total amount of taxes.
    */
   @JsonProperty("total_tax")
-  private AmountField totalTax;
+  protected AmountField totalTax;
 
   @Override
   public boolean isEmpty() {

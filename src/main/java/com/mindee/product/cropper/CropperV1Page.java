@@ -10,7 +10,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 /**
- * Page data for Cropper, API version 1.
+ * Cropper API version 1.1 page data.
  */
 @Getter
 @EqualsAndHashCode(callSuper = true)
@@ -21,7 +21,7 @@ public class CropperV1Page extends CropperV1Document {
    * List of documents found in the image.
    */
   @JsonProperty("cropping")
-  private List<PositionField> cropping = new ArrayList<>();
+  protected List<PositionField> cropping = new ArrayList<>();
 
   @Override
   public boolean isEmpty() {

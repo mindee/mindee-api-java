@@ -31,153 +31,153 @@ public class FinancialDocumentV1Document extends Prediction {
    * The customer's address used for billing.
    */
   @JsonProperty("billing_address")
-  private StringField billingAddress;
+  protected StringField billingAddress;
   /**
    * The purchase category among predefined classes.
    */
   @JsonProperty("category")
-  private ClassificationField category;
+  protected ClassificationField category;
   /**
    * The address of the customer.
    */
   @JsonProperty("customer_address")
-  private StringField customerAddress;
+  protected StringField customerAddress;
   /**
    * List of company registrations associated to the customer.
    */
   @JsonProperty("customer_company_registrations")
-  private List<CompanyRegistrationField> customerCompanyRegistrations = new ArrayList<>();
+  protected List<CompanyRegistrationField> customerCompanyRegistrations = new ArrayList<>();
   /**
    * The customer account number or identifier from the supplier.
    */
   @JsonProperty("customer_id")
-  private StringField customerId;
+  protected StringField customerId;
   /**
    * The name of the customer.
    */
   @JsonProperty("customer_name")
-  private StringField customerName;
+  protected StringField customerName;
   /**
    * The date the purchase was made.
    */
   @JsonProperty("date")
-  private DateField date;
+  protected DateField date;
   /**
    * The document number or identifier.
    */
   @JsonProperty("document_number")
-  private StringField documentNumber;
+  protected StringField documentNumber;
   /**
    * One of: 'INVOICE', 'CREDIT NOTE', 'CREDIT CARD RECEIPT', 'EXPENSE RECEIPT'.
    */
   @JsonProperty("document_type")
-  private ClassificationField documentType;
+  protected ClassificationField documentType;
   /**
    * The date on which the payment is due.
    */
   @JsonProperty("due_date")
-  private DateField dueDate;
+  protected DateField dueDate;
   /**
    * The invoice number or identifier only if document is an invoice.
    */
   @JsonProperty("invoice_number")
-  private StringField invoiceNumber;
+  protected StringField invoiceNumber;
   /**
    * List of line item details.
    */
   @JsonProperty("line_items")
-  private List<FinancialDocumentV1LineItem> lineItems = new ArrayList<>();
+  protected List<FinancialDocumentV1LineItem> lineItems = new ArrayList<>();
   /**
    * The locale detected on the document.
    */
   @JsonProperty("locale")
-  private LocaleField locale;
+  protected LocaleField locale;
   /**
    * The receipt number or identifier only if document is a receipt.
    */
   @JsonProperty("receipt_number")
-  private StringField receiptNumber;
+  protected StringField receiptNumber;
   /**
    * List of Reference numbers, including PO number.
    */
   @JsonProperty("reference_numbers")
-  private List<StringField> referenceNumbers = new ArrayList<>();
+  protected List<StringField> referenceNumbers = new ArrayList<>();
   /**
    * The customer's address used for shipping.
    */
   @JsonProperty("shipping_address")
-  private StringField shippingAddress;
+  protected StringField shippingAddress;
   /**
    * The purchase subcategory among predefined classes for transport and food.
    */
   @JsonProperty("subcategory")
-  private ClassificationField subcategory;
+  protected ClassificationField subcategory;
   /**
    * The address of the supplier or merchant.
    */
   @JsonProperty("supplier_address")
-  private StringField supplierAddress;
+  protected StringField supplierAddress;
   /**
    * List of company registrations associated to the supplier.
    */
   @JsonProperty("supplier_company_registrations")
-  private List<CompanyRegistrationField> supplierCompanyRegistrations = new ArrayList<>();
+  protected List<CompanyRegistrationField> supplierCompanyRegistrations = new ArrayList<>();
   /**
    * The email of the supplier or merchant.
    */
   @JsonProperty("supplier_email")
-  private StringField supplierEmail;
+  protected StringField supplierEmail;
   /**
    * The name of the supplier or merchant.
    */
   @JsonProperty("supplier_name")
-  private StringField supplierName;
+  protected StringField supplierName;
   /**
    * List of payment details associated to the supplier.
    */
   @JsonProperty("supplier_payment_details")
-  private List<PaymentDetailsField> supplierPaymentDetails = new ArrayList<>();
+  protected List<PaymentDetailsField> supplierPaymentDetails = new ArrayList<>();
   /**
    * The phone number of the supplier or merchant.
    */
   @JsonProperty("supplier_phone_number")
-  private StringField supplierPhoneNumber;
+  protected StringField supplierPhoneNumber;
   /**
    * The website URL of the supplier or merchant.
    */
   @JsonProperty("supplier_website")
-  private StringField supplierWebsite;
+  protected StringField supplierWebsite;
   /**
    * List of tax lines information.
    */
   @JsonProperty("taxes")
   @JsonDeserialize(using = TaxesDeserializer.class)
-  private Taxes taxes;
+  protected Taxes taxes;
   /**
    * The time the purchase was made.
    */
   @JsonProperty("time")
-  private StringField time;
+  protected StringField time;
   /**
    * The total amount of tip and gratuity
    */
   @JsonProperty("tip")
-  private AmountField tip;
+  protected AmountField tip;
   /**
    * The total amount paid: includes taxes, tips, fees, and other charges.
    */
   @JsonProperty("total_amount")
-  private AmountField totalAmount;
+  protected AmountField totalAmount;
   /**
    * The net amount paid: does not include taxes, fees, and discounts.
    */
   @JsonProperty("total_net")
-  private AmountField totalNet;
+  protected AmountField totalNet;
   /**
    * The total amount of taxes.
    */
   @JsonProperty("total_tax")
-  private AmountField totalTax;
+  protected AmountField totalTax;
 
   @Override
   public boolean isEmpty() {

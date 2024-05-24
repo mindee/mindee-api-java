@@ -10,7 +10,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 /**
- * Document data for Driver License, API version 1.
+ * Driver License API version 1.0 document data.
  */
 @Getter
 @EqualsAndHashCode(callSuper = false)
@@ -21,62 +21,62 @@ public class DriverLicenseV1Document extends Prediction {
    * EU driver license holders address
    */
   @JsonProperty("address")
-  private StringField address;
+  protected StringField address;
   /**
    * EU driver license holders categories
    */
   @JsonProperty("category")
-  private StringField category;
+  protected StringField category;
   /**
    * Country code extracted as a string.
    */
   @JsonProperty("country_code")
-  private StringField countryCode;
+  protected StringField countryCode;
   /**
    * The date of birth of the document holder
    */
   @JsonProperty("date_of_birth")
-  private DateField dateOfBirth;
+  protected DateField dateOfBirth;
   /**
    * ID number of the Document.
    */
   @JsonProperty("document_id")
-  private StringField documentId;
+  protected StringField documentId;
   /**
    * Date the document expires
    */
   @JsonProperty("expiry_date")
-  private DateField expiryDate;
+  protected DateField expiryDate;
   /**
    * First name(s) of the driver license holder
    */
   @JsonProperty("first_name")
-  private StringField firstName;
+  protected StringField firstName;
   /**
    * Authority that issued the document
    */
   @JsonProperty("issue_authority")
-  private StringField issueAuthority;
+  protected StringField issueAuthority;
   /**
    * Date the document was issued
    */
   @JsonProperty("issue_date")
-  private DateField issueDate;
+  protected DateField issueDate;
   /**
    * Last name of the driver license holder.
    */
   @JsonProperty("last_name")
-  private StringField lastName;
+  protected StringField lastName;
   /**
    * Machine-readable license number
    */
   @JsonProperty("mrz")
-  private StringField mrz;
+  protected StringField mrz;
   /**
    * Place where the driver license holder was born
    */
   @JsonProperty("place_of_birth")
-  private StringField placeOfBirth;
+  protected StringField placeOfBirth;
 
   @Override
   public boolean isEmpty() {

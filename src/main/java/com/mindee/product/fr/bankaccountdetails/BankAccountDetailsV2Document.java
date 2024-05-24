@@ -20,22 +20,22 @@ public class BankAccountDetailsV2Document extends Prediction {
    * Full extraction of the account holders names.
    */
   @JsonProperty("account_holders_names")
-  private StringField accountHoldersNames;
+  protected StringField accountHoldersNames;
   /**
    * Full extraction of BBAN, including: branch code, bank code, account and key.
    */
   @JsonProperty("bban")
-  private BankAccountDetailsV2Bban bban;
+  protected BankAccountDetailsV2Bban bban;
   /**
    * Full extraction of the IBAN number.
    */
   @JsonProperty("iban")
-  private StringField iban;
+  protected StringField iban;
   /**
    * Full extraction of the SWIFT code.
    */
   @JsonProperty("swift_code")
-  private StringField swiftCode;
+  protected StringField swiftCode;
 
   @Override
   public boolean isEmpty() {

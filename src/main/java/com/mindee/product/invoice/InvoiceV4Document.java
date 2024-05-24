@@ -31,123 +31,123 @@ public class InvoiceV4Document extends Prediction {
    * The customer's address used for billing.
    */
   @JsonProperty("billing_address")
-  private StringField billingAddress;
+  protected StringField billingAddress;
   /**
    * The address of the customer.
    */
   @JsonProperty("customer_address")
-  private StringField customerAddress;
+  protected StringField customerAddress;
   /**
    * List of company registrations associated to the customer.
    */
   @JsonProperty("customer_company_registrations")
-  private List<CompanyRegistrationField> customerCompanyRegistrations = new ArrayList<>();
+  protected List<CompanyRegistrationField> customerCompanyRegistrations = new ArrayList<>();
   /**
    * The customer account number or identifier from the supplier.
    */
   @JsonProperty("customer_id")
-  private StringField customerId;
+  protected StringField customerId;
   /**
    * The name of the customer or client.
    */
   @JsonProperty("customer_name")
-  private StringField customerName;
+  protected StringField customerName;
   /**
    * The date the purchase was made.
    */
   @JsonProperty("date")
-  private DateField invoiceDateField;
+  protected DateField invoiceDateField;
   /**
    * One of: 'INVOICE', 'CREDIT NOTE'.
    */
   @JsonProperty("document_type")
-  private ClassificationField documentType;
+  protected ClassificationField documentType;
   /**
    * The date on which the payment is due.
    */
   @JsonProperty("due_date")
-  private DateField dueDateField;
+  protected DateField dueDateField;
   /**
    * The invoice number or identifier.
    */
   @JsonProperty("invoice_number")
-  private StringField invoiceNumber;
+  protected StringField invoiceNumber;
   /**
    * List of line item details.
    */
   @JsonProperty("line_items")
-  private List<InvoiceV4LineItem> lineItems = new ArrayList<>();
+  protected List<InvoiceV4LineItem> lineItems = new ArrayList<>();
   /**
    * The locale detected on the document.
    */
   @JsonProperty("locale")
-  private LocaleField localeField;
+  protected LocaleField localeField;
   /**
    * List of Reference numbers, including PO number.
    */
   @JsonProperty("reference_numbers")
-  private List<StringField> referenceNumbers = new ArrayList<>();
+  protected List<StringField> referenceNumbers = new ArrayList<>();
   /**
    * Customer's delivery address.
    */
   @JsonProperty("shipping_address")
-  private StringField shippingAddress;
+  protected StringField shippingAddress;
   /**
    * The address of the supplier or merchant.
    */
   @JsonProperty("supplier_address")
-  private StringField supplierAddress;
+  protected StringField supplierAddress;
   /**
    * List of company registrations associated to the supplier.
    */
   @JsonProperty("supplier_company_registrations")
-  private List<CompanyRegistrationField> supplierCompanyRegistrations = new ArrayList<>();
+  protected List<CompanyRegistrationField> supplierCompanyRegistrations = new ArrayList<>();
   /**
    * The email of the supplier or merchant.
    */
   @JsonProperty("supplier_email")
-  private StringField supplierEmail;
+  protected StringField supplierEmail;
   /**
    * The name of the supplier or merchant.
    */
   @JsonProperty("supplier_name")
-  private StringField supplierName;
+  protected StringField supplierName;
   /**
    * List of payment details associated to the supplier.
    */
   @JsonProperty("supplier_payment_details")
-  private List<PaymentDetailsField> supplierPaymentDetails = new ArrayList<>();
+  protected List<PaymentDetailsField> supplierPaymentDetails = new ArrayList<>();
   /**
    * The phone number of the supplier or merchant.
    */
   @JsonProperty("supplier_phone_number")
-  private StringField supplierPhoneNumber;
+  protected StringField supplierPhoneNumber;
   /**
    * The website URL of the supplier or merchant.
    */
   @JsonProperty("supplier_website")
-  private StringField supplierWebsite;
+  protected StringField supplierWebsite;
   /**
    * List of tax line details.
    */
   @JsonProperty("taxes")
   @JsonDeserialize(using = TaxesDeserializer.class)
-  private Taxes taxes;
+  protected Taxes taxes;
   /**
    * The total amount paid: includes taxes, tips, fees, and other charges.
    */
   @JsonProperty("total_amount")
-  private AmountField totalAmount;
+  protected AmountField totalAmount;
   /**
    * The net amount paid: does not include taxes, fees, and discounts.
    */
   @JsonProperty("total_net")
-  private AmountField totalNet;
+  protected AmountField totalNet;
   /**
    * The total tax: includes all the taxes paid for this invoice.
    */
   @JsonProperty("total_tax")
-  private AmountField totalTax;
+  protected AmountField totalTax;
 
   @Override
   public boolean isEmpty() {

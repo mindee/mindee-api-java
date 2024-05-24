@@ -8,7 +8,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 /**
- * Page data for Driver License, API version 1.
+ * Driver License API version 1.0 page data.
  */
 @Getter
 @EqualsAndHashCode(callSuper = true)
@@ -19,12 +19,12 @@ public class DriverLicenseV1Page extends DriverLicenseV1Document {
    * Has a photo of the EU driver license holder
    */
   @JsonProperty("photo")
-  private PositionField photo;
+  protected PositionField photo;
   /**
    * Has a signature of the EU driver license holder
    */
   @JsonProperty("signature")
-  private PositionField signature;
+  protected PositionField signature;
 
   @Override
   public boolean isEmpty() {

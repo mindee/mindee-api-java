@@ -14,7 +14,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 /**
- * Document data for Proof of Address, API version 1.
+ * Proof of Address API version 1.1 document data.
  */
 @Getter
 @EqualsAndHashCode(callSuper = false)
@@ -25,47 +25,47 @@ public class ProofOfAddressV1Document extends Prediction {
    * The date the document was issued.
    */
   @JsonProperty("date")
-  private DateField date;
+  protected DateField date;
   /**
    * List of dates found on the document.
    */
   @JsonProperty("dates")
-  private List<DateField> dates = new ArrayList<>();
+  protected List<DateField> dates = new ArrayList<>();
   /**
    * The address of the document's issuer.
    */
   @JsonProperty("issuer_address")
-  private StringField issuerAddress;
+  protected StringField issuerAddress;
   /**
    * List of company registrations found for the issuer.
    */
   @JsonProperty("issuer_company_registration")
-  private List<CompanyRegistrationField> issuerCompanyRegistration = new ArrayList<>();
+  protected List<CompanyRegistrationField> issuerCompanyRegistration = new ArrayList<>();
   /**
    * The name of the person or company issuing the document.
    */
   @JsonProperty("issuer_name")
-  private StringField issuerName;
+  protected StringField issuerName;
   /**
    * The locale detected on the document.
    */
   @JsonProperty("locale")
-  private LocaleField locale;
+  protected LocaleField locale;
   /**
    * The address of the recipient.
    */
   @JsonProperty("recipient_address")
-  private StringField recipientAddress;
+  protected StringField recipientAddress;
   /**
    * List of company registrations found for the recipient.
    */
   @JsonProperty("recipient_company_registration")
-  private List<CompanyRegistrationField> recipientCompanyRegistration = new ArrayList<>();
+  protected List<CompanyRegistrationField> recipientCompanyRegistration = new ArrayList<>();
   /**
    * The name of the person or company receiving the document.
    */
   @JsonProperty("recipient_name")
-  private StringField recipientName;
+  protected StringField recipientName;
 
   @Override
   public boolean isEmpty() {

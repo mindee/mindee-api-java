@@ -13,7 +13,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 /**
- * Document data for International ID, API version 2.
+ * International ID API version 2.0 document data.
  */
 @Getter
 @EqualsAndHashCode(callSuper = false)
@@ -24,87 +24,87 @@ public class InternationalIdV2Document extends Prediction {
    * The physical address of the document holder.
    */
   @JsonProperty("address")
-  private StringField address;
+  protected StringField address;
   /**
    * The date of birth of the document holder.
    */
   @JsonProperty("birth_date")
-  private DateField birthDate;
+  protected DateField birthDate;
   /**
    * The place of birth of the document holder.
    */
   @JsonProperty("birth_place")
-  private StringField birthPlace;
+  protected StringField birthPlace;
   /**
    * The country where the document was issued.
    */
   @JsonProperty("country_of_issue")
-  private StringField countryOfIssue;
+  protected StringField countryOfIssue;
   /**
    * The unique identifier assigned to the document.
    */
   @JsonProperty("document_number")
-  private StringField documentNumber;
+  protected StringField documentNumber;
   /**
    * The type of personal identification document.
    */
   @JsonProperty("document_type")
-  private ClassificationField documentType;
+  protected ClassificationField documentType;
   /**
    * The date when the document becomes invalid.
    */
   @JsonProperty("expiry_date")
-  private DateField expiryDate;
+  protected DateField expiryDate;
   /**
    * The list of the document holder's given names.
    */
   @JsonProperty("given_names")
-  private List<StringField> givenNames = new ArrayList<>();
+  protected List<StringField> givenNames = new ArrayList<>();
   /**
    * The date when the document was issued.
    */
   @JsonProperty("issue_date")
-  private DateField issueDate;
+  protected DateField issueDate;
   /**
    * The Machine Readable Zone, first line.
    */
   @JsonProperty("mrz_line1")
-  private StringField mrzLine1;
+  protected StringField mrzLine1;
   /**
    * The Machine Readable Zone, second line.
    */
   @JsonProperty("mrz_line2")
-  private StringField mrzLine2;
+  protected StringField mrzLine2;
   /**
    * The Machine Readable Zone, third line.
    */
   @JsonProperty("mrz_line3")
-  private StringField mrzLine3;
+  protected StringField mrzLine3;
   /**
    * The country of citizenship of the document holder.
    */
   @JsonProperty("nationality")
-  private StringField nationality;
+  protected StringField nationality;
   /**
    * The unique identifier assigned to the document holder.
    */
   @JsonProperty("personal_number")
-  private StringField personalNumber;
+  protected StringField personalNumber;
   /**
    * The biological sex of the document holder.
    */
   @JsonProperty("sex")
-  private StringField sex;
+  protected StringField sex;
   /**
    * The state or territory where the document was issued.
    */
   @JsonProperty("state_of_issue")
-  private StringField stateOfIssue;
+  protected StringField stateOfIssue;
   /**
    * The list of the document holder's family names.
    */
   @JsonProperty("surnames")
-  private List<StringField> surnames = new ArrayList<>();
+  protected List<StringField> surnames = new ArrayList<>();
 
   @Override
   public boolean isEmpty() {

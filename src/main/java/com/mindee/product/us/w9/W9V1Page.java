@@ -9,7 +9,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 /**
- * Page data for W9, API version 1.
+ * W9 API version 1.0 page data.
  */
 @Getter
 @EqualsAndHashCode(callSuper = true)
@@ -20,62 +20,62 @@ public class W9V1Page extends W9V1Document {
    * The street address (number, street, and apt. or suite no.) of the applicant.
    */
   @JsonProperty("address")
-  private StringField address;
+  protected StringField address;
   /**
    * The business name or disregarded entity name, if different from Name.
    */
   @JsonProperty("business_name")
-  private StringField businessName;
+  protected StringField businessName;
   /**
    * The city, state, and ZIP code of the applicant.
    */
   @JsonProperty("city_state_zip")
-  private StringField cityStateZip;
+  protected StringField cityStateZip;
   /**
    * The employer identification number.
    */
   @JsonProperty("ein")
-  private StringField ein;
+  protected StringField ein;
   /**
    * Name as shown on the applicant's income tax return.
    */
   @JsonProperty("name")
-  private StringField name;
+  protected StringField name;
   /**
    * Position of the signature date on the document.
    */
   @JsonProperty("signature_date_position")
-  private PositionField signatureDatePosition;
+  protected PositionField signatureDatePosition;
   /**
    * Position of the signature on the document.
    */
   @JsonProperty("signature_position")
-  private PositionField signaturePosition;
+  protected PositionField signaturePosition;
   /**
    * The applicant's social security number.
    */
   @JsonProperty("ssn")
-  private StringField ssn;
+  protected StringField ssn;
   /**
    * The federal tax classification, which can vary depending on the revision date.
    */
   @JsonProperty("tax_classification")
-  private StringField taxClassification;
+  protected StringField taxClassification;
   /**
    * Depending on revision year, among S, C, P or D for Limited Liability Company Classification.
    */
   @JsonProperty("tax_classification_llc")
-  private StringField taxClassificationLlc;
+  protected StringField taxClassificationLlc;
   /**
    * Tax Classification Other Details.
    */
   @JsonProperty("tax_classification_other_details")
-  private StringField taxClassificationOtherDetails;
+  protected StringField taxClassificationOtherDetails;
   /**
    * The Revision month and year of the W9 form.
    */
   @JsonProperty("w9_revision_date")
-  private StringField w9RevisionDate;
+  protected StringField w9RevisionDate;
 
   @Override
   public boolean isEmpty() {
