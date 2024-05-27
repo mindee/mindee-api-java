@@ -18,23 +18,38 @@ public class TaxField extends BaseField implements LineItemField {
   /**
    * The tax amount.
    */
-  @JsonProperty("value")
-  private Double value;
+  private final Double value;
+
   /**
    * The tax code.
    */
-  @JsonProperty("code")
-  private String code;
+  private final String code;
+
   /**
    * The tax rate in percentage.
    */
-  @JsonProperty("rate")
-  private Double rate;
+  private final Double rate;
+
   /**
    * The tax base.
    */
-  @JsonProperty("base")
-  private Double base;
+  private final Double base;
+
+  public TaxField(
+      @JsonProperty("value")
+      Double value,
+      @JsonProperty("code")
+      String code,
+      @JsonProperty("rate")
+      Double rate,
+      @JsonProperty("base")
+      Double base
+  ) {
+    this.value = value;
+    this.code = code;
+    this.rate = rate;
+    this.base = base;
+  }
 
   public boolean isEmpty() {
     return (
