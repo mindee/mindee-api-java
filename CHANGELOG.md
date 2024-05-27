@@ -1,5 +1,12 @@
 # Mindee Java API Library Changelog
 
+## v4.16.0 - 2024-05-27
+### Changes
+* :sparkles: add isEmpty() method to field classes
+* :recycle: allow easier sub-classing of inferences
+* :recycle: add public constructors to feature classes
+
+
 ## v4.15.0 - 2024-05-23
 ### Changes
 * :sparkles: add boolean field support
