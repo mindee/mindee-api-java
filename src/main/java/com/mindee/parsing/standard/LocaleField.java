@@ -15,30 +15,41 @@ public class LocaleField extends BaseField {
   /**
    * Concatenation of lang and country codes.
    */
-  @JsonProperty("value")
   private String value;
 
   /**
    * The language which has been detected.
    */
-  private String language;
+  private final String language;
 
   /**
    * The country which has been detected.
    */
-  @JsonProperty("country")
-  private String country;
+  private final String country;
 
   /**
    * The currency which has been detected.
    */
-  @JsonProperty("currency")
-  private String currency;
+  private final String currency;
 
-  @JsonProperty("language")
-  public void setLanguage(String language) {
+  public LocaleField(
+      @JsonProperty("value")
+      String value,
+      @JsonProperty("language")
+      String language,
+      @JsonProperty("country")
+      String country,
+      @JsonProperty("currency")
+      String currency
+  ) {
+    this.value = value;
     this.language = language;
-    this.value = language;
+    this.country = country;
+    this.currency = currency;
+
+    if ((value == null || value.isEmpty()) && language != null) {
+      this.value = language;
+    }
   }
 
   public boolean isEmpty() {
@@ -53,23 +64,24 @@ public class LocaleField extends BaseField {
   @Override
   public String toString() {
     StringBuilder stringBuilder = new StringBuilder();
-    if (value != null) {
+    if (value != null && !value.isEmpty()) {
       stringBuilder.append(value);
       stringBuilder.append("; ");
     }
-    if (language != null) {
+    if (language != null && !language.isEmpty()) {
       stringBuilder.append(language);
       stringBuilder.append("; ");
     }
-    if (country != null) {
+    if (country != null && !country.isEmpty()) {
       stringBuilder.append(country);
       stringBuilder.append("; ");
     }
-    if (currency != null) {
+    if (currency != null && !currency.isEmpty()) {
       stringBuilder.append(currency);
       stringBuilder.append("; ");
     }
     return stringBuilder.toString().trim();
+
   }
 
 }

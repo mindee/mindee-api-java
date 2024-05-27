@@ -14,13 +14,22 @@ public final class CompanyRegistrationField extends BaseField {
   /**
    * The value of the field.
    */
-  @JsonProperty("value")
-  private String value;
+  private final String value;
+
   /**
    * Type of the company registration number.
    */
-  @JsonProperty("type")
-  private String type;
+  private final String type;
+
+  public CompanyRegistrationField(
+      @JsonProperty("type")
+      String type,
+      @JsonProperty("value")
+      String value
+  ) {
+    this.type = type;
+    this.value = value;
+  }
 
   public boolean isEmpty() {
     return (

@@ -14,23 +14,38 @@ public class PaymentDetailsField extends BaseField {
   /**
    * The account number.
    */
-  @JsonProperty("account_number")
-  private String accountNumber;
+  private final String accountNumber;
+
   /**
    * The full IBAN.
    */
-  @JsonProperty("iban")
-  private String iban;
+  private final String iban;
+
   /**
    * The routing number.
    */
-  @JsonProperty("routing_number")
-  private String routingNumber;
+  private final String routingNumber;
+
   /**
    * The SWIFT value.
    */
-  @JsonProperty("swift")
-  private String swift;
+  private final String swift;
+
+  public PaymentDetailsField(
+      @JsonProperty("account_number")
+      String accountNumber,
+      @JsonProperty("iban")
+      String iban,
+      @JsonProperty("routing_number")
+      String routingNumber,
+      @JsonProperty("swift")
+      String swift
+  ) {
+    this.accountNumber = accountNumber;
+    this.iban = iban;
+    this.routingNumber = routingNumber;
+    this.swift = swift;
+  }
 
   public boolean isEmpty() {
     return (
