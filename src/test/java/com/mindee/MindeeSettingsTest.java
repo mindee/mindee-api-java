@@ -1,12 +1,10 @@
 package com.mindee;
 
-import junit.framework.TestCase;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junitpioneer.jupiter.SetEnvironmentVariable;
 
-public class MindeeSettingsTest extends TestCase {
-
+public class MindeeSettingsTest {
 
   @Test
   @SetEnvironmentVariable(key = "MINDEE_API_KEY", value = "abcd")
