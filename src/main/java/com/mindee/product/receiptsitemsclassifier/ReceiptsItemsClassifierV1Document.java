@@ -13,7 +13,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 /**
- * Document data for Receipts Items Classifier, API version 1.
+ * Receipts Items Classifier API version 1.0 document data.
  */
 @Getter
 @EqualsAndHashCode(callSuper = false)
@@ -24,52 +24,52 @@ public class ReceiptsItemsClassifierV1Document extends Prediction {
    * The currency of the receipt in ISO 4217 three-letter code.
    */
   @JsonProperty("currency_code")
-  private StringField currencyCode;
+  protected StringField currencyCode;
   /**
    * The category or type of the expense.
    */
   @JsonProperty("expense_category")
-  private ClassificationField expenseCategory;
+  protected ClassificationField expenseCategory;
   /**
    * The ISO formatted date on which the receipt was issued.
    */
   @JsonProperty("issue_date")
-  private StringField issueDate;
+  protected StringField issueDate;
   /**
    * A list of fields about individual items or services being billed.
    */
   @JsonProperty("line_items")
-  private List<ReceiptsItemsClassifierV1LineItem> lineItems = new ArrayList<>();
+  protected List<ReceiptsItemsClassifierV1LineItem> lineItems = new ArrayList<>();
   /**
    * The address of the merchant.
    */
   @JsonProperty("merchant_address")
-  private StringField merchantAddress;
+  protected StringField merchantAddress;
   /**
    * The name of the merchant.
    */
   @JsonProperty("merchant_name")
-  private StringField merchantName;
+  protected StringField merchantName;
   /**
    * Whether there are several receipts on the document.
    */
   @JsonProperty("multiple_receipts")
-  private StringField multipleReceipts;
+  protected StringField multipleReceipts;
   /**
    * The tip added on the receipt.
    */
   @JsonProperty("tip")
-  private AmountField tip;
+  protected AmountField tip;
   /**
    * The sum of all the individual line item amounts, including taxes and discounts.
    */
   @JsonProperty("total_amount")
-  private AmountField totalAmount;
+  protected AmountField totalAmount;
   /**
    * The total tax of the bought items.
    */
   @JsonProperty("total_tax")
-  private AmountField totalTax;
+  protected AmountField totalTax;
 
   @Override
   public boolean isEmpty() {

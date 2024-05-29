@@ -37,6 +37,15 @@ public class ReceiptsItemsClassifierV1LineItem extends BaseField implements Line
   @JsonProperty("total_price")
   Double totalPrice;
 
+  public boolean isEmpty() {
+    return (
+        (itemClassification == null || itemClassification.isEmpty())
+        && (itemName == null || itemName.isEmpty())
+        && quantity == null
+        && totalPrice == null
+      );
+  }
+
   /**
    * Output the line in a format suitable for inclusion in an rST table.
    */
@@ -60,8 +69,8 @@ public class ReceiptsItemsClassifierV1LineItem extends BaseField implements Line
   private Map<String, String> printableValues() {
     Map<String, String> printable = new HashMap<>();
 
-    printable.put("itemClassification", SummaryHelper.formatString(this.itemClassification));
-    printable.put("itemName", SummaryHelper.formatString(this.itemName));
+    printable.put("itemClassification", SummaryHelper.formatForDisplay(this.itemClassification, null));
+    printable.put("itemName", SummaryHelper.formatForDisplay(this.itemName, null));
     printable.put(
         "quantity",
         SummaryHelper.formatAmount(this.quantity)

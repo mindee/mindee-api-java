@@ -21,6 +21,12 @@ public class OcrDemoV1Ocr extends BaseField {
   @JsonProperty("ocr_full_text")
   String ocrFullText;
 
+  public boolean isEmpty() {
+    return (
+      (ocrFullText == null || ocrFullText.isEmpty())
+    );
+  }
+
   /**
    * Output the object in a format suitable for inclusion in an rST field list.
    */
