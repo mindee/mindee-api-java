@@ -149,6 +149,7 @@ public final class PDFUtils {
     PDDocument document = PDDocument.load(source.getFile());
     PDFRenderer pdfRenderer = new PDFRenderer(document);
     BufferedImage imageBuffer = pdfPageToImageBuffer(index, document, pdfRenderer);
+    document.close();
     return new PdfPageImage(imageBuffer, index, source.getFilename(), "jpg");
   }
 
