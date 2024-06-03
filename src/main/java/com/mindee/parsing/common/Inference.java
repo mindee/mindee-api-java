@@ -35,6 +35,11 @@ public abstract class Inference<TPagePrediction, TDocumentPrediction extends Pre
    */
   @JsonProperty("prediction")
   private TDocumentPrediction prediction;
+  /**
+   * Optional information.
+   */
+  @JsonProperty("extras")
+  private Extras extras;
 
   @Override
   public String toString() {
