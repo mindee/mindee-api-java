@@ -4,24 +4,22 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.Setter;
 
 /**
- * Optional information.
+ * Full Text OCR result.
  */
 @Getter
 @EqualsAndHashCode
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Extras {
+public class FullTextOcr {
   /**
-   * Cropping result.
+   * List of positions within the image.
    */
-  @JsonProperty("cropper")
-  private Cropper cropper;
+  @JsonProperty("content")
+  private String content;
   /**
-   * Full Text OCR result.
+   * Language used in the text.
    */
-  @Setter
-  @JsonProperty("full_text_ocr")
-  private FullTextOcr fullTextOcr;
+  @JsonProperty("language")
+  private String language;
 }

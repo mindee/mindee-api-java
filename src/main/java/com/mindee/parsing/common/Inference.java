@@ -3,12 +3,13 @@ package com.mindee.parsing.common;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mindee.parsing.SummaryHelper;
+import java.util.stream.Collectors;
 import lombok.Getter;
 
 /**
  * Common inference data.
  *
- * @param <TPagePrediction> Page prediction (can be the same as TDocumentPrediction).
+ * @param <TPagePrediction>     Page prediction (can be the same as TDocumentPrediction).
  * @param <TDocumentPrediction> Document prediction (can be the same as TPagePrediction).
  */
 @Getter
@@ -35,6 +36,11 @@ public abstract class Inference<TPagePrediction, TDocumentPrediction extends Pre
    */
   @JsonProperty("prediction")
   private TDocumentPrediction prediction;
+  /**
+   * Optional information.
+   */
+  @JsonProperty("extras")
+  private InferenceExtras extras;
 
   @Override
   public String toString() {
@@ -54,5 +60,23 @@ public abstract class Inference<TPagePrediction, TDocumentPrediction extends Pre
     }
     summary += String.format("%n");
     return SummaryHelper.cleanSummary(summary);
+  }
+
+  public InferenceExtras getExtras() {
+    if (this.pages != null && !this.pages.isEmpty()
+        && (this.extras == null || this.extras.getFullTextOcr() == null)
+    ) {
+      if (this.extras == null) {
+        this.extras = new InferenceExtras();
+      }
+      if (this.pages.get(0).getExtras() != null
+          && this.pages.get(0).getExtras().getFullTextOcr() != null
+      ) {
+        this.extras.setFullTextOcr(String.join("\n",
+            this.pages.stream().map(page -> page.getExtras().getFullTextOcr().getContent()).collect(
+                Collectors.joining("\n"))));
+      }
+    }
+    return this.extras;
   }
 }

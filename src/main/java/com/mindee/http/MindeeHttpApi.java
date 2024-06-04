@@ -320,6 +320,9 @@ public final class MindeeHttpApi extends MindeeApi {
     if (Boolean.TRUE.equals(requestParameters.getPredictOptions().getCropper())) {
       params.add(new BasicNameValuePair("cropper", "true"));
     }
+    if (Boolean.TRUE.equals(requestParameters.getPredictOptions().getFullText())) {
+      params.add(new BasicNameValuePair("full_text_ocr", "true"));
+    }
     return params;
   }
 
@@ -342,9 +345,8 @@ public final class MindeeHttpApi extends MindeeApi {
     } else if (requestParameters.getFileUrl() != null) {
       Map<String, URL> urlMap = new HashMap<>();
       urlMap.put("document", requestParameters.getFileUrl());
-      final StringEntity entity = new StringEntity(mapper.writeValueAsString(urlMap),
+      return new StringEntity(mapper.writeValueAsString(urlMap),
           ContentType.APPLICATION_JSON);
-      return entity;
     } else {
       throw new MindeeException("Either document bytes or a document URL are needed");
     }
