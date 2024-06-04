@@ -9,7 +9,7 @@ import lombok.Getter;
 /**
  * Common inference data.
  *
- * @param <TPagePrediction> Page prediction (can be the same as TDocumentPrediction).
+ * @param <TPagePrediction>     Page prediction (can be the same as TDocumentPrediction).
  * @param <TDocumentPrediction> Document prediction (can be the same as TPagePrediction).
  */
 @Getter
@@ -40,9 +40,7 @@ public abstract class Inference<TPagePrediction, TDocumentPrediction extends Pre
    * Optional information.
    */
   @JsonProperty("extras")
-  private Extras extras;
-
-  private InferenceExtras inferenceExtras;
+  private InferenceExtras extras;
 
   @Override
   public String toString() {
@@ -64,18 +62,21 @@ public abstract class Inference<TPagePrediction, TDocumentPrediction extends Pre
     return SummaryHelper.cleanSummary(summary);
   }
 
-  public InferenceExtras getInferenceExtras(){
-    if (this.inferenceExtras == null) {
-      this.inferenceExtras = new InferenceExtras();
-    }
-    if (this.extras != null) {
-      if (this.pages != null && !this.pages.isEmpty() && this.inferenceExtras.getFullTextOcr() == null) {
-        if (this.pages.get(0).getExtras() != null && this.pages.get(0).getExtras().getFullTextOcr() != null) {
-          this.inferenceExtras.setFullTextOcr(String.join("\n", this.pages.stream().map(page -> page.getExtras().getFullTextOcr().getContent()).collect(
-            Collectors.joining("\n"))));
-        }
+  public InferenceExtras getExtras() {
+    if (this.pages != null && !this.pages.isEmpty()
+        && (this.extras == null || this.extras.getFullTextOcr() == null)
+    ) {
+      if (this.extras == null) {
+        this.extras = new InferenceExtras();
+      }
+      if (this.pages.get(0).getExtras() != null
+          && this.pages.get(0).getExtras().getFullTextOcr() != null
+      ) {
+        this.extras.setFullTextOcr(String.join("\n",
+            this.pages.stream().map(page -> page.getExtras().getFullTextOcr().getContent()).collect(
+                Collectors.joining("\n"))));
       }
     }
-    return this.inferenceExtras;
+    return this.extras;
   }
 }

@@ -48,7 +48,7 @@ public class FullTextOcrTest {
       .readAllLines(Paths.get("src/test/resources/extras/full_text_ocr/full_text_ocr.txt"));
     List<Page<InternationalIdV2Document>> pages = loadPages();
     Inference<InternationalIdV2Document, InternationalIdV2Document> inference = loadInference();
-    String fullTextOcr = inference.getInferenceExtras().getFullTextOcr();
+    String fullTextOcr = inference.getExtras().getFullTextOcr();
     String page0Ocr = pages.get(0).getExtras().getFullTextOcr().getContent();
     Assertions.assertEquals(String.join("\n", expectedText), fullTextOcr);
     Assertions.assertEquals(String.join("\n", expectedText), page0Ocr);

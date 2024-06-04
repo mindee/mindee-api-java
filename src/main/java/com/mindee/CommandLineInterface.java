@@ -42,18 +42,18 @@ public class CommandLineInterface {
   CommandSpec spec;
 
   @Option(
-    names = {"-w", "--all-words"},
-    scope = ScopeType.INHERIT,
-    paramLabel = "WORDS",
-    description = "Include all document words in the response"
+      names = {"-w", "--all-words"},
+      scope = ScopeType.INHERIT,
+      paramLabel = "WORDS",
+      description = "Include all document words in the response"
   )
   private boolean words;
 
   @Option(
-    names = {"-f", "--full-text"},
-    scope = ScopeType.INHERIT,
-    paramLabel = "FULL_TEXT",
-    description = "Include full text response, if abailable"
+      names = {"-f", "--full-text"},
+      scope = ScopeType.INHERIT,
+      paramLabel = "FULL_TEXT",
+      description = "Include full text response, if available"
   )
   private boolean fullText;
 

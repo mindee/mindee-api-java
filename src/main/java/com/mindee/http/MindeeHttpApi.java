@@ -297,10 +297,6 @@ public final class MindeeHttpApi extends MindeeApi {
     try {
       URIBuilder uriBuilder = new URIBuilder(url);
       uriBuilder.addParameters(buildPostParams(requestParameters));
-      if (Boolean.TRUE.equals(requestParameters.getPredictOptions().getFullText()))
-      {
-        uriBuilder.addParameter("full_text_ocr", "true");
-      }
       post = new HttpPost(uriBuilder.build());
     }
     // This exception will never happen because we are providing the URL internally.
@@ -323,6 +319,9 @@ public final class MindeeHttpApi extends MindeeApi {
     ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
     if (Boolean.TRUE.equals(requestParameters.getPredictOptions().getCropper())) {
       params.add(new BasicNameValuePair("cropper", "true"));
+    }
+    if (Boolean.TRUE.equals(requestParameters.getPredictOptions().getFullText())) {
+      params.add(new BasicNameValuePair("full_text_ocr", "true"));
     }
     return params;
   }
