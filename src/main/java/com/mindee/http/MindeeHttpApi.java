@@ -297,6 +297,10 @@ public final class MindeeHttpApi extends MindeeApi {
     try {
       URIBuilder uriBuilder = new URIBuilder(url);
       uriBuilder.addParameters(buildPostParams(requestParameters));
+      if (Boolean.TRUE.equals(requestParameters.getPredictOptions().getFullText()))
+      {
+        uriBuilder.addParameter("full_text_ocr", "true");
+      }
       post = new HttpPost(uriBuilder.build());
     }
     // This exception will never happen because we are providing the URL internally.
@@ -337,10 +341,6 @@ public final class MindeeHttpApi extends MindeeApi {
       );
       if (Boolean.TRUE.equals(requestParameters.getPredictOptions().getAllWords())) {
         builder.addTextBody("include_mvision", "true");
-      }
-      if (Boolean.TRUE.equals(requestParameters.getPredictOptions().getFullText()))
-      {
-        builder.addTextBody("full_text_ocr", "true");
       }
       return builder.build();
     } else if (requestParameters.getFileUrl() != null) {

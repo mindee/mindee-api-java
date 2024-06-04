@@ -42,12 +42,20 @@ public class CommandLineInterface {
   CommandSpec spec;
 
   @Option(
-      names = {"-w", "--all-words"},
-      scope = ScopeType.INHERIT,
-      paramLabel = "WORDS",
-      description = "Include all document words in the response"
+    names = {"-w", "--all-words"},
+    scope = ScopeType.INHERIT,
+    paramLabel = "WORDS",
+    description = "Include all document words in the response"
   )
   private boolean words;
+
+  @Option(
+    names = {"-f", "--full-text"},
+    scope = ScopeType.INHERIT,
+    paramLabel = "FULL_TEXT",
+    description = "Include full text response, if abailable"
+  )
+  private boolean fullText;
 
   private enum OutputChoices { summary, full, raw }
 
@@ -188,7 +196,7 @@ public class CommandLineInterface {
     MindeeClient mindeeClient = new MindeeClient(apiKey);
     LocalInputSource inputSource = new LocalInputSource(file);
     PredictResponse<T> response;
-    PredictOptions predictOptions = PredictOptions.builder().allWords(words).build();
+    PredictOptions predictOptions = PredictOptions.builder().allWords(words).fullText(fullText).build();
     if (cutDoc) {
       response = mindeeClient.parse(docClass, inputSource, predictOptions, getDefaultPageOptions());
     } else {
@@ -212,7 +220,7 @@ public class CommandLineInterface {
     MindeeClient mindeeClient = new MindeeClient(apiKey);
     LocalInputSource inputSource = new LocalInputSource(file);
     AsyncPredictResponse<T> response;
-    PredictOptions predictOptions = PredictOptions.builder().allWords(words).build();
+    PredictOptions predictOptions = PredictOptions.builder().allWords(words).fullText(fullText).build();
     if (cutDoc) {
       response = mindeeClient.enqueueAndParse(
         docClass, inputSource, predictOptions, getDefaultPageOptions(), null
