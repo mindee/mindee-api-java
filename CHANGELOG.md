@@ -1,5 +1,12 @@
 # Mindee Java API Library Changelog
 
+## v4.17.0 - 2024-06-04
+### Changes
+:sparkles: add support for full text extraction (#177)
+### Fixes
+:bug: fix warning on not properly closing a PDF document
+
+
 ## v4.16.0 - 2024-05-27
 ### Changes
 * :sparkles: add isEmpty() method to field classes
