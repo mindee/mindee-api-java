@@ -14,8 +14,21 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
 
 public class FullTextOcrTest {
+  private Inference<InternationalIdV2Document, InternationalIdV2Document> loadInference() throws IOException {
+    ObjectMapper objectMapper = new ObjectMapper();
+    objectMapper.findAndRegisterModules();
 
-  private List<Page<InternationalIdV2Document>> loadResult() throws IOException {
+    JavaType type = objectMapper.getTypeFactory().constructParametricType(
+      AsyncPredictResponse.class,
+      InternationalIdV2.class);
+    AsyncPredictResponse<InternationalIdV2> prediction = objectMapper.readValue(
+      new File("src/test/resources/extras/full_text_ocr/complete.json"),
+      type);
+
+    return prediction.getDocumentObj().getInference();
+  }
+
+  private List<Page<InternationalIdV2Document>> loadPages() throws IOException {
     ObjectMapper objectMapper = new ObjectMapper();
     objectMapper.findAndRegisterModules();
 
@@ -33,8 +46,11 @@ public class FullTextOcrTest {
   void should_GetFullTextOcrResult() throws IOException {
     List<String> expectedText = Files
       .readAllLines(Paths.get("src/test/resources/extras/full_text_ocr/full_text_ocr.txt"));
-    List<Page<InternationalIdV2Document>> pages = loadResult();
-    String fullTextOcr = pages.get(0).getExtras().getFullTextOcr().getContent();
+    List<Page<InternationalIdV2Document>> pages = loadPages();
+    Inference<InternationalIdV2Document, InternationalIdV2Document> inference = loadInference();
+    String fullTextOcr = inference.getInferenceExtras().getFullTextOcr();
+    String page0Ocr = pages.get(0).getExtras().getFullTextOcr().getContent();
     Assertions.assertEquals(String.join("\n", expectedText), fullTextOcr);
+    Assertions.assertEquals(String.join("\n", expectedText), page0Ocr);
   }
 }

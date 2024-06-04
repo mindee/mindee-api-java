@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Optional information.
@@ -20,6 +21,7 @@ public class Extras {
   /**
    * Full Text OCR result.
    */
+  @Setter
   @JsonProperty("full_text_ocr")
   private FullTextOcr fullTextOcr;
 }
