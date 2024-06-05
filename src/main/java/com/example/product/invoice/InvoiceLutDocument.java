@@ -4,14 +4,15 @@ import com.example.product.balticinvoice.BalticInvoiceV1Document;
 import com.mindee.parsing.standard.CompanyRegistrationField;
 import com.mindee.parsing.standard.LocaleField;
 import com.mindee.parsing.standard.TaxField;
-import com.mindee.product.invoice.InvoiceV4Document;
 
-public class InvoiceLutDocument extends InvoiceV4Document {
+public class InvoiceLutDocument extends CombinedInvoiceDocument {
 
   /**
    * Combine the invoice document with the baltic invoice document.
    */
   public void combineWithBaltic(BalticInvoiceV1Document document) {
+    this.invoiceSerialNumber = document.getInvoiceSerialNumber();
+
     if (this.localeField.getCurrency().isEmpty()) {
       this.localeField = new LocaleField(
         this.localeField.getValue(),
