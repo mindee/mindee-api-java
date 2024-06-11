@@ -4,7 +4,6 @@ import com.example.product.balticinvoice.BalticInvoiceV1Document;
 import com.mindee.parsing.standard.CompanyRegistrationField;
 import com.mindee.parsing.standard.PaymentDetailsField;
 import com.mindee.parsing.standard.TaxField;
-import java.util.ArrayList;
 
 public class InvoiceLvaDocument extends CombinedInvoiceDocument {
 
@@ -52,8 +51,9 @@ public class InvoiceLvaDocument extends CombinedInvoiceDocument {
     }
 
     if (!document.getSupplierVatCode().isEmpty()) {
+      this.supplierCompanyRegistrations.removeIf(reg -> reg.getType().equals("VAT NUMBER"));
       this.supplierCompanyRegistrations.add(
-          new CompanyRegistrationField("VAT", document.getSupplierVatCode().getValue())
+          new CompanyRegistrationField("VAT NUMBER", document.getSupplierVatCode().getValue())
       );
     }
     if (!document.getSupplierRegistrationNumber().isEmpty()) {
@@ -63,8 +63,9 @@ public class InvoiceLvaDocument extends CombinedInvoiceDocument {
     }
 
     if (!document.getCustomerVatCode().isEmpty()) {
+      this.customerCompanyRegistrations.removeIf(reg -> reg.getType().equals("VAT NUMBER"));
       this.customerCompanyRegistrations.add(
-        new CompanyRegistrationField("VAT", document.getCustomerVatCode().getValue())
+        new CompanyRegistrationField("VAT NUMBER", document.getCustomerVatCode().getValue())
       );
     }
     if (!document.getCustomerRegistrationNumber().isEmpty()) {

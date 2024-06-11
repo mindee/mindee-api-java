@@ -65,7 +65,7 @@ public class InvoiceEstDocument extends CombinedInvoiceDocument {
     this.supplierCompanyRegistrations = new ArrayList<>();
     if (!document.getSupplierVatCode().isEmpty()) {
       this.supplierCompanyRegistrations.add(
-          new CompanyRegistrationField("VAT", document.getSupplierVatCode().getValue())
+          new CompanyRegistrationField("VAT NUMBER", document.getSupplierVatCode().getValue())
       );
     }
     if (!document.getSupplierRegistrationNumber().isEmpty()) {
@@ -77,7 +77,7 @@ public class InvoiceEstDocument extends CombinedInvoiceDocument {
     this.customerCompanyRegistrations = new ArrayList<>();
     if (!document.getCustomerVatCode().isEmpty()) {
       this.customerCompanyRegistrations.add(
-        new CompanyRegistrationField("VAT", document.getCustomerVatCode().getValue())
+        new CompanyRegistrationField("VAT NUMBER", document.getCustomerVatCode().getValue())
       );
     }
     if (!document.getCustomerRegistrationNumber().isEmpty()) {

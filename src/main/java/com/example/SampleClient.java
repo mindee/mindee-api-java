@@ -1,6 +1,7 @@
 package com.example;
 
 import com.example.product.balticinvoice.BalticInvoiceV1;
+import com.example.product.invoice.CombinedInvoiceDocument;
 import com.example.product.invoice.InvoiceEst;
 import com.example.product.invoice.InvoiceLut;
 import com.example.product.invoice.InvoiceLva;
@@ -33,16 +34,16 @@ public class SampleClient {
      * Each country has its own rules for combining the data.
      * As a result each has its own class and its own helper method in this example class.
      */
-    parseEstInvoice(inputSource);
-    parseLvaInvoice(inputSource);
-    parseLutInvoice(inputSource);
+    CombinedInvoiceDocument estInvoice = parseEstInvoice(inputSource);
+    CombinedInvoiceDocument lvaInvoice = parseLvaInvoice(inputSource);
+    CombinedInvoiceDocument lutInvoice = parseLutInvoice(inputSource);
   }
 
 
   /**
    * Handle LVA invoices.
    */
-  public void parseLvaInvoice(
+  public CombinedInvoiceDocument parseLvaInvoice(
       LocalInputSource inputSource
   ) throws IOException, InterruptedException {
     // Initial parse as invoice
@@ -58,16 +59,13 @@ public class SampleClient {
     invoiceResponse.getDocument().getInference().combineWithBaltic(
       balticResponse.getDocumentObj().getInference()
     );
-    // Access some data
-    System.out.println(
-      invoiceResponse.getDocument().getInference().getPrediction().getCustomerName()
-    );
+    return invoiceResponse.getDocument().getInference().getPrediction();
   }
 
   /**
    * Handle EST invoices.
    */
-  public void parseEstInvoice(
+  public CombinedInvoiceDocument parseEstInvoice(
     LocalInputSource inputSource
   ) throws IOException, InterruptedException {
     // Initial parse as invoice
@@ -87,16 +85,13 @@ public class SampleClient {
     invoiceResponse.getDocument().getInference().combineWithBaltic(
       balticResponse.getDocumentObj().getInference()
     );
-    // Access some data
-    System.out.println(
-      invoiceResponse.getDocument().getInference().getPrediction().getCustomerName()
-    );
+    return invoiceResponse.getDocument().getInference().getPrediction();
   }
 
   /**
    * Handle LUT invoices.
    */
-  public void parseLutInvoice(
+  public CombinedInvoiceDocument parseLutInvoice(
     LocalInputSource inputSource
   ) throws IOException, InterruptedException {
     // Initial parse as invoice
@@ -112,10 +107,7 @@ public class SampleClient {
     invoiceResponse.getDocument().getInference().combineWithBaltic(
       balticResponse.getDocumentObj().getInference()
     );
-    // Access some data
-    System.out.println(
-      invoiceResponse.getDocument().getInference().getPrediction().getCustomerName()
-    );
+    return invoiceResponse.getDocument().getInference().getPrediction();
   }
 
   private AsyncPredictResponse<BalticInvoiceV1> parseBaltic(
