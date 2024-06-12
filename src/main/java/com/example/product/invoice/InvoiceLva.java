@@ -7,6 +7,9 @@ import com.mindee.parsing.common.Inference;
 import com.mindee.parsing.common.Page;
 import lombok.Getter;
 
+/**
+ * Invoice for Latvia.
+ */
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
 @EndpointInfo(endpointName = "invoices", version = "4")

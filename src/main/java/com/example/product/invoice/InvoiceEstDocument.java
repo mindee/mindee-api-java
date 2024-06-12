@@ -7,6 +7,9 @@ import com.mindee.parsing.standard.PaymentDetailsField;
 import com.mindee.parsing.standard.TaxField;
 import java.util.ArrayList;
 
+/**
+ * Invoice prediction data for Estonia.
+ */
 public class InvoiceEstDocument extends CombinedInvoiceDocument {
 
   /**
@@ -47,8 +50,8 @@ public class InvoiceEstDocument extends CombinedInvoiceDocument {
               document.getSupplierIban().getValue(),
               null,
               null
-            )
-        );
+          )
+      );
     }
     if (this.supplierName.isEmpty()) {
       this.supplierName = document.getSupplierName();

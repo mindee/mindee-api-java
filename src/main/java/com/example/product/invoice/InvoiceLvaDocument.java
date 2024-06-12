@@ -5,6 +5,9 @@ import com.mindee.parsing.standard.CompanyRegistrationField;
 import com.mindee.parsing.standard.PaymentDetailsField;
 import com.mindee.parsing.standard.TaxField;
 
+/**
+ * Invoice prediction data for Latvia.
+ */
 public class InvoiceLvaDocument extends CombinedInvoiceDocument {
 
   /**
@@ -35,8 +38,8 @@ public class InvoiceLvaDocument extends CombinedInvoiceDocument {
               document.getSupplierIban().getValue(),
               null,
               null
-            )
-        );
+          )
+      );
     }
     if (this.supplierName.isEmpty()) {
       this.supplierName = document.getSupplierName();

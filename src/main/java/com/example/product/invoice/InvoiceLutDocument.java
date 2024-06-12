@@ -5,6 +5,9 @@ import com.mindee.parsing.standard.CompanyRegistrationField;
 import com.mindee.parsing.standard.LocaleField;
 import com.mindee.parsing.standard.TaxField;
 
+/**
+ * Invoice prediction data for Lithuania.
+ */
 public class InvoiceLutDocument extends CombinedInvoiceDocument {
 
   /**

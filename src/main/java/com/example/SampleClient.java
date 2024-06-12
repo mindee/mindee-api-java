@@ -13,6 +13,9 @@ import java.io.File;
 import java.io.IOException;
 
 
+/**
+ * Example client, feel free to copy and modify as needed.
+ */
 public class SampleClient {
   MindeeClient mindeeClient;
 
@@ -48,16 +51,16 @@ public class SampleClient {
   ) throws IOException, InterruptedException {
     // Initial parse as invoice
     PredictResponse<InvoiceLva> invoiceResponse = mindeeClient.parse(
-      InvoiceLva.class,
-      inputSource
+        InvoiceLva.class,
+        inputSource
     );
     // Parse as baltic invoice
     AsyncPredictResponse<BalticInvoiceV1> balticResponse = parseBaltic(
-      inputSource
+        inputSource
     );
     // Combine the two
     invoiceResponse.getDocument().getInference().combineWithBaltic(
-      balticResponse.getDocumentObj().getInference()
+        balticResponse.getDocumentObj().getInference()
     );
     return invoiceResponse.getDocument().getInference().getPrediction();
   }
@@ -66,24 +69,24 @@ public class SampleClient {
    * Handle EST invoices.
    */
   public CombinedInvoiceDocument parseEstInvoice(
-    LocalInputSource inputSource
+      LocalInputSource inputSource
   ) throws IOException, InterruptedException {
     // Initial parse as invoice
     PredictResponse<InvoiceEst> invoiceResponse = mindeeClient.parse(
-      InvoiceEst.class,
-      inputSource
+        InvoiceEst.class,
+        inputSource
     );
     //System.out.println(invoiceResponse.getDocument().getInference());
 
     // Parse as baltic invoice
     AsyncPredictResponse<BalticInvoiceV1> balticResponse = parseBaltic(
-      inputSource
+        inputSource
     );
     //System.out.println(balticResponse.getDocument());
 
     // Combine the two
     invoiceResponse.getDocument().getInference().combineWithBaltic(
-      balticResponse.getDocumentObj().getInference()
+        balticResponse.getDocumentObj().getInference()
     );
     return invoiceResponse.getDocument().getInference().getPrediction();
   }
@@ -92,26 +95,26 @@ public class SampleClient {
    * Handle LUT invoices.
    */
   public CombinedInvoiceDocument parseLutInvoice(
-    LocalInputSource inputSource
+      LocalInputSource inputSource
   ) throws IOException, InterruptedException {
     // Initial parse as invoice
     PredictResponse<InvoiceLut> invoiceResponse = mindeeClient.parse(
-      InvoiceLut.class,
-      inputSource
+        InvoiceLut.class,
+        inputSource
     );
     // Parse as baltic invoice
     AsyncPredictResponse<BalticInvoiceV1> balticResponse = parseBaltic(
-      inputSource
+        inputSource
     );
     // Combine the two
     invoiceResponse.getDocument().getInference().combineWithBaltic(
-      balticResponse.getDocumentObj().getInference()
+        balticResponse.getDocumentObj().getInference()
     );
     return invoiceResponse.getDocument().getInference().getPrediction();
   }
 
   private AsyncPredictResponse<BalticInvoiceV1> parseBaltic(
-    LocalInputSource inputSource
+      LocalInputSource inputSource
   ) throws InterruptedException, IOException {
     return mindeeClient.enqueueAndParse(BalticInvoiceV1.class, inputSource);
   }

@@ -5,6 +5,9 @@ import com.mindee.parsing.standard.StringField;
 import com.mindee.product.invoice.InvoiceV4Document;
 import lombok.Getter;
 
+/**
+ * Combined data from Invoice and custom products.
+ */
 @Getter
 abstract public class CombinedInvoiceDocument extends InvoiceV4Document {
   protected StringField invoiceSerialNumber;
