@@ -40,6 +40,6 @@ public final class CompanyRegistrationField extends BaseField {
 
   @Override
   public String toString() {
-    return value == null ? "" : value;
+    return value == null ? "" : type + " " + value;
   }
 }
