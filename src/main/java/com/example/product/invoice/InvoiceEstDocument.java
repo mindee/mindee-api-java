@@ -33,10 +33,6 @@ public class InvoiceEstDocument extends CombinedInvoiceDocument {
       this.invoiceNumber = document.getInvoiceNumber();
     }
 
-    System.out.println("==================================");
-    System.out.println(document.getInvoiceDate());
-    System.out.println("==================================");
-
     if (!document.getInvoiceDate().isEmpty()) {
       this.invoiceDateField = document.getInvoiceDate();
     }

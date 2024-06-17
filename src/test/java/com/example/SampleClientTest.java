@@ -27,7 +27,7 @@ public class SampleClientTest {
     }
 
     LocalInputSource inputSource = new LocalInputSource(filePath);
-    CombinedInvoiceDocument invoice = client.parseLutInvoice(inputSource);
+    CombinedInvoiceDocument invoice = client.parseEstInvoice(inputSource);
 
     // print to console the invoice data as rST
     System.out.println(invoice);
@@ -39,7 +39,7 @@ public class SampleClientTest {
 
   @Test
   public void runFiles() throws IOException, InterruptedException {
-    File folder = new File("/home/ianare/Documents/lut");
+    File folder = new File("/home/ianare/Documents/invoices_EST/PDF");
     File[] files = folder.listFiles((dir, name) -> name.endsWith(".pdf"));
     for (File file : files) {
       try {
