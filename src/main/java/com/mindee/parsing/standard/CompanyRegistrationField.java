@@ -2,6 +2,9 @@ package com.mindee.parsing.standard;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.mindee.parsing.SummaryHelper;
+import java.util.HashMap;
+import java.util.Map;
 import lombok.Getter;
 
 /**
@@ -9,7 +12,7 @@ import lombok.Getter;
  */
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
-public final class CompanyRegistrationField extends BaseField {
+public final class CompanyRegistrationField extends BaseField implements LineItemField {
 
   /**
    * The value of the field.
@@ -38,8 +41,26 @@ public final class CompanyRegistrationField extends BaseField {
       );
   }
 
+  /**
+   * Output the line in a format suitable for inclusion in an rST table.
+   */
+  public String toTableLine() {
+    Map<String, String> printable = this.printableValues();
+    return String.format("| %-15s ", printable.get("type"))
+      + String.format("| %-20s ", printable.get("value"));
+  }
+
   @Override
   public String toString() {
-    return value == null ? "" : value;
+    Map<String, String> printable = this.printableValues();
+    return String.format("Type: %s", printable.get("type"))
+      + String.format(", Value: %s", printable.get("value"));
+  }
+
+  private Map<String, String> printableValues() {
+    Map<String, String> printable = new HashMap<>();
+    printable.put("type", SummaryHelper.formatForDisplay(this.type, null));
+    printable.put("value", SummaryHelper.formatForDisplay(this.value, null));
+    return printable;
   }
 }
