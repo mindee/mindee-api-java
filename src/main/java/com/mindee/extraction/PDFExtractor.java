@@ -50,18 +50,17 @@ public class PDFExtractor {
     if (source.isPdf()) {
       this.sourcePdf = PDDocument.load(source.getFile());
     } else {
-      try (PDDocument document = new PDDocument()) {
-        PDPage page = new PDPage();
-        document.addPage(page);
-        BufferedImage bufferedImage = byteArrayToBufferedImage(source.getFile());
-        PDImageXObject pdImage = LosslessFactory.createFromImage(document, bufferedImage);
-        try (PDPageContentStream contentStream = new PDPageContentStream(document, page)) {
-          // Draw the image at coordinates (x, y) with width and height
-          contentStream.drawImage(pdImage, 100, 600, (float) pdImage.getWidth() / 2,
-            (float) pdImage.getHeight() / 2);
-        }
-        this.sourcePdf = document;
+      PDDocument document = new PDDocument();
+      PDPage page = new PDPage();
+      document.addPage(page);
+      BufferedImage bufferedImage = byteArrayToBufferedImage(source.getFile());
+      PDImageXObject pdImage = LosslessFactory.createFromImage(document, bufferedImage);
+      try (PDPageContentStream contentStream = new PDPageContentStream(document, page)) {
+        // Draw the image at coordinates (x, y) with width and height
+        contentStream.drawImage(pdImage, 100, 600, (float) pdImage.getWidth() / 2,
+          (float) pdImage.getHeight() / 2);
       }
+      this.sourcePdf = document;
 
     }
   }
@@ -82,13 +81,14 @@ public class PDFExtractor {
       }
       String[] splitName = InputSourceUtils.splitNameStrict(filename);
       String fieldFilename = splitName[0]
-        + "_"
-        + String.format("_%3s", pageIndexes.get(0)).replace(" ", "0")
+        + String.format("_%3s", pageIndexElement.get(0) + 1).replace(" ", "0")
         + "-"
-        + String.format("_%3s", pageIndexes.get(pageIndexes.size() - 1)).replace(" ", "0")
+        + String.format("%3s", pageIndexElement.get(pageIndexElement.size() - 1) + 1)
+        .replace(" ", "0")
+        + "."
         + splitName[1];
       extractedPDFs.add(
-        new ExtractedPDF(PDDocument.load(mergePdfPages(this.sourcePdf, pageIndexElement)),
+        new ExtractedPDF(PDDocument.load(mergePdfPages(this.sourcePdf, pageIndexElement, false)),
           fieldFilename));
     }
     return extractedPDFs;
@@ -115,27 +115,27 @@ public class PDFExtractor {
     if (!strict) {
       return extractInvoices(pageIndexes);
     }
-    Double currentConfidence = pageIndexes.get(0).getConfidence();
     Iterator<InvoiceSplitterV1Document.PageIndexes> iterator = pageIndexes.iterator();
     List<Integer> currentList = new ArrayList<>();
+    Double previousConfidence = null;
     while (iterator.hasNext()) {
       InvoiceSplitterV1Document.PageIndexes pageIndex = iterator.next();
       Double confidence = pageIndex.getConfidence();
       List<Integer> pageList = pageIndex.getPageIndexes();
 
-      if (confidence == 1.0) {
-        currentList.addAll(pageList);
-        currentConfidence = 1.0;
-      } else if (confidence == 0.0 && currentConfidence == 0.0) {
-        currentList.addAll(pageList);
-      } else if (confidence == 0.0 && currentConfidence == 1.0) {
+      if (confidence == 1.0 && previousConfidence == null) {
+        currentList = new ArrayList<>(pageList);
+      } else if (confidence == 1.0) {
         correctPageIndexes.add(currentList);
         currentList = new ArrayList<>(pageList);
-        currentConfidence = 0.0;
+      } else if (confidence == 0.0 && !iterator.hasNext()) {
+        currentList.addAll(pageList);
+        correctPageIndexes.add(currentList);
+      } else {
+        correctPageIndexes.add(currentList);
+        correctPageIndexes.add(pageList);
       }
-    }
-    if (!currentList.isEmpty()) {
-      correctPageIndexes.add(currentList);
+      previousConfidence = confidence;
     }
     return extractSubDocuments(correctPageIndexes);
   }

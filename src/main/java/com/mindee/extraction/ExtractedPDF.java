@@ -25,6 +25,7 @@ public class ExtractedPDF {
 
   /**
    * Write the pdf to a file.
+   *
    * @param outputPath the output directory (must exist).
    */
   public void writeToFile(String outputPath) throws IOException, MindeeException {
@@ -35,6 +36,7 @@ public class ExtractedPDF {
 
   /**
    * Return the file in a format suitable for sending to MindeeClient for parsing.
+   *
    * @return an instance of {@link LocalInputSource}
    */
   public LocalInputSource asInputSource() throws IOException {
