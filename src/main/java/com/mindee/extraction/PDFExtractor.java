@@ -20,6 +20,9 @@ import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.graphics.image.LosslessFactory;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 
+/**
+ * PDF extraction module.
+ */
 public class PDFExtractor {
   private final PDDocument sourcePdf;
   private final String filename;
@@ -58,7 +61,7 @@ public class PDFExtractor {
       try (PDPageContentStream contentStream = new PDPageContentStream(document, page)) {
         // Draw the image at coordinates (x, y) with width and height
         contentStream.drawImage(pdImage, 100, 600, (float) pdImage.getWidth() / 2,
-          (float) pdImage.getHeight() / 2);
+            (float) pdImage.getHeight() / 2);
       }
       this.sourcePdf = document;
 
@@ -72,7 +75,7 @@ public class PDFExtractor {
   }
 
   public List<ExtractedPDF> extractSubDocuments(List<List<Integer>> pageIndexes)
-    throws IOException {
+      throws IOException {
     List<ExtractedPDF> extractedPDFs = new ArrayList<>();
 
     for (List<Integer> pageIndexElement : pageIndexes) {
@@ -80,13 +83,11 @@ public class PDFExtractor {
         throw new MindeeException("Empty indexes not allowed for extraction.");
       }
       String[] splitName = InputSourceUtils.splitNameStrict(filename);
-      String fieldFilename = splitName[0]
-        + String.format("_%3s", pageIndexElement.get(0) + 1).replace(" ", "0")
-        + "-"
-        + String.format("%3s", pageIndexElement.get(pageIndexElement.size() - 1) + 1)
-        .replace(" ", "0")
-        + "."
-        + splitName[1];
+      String fieldFilename =
+          splitName[0] + String.format("_%3s", pageIndexElement.get(0) + 1).replace(" ", "0")
+          + "-"
+          + String.format("%3s", pageIndexElement.get(pageIndexElement.size() - 1) + 1)
+            .replace(" ", "0") + "." + splitName[1];
       extractedPDFs.add(
         new ExtractedPDF(PDDocument.load(mergePdfPages(this.sourcePdf, pageIndexElement, false)),
           fieldFilename));
@@ -95,22 +96,20 @@ public class PDFExtractor {
   }
 
 
-  public List<ExtractedPDF> extractInvoices(
-    List<InvoiceSplitterV1Document.PageIndexes> pageIndexes) throws IOException {
+  public List<ExtractedPDF> extractInvoices(List<InvoiceSplitterV1Document.PageIndexes> pageIndexes)
+      throws IOException {
 
-
-    List<List<Integer>> indexes = pageIndexes.stream()
-      .map(InvoiceSplitterV1Document.PageIndexes::getPageIndexes)
-      .collect(Collectors.toList());
+    List<List<Integer>> indexes =
+        pageIndexes.stream().map(InvoiceSplitterV1Document.PageIndexes::getPageIndexes)
+        .collect(Collectors.toList());
 
 
     return extractSubDocuments(indexes);
   }
 
 
-  public List<ExtractedPDF> extractInvoices(
-    List<InvoiceSplitterV1Document.PageIndexes> pageIndexes, boolean strict)
-    throws IOException {
+  public List<ExtractedPDF> extractInvoices(List<InvoiceSplitterV1Document.PageIndexes> pageIndexes,
+                                            boolean strict) throws IOException {
     List<List<Integer>> correctPageIndexes = new ArrayList<>();
     if (!strict) {
       return extractInvoices(pageIndexes);

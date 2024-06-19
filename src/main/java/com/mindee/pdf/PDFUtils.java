@@ -81,17 +81,17 @@ public final class PDFUtils {
   }
 
   public static byte[] mergePdfPages(
-    PDDocument document,
-    List<Integer> pageNumbers
+      PDDocument document,
+      List<Integer> pageNumbers
   ) throws IOException {
     return mergePdfPages(document, pageNumbers, true);
   }
 
 
   public static byte[] mergePdfPages(
-    PDDocument document,
-    List<Integer> pageNumbers,
-    boolean closeOriginal
+      PDDocument document,
+      List<Integer> pageNumbers,
+      boolean closeOriginal
   ) throws IOException {
     return createPdfFromExistingPdf(document, pageNumbers, closeOriginal);
   }
