@@ -66,6 +66,13 @@ public final class PDFUtils {
     return createPdfFromExistingPdf(document, pageNumbers);
   }
 
+  public static byte[] mergePdfPages(
+    PDDocument document,
+    List<Integer> pageNumbers
+  ) throws IOException {
+    return createPdfFromExistingPdf(document, pageNumbers);
+  }
+
   public static boolean isPdfEmpty(File file) throws IOException {
     return checkIfPdfIsEmpty(PDDocument.load(file));
   }
