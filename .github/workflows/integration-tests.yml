@@ -41,4 +41,4 @@ jobs:
 
       - name: Verify with Maven
         run: |
-          mvn integration-test
+          mvn clean test-compile failsafe:integration-test
