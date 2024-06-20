@@ -11,7 +11,7 @@ import lombok.Getter;
 import org.apache.pdfbox.pdmodel.PDDocument;
 
 /**
- * An extracted sub-pdf.
+ * An extracted sub-PDF.
  */
 @Getter
 public class ExtractedPDF {
@@ -24,7 +24,7 @@ public class ExtractedPDF {
   }
 
   /**
-   * Write the pdf to a file.
+   * Write the PDF to a file.
    *
    * @param outputPath the output directory (must exist).
    */

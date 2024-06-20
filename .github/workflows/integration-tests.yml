@@ -1,0 +1,44 @@
+name: Integration Tests
+
+on:
+  pull_request:
+  workflow_run:
+    workflows: ["Test Samples Java Classes"]
+  schedule:
+    - cron:  '0 23 * * *'
+  workflow_dispatch:
+jobs:
+  integration_tests:
+    name: Run Integration Tests
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        java-version:
+          - "11"
+          - "8"
+        distribution:
+          - "temurin"
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      # We need the GPG key to sign the package.
+      - id: install-secret-key
+        name: Install GPG secret key
+        run: |
+          cat <(echo -e "${{ secrets.OSSRH_GPG_SECRET_KEY }}") | gpg --batch --import
+          gpg --list-secret-keys --keyid-format LONG
+
+      - name: Set up JDK ${{ matrix.java-version }}
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ matrix.java-version }}
+          distribution: ${{ matrix.distribution }}
+          cache: "maven"
+
+      - name: Verify with Maven
+        run: |
+          mvn integration tests

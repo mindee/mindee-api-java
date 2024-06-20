@@ -23,14 +23,14 @@ public class PDFExtractorTest {
       InvoiceSplitterV1.class
     );
     return objectMapper.readValue(
-      new File("src/test/resources/products/invoice_splitter/response_v1/" + "complete" + ".json"),
+      new File("src/test/resources/products/invoice_splitter/response_v1/complete.json"),
       type
     );
   }
 
 
   @Test
-  public void givenAPDF_shouldExtractInvoicesStrict() throws IOException {
+  public void givenAPDF_shouldExtractInvoicesNoStrict() throws IOException {
     LocalInputSource pdf = new LocalInputSource(
       "src/test/resources/products/invoice_splitter/invoice_5p.pdf"
     );
@@ -48,7 +48,7 @@ public class PDFExtractorTest {
   }
 
   @Test
-  public void givenAPDF_shouldExtractInvoicesNoStrict() throws IOException {
+  public void givenAPDF_shouldExtractInvoicesStrict() throws IOException {
     LocalInputSource pdf = new LocalInputSource(
       "src/test/resources/products/invoice_splitter/invoice_5p.pdf"
     );

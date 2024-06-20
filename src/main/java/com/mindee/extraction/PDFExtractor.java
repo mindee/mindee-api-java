@@ -21,7 +21,7 @@ import org.apache.pdfbox.pdmodel.graphics.image.LosslessFactory;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 
 /**
- * PDF extraction module.
+ * PDF extraction class.
  */
 public class PDFExtractor {
   private final PDDocument sourcePdf;
@@ -34,13 +34,6 @@ public class PDFExtractor {
    */
   public PDFExtractor(String filePath) throws IOException {
     this(new LocalInputSource(filePath));
-  }
-
-  /**
-   * @return The number of pages in the file.
-   */
-  public int getPageCount() {
-    return this.sourcePdf.getNumberOfPages();
   }
 
   /**
@@ -59,13 +52,19 @@ public class PDFExtractor {
       BufferedImage bufferedImage = byteArrayToBufferedImage(source.getFile());
       PDImageXObject pdImage = LosslessFactory.createFromImage(document, bufferedImage);
       try (PDPageContentStream contentStream = new PDPageContentStream(document, page)) {
-        // Draw the image at coordinates (x, y) with width and height
         contentStream.drawImage(pdImage, 100, 600, (float) pdImage.getWidth() / 2,
             (float) pdImage.getHeight() / 2);
       }
       this.sourcePdf = document;
 
     }
+  }
+
+  /**
+   * @return The number of pages in the file.
+   */
+  public int getPageCount() {
+    return sourcePdf.getNumberOfPages();
   }
 
   public static BufferedImage byteArrayToBufferedImage(byte[] byteArray) throws IOException {
