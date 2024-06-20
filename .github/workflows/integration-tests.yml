@@ -41,4 +41,4 @@ jobs:
 
       - name: Verify with Maven
         run: |
-          mvn integration tests
+          mvn integration-tests
