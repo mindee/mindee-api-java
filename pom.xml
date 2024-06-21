@@ -388,7 +388,7 @@
   <properties>
     <com.fasterxml.jackson.version>2.15.4</com.fasterxml.jackson.version>
     <com.fasterxml.jackson.datatype.version>2.15.4</com.fasterxml.jackson.datatype.version>
-    <com.squareup.okhttp3.version>4.10.0</com.squareup.okhttp3.version>
+    <com.squareup.okhttp3.version>4.12.0</com.squareup.okhttp3.version>
     <info.picocli.version>4.7.6</info.picocli.version>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
