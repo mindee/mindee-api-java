@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xmlns="http://maven.apache.org/POM/4.0.0"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
   <groupId>com.mindee.sdk</groupId>
   <artifactId>mindee-api-java</artifactId>
@@ -47,20 +47,16 @@
         <!-- clean lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#clean_Lifecycle -->
         <plugin>
           <artifactId>maven-clean-plugin</artifactId>
-          <version>3.1.0</version>
+          <version>${org.apache.maven.clean.version}</version>
         </plugin>
         <!-- default lifecycle, jar packaging: see https://maven.apache.org/ref/current/maven-core/default-bindings.html#Plugin_bindings_for_jar_packaging -->
         <plugin>
           <artifactId>maven-resources-plugin</artifactId>
-          <version>3.0.2</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-surefire-plugin</artifactId>
-          <version>3.2.5</version>
+          <version>${org.apache.maven.resources.version}</version>
         </plugin>
         <plugin>
           <artifactId>maven-jar-plugin</artifactId>
-          <version>3.3.0</version>
+          <version>${org.apache.maven.jar.version}</version>
           <configuration>
             <archive>
               <manifest>
@@ -72,25 +68,25 @@
         </plugin>
         <plugin>
           <artifactId>maven-install-plugin</artifactId>
-          <version>2.5.2</version>
+          <version>${org.apache.maven.install.version}</version>
         </plugin>
         <plugin>
           <artifactId>maven-deploy-plugin</artifactId>
-          <version>3.1.1</version>
+          <version>${org.apache.maven.deploy.version}</version>
         </plugin>
         <!-- site lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#site_Lifecycle -->
         <plugin>
           <artifactId>maven-site-plugin</artifactId>
-          <version>3.7.1</version>
+          <version>${org.apache.maven.site.version}</version>
         </plugin>
         <plugin>
           <artifactId>maven-project-info-reports-plugin</artifactId>
-          <version>3.0.0</version>
+          <version>${org.apache.maven.project.info.reports.version}</version>
         </plugin>
         <plugin>
           <artifactId>maven-compiler-plugin</artifactId>
           <groupId>org.apache.maven.plugins</groupId>
-          <version>3.12.1</version>
+          <version>${org.apache.maven.compiler.version}</version>
           <configuration>
             <annotationProcessorPaths>
               <path>
@@ -143,7 +139,7 @@
         <plugin>
           <groupId>org.sonatype.plugins</groupId>
           <artifactId>nexus-staging-maven-plugin</artifactId>
-          <version>1.6.12</version>
+          <version>${org.sonatype.nexus.staging.maven.version}</version>
           <extensions>true</extensions>
           <configuration>
             <serverId>ossrh</serverId>
@@ -153,6 +149,16 @@
         </plugin>
       </plugins>
     </pluginManagement>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>8</source>
+          <target>8</target>
+        </configuration>
+      </plugin>
+    </plugins>
   </build>
 
   <profiles>
@@ -176,7 +182,7 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-javadoc-plugin</artifactId>
-            <version>3.2.0</version>
+            <version>${org.apache.maven.javadoc.version}</version>
             <executions>
               <execution>
                 <id>attach-javadocs</id>
@@ -188,8 +194,18 @@
           </plugin>
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <version>${org.apache.maven.surfire.version}</version>
+            <configuration>
+              <includes>
+                <include>**/*Test.java</include>
+              </includes>
+            </configuration>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-gpg-plugin</artifactId>
-            <version>1.5</version>
+            <version>${org.apache.maven.gpg.version}</version>
             <configuration>
               <gpgArguments>
                 <arg>--pinentry-mode</arg>
@@ -206,6 +222,42 @@
               </execution>
             </executions>
           </plugin>
+
+        </plugins>
+      </build>
+    </profile>
+
+    <profile>
+      <id>integration-tests</id>
+      <build>
+        <plugins>
+          <!-- Integration Test Configuration -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-failsafe-plugin</artifactId>
+            <version>${org.apache.maven.failsafe.version}</version>
+            <executions>
+              <execution>
+                <id>integration-test</id>
+                <phase>integration-test</phase>
+                <goals>
+                  <goal>integration-test</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>verify</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>verify</goal>
+                </goals>
+              </execution>
+            </executions>
+            <configuration>
+              <includes>
+                <include>**/*IT.java</include>
+              </includes>
+            </configuration>
+          </plugin>
         </plugins>
       </build>
     </profile>
@@ -215,7 +267,7 @@
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-math3</artifactId>
-      <version>3.6.1</version>
+      <version>${org.apache.commons.math3.version}</version>
     </dependency>
     <dependency>
       <artifactId>mapstruct</artifactId>
@@ -225,33 +277,33 @@
     <dependency>
       <artifactId>pdfbox</artifactId>
       <groupId>org.apache.pdfbox</groupId>
-      <version>2.0.31</version>
+      <version>${org.apache.pdfbox.version}</version>
     </dependency>
     <dependency>
       <artifactId>jackson-databind</artifactId>
       <groupId>com.fasterxml.jackson.core</groupId>
-      <version>2.15.4</version>
+      <version>${com.fasterxml.jackson.version}</version>
     </dependency>
     <dependency>
       <artifactId>jackson-datatype-jsr310</artifactId>
       <groupId>com.fasterxml.jackson.datatype</groupId>
-      <version>2.15.4</version>
+      <version>${com.fasterxml.jackson.datatype.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.httpcomponents.client5</groupId>
       <artifactId>httpclient5</artifactId>
-      <version>5.2.3</version>
+      <version>${org.apache.httpcomponents.client5.httpclient5.version}</version>
     </dependency>
     <dependency>
       <artifactId>httpmime</artifactId>
       <groupId>org.apache.httpcomponents</groupId>
-      <version>4.5.14</version>
+      <version>${org.apache.httpcomponents.httpmime.version}</version>
     </dependency>
 
     <dependency>
       <artifactId>picocli</artifactId>
       <groupId>info.picocli</groupId>
-      <version>4.7.6</version>
+      <version>${info.picocli.version}</version>
     </dependency>
 
     <dependency>
@@ -265,50 +317,50 @@
       <artifactId>mockwebserver</artifactId>
       <groupId>com.squareup.okhttp3</groupId>
       <scope>test</scope>
-      <version>4.10.0</version>
+      <version>${com.squareup.okhttp3.version}</version>
     </dependency>
     <dependency>
       <artifactId>junit-jupiter-engine</artifactId>
       <groupId>org.junit.jupiter</groupId>
       <scope>test</scope>
-      <version>${junit.jupiter.version}</version>
+      <version>${org.junit.jupiter.version}</version>
     </dependency>
     <dependency>
       <artifactId>junit-jupiter-api</artifactId>
       <groupId>org.junit.jupiter</groupId>
       <scope>test</scope>
-      <version>${junit.jupiter.version}</version>
+      <version>${org.junit.jupiter.version}</version>
     </dependency>
     <dependency>
       <artifactId>junit-jupiter-params</artifactId>
       <groupId>org.junit.jupiter</groupId>
       <scope>test</scope>
-      <version>${junit.jupiter.version}</version>
+      <version>${org.junit.jupiter.version}</version>
     </dependency>
     <dependency>
       <artifactId>junit-platform-suite</artifactId>
       <groupId>org.junit.platform</groupId>
       <scope>test</scope>
-      <version>${junit.platform.version}</version>
+      <version>${org.junit.platform.version}</version>
     </dependency>
     <dependency>
       <artifactId>junit-pioneer</artifactId>
       <groupId>org.junit-pioneer</groupId>
       <scope>test</scope>
       <!-- version 2.0 is not compatible with java 8 -->
-      <version>1.9.1</version>
+      <version>${org.junit.pioneer.version}</version>
     </dependency>
     <dependency>
       <artifactId>mockito-junit-jupiter</artifactId>
       <groupId>org.mockito</groupId>
       <scope>test</scope>
-      <version>4.5.1</version>
+      <version>${org.mockito.junit.jupiter.version}</version>
     </dependency>
     <dependency>
       <artifactId>mockito-inline</artifactId>
       <groupId>org.mockito</groupId>
       <scope>test</scope>
-      <version>4.6.1</version>
+      <version>${org.mockito.inline.version}</version>
     </dependency>
     <dependency>
       <groupId>com.github.tomakehurst</groupId>
@@ -320,7 +372,7 @@
     <dependency>
       <groupId>org.hamcrest</groupId>
       <artifactId>hamcrest</artifactId>
-      <version>2.2</version>
+      <version>${org.hamcrest.version}</version>
       <scope>test</scope>
     </dependency>
 
@@ -334,14 +386,38 @@
   </scm>
 
   <properties>
-    <junit.jupiter.version>5.8.2</junit.jupiter.version>
-    <junit.platform.version>1.8.2</junit.platform.version>
+    <com.fasterxml.jackson.version>2.15.4</com.fasterxml.jackson.version>
+    <com.fasterxml.jackson.datatype.version>2.15.4</com.fasterxml.jackson.datatype.version>
+    <com.squareup.okhttp3.version>4.12.0</com.squareup.okhttp3.version>
+    <info.picocli.version>4.7.6</info.picocli.version>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
+    <org.apache.commons.math3.version>3.6.1</org.apache.commons.math3.version>
+    <org.apache.httpcomponents.client5.httpclient5.version>5.2.3</org.apache.httpcomponents.client5.httpclient5.version>
+    <org.apache.httpcomponents.httpmime.version>4.5.14</org.apache.httpcomponents.httpmime.version>
+    <org.apache.maven.clean.version>3.1.0</org.apache.maven.clean.version>
+    <org.apache.maven.compiler.version>3.12.1</org.apache.maven.compiler.version>
+    <org.apache.maven.deploy.version>3.1.1</org.apache.maven.deploy.version>
+    <org.apache.maven.failsafe.version>3.3.0</org.apache.maven.failsafe.version>
+    <org.apache.maven.gpg.version>1.5</org.apache.maven.gpg.version>
+    <org.apache.maven.install.version>2.5.2</org.apache.maven.install.version>
+    <org.apache.maven.javadoc.version>3.2.0</org.apache.maven.javadoc.version>
+    <org.apache.maven.jar.version>3.3.0</org.apache.maven.jar.version>
+    <org.apache.maven.resources.version>3.0.2</org.apache.maven.resources.version>
+    <org.apache.maven.project.info.reports.version>3.0.0</org.apache.maven.project.info.reports.version>
+    <org.apache.maven.site.version>3.7.1</org.apache.maven.site.version>
+    <org.apache.maven.surfire.version>3.2.5</org.apache.maven.surfire.version>
+    <org.apache.pdfbox.version>2.0.31</org.apache.pdfbox.version>
+    <org.junit.jupiter.version>5.8.2</org.junit.jupiter.version>
+    <org.junit.pioneer.version>1.9.1</org.junit.pioneer.version>
+    <org.junit.platform.version>1.8.2</org.junit.platform.version>
+    <org.hamcrest.version>2.2</org.hamcrest.version>
     <org.mapstruct.version>1.5.3.Final</org.mapstruct.version>
-    <org.projectlombok.lombok-mapstruct-binding.version>0.2.0
-    </org.projectlombok.lombok-mapstruct-binding.version>
+    <org.mockito.inline.version>4.6.1</org.mockito.inline.version>
+    <org.mockito.junit.jupiter.version>4.5.1</org.mockito.junit.jupiter.version>
+    <org.projectlombok.lombok-mapstruct-binding.version>0.2.0</org.projectlombok.lombok-mapstruct-binding.version>
     <org.projectlombok.version>1.18.32</org.projectlombok.version>
+    <org.sonatype.nexus.staging.maven.version>1.6.12</org.sonatype.nexus.staging.maven.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <wiremock.version>2.27.2</wiremock.version>
   </properties>
