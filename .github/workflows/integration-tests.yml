@@ -25,13 +25,6 @@ jobs:
         with:
           submodules: recursive
 
-      # We need the GPG key to sign the package.
-      - id: install-secret-key
-        name: Install GPG secret key
-        run: |
-          cat <(echo -e "${{ secrets.OSSRH_GPG_SECRET_KEY }}") | gpg --batch --import
-          gpg --list-secret-keys --keyid-format LONG
-
       - name: Set up JDK ${{ matrix.java-version }}
         uses: actions/setup-java@v4
         with:
@@ -40,5 +33,7 @@ jobs:
           cache: "maven"
 
       - name: Verify with Maven
+        env:
+          MINDEE_API_KEY: ${{ secrets.MINDEE_API_KEY_SE_TESTS }}
         run: |
           mvn clean test-compile failsafe:integration-test failsafe:verify
