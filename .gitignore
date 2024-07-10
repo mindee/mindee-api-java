@@ -35,6 +35,7 @@ hs_err_pid*
 .vscode/
 .idea
 *.iml
+.run
 
 # Mac OS
 .DS_Store
