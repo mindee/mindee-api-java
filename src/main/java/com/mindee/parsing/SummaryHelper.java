@@ -64,7 +64,7 @@ public final class SummaryHelper {
       return "";
     }
     if (maxColSize == null || 3 <= maxColSize) {
-      return inputValue ? "Yes" : "No";
+      return inputValue ? "True" : "False";
     } else {
       return inputValue ? "Y" : "N";
     }
