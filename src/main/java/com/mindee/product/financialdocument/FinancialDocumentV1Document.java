@@ -20,7 +20,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 /**
- * Financial Document API version 1.7 document data.
+ * Financial Document API version 1.9 document data.
  */
 @Getter
 @EqualsAndHashCode(callSuper = false)
@@ -323,7 +323,7 @@ public class FinancialDocumentV1Document extends Prediction {
     );
     String lineItemsSummary = "";
     if (!this.getLineItems().isEmpty()) {
-      int[] lineItemsColSizes = new int[]{38, 14, 10, 12, 14, 14, 12};
+      int[] lineItemsColSizes = new int[]{38, 14, 10, 12, 14, 14, 17, 12};
       lineItemsSummary =
         String.format("%n%s%n  ", SummaryHelper.lineSeparator(lineItemsColSizes, "-"))
           + "| Description                          "
@@ -332,6 +332,7 @@ public class FinancialDocumentV1Document extends Prediction {
           + "| Tax Amount "
           + "| Tax Rate (%) "
           + "| Total Amount "
+          + "| Unit of measure "
           + "| Unit Price "
           + String.format("|%n%s%n  ", SummaryHelper.lineSeparator(lineItemsColSizes, "="));
       lineItemsSummary += SummaryHelper.arrayToString(this.getLineItems(), lineItemsColSizes);

@@ -34,11 +34,11 @@ public class InvoiceV4Test {
   void whenEmptyDeserialized_mustHaveValidProperties() throws IOException {
     PredictResponse<InvoiceV4> response = getPrediction("empty");
     InvoiceV4Document docPrediction = response.getDocument().getInference().getPrediction();
-    Assertions.assertNull(docPrediction.getLocaleField().getValue());
+    Assertions.assertNull(docPrediction.getLocale().getValue());
     Assertions.assertNull(docPrediction.getInvoiceNumber().getValue());
     Assertions.assertTrue(docPrediction.getReferenceNumbers().isEmpty());
-    Assertions.assertNull(docPrediction.getInvoiceDateField().getValue());
-    Assertions.assertNull(docPrediction.getDueDateField().getValue());
+    Assertions.assertNull(docPrediction.getDate().getValue());
+    Assertions.assertNull(docPrediction.getDueDate().getValue());
     Assertions.assertNull(docPrediction.getTotalNet().getValue());
     Assertions.assertNull(docPrediction.getTotalAmount().getValue());
     Assertions.assertNull(docPrediction.getTotalTax().getValue());

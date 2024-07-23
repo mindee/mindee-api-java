@@ -47,6 +47,11 @@ public class InvoiceV4LineItem extends BaseField implements LineItemField {
   @JsonProperty("total_amount")
   Double totalAmount;
   /**
+   * The item unit of measure.
+   */
+  @JsonProperty("unit_measure")
+  String unitMeasure;
+  /**
    * The item unit price.
    */
   @JsonProperty("unit_price")
@@ -60,6 +65,7 @@ public class InvoiceV4LineItem extends BaseField implements LineItemField {
         && taxAmount == null
         && taxRate == null
         && totalAmount == null
+        && (unitMeasure == null || unitMeasure.isEmpty())
         && unitPrice == null
       );
   }
@@ -75,6 +81,7 @@ public class InvoiceV4LineItem extends BaseField implements LineItemField {
       + String.format("| %-10s ", printable.get("taxAmount"))
       + String.format("| %-12s ", printable.get("taxRate"))
       + String.format("| %-12s ", printable.get("totalAmount"))
+      + String.format("| %-15s ", printable.get("unitMeasure"))
       + String.format("| %-10s |", printable.get("unitPrice"));
   }
 
@@ -87,6 +94,7 @@ public class InvoiceV4LineItem extends BaseField implements LineItemField {
       + String.format(", Tax Amount: %s", printable.get("taxAmount"))
       + String.format(", Tax Rate (%%): %s", printable.get("taxRate"))
       + String.format(", Total Amount: %s", printable.get("totalAmount"))
+      + String.format(", Unit of measure: %s", printable.get("unitMeasure"))
       + String.format(", Unit Price: %s", printable.get("unitPrice"));
   }
 
@@ -115,6 +123,7 @@ public class InvoiceV4LineItem extends BaseField implements LineItemField {
         "totalAmount",
         SummaryHelper.formatAmount(this.totalAmount)
     );
+    printable.put("unitMeasure", SummaryHelper.formatForDisplay(this.unitMeasure, null));
     printable.put(
         "unitPrice",
         SummaryHelper.formatAmount(this.unitPrice)
