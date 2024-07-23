@@ -20,7 +20,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 /**
- * Invoice API version 4.6 document data.
+ * Invoice API version 4.7 document data.
  */
 @Getter
 @EqualsAndHashCode(callSuper = false)
@@ -56,7 +56,7 @@ public class InvoiceV4Document extends Prediction {
    * The date the purchase was made.
    */
   @JsonProperty("date")
-  protected DateField invoiceDateField;
+  protected DateField date;
   /**
    * One of: 'INVOICE', 'CREDIT NOTE'.
    */
@@ -66,7 +66,7 @@ public class InvoiceV4Document extends Prediction {
    * The date on which the payment is due.
    */
   @JsonProperty("due_date")
-  protected DateField dueDateField;
+  protected DateField dueDate;
   /**
    * The invoice number or identifier.
    */
@@ -81,7 +81,7 @@ public class InvoiceV4Document extends Prediction {
    * The locale detected on the document.
    */
   @JsonProperty("locale")
-  protected LocaleField localeField;
+  protected LocaleField locale;
   /**
    * List of Reference numbers, including PO number.
    */
@@ -152,11 +152,11 @@ public class InvoiceV4Document extends Prediction {
   @Override
   public boolean isEmpty() {
     return (
-      this.localeField == null
+      this.locale == null
       && this.invoiceNumber == null
       && (this.referenceNumbers == null || this.referenceNumbers.isEmpty())
-      && this.invoiceDateField == null
-      && this.dueDateField == null
+      && this.date == null
+      && this.dueDate == null
       && this.totalNet == null
       && this.totalAmount == null
       && this.totalTax == null
@@ -183,7 +183,7 @@ public class InvoiceV4Document extends Prediction {
   public String toString() {
     StringBuilder outStr = new StringBuilder();
     outStr.append(
-        String.format(":Locale: %s%n", this.getLocaleField())
+        String.format(":Locale: %s%n", this.getLocale())
     );
     outStr.append(
         String.format(":Invoice Number: %s%n", this.getInvoiceNumber())
@@ -196,10 +196,10 @@ public class InvoiceV4Document extends Prediction {
         String.format(":Reference Numbers: %s%n", referenceNumbers)
     );
     outStr.append(
-        String.format(":Purchase Date: %s%n", this.getInvoiceDateField())
+        String.format(":Purchase Date: %s%n", this.getDate())
     );
     outStr.append(
-        String.format(":Due Date: %s%n", this.getDueDateField())
+        String.format(":Due Date: %s%n", this.getDueDate())
     );
     outStr.append(
         String.format(":Total Net: %s%n", this.getTotalNet())
@@ -269,7 +269,7 @@ public class InvoiceV4Document extends Prediction {
     );
     String lineItemsSummary = "";
     if (!this.getLineItems().isEmpty()) {
-      int[] lineItemsColSizes = new int[]{38, 14, 10, 12, 14, 14, 12};
+      int[] lineItemsColSizes = new int[]{38, 14, 10, 12, 14, 14, 17, 12};
       lineItemsSummary =
         String.format("%n%s%n  ", SummaryHelper.lineSeparator(lineItemsColSizes, "-"))
           + "| Description                          "
@@ -278,6 +278,7 @@ public class InvoiceV4Document extends Prediction {
           + "| Tax Amount "
           + "| Tax Rate (%) "
           + "| Total Amount "
+          + "| Unit of measure "
           + "| Unit Price "
           + String.format("|%n%s%n  ", SummaryHelper.lineSeparator(lineItemsColSizes, "="));
       lineItemsSummary += SummaryHelper.arrayToString(this.getLineItems(), lineItemsColSizes);
