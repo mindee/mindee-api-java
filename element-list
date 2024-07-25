@@ -32,4 +32,6 @@ com.mindee.product.receipt
 com.mindee.product.resume
 com.mindee.product.us.bankcheck
 com.mindee.product.us.driverlicense
+com.mindee.product.us.healthcarecard
+com.mindee.product.us.usmail
 com.mindee.product.us.w9
