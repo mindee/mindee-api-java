@@ -20,7 +20,7 @@ public class PredictOptions {
   Boolean cropper;
   /**
    * Whether to include the full text data for async APIs.
-   * This performs a full OCR operation on the server and will increase response time & payload
+   * This performs a full OCR operation on the server and will increase response time and payload
    * size.
    */
   Boolean fullText;
