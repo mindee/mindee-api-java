@@ -1,10 +1,23 @@
 # Mindee Java API Library Changelog
 
+## v4.18.0 - 2024-07-26
+### Changes
+* :sparkles: add support for US Healthcare card V1
+* :sparkles: add support for US Mail V2
+* :sparkles: update financial document to v1.9
+* :sparkles: update invoices to v4.7
+* :sparkles: add support for invoice-splitter auto-extraction
+### Fixes
+* :bug: fix improper display for BooleanFields
+* :recycle: change the way registration fields are displayed
+* :arrow_up: bump dependencies
+
+
 ## v4.17.0 - 2024-06-04
 ### Changes
-:sparkles: add support for full text extraction (#177)
+* :sparkles: add support for full text extraction (#177)
 ### Fixes
-:bug: fix warning on not properly closing a PDF document
+* :bug: fix warning on not properly closing a PDF document
 
 
 ## v4.16.0 - 2024-05-27
