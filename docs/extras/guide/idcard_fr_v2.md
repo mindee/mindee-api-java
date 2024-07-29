@@ -154,49 +154,49 @@ Some fields are constrained to the page level, and so will not be retrievable at
 The following fields are extracted for Carte Nationale d'Identité V2:
 
 ## Alternate Name
-**alternateName** : The alternate name of the card holder.
+**alternateName**: The alternate name of the card holder.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getAlternateName().value);
 ```
 
 ## Issuing Authority
-**authority** : The name of the issuing authority.
+**authority**: The name of the issuing authority.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getAuthority().value);
 ```
 
 ## Date of Birth
-**birthDate** : The date of birth of the card holder.
+**birthDate**: The date of birth of the card holder.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getBirthDate().value);
 ```
 
 ## Place of Birth
-**birthPlace** : The place of birth of the card holder.
+**birthPlace**: The place of birth of the card holder.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getBirthPlace().value);
 ```
 
 ## Card Access Number
-**cardAccessNumber** : The card access number (CAN).
+**cardAccessNumber**: The card access number (CAN).
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getCardAccessNumber().value);
 ```
 
 ## Document Number
-**documentNumber** : The document number.
+**documentNumber**: The document number.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getDocumentNumber().value);
 ```
 
 ## Document Sides
-[📄](#page-level-fields "This field is only present on individual pages.")**documentSide** : The sides of the document which are visible.
+[📄](#page-level-fields "This field is only present on individual pages.")**documentSide**: The sides of the document which are visible.
 
 ```java
 for (ClassificationField documentSideElem : result.getDocument().getInference().getPrediction().getDocumentSide())
@@ -207,7 +207,7 @@ for (ClassificationField documentSideElem : result.getDocument().getInference().
 ```
 
 ## Document Type
-[📄](#page-level-fields "This field is only present on individual pages.")**documentType** : The document type or format.
+[📄](#page-level-fields "This field is only present on individual pages.")**documentType**: The document type or format.
 
 ```java
 for (ClassificationField documentTypeElem : result.getDocument().getInference().getPrediction().getDocumentType())
@@ -218,21 +218,21 @@ for (ClassificationField documentTypeElem : result.getDocument().getInference().
 ```
 
 ## Expiry Date
-**expiryDate** : The expiry date of the identification card.
+**expiryDate**: The expiry date of the identification card.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getExpiryDate().value);
 ```
 
 ## Gender
-**gender** : The gender of the card holder.
+**gender**: The gender of the card holder.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getGender().value);
 ```
 
 ## Given Name(s)
-**givenNames** : The given name(s) of the card holder.
+**givenNames**: The given name(s) of the card holder.
 
 ```java
 for (givenNamesElem : result.getDocument().getInference().getPrediction().getGivenNames())
@@ -242,42 +242,42 @@ for (givenNamesElem : result.getDocument().getInference().getPrediction().getGiv
 ```
 
 ## Date of Issue
-**issueDate** : The date of issue of the identification card.
+**issueDate**: The date of issue of the identification card.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getIssueDate().value);
 ```
 
 ## Mrz Line 1
-**mrz1** : The Machine Readable Zone, first line.
+**mrz1**: The Machine Readable Zone, first line.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getMrz1().value);
 ```
 
 ## Mrz Line 2
-**mrz2** : The Machine Readable Zone, second line.
+**mrz2**: The Machine Readable Zone, second line.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getMrz2().value);
 ```
 
 ## Mrz Line 3
-**mrz3** : The Machine Readable Zone, third line.
+**mrz3**: The Machine Readable Zone, third line.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getMrz3().value);
 ```
 
 ## Nationality
-**nationality** : The nationality of the card holder.
+**nationality**: The nationality of the card holder.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getNationality().value);
 ```
 
 ## Surname
-**surname** : The surname of the card holder.
+**surname**: The surname of the card holder.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getSurname().value);

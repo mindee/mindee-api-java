@@ -110,7 +110,7 @@ Some fields are constrained to the page level, and so will not be retrievable at
 The following fields are extracted for Cropper V1:
 
 ## Document Cropper
-[📄](#page-level-fields "This field is only present on individual pages.")**cropping** : List of documents found in the image.
+[📄](#page-level-fields "This field is only present on individual pages.")**cropping**: List of documents found in the image.
 
 ```java
 for (Page page : result.getDocument().getInference().getPages())

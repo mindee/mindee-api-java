@@ -127,7 +127,7 @@ A `UsMailV2SenderAddress` implements the following attributes:
 The following fields are extracted for US Mail V2:
 
 ## Recipient Addresses
-**recipientAddresses** (List<[UsMailV2RecipientAddress](#recipient-addresses-field)>): The addresses of the recipients.
+**recipientAddresses**(List<[UsMailV2RecipientAddress](#recipient-addresses-field)>): The addresses of the recipients.
 
 ```java
 for (recipientAddressesElem : result.getDocument().getInference().getPrediction().getRecipientAddresses())
@@ -137,7 +137,7 @@ for (recipientAddressesElem : result.getDocument().getInference().getPrediction(
 ```
 
 ## Recipient Names
-**recipientNames** : The names of the recipients.
+**recipientNames**: The names of the recipients.
 
 ```java
 for (recipientNamesElem : result.getDocument().getInference().getPrediction().getRecipientNames())
@@ -147,14 +147,14 @@ for (recipientNamesElem : result.getDocument().getInference().getPrediction().ge
 ```
 
 ## Sender Address
-**senderAddress** ([UsMailV2SenderAddress](#sender-address-field)): The address of the sender.
+**senderAddress**([UsMailV2SenderAddress](#sender-address-field)): The address of the sender.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getSenderAddress().value);
 ```
 
 ## Sender Name
-**senderName** : The name of the sender.
+**senderName**: The name of the sender.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getSenderName().value);

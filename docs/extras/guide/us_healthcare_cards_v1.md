@@ -140,14 +140,14 @@ A `HealthcareCardV1Copay` implements the following attributes:
 The following fields are extracted for Healthcare Card V1:
 
 ## Company Name
-**companyName** : The name of the company that provides the healthcare plan.
+**companyName**: The name of the company that provides the healthcare plan.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getCompanyName().value);
 ```
 
 ## copays
-**copays** (List<[HealthcareCardV1Copay](#copays-field)>): Is a fixed amount for a covered service.
+**copays**(List<[HealthcareCardV1Copay](#copays-field)>): Is a fixed amount for a covered service.
 
 ```java
 for (copaysElem : result.getDocument().getInference().getPrediction().getCopays())
@@ -157,7 +157,7 @@ for (copaysElem : result.getDocument().getInference().getPrediction().getCopays(
 ```
 
 ## Dependents
-**dependents** : The list of dependents covered by the healthcare plan.
+**dependents**: The list of dependents covered by the healthcare plan.
 
 ```java
 for (dependentsElem : result.getDocument().getInference().getPrediction().getDependents())
@@ -167,63 +167,63 @@ for (dependentsElem : result.getDocument().getInference().getPrediction().getDep
 ```
 
 ## Enrollment Date
-**enrollmentDate** : The date when the member enrolled in the healthcare plan.
+**enrollmentDate**: The date when the member enrolled in the healthcare plan.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getEnrollmentDate().value);
 ```
 
 ## Group Number
-**groupNumber** : The group number associated with the healthcare plan.
+**groupNumber**: The group number associated with the healthcare plan.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getGroupNumber().value);
 ```
 
 ## Issuer 80840
-**issuer80840** : The organization that issued the healthcare plan.
+**issuer80840**: The organization that issued the healthcare plan.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getIssuer80840().value);
 ```
 
 ## Member ID
-**memberId** : The unique identifier for the member in the healthcare system.
+**memberId**: The unique identifier for the member in the healthcare system.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getMemberId().value);
 ```
 
 ## Member Name
-**memberName** : The name of the member covered by the healthcare plan.
+**memberName**: The name of the member covered by the healthcare plan.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getMemberName().value);
 ```
 
 ## Payer ID
-**payerId** : The unique identifier for the payer in the healthcare system.
+**payerId**: The unique identifier for the payer in the healthcare system.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getPayerId().value);
 ```
 
 ## RX BIN
-**rxBin** : The BIN number for prescription drug coverage.
+**rxBin**: The BIN number for prescription drug coverage.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getRxBin().value);
 ```
 
 ## RX GRP
-**rxGrp** : The group number for prescription drug coverage.
+**rxGrp**: The group number for prescription drug coverage.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getRxGrp().value);
 ```
 
 ## RX PCN
-**rxPcn** : The PCN number for prescription drug coverage.
+**rxPcn**: The PCN number for prescription drug coverage.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getRxPcn().value);

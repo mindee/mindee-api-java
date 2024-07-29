@@ -147,84 +147,84 @@ Some fields are constrained to the page level, and so will not be retrievable at
 The following fields are extracted for Driver License V1:
 
 ## Address
-**address** : EU driver license holders address
+**address**: EU driver license holders address
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getAddress().value);
 ```
 
 ## Driver License Category
-**category** : EU driver license holders categories
+**category**: EU driver license holders categories
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getCategory().value);
 ```
 
 ## Country Code
-**countryCode** : Country code extracted as a string.
+**countryCode**: Country code extracted as a string.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getCountryCode().value);
 ```
 
 ## Date Of Birth
-**dateOfBirth** : The date of birth of the document holder
+**dateOfBirth**: The date of birth of the document holder
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getDateOfBirth().value);
 ```
 
 ## Document ID
-**documentId** : ID number of the Document.
+**documentId**: ID number of the Document.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getDocumentId().value);
 ```
 
 ## Expiry Date
-**expiryDate** : Date the document expires
+**expiryDate**: Date the document expires
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getExpiryDate().value);
 ```
 
 ## First Name
-**firstName** : First name(s) of the driver license holder
+**firstName**: First name(s) of the driver license holder
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getFirstName().value);
 ```
 
 ## Issue Authority
-**issueAuthority** : Authority that issued the document
+**issueAuthority**: Authority that issued the document
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getIssueAuthority().value);
 ```
 
 ## Issue Date
-**issueDate** : Date the document was issued
+**issueDate**: Date the document was issued
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getIssueDate().value);
 ```
 
 ## Last Name
-**lastName** : Last name of the driver license holder.
+**lastName**: Last name of the driver license holder.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getLastName().value);
 ```
 
 ## MRZ
-**mrz** : Machine-readable license number
+**mrz**: Machine-readable license number
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getMrz().value);
 ```
 
 ## Photo
-[📄](#page-level-fields "This field is only present on individual pages.")**photo** : Has a photo of the EU driver license holder
+[📄](#page-level-fields "This field is only present on individual pages.")**photo**: Has a photo of the EU driver license holder
 
 ```java
 for (PositionField photoElem : result.getDocument().getInference().getPrediction().getPhoto())
@@ -234,14 +234,14 @@ for (PositionField photoElem : result.getDocument().getInference().getPrediction
 ```
 
 ## Place Of Birth
-**placeOfBirth** : Place where the driver license holder was born
+**placeOfBirth**: Place where the driver license holder was born
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getPlaceOfBirth().value);
 ```
 
 ## Signature
-[📄](#page-level-fields "This field is only present on individual pages.")**signature** : Has a signature of the EU driver license holder
+[📄](#page-level-fields "This field is only present on individual pages.")**signature**: Has a signature of the EU driver license holder
 
 ```java
 for (PositionField signatureElem : result.getDocument().getInference().getPrediction().getSignature())

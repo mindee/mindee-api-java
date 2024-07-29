@@ -165,14 +165,14 @@ The locale field `LocaleField` extends `BaseField`, but also implements:
 The following fields are extracted for Proof of Address V1:
 
 ## Date of Issue
-**date** : The date the document was issued.
+**date**: The date the document was issued.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getDate().value);
 ```
 
 ## Dates
-**dates** : List of dates found on the document.
+**dates**: List of dates found on the document.
 
 ```java
 for (datesElem : result.getDocument().getInference().getPrediction().getDates())
@@ -182,14 +182,14 @@ for (datesElem : result.getDocument().getInference().getPrediction().getDates())
 ```
 
 ## Issuer Address
-**issuerAddress** : The address of the document's issuer.
+**issuerAddress**: The address of the document's issuer.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getIssuerAddress().value);
 ```
 
 ## Issuer Company Registrations
-**issuerCompanyRegistration** : List of company registrations found for the issuer.
+**issuerCompanyRegistration**: List of company registrations found for the issuer.
 
 ```java
 for (issuerCompanyRegistrationElem : result.getDocument().getInference().getPrediction().getIssuerCompanyRegistration())
@@ -199,28 +199,28 @@ for (issuerCompanyRegistrationElem : result.getDocument().getInference().getPred
 ```
 
 ## Issuer Name
-**issuerName** : The name of the person or company issuing the document.
+**issuerName**: The name of the person or company issuing the document.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getIssuerName().value);
 ```
 
 ## Locale
-**locale** : The locale detected on the document.
+**locale**: The locale detected on the document.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getLocale().value);
 ```
 
 ## Recipient Address
-**recipientAddress** : The address of the recipient.
+**recipientAddress**: The address of the recipient.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getRecipientAddress().value);
 ```
 
 ## Recipient Company Registrations
-**recipientCompanyRegistration** : List of company registrations found for the recipient.
+**recipientCompanyRegistration**: List of company registrations found for the recipient.
 
 ```java
 for (recipientCompanyRegistrationElem : result.getDocument().getInference().getPrediction().getRecipientCompanyRegistration())
@@ -230,7 +230,7 @@ for (recipientCompanyRegistrationElem : result.getDocument().getInference().getP
 ```
 
 ## Recipient Name
-**recipientName** : The name of the person or company receiving the document.
+**recipientName**: The name of the person or company receiving the document.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getRecipientName().value);

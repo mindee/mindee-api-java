@@ -117,7 +117,7 @@ The date field `DateField` extends `BaseField`, but also implements:
 The following fields are extracted for Carte Vitale V1:
 
 ## Given Name(s)
-**givenNames** : The given name(s) of the card holder.
+**givenNames**: The given name(s) of the card holder.
 
 ```java
 for (givenNamesElem : result.getDocument().getInference().getPrediction().getGivenNames())
@@ -127,21 +127,21 @@ for (givenNamesElem : result.getDocument().getInference().getPrediction().getGiv
 ```
 
 ## Issuance Date
-**issuanceDate** : The date the card was issued.
+**issuanceDate**: The date the card was issued.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getIssuanceDate().value);
 ```
 
 ## Social Security Number
-**socialSecurity** : The Social Security Number (Numéro de Sécurité Sociale) of the card holder
+**socialSecurity**: The Social Security Number (Numéro de Sécurité Sociale) of the card holder
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getSocialSecurity().value);
 ```
 
 ## Surname
-**surname** : The surname of the card holder.
+**surname**: The surname of the card holder.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getSurname().value);

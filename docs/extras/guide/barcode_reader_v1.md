@@ -110,7 +110,7 @@ The text field `StringField` extends `BaseField`, but also implements:
 The following fields are extracted for Barcode Reader V1:
 
 ## Barcodes 1D
-**codes1D** : List of decoded 1D barcodes.
+**codes1D**: List of decoded 1D barcodes.
 
 ```java
 for (codes1DElem : result.getDocument().getInference().getPrediction().getCodes1D())
@@ -120,7 +120,7 @@ for (codes1DElem : result.getDocument().getInference().getPrediction().getCodes1
 ```
 
 ## Barcodes 2D
-**codes2D** : List of decoded 2D barcodes.
+**codes2D**: List of decoded 2D barcodes.
 
 ```java
 for (codes2DElem : result.getDocument().getInference().getPrediction().getCodes2D())

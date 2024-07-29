@@ -223,14 +223,14 @@ A `ResumeV1SocialNetworksUrl` implements the following attributes:
 The following fields are extracted for Resume V1:
 
 ## Address
-**address** : The location information of the candidate, including city, state, and country.
+**address**: The location information of the candidate, including city, state, and country.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getAddress().value);
 ```
 
 ## Certificates
-**certificates** (List<[ResumeV1Certificate](#certificates-field)>): The list of certificates obtained by the candidate.
+**certificates**(List<[ResumeV1Certificate](#certificates-field)>): The list of certificates obtained by the candidate.
 
 ```java
 for (certificatesElem : result.getDocument().getInference().getPrediction().getCertificates())
@@ -240,21 +240,21 @@ for (certificatesElem : result.getDocument().getInference().getPrediction().getC
 ```
 
 ## Document Language
-**documentLanguage** : The ISO 639 code of the language in which the document is written.
+**documentLanguage**: The ISO 639 code of the language in which the document is written.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getDocumentLanguage().value);
 ```
 
 ## Document Type
-**documentType** : The type of the document sent.
+**documentType**: The type of the document sent.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getDocumentType().value);
 ```
 
 ## Education
-**education** (List<[ResumeV1Education](#education-field)>): The list of the candidate's educational background.
+**education**(List<[ResumeV1Education](#education-field)>): The list of the candidate's educational background.
 
 ```java
 for (educationElem : result.getDocument().getInference().getPrediction().getEducation())
@@ -264,14 +264,14 @@ for (educationElem : result.getDocument().getInference().getPrediction().getEduc
 ```
 
 ## Email Address
-**emailAddress** : The email address of the candidate.
+**emailAddress**: The email address of the candidate.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getEmailAddress().value);
 ```
 
 ## Given Names
-**givenNames** : The candidate's first or given names.
+**givenNames**: The candidate's first or given names.
 
 ```java
 for (givenNamesElem : result.getDocument().getInference().getPrediction().getGivenNames())
@@ -281,7 +281,7 @@ for (givenNamesElem : result.getDocument().getInference().getPrediction().getGiv
 ```
 
 ## Hard Skills
-**hardSkills** : The list of the candidate's technical abilities and knowledge.
+**hardSkills**: The list of the candidate's technical abilities and knowledge.
 
 ```java
 for (hardSkillsElem : result.getDocument().getInference().getPrediction().getHardSkills())
@@ -291,14 +291,14 @@ for (hardSkillsElem : result.getDocument().getInference().getPrediction().getHar
 ```
 
 ## Job Applied
-**jobApplied** : The position that the candidate is applying for.
+**jobApplied**: The position that the candidate is applying for.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getJobApplied().value);
 ```
 
 ## Languages
-**languages** (List<[ResumeV1Language](#languages-field)>): The list of languages that the candidate is proficient in.
+**languages**(List<[ResumeV1Language](#languages-field)>): The list of languages that the candidate is proficient in.
 
 ```java
 for (languagesElem : result.getDocument().getInference().getPrediction().getLanguages())
@@ -308,28 +308,28 @@ for (languagesElem : result.getDocument().getInference().getPrediction().getLang
 ```
 
 ## Nationality
-**nationality** : The ISO 3166 code for the country of citizenship of the candidate.
+**nationality**: The ISO 3166 code for the country of citizenship of the candidate.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getNationality().value);
 ```
 
 ## Phone Number
-**phoneNumber** : The phone number of the candidate.
+**phoneNumber**: The phone number of the candidate.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getPhoneNumber().value);
 ```
 
 ## Profession
-**profession** : The candidate's current profession.
+**profession**: The candidate's current profession.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getProfession().value);
 ```
 
 ## Professional Experiences
-**professionalExperiences** (List<[ResumeV1ProfessionalExperience](#professional-experiences-field)>): The list of the candidate's professional experiences.
+**professionalExperiences**(List<[ResumeV1ProfessionalExperience](#professional-experiences-field)>): The list of the candidate's professional experiences.
 
 ```java
 for (professionalExperiencesElem : result.getDocument().getInference().getPrediction().getProfessionalExperiences())
@@ -339,7 +339,7 @@ for (professionalExperiencesElem : result.getDocument().getInference().getPredic
 ```
 
 ## Social Networks
-**socialNetworksUrls** (List<[ResumeV1SocialNetworksUrl](#social-networks-field)>): The list of social network profiles of the candidate.
+**socialNetworksUrls**(List<[ResumeV1SocialNetworksUrl](#social-networks-field)>): The list of social network profiles of the candidate.
 
 ```java
 for (socialNetworksUrlsElem : result.getDocument().getInference().getPrediction().getSocialNetworksUrls())
@@ -349,7 +349,7 @@ for (socialNetworksUrlsElem : result.getDocument().getInference().getPrediction(
 ```
 
 ## Soft Skills
-**softSkills** : The list of the candidate's interpersonal and communication abilities.
+**softSkills**: The list of the candidate's interpersonal and communication abilities.
 
 ```java
 for (softSkillsElem : result.getDocument().getInference().getPrediction().getSoftSkills())
@@ -359,7 +359,7 @@ for (softSkillsElem : result.getDocument().getInference().getPrediction().getSof
 ```
 
 ## Surnames
-**surnames** : The candidate's last names.
+**surnames**: The candidate's last names.
 
 ```java
 for (surnamesElem : result.getDocument().getInference().getPrediction().getSurnames())

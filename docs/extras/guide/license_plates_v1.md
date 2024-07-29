@@ -106,7 +106,7 @@ The text field `StringField` extends `BaseField`, but also implements:
 The following fields are extracted for License Plate V1:
 
 ## License Plates
-**licensePlates** : List of all license plates found in the image.
+**licensePlates**: List of all license plates found in the image.
 
 ```java
 for (licensePlatesElem : result.getDocument().getInference().getPrediction().getLicensePlates())

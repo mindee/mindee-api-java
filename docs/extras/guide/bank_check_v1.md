@@ -141,28 +141,28 @@ Some fields are constrained to the page level, and so will not be retrievable at
 The following fields are extracted for Bank Check V1:
 
 ## Account Number
-**accountNumber** : The check payer's account number.
+**accountNumber**: The check payer's account number.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getAccountNumber().value);
 ```
 
 ## Amount
-**amount** : The amount of the check.
+**amount**: The amount of the check.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getAmount().value);
 ```
 
 ## Check Number
-**checkNumber** : The issuer's check number.
+**checkNumber**: The issuer's check number.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getCheckNumber().value);
 ```
 
 ## Check Position
-[📄](#page-level-fields "This field is only present on individual pages.")**checkPosition** : The position of the check on the document.
+[📄](#page-level-fields "This field is only present on individual pages.")**checkPosition**: The position of the check on the document.
 
 ```java
 for (PositionField checkPositionElem : result.getDocument().getInference().getPrediction().getCheckPosition())
@@ -172,14 +172,14 @@ for (PositionField checkPositionElem : result.getDocument().getInference().getPr
 ```
 
 ## Check Issue Date
-**date** : The date the check was issued.
+**date**: The date the check was issued.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getDate().value);
 ```
 
 ## Payees
-**payees** : List of the check's payees (recipients).
+**payees**: List of the check's payees (recipients).
 
 ```java
 for (payeesElem : result.getDocument().getInference().getPrediction().getPayees())
@@ -189,14 +189,14 @@ for (payeesElem : result.getDocument().getInference().getPrediction().getPayees(
 ```
 
 ## Routing Number
-**routingNumber** : The check issuer's routing number.
+**routingNumber**: The check issuer's routing number.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getRoutingNumber().value);
 ```
 
 ## Signature Positions
-[📄](#page-level-fields "This field is only present on individual pages.")**signaturesPositions** : List of signature positions
+[📄](#page-level-fields "This field is only present on individual pages.")**signaturesPositions**: List of signature positions
 
 ```java
 for (Page page : result.getDocument().getInference().getPages())

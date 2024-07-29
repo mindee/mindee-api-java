@@ -129,56 +129,56 @@ The date field `DateField` extends `BaseField`, but also implements:
 The following fields are extracted for International ID V2:
 
 ## Address
-**address** : The physical address of the document holder.
+**address**: The physical address of the document holder.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getAddress().value);
 ```
 
 ## Birth Date
-**birthDate** : The date of birth of the document holder.
+**birthDate**: The date of birth of the document holder.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getBirthDate().value);
 ```
 
 ## Birth Place
-**birthPlace** : The place of birth of the document holder.
+**birthPlace**: The place of birth of the document holder.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getBirthPlace().value);
 ```
 
 ## Country of Issue
-**countryOfIssue** : The country where the document was issued.
+**countryOfIssue**: The country where the document was issued.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getCountryOfIssue().value);
 ```
 
 ## Document Number
-**documentNumber** : The unique identifier assigned to the document.
+**documentNumber**: The unique identifier assigned to the document.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getDocumentNumber().value);
 ```
 
 ## Document Type
-**documentType** : The type of personal identification document.
+**documentType**: The type of personal identification document.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getDocumentType().value);
 ```
 
 ## Expiration Date
-**expiryDate** : The date when the document becomes invalid.
+**expiryDate**: The date when the document becomes invalid.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getExpiryDate().value);
 ```
 
 ## Given Names
-**givenNames** : The list of the document holder's given names.
+**givenNames**: The list of the document holder's given names.
 
 ```java
 for (givenNamesElem : result.getDocument().getInference().getPrediction().getGivenNames())
@@ -188,63 +188,63 @@ for (givenNamesElem : result.getDocument().getInference().getPrediction().getGiv
 ```
 
 ## Issue Date
-**issueDate** : The date when the document was issued.
+**issueDate**: The date when the document was issued.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getIssueDate().value);
 ```
 
 ## MRZ Line 1
-**mrzLine1** : The Machine Readable Zone, first line.
+**mrzLine1**: The Machine Readable Zone, first line.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getMrzLine1().value);
 ```
 
 ## MRZ Line 2
-**mrzLine2** : The Machine Readable Zone, second line.
+**mrzLine2**: The Machine Readable Zone, second line.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getMrzLine2().value);
 ```
 
 ## MRZ Line 3
-**mrzLine3** : The Machine Readable Zone, third line.
+**mrzLine3**: The Machine Readable Zone, third line.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getMrzLine3().value);
 ```
 
 ## Nationality
-**nationality** : The country of citizenship of the document holder.
+**nationality**: The country of citizenship of the document holder.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getNationality().value);
 ```
 
 ## Personal Number
-**personalNumber** : The unique identifier assigned to the document holder.
+**personalNumber**: The unique identifier assigned to the document holder.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getPersonalNumber().value);
 ```
 
 ## Sex
-**sex** : The biological sex of the document holder.
+**sex**: The biological sex of the document holder.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getSex().value);
 ```
 
 ## State of Issue
-**stateOfIssue** : The state or territory where the document was issued.
+**stateOfIssue**: The state or territory where the document was issued.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getStateOfIssue().value);
 ```
 
 ## Surnames
-**surnames** : The list of the document holder's family names.
+**surnames**: The list of the document holder's family names.
 
 ```java
 for (surnamesElem : result.getDocument().getInference().getPrediction().getSurnames())

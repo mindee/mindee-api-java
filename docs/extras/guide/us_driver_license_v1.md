@@ -157,98 +157,98 @@ Some fields are constrained to the page level, and so will not be retrievable at
 The following fields are extracted for Driver License V1:
 
 ## Address
-**address** : US driver license holders address
+**address**: US driver license holders address
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getAddress().value);
 ```
 
 ## Date Of Birth
-**dateOfBirth** : US driver license holders date of birth
+**dateOfBirth**: US driver license holders date of birth
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getDateOfBirth().value);
 ```
 
 ## Document Discriminator
-**ddNumber** : Document Discriminator Number of the US Driver License
+**ddNumber**: Document Discriminator Number of the US Driver License
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getDdNumber().value);
 ```
 
 ## Driver License Class
-**dlClass** : US driver license holders class
+**dlClass**: US driver license holders class
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getDlClass().value);
 ```
 
 ## Driver License ID
-**driverLicenseId** : ID number of the US Driver License.
+**driverLicenseId**: ID number of the US Driver License.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getDriverLicenseId().value);
 ```
 
 ## Endorsements
-**endorsements** : US driver license holders endorsements
+**endorsements**: US driver license holders endorsements
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getEndorsements().value);
 ```
 
 ## Expiry Date
-**expiryDate** : Date on which the documents expires.
+**expiryDate**: Date on which the documents expires.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getExpiryDate().value);
 ```
 
 ## Eye Color
-**eyeColor** : US driver license holders eye colour
+**eyeColor**: US driver license holders eye colour
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getEyeColor().value);
 ```
 
 ## First Name
-**firstName** : US driver license holders first name(s)
+**firstName**: US driver license holders first name(s)
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getFirstName().value);
 ```
 
 ## Hair Color
-**hairColor** : US driver license holders hair colour
+**hairColor**: US driver license holders hair colour
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getHairColor().value);
 ```
 
 ## Height
-**height** : US driver license holders hight
+**height**: US driver license holders hight
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getHeight().value);
 ```
 
 ## Date Of Issue
-**issuedDate** : Date on which the documents was issued.
+**issuedDate**: Date on which the documents was issued.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getIssuedDate().value);
 ```
 
 ## Last Name
-**lastName** : US driver license holders last name
+**lastName**: US driver license holders last name
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getLastName().value);
 ```
 
 ## Photo
-[📄](#page-level-fields "This field is only present on individual pages.")**photo** : Has a photo of the US driver license holder
+[📄](#page-level-fields "This field is only present on individual pages.")**photo**: Has a photo of the US driver license holder
 
 ```java
 for (PositionField photoElem : result.getDocument().getInference().getPrediction().getPhoto())
@@ -258,21 +258,21 @@ for (PositionField photoElem : result.getDocument().getInference().getPrediction
 ```
 
 ## Restrictions
-**restrictions** : US driver license holders restrictions
+**restrictions**: US driver license holders restrictions
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getRestrictions().value);
 ```
 
 ## Sex
-**sex** : US driver license holders gender
+**sex**: US driver license holders gender
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getSex().value);
 ```
 
 ## Signature
-[📄](#page-level-fields "This field is only present on individual pages.")**signature** : Has a signature of the US driver license holder
+[📄](#page-level-fields "This field is only present on individual pages.")**signature**: Has a signature of the US driver license holder
 
 ```java
 for (PositionField signatureElem : result.getDocument().getInference().getPrediction().getSignature())
@@ -282,14 +282,14 @@ for (PositionField signatureElem : result.getDocument().getInference().getPredic
 ```
 
 ## State
-**state** : US State
+**state**: US State
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getState().value);
 ```
 
 ## Weight
-**weight** : US driver license holders weight
+**weight**: US driver license holders weight
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getWeight().value);

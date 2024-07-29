@@ -133,28 +133,28 @@ A `BankAccountDetailsV2Bban` implements the following attributes:
 The following fields are extracted for Bank Account Details V2:
 
 ## Account Holder's Names
-**accountHoldersNames** : Full extraction of the account holders names.
+**accountHoldersNames**: Full extraction of the account holders names.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getAccountHoldersNames().value);
 ```
 
 ## Basic Bank Account Number
-**bban** ([BankAccountDetailsV2Bban](#basic-bank-account-number-field)): Full extraction of BBAN, including: branch code, bank code, account and key.
+**bban**([BankAccountDetailsV2Bban](#basic-bank-account-number-field)): Full extraction of BBAN, including: branch code, bank code, account and key.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getBban().value);
 ```
 
 ## IBAN
-**iban** : Full extraction of the IBAN number.
+**iban**: Full extraction of the IBAN number.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getIban().value);
 ```
 
 ## SWIFT Code
-**swiftCode** : Full extraction of the SWIFT code.
+**swiftCode**: Full extraction of the SWIFT code.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getSwiftCode().value);

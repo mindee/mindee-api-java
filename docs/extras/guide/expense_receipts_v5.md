@@ -220,28 +220,28 @@ A `ReceiptV5LineItem` implements the following attributes:
 The following fields are extracted for Receipt V5:
 
 ## Purchase Category
-**category** : The purchase category among predefined classes.
+**category**: The purchase category among predefined classes.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getCategory().value);
 ```
 
 ## Purchase Date
-**date** : The date the purchase was made.
+**date**: The date the purchase was made.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getDate().value);
 ```
 
 ## Document Type
-**documentType** : One of: 'CREDIT CARD RECEIPT', 'EXPENSE RECEIPT'.
+**documentType**: One of: 'CREDIT CARD RECEIPT', 'EXPENSE RECEIPT'.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getDocumentType().value);
 ```
 
 ## Line Items
-**lineItems** (List<[ReceiptV5LineItem](#line-items-field)>): List of line item details.
+**lineItems**(List<[ReceiptV5LineItem](#line-items-field)>): List of line item details.
 
 ```java
 for (lineItemsElem : result.getDocument().getInference().getPrediction().getLineItems())
@@ -251,35 +251,35 @@ for (lineItemsElem : result.getDocument().getInference().getPrediction().getLine
 ```
 
 ## Expense Locale
-**locale** : The locale detected on the document.
+**locale**: The locale detected on the document.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getLocale().value);
 ```
 
 ## Receipt Number
-**receiptNumber** : The receipt number or identifier.
+**receiptNumber**: The receipt number or identifier.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getReceiptNumber().value);
 ```
 
 ## Purchase Subcategory
-**subcategory** : The purchase subcategory among predefined classes for transport and food.
+**subcategory**: The purchase subcategory among predefined classes for transport and food.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getSubcategory().value);
 ```
 
 ## Supplier Address
-**supplierAddress** : The address of the supplier or merchant.
+**supplierAddress**: The address of the supplier or merchant.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getSupplierAddress().value);
 ```
 
 ## Supplier Company Registrations
-**supplierCompanyRegistrations** : List of company registrations associated to the supplier.
+**supplierCompanyRegistrations**: List of company registrations associated to the supplier.
 
 ```java
 for (supplierCompanyRegistrationsElem : result.getDocument().getInference().getPrediction().getSupplierCompanyRegistrations())
@@ -289,21 +289,21 @@ for (supplierCompanyRegistrationsElem : result.getDocument().getInference().getP
 ```
 
 ## Supplier Name
-**supplierName** : The name of the supplier or merchant.
+**supplierName**: The name of the supplier or merchant.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getSupplierName().value);
 ```
 
 ## Supplier Phone Number
-**supplierPhoneNumber** : The phone number of the supplier or merchant.
+**supplierPhoneNumber**: The phone number of the supplier or merchant.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getSupplierPhoneNumber().value);
 ```
 
 ## Taxes
-**taxes** : List of tax lines information.
+**taxes**: List of tax lines information.
 
 ```java
 for (taxesElem : result.getDocument().getInference().getPrediction().getTaxes())
@@ -313,35 +313,35 @@ for (taxesElem : result.getDocument().getInference().getPrediction().getTaxes())
 ```
 
 ## Purchase Time
-**time** : The time the purchase was made.
+**time**: The time the purchase was made.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getTime().value);
 ```
 
 ## Tip and Gratuity
-**tip** : The total amount of tip and gratuity.
+**tip**: The total amount of tip and gratuity.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getTip().value);
 ```
 
 ## Total Amount
-**totalAmount** : The total amount paid: includes taxes, discounts, fees, tips, and gratuity.
+**totalAmount**: The total amount paid: includes taxes, discounts, fees, tips, and gratuity.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getTotalAmount().value);
 ```
 
 ## Total Net
-**totalNet** : The net amount paid: does not include taxes, fees, and discounts.
+**totalNet**: The net amount paid: does not include taxes, fees, and discounts.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getTotalNet().value);
 ```
 
 ## Total Tax
-**totalTax** : The total amount of taxes.
+**totalTax**: The total amount of taxes.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getTotalTax().value);

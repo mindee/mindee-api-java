@@ -120,7 +120,7 @@ The position field `PositionField` implements:
 The following fields are extracted for Multi Receipts Detector V1:
 
 ## List of Receipts
-**receipts** : Positions of the receipts on the document.
+**receipts**: Positions of the receipts on the document.
 
 ```java
 for (receiptsElem : result.getDocument().getInference().getPrediction().getReceipts())

@@ -131,42 +131,42 @@ The date field `DateField` extends `BaseField`, but also implements:
 The following fields are extracted for Passport V1:
 
 ## Date of Birth
-**birthDate** : The date of birth of the passport holder.
+**birthDate**: The date of birth of the passport holder.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getBirthDate().value);
 ```
 
 ## Place of Birth
-**birthPlace** : The place of birth of the passport holder.
+**birthPlace**: The place of birth of the passport holder.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getBirthPlace().value);
 ```
 
 ## Country Code
-**country** : The country's 3 letter code (ISO 3166-1 alpha-3).
+**country**: The country's 3 letter code (ISO 3166-1 alpha-3).
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getCountry().value);
 ```
 
 ## Expiry Date
-**expiryDate** : The expiry date of the passport.
+**expiryDate**: The expiry date of the passport.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getExpiryDate().value);
 ```
 
 ## Gender
-**gender** : The gender of the passport holder.
+**gender**: The gender of the passport holder.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getGender().value);
 ```
 
 ## Given Name(s)
-**givenNames** : The given name(s) of the passport holder.
+**givenNames**: The given name(s) of the passport holder.
 
 ```java
 for (givenNamesElem : result.getDocument().getInference().getPrediction().getGivenNames())
@@ -176,35 +176,35 @@ for (givenNamesElem : result.getDocument().getInference().getPrediction().getGiv
 ```
 
 ## ID Number
-**idNumber** : The passport's identification number.
+**idNumber**: The passport's identification number.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getIdNumber().value);
 ```
 
 ## Date of Issue
-**issuanceDate** : The date the passport was issued.
+**issuanceDate**: The date the passport was issued.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getIssuanceDate().value);
 ```
 
 ## MRZ Line 1
-**mrz1** : Machine Readable Zone, first line
+**mrz1**: Machine Readable Zone, first line
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getMrz1().value);
 ```
 
 ## MRZ Line 2
-**mrz2** : Machine Readable Zone, second line
+**mrz2**: Machine Readable Zone, second line
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getMrz2().value);
 ```
 
 ## Surname
-**surname** : The surname of the passport holder.
+**surname**: The surname of the passport holder.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getSurname().value);

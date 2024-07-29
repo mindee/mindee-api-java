@@ -191,287 +191,287 @@ The date field `DateField` extends `BaseField`, but also implements:
 The following fields are extracted for Carte Grise V1:
 
 ## a
-**a** : The vehicle's license plate number.
+**a**: The vehicle's license plate number.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getA().value);
 ```
 
 ## b
-**b** : The vehicle's first release date.
+**b**: The vehicle's first release date.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getB().value);
 ```
 
 ## c1
-**c1** : The vehicle owner's full name including maiden name.
+**c1**: The vehicle owner's full name including maiden name.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getC1().value);
 ```
 
 ## c3
-**c3** : The vehicle owner's address.
+**c3**: The vehicle owner's address.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getC3().value);
 ```
 
 ## c41
-**c41** : Number of owners of the license certificate.
+**c41**: Number of owners of the license certificate.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getC41().value);
 ```
 
 ## c4a
-**c4A** : Mentions about the ownership of the vehicle.
+**c4A**: Mentions about the ownership of the vehicle.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getC4A().value);
 ```
 
 ## d1
-**d1** : The vehicle's brand.
+**d1**: The vehicle's brand.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getD1().value);
 ```
 
 ## d3
-**d3** : The vehicle's commercial name.
+**d3**: The vehicle's commercial name.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getD3().value);
 ```
 
 ## e
-**e** : The Vehicle Identification Number (VIN).
+**e**: The Vehicle Identification Number (VIN).
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getE().value);
 ```
 
 ## f1
-**f1** : The vehicle's maximum admissible weight.
+**f1**: The vehicle's maximum admissible weight.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getF1().value);
 ```
 
 ## f2
-**f2** : The vehicle's maximum admissible weight within the license's state.
+**f2**: The vehicle's maximum admissible weight within the license's state.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getF2().value);
 ```
 
 ## f3
-**f3** : The vehicle's maximum authorized weight with coupling.
+**f3**: The vehicle's maximum authorized weight with coupling.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getF3().value);
 ```
 
 ## Formula Number
-**formulaNumber** : The document's formula number.
+**formulaNumber**: The document's formula number.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getFormulaNumber().value);
 ```
 
 ## g
-**g** : The vehicle's weight with coupling if tractor different than category M1.
+**g**: The vehicle's weight with coupling if tractor different than category M1.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getG().value);
 ```
 
 ## g1
-**g1** : The vehicle's national empty weight.
+**g1**: The vehicle's national empty weight.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getG1().value);
 ```
 
 ## i
-**i** : The car registration date of the given certificate.
+**i**: The car registration date of the given certificate.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getI().value);
 ```
 
 ## j
-**j** : The vehicle's category.
+**j**: The vehicle's category.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getJ().value);
 ```
 
 ## j1
-**j1** : The vehicle's national type.
+**j1**: The vehicle's national type.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getJ1().value);
 ```
 
 ## j2
-**j2** : The vehicle's body type (CE).
+**j2**: The vehicle's body type (CE).
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getJ2().value);
 ```
 
 ## j3
-**j3** : The vehicle's body type (National designation).
+**j3**: The vehicle's body type (National designation).
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getJ3().value);
 ```
 
 ## MRZ Line 1
-**mrz1** : Machine Readable Zone, first line.
+**mrz1**: Machine Readable Zone, first line.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getMrz1().value);
 ```
 
 ## MRZ Line 2
-**mrz2** : Machine Readable Zone, second line.
+**mrz2**: Machine Readable Zone, second line.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getMrz2().value);
 ```
 
 ## Owner's First Name
-**ownerFirstName** : The vehicle's owner first name.
+**ownerFirstName**: The vehicle's owner first name.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getOwnerFirstName().value);
 ```
 
 ## Owner's Surname
-**ownerSurname** : The vehicle's owner surname.
+**ownerSurname**: The vehicle's owner surname.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getOwnerSurname().value);
 ```
 
 ## p1
-**p1** : The vehicle engine's displacement (cm3).
+**p1**: The vehicle engine's displacement (cm3).
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getP1().value);
 ```
 
 ## p2
-**p2** : The vehicle's maximum net power (kW).
+**p2**: The vehicle's maximum net power (kW).
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getP2().value);
 ```
 
 ## p3
-**p3** : The vehicle's fuel type or energy source.
+**p3**: The vehicle's fuel type or energy source.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getP3().value);
 ```
 
 ## p6
-**p6** : The vehicle's administrative power (fiscal horsepower).
+**p6**: The vehicle's administrative power (fiscal horsepower).
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getP6().value);
 ```
 
 ## q
-**q** : The vehicle's power to weight ratio.
+**q**: The vehicle's power to weight ratio.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getQ().value);
 ```
 
 ## s1
-**s1** : The vehicle's number of seats.
+**s1**: The vehicle's number of seats.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getS1().value);
 ```
 
 ## s2
-**s2** : The vehicle's number of standing rooms (person).
+**s2**: The vehicle's number of standing rooms (person).
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getS2().value);
 ```
 
 ## u1
-**u1** : The vehicle's sound level (dB).
+**u1**: The vehicle's sound level (dB).
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getU1().value);
 ```
 
 ## u2
-**u2** : The vehicle engine's rotation speed (RPM).
+**u2**: The vehicle engine's rotation speed (RPM).
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getU2().value);
 ```
 
 ## v7
-**v7** : The vehicle's CO2 emission (g/km).
+**v7**: The vehicle's CO2 emission (g/km).
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getV7().value);
 ```
 
 ## x1
-**x1** : Next technical control date.
+**x1**: Next technical control date.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getX1().value);
 ```
 
 ## y1
-**y1** : Amount of the regional proportional tax of the registration (in euros).
+**y1**: Amount of the regional proportional tax of the registration (in euros).
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getY1().value);
 ```
 
 ## y2
-**y2** : Amount of the additional parafiscal tax of the registration (in euros).
+**y2**: Amount of the additional parafiscal tax of the registration (in euros).
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getY2().value);
 ```
 
 ## y3
-**y3** : Amount of the additional CO2 tax of the registration (in euros).
+**y3**: Amount of the additional CO2 tax of the registration (in euros).
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getY3().value);
 ```
 
 ## y4
-**y4** : Amount of the fee for managing the registration (in euros).
+**y4**: Amount of the fee for managing the registration (in euros).
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getY4().value);
 ```
 
 ## y5
-**y5** : Amount of the fee for delivery of the registration certificate in euros.
+**y5**: Amount of the fee for delivery of the registration certificate in euros.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getY5().value);
 ```
 
 ## y6
-**y6** : Total amount of registration fee to be paid in euros.
+**y6**: Total amount of registration fee to be paid in euros.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getY6().value);

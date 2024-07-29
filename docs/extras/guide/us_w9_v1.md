@@ -125,7 +125,7 @@ Some fields are constrained to the page level, and so will not be retrievable at
 The following fields are extracted for W9 V1:
 
 ## Address
-[📄](#page-level-fields "This field is only present on individual pages.")**address** : The street address (number, street, and apt. or suite no.) of the applicant.
+[📄](#page-level-fields "This field is only present on individual pages.")**address**: The street address (number, street, and apt. or suite no.) of the applicant.
 
 ```java
 for (StringField addressElem : result.getDocument().getInference().getPrediction().getAddress())
@@ -136,7 +136,7 @@ for (StringField addressElem : result.getDocument().getInference().getPrediction
 ```
 
 ## Business Name
-[📄](#page-level-fields "This field is only present on individual pages.")**businessName** : The business name or disregarded entity name, if different from Name.
+[📄](#page-level-fields "This field is only present on individual pages.")**businessName**: The business name or disregarded entity name, if different from Name.
 
 ```java
 for (StringField businessNameElem : result.getDocument().getInference().getPrediction().getBusinessName())
@@ -147,7 +147,7 @@ for (StringField businessNameElem : result.getDocument().getInference().getPredi
 ```
 
 ## City State Zip
-[📄](#page-level-fields "This field is only present on individual pages.")**cityStateZip** : The city, state, and ZIP code of the applicant.
+[📄](#page-level-fields "This field is only present on individual pages.")**cityStateZip**: The city, state, and ZIP code of the applicant.
 
 ```java
 for (StringField cityStateZipElem : result.getDocument().getInference().getPrediction().getCityStateZip())
@@ -158,7 +158,7 @@ for (StringField cityStateZipElem : result.getDocument().getInference().getPredi
 ```
 
 ## EIN
-[📄](#page-level-fields "This field is only present on individual pages.")**ein** : The employer identification number.
+[📄](#page-level-fields "This field is only present on individual pages.")**ein**: The employer identification number.
 
 ```java
 for (StringField einElem : result.getDocument().getInference().getPrediction().getEin())
@@ -169,7 +169,7 @@ for (StringField einElem : result.getDocument().getInference().getPrediction().g
 ```
 
 ## Name
-[📄](#page-level-fields "This field is only present on individual pages.")**name** : Name as shown on the applicant's income tax return.
+[📄](#page-level-fields "This field is only present on individual pages.")**name**: Name as shown on the applicant's income tax return.
 
 ```java
 for (StringField nameElem : result.getDocument().getInference().getPrediction().getName())
@@ -180,7 +180,7 @@ for (StringField nameElem : result.getDocument().getInference().getPrediction().
 ```
 
 ## Signature Date Position
-[📄](#page-level-fields "This field is only present on individual pages.")**signatureDatePosition** : Position of the signature date on the document.
+[📄](#page-level-fields "This field is only present on individual pages.")**signatureDatePosition**: Position of the signature date on the document.
 
 ```java
 for (PositionField signatureDatePositionElem : result.getDocument().getInference().getPrediction().getSignatureDatePosition())
@@ -190,7 +190,7 @@ for (PositionField signatureDatePositionElem : result.getDocument().getInference
 ```
 
 ## Signature Position
-[📄](#page-level-fields "This field is only present on individual pages.")**signaturePosition** : Position of the signature on the document.
+[📄](#page-level-fields "This field is only present on individual pages.")**signaturePosition**: Position of the signature on the document.
 
 ```java
 for (PositionField signaturePositionElem : result.getDocument().getInference().getPrediction().getSignaturePosition())
@@ -200,7 +200,7 @@ for (PositionField signaturePositionElem : result.getDocument().getInference().g
 ```
 
 ## SSN
-[📄](#page-level-fields "This field is only present on individual pages.")**ssn** : The applicant's social security number.
+[📄](#page-level-fields "This field is only present on individual pages.")**ssn**: The applicant's social security number.
 
 ```java
 for (StringField ssnElem : result.getDocument().getInference().getPrediction().getSsn())
@@ -211,7 +211,7 @@ for (StringField ssnElem : result.getDocument().getInference().getPrediction().g
 ```
 
 ## Tax Classification
-[📄](#page-level-fields "This field is only present on individual pages.")**taxClassification** : The federal tax classification, which can vary depending on the revision date.
+[📄](#page-level-fields "This field is only present on individual pages.")**taxClassification**: The federal tax classification, which can vary depending on the revision date.
 
 ```java
 for (StringField taxClassificationElem : result.getDocument().getInference().getPrediction().getTaxClassification())
@@ -222,7 +222,7 @@ for (StringField taxClassificationElem : result.getDocument().getInference().get
 ```
 
 ## Tax Classification LLC
-[📄](#page-level-fields "This field is only present on individual pages.")**taxClassificationLlc** : Depending on revision year, among S, C, P or D for Limited Liability Company Classification.
+[📄](#page-level-fields "This field is only present on individual pages.")**taxClassificationLlc**: Depending on revision year, among S, C, P or D for Limited Liability Company Classification.
 
 ```java
 for (StringField taxClassificationLlcElem : result.getDocument().getInference().getPrediction().getTaxClassificationLlc())
@@ -233,7 +233,7 @@ for (StringField taxClassificationLlcElem : result.getDocument().getInference().
 ```
 
 ## Tax Classification Other Details
-[📄](#page-level-fields "This field is only present on individual pages.")**taxClassificationOtherDetails** : Tax Classification Other Details.
+[📄](#page-level-fields "This field is only present on individual pages.")**taxClassificationOtherDetails**: Tax Classification Other Details.
 
 ```java
 for (StringField taxClassificationOtherDetailsElem : result.getDocument().getInference().getPrediction().getTaxClassificationOtherDetails())
@@ -244,7 +244,7 @@ for (StringField taxClassificationOtherDetailsElem : result.getDocument().getInf
 ```
 
 ## W9 Revision Date
-[📄](#page-level-fields "This field is only present on individual pages.")**w9RevisionDate** : The Revision month and year of the W9 form.
+[📄](#page-level-fields "This field is only present on individual pages.")**w9RevisionDate**: The Revision month and year of the W9 form.
 
 ```java
 for (StringField w9RevisionDateElem : result.getDocument().getInference().getPrediction().getW9RevisionDate())

@@ -291,21 +291,21 @@ A `InvoiceV4LineItem` implements the following attributes:
 The following fields are extracted for Invoice V4:
 
 ## Billing Address
-**billingAddress** : The customer's address used for billing.
+**billingAddress**: The customer's address used for billing.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getBillingAddress().value);
 ```
 
 ## Customer Address
-**customerAddress** : The address of the customer.
+**customerAddress**: The address of the customer.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getCustomerAddress().value);
 ```
 
 ## Customer Company Registrations
-**customerCompanyRegistrations** : List of company registrations associated to the customer.
+**customerCompanyRegistrations**: List of company registrations associated to the customer.
 
 ```java
 for (customerCompanyRegistrationsElem : result.getDocument().getInference().getPrediction().getCustomerCompanyRegistrations())
@@ -315,49 +315,49 @@ for (customerCompanyRegistrationsElem : result.getDocument().getInference().getP
 ```
 
 ## Customer ID
-**customerId** : The customer account number or identifier from the supplier.
+**customerId**: The customer account number or identifier from the supplier.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getCustomerId().value);
 ```
 
 ## Customer Name
-**customerName** : The name of the customer or client.
+**customerName**: The name of the customer or client.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getCustomerName().value);
 ```
 
 ## Purchase Date
-**date** : The date the purchase was made.
+**date**: The date the purchase was made.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getDate().value);
 ```
 
 ## Document Type
-**documentType** : One of: 'INVOICE', 'CREDIT NOTE'.
+**documentType**: One of: 'INVOICE', 'CREDIT NOTE'.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getDocumentType().value);
 ```
 
 ## Due Date
-**dueDate** : The date on which the payment is due.
+**dueDate**: The date on which the payment is due.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getDueDate().value);
 ```
 
 ## Invoice Number
-**invoiceNumber** : The invoice number or identifier.
+**invoiceNumber**: The invoice number or identifier.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getInvoiceNumber().value);
 ```
 
 ## Line Items
-**lineItems** (List<[InvoiceV4LineItem](#line-items-field)>): List of line item details.
+**lineItems**(List<[InvoiceV4LineItem](#line-items-field)>): List of line item details.
 
 ```java
 for (lineItemsElem : result.getDocument().getInference().getPrediction().getLineItems())
@@ -367,14 +367,14 @@ for (lineItemsElem : result.getDocument().getInference().getPrediction().getLine
 ```
 
 ## Locale
-**locale** : The locale detected on the document.
+**locale**: The locale detected on the document.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getLocale().value);
 ```
 
 ## Reference Numbers
-**referenceNumbers** : List of Reference numbers, including PO number.
+**referenceNumbers**: List of Reference numbers, including PO number.
 
 ```java
 for (referenceNumbersElem : result.getDocument().getInference().getPrediction().getReferenceNumbers())
@@ -384,21 +384,21 @@ for (referenceNumbersElem : result.getDocument().getInference().getPrediction().
 ```
 
 ## Shipping Address
-**shippingAddress** : Customer's delivery address.
+**shippingAddress**: Customer's delivery address.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getShippingAddress().value);
 ```
 
 ## Supplier Address
-**supplierAddress** : The address of the supplier or merchant.
+**supplierAddress**: The address of the supplier or merchant.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getSupplierAddress().value);
 ```
 
 ## Supplier Company Registrations
-**supplierCompanyRegistrations** : List of company registrations associated to the supplier.
+**supplierCompanyRegistrations**: List of company registrations associated to the supplier.
 
 ```java
 for (supplierCompanyRegistrationsElem : result.getDocument().getInference().getPrediction().getSupplierCompanyRegistrations())
@@ -408,21 +408,21 @@ for (supplierCompanyRegistrationsElem : result.getDocument().getInference().getP
 ```
 
 ## Supplier Email
-**supplierEmail** : The email of the supplier or merchant.
+**supplierEmail**: The email of the supplier or merchant.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getSupplierEmail().value);
 ```
 
 ## Supplier Name
-**supplierName** : The name of the supplier or merchant.
+**supplierName**: The name of the supplier or merchant.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getSupplierName().value);
 ```
 
 ## Supplier Payment Details
-**supplierPaymentDetails** : List of payment details associated to the supplier.
+**supplierPaymentDetails**: List of payment details associated to the supplier.
 
 ```java
 for (supplierPaymentDetailsElem : result.getDocument().getInference().getPrediction().getSupplierPaymentDetails())
@@ -435,21 +435,21 @@ for (supplierPaymentDetailsElem : result.getDocument().getInference().getPredict
 ```
 
 ## Supplier Phone Number
-**supplierPhoneNumber** : The phone number of the supplier or merchant.
+**supplierPhoneNumber**: The phone number of the supplier or merchant.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getSupplierPhoneNumber().value);
 ```
 
 ## Supplier Website
-**supplierWebsite** : The website URL of the supplier or merchant.
+**supplierWebsite**: The website URL of the supplier or merchant.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getSupplierWebsite().value);
 ```
 
 ## Taxes
-**taxes** : List of tax line details.
+**taxes**: List of tax line details.
 
 ```java
 for (taxesElem : result.getDocument().getInference().getPrediction().getTaxes())
@@ -459,21 +459,21 @@ for (taxesElem : result.getDocument().getInference().getPrediction().getTaxes())
 ```
 
 ## Total Amount
-**totalAmount** : The total amount paid: includes taxes, tips, fees, and other charges.
+**totalAmount**: The total amount paid: includes taxes, tips, fees, and other charges.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getTotalAmount().value);
 ```
 
 ## Total Net
-**totalNet** : The net amount paid: does not include taxes, fees, and discounts.
+**totalNet**: The net amount paid: does not include taxes, fees, and discounts.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getTotalNet().value);
 ```
 
 ## Total Tax
-**totalTax** : The total tax: includes all the taxes paid for this invoice.
+**totalTax**: The total tax: includes all the taxes paid for this invoice.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getTotalTax().value);
