@@ -1,5 +1,7 @@
 ---
 title: Cropper OCR Java
+category: 622b805aaec68102ea7fcbc2
+slug: java-cropper-ocr
 ---
 The Java OCR SDK supports the [Cropper API](https://platform.mindee.com/mindee/cropper).
 

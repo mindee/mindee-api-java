@@ -1,5 +1,7 @@
 ---
 title: FR Carte Grise OCR Java
+category: 622b805aaec68102ea7fcbc2
+slug: java-fr-carte-grise-ocr
 ---
 The Java OCR SDK supports the [Carte Grise API](https://platform.mindee.com/mindee/carte_grise).
 

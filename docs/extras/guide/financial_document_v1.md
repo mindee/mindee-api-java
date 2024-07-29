@@ -1,5 +1,7 @@
 ---
 title: Financial Document OCR Java
+category: 622b805aaec68102ea7fcbc2
+slug: java-financial-document-ocr
 ---
 The Java OCR SDK supports the [Financial Document API](https://platform.mindee.com/mindee/financial_document).
 

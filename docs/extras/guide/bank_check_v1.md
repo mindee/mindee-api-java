@@ -1,5 +1,7 @@
 ---
 title: US Bank Check OCR Java
+category: 622b805aaec68102ea7fcbc2
+slug: java-us-bank-check-ocr
 ---
 The Java OCR SDK supports the [Bank Check API](https://platform.mindee.com/mindee/bank_check).
 

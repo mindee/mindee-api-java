@@ -1,5 +1,7 @@
 ---
 title: Resume OCR Java
+category: 622b805aaec68102ea7fcbc2
+slug: java-resume-ocr
 ---
 The Java OCR SDK supports the [Resume API](https://platform.mindee.com/mindee/resume).
 

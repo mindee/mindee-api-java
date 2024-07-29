@@ -1,5 +1,7 @@
 ---
 title: Multi Receipts Detector OCR Java
+category: 622b805aaec68102ea7fcbc2
+slug: java-multi-receipts-detector-ocr
 ---
 The Java OCR SDK supports the [Multi Receipts Detector API](https://platform.mindee.com/mindee/multi_receipts_detector).
 
