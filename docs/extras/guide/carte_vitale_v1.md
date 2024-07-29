@@ -1,6 +1,6 @@
 ---
 title: FR Carte Vitale OCR Java
-category: 631a062c3718850f3519b793
+category: 622b805aaec68102ea7fcbc2
 slug: java-fr-carte-vitale-ocr
 ---
 The Java OCR SDK supports the [Carte Vitale API](https://platform.mindee.com/mindee/carte_vitale).

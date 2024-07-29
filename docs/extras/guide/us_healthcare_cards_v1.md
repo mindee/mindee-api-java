@@ -1,6 +1,6 @@
 ---
 title: US Healthcare Card OCR Java
-category: 631a062c3718850f3519b793
+category: 622b805aaec68102ea7fcbc2
 slug: java-us-healthcare-card-ocr
 ---
 The Java OCR SDK supports the [Healthcare Card API](https://platform.mindee.com/mindee/us_healthcare_cards).

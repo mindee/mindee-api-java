@@ -1,6 +1,6 @@
 ---
 title: EU Driver License OCR Java
-category: 631a062c3718850f3519b793
+category: 622b805aaec68102ea7fcbc2
 slug: java-eu-driver-license-ocr
 ---
 The Java OCR SDK supports the [Driver License API](https://platform.mindee.com/mindee/eu_driver_license).

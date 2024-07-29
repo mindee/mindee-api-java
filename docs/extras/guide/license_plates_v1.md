@@ -1,6 +1,6 @@
 ---
 title: EU License Plate OCR Java
-category: 631a062c3718850f3519b793
+category: 622b805aaec68102ea7fcbc2
 slug: java-eu-license-plate-ocr
 ---
 The Java OCR SDK supports the [License Plate API](https://platform.mindee.com/mindee/license_plates).
