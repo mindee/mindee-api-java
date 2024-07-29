@@ -2,6 +2,7 @@
 title: International ID OCR Java
 category: 622b805aaec68102ea7fcbc2
 slug: java-international-id-ocr
+parentDoc: 631a062c3718850f3519b793
 ---
 The Java OCR SDK supports the [International ID API](https://platform.mindee.com/mindee/international_id).
 

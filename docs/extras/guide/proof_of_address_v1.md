@@ -2,6 +2,7 @@
 title: Proof of Address OCR Java
 category: 622b805aaec68102ea7fcbc2
 slug: java-proof-of-address-ocr
+parentDoc: 631a062c3718850f3519b793
 ---
 The Java OCR SDK supports the [Proof of Address API](https://platform.mindee.com/mindee/proof_of_address).
 
