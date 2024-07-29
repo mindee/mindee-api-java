@@ -18,4 +18,4 @@ jobs:
       - name: GitHub Action
         uses: readmeio/rdme@v8
         with:
-          rdme: docs ./docs --key=${{ secrets.README_API_KEY }} --version=${{ github.ref_name }}
+          rdme: docs ./docs/extras/guide --key=${{ secrets.README_API_KEY }} --version=${{ github.ref_name }}
