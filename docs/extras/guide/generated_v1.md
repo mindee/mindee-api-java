@@ -2,6 +2,7 @@
 title: Generated API Java
 category: 622b805aaec68102ea7fcbc2
 slug: java-generated-ocr
+parentDoc: 631a062c3718850f3519b793
 ---
 The Java OCR SDK supports generated APIs.
 Generated APIs can theoretically support all APIs in a catch-all generic format.
