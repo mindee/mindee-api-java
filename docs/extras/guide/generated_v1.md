@@ -97,6 +97,10 @@ By default, non-list objects will be stored in a `GeneratedObject` structure, wh
 - **getPageId()** (`integer`): retrieves the ID of the page the field was found on. Note: this isn't supported on some APIs.
 - **getConfidence()** (`float`): retrieves the confidence score for a field, if it exists.
 
+
+> Note: the `asXXXXField()` methods mentioned above will raise `MindeeException` if they do not correspond to the field's type.
+
+
 # Questions?
 
 [Join our Slack](https://join.slack.com/t/mindee-community/shared_invite/zt-2d0ds7dtz-DPAF81ZqTy20chsYpQBW5g)
