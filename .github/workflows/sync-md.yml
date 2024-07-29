@@ -17,6 +17,6 @@ jobs:
 
       # Run GitHub Action to sync docs in `documentation` directory
       - name: GitHub Action
-        uses: readmeio/rdme@v8.6.6
+        uses: readmeio/rdme@v8
         with:
-          rdme: docs ./docs/extras/guide --key=${{ secrets.README_API_KEY }} --version=${{ github.ref_name }}
+          rdme: docs ./docs/extras/guide --key=${{ secrets.README_API_KEY }} --version=1.0
