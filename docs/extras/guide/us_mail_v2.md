@@ -1,6 +1,6 @@
 ---
 title: US US Mail OCR Java
-category: 622b805aaec68102ea7fcbc2
+category: 631a062c3718850f3519b793
 slug: java-us-us-mail-ocr
 ---
 The Java OCR SDK supports the [US Mail API](https://platform.mindee.com/mindee/us_mail).

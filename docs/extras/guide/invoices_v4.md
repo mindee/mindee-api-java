@@ -1,6 +1,6 @@
 ---
 title: Invoice OCR Java
-category: 622b805aaec68102ea7fcbc2
+category: 631a062c3718850f3519b793
 slug: java-invoice-ocr
 ---
 The Java OCR SDK supports the [Invoice API](https://platform.mindee.com/mindee/invoices).

@@ -1,6 +1,6 @@
 ---
 title: US W9 OCR Java
-category: 622b805aaec68102ea7fcbc2
+category: 631a062c3718850f3519b793
 slug: java-us-w9-ocr
 ---
 The Java OCR SDK supports the [W9 API](https://platform.mindee.com/mindee/us_w9).
