@@ -168,7 +168,7 @@ A typical `BaseField` object will have the following attributes:
 * **confidence** (`Double`): the confidence score of the field prediction.
 * **boundingBox** (`Polygon`): contains exactly 4 relative vertices (points) coordinates of a right rectangle containing the field in the document.
 * **polygon** (`Polygon`): contains the relative vertices coordinates (`polygon` extends `List<Point>`) of a polygon containing the field in the image.
-* **pageId** (`Integer`): the ID of the page, is `null` when at document-level.
+* **pageId** (`Integer`): the ID of the page, always `null` when at document-level.
 
 > **Note:** A `Point` simply refers to a List of `Double`.
 
