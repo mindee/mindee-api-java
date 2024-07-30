@@ -1,4 +1,11 @@
-## Field Objects
+---
+title: 'Java Library: Output Fields'
+category: 622b805aaec68102ea7fcbc2
+slug: java-field
+parentDoc: 631a062c3718850f3519b793
+---
+
+# Field Objects
 Each `Field` contains attributes representing the data that is returned from the API.
 The exact data structure depends on the type of the field. Most `Field` classes have an attribute named `value`.
 The data type of the `value` attribute varies between field types.
