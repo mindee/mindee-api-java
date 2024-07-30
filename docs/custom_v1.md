@@ -1,7 +1,7 @@
 ---
 title: Custom OCR Java (Deprecated)
 category: 622b805aaec68102ea7fcbc2
-slug: java-custom-ocr
+slug: java-api-builder
 parentDoc: 631a062c3718850f3519b793
 ---
 > 🚧 This product is still supported, but is considered to be deprecated. If you are looking for the DocTI API documentation, you can find it [here](#https://developers.mindee.com/docs/java-generated-ocr).
