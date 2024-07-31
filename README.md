@@ -206,17 +206,31 @@ public class SimpleMindeeClient {
 ## Further Reading
 Complete details on the working of the library are available in the following guides:
 
-* [Java Library: Overview](https://developers.mindee.com/docs/java-ocr-getting-started)
-* [Java Library: Output Fields](https://developers.mindee.com/docs/java-field)
-* [Custom APIs (API Builder)](https://developers.mindee.com/docs/java-api-builder)
-* [Invoice API](https://developers.mindee.com/docs/java-invoice-ocr)
-* [Receipt API](https://developers.mindee.com/docs/java-receipt-ocr)
-* [Financial Document API](https://developers.mindee.com/docs/java-financial-document-ocr)
-* [Passport API](https://developers.mindee.com/docs/java-passport-ocr)
-* [License Plate API](https://developers.mindee.com/docs/java-license-plates-ocr)
-* [US Bank Check API](https://developers.mindee.com/docs/java-us-bank-check-ocr)
+* [Getting started](https://developers.mindee.com/docs/java-ocr-getting-started)
+* [Java Generated APIs](https://developers.mindee.com/docs/java-generated-ocr)
+* [Java Custom APIs (API Builder - Deprecated)](https://developers.mindee.com/docs/java-api-builder)
+* [Java Invoice OCR](https://developers.mindee.com/docs/java-invoice-ocr)
+* [Java Receipt OCR](https://developers.mindee.com/docs/java-receipt-ocr)
+* [Java Financial Document OCR](https://developers.mindee.com/docs/java-financial-document-ocr)
+* [Java Passport OCR](https://developers.mindee.com/docs/java-passport-ocr)
+* [Java Resume OCR](https://developers.mindee.com/docs/java-resume-ocr)
+* [Java Proof of Address OCR](https://developers.mindee.com/docs/java-proof-of-address-ocr)
+* [Java International Id OCR](https://developers.mindee.com/docs/java-international-id-ocr)
+* [Java EU License Plate OCR](https://developers.mindee.com/docs/java-eu-license-plate-ocr)
+* [Java EU Driver License OCR](https://developers.mindee.com/docs/java-eu-driver-license-ocr)
+* [Java FR Bank Account Detail OCR](https://developers.mindee.com/docs/java-fr-bank-account-details-ocr)
+* [Java FR Carte Grise OCR](https://developers.mindee.com/docs/java-fr-carte-grise-ocr)
+* [Java FR Carte Vitale OCR](https://developers.mindee.com/docs/java-fr-carte-vitale-ocr)
+* [Java FR ID Card OCR](https://developers.mindee.com/docs/java-fr-carte-nationale-didentite-ocr)
+* [Java US Bank Check OCR](https://developers.mindee.com/docs/java-us-bank-checks-ocr)
+* [Java US W9 OCR](https://developers.mindee.com/docs/java-us-w9-ocr)
+* [Java US Driver License OCR](https://developers.mindee.com/docs/java-us-driver-license-ocr)
+* [Java Barcode Reader API](https://developers.mindee.com/docs/java-barcode-reader-ocr)
+* [Java Cropper API](https://developers.mindee.com/docs/java-cropper-ocr)
+* [Java Invoice Splitter API](https://developers.mindee.com/docs/java-invoice-splitter-ocr)
+* [Java Multi Receipts Detector API](https://developers.mindee.com/docs/java-multi-receipts-detector-ocr)
 
-You can view the source code on [GitHub](https://github.com/mindee/mindee-api-nodejs).
+You can view the source code on [GitHub](https://github.com/mindee/mindee-api-java).
 
 You can also take a look at the
 **[Reference Documentation](https://mindee.github.io/mindee-api-java/)**.
