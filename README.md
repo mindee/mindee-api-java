@@ -191,9 +191,10 @@ public class SimpleMindeeClient {
     // You can also use a File object as the input.
     //LocalResponse localResponse = new LocalResponse(new File("/path/to/file.json"));
 
+    // Deserialize the response into Java objects
     AsyncPredictResponse<InternationalIdV2> response = mindeeClient.loadPrediction(
       InternationalIdV2.class,
-      new LocalResponse(webhookStream)
+      localResponse
     );
 
     // Print a summary of the parsed data
