@@ -94,13 +94,17 @@ Page 0
 
 ## Specific Fields
 
-### Page Group
+### Page Indexes
+
+List of page indexes.
+
+### Page Indexes
 
 List of page group indexes.
 
-An `invoicePageGroups` implements the following attributes:
+A `PageIndexes` implements the following attributes:
 
-- **pageIndexes** (`List<`PageIndexes`>`): List of indexes of the pages of a single invoice.
+- **pageIndexes** (`List<Integer>`): List of indexes of the pages of a single invoice.
 - **confidence** (`Double`): The confidence of the prediction.
 
 # Attributes
@@ -109,7 +113,7 @@ The following fields are extracted for Invoice Splitter V1:
 
 ## Invoice Page Groups
 
-**invoicePageGroups** ([invoicePageGroups](#page-groups)[]): List of page indexes that belong to the same invoice in the PDF.
+**invoicePageGroups** (`List<`[invoicePageGroups](#page-indexes)`>`): List of page indexes that belong to the same invoice in the PDF.
 
 ```java
 for (invoicePageGroupsElem : result.getDocument().getInference().getPrediction().getInvoicePageGroups())
