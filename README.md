@@ -223,7 +223,7 @@ Complete details on the working of the library are available in the following gu
 * [Java FR Carte Grise OCR](https://developers.mindee.com/docs/java-fr-carte-grise-ocr)
 * [Java FR Carte Vitale OCR](https://developers.mindee.com/docs/java-fr-carte-vitale-ocr)
 * [Java FR ID Card OCR](https://developers.mindee.com/docs/java-fr-carte-nationale-didentite-ocr)
-* [Java US Bank Check OCR](https://developers.mindee.com/docs/java-us-bank-checks-ocr)
+* [Java US Bank Check OCR](https://developers.mindee.com/docs/java-us-bank-check-ocr)
 * [Java US W9 OCR](https://developers.mindee.com/docs/java-us-w9-ocr)
 * [Java US Driver License OCR](https://developers.mindee.com/docs/java-us-driver-license-ocr)
 * [Java Barcode Reader API](https://developers.mindee.com/docs/java-barcode-reader-ocr)
