@@ -96,10 +96,6 @@ Page 0
 
 ### Page Indexes
 
-List of page indexes.
-
-### Page Indexes
-
 List of page group indexes.
 
 A `PageIndexes` implements the following attributes:
