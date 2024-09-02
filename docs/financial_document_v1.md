@@ -313,6 +313,16 @@ System.out.println(result.getDocument().getInference().getPrediction().getBillin
 ## Purchase Category
 **category**: The purchase category among predefined classes.
 
+> Possible values include:
+> - toll
+> - food
+> - parking
+> - transport
+> - accommodation
+> - gasoline
+> - telecom
+> - miscellaneous
+
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getCategory().value);
 ```
@@ -364,6 +374,12 @@ System.out.println(result.getDocument().getInference().getPrediction().getDocume
 
 ## Document Type
 **documentType**: One of: 'INVOICE', 'CREDIT NOTE', 'CREDIT CARD RECEIPT', 'EXPENSE RECEIPT'.
+
+> Possible values include:
+> - INVOICE
+> - CREDIT NOTE
+> - CREDIT CARD RECEIPT
+> - EXPENSE RECEIPT
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getDocumentType().value);
@@ -426,6 +442,13 @@ System.out.println(result.getDocument().getInference().getPrediction().getShippi
 
 ## Purchase Subcategory
 **subcategory**: The purchase subcategory among predefined classes for transport and food.
+
+> Possible values include:
+> - plane
+> - taxi
+> - train
+> - restaurant
+> - shopping
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getSubcategory().value);

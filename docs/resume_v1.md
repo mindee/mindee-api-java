@@ -195,6 +195,13 @@ A `ResumeV1Language` implements the following attributes:
 
 * **language** (`String`): The language's ISO 639 code.
 * **level** (`String`): The candidate's level for the language.
+
+> Possible values include:
+> - Fluent
+> - Proficient
+> - Intermediate
+> - Beginner
+
 Fields which are specific to this product; they are not used in any other product.
 
 ### Professional Experiences Field
@@ -203,6 +210,13 @@ The list of the candidate's professional experiences.
 A `ResumeV1ProfessionalExperience` implements the following attributes:
 
 * **contractType** (`String`): The type of contract for the professional experience.
+
+> Possible values include:
+> - Full-Time
+> - Part-Time
+> - Internship
+> - Freelance
+
 * **department** (`String`): The specific department or division within the company.
 * **employer** (`String`): The name of the company or organization.
 * **endMonth** (`String`): The month when the professional experience ended.
@@ -249,6 +263,11 @@ System.out.println(result.getDocument().getInference().getPrediction().getDocume
 
 ## Document Type
 **documentType**: The type of the document sent.
+
+> Possible values include:
+> - RESUME
+> - MOTIVATION_LETTER
+> - RECOMMENDATION_LETTER
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getDocumentType().value);
