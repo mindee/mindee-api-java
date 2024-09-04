@@ -223,15 +223,15 @@ The following fields are extracted for Receipt V5:
 ## Purchase Category
 **category**: The purchase category among predefined classes.
 
-> Possible values include:
-> - toll
-> - food
-> - parking
-> - transport
-> - accommodation
-> - gasoline
-> - telecom
-> - miscellaneous
+#### Possible values include:
+ - toll
+ - food
+ - parking
+ - transport
+ - accommodation
+ - gasoline
+ - telecom
+ - miscellaneous
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getCategory().value);
@@ -247,9 +247,9 @@ System.out.println(result.getDocument().getInference().getPrediction().getDate()
 ## Document Type
 **documentType**: One of: 'CREDIT CARD RECEIPT', 'EXPENSE RECEIPT'.
 
-> Possible values include:
-> - expense_receipt
-> - credit_card_receipt
+#### Possible values include:
+ - expense_receipt
+ - credit_card_receipt
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getDocumentType().value);
@@ -282,12 +282,12 @@ System.out.println(result.getDocument().getInference().getPrediction().getReceip
 ## Purchase Subcategory
 **subcategory**: The purchase subcategory among predefined classes for transport and food.
 
-> Possible values include:
-> - plane
-> - taxi
-> - train
-> - restaurant
-> - shopping
+#### Possible values include:
+ - plane
+ - taxi
+ - train
+ - restaurant
+ - shopping
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getSubcategory().value);

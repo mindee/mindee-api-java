@@ -199,10 +199,10 @@ System.out.println(result.getDocument().getInference().getPrediction().getDocume
 ## Document Sides
 [📄](#page-level-fields "This field is only present on individual pages.")**documentSide**: The sides of the document which are visible.
 
-> Possible values include:
-> - RECTO
-> - VERSO
-> - RECTO & VERSO
+#### Possible values include:
+ - RECTO
+ - VERSO
+ - RECTO & VERSO
 
 ```java
 for (ClassificationField documentSideElem : result.getDocument().getInference().getPrediction().getDocumentSide())
@@ -215,9 +215,9 @@ for (ClassificationField documentSideElem : result.getDocument().getInference().
 ## Document Type
 [📄](#page-level-fields "This field is only present on individual pages.")**documentType**: The document type or format.
 
-> Possible values include:
-> - NEW
-> - OLD
+#### Possible values include:
+ - NEW
+ - OLD
 
 ```java
 for (ClassificationField documentTypeElem : result.getDocument().getInference().getPrediction().getDocumentType())

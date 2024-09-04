@@ -339,9 +339,9 @@ System.out.println(result.getDocument().getInference().getPrediction().getDate()
 ## Document Type
 **documentType**: One of: 'INVOICE', 'CREDIT NOTE'.
 
-> Possible values include:
-> - INVOICE
-> - CREDIT NOTE
+#### Possible values include:
+ - INVOICE
+ - CREDIT NOTE
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getDocumentType().value);
