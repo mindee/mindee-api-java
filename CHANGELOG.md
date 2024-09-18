@@ -1,5 +1,20 @@
 # Mindee Java API Library Changelog
 
+## v4.19.0 - 2024-09-18
+### Changes
+* :sparkles: add support for BillOfLadingV1
+* :sparkles: add support for (US) UsMailV2
+* :sparkles: add support for (FR) EnergyBillV1
+* :sparkles: add support for (FR) PayslipV1
+* :sparkles: add support for NutritionFactsLabelV1
+
+### Fixes
+* :bug: fixed a bug that prevented longer decimals from appearing in the string representation of some objects
+* :bug: fixed a bug that caused non-table elements to unexpectedly appear truncated when printed to the console
+* :memo: fix a few documentation errors & typos
+* :wrench: updated CI dependencies
+
+
 ## v4.18.0 - 2024-07-26
 ### Changes
 * :sparkles: add support for US Healthcare card V1
