@@ -37,7 +37,9 @@ jobs:
         run: mvn --update-snapshots --no-transfer-progress javadoc:javadoc
 
       - name: Copy Code Samples
-        run: cp -r ./docs/code_samples ./target/site/apidocs
+        run: |
+          mkdir -p ./target/site/apidocs
+          cp -r ./docs/code_samples ./target/site/apidocs
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
