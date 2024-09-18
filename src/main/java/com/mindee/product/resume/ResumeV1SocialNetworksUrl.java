@@ -34,11 +34,19 @@ public class ResumeV1SocialNetworksUrl extends BaseField implements LineItemFiel
       );
   }
 
+  private Map<String, String> tablePrintableValues() {
+    Map<String, String> printable = new HashMap<>();
+
+    printable.put("name", SummaryHelper.formatForDisplay(this.name, 20));
+    printable.put("url", SummaryHelper.formatForDisplay(this.url, 50));
+    return printable;
+  }
+
   /**
    * Output the line in a format suitable for inclusion in an rST table.
    */
   public String toTableLine() {
-    Map<String, String> printable = this.printableValues();
+    Map<String, String> printable = this.tablePrintableValues();
     return String.format("| %-20s ", printable.get("name"))
       + String.format("| %-50s |", printable.get("url"));
   }
@@ -53,8 +61,8 @@ public class ResumeV1SocialNetworksUrl extends BaseField implements LineItemFiel
   private Map<String, String> printableValues() {
     Map<String, String> printable = new HashMap<>();
 
-    printable.put("name", SummaryHelper.formatForDisplay(this.name, 20));
-    printable.put("url", SummaryHelper.formatForDisplay(this.url, 50));
+    printable.put("name", SummaryHelper.formatForDisplay(this.name, null));
+    printable.put("url", SummaryHelper.formatForDisplay(this.url, null));
     return printable;
   }
 }

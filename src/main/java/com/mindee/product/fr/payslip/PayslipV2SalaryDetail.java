@@ -46,11 +46,30 @@ public class PayslipV2SalaryDetail extends BaseField implements LineItemField {
       );
   }
 
+  private Map<String, String> tablePrintableValues() {
+    Map<String, String> printable = new HashMap<>();
+
+    printable.put(
+        "amount",
+        SummaryHelper.formatAmount(this.amount)
+    );
+    printable.put(
+        "base",
+        SummaryHelper.formatAmount(this.base)
+    );
+    printable.put("description", SummaryHelper.formatForDisplay(this.description, 36));
+    printable.put(
+        "rate",
+        SummaryHelper.formatAmount(this.rate)
+    );
+    return printable;
+  }
+
   /**
    * Output the line in a format suitable for inclusion in an rST table.
    */
   public String toTableLine() {
-    Map<String, String> printable = this.printableValues();
+    Map<String, String> printable = this.tablePrintableValues();
     return String.format("| %-12s ", printable.get("amount"))
       + String.format("| %-9s ", printable.get("base"))
       + String.format("| %-36s ", printable.get("description"))
@@ -77,11 +96,7 @@ public class PayslipV2SalaryDetail extends BaseField implements LineItemField {
         "base",
         SummaryHelper.formatAmount(this.base)
     );
-    String descriptionSummary = (this.description != null ? this.description : "");
-    if (descriptionSummary.length() >= 36) {
-      descriptionSummary = descriptionSummary.substring(0, 33) + "...";
-    }
-    printable.put("description", descriptionSummary);
+    printable.put("description", SummaryHelper.formatForDisplay(this.description, null));
     printable.put(
         "rate",
         SummaryHelper.formatAmount(this.rate)

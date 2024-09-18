@@ -34,11 +34,22 @@ public class HealthcareCardV1Copay extends BaseField implements LineItemField {
       );
   }
 
+  private Map<String, String> tablePrintableValues() {
+    Map<String, String> printable = new HashMap<>();
+
+    printable.put(
+        "serviceFees",
+        SummaryHelper.formatAmount(this.serviceFees)
+    );
+    printable.put("serviceName", SummaryHelper.formatForDisplay(this.serviceName, null));
+    return printable;
+  }
+
   /**
    * Output the line in a format suitable for inclusion in an rST table.
    */
   public String toTableLine() {
-    Map<String, String> printable = this.printableValues();
+    Map<String, String> printable = this.tablePrintableValues();
     return String.format("| %-12s ", printable.get("serviceFees"))
       + String.format("| %-12s |", printable.get("serviceName"));
   }

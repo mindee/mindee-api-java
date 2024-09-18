@@ -58,11 +58,32 @@ public class BillOfLadingV1CarrierItem extends BaseField implements LineItemFiel
       );
   }
 
+  private Map<String, String> tablePrintableValues() {
+    Map<String, String> printable = new HashMap<>();
+
+    printable.put("description", SummaryHelper.formatForDisplay(this.description, 36));
+    printable.put(
+        "grossWeight",
+        SummaryHelper.formatAmount(this.grossWeight)
+    );
+    printable.put(
+        "measurement",
+        SummaryHelper.formatAmount(this.measurement)
+    );
+    printable.put("measurementUnit", SummaryHelper.formatForDisplay(this.measurementUnit, null));
+    printable.put(
+        "quantity",
+        SummaryHelper.formatAmount(this.quantity)
+    );
+    printable.put("weightUnit", SummaryHelper.formatForDisplay(this.weightUnit, null));
+    return printable;
+  }
+
   /**
    * Output the line in a format suitable for inclusion in an rST table.
    */
   public String toTableLine() {
-    Map<String, String> printable = this.printableValues();
+    Map<String, String> printable = this.tablePrintableValues();
     return String.format("| %-36s ", printable.get("description"))
       + String.format("| %-12s ", printable.get("grossWeight"))
       + String.format("| %-11s ", printable.get("measurement"))
@@ -85,11 +106,7 @@ public class BillOfLadingV1CarrierItem extends BaseField implements LineItemFiel
   private Map<String, String> printableValues() {
     Map<String, String> printable = new HashMap<>();
 
-    String descriptionSummary = (this.description != null ? this.description : "");
-    if (descriptionSummary.length() >= 36) {
-      descriptionSummary = descriptionSummary.substring(0, 33) + "...";
-    }
-    printable.put("description", descriptionSummary);
+    printable.put("description", SummaryHelper.formatForDisplay(this.description, null));
     printable.put(
         "grossWeight",
         SummaryHelper.formatAmount(this.grossWeight)

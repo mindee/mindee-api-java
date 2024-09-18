@@ -52,11 +52,31 @@ public class NutritionFactsLabelV1Nutrient extends BaseField implements LineItem
       );
   }
 
+  private Map<String, String> tablePrintableValues() {
+    Map<String, String> printable = new HashMap<>();
+
+    printable.put(
+        "dailyValue",
+        SummaryHelper.formatAmount(this.dailyValue)
+    );
+    printable.put("name", SummaryHelper.formatForDisplay(this.name, 20));
+    printable.put(
+        "per100G",
+        SummaryHelper.formatAmount(this.per100G)
+    );
+    printable.put(
+        "perServing",
+        SummaryHelper.formatAmount(this.perServing)
+    );
+    printable.put("unit", SummaryHelper.formatForDisplay(this.unit, null));
+    return printable;
+  }
+
   /**
    * Output the line in a format suitable for inclusion in an rST table.
    */
   public String toTableLine() {
-    Map<String, String> printable = this.printableValues();
+    Map<String, String> printable = this.tablePrintableValues();
     return String.format("| %-11s ", printable.get("dailyValue"))
       + String.format("| %-20s ", printable.get("name"))
       + String.format("| %-8s ", printable.get("per100G"))
@@ -81,7 +101,7 @@ public class NutritionFactsLabelV1Nutrient extends BaseField implements LineItem
         "dailyValue",
         SummaryHelper.formatAmount(this.dailyValue)
     );
-    printable.put("name", SummaryHelper.formatForDisplay(this.name, 20));
+    printable.put("name", SummaryHelper.formatForDisplay(this.name, null));
     printable.put(
         "per100G",
         SummaryHelper.formatAmount(this.per100G)

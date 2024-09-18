@@ -64,11 +64,24 @@ public class ResumeV1Education extends BaseField implements LineItemField {
       );
   }
 
+  private Map<String, String> tablePrintableValues() {
+    Map<String, String> printable = new HashMap<>();
+
+    printable.put("degreeDomain", SummaryHelper.formatForDisplay(this.degreeDomain, 15));
+    printable.put("degreeType", SummaryHelper.formatForDisplay(this.degreeType, 25));
+    printable.put("endMonth", SummaryHelper.formatForDisplay(this.endMonth, null));
+    printable.put("endYear", SummaryHelper.formatForDisplay(this.endYear, null));
+    printable.put("school", SummaryHelper.formatForDisplay(this.school, 25));
+    printable.put("startMonth", SummaryHelper.formatForDisplay(this.startMonth, null));
+    printable.put("startYear", SummaryHelper.formatForDisplay(this.startYear, null));
+    return printable;
+  }
+
   /**
    * Output the line in a format suitable for inclusion in an rST table.
    */
   public String toTableLine() {
-    Map<String, String> printable = this.printableValues();
+    Map<String, String> printable = this.tablePrintableValues();
     return String.format("| %-15s ", printable.get("degreeDomain"))
       + String.format("| %-25s ", printable.get("degreeType"))
       + String.format("| %-9s ", printable.get("endMonth"))
@@ -93,11 +106,11 @@ public class ResumeV1Education extends BaseField implements LineItemField {
   private Map<String, String> printableValues() {
     Map<String, String> printable = new HashMap<>();
 
-    printable.put("degreeDomain", SummaryHelper.formatForDisplay(this.degreeDomain, 15));
-    printable.put("degreeType", SummaryHelper.formatForDisplay(this.degreeType, 25));
+    printable.put("degreeDomain", SummaryHelper.formatForDisplay(this.degreeDomain, null));
+    printable.put("degreeType", SummaryHelper.formatForDisplay(this.degreeType, null));
     printable.put("endMonth", SummaryHelper.formatForDisplay(this.endMonth, null));
     printable.put("endYear", SummaryHelper.formatForDisplay(this.endYear, null));
-    printable.put("school", SummaryHelper.formatForDisplay(this.school, 25));
+    printable.put("school", SummaryHelper.formatForDisplay(this.school, null));
     printable.put("startMonth", SummaryHelper.formatForDisplay(this.startMonth, null));
     printable.put("startYear", SummaryHelper.formatForDisplay(this.startYear, null));
     return printable;

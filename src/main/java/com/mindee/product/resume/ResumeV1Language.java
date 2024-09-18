@@ -34,11 +34,19 @@ public class ResumeV1Language extends BaseField implements LineItemField {
       );
   }
 
+  private Map<String, String> tablePrintableValues() {
+    Map<String, String> printable = new HashMap<>();
+
+    printable.put("language", SummaryHelper.formatForDisplay(this.language, null));
+    printable.put("level", SummaryHelper.formatForDisplay(this.level, 20));
+    return printable;
+  }
+
   /**
    * Output the line in a format suitable for inclusion in an rST table.
    */
   public String toTableLine() {
-    Map<String, String> printable = this.printableValues();
+    Map<String, String> printable = this.tablePrintableValues();
     return String.format("| %-8s ", printable.get("language"))
       + String.format("| %-20s |", printable.get("level"));
   }
@@ -54,7 +62,7 @@ public class ResumeV1Language extends BaseField implements LineItemField {
     Map<String, String> printable = new HashMap<>();
 
     printable.put("language", SummaryHelper.formatForDisplay(this.language, null));
-    printable.put("level", SummaryHelper.formatForDisplay(this.level, 20));
+    printable.put("level", SummaryHelper.formatForDisplay(this.level, null));
     return printable;
   }
 }

@@ -58,11 +58,32 @@ public class EnergyBillV1TaxesAndContribution extends BaseField implements LineI
       );
   }
 
+  private Map<String, String> tablePrintableValues() {
+    Map<String, String> printable = new HashMap<>();
+
+    printable.put("description", SummaryHelper.formatForDisplay(this.description, 36));
+    printable.put("endDate", SummaryHelper.formatForDisplay(this.endDate, 10));
+    printable.put("startDate", SummaryHelper.formatForDisplay(this.startDate, null));
+    printable.put(
+        "taxRate",
+        SummaryHelper.formatAmount(this.taxRate)
+    );
+    printable.put(
+        "total",
+        SummaryHelper.formatAmount(this.total)
+    );
+    printable.put(
+        "unitPrice",
+        SummaryHelper.formatAmount(this.unitPrice)
+    );
+    return printable;
+  }
+
   /**
    * Output the line in a format suitable for inclusion in an rST table.
    */
   public String toTableLine() {
-    Map<String, String> printable = this.printableValues();
+    Map<String, String> printable = this.tablePrintableValues();
     return String.format("| %-36s ", printable.get("description"))
       + String.format("| %-10s ", printable.get("endDate"))
       + String.format("| %-10s ", printable.get("startDate"))
@@ -85,12 +106,8 @@ public class EnergyBillV1TaxesAndContribution extends BaseField implements LineI
   private Map<String, String> printableValues() {
     Map<String, String> printable = new HashMap<>();
 
-    String descriptionSummary = (this.description != null ? this.description : "");
-    if (descriptionSummary.length() >= 36) {
-      descriptionSummary = descriptionSummary.substring(0, 33) + "...";
-    }
-    printable.put("description", descriptionSummary);
-    printable.put("endDate", SummaryHelper.formatForDisplay(this.endDate, 10));
+    printable.put("description", SummaryHelper.formatForDisplay(this.description, null));
+    printable.put("endDate", SummaryHelper.formatForDisplay(this.endDate, null));
     printable.put("startDate", SummaryHelper.formatForDisplay(this.startDate, null));
     printable.put(
         "taxRate",

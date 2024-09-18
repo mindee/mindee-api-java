@@ -70,11 +70,25 @@ public class ResumeV1ProfessionalExperience extends BaseField implements LineIte
       );
   }
 
+  private Map<String, String> tablePrintableValues() {
+    Map<String, String> printable = new HashMap<>();
+
+    printable.put("contractType", SummaryHelper.formatForDisplay(this.contractType, 15));
+    printable.put("department", SummaryHelper.formatForDisplay(this.department, 10));
+    printable.put("employer", SummaryHelper.formatForDisplay(this.employer, 25));
+    printable.put("endMonth", SummaryHelper.formatForDisplay(this.endMonth, null));
+    printable.put("endYear", SummaryHelper.formatForDisplay(this.endYear, null));
+    printable.put("role", SummaryHelper.formatForDisplay(this.role, 20));
+    printable.put("startMonth", SummaryHelper.formatForDisplay(this.startMonth, null));
+    printable.put("startYear", SummaryHelper.formatForDisplay(this.startYear, null));
+    return printable;
+  }
+
   /**
    * Output the line in a format suitable for inclusion in an rST table.
    */
   public String toTableLine() {
-    Map<String, String> printable = this.printableValues();
+    Map<String, String> printable = this.tablePrintableValues();
     return String.format("| %-15s ", printable.get("contractType"))
       + String.format("| %-10s ", printable.get("department"))
       + String.format("| %-25s ", printable.get("employer"))
@@ -101,12 +115,12 @@ public class ResumeV1ProfessionalExperience extends BaseField implements LineIte
   private Map<String, String> printableValues() {
     Map<String, String> printable = new HashMap<>();
 
-    printable.put("contractType", SummaryHelper.formatForDisplay(this.contractType, 15));
-    printable.put("department", SummaryHelper.formatForDisplay(this.department, 10));
-    printable.put("employer", SummaryHelper.formatForDisplay(this.employer, 25));
+    printable.put("contractType", SummaryHelper.formatForDisplay(this.contractType, null));
+    printable.put("department", SummaryHelper.formatForDisplay(this.department, null));
+    printable.put("employer", SummaryHelper.formatForDisplay(this.employer, null));
     printable.put("endMonth", SummaryHelper.formatForDisplay(this.endMonth, null));
     printable.put("endYear", SummaryHelper.formatForDisplay(this.endYear, null));
-    printable.put("role", SummaryHelper.formatForDisplay(this.role, 20));
+    printable.put("role", SummaryHelper.formatForDisplay(this.role, null));
     printable.put("startMonth", SummaryHelper.formatForDisplay(this.startMonth, null));
     printable.put("startYear", SummaryHelper.formatForDisplay(this.startYear, null));
     return printable;

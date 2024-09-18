@@ -64,11 +64,24 @@ public class UsMailV2RecipientAddress extends BaseField implements LineItemField
       );
   }
 
+  private Map<String, String> tablePrintableValues() {
+    Map<String, String> printable = new HashMap<>();
+
+    printable.put("city", SummaryHelper.formatForDisplay(this.city, 15));
+    printable.put("complete", SummaryHelper.formatForDisplay(this.complete, 35));
+    printable.put("isAddressChange", SummaryHelper.formatForDisplay(this.isAddressChange, null));
+    printable.put("postalCode", SummaryHelper.formatForDisplay(this.postalCode, null));
+    printable.put("privateMailboxNumber", SummaryHelper.formatForDisplay(this.privateMailboxNumber, null));
+    printable.put("state", SummaryHelper.formatForDisplay(this.state, null));
+    printable.put("street", SummaryHelper.formatForDisplay(this.street, 25));
+    return printable;
+  }
+
   /**
    * Output the line in a format suitable for inclusion in an rST table.
    */
   public String toTableLine() {
-    Map<String, String> printable = this.printableValues();
+    Map<String, String> printable = this.tablePrintableValues();
     return String.format("| %-15s ", printable.get("city"))
       + String.format("| %-35s ", printable.get("complete"))
       + String.format("| %-17s ", printable.get("isAddressChange"))
@@ -93,13 +106,13 @@ public class UsMailV2RecipientAddress extends BaseField implements LineItemField
   private Map<String, String> printableValues() {
     Map<String, String> printable = new HashMap<>();
 
-    printable.put("city", SummaryHelper.formatForDisplay(this.city, 15));
-    printable.put("complete", SummaryHelper.formatForDisplay(this.complete, 35));
+    printable.put("city", SummaryHelper.formatForDisplay(this.city, null));
+    printable.put("complete", SummaryHelper.formatForDisplay(this.complete, null));
     printable.put("isAddressChange", SummaryHelper.formatForDisplay(this.isAddressChange, null));
     printable.put("postalCode", SummaryHelper.formatForDisplay(this.postalCode, null));
     printable.put("privateMailboxNumber", SummaryHelper.formatForDisplay(this.privateMailboxNumber, null));
     printable.put("state", SummaryHelper.formatForDisplay(this.state, null));
-    printable.put("street", SummaryHelper.formatForDisplay(this.street, 25));
+    printable.put("street", SummaryHelper.formatForDisplay(this.street, null));
     return printable;
   }
 }
