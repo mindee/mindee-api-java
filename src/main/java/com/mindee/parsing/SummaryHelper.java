@@ -18,7 +18,13 @@ public final class SummaryHelper {
   }
 
   public static String formatAmount(Double amountValue) {
-    return amountValue == null ? "" : new DecimalFormat("0.00#").format(amountValue);
+    if (amountValue == null) {
+      return "";
+    }
+    DecimalFormat df = new DecimalFormat("0.00###");
+    df.setMinimumFractionDigits(2);
+    df.setMaximumFractionDigits(5);
+    return df.format(amountValue);
   }
 
   public static String formatString(String str) {
@@ -49,10 +55,11 @@ public final class SummaryHelper {
     if (inputValue == null || inputValue.isEmpty()) {
       return "";
     }
-    if (maxColSize == null || inputValue.length() <= maxColSize) {
-      return inputValue;
+    String outputValue = inputValue.replace("\n", "\\n").replace("\t", "\\t").replace("\r", "\\r");
+    if (maxColSize == null || outputValue.length() <= maxColSize) {
+      return outputValue;
     } else {
-      return inputValue.substring(0, maxColSize - 3) + "...";
+      return outputValue.substring(0, maxColSize - 3) + "...";
     }
   }
 

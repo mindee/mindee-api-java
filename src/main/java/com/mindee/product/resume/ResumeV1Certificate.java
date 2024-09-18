@@ -46,11 +46,21 @@ public class ResumeV1Certificate extends BaseField implements LineItemField {
       );
   }
 
+  private Map<String, String> tablePrintableValues() {
+    Map<String, String> printable = new HashMap<>();
+
+    printable.put("grade", SummaryHelper.formatForDisplay(this.grade, 10));
+    printable.put("name", SummaryHelper.formatForDisplay(this.name, 30));
+    printable.put("provider", SummaryHelper.formatForDisplay(this.provider, 25));
+    printable.put("year", SummaryHelper.formatForDisplay(this.year, null));
+    return printable;
+  }
+
   /**
    * Output the line in a format suitable for inclusion in an rST table.
    */
   public String toTableLine() {
-    Map<String, String> printable = this.printableValues();
+    Map<String, String> printable = this.tablePrintableValues();
     return String.format("| %-10s ", printable.get("grade"))
       + String.format("| %-30s ", printable.get("name"))
       + String.format("| %-25s ", printable.get("provider"))
@@ -69,9 +79,9 @@ public class ResumeV1Certificate extends BaseField implements LineItemField {
   private Map<String, String> printableValues() {
     Map<String, String> printable = new HashMap<>();
 
-    printable.put("grade", SummaryHelper.formatForDisplay(this.grade, 10));
-    printable.put("name", SummaryHelper.formatForDisplay(this.name, 30));
-    printable.put("provider", SummaryHelper.formatForDisplay(this.provider, 25));
+    printable.put("grade", SummaryHelper.formatForDisplay(this.grade, null));
+    printable.put("name", SummaryHelper.formatForDisplay(this.name, null));
+    printable.put("provider", SummaryHelper.formatForDisplay(this.provider, null));
     printable.put("year", SummaryHelper.formatForDisplay(this.year, null));
     return printable;
   }

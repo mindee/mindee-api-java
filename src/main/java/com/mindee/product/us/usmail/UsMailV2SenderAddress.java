@@ -76,11 +76,11 @@ public class UsMailV2SenderAddress extends BaseField {
   private Map<String, String> printableValues() {
     Map<String, String> printable = new HashMap<>();
 
-    printable.put("city", SummaryHelper.formatForDisplay(this.city, 15));
-    printable.put("complete", SummaryHelper.formatForDisplay(this.complete, 35));
+    printable.put("city", SummaryHelper.formatForDisplay(this.city, null));
+    printable.put("complete", SummaryHelper.formatForDisplay(this.complete, null));
     printable.put("postalCode", SummaryHelper.formatForDisplay(this.postalCode, null));
     printable.put("state", SummaryHelper.formatForDisplay(this.state, null));
-    printable.put("street", SummaryHelper.formatForDisplay(this.street, 25));
+    printable.put("street", SummaryHelper.formatForDisplay(this.street, null));
     return printable;
   }
 }
