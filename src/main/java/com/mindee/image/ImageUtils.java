@@ -2,8 +2,14 @@ package com.mindee.image;
 
 import java.awt.image.BufferedImage;
 
+/**
+ * Image utility class.
+ */
 public class ImageUtils {
 
+  /**
+   * Dimension class for pages/images.
+   */
   public static class Dimensions {
     public final Integer width;
     public final Integer height;
@@ -25,9 +31,9 @@ public class ImageUtils {
     }
 
     double widthRatio =
-      maxWidth != null ? (double) maxWidth / original.getWidth() : Double.POSITIVE_INFINITY;
+        maxWidth != null ? (double) maxWidth / original.getWidth() : Double.POSITIVE_INFINITY;
     double heightRatio =
-      maxHeight != null ? (double) maxHeight / original.getHeight() : Double.POSITIVE_INFINITY;
+        maxHeight != null ? (double) maxHeight / original.getHeight() : Double.POSITIVE_INFINITY;
 
     double scaleFactor = Math.min(widthRatio, heightRatio);
 

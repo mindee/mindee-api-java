@@ -1,6 +1,7 @@
 package com.mindee.input;
 
 import com.mindee.image.ImageCompressor;
+import com.mindee.pdf.PdfCompressor;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -45,7 +46,7 @@ public final class LocalInputSource {
   }
 
   public boolean isPdf() {
-    return InputSourceUtils.isPdf(this.filename);
+    return InputSourceUtils.isPdf(this.file);
   }
 
   public boolean hasSourceText() {
@@ -57,9 +58,9 @@ public final class LocalInputSource {
 
   public void compress(Integer quality, Integer maxWidth, Integer maxHeight,
                        Boolean forceSourceText, Boolean disableSourceText)
-    throws IOException {
+      throws IOException {
     if (isPdf()) {
-      // TODO
+      this.file = PdfCompressor.compressPdf(this.file, quality, forceSourceText, disableSourceText);
     } else {
       this.file = ImageCompressor.compressImage(this.file, quality, maxWidth, maxHeight);
     }
@@ -73,9 +74,11 @@ public final class LocalInputSource {
   public void compress(Integer quality, Integer maxWidth, Integer maxHeight) throws IOException {
     this.compress(quality, maxWidth, maxHeight, false, true);
   }
+
   public void compress(Integer quality, Integer maxWidth) throws IOException {
     this.compress(quality, maxWidth, null, false, true);
   }
+
   public void compress(Integer quality) throws IOException {
     this.compress(quality, null, null, false, true);
   }

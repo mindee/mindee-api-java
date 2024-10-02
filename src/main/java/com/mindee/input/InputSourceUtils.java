@@ -69,8 +69,12 @@ public class InputSourceUtils {
   /**
    * Returns true if the file is a PDF.
    */
-  public static boolean isPdf(String fileName) {
-    return getFileExtension(fileName).equalsIgnoreCase("pdf");
+  public static boolean isPdf(byte[] fileBytes) {
+    try (PDDocument document = PDDocument.load(new ByteArrayInputStream(fileBytes))) {
+      return true;
+    } catch (IOException e) {
+      return false;
+    }
   }
 
   /**
