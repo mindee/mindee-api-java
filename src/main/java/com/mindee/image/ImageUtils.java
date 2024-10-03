@@ -20,8 +20,11 @@ public class ImageUtils {
     }
   }
 
-  public static Dimensions calculateNewDimensions(BufferedImage original, Integer maxWidth,
-                                                  Integer maxHeight) {
+  public static Dimensions calculateNewDimensions(
+      BufferedImage original,
+      Integer maxWidth,
+      Integer maxHeight
+  ) {
     if (original == null) {
       throw new IllegalArgumentException("Generated image could not be processed for resizing.");
     }

@@ -18,8 +18,10 @@ import org.apache.pdfbox.rendering.PDFRenderer;
  * PDF compression class.
  */
 public class PdfCompressor {
-  public static byte[] compressPdf(byte[] pdfData, Integer imageQuality,
-                                   Boolean forceSourceTextCompression, Boolean disableSourceText)
+  public static byte[] compressPdf(
+      byte[] pdfData, Integer imageQuality,
+      Boolean forceSourceTextCompression, Boolean disableSourceText
+  )
       throws IOException {
     if (!isPdf(pdfData)) {
       return pdfData;
@@ -47,7 +49,8 @@ public class PdfCompressor {
 
         processPage(inputDoc, pageIndex, outputDoc,
             pdfRenderer.renderImageWithDPI(pageIndex, 72 * (imageQuality / 100f), ImageType.ARGB),
-            (imageQuality / 100f), originalPageSize, disableSourceText);
+            (imageQuality / 100f), originalPageSize, disableSourceText
+        );
       }
 
       byte[] docAsBytes = PDFUtils.documentToBytes(outputDoc);
@@ -56,8 +59,10 @@ public class PdfCompressor {
     }
   }
 
-  public static byte[] compressPdf(byte[] pdfData, Integer imageQuality,
-                                   Boolean forceSourceTextCompression) throws IOException {
+  public static byte[] compressPdf(
+      byte[] pdfData, Integer imageQuality,
+      Boolean forceSourceTextCompression
+  ) throws IOException {
     return compressPdf(pdfData, imageQuality, forceSourceTextCompression, true);
   }
 
@@ -69,10 +74,12 @@ public class PdfCompressor {
     return compressPdf(pdfData, 85, false, true);
   }
 
-  private static void processPage(PDDocument originalDocument, Integer pageIndex,
-                                  PDDocument outputDoc, BufferedImage image,
-                                  Float imageQuality,
-                                  PDRectangle originalPageSize, Boolean disableSourceText)
+  private static void processPage(
+      PDDocument originalDocument, Integer pageIndex,
+      PDDocument outputDoc, BufferedImage image,
+      Float imageQuality,
+      PDRectangle originalPageSize, Boolean disableSourceText
+  )
       throws IOException {
     PDPage newPage = new PDPage(originalPageSize);
     outputDoc.addPage(newPage);

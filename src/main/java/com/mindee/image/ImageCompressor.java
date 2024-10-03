@@ -16,8 +16,10 @@ import javax.imageio.ImageWriter;
  * Image compression class.
  */
 public final class ImageCompressor {
-  public static BufferedImage resize(BufferedImage inputImage, Integer newWidth,
-                                     Integer newHeight) {
+  public static BufferedImage resize(
+      BufferedImage inputImage, Integer newWidth,
+      Integer newHeight
+  ) {
     Image scaledImage = inputImage.getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
     BufferedImage outImage = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_ARGB);
 
@@ -29,8 +31,10 @@ public final class ImageCompressor {
   }
 
 
-  public static byte[] compressImage(byte[] imageData, Integer quality, Integer maxWidth,
-                                     Integer maxHeight) throws IOException {
+  public static byte[] compressImage(
+      byte[] imageData, Integer quality, Integer maxWidth,
+      Integer maxHeight
+  ) throws IOException {
 
     ByteArrayInputStream bis = new ByteArrayInputStream(imageData);
     BufferedImage original = ImageIO.read(bis);
@@ -52,8 +56,10 @@ public final class ImageCompressor {
     return compressImage(imageData, null, null, null);
   }
 
-  public static byte[] compressImage(BufferedImage original, Integer quality, Integer finalWidth,
-                                     Integer finalHeight)
+  public static byte[] compressImage(
+      BufferedImage original, Integer quality, Integer finalWidth,
+      Integer finalHeight
+  )
       throws IOException {
     if (quality == null) {
       quality = 85;

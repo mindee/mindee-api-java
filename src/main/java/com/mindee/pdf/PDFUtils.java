@@ -53,8 +53,10 @@ public final class PDFUtils {
     return new PDPage(newPageDict);
   }
 
-  private static byte[] createPdfFromExistingPdf(PDDocument document, List<Integer> pageNumbers,
-                                                 boolean closeOriginal) throws IOException {
+  private static byte[] createPdfFromExistingPdf(
+      PDDocument document, List<Integer> pageNumbers,
+      boolean closeOriginal
+  ) throws IOException {
     ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
     PDDocument newDocument = new PDDocument();
     int pageCount = document.getNumberOfPages();
@@ -89,8 +91,10 @@ public final class PDFUtils {
   }
 
 
-  public static byte[] mergePdfPages(PDDocument document, List<Integer> pageNumbers,
-                                     boolean closeOriginal) throws IOException {
+  public static byte[] mergePdfPages(
+      PDDocument document, List<Integer> pageNumbers,
+      boolean closeOriginal
+  ) throws IOException {
     return createPdfFromExistingPdf(document, pageNumbers, closeOriginal);
   }
 
@@ -182,8 +186,10 @@ public final class PDFUtils {
     return new PdfPageImage(imageBuffer, index, source.getFilename(), "jpg");
   }
 
-  private static BufferedImage pdfPageToImageBuffer(int index, PDDocument document,
-                                                    PDFRenderer pdfRenderer) throws IOException {
+  private static BufferedImage pdfPageToImageBuffer(
+      int index, PDDocument document,
+      PDFRenderer pdfRenderer
+  ) throws IOException {
     PDRectangle bbox = document.getPage(index).getBBox();
     float dimension = bbox.getWidth() * bbox.getHeight();
     int dpi;
@@ -204,8 +210,10 @@ public final class PDFUtils {
   }
 
 
-  public static void extractAndAddText(PDDocument inputDoc, PDPageContentStream contentStream,
-                                       int pageIndex, boolean disableSourceText)
+  public static void extractAndAddText(
+      PDDocument inputDoc, PDPageContentStream contentStream,
+      int pageIndex, boolean disableSourceText
+  )
       throws IOException {
     if (disableSourceText) {
       return;
@@ -231,7 +239,7 @@ public final class PDFUtils {
         contentStream.newLineAtOffset(x, y);
         try {
           contentStream.showText(text);
-        } catch (IllegalArgumentException|UnsupportedOperationException e) {
+        } catch (IllegalArgumentException | UnsupportedOperationException e) {
           contentStream.setFont(PDType1Font.HELVETICA, fontSize);
           contentStream.showText(text);
         }
@@ -266,8 +274,10 @@ public final class PDFUtils {
     return Color.BLACK;
   }
 
-  public static void addImageToPage(PDPageContentStream contentStream, PDImageXObject pdImage,
-                                    PDRectangle pageSize) throws IOException {
+  public static void addImageToPage(
+      PDPageContentStream contentStream, PDImageXObject pdImage,
+      PDRectangle pageSize
+  ) throws IOException {
     contentStream.drawImage(pdImage, 0, 0, pageSize.getWidth(), pageSize.getHeight());
   }
 }

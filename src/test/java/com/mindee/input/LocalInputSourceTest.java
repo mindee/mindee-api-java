@@ -113,9 +113,11 @@ public class LocalInputSourceTest {
     long initialFileSize = Files.size(Paths.get("src/test/resources/file_types/receipt.jpg"));
     long compressedFileSize = Files.size(outputPath);
 
-    Assertions.assertTrue(compressedFileSize < initialFileSize,
+    Assertions.assertTrue(
+        compressedFileSize < initialFileSize,
         "Compressed file size (" + compressedFileSize +
-            ") should be less than initial file size (" + initialFileSize + ")");
+            ") should be less than initial file size (" + initialFileSize + ")"
+    );
   }
 
   @Test
@@ -153,21 +155,31 @@ public class LocalInputSourceTest {
           }
         }).collect(Collectors.toList());
 
-    Assertions.assertTrue(initialFileSize < compressedFileSizes.get(0),
+    Assertions.assertTrue(
+        initialFileSize < compressedFileSizes.get(0),
         "Compressed file size (" + compressedFileSizes.get(0) +
-            ") should be less than initial file size (" + initialFileSize + ")");
-    Assertions.assertTrue(initialFileSize < compressedFileSizes.get(1),
+            ") should be less than initial file size (" + initialFileSize + ")"
+    );
+    Assertions.assertTrue(
+        initialFileSize < compressedFileSizes.get(1),
         "Compressed file size (" + compressedFileSizes.get(1) +
-            ") should be less than initial file size (" + initialFileSize + ")");
-    Assertions.assertTrue(compressedFileSizes.get(1) > compressedFileSizes.get(2),
+            ") should be less than initial file size (" + initialFileSize + ")"
+    );
+    Assertions.assertTrue(
+        compressedFileSizes.get(1) > compressedFileSizes.get(2),
         "Compressed file size (" + compressedFileSizes.get(2) +
-            ") should be less than initial file size (" + compressedFileSizes.get(1) + ")");
-    Assertions.assertTrue(compressedFileSizes.get(2) > compressedFileSizes.get(3),
+            ") should be less than initial file size (" + compressedFileSizes.get(1) + ")"
+    );
+    Assertions.assertTrue(
+        compressedFileSizes.get(2) > compressedFileSizes.get(3),
         "Compressed file size (" + compressedFileSizes.get(3) +
-            ") should be less than initial file size (" + compressedFileSizes.get(2) + ")");
-    Assertions.assertTrue(compressedFileSizes.get(3) > compressedFileSizes.get(4),
+            ") should be less than initial file size (" + compressedFileSizes.get(2) + ")"
+    );
+    Assertions.assertTrue(
+        compressedFileSizes.get(3) > compressedFileSizes.get(4),
         "Compressed file size (" + compressedFileSizes.get(4) +
-            ") should be less than initial file size (" + compressedFileSizes.get(3) + ")");
+            ") should be less than initial file size (" + compressedFileSizes.get(3) + ")"
+    );
   }
 
   @Test
@@ -221,18 +233,25 @@ public class LocalInputSourceTest {
           }
         }).collect(Collectors.toList());
 
-    Assertions.assertTrue(initialFileSize > resizedFileSizes.get(0),
+    Assertions.assertTrue(
+        initialFileSize > resizedFileSizes.get(0),
         "Resized file size (" + resizedFileSizes.get(0) +
-            ") should be less than initial file size (" + initialFileSize + ")");
-    Assertions.assertTrue(resizedFileSizes.get(0) > resizedFileSizes.get(1),
+            ") should be less than initial file size (" + initialFileSize + ")"
+    );
+    Assertions.assertTrue(
+        resizedFileSizes.get(0) > resizedFileSizes.get(1),
         "Resized file size (" + resizedFileSizes.get(1) +
-            ") should be less than initial file size (" + initialFileSize + ")");
-    Assertions.assertTrue(resizedFileSizes.get(1) > resizedFileSizes.get(2),
+            ") should be less than initial file size (" + initialFileSize + ")"
+    );
+    Assertions.assertTrue(
+        resizedFileSizes.get(1) > resizedFileSizes.get(2),
         "Resized file size (" + resizedFileSizes.get(2) +
-            ") should be less than initial file size (" + resizedFileSizes.get(1) + ")");
+            ") should be less than initial file size (" + resizedFileSizes.get(1) + ")"
+    );
     Assertions.assertEquals(resizedFileSizes.get(2), resizedFileSizes.get(3),
         "Resized file size (" + resizedFileSizes.get(3) +
-            ") should be less than initial file size (" + resizedFileSizes.get(2) + ")");
+            ") should be less than initial file size (" + resizedFileSizes.get(2) + ")"
+    );
   }
 
   @Test
@@ -248,9 +267,11 @@ public class LocalInputSourceTest {
     long initialFileSize = Files.size(inputPath);
     long renderedFileSize = Files.size(outputPath);
 
-    Assertions.assertTrue(renderedFileSize < initialFileSize,
+    Assertions.assertTrue(
+        renderedFileSize < initialFileSize,
         "Resized file size (" + renderedFileSize +
-            ") should be less than initial file size (" + initialFileSize + ")");
+            ") should be less than initial file size (" + initialFileSize + ")"
+    );
   }
 
   @Test
@@ -288,18 +309,26 @@ public class LocalInputSourceTest {
         })
         .collect(Collectors.toList());
 
-    Assertions.assertTrue(initialFileSize > renderedFileSizes.get(0),
+    Assertions.assertTrue(
+        initialFileSize > renderedFileSizes.get(0),
         "Compressed file size (" + renderedFileSizes.get(0) +
-            ") should be less than initial file size (" + initialFileSize + ")");
-    Assertions.assertTrue(renderedFileSizes.get(0) > renderedFileSizes.get(1),
+            ") should be less than initial file size (" + initialFileSize + ")"
+    );
+    Assertions.assertTrue(
+        renderedFileSizes.get(0) > renderedFileSizes.get(1),
         "Compressed file size (" + renderedFileSizes.get(1) +
-            ") should be less than initial file size (" + renderedFileSizes.get(0) + ")");
-    Assertions.assertTrue(renderedFileSizes.get(1) > renderedFileSizes.get(2),
+            ") should be less than initial file size (" + renderedFileSizes.get(0) + ")"
+    );
+    Assertions.assertTrue(
+        renderedFileSizes.get(1) > renderedFileSizes.get(2),
         "Compressed file size (" + renderedFileSizes.get(2) +
-            ") should be less than initial file size (" + renderedFileSizes.get(1) + ")");
-    Assertions.assertTrue(renderedFileSizes.get(2) > renderedFileSizes.get(3),
+            ") should be less than initial file size (" + renderedFileSizes.get(1) + ")"
+    );
+    Assertions.assertTrue(
+        renderedFileSizes.get(2) > renderedFileSizes.get(3),
         "Compressed file size (" + renderedFileSizes.get(3) +
-            ") should be less than initial file size (" + renderedFileSizes.get(2) + ")");
+            ") should be less than initial file size (" + renderedFileSizes.get(2) + ")"
+    );
   }
 
   @Test
@@ -324,8 +353,10 @@ public class LocalInputSourceTest {
       String compressedText = textStripper.getText(compressedDoc).trim().replaceAll(" ", "");
 
       Assertions.assertEquals(originalText, compressedText);
-      Assertions.assertNotEquals(originalDoc.getPage(i).hashCode(),
-          compressedDoc.getPage(i).hashCode());
+      Assertions.assertNotEquals(
+          originalDoc.getPage(i).hashCode(),
+          compressedDoc.getPage(i).hashCode()
+      );
     }
 
     originalDoc.close();

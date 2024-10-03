@@ -56,8 +56,10 @@ public final class LocalInputSource {
     return InputSourceUtils.hasSourceText(this.file);
   }
 
-  public void compress(Integer quality, Integer maxWidth, Integer maxHeight,
-                       Boolean forceSourceText, Boolean disableSourceText)
+  public void compress(
+      Integer quality, Integer maxWidth, Integer maxHeight,
+      Boolean forceSourceText, Boolean disableSourceText
+  )
       throws IOException {
     if (isPdf()) {
       this.file = PdfCompressor.compressPdf(this.file, quality, forceSourceText, disableSourceText);
@@ -66,8 +68,10 @@ public final class LocalInputSource {
     }
   }
 
-  public void compress(Integer quality, Integer maxWidth, Integer maxHeight,
-                       Boolean forceSourceText) throws IOException {
+  public void compress(
+      Integer quality, Integer maxWidth, Integer maxHeight,
+      Boolean forceSourceText
+  ) throws IOException {
     this.compress(quality, maxWidth, maxHeight, forceSourceText, true);
   }
 
