@@ -15,6 +15,7 @@ import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.PDResources;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.apache.pdfbox.pdmodel.graphics.color.PDColor;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 import org.apache.pdfbox.rendering.ImageType;
@@ -220,7 +221,6 @@ public final class PDFUtils {
         TextPosition firstPosition = textPositions.get(0);
         float fontSize = firstPosition.getFontSizeInPt();
         PDColor color = getGraphicsState().getNonStrokingColor();
-
         contentStream.beginText();
         contentStream.setFont(firstPosition.getFont(), fontSize);
         contentStream.setNonStrokingColor(convertToAwtColor(color));
@@ -229,7 +229,12 @@ public final class PDFUtils {
         float y = firstPosition.getPageHeight() - firstPosition.getYDirAdj();
 
         contentStream.newLineAtOffset(x, y);
-        contentStream.showText(text);
+        try {
+          contentStream.showText(text);
+        } catch (IllegalArgumentException|UnsupportedOperationException e) {
+          contentStream.setFont(PDType1Font.HELVETICA, fontSize);
+          contentStream.showText(text);
+        }
         contentStream.endText();
       }
     };

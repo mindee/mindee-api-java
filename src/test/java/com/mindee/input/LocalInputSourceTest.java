@@ -314,13 +314,15 @@ public class LocalInputSourceTest {
 
     Assertions.assertEquals(originalDoc.getNumberOfPages(), compressedDoc.getNumberOfPages());
     Assertions.assertNotEquals(originalDoc.hashCode(), compressedDoc.hashCode());
-
     PDFTextStripper textStripper = new PDFTextStripper();
     for (int i = 0; i < originalDoc.getNumberOfPages(); i++) {
       textStripper.setStartPage(i + 1);
       textStripper.setEndPage(i + 1);
-      String originalText = textStripper.getText(originalDoc);
-      String compressedText = textStripper.getText(compressedDoc);
+      // The character extractor seems to ignore some whitespaces as they are sometimes used for
+      // positioning, so we ignore them in the return string.
+      String originalText = textStripper.getText(originalDoc).trim().replaceAll(" ", "");
+      String compressedText = textStripper.getText(compressedDoc).trim().replaceAll(" ", "");
+
       Assertions.assertEquals(originalText, compressedText);
       Assertions.assertNotEquals(originalDoc.getPage(i).hashCode(),
           compressedDoc.getPage(i).hashCode());
