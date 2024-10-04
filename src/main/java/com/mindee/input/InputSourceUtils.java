@@ -1,7 +1,12 @@
 package com.mindee.input;
 
 import com.mindee.MindeeException;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.net.URL;
+import javax.imageio.ImageIO;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.text.PDFTextStripper;
 
 /**
  * Utilities for working with files.
@@ -44,6 +49,7 @@ public class InputSourceUtils {
 
   /**
    * Split the filename into a name and an extension.
+   *
    * @param filename the filename to split.
    * @return first element is name, second is extension.
    */
@@ -57,14 +63,18 @@ public class InputSourceUtils {
     } else {
       throw new MindeeException("File name must include a valid extension.");
     }
-    return new String[]{name, extension};
+    return new String[] {name, extension};
   }
 
   /**
    * Returns true if the file is a PDF.
    */
-  public static boolean isPdf(String fileName) {
-    return getFileExtension(fileName).equalsIgnoreCase("pdf");
+  public static boolean isPdf(byte[] fileBytes) {
+    try (PDDocument document = PDDocument.load(new ByteArrayInputStream(fileBytes))) {
+      return true;
+    } catch (IOException e) {
+      return false;
+    }
   }
 
   /**
@@ -74,5 +84,34 @@ public class InputSourceUtils {
     if (!"https".equalsIgnoreCase(inputUrl.getProtocol())) {
       throw new MindeeException("Only HTTPS source URLs are allowed");
     }
+  }
+
+  /**
+   * Returns true if the source PDF has source text inside. Returns false for images.
+   *
+   * @param fileBytes A byte array representing a PDF.
+   * @return True if at least one character exists in one page.
+   * @throws MindeeException if the file could not be read.
+   */
+  public static boolean hasSourceText(byte[] fileBytes) {
+    try {
+      PDDocument document = PDDocument.load(new ByteArrayInputStream(fileBytes));
+      PDFTextStripper stripper = new PDFTextStripper();
+
+      for (int i = 0; i < document.getNumberOfPages(); i++) {
+        stripper.setStartPage(i + 1);
+        stripper.setEndPage(i + 1);
+        String pageText = stripper.getText(document);
+        if (!pageText.trim().isEmpty()) {
+          document.close();
+          return true;
+        }
+      }
+      document.close();
+    } catch (IOException e) {
+      return false;
+    }
+
+    return false;
   }
 }
