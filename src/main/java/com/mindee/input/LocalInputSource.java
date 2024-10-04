@@ -50,9 +50,6 @@ public final class LocalInputSource {
   }
 
   public boolean hasSourceText() {
-    if (!isPdf()) {
-      return false;
-    }
     return InputSourceUtils.hasSourceText(this.file);
   }
 

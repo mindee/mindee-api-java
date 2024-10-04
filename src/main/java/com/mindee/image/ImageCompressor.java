@@ -57,7 +57,9 @@ public final class ImageCompressor {
   }
 
   public static byte[] compressImage(
-      BufferedImage original, Integer quality, Integer finalWidth,
+      BufferedImage original,
+      Integer quality,
+      Integer finalWidth,
       Integer finalHeight
   )
       throws IOException {
@@ -80,8 +82,9 @@ public final class ImageCompressor {
     return newImage;
   }
 
-  public static byte[] encodeToJpegByteArray(BufferedImage image, float quality) throws
-      IOException {
+  public static byte[] encodeToJpegByteArray(
+      BufferedImage image, float quality
+  ) throws IOException {
     ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
 

@@ -109,13 +109,7 @@ public class InputSourceUtils {
       }
       document.close();
     } catch (IOException e) {
-      try {
-        // Image files will result in a failure to read from PDF, but can still be valid, so we try to decode as an image.
-        ImageIO.read(new ByteArrayInputStream(fileBytes));
-        return false;
-      } catch (IOException exc) {
-        throw new MindeeException("The file could not be read.", exc);
-      }
+      return false;
     }
 
     return false;
