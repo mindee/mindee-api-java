@@ -170,14 +170,17 @@ public final class PDFUtils {
   /**
    * Render a single page of a PDF as an image.
    * Main use case is for processing PDFs with hundreds of pages.
-   * If you need to only render some pages from the PDF, use <code>mergePdfPages</code> and then <code>pdfToImages</code>.
+   * If you need to only render some pages from the PDF, use <code>mergePdfPages</code> and
+   * then <code>pdfToImages</code>.
    *
    * @param source     The PDF file.
    * @param pageNumber The page number to render, first page is 1.
    * @return The page as an image.
    */
-  public static PdfPageImage pdfPageToImage(LocalInputSource source, int pageNumber)
-      throws IOException {
+  public static PdfPageImage pdfPageToImage(
+      LocalInputSource source,
+      int pageNumber
+  ) throws IOException {
     int index = pageNumber - 1;
     PDDocument document = PDDocument.load(source.getFile());
     PDFRenderer pdfRenderer = new PDFRenderer(document);
@@ -213,8 +216,7 @@ public final class PDFUtils {
   public static void extractAndAddText(
       PDDocument inputDoc, PDPageContentStream contentStream,
       int pageIndex, boolean disableSourceText
-  )
-      throws IOException {
+  ) throws IOException {
     if (disableSourceText) {
       return;
     }

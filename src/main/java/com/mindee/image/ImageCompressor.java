@@ -61,8 +61,7 @@ public final class ImageCompressor {
       Integer quality,
       Integer finalWidth,
       Integer finalHeight
-  )
-      throws IOException {
+  ) throws IOException {
     if (quality == null) {
       quality = 85;
     }
