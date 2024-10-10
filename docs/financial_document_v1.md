@@ -416,6 +416,20 @@ for (lineItemsElem : result.getDocument().getInference().getPrediction().getLine
 System.out.println(result.getDocument().getInference().getPrediction().getLocale().value);
 ```
 
+## Payment Date
+**paymentDate**: The date on which the payment is due / fullfilled.
+
+```java
+System.out.println(result.getDocument().getInference().getPrediction().getPaymentDate().value);
+```
+
+## Purchase Order Number
+**poNumber**: The purchase order number.
+
+```java
+System.out.println(result.getDocument().getInference().getPrediction().getPoNumber().value);
+```
+
 ## Receipt Number
 **receiptNumber**: The receipt number or identifier only if document is a receipt.
 

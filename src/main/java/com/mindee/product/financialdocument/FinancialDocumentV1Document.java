@@ -20,7 +20,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 /**
- * Financial Document API version 1.9 document data.
+ * Financial Document API version 1.10 document data.
  */
 @Getter
 @EqualsAndHashCode(callSuper = false)
@@ -92,6 +92,16 @@ public class FinancialDocumentV1Document extends Prediction {
    */
   @JsonProperty("locale")
   protected LocaleField locale;
+  /**
+   * The date on which the payment is due / fullfilled.
+   */
+  @JsonProperty("payment_date")
+  protected DateField paymentDate;
+  /**
+   * The purchase order number.
+   */
+  @JsonProperty("po_number")
+  protected StringField poNumber;
   /**
    * The receipt number or identifier only if document is a receipt.
    */
@@ -184,11 +194,13 @@ public class FinancialDocumentV1Document extends Prediction {
     return (
       this.locale == null
       && this.invoiceNumber == null
+      && this.poNumber == null
       && this.receiptNumber == null
       && this.documentNumber == null
       && (this.referenceNumbers == null || this.referenceNumbers.isEmpty())
       && this.date == null
       && this.dueDate == null
+      && this.paymentDate == null
       && this.totalNet == null
       && this.totalAmount == null
       && (this.taxes == null || this.taxes.isEmpty())
@@ -225,6 +237,9 @@ public class FinancialDocumentV1Document extends Prediction {
         String.format(":Invoice Number: %s%n", this.getInvoiceNumber())
     );
     outStr.append(
+        String.format(":Purchase Order Number: %s%n", this.getPoNumber())
+    );
+    outStr.append(
         String.format(":Receipt Number: %s%n", this.getReceiptNumber())
     );
     outStr.append(
@@ -242,6 +257,9 @@ public class FinancialDocumentV1Document extends Prediction {
     );
     outStr.append(
         String.format(":Due Date: %s%n", this.getDueDate())
+    );
+    outStr.append(
+        String.format(":Payment Date: %s%n", this.getPaymentDate())
     );
     outStr.append(
         String.format(":Total Net: %s%n", this.getTotalNet())
