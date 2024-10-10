@@ -36,9 +36,11 @@ public class InvoiceV4Test {
     InvoiceV4Document docPrediction = response.getDocument().getInference().getPrediction();
     Assertions.assertNull(docPrediction.getLocale().getValue());
     Assertions.assertNull(docPrediction.getInvoiceNumber().getValue());
+    Assertions.assertNull(docPrediction.getPoNumber().getValue());
     Assertions.assertTrue(docPrediction.getReferenceNumbers().isEmpty());
     Assertions.assertNull(docPrediction.getDate().getValue());
     Assertions.assertNull(docPrediction.getDueDate().getValue());
+    Assertions.assertNull(docPrediction.getPaymentDate().getValue());
     Assertions.assertNull(docPrediction.getTotalNet().getValue());
     Assertions.assertNull(docPrediction.getTotalAmount().getValue());
     Assertions.assertNull(docPrediction.getTotalTax().getValue());
