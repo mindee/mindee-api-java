@@ -21,6 +21,12 @@ public class DateField extends BaseField {
   @JsonProperty("value")
   private LocalDate value;
 
+  /**
+   * Whether the field was computed or retrieved directly from the document.
+   */
+  @JsonProperty("is_computed")
+  private Boolean isComputed;
+
   public DateField(
       @JsonProperty("value")
       LocalDate value,
@@ -30,10 +36,13 @@ public class DateField extends BaseField {
       @JsonDeserialize(using = PolygonDeserializer.class)
       Polygon polygon,
       @JsonProperty("page_id")
-      Integer pageId
+      Integer pageId,
+      @JsonProperty("is_computed")
+      Boolean isComputed
   ) {
     super(confidence, polygon, pageId);
     this.value = value;
+    this.isComputed = isComputed;
   }
 
   public boolean isEmpty() {
