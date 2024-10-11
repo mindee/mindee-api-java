@@ -48,7 +48,8 @@ public class GeneratedObject extends HashMap<String, Object> {
       LocalDate.parse((String) this.get("value")),
       this.getConfidence(),
       this.getPolygon(),
-      this.getPageId()
+      this.getPageId(),
+      this.getIsComputed()
     );
   }
 
@@ -90,5 +91,12 @@ public class GeneratedObject extends HashMap<String, Object> {
    */
   public Double getConfidence() {
     return this.get("confidence") != null ? (Double) this.get("confidence") : null;
+  }
+
+  /**
+   * Get the information on whether the date field was extracted.
+   */
+  public Boolean getIsComputed(){
+    return (Boolean) this.get("is_computed");
   }
 }
