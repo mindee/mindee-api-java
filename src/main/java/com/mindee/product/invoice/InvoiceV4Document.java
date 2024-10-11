@@ -20,7 +20,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 /**
- * Invoice API version 4.7 document data.
+ * Invoice API version 4.8 document data.
  */
 @Getter
 @EqualsAndHashCode(callSuper = false)
@@ -82,6 +82,16 @@ public class InvoiceV4Document extends Prediction {
    */
   @JsonProperty("locale")
   protected LocaleField locale;
+  /**
+   * The date on which the payment is due/ was full-filled.
+   */
+  @JsonProperty("payment_date")
+  protected DateField paymentDate;
+  /**
+   * The purchase order number.
+   */
+  @JsonProperty("po_number")
+  protected StringField poNumber;
   /**
    * List of Reference numbers, including PO number.
    */
@@ -154,9 +164,11 @@ public class InvoiceV4Document extends Prediction {
     return (
       this.locale == null
       && this.invoiceNumber == null
+      && this.poNumber == null
       && (this.referenceNumbers == null || this.referenceNumbers.isEmpty())
       && this.date == null
       && this.dueDate == null
+      && this.paymentDate == null
       && this.totalNet == null
       && this.totalAmount == null
       && this.totalTax == null
@@ -188,6 +200,9 @@ public class InvoiceV4Document extends Prediction {
     outStr.append(
         String.format(":Invoice Number: %s%n", this.getInvoiceNumber())
     );
+    outStr.append(
+        String.format(":Purchase Order Number: %s%n", this.getPoNumber())
+    );
     String referenceNumbers = SummaryHelper.arrayToString(
         this.getReferenceNumbers(),
         "%n                    "
@@ -200,6 +215,9 @@ public class InvoiceV4Document extends Prediction {
     );
     outStr.append(
         String.format(":Due Date: %s%n", this.getDueDate())
+    );
+    outStr.append(
+        String.format(":Payment Date: %s%n", this.getPaymentDate())
     );
     outStr.append(
         String.format(":Total Net: %s%n", this.getTotalNet())
