@@ -55,6 +55,53 @@ public class SimpleMindeeClient {
 
 ```
 
+You can also call this product asynchronously:
+
+```java
+import com.mindee.MindeeClient;
+import com.mindee.input.LocalInputSource;
+import com.mindee.parsing.common.AsyncPredictResponse;
+import com.mindee.product.receipt.ReceiptV5;
+import java.io.File;
+import java.io.IOException;
+
+public class SimpleMindeeClient {
+
+  public static void main(String[] args) throws IOException, InterruptedException {
+    String apiKey = "my-api-key";
+    String filePath = "/path/to/the/file.ext";
+
+    // Init a new client
+    MindeeClient mindeeClient = new MindeeClient(apiKey);
+
+    // Load a file from disk
+    LocalInputSource inputSource = new LocalInputSource(new File(filePath));
+
+    // Parse the file asynchronously
+    AsyncPredictResponse<ReceiptV5> response = mindeeClient.enqueueAndParse(
+        ReceiptV5.class,
+        inputSource
+    );
+
+    // Print a summary of the response
+    System.out.println(response.toString());
+
+    // Print a summary of the predictions
+//  System.out.println(response.getDocumentObj().toString());
+
+    // Print the document-level predictions
+//    System.out.println(response.getDocumentObj().getInference().getPrediction().toString());
+
+    // Print the page-level predictions
+//    response.getDocumentObj().getInference().getPages().forEach(
+//        page -> System.out.println(page.toString())
+//    );
+  }
+
+}
+
+```
+
 **Output (RST):**
 ```rst
 ########
@@ -72,7 +119,7 @@ Prediction
 ==========
 :Expense Locale: en-GB; en; GB; GBP;
 :Purchase Category: food
-:Purchase Subcategory:
+:Purchase Subcategory: restaurant
 :Document Type: EXPENSE RECEIPT
 :Purchase Date: 2016-02-26
 :Purchase Time: 15:20
@@ -106,7 +153,7 @@ Page 0
 ------
 :Expense Locale: en-GB; en; GB; GBP;
 :Purchase Category: food
-:Purchase Subcategory:
+:Purchase Subcategory: restaurant
 :Document Type: EXPENSE RECEIPT
 :Purchase Date: 2016-02-26
 :Purchase Time: 15:20
