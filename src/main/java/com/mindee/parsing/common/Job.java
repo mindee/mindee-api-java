@@ -38,6 +38,7 @@ public class Job {
   /**
    * Identifier for the job
    */
+  @JsonProperty("id")
   private String id;
 
   /**
@@ -50,6 +51,7 @@ public class Job {
   /**
    * Job Status
    */
+  @JsonProperty("status")
   private String status;
 
   /**
@@ -57,32 +59,4 @@ public class Job {
    */
   @JsonProperty("error")
   private Error error;
-
-  /**
-   * Private Deserializer for LocalDateTime
-   */
-  private static class LocalDateTimeDeserializer extends JsonDeserializer<LocalDateTime> {
-
-    @Override
-    public LocalDateTime deserialize(JsonParser jsonParser,
-        DeserializationContext deserializationContext) throws IOException {
-      DateTimeFormatter formatter = new DateTimeFormatterBuilder()
-          .parseCaseInsensitive()
-          .append(DateTimeFormatter.ISO_LOCAL_DATE)
-          .appendLiteral('T')
-          .append(DateTimeFormatter.ISO_LOCAL_TIME)
-          .optionalStart()
-          .appendOffsetId()
-          .toFormatter();
-      String dateString = jsonParser.getValueAsString();
-      TemporalAccessor temporalAccessor = formatter.parseBest(dateString, ZonedDateTime::from,
-          LocalDateTime::from);
-      if (temporalAccessor instanceof ZonedDateTime) {
-        return ((ZonedDateTime) temporalAccessor).withZoneSameInstant(ZoneOffset.UTC)
-            .toLocalDateTime();
-      } else {
-        return ((LocalDateTime) temporalAccessor);
-      }
-    }
-  }
 }
