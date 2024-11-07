@@ -125,8 +125,7 @@ public final class MindeeHttpApi extends MindeeApi {
     if (workflowUrlFromEndpoint != null) {
       this.workflowUrlFromId = workflowUrlFromEndpoint;
     } else {
-      this.workflowUrlFromId = this.buildWorkflowBaseUrl.andThen(
-          (url) -> url);
+      this.workflowUrlFromId = this.buildWorkflowBaseUrl;
     }
   }
 
