@@ -1,20 +1,20 @@
 ---
-title: IND Indian Passport OCR Java
+title: IND Passport - India OCR Java
 category: 622b805aaec68102ea7fcbc2
-slug: java-ind-indian-passport-ocr
+slug: java-ind-passport---india-ocr
 parentDoc: 631a062c3718850f3519b793
 ---
-The Java OCR SDK supports the [Indian Passport API](https://platform.mindee.com/mindee/ind_passport).
+The Java OCR SDK supports the [Passport - India API](https://platform.mindee.com/mindee/ind_passport).
 
 Using the [sample below](https://github.com/mindee/client-lib-test-data/blob/main/products/ind_passport/default_sample.jpg), we are going to illustrate how to extract the data that we want using the OCR SDK.
-![Indian Passport sample](https://github.com/mindee/client-lib-test-data/blob/main/products/ind_passport/default_sample.jpg?raw=true)
+![Passport - India sample](https://github.com/mindee/client-lib-test-data/blob/main/products/ind_passport/default_sample.jpg?raw=true)
 
 # Quick-Start
 ```java
 import com.mindee.MindeeClient;
 import com.mindee.input.LocalInputSource;
 import com.mindee.parsing.common.AsyncPredictResponse;
-import com.mindee.product.ind.indianpassport.IndianPassportV1;
+import com.mindee.product.ind.passportindia.PassportIndiaV1;
 import java.io.File;
 import java.io.IOException;
 
@@ -31,8 +31,8 @@ public class SimpleMindeeClient {
     LocalInputSource inputSource = new LocalInputSource(new File(filePath));
 
     // Parse the file asynchronously
-    AsyncPredictResponse<IndianPassportV1> response = mindeeClient.enqueueAndParse(
-        IndianPassportV1.class,
+    AsyncPredictResponse<PassportIndiaV1> response = mindeeClient.enqueueAndParse(
+        PassportIndiaV1.class,
         inputSource
     );
 
@@ -132,7 +132,7 @@ The date field `DateField` extends `BaseField`, but also implements:
 * **value** (`LocalDate`): an accessible representation of the value as a Java object. Can be `null`.
 
 # Attributes
-The following fields are extracted for Indian Passport V1:
+The following fields are extracted for Passport - India V1:
 
 ## Address Line 1
 **address1**: The first line of the address of the passport holder.
