@@ -1,4 +1,4 @@
-package com.mindee.product.ind.passportindia;
+package com.mindee.product.ind.indianpassport;
 
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -12,17 +12,17 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * Unit tests for PassportIndiaV1.
+ * Unit tests for IndianPassportV1.
  */
-public class PassportIndiaV1Test {
+public class IndianPassportV1Test {
 
-  protected PredictResponse<PassportIndiaV1> getPrediction(String name) throws IOException {
+  protected PredictResponse<IndianPassportV1> getPrediction(String name) throws IOException {
     ObjectMapper objectMapper = new ObjectMapper();
     objectMapper.findAndRegisterModules();
 
     JavaType type = objectMapper.getTypeFactory().constructParametricType(
       PredictResponse.class,
-      PassportIndiaV1.class
+      IndianPassportV1.class
     );
     return objectMapper.readValue(
       new File("src/test/resources/products/ind_passport/response_v1/" + name + ".json"),
@@ -32,8 +32,8 @@ public class PassportIndiaV1Test {
 
   @Test
   void whenEmptyDeserialized_mustHaveValidProperties() throws IOException {
-    PredictResponse<PassportIndiaV1> response = getPrediction("empty");
-    PassportIndiaV1Document docPrediction = response.getDocument().getInference().getPrediction();
+    PredictResponse<IndianPassportV1> response = getPrediction("empty");
+    IndianPassportV1Document docPrediction = response.getDocument().getInference().getPrediction();
     Assertions.assertInstanceOf(ClassificationField.class, docPrediction.getPageNumber());
     Assertions.assertNull(docPrediction.getCountry().getValue());
     Assertions.assertNull(docPrediction.getIdNumber().getValue());
@@ -61,8 +61,8 @@ public class PassportIndiaV1Test {
 
   @Test
   void whenCompleteDeserialized_mustHaveValidDocumentSummary() throws IOException {
-    PredictResponse<PassportIndiaV1> response = getPrediction("complete");
-    Document<PassportIndiaV1> doc = response.getDocument();
+    PredictResponse<IndianPassportV1> response = getPrediction("complete");
+    Document<IndianPassportV1> doc = response.getDocument();
     ProductTestHelper.assertStringEqualsFile(
         doc.toString(),
         "src/test/resources/products/ind_passport/response_v1/summary_full.rst"

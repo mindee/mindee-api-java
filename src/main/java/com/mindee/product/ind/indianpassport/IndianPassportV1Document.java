@@ -1,4 +1,4 @@
-package com.mindee.product.ind.passportindia;
+package com.mindee.product.ind.indianpassport;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -16,7 +16,7 @@ import lombok.Getter;
 @Getter
 @EqualsAndHashCode(callSuper = false)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class PassportIndiaV1Document extends Prediction {
+public class IndianPassportV1Document extends Prediction {
 
   /**
    * The first line of the address of the passport holder.

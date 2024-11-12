@@ -1,4 +1,4 @@
-package com.mindee.product.ind.passportindia;
+package com.mindee.product.ind.indianpassport;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.mindee.http.EndpointInfo;
@@ -11,6 +11,6 @@ import lombok.Getter;
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
 @EndpointInfo(endpointName = "ind_passport", version = "1")
-public class PassportIndiaV1
-    extends Inference<PassportIndiaV1Document, PassportIndiaV1Document> {
+public class IndianPassportV1
+    extends Inference<IndianPassportV1Document, IndianPassportV1Document> {
 }

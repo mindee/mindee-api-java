@@ -14,7 +14,7 @@ Using the [sample below](https://github.com/mindee/client-lib-test-data/blob/mai
 import com.mindee.MindeeClient;
 import com.mindee.input.LocalInputSource;
 import com.mindee.parsing.common.AsyncPredictResponse;
-import com.mindee.product.ind.passportindia.PassportIndiaV1;
+import com.mindee.product.ind.indianpassport.IndianPassportV1;
 import java.io.File;
 import java.io.IOException;
 
@@ -31,8 +31,8 @@ public class SimpleMindeeClient {
     LocalInputSource inputSource = new LocalInputSource(new File(filePath));
 
     // Parse the file asynchronously
-    AsyncPredictResponse<PassportIndiaV1> response = mindeeClient.enqueueAndParse(
-        PassportIndiaV1.class,
+    AsyncPredictResponse<IndianPassportV1> response = mindeeClient.enqueueAndParse(
+        IndianPassportV1.class,
         inputSource
     );
 
