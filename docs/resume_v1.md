@@ -197,6 +197,7 @@ A `ResumeV1Language` implements the following attributes:
 * **level** (`String`): The candidate's level for the language.
 
 #### Possible values include:
+ - Native
  - Fluent
  - Proficient
  - Intermediate
@@ -218,6 +219,7 @@ A `ResumeV1ProfessionalExperience` implements the following attributes:
  - Freelance
 
 * **department** (`String`): The specific department or division within the company.
+* **description** (`String`): The description of the professional experience as written in the document.
 * **employer** (`String`): The name of the company or organization.
 * **endMonth** (`String`): The month when the professional experience ended.
 * **endYear** (`String`): The year when the professional experience ended.

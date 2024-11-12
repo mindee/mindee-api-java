@@ -20,7 +20,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 /**
- * Invoice API version 4.8 document data.
+ * Invoice API version 4.9 document data.
  */
 @Getter
 @EqualsAndHashCode(callSuper = false)
