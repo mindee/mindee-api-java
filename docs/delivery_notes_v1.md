@@ -6,7 +6,7 @@ parentDoc: 631a062c3718850f3519b793
 ---
 The Java OCR SDK supports the [Delivery note API](https://platform.mindee.com/mindee/delivery_notes).
 
-The [sample below](https://github.com/mindee/client-lib-test-data/blob/main/products/delivery_notes/default_sample.jpg) can be used for testing purposes.
+Using the [sample below](https://github.com/mindee/client-lib-test-data/blob/main/products/delivery_notes/default_sample.jpg), we are going to illustrate how to extract the data that we want using the OCR SDK.
 ![Delivery note sample](https://github.com/mindee/client-lib-test-data/blob/main/products/delivery_notes/default_sample.jpg?raw=true)
 
 # Quick-Start
@@ -54,6 +54,31 @@ public class SimpleMindeeClient {
 }
 
 ```
+
+**Output (RST):**
+```rst
+########
+Document
+########
+:Mindee ID: d5ead821-edec-4d31-a69a-cf3998d9a506
+:Filename: default_sample.jpg
+
+Inference
+#########
+:Product: mindee/delivery_notes v1.0
+:Rotation applied: Yes
+
+Prediction
+==========
+:Delivery Date: 2019-10-02
+:Delivery Number: INT-001
+:Supplier Name: John Smith
+:Supplier Address: 4490 Oak Drive, Albany, NY 12210
+:Customer Name: Jessie M Horne
+:Customer Address: 4312 Wood Road, New York, NY 10031
+:Total Amount: 204.75
+```
+
 # Field Types
 ## Standard Fields
 These fields are generic and used in several products.

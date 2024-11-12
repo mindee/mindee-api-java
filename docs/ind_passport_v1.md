@@ -1,20 +1,20 @@
 ---
-title: IND Passport OCR Java
+title: IND Indian Passport OCR Java
 category: 622b805aaec68102ea7fcbc2
-slug: java-ind-passport-ocr
+slug: java-ind-indian-passport-ocr
 parentDoc: 631a062c3718850f3519b793
 ---
-The Java OCR SDK supports the [Passport API](https://platform.mindee.com/mindee/ind_passport).
+The Java OCR SDK supports the [Indian Passport API](https://platform.mindee.com/mindee/ind_passport).
 
-The [sample below](https://github.com/mindee/client-lib-test-data/blob/main/products/ind_passport/default_sample.jpg) can be used for testing purposes.
-![Passport sample](https://github.com/mindee/client-lib-test-data/blob/main/products/ind_passport/default_sample.jpg?raw=true)
+Using the [sample below](https://github.com/mindee/client-lib-test-data/blob/main/products/ind_passport/default_sample.jpg), we are going to illustrate how to extract the data that we want using the OCR SDK.
+![Indian Passport sample](https://github.com/mindee/client-lib-test-data/blob/main/products/ind_passport/default_sample.jpg?raw=true)
 
 # Quick-Start
 ```java
 import com.mindee.MindeeClient;
 import com.mindee.input.LocalInputSource;
 import com.mindee.parsing.common.AsyncPredictResponse;
-import com.mindee.product.ind.passport.PassportV1;
+import com.mindee.product.ind.indianpassport.IndianPassportV1;
 import java.io.File;
 import java.io.IOException;
 
@@ -31,8 +31,8 @@ public class SimpleMindeeClient {
     LocalInputSource inputSource = new LocalInputSource(new File(filePath));
 
     // Parse the file asynchronously
-    AsyncPredictResponse<PassportV1> response = mindeeClient.enqueueAndParse(
-        PassportV1.class,
+    AsyncPredictResponse<IndianPassportV1> response = mindeeClient.enqueueAndParse(
+        IndianPassportV1.class,
         inputSource
     );
 
@@ -54,6 +54,47 @@ public class SimpleMindeeClient {
 }
 
 ```
+
+**Output (RST):**
+```rst
+########
+Document
+########
+:Mindee ID: cf88fd43-eaa1-497a-ba29-a9569a4edaa7
+:Filename: default_sample.jpg
+
+Inference
+#########
+:Product: mindee/ind_passport v1.0
+:Rotation applied: Yes
+
+Prediction
+==========
+:Page Number: 1
+:Country: IND
+:ID Number: J8369854
+:Given Names: JOCELYN MICHELLE
+:Surname: DOE
+:Birth Date: 1959-09-23
+:Birth Place: GUNDUGOLANU
+:Issuance Place: HYDERABAD
+:Gender: F
+:Issuance Date: 2011-10-11
+:Expiry Date: 2021-10-10
+:MRZ Line 1: P<DOE<<JOCELYNMICHELLE<<<<<<<<<<<<<<<<<<<<<
+:MRZ Line 2: J8369854<4IND5909234F2110101<<<<<<<<<<<<<<<8
+:Legal Guardian:
+:Name of Spouse:
+:Name of Mother:
+:Old Passport Date of Issue:
+:Old Passport Number:
+:Address Line 1:
+:Address Line 2:
+:Address Line 3:
+:Old Passport Place of Issue:
+:File Number:
+```
+
 # Field Types
 ## Standard Fields
 These fields are generic and used in several products.
@@ -91,7 +132,7 @@ The date field `DateField` extends `BaseField`, but also implements:
 * **value** (`LocalDate`): an accessible representation of the value as a Java object. Can be `null`.
 
 # Attributes
-The following fields are extracted for Passport V1:
+The following fields are extracted for Indian Passport V1:
 
 ## Address Line 1
 **address1**: The first line of the address of the passport holder.
