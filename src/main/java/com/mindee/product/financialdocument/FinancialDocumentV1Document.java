@@ -20,7 +20,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 /**
- * Financial Document API version 1.10 document data.
+ * Financial Document API version 1.11 document data.
  */
 @Getter
 @EqualsAndHashCode(callSuper = false)

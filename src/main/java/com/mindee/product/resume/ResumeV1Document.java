@@ -12,7 +12,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 /**
- * Resume API version 1.0 document data.
+ * Resume API version 1.1 document data.
  */
 @Getter
 @EqualsAndHashCode(callSuper = false)
@@ -232,11 +232,12 @@ public class ResumeV1Document extends Prediction {
     );
     String professionalExperiencesSummary = "";
     if (!this.getProfessionalExperiences().isEmpty()) {
-      int[] professionalExperiencesColSizes = new int[]{17, 12, 27, 11, 10, 22, 13, 12};
+      int[] professionalExperiencesColSizes = new int[]{17, 12, 38, 27, 11, 10, 22, 13, 12};
       professionalExperiencesSummary =
         String.format("%n%s%n  ", SummaryHelper.lineSeparator(professionalExperiencesColSizes, "-"))
           + "| Contract Type   "
           + "| Department "
+          + "| Description                          "
           + "| Employer                  "
           + "| End Month "
           + "| End Year "

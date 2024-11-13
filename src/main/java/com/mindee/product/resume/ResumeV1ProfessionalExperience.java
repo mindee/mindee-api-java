@@ -27,6 +27,11 @@ public class ResumeV1ProfessionalExperience extends BaseField implements LineIte
   @JsonProperty("department")
   String department;
   /**
+   * The description of the professional experience as written in the document.
+   */
+  @JsonProperty("description")
+  String description;
+  /**
    * The name of the company or organization.
    */
   @JsonProperty("employer")
@@ -61,6 +66,7 @@ public class ResumeV1ProfessionalExperience extends BaseField implements LineIte
     return (
         (contractType == null || contractType.isEmpty())
         && (department == null || department.isEmpty())
+        && (description == null || description.isEmpty())
         && (employer == null || employer.isEmpty())
         && (endMonth == null || endMonth.isEmpty())
         && (endYear == null || endYear.isEmpty())
@@ -75,6 +81,7 @@ public class ResumeV1ProfessionalExperience extends BaseField implements LineIte
 
     printable.put("contractType", SummaryHelper.formatForDisplay(this.contractType, 15));
     printable.put("department", SummaryHelper.formatForDisplay(this.department, 10));
+    printable.put("description", SummaryHelper.formatForDisplay(this.description, 36));
     printable.put("employer", SummaryHelper.formatForDisplay(this.employer, 25));
     printable.put("endMonth", SummaryHelper.formatForDisplay(this.endMonth, null));
     printable.put("endYear", SummaryHelper.formatForDisplay(this.endYear, null));
@@ -91,6 +98,7 @@ public class ResumeV1ProfessionalExperience extends BaseField implements LineIte
     Map<String, String> printable = this.tablePrintableValues();
     return String.format("| %-15s ", printable.get("contractType"))
       + String.format("| %-10s ", printable.get("department"))
+      + String.format("| %-36s ", printable.get("description"))
       + String.format("| %-25s ", printable.get("employer"))
       + String.format("| %-9s ", printable.get("endMonth"))
       + String.format("| %-8s ", printable.get("endYear"))
@@ -104,6 +112,7 @@ public class ResumeV1ProfessionalExperience extends BaseField implements LineIte
     Map<String, String> printable = this.printableValues();
     return String.format("Contract Type: %s", printable.get("contractType"))
       + String.format(", Department: %s", printable.get("department"))
+      + String.format(", Description: %s", printable.get("description"))
       + String.format(", Employer: %s", printable.get("employer"))
       + String.format(", End Month: %s", printable.get("endMonth"))
       + String.format(", End Year: %s", printable.get("endYear"))
@@ -117,6 +126,7 @@ public class ResumeV1ProfessionalExperience extends BaseField implements LineIte
 
     printable.put("contractType", SummaryHelper.formatForDisplay(this.contractType, null));
     printable.put("department", SummaryHelper.formatForDisplay(this.department, null));
+    printable.put("description", SummaryHelper.formatForDisplay(this.description, null));
     printable.put("employer", SummaryHelper.formatForDisplay(this.employer, null));
     printable.put("endMonth", SummaryHelper.formatForDisplay(this.endMonth, null));
     printable.put("endYear", SummaryHelper.formatForDisplay(this.endYear, null));

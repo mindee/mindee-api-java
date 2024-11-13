@@ -261,7 +261,7 @@ public class MindeeClient {
 
   private void validateAsyncParams(AsyncPollingOptions pollingOptions) throws MindeeException {
     Double minimumInitialDelaySec = 1.0;
-    Double minimumIntervalSec = 2.0;
+    Double minimumIntervalSec = 1.0;
     Integer minimumRetry = 2;
     if (pollingOptions.getInitialDelaySec() < minimumInitialDelaySec) {
       throw new MindeeException(String.format(
