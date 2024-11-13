@@ -4,12 +4,14 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mindee.parsing.SummaryHelper;
 import com.mindee.parsing.common.Prediction;
+import com.mindee.parsing.standard.AmountField;
+import com.mindee.parsing.standard.DateField;
 import com.mindee.parsing.standard.StringField;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 /**
- * Delivery note API version 1.0 document data.
+ * Delivery note API version 1.1 document data.
  */
 @Getter
 @EqualsAndHashCode(callSuper = false)
@@ -17,40 +19,40 @@ import lombok.Getter;
 public class DeliveryNoteV1Document extends Prediction {
 
   /**
-   * The Customer Address field is used to store the address of the customer receiving the goods.
+   * The address of the customer receiving the goods.
    */
   @JsonProperty("customer_address")
   protected StringField customerAddress;
   /**
-   * The Customer Name field is used to store the name of the customer who is receiving the goods.
+   * The name of the customer receiving the goods.
    */
   @JsonProperty("customer_name")
   protected StringField customerName;
   /**
-   * Delivery Date is the date when the goods are expected to be delivered to the customer.
+   * The date on which the delivery is scheduled to arrive.
    */
   @JsonProperty("delivery_date")
-  protected StringField deliveryDate;
+  protected DateField deliveryDate;
   /**
-   * Delivery Number is a unique identifier for a Global Delivery Note document.
+   * A unique identifier for the delivery note.
    */
   @JsonProperty("delivery_number")
   protected StringField deliveryNumber;
   /**
-   * The Supplier Address field is used to store the address of the supplier from whom the goods were purchased.
+   * The address of the supplier providing the goods.
    */
   @JsonProperty("supplier_address")
   protected StringField supplierAddress;
   /**
-   * Supplier Name field is used to capture the name of the supplier from whom the goods are being received.
+   * The name of the supplier providing the goods.
    */
   @JsonProperty("supplier_name")
   protected StringField supplierName;
   /**
-   * Total Amount field is the sum of all line items on the Global Delivery Note.
+   * The total monetary value of the goods being delivered.
    */
   @JsonProperty("total_amount")
-  protected StringField totalAmount;
+  protected AmountField totalAmount;
 
   @Override
   public boolean isEmpty() {
