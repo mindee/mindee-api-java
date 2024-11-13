@@ -20,6 +20,8 @@ public class WorkflowResponse<DocT extends Inference> extends ApiResponse {
   @JsonProperty("execution")
   Execution<DocT> execution;
 
-  // Type alias for default type parameter
+  /**
+   * Default product is GeneratedV1.
+   */
   public static class Default extends WorkflowResponse<GeneratedV1> {}
 }

@@ -13,12 +13,12 @@ import com.mindee.input.PageOptions;
 import com.mindee.parsing.common.AsyncPredictResponse;
 import com.mindee.parsing.common.Inference;
 import com.mindee.parsing.common.PredictResponse;
+import com.mindee.parsing.common.WorkflowResponse;
 import com.mindee.pdf.PdfBoxApi;
 import com.mindee.pdf.PdfOperation;
 import com.mindee.pdf.SplitQuery;
 import com.mindee.product.custom.CustomV1;
 import com.mindee.product.generated.GeneratedV1;
-import com.mindee.parsing.common.WorkflowResponse;
 import java.io.IOException;
 import java.net.URL;
 

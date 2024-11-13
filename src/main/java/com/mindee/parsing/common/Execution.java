@@ -20,16 +20,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Execution<DocT extends Inference> implements ApiObject {
   /**
-   * Identifier for the execution.
+   * Identifier for the batch to which the execution belongs.
    */
-  @JsonProperty("id")
-  private String id;
-
-  /**
-   * Identifier for the workflow.
-   */
-  @JsonProperty("workflow_id")
-  private String workflowId;
+  @JsonProperty("batch_name")
+  private String batchName;
 
   /**
    * The time at which the execution started.
@@ -39,11 +33,28 @@ public class Execution<DocT extends Inference> implements ApiObject {
   private LocalDateTime createdAt;
 
   /**
-   * The time at which the file was uploaded to a workflow.
+   * File representation within a workflow execution.
    */
-  @JsonProperty("uploaded_at")
-  @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-  private LocalDateTime availableAt;
+  @JsonProperty("file")
+  private ExecutionFile file;
+
+  /**
+   * Identifier for the execution.
+   */
+  @JsonProperty("id")
+  private String id;
+
+  /**
+   * Deserialized inference object.
+   */
+  @JsonProperty("inference")
+  private DocT inference;
+
+  /**
+   * Priority of the execution.
+   */
+  @JsonProperty("priority")
+  private String priority;
 
   /**
    * The time at which the file was tagged as reviewed.
@@ -51,6 +62,19 @@ public class Execution<DocT extends Inference> implements ApiObject {
   @JsonProperty("reviewed_at")
   @JsonDeserialize(using = LocalDateTimeDeserializer.class)
   private LocalDateTime reviewedAt;
+
+  /**
+   * The time at which the file was uploaded to a workflow.
+   */
+  @JsonProperty("available_at")
+  @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+  private LocalDateTime availableAt;
+
+  /**
+   * Reviewed fields and values.
+   */
+  @JsonProperty("reviewed_prediction")
+  private GeneratedV1Document reviewedPrediction;
 
   /**
    * Execution Status.
@@ -65,21 +89,15 @@ public class Execution<DocT extends Inference> implements ApiObject {
   private String type;
 
   /**
-   * Information about an error that occurred during the job processing.
+   * The time at which the file was uploaded to a workflow.
    */
-  @JsonProperty("error")
-  private Error error;
-
-
-  /**
-   * Deserialized inference object.
-   */
-  @JsonProperty("inference")
-  private DocT inference;
+  @JsonProperty("uploaded_at")
+  @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+  private LocalDateTime uploadedAt;
 
   /**
-   * Reviewed fields and values.
+   * Identifier for the workflow.
    */
-  @JsonProperty("reviewed_prediction")
-  private GeneratedV1Document reviewedPrediction;
+  @JsonProperty("workflow_id")
+  private String workflowId;
 }

@@ -5,7 +5,6 @@ OUTPUT_FILE='SimpleMindeeClient.java'
 ACCOUNT=$1
 ENDPOINT=$2
 API_KEY=$3
-WORKFLOW_ID=$4
 
 if [ -z "${ACCOUNT}" ]; then echo "ACCOUNT is required"; exit 1; fi
 if [ -z "${ENDPOINT}" ]; then echo "ENDPOINT is required"; exit 1; fi
@@ -13,7 +12,7 @@ if [ -z "${ENDPOINT}" ]; then echo "ENDPOINT is required"; exit 1; fi
 # We need the dependencies otherwise we get class not found exceptions
 mvn dependency:copy-dependencies
 
-for f in $(find docs/code_samples -maxdepth 1 -name "*.txt" | sort -h)
+for f in $(find docs/code_samples -maxdepth 1 -name "*.txt" -not -name "workflow_execution.txt" | sort -h)
 do
   echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
   echo "${f}"
@@ -40,11 +39,6 @@ do
     sed -i "s/my-account/mindee/" $OUTPUT_FILE
     sed -i "s/my-endpoint/invoice_splitter/" $OUTPUT_FILE
     sed -i "s/my-version/1/" $OUTPUT_FILE
-  fi
-
-  if echo "${f}" | grep -q "workflow_execution.txt"
-  then
-    sed -i "s/workflow-id/$WORKFLOW_ID/" $OUTPUT_FILE
   fi
 
   sed -i "s/my-api-key/$API_KEY/" $OUTPUT_FILE
