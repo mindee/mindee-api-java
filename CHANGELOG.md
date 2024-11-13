@@ -1,5 +1,16 @@
 # Mindee Java API Library Changelog
 
+## v4.21.0 - 2024-10-13
+### Changes
+* :sparkles: add support for business cards V1
+* :sparkles: add support for delivery note V1
+* :sparkles: add support for indian passport V1
+* :sparkles: add support for resume V1.1
+### Fixes
+* :recycle: add deserializer + extract custom deserializing date class
+* :recycle: decrease default delays for auto-polling
+
+
 ## v4.20.0 - 2024-10-11
 ### Changes
 * :sparkles: add support for Financial Document v1.10

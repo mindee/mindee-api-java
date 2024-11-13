@@ -265,12 +265,12 @@ public class MindeeClient {
     Integer minimumRetry = 2;
     if (pollingOptions.getInitialDelaySec() < minimumInitialDelaySec) {
       throw new MindeeException(String.format(
-        "Cannot set initial delay to less than %.0f seconds", minimumInitialDelaySec
+        "Cannot set initial delay to less than %.0f second(s)", minimumInitialDelaySec
       ));
     }
     if (pollingOptions.getIntervalSec() < minimumIntervalSec) {
       throw new MindeeException(String.format(
-        "Cannot set auto-poll delay to less than %.0f seconds", minimumIntervalSec
+        "Cannot set auto-poll delay to less than %.0f second(s)", minimumIntervalSec
       ));
     }
     if (pollingOptions.getMaxRetries() < minimumRetry) {
