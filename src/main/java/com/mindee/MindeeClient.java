@@ -18,6 +18,7 @@ import com.mindee.pdf.PdfOperation;
 import com.mindee.pdf.SplitQuery;
 import com.mindee.product.custom.CustomV1;
 import com.mindee.product.generated.GeneratedV1;
+import com.mindee.parsing.common.WorkflowResponse;
 import java.io.IOException;
 import java.net.URL;
 
@@ -321,6 +322,40 @@ public class MindeeClient {
       Thread.sleep(intervalSec);
     }
     throw new RuntimeException("Max retries exceeded. Failed to get the document.");
+  }
+
+  /**
+   * Send a local file to a workflow execution.
+   */
+  public <T extends Inference> WorkflowResponse<T> executeWorkflow(
+      Class<T> type,
+      String workflowId,
+      LocalInputSource localInputSource
+
+  ) throws IOException {
+    return this.mindeeApi.executeWorkflowPost(
+        type,
+        workflowId,
+        RequestParameters.builder()
+            .file(localInputSource.getFile())
+            .fileName(localInputSource.getFilename())
+            .build()
+    );
+  }
+
+  public WorkflowResponse<GeneratedV1> executeWorkflow(
+      String workflowId,
+      LocalInputSource localInputSource
+
+  ) throws IOException {
+    return this.mindeeApi.executeWorkflowPost(
+        GeneratedV1.class,
+        workflowId,
+        RequestParameters.builder()
+            .file(localInputSource.getFile())
+            .fileName(localInputSource.getFilename())
+            .build()
+    );
   }
 
   /**

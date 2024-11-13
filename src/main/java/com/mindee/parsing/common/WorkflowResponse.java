@@ -2,6 +2,7 @@ package com.mindee.parsing.common;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.mindee.product.generated.GeneratedV1;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -18,4 +19,7 @@ public class WorkflowResponse<DocT extends Inference> extends ApiResponse {
    */
   @JsonProperty("execution")
   Execution<DocT> execution;
+
+  // Type alias for default type parameter
+  public static class Default extends WorkflowResponse<GeneratedV1> {}
 }

@@ -1,0 +1,29 @@
+import com.mindee.MindeeClient;
+import com.mindee.input.LocalInputSource;
+import com.mindee.parsing.common.WorkflowResponse;
+import com.mindee.product.generated.GeneratedV1;
+import com.mindee.http.MindeeHttpException;
+import java.io.IOException;
+
+public class SimpleMindeeClient {
+
+  public static void main(String[] args) throws IOException {
+    String apiKey = "my-api-key";
+    String workflowId = "workflow-id";
+    String filePath = "/path/to/the/file.ext";
+
+    // Init a new client
+    MindeeClient mindeeClient = new MindeeClient(apiKey);
+
+    // Load a file from disk
+    LocalInputSource inputSource = new LocalInputSource(filePath);
+
+    // Parse the file
+    WorkflowResponse.Default response = mindeeClient.executeWorkflow(
+      workflowId,
+      inputSource
+    System.out.println(response.toString());
+
+  }
+
+}
