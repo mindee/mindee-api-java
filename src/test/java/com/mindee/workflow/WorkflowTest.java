@@ -59,6 +59,7 @@ public class WorkflowTest {
         .thenReturn(workflowResponse);
 
     WorkflowResponse<GeneratedV1> execution = client.executeWorkflow(
+        GeneratedV1.class,
         "",
         new LocalInputSource(file)
     );
@@ -74,14 +75,17 @@ public class WorkflowTest {
     WorkflowResponse.Default mockResponse =
         objectMapper.readValue(jsonFile, WorkflowResponse.Default.class);
 
-    when(mockedClient.executeWorkflow(Mockito.anyString(), Mockito.any(LocalInputSource.class)))
+    when(mockedClient.executeWorkflow(GeneratedV1.class, Mockito.anyString(),
+        Mockito.any(LocalInputSource.class)
+    ))
         .thenReturn(mockResponse);
 
     String workflowId = "07ebf237-ff27-4eee-b6a2-425df4a5cca6";
     String filePath = "src/test/resources/products/financial_document/default_sample.jpg";
     LocalInputSource inputSource = new LocalInputSource(filePath);
 
-    WorkflowResponse<GeneratedV1> response = mockedClient.executeWorkflow(workflowId, inputSource);
+    WorkflowResponse<GeneratedV1> response =
+        mockedClient.executeWorkflow(GeneratedV1.class, workflowId, inputSource);
 
     Assertions.assertNotNull(response);
     Assertions.assertNotNull(response.getApiRequest());
@@ -102,30 +106,35 @@ public class WorkflowTest {
     Assertions.assertEquals(
         workflowId, response.getExecution().getWorkflowId());
 
-    Mockito.verify(mockedClient).executeWorkflow(workflowId, inputSource);
+    Mockito.verify(mockedClient).executeWorkflow(GeneratedV1.class, workflowId, inputSource);
   }
 
 
   @Test
-  void sendingADocumentToAnExecutionWithPriorityAndAliasShouldDeserializeResponseCorrectly() throws IOException {
+  void sendingADocumentToAnExecutionWithPriorityAndAliasShouldDeserializeResponseCorrectly()
+      throws IOException {
     File jsonFile = new File("src/test/resources/workflows/success_low_priority.json");
     WorkflowResponse.Default mockResponse =
         objectMapper.readValue(jsonFile, WorkflowResponse.Default.class);
 
-    when(mockedClient.executeWorkflow(Mockito.anyString(), Mockito.any(LocalInputSource.class)))
+    when(mockedClient.executeWorkflow(GeneratedV1.class, Mockito.anyString(),
+        Mockito.any(LocalInputSource.class)
+    ))
         .thenReturn(mockResponse);
 
     String workflowId = "07ebf237-ff27-4eee-b6a2-425df4a5cca6";
     String filePath = "src/test/resources/products/financial_document/default_sample.jpg";
     LocalInputSource inputSource = new LocalInputSource(filePath);
 
-    WorkflowResponse<GeneratedV1> response = mockedClient.executeWorkflow(workflowId, inputSource);
+    WorkflowResponse<GeneratedV1> response =
+        mockedClient.executeWorkflow(GeneratedV1.class, workflowId, inputSource);
 
     Assertions.assertNotNull(response);
     Assertions.assertNotNull(response.getApiRequest());
     Assertions.assertNull(response.getExecution().getBatchName());
     Assertions.assertNull(response.getExecution().getCreatedAt());
-    Assertions.assertEquals("low-priority-sample-test", response.getExecution().getFile().getAlias());
+    Assertions.assertEquals(
+        "low-priority-sample-test", response.getExecution().getFile().getAlias());
     Assertions.assertEquals("default_sample.jpg", response.getExecution().getFile().getName());
     Assertions.assertEquals(
         "b743e123-e18c-4b62-8a07-811a4f72afd3", response.getExecution().getId());
@@ -140,7 +149,7 @@ public class WorkflowTest {
     Assertions.assertEquals(
         workflowId, response.getExecution().getWorkflowId());
 
-    Mockito.verify(mockedClient).executeWorkflow(workflowId, inputSource);
+    Mockito.verify(mockedClient).executeWorkflow(GeneratedV1.class, workflowId, inputSource);
   }
 
 }
