@@ -18,11 +18,16 @@ public class SimpleMindeeClient {
     // Load a file from disk
     LocalInputSource inputSource = new LocalInputSource(filePath);
 
-    // Parse the file
+    // Send the file to a workflow
     WorkflowResponse.Default response = mindeeClient.executeWorkflow(
       workflowId,
       inputSource
-    System.out.println(response.toString());
+
+    // Print the workflow ID.
+    System.out.println(response.getExecution().getId());
+
+    // Print the inference result.
+    // System.out.println(response.getExecution().getInference());
 
   }
 
