@@ -75,7 +75,7 @@ public class WorkflowTest {
     WorkflowResponse.Default mockResponse =
         objectMapper.readValue(jsonFile, WorkflowResponse.Default.class);
 
-    when(mockedClient.executeWorkflow(GeneratedV1.class, Mockito.anyString(),
+    when(mockedClient.executeWorkflow(Mockito.eq(GeneratedV1.class), Mockito.anyString(),
         Mockito.any(LocalInputSource.class)
     ))
         .thenReturn(mockResponse);
@@ -117,7 +117,7 @@ public class WorkflowTest {
     WorkflowResponse.Default mockResponse =
         objectMapper.readValue(jsonFile, WorkflowResponse.Default.class);
 
-    when(mockedClient.executeWorkflow(GeneratedV1.class, Mockito.anyString(),
+    when(mockedClient.executeWorkflow(Mockito.eq(GeneratedV1.class), Mockito.anyString(),
         Mockito.any(LocalInputSource.class)
     ))
         .thenReturn(mockResponse);
