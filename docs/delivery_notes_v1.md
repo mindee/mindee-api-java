@@ -97,58 +97,67 @@ A typical `BaseField` object will have the following attributes:
 
 Aside from the previous attributes, all basic fields have access to a custom `toString` method that can be used to print their value as a string.
 
+### AmountField
+An amount field `AmountField` extends `BaseField`, but also implements:
+* **value** (`Double`): corresponds to the field value. Can be `null` if no value was extracted.
+
 ### StringField
 The text field `StringField` extends `BaseField`, but also implements:
 * **value** (`String`): corresponds to the field value.
 * **rawValue** (`String`): corresponds to the raw value as it appears on the document.
 
+### DateField
+The date field `DateField` extends `BaseField`, but also implements:
+
+* **value** (`LocalDate`): an accessible representation of the value as a Java object. Can be `null`.
+
 # Attributes
 The following fields are extracted for Delivery note V1:
 
 ## Customer Address
-**customerAddress**: The Customer Address field is used to store the address of the customer receiving the goods.
+**customerAddress**: The address of the customer receiving the goods.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getCustomerAddress().value);
 ```
 
 ## Customer Name
-**customerName**: The Customer Name field is used to store the name of the customer who is receiving the goods.
+**customerName**: The name of the customer receiving the goods.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getCustomerName().value);
 ```
 
 ## Delivery Date
-**deliveryDate**: Delivery Date is the date when the goods are expected to be delivered to the customer.
+**deliveryDate**: The date on which the delivery is scheduled to arrive.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getDeliveryDate().value);
 ```
 
 ## Delivery Number
-**deliveryNumber**: Delivery Number is a unique identifier for a Global Delivery Note document.
+**deliveryNumber**: A unique identifier for the delivery note.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getDeliveryNumber().value);
 ```
 
 ## Supplier Address
-**supplierAddress**: The Supplier Address field is used to store the address of the supplier from whom the goods were purchased.
+**supplierAddress**: The address of the supplier providing the goods.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getSupplierAddress().value);
 ```
 
 ## Supplier Name
-**supplierName**: Supplier Name field is used to capture the name of the supplier from whom the goods are being received.
+**supplierName**: The name of the supplier providing the goods.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getSupplierName().value);
 ```
 
 ## Total Amount
-**totalAmount**: Total Amount field is the sum of all line items on the Global Delivery Note.
+**totalAmount**: The total monetary value of the goods being delivered.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getTotalAmount().value);
