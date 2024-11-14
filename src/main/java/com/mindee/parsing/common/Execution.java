@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class Execution<DocT extends Inference> implements ApiObject {
+public class Execution<DocT extends Inference> {
   /**
    * Identifier for the batch to which the execution belongs.
    */

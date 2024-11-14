@@ -331,25 +331,9 @@ public class MindeeClient {
       Class<T> type,
       String workflowId,
       LocalInputSource localInputSource
-
   ) throws IOException {
     return this.mindeeApi.executeWorkflowPost(
         type,
-        workflowId,
-        RequestParameters.builder()
-            .file(localInputSource.getFile())
-            .fileName(localInputSource.getFilename())
-            .build()
-    );
-  }
-
-  public WorkflowResponse<GeneratedV1> executeWorkflow(
-      String workflowId,
-      LocalInputSource localInputSource
-
-  ) throws IOException {
-    return this.mindeeApi.executeWorkflowPost(
-        GeneratedV1.class,
         workflowId,
         RequestParameters.builder()
             .file(localInputSource.getFile())
