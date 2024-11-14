@@ -30,6 +30,7 @@ public class WorkflowTest {
   PdfOperation pdfOperation;
 
   private ObjectMapper objectMapper;
+
   @BeforeEach
   public void setUp() {
     mindeeApi = Mockito.mock(MindeeApi.class);
@@ -50,10 +51,11 @@ public class WorkflowTest {
     workflowResponse.setExecution(new Execution());
     workflowResponse.setApiRequest(null);
     when(
-            mindeeApi.executeWorkflowPost(
-                Mockito.any(),
-                Mockito.any(),
-                Mockito.any()))
+        mindeeApi.executeWorkflowPost(
+            Mockito.any(),
+            Mockito.any(),
+            Mockito.any()
+        ))
         .thenReturn(workflowResponse);
 
     WorkflowResponse<GeneratedV1> execution = client.executeWorkflow(
@@ -72,35 +74,72 @@ public class WorkflowTest {
     WorkflowResponse.Default mockResponse =
         objectMapper.readValue(jsonFile, WorkflowResponse.Default.class);
 
-    // Mock the executeWorkflow method
     when(mockedClient.executeWorkflow(Mockito.anyString(), Mockito.any(LocalInputSource.class)))
         .thenReturn(mockResponse);
 
-    // Test execution
-    String workflowId = "workflow-id";
-    String filePath = "src/test/resources/file_types/pdf/blank_1.pdf";
+    String workflowId = "07ebf237-ff27-4eee-b6a2-425df4a5cca6";
+    String filePath = "src/test/resources/products/financial_document/default_sample.jpg";
     LocalInputSource inputSource = new LocalInputSource(filePath);
 
     WorkflowResponse<GeneratedV1> response = mockedClient.executeWorkflow(workflowId, inputSource);
 
-    // Assertions
     Assertions.assertNotNull(response);
     Assertions.assertNotNull(response.getApiRequest());
     Assertions.assertNull(response.getExecution().getBatchName());
     Assertions.assertNull(response.getExecution().getCreatedAt());
     Assertions.assertNull(response.getExecution().getFile().getAlias());
     Assertions.assertEquals("default_sample.jpg", response.getExecution().getFile().getName());
-     Assertions.assertEquals("8c75c035-e083-4e77-ba3b-7c3598bd1d8a", response.getExecution().getId());
-     Assertions.assertNull(response.getExecution().getInference());
-     Assertions.assertEquals("medium", response.getExecution().getPriority());
-     Assertions.assertNull(response.getExecution().getReviewedAt());
-     Assertions.assertNull(response.getExecution().getReviewedPrediction());
-     Assertions.assertEquals("processing", response.getExecution().getStatus());
-     Assertions.assertEquals("manual", response.getExecution().getType());
-     Assertions.assertEquals("2024-11-13T13:02:31.699190", response.getExecution().getUploadedAt().toString());
-     Assertions.assertEquals("07ebf237-ff27-4eee-b6a2-425df4a5cca6", response.getExecution().getWorkflowId());
+    Assertions.assertEquals(
+        "8c75c035-e083-4e77-ba3b-7c3598bd1d8a", response.getExecution().getId());
+    Assertions.assertNull(response.getExecution().getInference());
+    Assertions.assertEquals("medium", response.getExecution().getPriority());
+    Assertions.assertNull(response.getExecution().getReviewedAt());
+    Assertions.assertNull(response.getExecution().getReviewedPrediction());
+    Assertions.assertEquals("processing", response.getExecution().getStatus());
+    Assertions.assertEquals("manual", response.getExecution().getType());
+    Assertions.assertEquals(
+        "2024-11-13T13:02:31.699190", response.getExecution().getUploadedAt().toString());
+    Assertions.assertEquals(
+        workflowId, response.getExecution().getWorkflowId());
 
-    // Verify that executeWorkflow was called with the correct parameters
+    Mockito.verify(mockedClient).executeWorkflow(workflowId, inputSource);
+  }
+
+
+  @Test
+  void sendingADocumentToAnExecutionWithPriorityAndAliasShouldDeserializeResponseCorrectly() throws IOException {
+    File jsonFile = new File("src/test/resources/workflows/success_low_priority.json");
+    WorkflowResponse.Default mockResponse =
+        objectMapper.readValue(jsonFile, WorkflowResponse.Default.class);
+
+    when(mockedClient.executeWorkflow(Mockito.anyString(), Mockito.any(LocalInputSource.class)))
+        .thenReturn(mockResponse);
+
+    String workflowId = "07ebf237-ff27-4eee-b6a2-425df4a5cca6";
+    String filePath = "src/test/resources/products/financial_document/default_sample.jpg";
+    LocalInputSource inputSource = new LocalInputSource(filePath);
+
+    WorkflowResponse<GeneratedV1> response = mockedClient.executeWorkflow(workflowId, inputSource);
+
+    Assertions.assertNotNull(response);
+    Assertions.assertNotNull(response.getApiRequest());
+    Assertions.assertNull(response.getExecution().getBatchName());
+    Assertions.assertNull(response.getExecution().getCreatedAt());
+    Assertions.assertEquals("low-priority-sample-test", response.getExecution().getFile().getAlias());
+    Assertions.assertEquals("default_sample.jpg", response.getExecution().getFile().getName());
+    Assertions.assertEquals(
+        "b743e123-e18c-4b62-8a07-811a4f72afd3", response.getExecution().getId());
+    Assertions.assertNull(response.getExecution().getInference());
+    Assertions.assertEquals("low", response.getExecution().getPriority());
+    Assertions.assertNull(response.getExecution().getReviewedAt());
+    Assertions.assertNull(response.getExecution().getReviewedPrediction());
+    Assertions.assertEquals("processing", response.getExecution().getStatus());
+    Assertions.assertEquals("manual", response.getExecution().getType());
+    Assertions.assertEquals(
+        "2024-11-13T13:17:01.315179", response.getExecution().getUploadedAt().toString());
+    Assertions.assertEquals(
+        workflowId, response.getExecution().getWorkflowId());
+
     Mockito.verify(mockedClient).executeWorkflow(workflowId, inputSource);
   }
 
