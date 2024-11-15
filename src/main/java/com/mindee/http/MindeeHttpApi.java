@@ -166,14 +166,14 @@ public final class MindeeHttpApi extends MindeeApi {
       mappedResponse.setRawResponse(rawResponse);
       if (
           mappedResponse.getJob() != null
-          && mappedResponse.getJob().getError() != null
-          && mappedResponse.getJob().getError().getCode() != null
+              && mappedResponse.getJob().getError() != null
+              && mappedResponse.getJob().getError().getCode() != null
       ) {
         throw new MindeeHttpException(
-          500,
-          mappedResponse.getJob().getError().getMessage(),
-          mappedResponse.getJob().getError().getDetails().toString(),
-          mappedResponse.getJob().getError().getCode()
+            500,
+            mappedResponse.getJob().getError().getMessage(),
+            mappedResponse.getJob().getError().getDetails().toString(),
+            mappedResponse.getJob().getError().getCode()
         );
       }
       return mappedResponse;
@@ -301,7 +301,6 @@ public final class MindeeHttpApi extends MindeeApi {
   }
 
 
-
   private <ResponseT extends ApiResponse> MindeeHttpException getHttpError(
       JavaType parametricType,
       CloseableHttpResponse response
@@ -325,8 +324,7 @@ public final class MindeeHttpApi extends MindeeApi {
       ErrorDetails errorDetails = predictResponse.getApiRequest().getError().getDetails();
       if (errorDetails != null) {
         details = errorDetails.toString();
-      }
-      else {
+      } else {
         details = "";
       }
       errorCode = predictResponse.getApiRequest().getError().getCode();
@@ -404,12 +402,27 @@ public final class MindeeHttpApi extends MindeeApi {
       if (Boolean.TRUE.equals(requestParameters.getPredictOptions().getAllWords())) {
         builder.addTextBody("include_mvision", "true");
       }
+
+      if (requestParameters.getWorkflowOptions().getPriority() != null) {
+        builder.addTextBody(
+            "priority",
+            requestParameters.getWorkflowOptions().getPriority().toString()
+        );
+      }
+      if (requestParameters.getWorkflowOptions().getAlias() != null) {
+        builder.addTextBody(
+            "alias",
+            requestParameters.getWorkflowOptions().getAlias()
+        );
+      }
       return builder.build();
     } else if (requestParameters.getFileUrl() != null) {
       Map<String, URL> urlMap = new HashMap<>();
       urlMap.put("document", requestParameters.getFileUrl());
-      return new StringEntity(mapper.writeValueAsString(urlMap),
-          ContentType.APPLICATION_JSON);
+      return new StringEntity(
+          mapper.writeValueAsString(urlMap),
+          ContentType.APPLICATION_JSON
+      );
     } else {
       throw new MindeeException("Either document bytes or a document URL are needed");
     }

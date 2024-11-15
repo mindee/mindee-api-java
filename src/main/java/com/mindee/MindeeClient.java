@@ -327,17 +327,35 @@ public class MindeeClient {
   /**
    * Send a local file to a workflow execution.
    */
-  public <T extends Inference> WorkflowResponse<T> executeWorkflow(
-      Class<T> type,
+  public WorkflowResponse<GeneratedV1> executeWorkflow(
       String workflowId,
-      LocalInputSource localInputSource
+      LocalInputSource localInputSource,
+      WorkflowOptions workflowOptions
   ) throws IOException {
     return this.mindeeApi.executeWorkflowPost(
-        type,
+        GeneratedV1.class,
         workflowId,
         RequestParameters.builder()
             .file(localInputSource.getFile())
             .fileName(localInputSource.getFilename())
+            .workflowOptions(workflowOptions)
+            .build()
+    );
+  }
+  /**
+   * Send a local file to a workflow execution.
+   */
+  public WorkflowResponse<GeneratedV1> executeWorkflow(
+      String workflowId,
+      LocalInputSource localInputSource
+  ) throws IOException {
+    return this.mindeeApi.executeWorkflowPost(
+        GeneratedV1.class,
+        workflowId,
+        RequestParameters.builder()
+            .file(localInputSource.getFile())
+            .fileName(localInputSource.getFilename())
+            .workflowOptions(WorkflowOptions.builder().build())
             .build()
     );
   }

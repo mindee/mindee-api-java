@@ -59,7 +59,6 @@ public class WorkflowTest {
         .thenReturn(workflowResponse);
 
     WorkflowResponse<GeneratedV1> execution = client.executeWorkflow(
-        GeneratedV1.class,
         "",
         new LocalInputSource(file)
     );
@@ -75,7 +74,7 @@ public class WorkflowTest {
     WorkflowResponse.Default mockResponse =
         objectMapper.readValue(jsonFile, WorkflowResponse.Default.class);
 
-    when(mockedClient.executeWorkflow(Mockito.eq(GeneratedV1.class), Mockito.anyString(),
+    when(mockedClient.executeWorkflow(Mockito.anyString(),
         Mockito.any(LocalInputSource.class)
     ))
         .thenReturn(mockResponse);
@@ -85,7 +84,7 @@ public class WorkflowTest {
     LocalInputSource inputSource = new LocalInputSource(filePath);
 
     WorkflowResponse<GeneratedV1> response =
-        mockedClient.executeWorkflow(GeneratedV1.class, workflowId, inputSource);
+        mockedClient.executeWorkflow(workflowId, inputSource);
 
     Assertions.assertNotNull(response);
     Assertions.assertNotNull(response.getApiRequest());
@@ -106,7 +105,7 @@ public class WorkflowTest {
     Assertions.assertEquals(
         workflowId, response.getExecution().getWorkflowId());
 
-    Mockito.verify(mockedClient).executeWorkflow(GeneratedV1.class, workflowId, inputSource);
+    Mockito.verify(mockedClient).executeWorkflow(workflowId, inputSource);
   }
 
 
@@ -117,7 +116,7 @@ public class WorkflowTest {
     WorkflowResponse.Default mockResponse =
         objectMapper.readValue(jsonFile, WorkflowResponse.Default.class);
 
-    when(mockedClient.executeWorkflow(Mockito.eq(GeneratedV1.class), Mockito.anyString(),
+    when(mockedClient.executeWorkflow(Mockito.anyString(),
         Mockito.any(LocalInputSource.class)
     ))
         .thenReturn(mockResponse);
@@ -127,7 +126,7 @@ public class WorkflowTest {
     LocalInputSource inputSource = new LocalInputSource(filePath);
 
     WorkflowResponse<GeneratedV1> response =
-        mockedClient.executeWorkflow(GeneratedV1.class, workflowId, inputSource);
+        mockedClient.executeWorkflow(workflowId, inputSource);
 
     Assertions.assertNotNull(response);
     Assertions.assertNotNull(response.getApiRequest());
@@ -149,7 +148,7 @@ public class WorkflowTest {
     Assertions.assertEquals(
         workflowId, response.getExecution().getWorkflowId());
 
-    Mockito.verify(mockedClient).executeWorkflow(GeneratedV1.class, workflowId, inputSource);
+    Mockito.verify(mockedClient).executeWorkflow(workflowId, inputSource);
   }
 
 }

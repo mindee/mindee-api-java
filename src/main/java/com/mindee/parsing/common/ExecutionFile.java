@@ -27,4 +27,10 @@ public class ExecutionFile {
    */
   @JsonProperty("alias")
   private String alias;
+
+
+  @Override
+  public String toString() {
+    return "\n  :name: " + name + "\n" + "  :alias: " + alias;
+  }
 }
