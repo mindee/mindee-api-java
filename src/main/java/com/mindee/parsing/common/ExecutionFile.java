@@ -23,7 +23,7 @@ public class ExecutionFile {
   private String name;
 
   /**
-   * Identifier for the execution.
+   * Optional alias for the file.
    */
   @JsonProperty("alias")
   private String alias;
