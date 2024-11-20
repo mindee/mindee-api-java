@@ -406,13 +406,13 @@ public final class MindeeHttpApi extends MindeeApi {
       if (requestParameters.getWorkflowOptions().getPriority() != null) {
         builder.addTextBody(
             "priority",
-            requestParameters.getWorkflowOptions().getPriority().toString()
+            requestParameters.getWorkflowOptions().getPriority().getValue()
         );
       }
       if (requestParameters.getWorkflowOptions().getAlias() != null) {
         builder.addTextBody(
             "alias",
-            requestParameters.getWorkflowOptions().getAlias()
+            requestParameters.getWorkflowOptions().getAlias().toLowerCase()
         );
       }
       return builder.build();

@@ -419,7 +419,7 @@
     <org.projectlombok.version>1.18.32</org.projectlombok.version>
     <org.sonatype.nexus.staging.maven.version>1.6.12</org.sonatype.nexus.staging.maven.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <wiremock.version>2.35.1</wiremock.version>
+    <wiremock.version>2.27.2</wiremock.version>
   </properties>
 
 </project>
