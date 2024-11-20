@@ -43,7 +43,7 @@ public class WorkflowIT {
 
 
   @Test
-  public void givenAPDF_shouldExtractInvoicesStrict() throws IOException {
+  public void givenAWorkflowIDShouldReturnACorrectWorkflowObject() throws IOException {
     Execution<GeneratedV1> execution = getFinancialDocumentWorkflow(System.getenv("WORKFLOW_ID"));
 
     Assertions.assertEquals("low", execution.getPriority());
