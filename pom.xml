@@ -382,7 +382,7 @@
   <scm>
     <connection>scm:git:git://github.com/mindee/mindee-api-java.git</connection>
     <developerConnection>scm:git:ssh://github.com:mindee/mindee-api-java.git</developerConnection>
-    <url>http://github.com/mindee/mindee-api-java/tree/main</url>
+    <url>https://github.com/mindee/mindee-api-java/tree/main</url>
   </scm>
 
   <properties>

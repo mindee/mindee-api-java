@@ -10,6 +10,7 @@ import com.mindee.parsing.common.AsyncPredictResponse;
 import com.mindee.parsing.common.ErrorDetails;
 import com.mindee.parsing.common.Inference;
 import com.mindee.parsing.common.PredictResponse;
+import com.mindee.parsing.common.WorkflowResponse;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -41,6 +42,7 @@ public final class MindeeHttpApi extends MindeeApi {
 
   private static final ObjectMapper mapper = new ObjectMapper();
   private final Function<Endpoint, String> buildBaseUrl = this::buildUrl;
+  private final Function<String, String> buildWorkflowBaseUrl = this::buildWorkflowUrl;
   /**
    * The MindeeSetting needed to make the api call.
    */
@@ -51,24 +53,32 @@ public final class MindeeHttpApi extends MindeeApi {
    */
   private final HttpClientBuilder httpClientBuilder;
   /**
-   * The function used to generate the API endpoint URL. Only needs to be set if the api calls need
-   * to be directed through internal URLs.
+   * The function used to generate the API endpoint URL.
+   * Only needs to be set if the api calls need to be directed through internal URLs.
    */
   private final Function<Endpoint, String> urlFromEndpoint;
+
   /**
-   * The function used to generate the API endpoint URL for Async calls. Only needs to be set if the
-   * api calls need to be directed through internal URLs.
+   * The function used to generate the API endpoint URL for workflow execution calls.
+   * Only needs to be set if the api calls need to be directed through internal URLs.
    */
   private final Function<Endpoint, String> asyncUrlFromEndpoint;
   /**
-   * The function used to generate the Job status URL for Async calls. Only needs to be set if the
-   * api calls need to be directed through internal URLs.
+   * The function used to generate the Job status URL for Async calls.
+   * Only needs to be set if the api calls need to be directed through internal URLs.
    */
   private final Function<Endpoint, String> documentUrlFromEndpoint;
+
+  /**
+   * The function used to generate the Job status URL for Async calls.
+   * Only needs to be set if the api calls need to be directed through internal URLs.
+   */
+  private final Function<String, String> workflowUrlFromId;
 
   public MindeeHttpApi(MindeeSettings mindeeSettings) {
     this(
         mindeeSettings,
+        null,
         null,
         null,
         null,
@@ -82,7 +92,8 @@ public final class MindeeHttpApi extends MindeeApi {
       HttpClientBuilder httpClientBuilder,
       Function<Endpoint, String> urlFromEndpoint,
       Function<Endpoint, String> asyncUrlFromEndpoint,
-      Function<Endpoint, String> documentUrlFromEndpoint
+      Function<Endpoint, String> documentUrlFromEndpoint,
+      Function<String, String> workflowUrlFromEndpoint
   ) {
     this.mindeeSettings = mindeeSettings;
 
@@ -109,6 +120,12 @@ public final class MindeeHttpApi extends MindeeApi {
     } else {
       this.documentUrlFromEndpoint = this.buildBaseUrl.andThen(
           (url) -> url.concat("/documents/queue/"));
+    }
+
+    if (workflowUrlFromEndpoint != null) {
+      this.workflowUrlFromId = workflowUrlFromEndpoint;
+    } else {
+      this.workflowUrlFromId = this.buildWorkflowBaseUrl;
     }
   }
 
@@ -149,14 +166,14 @@ public final class MindeeHttpApi extends MindeeApi {
       mappedResponse.setRawResponse(rawResponse);
       if (
           mappedResponse.getJob() != null
-          && mappedResponse.getJob().getError() != null
-          && mappedResponse.getJob().getError().getCode() != null
+              && mappedResponse.getJob().getError() != null
+              && mappedResponse.getJob().getError().getCode() != null
       ) {
         throw new MindeeHttpException(
-          500,
-          mappedResponse.getJob().getError().getMessage(),
-          mappedResponse.getJob().getError().getDetails().toString(),
-          mappedResponse.getJob().getError().getCode()
+            500,
+            mappedResponse.getJob().getError().getMessage(),
+            mappedResponse.getJob().getError().getDetails().toString(),
+            mappedResponse.getJob().getError().getCode()
         );
       }
       return mappedResponse;
@@ -243,6 +260,47 @@ public final class MindeeHttpApi extends MindeeApi {
     }
   }
 
+
+  /**
+   * POST a prediction request for a workflow response.
+   */
+  public <DocT extends Inference> WorkflowResponse<DocT> executeWorkflowPost(
+      Class<DocT> documentClass,
+      String workflowId,
+      RequestParameters requestParameters
+  ) throws IOException {
+
+    String url = workflowUrlFromId.apply(workflowId);
+    HttpPost post = buildHttpPost(url, requestParameters);
+
+    // required to register jackson date module format to deserialize
+    mapper.findAndRegisterModules();
+    JavaType parametricType = mapper.getTypeFactory().constructParametricType(
+        WorkflowResponse.class,
+        documentClass
+    );
+    try (
+        CloseableHttpClient httpClient = httpClientBuilder.build();
+        CloseableHttpResponse response = httpClient.execute(post)
+    ) {
+      HttpEntity responseEntity = response.getEntity();
+      int statusCode = response.getStatusLine().getStatusCode();
+      if (!is2xxStatusCode(statusCode)) {
+        throw getHttpError(parametricType, response);
+      }
+      if (responseEntity.getContentLength() == 0) {
+        throw new MindeeException("Empty response from server.");
+      }
+      String rawResponse = readRawResponse(responseEntity);
+      WorkflowResponse<DocT> mappedResponse = mapper.readValue(rawResponse, parametricType);
+      mappedResponse.setRawResponse(rawResponse);
+      return mappedResponse;
+    } catch (IOException err) {
+      throw new MindeeException(err.getMessage(), err);
+    }
+  }
+
+
   private <ResponseT extends ApiResponse> MindeeHttpException getHttpError(
       JavaType parametricType,
       CloseableHttpResponse response
@@ -266,8 +324,7 @@ public final class MindeeHttpApi extends MindeeApi {
       ErrorDetails errorDetails = predictResponse.getApiRequest().getError().getDetails();
       if (errorDetails != null) {
         details = errorDetails.toString();
-      }
-      else {
+      } else {
         details = "";
       }
       errorCode = predictResponse.getApiRequest().getError().getCode();
@@ -287,6 +344,10 @@ public final class MindeeHttpApi extends MindeeApi {
         + endpoint.getEndpointName()
         + "/v"
         + endpoint.getVersion();
+  }
+
+  private String buildWorkflowUrl(String workflowId) {
+    return this.mindeeSettings.getBaseUrl() + "/workflows/" + workflowId + "/executions";
   }
 
   private HttpPost buildHttpPost(
@@ -341,12 +402,33 @@ public final class MindeeHttpApi extends MindeeApi {
       if (Boolean.TRUE.equals(requestParameters.getPredictOptions().getAllWords())) {
         builder.addTextBody("include_mvision", "true");
       }
+
+      if (requestParameters.getWorkflowOptions().getPriority() != null) {
+        builder.addTextBody(
+            "priority",
+            requestParameters.getWorkflowOptions().getPriority().getValue()
+        );
+      }
+      if (requestParameters.getWorkflowOptions().getAlias() != null) {
+        builder.addTextBody(
+            "alias",
+            requestParameters.getWorkflowOptions().getAlias().toLowerCase()
+        );
+      }
+      if (requestParameters.getWorkflowOptions().getPublicUrl() != null) {
+        builder.addTextBody(
+            "public_url",
+            requestParameters.getWorkflowOptions().getPublicUrl()
+        );
+      }
       return builder.build();
     } else if (requestParameters.getFileUrl() != null) {
       Map<String, URL> urlMap = new HashMap<>();
       urlMap.put("document", requestParameters.getFileUrl());
-      return new StringEntity(mapper.writeValueAsString(urlMap),
-          ContentType.APPLICATION_JSON);
+      return new StringEntity(
+          mapper.writeValueAsString(urlMap),
+          ContentType.APPLICATION_JSON
+      );
     } else {
       throw new MindeeException("Either document bytes or a document URL are needed");
     }

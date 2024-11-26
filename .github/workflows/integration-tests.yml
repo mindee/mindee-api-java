@@ -33,5 +33,6 @@ jobs:
       - name: Verify with Maven
         env:
           MINDEE_API_KEY: ${{ secrets.MINDEE_API_KEY_SE_TESTS }}
+          WORKFLOW_ID: ${{ secrets.WORKFLOW_ID_SE_TESTS }}
         run: |
           mvn clean test-compile failsafe:integration-test failsafe:verify

@@ -12,7 +12,7 @@ if [ -z "${ENDPOINT}" ]; then echo "ENDPOINT is required"; exit 1; fi
 # We need the dependencies otherwise we get class not found exceptions
 mvn dependency:copy-dependencies
 
-for f in $(find docs/code_samples -maxdepth 1 -name "*.txt" | sort -h)
+for f in $(find docs/code_samples -maxdepth 1 -name "*.txt" -not -name "workflow_execution.txt" | sort -h)
 do
   echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
   echo "${f}"

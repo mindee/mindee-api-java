@@ -13,6 +13,7 @@ import com.mindee.input.PageOptions;
 import com.mindee.parsing.common.AsyncPredictResponse;
 import com.mindee.parsing.common.Inference;
 import com.mindee.parsing.common.PredictResponse;
+import com.mindee.parsing.common.WorkflowResponse;
 import com.mindee.pdf.PdfBoxApi;
 import com.mindee.pdf.PdfOperation;
 import com.mindee.pdf.SplitQuery;
@@ -321,6 +322,42 @@ public class MindeeClient {
       Thread.sleep(intervalSec);
     }
     throw new RuntimeException("Max retries exceeded. Failed to get the document.");
+  }
+
+  /**
+   * Send a local file to a workflow execution.
+   */
+  public WorkflowResponse<GeneratedV1> executeWorkflow(
+      String workflowId,
+      LocalInputSource localInputSource,
+      WorkflowOptions workflowOptions
+  ) throws IOException {
+    return this.mindeeApi.executeWorkflowPost(
+        GeneratedV1.class,
+        workflowId,
+        RequestParameters.builder()
+            .file(localInputSource.getFile())
+            .fileName(localInputSource.getFilename())
+            .workflowOptions(workflowOptions)
+            .build()
+    );
+  }
+  /**
+   * Send a local file to a workflow execution.
+   */
+  public WorkflowResponse<GeneratedV1> executeWorkflow(
+      String workflowId,
+      LocalInputSource localInputSource
+  ) throws IOException {
+    return this.mindeeApi.executeWorkflowPost(
+        GeneratedV1.class,
+        workflowId,
+        RequestParameters.builder()
+            .file(localInputSource.getFile())
+            .fileName(localInputSource.getFilename())
+            .workflowOptions(WorkflowOptions.builder().build())
+            .build()
+    );
   }
 
   /**

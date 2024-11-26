@@ -1,6 +1,7 @@
 package com.mindee.http;
 
 import com.mindee.PredictOptions;
+import com.mindee.WorkflowOptions;
 import java.net.URL;
 import lombok.Builder;
 import lombok.Value;
@@ -15,12 +16,14 @@ public class RequestParameters {
   byte[] file;
   String fileName;
   PredictOptions predictOptions;
+  WorkflowOptions workflowOptions;
 
   @Builder
   private RequestParameters(
       URL urlInputSource,
       byte[] file,
       PredictOptions predictOptions,
+      WorkflowOptions workflowOptions,
       String fileName
   ) {
     if (file != null && urlInputSource != null) {
@@ -30,6 +33,11 @@ public class RequestParameters {
       this.predictOptions = PredictOptions.builder().build();
     } else {
       this.predictOptions = predictOptions;
+    }
+    if (workflowOptions == null){
+      this.workflowOptions = WorkflowOptions.builder().build();
+    } else {
+      this.workflowOptions = workflowOptions;
     }
     this.fileUrl = urlInputSource;
     this.file = file;
