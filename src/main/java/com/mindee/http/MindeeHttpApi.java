@@ -415,6 +415,12 @@ public final class MindeeHttpApi extends MindeeApi {
             requestParameters.getWorkflowOptions().getAlias().toLowerCase()
         );
       }
+      if (requestParameters.getWorkflowOptions().getPublicUrl() != null) {
+        builder.addTextBody(
+            "public_url",
+            requestParameters.getWorkflowOptions().getPublicUrl()
+        );
+      }
       return builder.build();
     } else if (requestParameters.getFileUrl() != null) {
       Map<String, URL> urlMap = new HashMap<>();
