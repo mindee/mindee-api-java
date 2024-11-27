@@ -11,7 +11,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 /**
- * Passport - India API version 1.0 document data.
+ * Passport - India API version 1.1 document data.
  */
 @Getter
 @EqualsAndHashCode(callSuper = false)
