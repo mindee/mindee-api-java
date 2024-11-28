@@ -1,5 +1,14 @@
 # Mindee Java API Library Changelog
 
+## v4.22.0 - 2024-11-28
+### Changes
+* :sparkles: add support for workflows
+* :sparkles: add support for French Health Card V1
+* :sparkles: add support for Driver License V1
+* :sparkles: add support for Payslip FR V3
+* :coffin: remove support for international ID V1
+
+
 ## v4.21.0 - 2024-10-13
 ### Changes
 * :sparkles: add support for business cards V1
