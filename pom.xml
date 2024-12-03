@@ -92,6 +92,7 @@
             <sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
             <outputDirectory>${project.build.directory}/delomboked</outputDirectory>
             <addOutputDirectory>true</addOutputDirectory>
+            <skip>false</skip>
           </configuration>
           <executions>
             <execution>
