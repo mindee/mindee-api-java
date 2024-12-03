@@ -203,7 +203,6 @@
             <configuration>
               <reportOutputDirectory>${project.build.directory}/site/apidocs</reportOutputDirectory>
               <outputDirectory>${project.build.directory}/site/apidocs</outputDirectory>
-              <includeDependencySources>true</includeDependencySources>
             </configuration>
             <executions>
               <execution>
