@@ -27,7 +27,7 @@ jobs:
         run: mvn dependency:copy-dependencies
 
       - name: Build Javadocs
-        run: mvn --update-snapshots --no-transfer-progress lombok:delombok javadoc:javadoc
+        run: mvn --update-snapshots --no-transfer-progress javadoc:javadoc
 
       - name: Move folder
         run: |
