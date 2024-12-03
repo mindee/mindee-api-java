@@ -31,7 +31,7 @@ jobs:
           mvn lombok:delombok
 
       - name: Build Javadocs
-        run: mvn --update-snapshots --no-transfer-progress javadoc:javadoc
+        run: mvn --update-snapshots --no-transfer-progress javadoc:javadoc -Dsourcepath=target/generated-sources/delombok
 
       - name: Copy Code Samples
         run: |
