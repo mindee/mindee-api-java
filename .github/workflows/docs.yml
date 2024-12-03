@@ -33,8 +33,22 @@ jobs:
           mv src src-lomboked
           mv src-delomboked src
 
-      - name: Build Javadocs
-        run: mvn --update-snapshots --no-transfer-progress javadoc:javadoc
+      - name: Run javadoc
+        run: |
+          mvn javadoc:javadoc
+
+      - name: Move folder
+        run: |
+          mkdir ./target/site 2> /dev/null
+          mv ./target/reports/apidocs ./target/site
+
+      - name: Check documentation
+        run: |
+          if [ ! -f ./target/site/apidocs/index.html ]; then
+            echo "Documentation not generated properly"
+            exit 1
+          fi
+
 
       - name: Copy Code Samples
         run: |
