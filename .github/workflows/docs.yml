@@ -26,9 +26,15 @@ jobs:
       - name: Copy dependencies
         run: mvn dependency:copy-dependencies
 
+      - name: Run Delombok
+        run: |
+          LOMBOK_VERSION=$(mvn help:evaluate -Dexpression=org.projectlombok.version -q -DforceStdout)
+          java -jar ./target/dependency/lombok-$LOMBOK_VERSION.jar delombok src -d src-delomboked
+          mv src src-lomboked
+          mv src-delomboked src
+
       - name: Run javadoc
         run: |
-          mvn clean generate-sources
           mvn javadoc:javadoc
 
       - name: Move folder
