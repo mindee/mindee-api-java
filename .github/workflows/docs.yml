@@ -26,7 +26,7 @@ jobs:
       - name: Copy dependencies
         run: mvn dependency:copy-dependencies
 
-      - name: Run Delombok
+      - name: Delombok
         run: |
           LOMBOK_VERSION=$(mvn help:evaluate -Dexpression=org.projectlombok.version -q -DforceStdout)
           java -jar ./target/dependency/lombok-$LOMBOK_VERSION.jar delombok src -d src-delomboked
