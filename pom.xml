@@ -322,7 +322,6 @@
     <dependency>
       <artifactId>junit-jupiter-engine</artifactId>
       <groupId>org.junit.jupiter</groupId>
-      <scope>test</scope>
       <version>${org.junit.jupiter.version}</version>
     </dependency>
     <dependency>
@@ -386,8 +385,8 @@
   </scm>
 
   <properties>
-    <com.fasterxml.jackson.version>2.15.4</com.fasterxml.jackson.version>
-    <com.fasterxml.jackson.datatype.version>2.15.4</com.fasterxml.jackson.datatype.version>
+    <com.fasterxml.jackson.version>2.18.2</com.fasterxml.jackson.version>
+    <com.fasterxml.jackson.datatype.version>2.18.2</com.fasterxml.jackson.datatype.version>
     <com.squareup.okhttp3.version>4.12.0</com.squareup.okhttp3.version>
     <info.picocli.version>4.7.6</info.picocli.version>
     <maven.compiler.source>1.8</maven.compiler.source>
@@ -416,7 +415,7 @@
     <org.mockito.inline.version>4.6.1</org.mockito.inline.version>
     <org.mockito.junit.jupiter.version>4.5.1</org.mockito.junit.jupiter.version>
     <org.projectlombok.lombok-mapstruct-binding.version>0.2.0</org.projectlombok.lombok-mapstruct-binding.version>
-    <org.projectlombok.version>1.18.32</org.projectlombok.version>
+    <org.projectlombok.version>1.18.36</org.projectlombok.version>
     <org.sonatype.nexus.staging.maven.version>1.6.12</org.sonatype.nexus.staging.maven.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <wiremock.version>2.27.2</wiremock.version>
