@@ -83,6 +83,20 @@
           <artifactId>maven-project-info-reports-plugin</artifactId>
           <version>${org.apache.maven.project.info.reports.version}</version>
         </plugin>
+
+        <plugin>
+          <groupId>org.projectlombok</groupId>
+          <artifactId>lombok-maven-plugin</artifactId>
+          <version>${org.projectlombok.lombok-maven-plugin.version}</version>
+          <executions>
+            <execution>
+              <phase>generate-sources</phase>
+              <goals>
+                <goal>delombok</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
         <plugin>
           <artifactId>maven-compiler-plugin</artifactId>
           <groupId>org.apache.maven.plugins</groupId>
@@ -322,6 +336,7 @@
     <dependency>
       <artifactId>junit-jupiter-engine</artifactId>
       <groupId>org.junit.jupiter</groupId>
+      <scope>test</scope>
       <version>${org.junit.jupiter.version}</version>
     </dependency>
     <dependency>
@@ -416,6 +431,7 @@
     <org.mockito.junit.jupiter.version>4.5.1</org.mockito.junit.jupiter.version>
     <org.projectlombok.lombok-mapstruct-binding.version>0.2.0</org.projectlombok.lombok-mapstruct-binding.version>
     <org.projectlombok.version>1.18.36</org.projectlombok.version>
+    <org.projectlombok.lombok-maven-plugin.version>1.18.20.0</org.projectlombok.lombok-maven-plugin.version>
     <org.sonatype.nexus.staging.maven.version>1.6.12</org.sonatype.nexus.staging.maven.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <wiremock.version>2.27.2</wiremock.version>
