@@ -88,6 +88,9 @@
           <groupId>org.projectlombok</groupId>
           <artifactId>lombok-maven-plugin</artifactId>
           <version>${org.projectlombok.lombok-maven-plugin.version}</version>
+          <configuration>
+            <sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
+          </configuration>
           <executions>
             <execution>
               <phase>generate-sources</phase>
