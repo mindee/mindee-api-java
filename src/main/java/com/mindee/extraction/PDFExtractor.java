@@ -31,6 +31,7 @@ public class PDFExtractor {
    * Init from a path.
    *
    * @param filePath Path to the file.
+   * @throws IOException Throws if the file can't be accessed.
    */
   public PDFExtractor(String filePath) throws IOException {
     this(new LocalInputSource(filePath));
@@ -40,6 +41,7 @@ public class PDFExtractor {
    * Init from a {@link LocalInputSource}.
    *
    * @param source The local source.
+   * @throws IOException Throws if the file can't be accessed.
    */
   public PDFExtractor(LocalInputSource source) throws IOException {
     this.filename = source.getFilename();
@@ -67,12 +69,26 @@ public class PDFExtractor {
     return sourcePdf.getNumberOfPages();
   }
 
+  /**
+   * Converts an array to a buffered image.
+   *
+   * @param byteArray Raw byte array.
+   * @return a valid ImageIO buffer.
+   * @throws IOException Throws if the file can't be accessed.
+   */
   public static BufferedImage byteArrayToBufferedImage(byte[] byteArray) throws IOException {
     try (ByteArrayInputStream stream = new ByteArrayInputStream(byteArray)) {
       return ImageIO.read(stream);
     }
   }
 
+  /**
+   * Given a list of page indexes, extracts the corresponding documents.
+   *
+   * @param pageIndexes List of page indexes.
+   * @return A list of extracted files.
+   * @throws IOException Throws if the file can't be accessed.
+   */
   public List<ExtractedPDF> extractSubDocuments(List<List<Integer>> pageIndexes)
       throws IOException {
     List<ExtractedPDF> extractedPDFs = new ArrayList<>();
@@ -95,6 +111,13 @@ public class PDFExtractor {
   }
 
 
+  /**
+   * Extract invoices from the given page indexes (from an invoice-splitter prediction).
+   *
+   * @param pageIndexes List of page indexes.
+   * @return a list of extracted files.
+   * @throws IOException Throws if the file can't be accessed.
+   */
   public List<ExtractedPDF> extractInvoices(List<InvoiceSplitterV1Document.PageIndexes> pageIndexes)
       throws IOException {
 
@@ -107,6 +130,14 @@ public class PDFExtractor {
   }
 
 
+  /**
+   * Extract invoices from the given page indexes (from an invoice-splitter prediction).
+   *
+   * @param pageIndexes List of page indexes.
+   * @param strict Whether the extraction should strictly follow the confidence scores or not.
+   * @return a list of extracted files.
+   * @throws IOException Throws if the file can't be accessed.
+   */
   public List<ExtractedPDF> extractInvoices(List<InvoiceSplitterV1Document.PageIndexes> pageIndexes,
                                             boolean strict) throws IOException {
     List<List<Integer>> correctPageIndexes = new ArrayList<>();
