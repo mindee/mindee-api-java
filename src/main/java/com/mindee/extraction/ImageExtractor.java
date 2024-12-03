@@ -26,6 +26,7 @@ public class ImageExtractor {
   /**
    * Init from a path.
    * @param filePath Path to the file.
+   * @throws IOException Throws if the file can't be accessed.
    */
   public ImageExtractor(String filePath) throws IOException {
     this(new LocalInputSource(filePath));
@@ -34,6 +35,7 @@ public class ImageExtractor {
   /**
    * Init from a {@link LocalInputSource}.
    * @param source The local source.
+   * @throws IOException Throws if the file can't be accessed.
    */
   public ImageExtractor(LocalInputSource source) throws IOException {
     this.filename = source.getFilename();
@@ -63,6 +65,7 @@ public class ImageExtractor {
 
   /**
    * Extract multiple images on a given page from a list of fields having position data.
+   * @param <FieldT> Type of field (needs to support positioning data).
    * @param fields List of Fields to extract.
    * @param pageIndex The page index to extract, begins at 0.
    * @return A list of {@link ExtractedImage}.
@@ -76,6 +79,7 @@ public class ImageExtractor {
 
   /**
    * Extract multiple images on a given page from a list of fields having position data.
+   * @param <FieldT> Type of field (needs to support positioning data).
    * @param fields List of Fields to extract.
    * @param pageIndex The page index to extract, begins at 0.
    * @param outputName The base output filename, must have an image extension.
@@ -117,8 +121,10 @@ public class ImageExtractor {
 
   /**
    * Extract a single image from a field having position data.
+   * @param <FieldT> Type of field (needs to support positioning data).
    * @param field The field to extract.
    * @param index The index to use for naming the extracted image.
+   * @param filename Name of the file.
    * @param pageIndex The page index to extract, begins at 0.
    * @return The {@link ExtractedImage}, or <code>null</code> if the field does not have valid position data.
    */
@@ -144,6 +150,7 @@ public class ImageExtractor {
 
   /**
    * Extract a single image from a field having position data.
+   * @param <FieldT> Type of field (needs to support positioning data).
    * @param field The field to extract.
    * @param index The index to use for naming the extracted image.
    * @param pageIndex The page index to extract, begins at 0.
