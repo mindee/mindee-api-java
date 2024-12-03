@@ -26,13 +26,10 @@ jobs:
       - name: Copy dependencies
         run: mvn dependency:copy-dependencies
 
-      - name: Delombok
+      - name: Run javadoc
         run: |
-          mvn generate-sources
-          mvn lombok:delombok
-
-      - name: Build Javadocs
-        run: mvn --update-snapshots --no-transfer-progress javadoc:javadoc
+          mvn clean generate-sources
+          mvn javadoc:javadoc
 
       - name: Move folder
         run: |

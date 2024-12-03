@@ -92,7 +92,6 @@
             <sourceDirectory>${project.basedir}/src/main/java/com/mindee</sourceDirectory>
             <outputDirectory>${project.build.directory}/generated-sources/delomboked</outputDirectory>
             <addOutputDirectory>true</addOutputDirectory>
-            <skip>false</skip>
           </configuration>
           <executions>
             <execution>
