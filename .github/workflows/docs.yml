@@ -33,6 +33,14 @@ jobs:
       - name: Build Javadocs
         run: mvn --update-snapshots --no-transfer-progress javadoc:javadoc -Dsourcepath=target/generated-sources/delombok
 
+      - name: Check documentation
+        run: |
+          if [ ! -f ./target/site/apidocs/index.html ]; then
+            echo "Documentation not generated properly"
+            exit 1
+          fi
+
+
       - name: Copy Code Samples
         run: |
           mkdir -p ./target/site/apidocs
