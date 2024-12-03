@@ -90,6 +90,8 @@
           <version>${org.projectlombok.lombok-maven-plugin.version}</version>
           <configuration>
             <sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
+            <outputDirectory>${project.build.directory}/delomboked</outputDirectory>
+            <addOutputDirectory>true</addOutputDirectory>
           </configuration>
           <executions>
             <execution>
