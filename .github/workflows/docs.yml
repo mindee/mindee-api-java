@@ -31,7 +31,12 @@ jobs:
           mvn lombok:delombok
 
       - name: Build Javadocs
-        run: mvn --update-snapshots --no-transfer-progress javadoc:javadoc -Dsourcepath=target/generated-sources/delombok
+        run: mvn --update-snapshots --no-transfer-progress javadoc:javadoc
+
+      - name: Move folder
+        run: |
+          mkdir ./target/site 2> /dev/null
+          mv ./target/reports/apidocs ./target/site
 
       - name: Check documentation
         run: |
