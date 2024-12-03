@@ -89,13 +89,14 @@
           <artifactId>lombok-maven-plugin</artifactId>
           <version>${org.projectlombok.lombok-maven-plugin.version}</version>
           <configuration>
-            <sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
-            <outputDirectory>${project.build.directory}/delomboked</outputDirectory>
+            <sourceDirectory>${project.basedir}/src/main/java/com/mindee</sourceDirectory>
+            <outputDirectory>${project.build.directory}/generated-sources/delomboked</outputDirectory>
             <addOutputDirectory>true</addOutputDirectory>
             <skip>false</skip>
           </configuration>
           <executions>
             <execution>
+              <id>delombok</id>
               <phase>generate-sources</phase>
               <goals>
                 <goal>delombok</goal>
