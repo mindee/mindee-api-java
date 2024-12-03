@@ -28,7 +28,10 @@ jobs:
 
       - name: Delombok
         run: |
-          mvn clean compile lombok:delombok
+          LOMBOK_VERSION=$(mvn help:evaluate -Dexpression=org.projectlombok.version -q -DforceStdout)
+          java -jar ./target/dependency/lombok-$LOMBOK_VERSION.jar delombok src -d src-delomboked
+          mv src src-lomboked
+          mv src-delomboked src
 
       - name: Build Javadocs
         run: mvn --update-snapshots --no-transfer-progress javadoc:javadoc
