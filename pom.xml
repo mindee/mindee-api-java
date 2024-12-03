@@ -204,10 +204,6 @@
               <reportOutputDirectory>${project.build.directory}/site/apidocs</reportOutputDirectory>
               <outputDirectory>${project.build.directory}/site/apidocs</outputDirectory>
               <includeDependencySources>true</includeDependencySources>
-              <dependencySourceIncludes>
-                <dependencySourceInclude>org.junit:*</dependencySourceInclude>
-                <dependencySourceInclude>com.fasterxml.jackson.core:*</dependencySourceInclude>
-              </dependencySourceIncludes>
             </configuration>
             <executions>
               <execution>
