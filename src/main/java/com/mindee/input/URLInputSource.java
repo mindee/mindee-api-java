@@ -132,8 +132,8 @@ public class URLInputSource {
   }
 
   private String generateDefaultFilename() {
-    return "mindee_temp_" +
-        LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"));
+    return "mindee_temp_"
+        + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"));
   }
 
   /**
