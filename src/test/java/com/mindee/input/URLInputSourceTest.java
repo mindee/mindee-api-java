@@ -34,7 +34,7 @@ public class URLInputSourceTest {
   void fetchFile_shouldSaveFileLocally() throws IOException {
     urlInputSource.fetchFile();
 
-    File savedFile = new File(TEST_LOCAL_FILENAME);
+    File savedFile = new File(urlInputSource.getLocalFilename());
     assertTrue(savedFile.exists(), "The file should be saved locally");
 
     Files.deleteIfExists(savedFile.toPath());
@@ -56,7 +56,7 @@ public class URLInputSourceTest {
 
     urlInputSource.fetchFile();
 
-    File savedFile = new File(TEST_LOCAL_FILENAME);
+    File savedFile = new File(urlInputSource.getLocalFilename());
     assertTrue(savedFile.exists(), "The file should be saved after following redirects");
 
     Files.deleteIfExists(savedFile.toPath());

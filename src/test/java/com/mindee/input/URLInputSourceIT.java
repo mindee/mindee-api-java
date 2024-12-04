@@ -7,8 +7,6 @@ import com.mindee.MindeeClient;
 import com.mindee.parsing.common.PredictResponse;
 import com.mindee.product.invoice.InvoiceV4;
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 

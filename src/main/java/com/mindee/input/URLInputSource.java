@@ -12,6 +12,7 @@ import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Base64;
+import lombok.Getter;
 
 /**
  * Input source wrapper to load remote files locally.
@@ -20,6 +21,7 @@ public class URLInputSource {
   private final String url;
   private final String username;
   private final String password;
+  @Getter
   private String localFilename;
   private final String token;
 
