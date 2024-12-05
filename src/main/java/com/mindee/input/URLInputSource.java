@@ -41,10 +41,7 @@ public class URLInputSource {
     return new Builder(url);
   }
 
-  /**
-   * @throws IOException Throws if the file can't be fetched.
-   */
-  public void fetchFile() throws IOException {
+  private HttpURLConnection prepareConnection() throws IOException {
     HttpURLConnection connection = createConnection(url);
     connection = handleRedirects(connection);
 
@@ -52,6 +49,17 @@ public class URLInputSource {
     if (responseCode != HttpURLConnection.HTTP_OK) {
       throw new IOException("Failed to fetch file: " + responseCode);
     }
+
+    return connection;
+  }
+
+  /**
+   * Fetches the file from a remote source.
+   *
+   * @throws IOException Throws if the file can't be fetched.
+   */
+  public void fetchFile() throws IOException {
+    HttpURLConnection connection = prepareConnection();
 
     try (InputStream in = connection.getInputStream()) {
       saveTempFile(in);
@@ -92,9 +100,9 @@ public class URLInputSource {
   }
 
   private void saveTempFile(InputStream in) throws IOException {
-    String filename = generateDefaultFilename();
+    String prefix = generateDefaultFilename();
 
-    Path tempFile = Files.createTempFile(filename, ".tmp");
+    Path tempFile = Files.createTempFile(prefix, ".tmp");
     localFilename = tempFile.toString();
 
     try (InputStream inputStream = in;
@@ -142,14 +150,8 @@ public class URLInputSource {
    * @param filepath The local path where the file should be saved.
    * @throws IOException If there's an error fetching or saving the file.
    */
-  public void saveTo(String filepath) throws IOException {
-    HttpURLConnection connection = createConnection(url);
-    connection = handleRedirects(connection);
-
-    int responseCode = connection.getResponseCode();
-    if (responseCode != HttpURLConnection.HTTP_OK) {
-      throw new IOException("Failed to fetch file: " + responseCode);
-    }
+  public void saveToFile(String filepath) throws IOException {
+    HttpURLConnection connection = prepareConnection();
 
     try (InputStream in = connection.getInputStream()) {
       File file = new File(filepath);

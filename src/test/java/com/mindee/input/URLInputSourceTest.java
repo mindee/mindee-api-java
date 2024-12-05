@@ -66,7 +66,7 @@ public class URLInputSourceTest {
   void saveTo_shouldSaveToSpecifiedPath() throws IOException {
     String outputPath = "output_testfile.pdf";
 
-    urlInputSource.saveTo(outputPath);
+    urlInputSource.saveToFile(outputPath);
 
     File savedFile = new File(outputPath);
     assertTrue(savedFile.exists(), "The file should be saved to the specified path");
