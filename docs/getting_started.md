@@ -197,6 +197,16 @@ However, in this case nothing is done or can be done locally.
 Load a `java.io.File` object.  
 When using this option you do not need to pass in a file name - the API uses the `file.getName()` method to get the file name.
 
+**Note:** the server will not accept URLs containing a redirection. If your file is hidden behind one, you can download it and load it into a LocalInputSource using: 
+
+```java
+URLInputSource remoteSource = URLInputSource.builder(
+    "https://example.com/path/to/my/file.ext"
+).build();
+remoteSource.fetchFile();
+LocalInputSource localSource = remoteSource.toLocalInputSource();
+```
+
 ```java
 LocalInputSource localInputSource = new LocalInputSource(
     new File("path/to/document/document.pdf")
