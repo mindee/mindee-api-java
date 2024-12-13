@@ -268,12 +268,12 @@ PredictResponse<ReceiptV4> receiptV4Inference = mindeeClient.parse(ReceiptV4.cla
 
 For more fine-grained control over parsing the documents you can have a look on the `parse` override method.
 
-#### Custom Documents
+#### Custom Documents (docTI)
 
 In this case, you will have two ways to handle them.
 
 The first one enables the possibility to use a class object which represents a kind of dictionary where,  
-keys will be the name of each field define in your Custom API model (on the Mindee platform).
+keys will be the name of each field define in your Custom API model (`docTI` section on the Mindee platform).
 
 It also requires that you instantiate a new `Endpoint` object to define the information of your custom API built.
 
@@ -284,7 +284,7 @@ CustomEndpoint endpoint = new CustomEndpoint(
     "1.0" // optional
 );
 
-PredictResponse<CustomV1> customDocument = mindeeClient.parse(localInputSource, endpoint);
+PredictResponse<GeneratedV1> customDocument = mindeeClient.enqueueAndParse(localInputSource, endpoint);
 ```
 
 The second one is using your own class.  
