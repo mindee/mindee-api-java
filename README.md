@@ -71,12 +71,12 @@ For example USA-specific classes will be in the `com.mindee.product.us` package:
 import com.mindee.product.us.bankcheck.BankCheckV1;
 ```
 
-### Custom Documents (API Builder)
+### Custom Documents (docTI & Custom APIs)
 ```java
 import com.mindee.MindeeClient;
 import com.mindee.input.LocalInputSource;
 import com.mindee.parsing.common.PredictResponse;
-import com.mindee.product.custom.CustomV1;
+import com.mindee.product.generated.GeneratedV1;
 import com.mindee.http.Endpoint;
 import java.io.File;
 import java.io.IOException;
@@ -95,7 +95,7 @@ public class SimpleMindeeClient {
         "src/main/resources/invoices/invoice1.pdf"
     );
     // Parse the file
-    Document<CustomV1> customDocument = mindeeClient.parse(
+    Document<GeneratedV1> customDocument = mindeeClient.enqueueAndParse(
         localInputSource,
         endpoint
     );
@@ -221,7 +221,7 @@ Complete details on the working of the library are available in the following gu
 * [Java EU Driver License OCR](https://developers.mindee.com/docs/java-eu-driver-license-ocr)
 * [Java FR Bank Account Detail OCR](https://developers.mindee.com/docs/java-fr-bank-account-details-ocr)
 * [Java FR Carte Grise OCR](https://developers.mindee.com/docs/java-fr-carte-grise-ocr)
-* [Java FR Carte Vitale OCR](https://developers.mindee.com/docs/java-fr-carte-vitale-ocr)
+* [Java FR Health Card OCR](https://developers.mindee.com/docs/java-fr-health-card-ocr)
 * [Java FR ID Card OCR](https://developers.mindee.com/docs/java-fr-carte-nationale-didentite-ocr)
 * [Java US Bank Check OCR](https://developers.mindee.com/docs/java-us-bank-check-ocr)
 * [Java US W9 OCR](https://developers.mindee.com/docs/java-us-w9-ocr)
