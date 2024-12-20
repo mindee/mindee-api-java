@@ -243,4 +243,21 @@ public class GeneratedV1Test {
       }
     }
   }
+
+  @Test
+  void whenAmountDeserialized_mustCastToDouble() {
+    GeneratedObject intObject = new GeneratedObject();
+    intObject.put("value", 5);
+    AmountField fieldFromInt = intObject.asAmountField();
+    Assertions.assertEquals(5.0, fieldFromInt.getValue());
+
+    GeneratedObject doubleObject = new GeneratedObject();
+    doubleObject.put("value", 5.0);
+    AmountField fieldFromDouble = doubleObject.asAmountField();
+    Assertions.assertEquals(5.0, fieldFromDouble.getValue());
+
+    GeneratedObject badStringObject = new GeneratedObject();
+    doubleObject.put("value", "I will fail miserably");
+    Assertions.assertThrows(ClassCastException.class, badStringObject::asAmountField);
+  }
 }
