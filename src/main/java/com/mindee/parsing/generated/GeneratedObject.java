@@ -32,8 +32,19 @@ public class GeneratedObject extends HashMap<String, Object> {
    * Represent the object as a standard {@link AmountField}.
    */
   public AmountField asAmountField() {
+    Double value;
+    Object rawValue = this.get("value");
+    if (rawValue instanceof Integer) {
+      value = ((Integer) rawValue).doubleValue();
+    }
+    else if (rawValue instanceof Double) {
+      value = (Double) rawValue;
+    }
+    else {
+      throw new ClassCastException("Cannot cast " + rawValue + " to Double");
+    }
     return new AmountField(
-      (Double) this.get("value"),
+      value,
       this.getConfidence(),
       this.getPolygon(),
       this.getPageId()
