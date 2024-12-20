@@ -1,5 +1,10 @@
 # Mindee Java API Library Changelog
 
+## v4.23.1 - 2024-12-20
+### Fixes
+* :bug: fix for server not properly formatting floats
+
+
 ## v4.23.0 - 2024-12-12
 ### Changes
 * :sparkles: allow local downloading of remote sources
