@@ -9,12 +9,14 @@ import com.mindee.parsing.common.Document;
 import com.mindee.parsing.common.Inference;
 import com.mindee.parsing.common.PredictResponse;
 import com.mindee.product.custom.CustomV1;
+import com.mindee.product.financialdocument.FinancialDocumentV1;
 import com.mindee.product.internationalid.InternationalIdV2;
 import com.mindee.product.invoice.InvoiceV4;
 import com.mindee.product.invoicesplitter.InvoiceSplitterV1;
 import com.mindee.product.multireceiptsdetector.MultiReceiptsDetectorV1;
 import com.mindee.product.passport.PassportV1;
 import com.mindee.product.receipt.ReceiptV4;
+import com.mindee.product.us.usmail.UsMailV3;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -105,6 +107,14 @@ public class CommandLineInterface {
     System.out.println(standardProductOutput(ReceiptV4.class, file));
   }
 
+  @Command(name = "financial-document", description = "Parse using Financial Document")
+  void financialDocumentMethod(
+      @Parameters(index = "0", paramLabel = "<path>", scope = ScopeType.LOCAL)
+      File file
+  ) throws IOException {
+    System.out.println(standardProductOutput(FinancialDocumentV1.class, file));
+  }
+
   @Command(name = "multi-receipt-detector", description = "Parse using Multi Receipts Detector")
   void multiReceiptDetectorMethod(
       @Parameters(index = "0", paramLabel = "<path>", scope = ScopeType.LOCAL)
@@ -135,6 +145,14 @@ public class CommandLineInterface {
       File file
   ) throws IOException, InterruptedException {
     System.out.println(standardProductAsyncOutput(InternationalIdV2.class, file));
+  }
+
+  @Command(name = "us-mail", description = "Parse using US Mail")
+  void usMailMethod(
+      @Parameters(index = "0", paramLabel = "<path>", scope = ScopeType.LOCAL)
+      File file
+  ) throws IOException, InterruptedException {
+    System.out.println(standardProductAsyncOutput(UsMailV3.class, file));
   }
 
   @Command(name = "custom", description = "Invokes a Custom API")
