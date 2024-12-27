@@ -14,7 +14,7 @@ Using the [sample below](https://github.com/mindee/client-lib-test-data/blob/mai
 import com.mindee.MindeeClient;
 import com.mindee.input.LocalInputSource;
 import com.mindee.parsing.common.AsyncPredictResponse;
-import com.mindee.product.us.usmail.UsMailV2;
+import com.mindee.product.us.usmail.UsMailV3;
 import java.io.File;
 import java.io.IOException;
 
@@ -31,8 +31,8 @@ public class SimpleMindeeClient {
     LocalInputSource inputSource = new LocalInputSource(new File(filePath));
 
     // Parse the file asynchronously
-    AsyncPredictResponse<UsMailV2> response = mindeeClient.enqueueAndParse(
-        UsMailV2.class,
+    AsyncPredictResponse<UsMailV3> response = mindeeClient.enqueueAndParse(
+        UsMailV3.class,
         inputSource
     );
 
@@ -57,7 +57,20 @@ public class SimpleMindeeClient {
 
 **Output (RST):**
 ```rst
-:Sender Name: zed
+########
+Document
+########
+:Mindee ID: f9c36f59-977d-4ddc-9f2d-31c294c456ac
+:Filename: default_sample.jpg
+
+Inference
+#########
+:Product: mindee/us_mail v3.0
+:Rotation applied: Yes
+
+Prediction
+==========
+:Sender Name: company zed
 :Sender Address:
   :City: Dallas
   :Complete Address: 54321 Elm Street, Dallas, Texas 54321
@@ -66,11 +79,12 @@ public class SimpleMindeeClient {
   :Street: 54321 Elm Street
 :Recipient Names: Jane Doe
 :Recipient Addresses:
-  +-----------------+-------------------------------------+-------------------+-------------+------------------------+-------+---------------------------+
-  | City            | Complete Address                    | Is Address Change | Postal Code | Private Mailbox Number | State | Street                    |
-  +=================+=====================================+===================+=============+========================+=======+===========================+
-  | Detroit         | 1234 Market Street PMB 4321, Det... |                   | 12345       | 4321                   | MI    | 1234 Market Street        |
-  +-----------------+-------------------------------------+-------------------+-------------+------------------------+-------+---------------------------+
+  +-----------------+-------------------------------------+-------------------+-------------+------------------------+-------+---------------------------+-----------------+
+  | City            | Complete Address                    | Is Address Change | Postal Code | Private Mailbox Number | State | Street                    | Unit            |
+  +=================+=====================================+===================+=============+========================+=======+===========================+=================+
+  | Detroit         | 1234 Market Street PMB 4321, Det... | False             | 12345       | 4321                   | MI    | 1234 Market Street        |                 |
+  +-----------------+-------------------------------------+-------------------+-------------+------------------------+-------+---------------------------+-----------------+
+:Return to Sender: False
 ```
 
 # Field Types
@@ -96,13 +110,17 @@ The text field `StringField` extends `BaseField`, but also implements:
 * **value** (`String`): corresponds to the field value.
 * **rawValue** (`String`): corresponds to the raw value as it appears on the document.
 
+### BooleanField
+The boolean field `BooleanField` extends BaseField, but also implements:
+* **value** (`Boolean`): corresponds to the value of the field.
+
 ## Specific Fields
 Fields which are specific to this product; they are not used in any other product.
 
 ### Recipient Addresses Field
 The addresses of the recipients.
 
-A `UsMailV2RecipientAddress` implements the following attributes:
+A `UsMailV3RecipientAddress` implements the following attributes:
 
 * **city** (`String`): The city of the recipient's address.
 * **complete** (`String`): The complete address of the recipient.
@@ -111,12 +129,13 @@ A `UsMailV2RecipientAddress` implements the following attributes:
 * **privateMailboxNumber** (`String`): The private mailbox number of the recipient's address.
 * **state** (`String`): Second part of the ISO 3166-2 code, consisting of two letters indicating the US State.
 * **street** (`String`): The street of the recipient's address.
+* **unit** (`String`): The unit number of the recipient's address.
 Fields which are specific to this product; they are not used in any other product.
 
 ### Sender Address Field
 The address of the sender.
 
-A `UsMailV2SenderAddress` implements the following attributes:
+A `UsMailV3SenderAddress` implements the following attributes:
 
 * **city** (`String`): The city of the sender's address.
 * **complete** (`String`): The complete address of the sender.
@@ -125,10 +144,17 @@ A `UsMailV2SenderAddress` implements the following attributes:
 * **street** (`String`): The street of the sender's address.
 
 # Attributes
-The following fields are extracted for US Mail V2:
+The following fields are extracted for US Mail V3:
+
+## Return to Sender
+**isReturnToSender**: Whether the mailing is marked as return to sender.
+
+```java
+System.out.println(result.getDocument().getInference().getPrediction().getIsReturnToSender().value);
+```
 
 ## Recipient Addresses
-**recipientAddresses**(List<[UsMailV2RecipientAddress](#recipient-addresses-field)>): The addresses of the recipients.
+**recipientAddresses**(List<[UsMailV3RecipientAddress](#recipient-addresses-field)>): The addresses of the recipients.
 
 ```java
 for (recipientAddressesElem : result.getDocument().getInference().getPrediction().getRecipientAddresses())
@@ -148,7 +174,7 @@ for (recipientNamesElem : result.getDocument().getInference().getPrediction().ge
 ```
 
 ## Sender Address
-**senderAddress**([UsMailV2SenderAddress](#sender-address-field)): The address of the sender.
+**senderAddress**([UsMailV3SenderAddress](#sender-address-field)): The address of the sender.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getSenderAddress().value);

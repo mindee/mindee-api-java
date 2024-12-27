@@ -55,7 +55,10 @@ public final class SummaryHelper {
     if (inputValue == null || inputValue.isEmpty()) {
       return "";
     }
-    String outputValue = inputValue.replace("\n", "\\n").replace("\t", "\\t").replace("\r", "\\r");
+    String outputValue = inputValue
+        .replace("\n", "\\n")
+        .replace("\t", "\\t")
+        .replace("\r", "\\r");
     if (maxColSize == null || outputValue.length() <= maxColSize) {
       return outputValue;
     } else {

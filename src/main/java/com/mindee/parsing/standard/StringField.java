@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.mindee.geometry.Polygon;
 import com.mindee.geometry.PolygonDeserializer;
+import com.mindee.parsing.SummaryHelper;
 import lombok.Getter;
 
 /**
@@ -56,6 +57,6 @@ public final class StringField extends BaseField {
 
   @Override
   public String toString() {
-    return value == null ? "" : value;
+    return SummaryHelper.formatString(this.value);
   }
 }
