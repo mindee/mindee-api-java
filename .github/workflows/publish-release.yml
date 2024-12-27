@@ -8,6 +8,10 @@ jobs:
   docs-publish:
     uses: mindee/mindee-api-java/.github/workflows/_docs.yml@main
     secrets: inherit
+  sync-readme:
+    uses: mindee/mindee-api-java/.github/workflows/_sync-md.yml@main
+    needs: docs-publish
+    secrets: inherit
   maven-publish:
     uses: mindee/mindee-api-java/.github/workflows/_maven-publish.yml@main
     secrets: inherit

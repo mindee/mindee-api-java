@@ -12,13 +12,6 @@ jobs:
     uses: mindee/mindee-api-java/.github/workflows/_build.yml@main
     needs: checkstyle
     secrets: inherit
-  codeql:
-    uses: mindee/mindee-api-java/.github/workflows/_codeql.yml@main
-    needs: build
-  sync-readme:
-    uses: mindee/mindee-api-java/.github/workflows/_sync-md.yml@main
-    needs: codeql
-    secrets: inherit
   tag:
     uses: mindee/client-lib-actions/.github/workflows/tag-version.yml@main
-    needs: codeql
+    needs: build
