@@ -1,5 +1,10 @@
 # Mindee Java API Library Changelog
 
+## v4.24.0 - 2024-12-27
+### Changes
+* :sparkles: add support for us mail v3
+
+
 ## v4.23.1 - 2024-12-20
 ### Fixes
 * :bug: fix for server not properly formatting floats
