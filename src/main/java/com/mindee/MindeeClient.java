@@ -380,7 +380,7 @@ public class MindeeClient {
       retryCount++;
       Thread.sleep(intervalSec);
     }
-    throw new RuntimeException("Max retries exceeded. Failed to get the document.");
+    throw new RuntimeException("Max retries exceeded: " + retryCount +". Failed to get the document.");
   }
 
   /**
