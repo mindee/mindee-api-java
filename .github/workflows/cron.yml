@@ -1,0 +1,12 @@
+name: Crontab
+
+on:
+  schedule:
+  - cron: '33 0 * * *'
+
+jobs:
+  codeql:
+    uses: mindee/mindee-api-java/.github/workflows/_codeql.yml@main
+  test_code_samples:
+    uses: mindee/mindee-api-java/.github/workflows/_test-code-samples.yml@main
+    secrets: inherit

@@ -1,10 +1,9 @@
 name: Integration Tests
 
 on:
-  pull_request:
-  schedule:
-    - cron:  '0 23 * * *'
+  workflow_call:
   workflow_dispatch:
+
 jobs:
   integration_tests:
     name: Run Integration Tests
