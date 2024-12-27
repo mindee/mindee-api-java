@@ -1,0 +1,24 @@
+name: Push Main Branch
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  checkstyle:
+    uses: mindee/mindee-api-java/.github/workflows/_checkstyle.yml@main
+  build:
+    uses: mindee/mindee-api-java/.github/workflows/_build.yml@main
+    needs: checkstyle
+    secrets: inherit
+  codeql:
+    uses: mindee/mindee-api-java/.github/workflows/_codeql.yml@main
+    needs: build
+  sync-readme:
+    uses: mindee/mindee-api-java/.github/workflows/_sync-md.yml@main
+    needs: codeql
+    secrets: inherit
+  tag:
+    uses: mindee/client-lib-actions/.github/workflows/tag-version.yml@main
+    needs: codeql

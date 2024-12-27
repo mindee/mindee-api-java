@@ -1,0 +1,13 @@
+name: Publish Release
+
+on:
+  release:
+    types: [ published ]
+
+jobs:
+  docs-publish:
+    uses: mindee/mindee-api-java/.github/workflows/_docs.yml@main
+    secrets: inherit
+  maven-publish:
+    uses: mindee/mindee-api-java/.github/workflows/_maven-publish.yml@main
+    secrets: inherit
