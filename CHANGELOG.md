@@ -1,5 +1,10 @@
 # Mindee Java API Library Changelog
 
+## v4.24.1 - 2024-12-27
+### Fixes
+* :bug: fix for large files timing out in async mode
+
+
 ## v4.24.0 - 2024-12-27
 ### Changes
 * :sparkles: add support for us mail v3
@@ -194,7 +199,6 @@
 * :sparkles: add built-in async call polling
 * :sparkles: add multi receipts detector v1
 * :sparkles: better HTTP error printing
-
 ### Fixes
 * :bug: fix minor spacing issue when printing lists
 * :bug: take line height tolerance into account when evaluating fields

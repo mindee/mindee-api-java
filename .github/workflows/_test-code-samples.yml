@@ -5,7 +5,7 @@ on:
 
 jobs:
   test_sample_code:
-    name: Test Sample Code
+    name: Test Code Samples
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 2
