@@ -7,6 +7,7 @@ import com.mindee.parsing.common.PredictResponse;
 import com.mindee.parsing.generated.GeneratedFeature;
 import com.mindee.parsing.generated.GeneratedObject;
 import com.mindee.parsing.standard.AmountField;
+import com.mindee.parsing.standard.BooleanField;
 import com.mindee.parsing.standard.ClassificationField;
 import com.mindee.parsing.standard.DateField;
 import com.mindee.parsing.standard.StringField;
@@ -259,5 +260,21 @@ public class GeneratedV1Test {
     GeneratedObject badStringObject = new GeneratedObject();
     doubleObject.put("value", "I will fail miserably");
     Assertions.assertThrows(ClassCastException.class, badStringObject::asAmountField);
+  }
+
+  void whenBooleanDeserialized_mustCastToBoolean() {
+    GeneratedObject boolObject = new GeneratedObject();
+    boolObject.put("value", true);
+    BooleanField booleanField = boolObject.asBooleanField();
+    Assertions.assertEquals(true, booleanField.getValue());
+
+    boolObject.put("value", false);
+    booleanField = boolObject.asBooleanField();
+    Assertions.assertEquals(true, booleanField.getValue());
+
+
+    boolObject.put("value", null);
+    booleanField = boolObject.asBooleanField();
+    Assertions.assertNull(booleanField.getValue());
   }
 }
