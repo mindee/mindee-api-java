@@ -61,7 +61,7 @@ public class GeneratedObject extends HashMap<String, Object> {
   public BooleanField asBooleanField() {
     Object rawValue = this.get("value");
     if (rawValue instanceof Boolean) {
-      return new BooleanField((Boolean)rawValue, this.getConfidence(), this.getPolygon(), this.getPageId());
+      return new BooleanField((Boolean) rawValue, this.getConfidence(), this.getPolygon(), this.getPageId());
     }
     throw new ClassCastException("Cannot cast " + rawValue + " to Boolean");
   }
