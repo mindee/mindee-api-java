@@ -25,12 +25,26 @@ public class GeneratedV1Test {
     objectMapper.findAndRegisterModules();
 
     JavaType type = objectMapper.getTypeFactory().constructParametricType(
-      AsyncPredictResponse.class,
-      GeneratedV1.class
+        AsyncPredictResponse.class,
+        GeneratedV1.class
     );
     return objectMapper.readValue(
-      new File("src/test/resources/products/generated/response_v1/" + name + "_international_id_v1.json"),
-      type
+        new File("src/test/resources/products/generated/response_v1/" + name + "_international_id_v1.json"),
+        type
+    );
+  }
+
+  protected AsyncPredictResponse<GeneratedV1> getUsMailPrediction() throws IOException {
+    ObjectMapper objectMapper = new ObjectMapper();
+    objectMapper.findAndRegisterModules();
+
+    JavaType type = objectMapper.getTypeFactory().constructParametricType(
+        AsyncPredictResponse.class,
+        GeneratedV1.class
+    );
+    return objectMapper.readValue(
+        new File("src/test/resources/products/us_mail/response_v3/complete.json"),
+        type
     );
   }
 
@@ -246,6 +260,14 @@ public class GeneratedV1Test {
   }
 
   @Test
+  void whenCompleteDeserializedWithBoolean_mustHaveValidProperties() throws IOException {
+    AsyncPredictResponse<GeneratedV1> response = getUsMailPrediction();
+    GeneratedV1Document docPrediction = response.getDocumentObj().getInference().getPrediction();
+    Map<String, GeneratedFeature> features = docPrediction.getFields();
+    Assertions.assertFalse(features.get("is_return_to_sender").asBooleanField().getValue());
+  }
+
+  @Test
   void whenAmountDeserialized_mustCastToDouble() {
     GeneratedObject intObject = new GeneratedObject();
     intObject.put("value", 5);
@@ -262,19 +284,15 @@ public class GeneratedV1Test {
     Assertions.assertThrows(ClassCastException.class, badStringObject::asAmountField);
   }
 
+  @Test
   void whenBooleanDeserialized_mustCastToBoolean() {
     GeneratedObject boolObject = new GeneratedObject();
     boolObject.put("value", true);
     BooleanField booleanField = boolObject.asBooleanField();
-    Assertions.assertEquals(true, booleanField.getValue());
+    Assertions.assertTrue(booleanField.getValue());
 
     boolObject.put("value", false);
     booleanField = boolObject.asBooleanField();
-    Assertions.assertEquals(true, booleanField.getValue());
-
-
-    boolObject.put("value", null);
-    booleanField = boolObject.asBooleanField();
-    Assertions.assertNull(booleanField.getValue());
+    Assertions.assertFalse(booleanField.getValue());
   }
 }

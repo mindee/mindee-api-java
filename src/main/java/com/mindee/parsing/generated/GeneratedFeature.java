@@ -2,6 +2,7 @@ package com.mindee.parsing.generated;
 
 import com.mindee.MindeeException;
 import com.mindee.parsing.standard.AmountField;
+import com.mindee.parsing.standard.BooleanField;
 import com.mindee.parsing.standard.ClassificationField;
 import com.mindee.parsing.standard.DateField;
 import com.mindee.parsing.standard.StringField;
@@ -34,6 +35,7 @@ public class GeneratedFeature extends ArrayList<GeneratedObject> {
 
   /**
    * Whether the original feature is a list.
+   * @param isList Whether the feature is a list.
    */
   public GeneratedFeature(boolean isList) {
     this.isList = isList;
@@ -42,6 +44,7 @@ public class GeneratedFeature extends ArrayList<GeneratedObject> {
   /**
    * Represent the feature as a standard {@link StringField}.
    * Only works for non-list features.
+   * @return An instance of a {@link StringField}.
    */
   public StringField asStringField() {
     if (this.isList) {
@@ -51,8 +54,19 @@ public class GeneratedFeature extends ArrayList<GeneratedObject> {
   }
 
   /**
+   * @return An instance of a {@link BooleanField}.
+   */
+  public BooleanField asBooleanField() {
+    if (this.isList) {
+      throw new MindeeException("Cannot convert a list feature into a BooleanField.");
+    }
+    return this.get(0).asBooleanField();
+  }
+
+  /**
    * Represent the feature as a standard {@link AmountField}.
    * Only works for non-list features.
+   * @return An instance of a {@link AmountField}.
    */
   public AmountField asAmountField() {
     if (this.isList) {
@@ -64,6 +78,7 @@ public class GeneratedFeature extends ArrayList<GeneratedObject> {
   /**
    * Represent the feature as a standard {@link DateField}.
    * Only works for non-list features.
+   * @return An instance of a {@link DateField}.
    */
   public DateField asDateField() {
     if (this.isList) {
@@ -75,6 +90,7 @@ public class GeneratedFeature extends ArrayList<GeneratedObject> {
   /**
    * Represent the feature as a standard {@link ClassificationField}.
    * Only works for non-list features.
+   * @return An instance of a {@link ClassificationField}.
    */
   public ClassificationField asClassificationField() {
     if (this.isList) {
