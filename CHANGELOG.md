@@ -1,5 +1,10 @@
 # Mindee Java API Library Changelog
 
+## v4.24.2 - 2025-01-06
+### Fixes
+* :bug: fix missing boolean field accessor for generated objects
+
+
 ## v4.24.1 - 2024-12-27
 ### Fixes
 * :bug: fix for large files timing out in async mode
