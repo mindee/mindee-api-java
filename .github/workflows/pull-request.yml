@@ -4,8 +4,8 @@ on:
   pull_request:
 
 jobs:
-  checkstyle:
-    uses: mindee/mindee-api-java/.github/workflows/_checkstyle.yml@main
+  static_analysis:
+    uses: mindee/mindee-api-java/.github/workflows/_static-analysis.yml@main
   build:
     uses: mindee/mindee-api-java/.github/workflows/_build.yml@main
     needs: checkstyle
@@ -13,8 +13,8 @@ jobs:
   codeql:
     uses: mindee/mindee-api-java/.github/workflows/_codeql.yml@main
     needs: build
-  integration_tests:
-    uses: mindee/mindee-api-java/.github/workflows/_integration-tests.yml@main
+  test_integrations:
+    uses: mindee/mindee-api-java/.github/workflows/_test-integrations.yml@main
     needs: build
     secrets: inherit
   test_code_samples:
