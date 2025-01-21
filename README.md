@@ -103,7 +103,7 @@ public class SimpleMindeeClient {
 }
 ```
 
-## Synchronously Parsing a File
+## Asynchronously Parsing a File
 This allows for easier handling of bursts of documents sent.
 
 Some products are only available asynchronously, check the example code
