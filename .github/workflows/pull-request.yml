@@ -8,7 +8,7 @@ jobs:
     uses: mindee/mindee-api-java/.github/workflows/_static-analysis.yml@main
   build:
     uses: mindee/mindee-api-java/.github/workflows/_build.yml@main
-    needs: checkstyle
+    needs: static_analysis
     secrets: inherit
   codeql:
     uses: mindee/mindee-api-java/.github/workflows/_codeql.yml@main
