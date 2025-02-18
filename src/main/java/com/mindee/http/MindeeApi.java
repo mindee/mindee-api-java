@@ -59,8 +59,8 @@ abstract public class MindeeApi {
       osName = "macos";
     } else if (osName.contains("linux")) {
       osName = "linux";
-    } else if (osName.contains("freebsd")) {
-      osName = "freebsd";
+    } else if (osName.contains("bsd")) {
+      osName = "bsd";
     } else if (osName.contains("aix")) {
       osName = "aix";
     }
