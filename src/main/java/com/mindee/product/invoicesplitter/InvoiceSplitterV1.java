@@ -6,12 +6,11 @@ import com.mindee.parsing.common.Inference;
 import lombok.Getter;
 
 /**
- * The invoice splitter V1 inference.
+ * Invoice Splitter API version 1 inference prediction.
  */
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
 @EndpointInfo(endpointName = "invoice_splitter", version = "1")
-public class InvoiceSplitterV1 extends
-    Inference<InvoiceSplitterV1Document, InvoiceSplitterV1Document> {
-
+public class InvoiceSplitterV1
+    extends Inference<InvoiceSplitterV1Document, InvoiceSplitterV1Document> {
 }

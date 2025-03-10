@@ -5,7 +5,7 @@ import static com.mindee.pdf.PDFUtils.mergePdfPages;
 import com.mindee.MindeeException;
 import com.mindee.input.InputSourceUtils;
 import com.mindee.input.LocalInputSource;
-import com.mindee.product.invoicesplitter.InvoiceSplitterV1Document;
+import com.mindee.product.invoicesplitter.InvoiceSplitterV1InvoicePageGroup;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -118,11 +118,11 @@ public class PDFExtractor {
    * @return a list of extracted files.
    * @throws IOException Throws if the file can't be accessed.
    */
-  public List<ExtractedPDF> extractInvoices(List<InvoiceSplitterV1Document.PageIndexes> pageIndexes)
+  public List<ExtractedPDF> extractInvoices(List<InvoiceSplitterV1InvoicePageGroup> pageIndexes)
       throws IOException {
 
     List<List<Integer>> indexes =
-        pageIndexes.stream().map(InvoiceSplitterV1Document.PageIndexes::getPageIndexes)
+        pageIndexes.stream().map(InvoiceSplitterV1InvoicePageGroup::getPageIndexes)
         .collect(Collectors.toList());
 
 
@@ -138,17 +138,17 @@ public class PDFExtractor {
    * @return a list of extracted files.
    * @throws IOException Throws if the file can't be accessed.
    */
-  public List<ExtractedPDF> extractInvoices(List<InvoiceSplitterV1Document.PageIndexes> pageIndexes,
+  public List<ExtractedPDF> extractInvoices(List<InvoiceSplitterV1InvoicePageGroup> pageIndexes,
                                             boolean strict) throws IOException {
     List<List<Integer>> correctPageIndexes = new ArrayList<>();
     if (!strict) {
       return extractInvoices(pageIndexes);
     }
-    Iterator<InvoiceSplitterV1Document.PageIndexes> iterator = pageIndexes.iterator();
+    Iterator<InvoiceSplitterV1InvoicePageGroup> iterator = pageIndexes.iterator();
     List<Integer> currentList = new ArrayList<>();
     Double previousConfidence = null;
     while (iterator.hasNext()) {
-      InvoiceSplitterV1Document.PageIndexes pageIndex = iterator.next();
+      InvoiceSplitterV1InvoicePageGroup pageIndex = iterator.next();
       Double confidence = pageIndex.getConfidence();
       List<Integer> pageList = pageIndex.getPageIndexes();
 

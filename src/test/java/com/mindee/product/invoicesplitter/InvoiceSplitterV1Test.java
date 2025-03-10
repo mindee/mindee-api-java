@@ -2,23 +2,26 @@ package com.mindee.product.invoicesplitter;
 
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mindee.parsing.common.AsyncPredictResponse;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.List;
+import com.mindee.parsing.common.Document;
+import com.mindee.parsing.common.PredictResponse;
+import com.mindee.parsing.standard.ClassificationField;
+import com.mindee.product.ProductTestHelper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import java.io.File;
+import java.io.IOException;
 
+/**
+ * Unit tests for InvoiceSplitterV1.
+ */
 public class InvoiceSplitterV1Test {
 
-  protected AsyncPredictResponse<InvoiceSplitterV1> getPrediction(String name) throws IOException {
+  protected PredictResponse<InvoiceSplitterV1> getPrediction(String name) throws IOException {
     ObjectMapper objectMapper = new ObjectMapper();
     objectMapper.findAndRegisterModules();
 
     JavaType type = objectMapper.getTypeFactory().constructParametricType(
-      AsyncPredictResponse.class,
+      PredictResponse.class,
       InvoiceSplitterV1.class
     );
     return objectMapper.readValue(
@@ -29,22 +32,19 @@ public class InvoiceSplitterV1Test {
 
   @Test
   void whenEmptyDeserialized_mustHaveValidProperties() throws IOException {
-    AsyncPredictResponse<InvoiceSplitterV1> response = getPrediction("empty");
-    InvoiceSplitterV1Document docPrediction = response.getDocumentObj().getInference().getPrediction();
+    PredictResponse<InvoiceSplitterV1> response = getPrediction("empty");
+    InvoiceSplitterV1Document docPrediction = response.getDocument().getInference().getPrediction();
     Assertions.assertTrue(docPrediction.getInvoicePageGroups().isEmpty());
   }
 
   @Test
-  void givenAnInvoiceSplitterResponse_whenDeserialized_MustHaveAValidSummary() throws IOException {
-    AsyncPredictResponse<InvoiceSplitterV1> response = getPrediction("complete");
-
-    String[] actualLines = response.getDocumentObj().toString().split(System.lineSeparator());
-    List<String> expectedLines = Files
-        .readAllLines(Paths.get("src/test/resources/products/invoice_splitter/response_v1/summary_full.rst"));
-    String expectedSummary = String.join(String.format("%n"), expectedLines);
-    String actualSummary = String.join(String.format("%n"), actualLines);
-
-    Assertions.assertEquals(expectedSummary, actualSummary);
+  void whenCompleteDeserialized_mustHaveValidDocumentSummary() throws IOException {
+    PredictResponse<InvoiceSplitterV1> response = getPrediction("complete");
+    Document<InvoiceSplitterV1> doc = response.getDocument();
+    ProductTestHelper.assertStringEqualsFile(
+        doc.toString(),
+        "src/test/resources/products/invoice_splitter/response_v1/summary_full.rst"
+    );
   }
 
 }
