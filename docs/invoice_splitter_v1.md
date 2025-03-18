@@ -1,27 +1,22 @@
 ---
-title: Invoice Splitter API Java
+title: Invoice Splitter OCR Java
 category: 622b805aaec68102ea7fcbc2
 slug: java-invoice-splitter-ocr
 parentDoc: 631a062c3718850f3519b793
 ---
 The Java OCR SDK supports the [Invoice Splitter API](https://platform.mindee.com/mindee/invoice_splitter).
 
-Using [this sample](https://github.com/mindee/client-lib-test-data/blob/main/products/invoice_splitter/default_sample.pdf), we are going to illustrate how to detect the pages of multiple invoices within the same document.
+Using the [sample below](https://github.com/mindee/client-lib-test-data/blob/main/products/invoice_splitter/default_sample.pdf), we are going to illustrate how to extract the data that we want using the OCR SDK.
+![Invoice Splitter sample](https://github.com/mindee/client-lib-test-data/blob/main/products/invoice_splitter/default_sample.pdf?raw=true)
 
 # Quick-Start
-
-> **⚠️ Important:** This API only works **asynchronously**, which means that documents have to be sent and retrieved in a specific way:
-
 ```java
 import com.mindee.MindeeClient;
 import com.mindee.input.LocalInputSource;
 import com.mindee.parsing.common.AsyncPredictResponse;
-import com.mindee.parsing.common.Job;
-import com.mindee.parsing.common.Document;
 import com.mindee.product.invoicesplitter.InvoiceSplitterV1;
 import java.io.File;
 import java.io.IOException;
-import java.util.Optional;
 
 public class SimpleMindeeClient {
 
@@ -37,8 +32,8 @@ public class SimpleMindeeClient {
 
     // Parse the file asynchronously
     AsyncPredictResponse<InvoiceSplitterV1> response = mindeeClient.enqueueAndParse(
-      InvoiceSplitterV1.class,
-      inputSource
+        InvoiceSplitterV1.class,
+        inputSource
     );
 
     // Print a summary of the response
@@ -55,69 +50,82 @@ public class SimpleMindeeClient {
 //        page -> System.out.println(page.toString())
 //    );
   }
+
 }
+
 ```
 
 **Output (RST):**
-
 ```rst
 ########
 Document
 ########
-:Mindee ID: 8c25cc63-212b-4537-9c9b-3fbd3bd0ee20
-:Filename: default_sample.jpg
+:Mindee ID: 15ad7a19-7b75-43d0-b0c6-9a641a12b49b
+:Filename: default_sample.pdf
 
 Inference
 #########
-:Product: mindee/carte_vitale v1.0
-:Rotation applied: Yes
+:Product: mindee/invoice_splitter v1.1
+:Rotation applied: No
 
 Prediction
 ==========
-:Given Name(s): NATHALIE
-:Surname: DURAND
-:Social Security Number: 269054958815780
-:Issuance Date: 2007-01-01
+:Invoice Page Groups:
+  :Page indexes: 0
+  :Page indexes: 1
 
 Page Predictions
 ================
 
 Page 0
 ------
-:Given Name(s): NATHALIE
-:Surname: DURAND
-:Social Security Number: 269054958815780
-:Issuance Date: 2007-01-01
+:Invoice Page Groups:
+
+Page 1
+------
+:Invoice Page Groups:
 ```
 
 # Field Types
+## Standard Fields
+These fields are generic and used in several products.
+
+### BaseField
+Each prediction object contains a set of fields that inherit from the generic `BaseField` class.
+A typical `BaseField` object will have the following attributes:
+
+* **confidence** (`Double`): the confidence score of the field prediction.
+* **boundingBox** (`Polygon`): contains exactly 4 relative vertices (points) coordinates of a right rectangle containing the field in the document.
+* **polygon** (`Polygon`): contains the relative vertices coordinates (`polygon` extends `List<Point>`) of a polygon containing the field in the image.
+* **pageId** (`Integer`): the ID of the page, always `null` when at document-level.
+
+> **Note:** A `Point` simply refers to a List of `Double`.
+
+
+Aside from the previous attributes, all basic fields have access to a custom `toString` method that can be used to print their value as a string.
 
 ## Specific Fields
+Fields which are specific to this product; they are not used in any other product.
 
-### Page Indexes
+### Invoice Page Groups Field
+List of page groups. Each group represents a single invoice within a multi-invoice document.
 
-List of page group indexes.
+A `InvoiceSplitterV1InvoicePageGroup` implements the following attributes:
 
-A `PageIndexes` implements the following attributes:
-
-- **pageIndexes** (`List<Integer>`): List of indexes of the pages of a single invoice.
-- **confidence** (`Double`): The confidence of the prediction.
+* **pageIndexes** (`List<Integer>`): List of page indexes that belong to the same invoice (group).
 
 # Attributes
-
 The following fields are extracted for Invoice Splitter V1:
 
 ## Invoice Page Groups
-
-**invoicePageGroups** (`List<`[invoicePageGroups](#page-indexes)`>`): List of page indexes that belong to the same invoice in the PDF.
+**invoicePageGroups**(List<[InvoiceSplitterV1InvoicePageGroup](#invoice-page-groups-field)>): List of page groups. Each group represents a single invoice within a multi-invoice document.
 
 ```java
 for (invoicePageGroupsElem : result.getDocument().getInference().getPrediction().getInvoicePageGroups())
 {
-  System.out.println(invoicePageGroupsElem);
+    System.out.println(invoicePageGroupsElem.value);
 }
 ```
 
 # Questions?
-
 [Join our Slack](https://join.slack.com/t/mindee-community/shared_invite/zt-2d0ds7dtz-DPAF81ZqTy20chsYpQBW5g)

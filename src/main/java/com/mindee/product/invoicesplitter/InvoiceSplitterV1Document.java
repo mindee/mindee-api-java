@@ -2,67 +2,50 @@ package com.mindee.product.invoicesplitter;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.mindee.parsing.SummaryHelper;
 import com.mindee.parsing.common.Prediction;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 /**
- * Document data for Invoice Splitter, API version 1.
+ * Invoice Splitter API version 1.2 document data.
  */
 @Getter
 @EqualsAndHashCode(callSuper = false)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class InvoiceSplitterV1Document extends Prediction {
 
+  /**
+   * List of page groups. Each group represents a single invoice within a multi-invoice document.
+   */
   @JsonProperty("invoice_page_groups")
-  private List<PageIndexes> invoicePageGroups;
+  protected List<InvoiceSplitterV1InvoicePageGroup> invoicePageGroups = new ArrayList<>();
+
+  @Override
+  public boolean isEmpty() {
+    return (
+      (this.invoicePageGroups == null || this.invoicePageGroups.isEmpty())
+      );
+  }
 
   @Override
   public String toString() {
     StringBuilder outStr = new StringBuilder();
-
-    outStr.append(String.format(":Invoice Page Groups: %n"));
-    if (invoicePageGroups != null) {
-      String pageGroupsString = this.getInvoicePageGroups().stream()
-          .map(PageIndexes::toString)
-          .collect(Collectors.joining(String.format("%n")));
-      outStr.append(String.format("%s%n", pageGroupsString));
+    String invoicePageGroupsSummary = "";
+    if (!this.getInvoicePageGroups().isEmpty()) {
+      int[] invoicePageGroupsColSizes = new int[]{74};
+      invoicePageGroupsSummary =
+        String.format("%n%s%n  ", SummaryHelper.lineSeparator(invoicePageGroupsColSizes, "-"))
+          + "| Page Indexes                                                             "
+          + String.format("|%n%s%n  ", SummaryHelper.lineSeparator(invoicePageGroupsColSizes, "="));
+      invoicePageGroupsSummary += SummaryHelper.arrayToString(this.getInvoicePageGroups(), invoicePageGroupsColSizes);
+      invoicePageGroupsSummary += String.format("%n%s", SummaryHelper.lineSeparator(invoicePageGroupsColSizes, "-"));
     }
-    return outStr.toString();
-  }
-
-  @Override
-  public boolean isEmpty() {
-    return invoicePageGroups.isEmpty();
-  }
-
-  /**
-   * Represents a grouping of pages.
-   */
-  @Getter
-  @JsonIgnoreProperties(ignoreUnknown = true)
-  public static class PageIndexes {
-
-    /**
-     * The confidence about the zone of the value extracted. A value from 0 to 1.
-     */
-    @JsonProperty("confidence")
-    private Double confidence;
-
-    /**
-     * The page indexes in the document that are grouped together
-     */
-    @JsonProperty("page_indexes")
-    private List<Integer> pageIndexes;
-
-    @Override
-    public String toString() {
-      return "  :Page indexes: ".concat(
-          pageIndexes.stream().map((index) -> index.toString())
-            .collect(Collectors.joining(", "))
-      );
-    }
+    outStr.append(
+        String.format(":Invoice Page Groups: %s%n", invoicePageGroupsSummary)
+    );
+    return SummaryHelper.cleanSummary(outStr.toString());
   }
 }
