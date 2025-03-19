@@ -10,7 +10,7 @@ import java.util.Map;
 import lombok.Getter;
 
 /**
- * List of line item details.
+ * List of line item present on the document.
  */
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)

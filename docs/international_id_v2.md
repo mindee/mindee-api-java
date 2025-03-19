@@ -168,12 +168,12 @@ System.out.println(result.getDocument().getInference().getPrediction().getDocume
 **documentType**: The type of personal identification document.
 
 #### Possible values include:
- - IDENTIFICATION_CARD
- - PASSPORT
- - DRIVER_LICENSE
- - VISA
- - RESIDENCY_CARD
- - VOTER_REGISTRATION
+ - 'IDENTIFICATION_CARD'
+ - 'PASSPORT'
+ - 'DRIVER_LICENSE'
+ - 'VISA'
+ - 'RESIDENCY_CARD'
+ - 'VOTER_REGISTRATION'
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getDocumentType().value);

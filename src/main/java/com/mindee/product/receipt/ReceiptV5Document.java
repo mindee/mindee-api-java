@@ -27,7 +27,7 @@ import lombok.Getter;
 public class ReceiptV5Document extends Prediction {
 
   /**
-   * The purchase category among predefined classes.
+   * The purchase category of the receipt.
    */
   @JsonProperty("category")
   protected ClassificationField category;
@@ -37,17 +37,17 @@ public class ReceiptV5Document extends Prediction {
   @JsonProperty("date")
   protected DateField date;
   /**
-   * One of: 'CREDIT CARD RECEIPT', 'EXPENSE RECEIPT'.
+   * The type of receipt: EXPENSE RECEIPT or CREDIT CARD RECEIPT.
    */
   @JsonProperty("document_type")
   protected ClassificationField documentType;
   /**
-   * List of line item details.
+   * List of all line items on the receipt.
    */
   @JsonProperty("line_items")
   protected List<ReceiptV5LineItem> lineItems = new ArrayList<>();
   /**
-   * The locale detected on the document.
+   * The locale of the document.
    */
   @JsonProperty("locale")
   protected LocaleField locale;
@@ -57,7 +57,7 @@ public class ReceiptV5Document extends Prediction {
   @JsonProperty("receipt_number")
   protected StringField receiptNumber;
   /**
-   * The purchase subcategory among predefined classes for transport and food.
+   * The purchase subcategory of the receipt for transport and food.
    */
   @JsonProperty("subcategory")
   protected ClassificationField subcategory;
@@ -67,7 +67,7 @@ public class ReceiptV5Document extends Prediction {
   @JsonProperty("supplier_address")
   protected StringField supplierAddress;
   /**
-   * List of company registrations associated to the supplier.
+   * List of company registration numbers associated to the supplier.
    */
   @JsonProperty("supplier_company_registrations")
   protected List<CompanyRegistrationField> supplierCompanyRegistrations = new ArrayList<>();
@@ -82,7 +82,7 @@ public class ReceiptV5Document extends Prediction {
   @JsonProperty("supplier_phone_number")
   protected StringField supplierPhoneNumber;
   /**
-   * List of tax lines information.
+   * The list of taxes present on the receipt.
    */
   @JsonProperty("taxes")
   @JsonDeserialize(using = TaxesDeserializer.class)
@@ -108,7 +108,7 @@ public class ReceiptV5Document extends Prediction {
   @JsonProperty("total_net")
   protected AmountField totalNet;
   /**
-   * The total amount of taxes.
+   * The sum of all taxes.
    */
   @JsonProperty("total_tax")
   protected AmountField totalTax;

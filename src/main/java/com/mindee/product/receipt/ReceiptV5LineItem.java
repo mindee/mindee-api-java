@@ -10,7 +10,7 @@ import java.util.Map;
 import lombok.Getter;
 
 /**
- * List of line item details.
+ * List of all line items on the receipt.
  */
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)

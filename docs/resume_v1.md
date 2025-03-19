@@ -266,9 +266,9 @@ System.out.println(result.getDocument().getInference().getPrediction().getDocume
 **documentType**: The type of the document sent.
 
 #### Possible values include:
- - RESUME
- - MOTIVATION_LETTER
- - RECOMMENDATION_LETTER
+ - 'RESUME'
+ - 'MOTIVATION_LETTER'
+ - 'RECOMMENDATION_LETTER'
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getDocumentType().value);

@@ -291,7 +291,7 @@ The `Taxes` field represents a List of `TaxField` objects. As it is the represen
 Fields which are specific to this product; they are not used in any other product.
 
 ### Line Items Field
-List of line item details.
+List of line item present on the document.
 
 A `FinancialDocumentV1LineItem` implements the following attributes:
 
@@ -315,17 +315,17 @@ System.out.println(result.getDocument().getInference().getPrediction().getBillin
 ```
 
 ## Purchase Category
-**category**: The purchase category among predefined classes.
+**category**: The purchase category, only for receipts.
 
 #### Possible values include:
- - toll
- - food
- - parking
- - transport
- - accommodation
- - gasoline
- - telecom
- - miscellaneous
+ - 'toll'
+ - 'food'
+ - 'parking'
+ - 'transport'
+ - 'accommodation'
+ - 'gasoline'
+ - 'telecom'
+ - 'miscellaneous'
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getCategory().value);
@@ -339,7 +339,7 @@ System.out.println(result.getDocument().getInference().getPrediction().getCustom
 ```
 
 ## Customer Company Registrations
-**customerCompanyRegistrations**: List of company registrations associated to the customer.
+**customerCompanyRegistrations**: List of company registration numbers associated to the customer.
 
 ```java
 for (customerCompanyRegistrationsElem : result.getDocument().getInference().getPrediction().getCustomerCompanyRegistrations())
@@ -370,20 +370,20 @@ System.out.println(result.getDocument().getInference().getPrediction().getDate()
 ```
 
 ## Document Number
-**documentNumber**: The document number or identifier.
+**documentNumber**: The document number or identifier (invoice number or receipt number).
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getDocumentNumber().value);
 ```
 
 ## Document Type
-**documentType**: One of: 'INVOICE', 'CREDIT NOTE', 'CREDIT CARD RECEIPT', 'EXPENSE RECEIPT'.
+**documentType**: The type of the document: INVOICE or CREDIT NOTE if it is an invoice, CREDIT CARD RECEIPT or EXPENSE RECEIPT if it is a receipt.
 
 #### Possible values include:
- - INVOICE
- - CREDIT NOTE
- - CREDIT CARD RECEIPT
- - EXPENSE RECEIPT
+ - 'INVOICE'
+ - 'CREDIT NOTE'
+ - 'CREDIT CARD RECEIPT'
+ - 'EXPENSE RECEIPT'
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getDocumentType().value);
@@ -404,7 +404,7 @@ System.out.println(result.getDocument().getInference().getPrediction().getInvoic
 ```
 
 ## Line Items
-**lineItems**(List<[FinancialDocumentV1LineItem](#line-items-field)>): List of line item details.
+**lineItems**(List<[FinancialDocumentV1LineItem](#line-items-field)>): List of line item present on the document.
 
 ```java
 for (lineItemsElem : result.getDocument().getInference().getPrediction().getLineItems())
@@ -414,7 +414,7 @@ for (lineItemsElem : result.getDocument().getInference().getPrediction().getLine
 ```
 
 ## Locale
-**locale**: The locale detected on the document.
+**locale**: The locale of the document.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getLocale().value);
@@ -428,7 +428,7 @@ System.out.println(result.getDocument().getInference().getPrediction().getPaymen
 ```
 
 ## Purchase Order Number
-**poNumber**: The purchase order number.
+**poNumber**: The purchase order number, only if the document is an invoice.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getPoNumber().value);
@@ -442,7 +442,7 @@ System.out.println(result.getDocument().getInference().getPrediction().getReceip
 ```
 
 ## Reference Numbers
-**referenceNumbers**: List of Reference numbers, including PO number.
+**referenceNumbers**: List of Reference numbers, including PO number, only if the document is an invoice.
 
 ```java
 for (referenceNumbersElem : result.getDocument().getInference().getPrediction().getReferenceNumbers())
@@ -459,14 +459,15 @@ System.out.println(result.getDocument().getInference().getPrediction().getShippi
 ```
 
 ## Purchase Subcategory
-**subcategory**: The purchase subcategory among predefined classes for transport and food.
+**subcategory**: The purchase subcategory for transport and food, only for receipts.
 
 #### Possible values include:
- - plane
- - taxi
- - train
- - restaurant
- - shopping
+ - 'plane'
+ - 'taxi'
+ - 'train'
+ - 'restaurant'
+ - 'shopping'
+ - null
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getSubcategory().value);
@@ -480,7 +481,7 @@ System.out.println(result.getDocument().getInference().getPrediction().getSuppli
 ```
 
 ## Supplier Company Registrations
-**supplierCompanyRegistrations**: List of company registrations associated to the supplier.
+**supplierCompanyRegistrations**: List of company registration numbers associated to the supplier.
 
 ```java
 for (supplierCompanyRegistrationsElem : result.getDocument().getInference().getPrediction().getSupplierCompanyRegistrations())
@@ -504,7 +505,7 @@ System.out.println(result.getDocument().getInference().getPrediction().getSuppli
 ```
 
 ## Supplier Payment Details
-**supplierPaymentDetails**: List of payment details associated to the supplier.
+**supplierPaymentDetails**: List of payment details associated to the supplier (only for invoices).
 
 ```java
 for (supplierPaymentDetailsElem : result.getDocument().getInference().getPrediction().getSupplierPaymentDetails())
@@ -531,7 +532,7 @@ System.out.println(result.getDocument().getInference().getPrediction().getSuppli
 ```
 
 ## Taxes
-**taxes**: List of tax lines information.
+**taxes**: List of all taxes on the document.
 
 ```java
 for (taxesElem : result.getDocument().getInference().getPrediction().getTaxes())
@@ -541,7 +542,7 @@ for (taxesElem : result.getDocument().getInference().getPrediction().getTaxes())
 ```
 
 ## Purchase Time
-**time**: The time the purchase was made.
+**time**: The time the purchase was made (only for receipts).
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getTime().value);
@@ -569,7 +570,7 @@ System.out.println(result.getDocument().getInference().getPrediction().getTotalN
 ```
 
 ## Total Tax
-**totalTax**: The total amount of taxes.
+**totalTax**: The sum of all taxes present on the document.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getTotalTax().value);

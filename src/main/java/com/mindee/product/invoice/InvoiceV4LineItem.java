@@ -10,7 +10,7 @@ import java.util.Map;
 import lombok.Getter;
 
 /**
- * List of line item details.
+ * List of all the line items present on the invoice.
  */
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -22,7 +22,7 @@ public class InvoiceV4LineItem extends BaseField implements LineItemField {
   @JsonProperty("description")
   String description;
   /**
-   * The product code referring to the item.
+   * The product code of the item.
    */
   @JsonProperty("product_code")
   String productCode;
