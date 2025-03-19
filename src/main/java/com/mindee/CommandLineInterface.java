@@ -14,9 +14,11 @@ import com.mindee.product.custom.CustomV1;
 import com.mindee.product.generated.GeneratedV1;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.Callable;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Model.CommandSpec;
@@ -35,9 +37,6 @@ import picocli.CommandLine.Spec;
     mixinStandardHelpOptions = true
 )
 public class CommandLineInterface implements ProductProcessor {
-
-  @CommandLine.Mixin
-  private final CommandLineInterfaceProducts productCommands = new CommandLineInterfaceProducts(this);
 
   @Spec
   CommandSpec spec;
@@ -86,15 +85,60 @@ public class CommandLineInterface implements ProductProcessor {
   private boolean cutDoc;
 
   /**
+   * Instantiates all products one by one in a separate picocli instance and relays the command to them.
+   *
    * @param args CLI args.
    */
   public static void main(String[] args) {
     CommandLineInterface cli = new CommandLineInterface();
     CommandLine commandLine = new CommandLine(cli);
+    CommandLineInterfaceProducts products = new CommandLineInterfaceProducts(cli);
+
+    for (Method method : CommandLineInterfaceProducts.class.getDeclaredMethods()) {
+      if (method.isAnnotationPresent(CommandLine.Command.class)) {
+        CommandLine.Command annotation = method.getAnnotation(CommandLine.Command.class);
+        String subcommandName = annotation.name();
+        CommandLine subCmd = new CommandLine(new ProductCommandHandler(products, method));
+        commandLine.addSubcommand(subcommandName, subCmd);
+      }
+    }
 
     int exitCode = commandLine.execute(args);
     System.exit(exitCode);
   }
+
+  /**
+   * Adds all commands from CommandLineInterfaceProducts automatically.
+   * Avoids using a Mixin, which I can't get to work.
+   */
+  @CommandLine.Command(mixinStandardHelpOptions = true, description = "Auto-generated product command")
+  public static class ProductCommandHandler implements Callable<Integer> {
+    private final CommandLineInterfaceProducts products;
+    private final Method method;
+
+    @CommandLine.Parameters(index = "0", paramLabel = "<path>")
+    private File file;
+
+    /**
+     * Reads all products from the CommandLineInterfaceProducts file and makes them accessible.
+     *
+     * @param products List of all products to add.
+     * @param method Handler of each product.
+     */
+    public ProductCommandHandler(CommandLineInterfaceProducts products, Method method) {
+      this.products = products;
+      this.method = method;
+      this.method.setAccessible(true);
+    }
+
+    @Override
+    public Integer call() throws Exception {
+      method.invoke(products, file);
+      return 0;
+    }
+  }
+
+
 
   @Command(name = "custom", description = "Invokes a Custom API (API Builder only, use 'generated' for regular custom APIs)")
   void customMethod(

@@ -33,11 +33,6 @@ import picocli.CommandLine;
 /**
  * Product-wrapper class for CLI use.
  */
-
-@CommandLine.Command(
-    name = "CLI",
-    scope = CommandLine.ScopeType.INHERIT
-)
 public class CommandLineInterfaceProducts {
   private final ProductProcessor processor;
 
