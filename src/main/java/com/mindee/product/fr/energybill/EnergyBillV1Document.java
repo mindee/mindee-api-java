@@ -13,7 +13,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 /**
- * Energy Bill API version 1.0 document data.
+ * Energy Bill API version 1.2 document data.
  */
 @Getter
 @EqualsAndHashCode(callSuper = false)
@@ -164,14 +164,16 @@ public class EnergyBillV1Document extends Prediction {
     );
     String energyUsageSummary = "";
     if (!this.getEnergyUsage().isEmpty()) {
-      int[] energyUsageColSizes = new int[]{38, 12, 12, 10, 11, 12};
+      int[] energyUsageColSizes = new int[]{13, 38, 12, 12, 10, 11, 17, 12};
       energyUsageSummary =
         String.format("%n%s%n  ", SummaryHelper.lineSeparator(energyUsageColSizes, "-"))
+          + "| Consumption "
           + "| Description                          "
           + "| End Date   "
           + "| Start Date "
           + "| Tax Rate "
           + "| Total     "
+          + "| Unit of Measure "
           + "| Unit Price "
           + String.format("|%n%s%n  ", SummaryHelper.lineSeparator(energyUsageColSizes, "="));
       energyUsageSummary += SummaryHelper.arrayToString(this.getEnergyUsage(), energyUsageColSizes);
