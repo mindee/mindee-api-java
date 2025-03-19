@@ -172,11 +172,19 @@ Details of energy consumption.
 
 A `EnergyBillV1EnergyUsage` implements the following attributes:
 
+* **consumption** (`Double`): The price per unit of energy consumed.
 * **description** (`String`): Description or details of the energy usage.
 * **endDate** (`String`): The end date of the energy usage.
 * **startDate** (`String`): The start date of the energy usage.
 * **taxRate** (`Double`): The rate of tax applied to the total cost.
 * **total** (`Double`): The total cost of energy consumed.
+* **unit** (`String`): The unit of measurement for energy consumption.
+
+#### Possible values include:
+ - kWh
+ - m3
+ - L
+
 * **unitPrice** (`Double`): The price per unit of energy consumed.
 Fields which are specific to this product; they are not used in any other product.
 
@@ -194,7 +202,7 @@ A `EnergyBillV1MeterDetail` implements the following attributes:
  - water
  - None
 
-* **unit** (`String`): The unit of measurement for energy consumption, which can be kW, m³, or L.
+* **unit** (`String`): The unit of power for energy consumption.
 Fields which are specific to this product; they are not used in any other product.
 
 ### Subscription Field

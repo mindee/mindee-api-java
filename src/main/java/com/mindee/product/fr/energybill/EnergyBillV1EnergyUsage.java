@@ -17,6 +17,11 @@ import lombok.Getter;
 public class EnergyBillV1EnergyUsage extends BaseField implements LineItemField {
 
   /**
+   * The price per unit of energy consumed.
+   */
+  @JsonProperty("consumption")
+  Double consumption;
+  /**
    * Description or details of the energy usage.
    */
   @JsonProperty("description")
@@ -42,6 +47,11 @@ public class EnergyBillV1EnergyUsage extends BaseField implements LineItemField 
   @JsonProperty("total")
   Double total;
   /**
+   * The unit of measurement for energy consumption.
+   */
+  @JsonProperty("unit")
+  String unit;
+  /**
    * The price per unit of energy consumed.
    */
   @JsonProperty("unit_price")
@@ -49,11 +59,13 @@ public class EnergyBillV1EnergyUsage extends BaseField implements LineItemField 
 
   public boolean isEmpty() {
     return (
-        (description == null || description.isEmpty())
+        consumption == null
+        && (description == null || description.isEmpty())
         && (endDate == null || endDate.isEmpty())
         && (startDate == null || startDate.isEmpty())
         && taxRate == null
         && total == null
+        && (unit == null || unit.isEmpty())
         && unitPrice == null
       );
   }
@@ -61,6 +73,10 @@ public class EnergyBillV1EnergyUsage extends BaseField implements LineItemField 
   private Map<String, String> tablePrintableValues() {
     Map<String, String> printable = new HashMap<>();
 
+    printable.put(
+        "consumption",
+        SummaryHelper.formatAmount(this.consumption)
+    );
     printable.put("description", SummaryHelper.formatForDisplay(this.description, 36));
     printable.put("endDate", SummaryHelper.formatForDisplay(this.endDate, 10));
     printable.put("startDate", SummaryHelper.formatForDisplay(this.startDate, null));
@@ -72,6 +88,7 @@ public class EnergyBillV1EnergyUsage extends BaseField implements LineItemField 
         "total",
         SummaryHelper.formatAmount(this.total)
     );
+    printable.put("unit", SummaryHelper.formatForDisplay(this.unit, null));
     printable.put(
         "unitPrice",
         SummaryHelper.formatAmount(this.unitPrice)
@@ -84,28 +101,36 @@ public class EnergyBillV1EnergyUsage extends BaseField implements LineItemField 
    */
   public String toTableLine() {
     Map<String, String> printable = this.tablePrintableValues();
-    return String.format("| %-36s ", printable.get("description"))
+    return String.format("| %-11s ", printable.get("consumption"))
+      + String.format("| %-36s ", printable.get("description"))
       + String.format("| %-10s ", printable.get("endDate"))
       + String.format("| %-10s ", printable.get("startDate"))
       + String.format("| %-8s ", printable.get("taxRate"))
       + String.format("| %-9s ", printable.get("total"))
+      + String.format("| %-15s ", printable.get("unit"))
       + String.format("| %-10s |", printable.get("unitPrice"));
   }
 
   @Override
   public String toString() {
     Map<String, String> printable = this.printableValues();
-    return String.format("Description: %s", printable.get("description"))
+    return String.format("Consumption: %s", printable.get("consumption"))
+      + String.format(", Description: %s", printable.get("description"))
       + String.format(", End Date: %s", printable.get("endDate"))
       + String.format(", Start Date: %s", printable.get("startDate"))
       + String.format(", Tax Rate: %s", printable.get("taxRate"))
       + String.format(", Total: %s", printable.get("total"))
+      + String.format(", Unit of Measure: %s", printable.get("unit"))
       + String.format(", Unit Price: %s", printable.get("unitPrice"));
   }
 
   private Map<String, String> printableValues() {
     Map<String, String> printable = new HashMap<>();
 
+    printable.put(
+        "consumption",
+        SummaryHelper.formatAmount(this.consumption)
+    );
     printable.put("description", SummaryHelper.formatForDisplay(this.description, null));
     printable.put("endDate", SummaryHelper.formatForDisplay(this.endDate, null));
     printable.put("startDate", SummaryHelper.formatForDisplay(this.startDate, null));
@@ -117,6 +142,7 @@ public class EnergyBillV1EnergyUsage extends BaseField implements LineItemField 
         "total",
         SummaryHelper.formatAmount(this.total)
     );
+    printable.put("unit", SummaryHelper.formatForDisplay(this.unit, null));
     printable.put(
         "unitPrice",
         SummaryHelper.formatAmount(this.unitPrice)

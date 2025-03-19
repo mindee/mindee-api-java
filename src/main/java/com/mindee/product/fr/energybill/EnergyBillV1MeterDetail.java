@@ -26,7 +26,7 @@ public class EnergyBillV1MeterDetail extends BaseField {
   @JsonProperty("meter_type")
   String meterType;
   /**
-   * The unit of measurement for energy consumption, which can be kW, m³, or L.
+   * The unit of power for energy consumption.
    */
   @JsonProperty("unit")
   String unit;
@@ -46,7 +46,7 @@ public class EnergyBillV1MeterDetail extends BaseField {
     Map<String, String> printable = this.printableValues();
     return String.format("  :Meter Number: %s%n", printable.get("meterNumber"))
         + String.format("  :Meter Type: %s%n", printable.get("meterType"))
-        + String.format("  :Unit of Measure: %s%n", printable.get("unit"));
+        + String.format("  :Unit of Power: %s%n", printable.get("unit"));
   }
 
   @Override
@@ -54,7 +54,7 @@ public class EnergyBillV1MeterDetail extends BaseField {
     Map<String, String> printable = this.printableValues();
     return String.format("Meter Number: %s", printable.get("meterNumber"))
       + String.format(", Meter Type: %s", printable.get("meterType"))
-      + String.format(", Unit of Measure: %s", printable.get("unit"));
+      + String.format(", Unit of Power: %s", printable.get("unit"));
   }
 
   private Map<String, String> printableValues() {
