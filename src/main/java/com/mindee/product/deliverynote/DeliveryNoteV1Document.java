@@ -11,7 +11,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 /**
- * Delivery note API version 1.1 document data.
+ * Delivery note API version 1.2 document data.
  */
 @Getter
 @EqualsAndHashCode(callSuper = false)

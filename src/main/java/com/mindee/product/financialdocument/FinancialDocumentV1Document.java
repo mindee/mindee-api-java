@@ -33,7 +33,7 @@ public class FinancialDocumentV1Document extends Prediction {
   @JsonProperty("billing_address")
   protected StringField billingAddress;
   /**
-   * The purchase category among predefined classes.
+   * The purchase category, only for receipts.
    */
   @JsonProperty("category")
   protected ClassificationField category;
@@ -43,7 +43,7 @@ public class FinancialDocumentV1Document extends Prediction {
   @JsonProperty("customer_address")
   protected StringField customerAddress;
   /**
-   * List of company registrations associated to the customer.
+   * List of company registration numbers associated to the customer.
    */
   @JsonProperty("customer_company_registrations")
   protected List<CompanyRegistrationField> customerCompanyRegistrations = new ArrayList<>();
@@ -63,12 +63,12 @@ public class FinancialDocumentV1Document extends Prediction {
   @JsonProperty("date")
   protected DateField date;
   /**
-   * The document number or identifier.
+   * The document number or identifier (invoice number or receipt number).
    */
   @JsonProperty("document_number")
   protected StringField documentNumber;
   /**
-   * One of: 'INVOICE', 'CREDIT NOTE', 'CREDIT CARD RECEIPT', 'EXPENSE RECEIPT'.
+   * The type of the document: INVOICE or CREDIT NOTE if it is an invoice, CREDIT CARD RECEIPT or EXPENSE RECEIPT if it is a receipt.
    */
   @JsonProperty("document_type")
   protected ClassificationField documentType;
@@ -83,12 +83,12 @@ public class FinancialDocumentV1Document extends Prediction {
   @JsonProperty("invoice_number")
   protected StringField invoiceNumber;
   /**
-   * List of line item details.
+   * List of line item present on the document.
    */
   @JsonProperty("line_items")
   protected List<FinancialDocumentV1LineItem> lineItems = new ArrayList<>();
   /**
-   * The locale detected on the document.
+   * The locale of the document.
    */
   @JsonProperty("locale")
   protected LocaleField locale;
@@ -98,7 +98,7 @@ public class FinancialDocumentV1Document extends Prediction {
   @JsonProperty("payment_date")
   protected DateField paymentDate;
   /**
-   * The purchase order number.
+   * The purchase order number, only if the document is an invoice.
    */
   @JsonProperty("po_number")
   protected StringField poNumber;
@@ -108,7 +108,7 @@ public class FinancialDocumentV1Document extends Prediction {
   @JsonProperty("receipt_number")
   protected StringField receiptNumber;
   /**
-   * List of Reference numbers, including PO number.
+   * List of Reference numbers, including PO number, only if the document is an invoice.
    */
   @JsonProperty("reference_numbers")
   protected List<StringField> referenceNumbers = new ArrayList<>();
@@ -118,7 +118,7 @@ public class FinancialDocumentV1Document extends Prediction {
   @JsonProperty("shipping_address")
   protected StringField shippingAddress;
   /**
-   * The purchase subcategory among predefined classes for transport and food.
+   * The purchase subcategory for transport and food, only for receipts.
    */
   @JsonProperty("subcategory")
   protected ClassificationField subcategory;
@@ -128,7 +128,7 @@ public class FinancialDocumentV1Document extends Prediction {
   @JsonProperty("supplier_address")
   protected StringField supplierAddress;
   /**
-   * List of company registrations associated to the supplier.
+   * List of company registration numbers associated to the supplier.
    */
   @JsonProperty("supplier_company_registrations")
   protected List<CompanyRegistrationField> supplierCompanyRegistrations = new ArrayList<>();
@@ -143,7 +143,7 @@ public class FinancialDocumentV1Document extends Prediction {
   @JsonProperty("supplier_name")
   protected StringField supplierName;
   /**
-   * List of payment details associated to the supplier.
+   * List of payment details associated to the supplier (only for invoices).
    */
   @JsonProperty("supplier_payment_details")
   protected List<PaymentDetailsField> supplierPaymentDetails = new ArrayList<>();
@@ -158,13 +158,13 @@ public class FinancialDocumentV1Document extends Prediction {
   @JsonProperty("supplier_website")
   protected StringField supplierWebsite;
   /**
-   * List of tax lines information.
+   * List of all taxes on the document.
    */
   @JsonProperty("taxes")
   @JsonDeserialize(using = TaxesDeserializer.class)
   protected Taxes taxes;
   /**
-   * The time the purchase was made.
+   * The time the purchase was made (only for receipts).
    */
   @JsonProperty("time")
   protected StringField time;
@@ -184,7 +184,7 @@ public class FinancialDocumentV1Document extends Prediction {
   @JsonProperty("total_net")
   protected AmountField totalNet;
   /**
-   * The total amount of taxes.
+   * The sum of all taxes present on the document.
    */
   @JsonProperty("total_tax")
   protected AmountField totalTax;

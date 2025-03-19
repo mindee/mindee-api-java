@@ -194,8 +194,8 @@ System.out.println(result.getDocument().getInference().getPrediction().getFileNu
 **gender**: The gender of the passport holder.
 
 #### Possible values include:
- - M
- - F
+ - 'M'
+ - 'F'
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getGender().value);
@@ -289,8 +289,8 @@ System.out.println(result.getDocument().getInference().getPrediction().getOldPas
 **pageNumber**: The page number of the passport document.
 
 #### Possible values include:
- - 1
- - 2
+ - '1'
+ - '2'
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getPageNumber().value);

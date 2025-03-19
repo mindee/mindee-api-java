@@ -255,7 +255,7 @@ The `Taxes` field represents a List of `TaxField` objects. As it is the represen
 Fields which are specific to this product; they are not used in any other product.
 
 ### Line Items Field
-List of line item details.
+List of all line items on the receipt.
 
 A `ReceiptV5LineItem` implements the following attributes:
 
@@ -268,17 +268,17 @@ A `ReceiptV5LineItem` implements the following attributes:
 The following fields are extracted for Receipt V5:
 
 ## Purchase Category
-**category**: The purchase category among predefined classes.
+**category**: The purchase category of the receipt.
 
 #### Possible values include:
- - toll
- - food
- - parking
- - transport
- - accommodation
- - gasoline
- - telecom
- - miscellaneous
+ - 'toll'
+ - 'food'
+ - 'parking'
+ - 'transport'
+ - 'accommodation'
+ - 'gasoline'
+ - 'telecom'
+ - 'miscellaneous'
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getCategory().value);
@@ -292,18 +292,18 @@ System.out.println(result.getDocument().getInference().getPrediction().getDate()
 ```
 
 ## Document Type
-**documentType**: One of: 'CREDIT CARD RECEIPT', 'EXPENSE RECEIPT'.
+**documentType**: The type of receipt: EXPENSE RECEIPT or CREDIT CARD RECEIPT.
 
 #### Possible values include:
- - expense_receipt
- - credit_card_receipt
+ - 'EXPENSE RECEIPT'
+ - 'CREDIT CARD RECEIPT'
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getDocumentType().value);
 ```
 
 ## Line Items
-**lineItems**(List<[ReceiptV5LineItem](#line-items-field)>): List of line item details.
+**lineItems**(List<[ReceiptV5LineItem](#line-items-field)>): List of all line items on the receipt.
 
 ```java
 for (lineItemsElem : result.getDocument().getInference().getPrediction().getLineItems())
@@ -313,7 +313,7 @@ for (lineItemsElem : result.getDocument().getInference().getPrediction().getLine
 ```
 
 ## Expense Locale
-**locale**: The locale detected on the document.
+**locale**: The locale of the document.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getLocale().value);
@@ -327,14 +327,15 @@ System.out.println(result.getDocument().getInference().getPrediction().getReceip
 ```
 
 ## Purchase Subcategory
-**subcategory**: The purchase subcategory among predefined classes for transport and food.
+**subcategory**: The purchase subcategory of the receipt for transport and food.
 
 #### Possible values include:
- - plane
- - taxi
- - train
- - restaurant
- - shopping
+ - 'plane'
+ - 'taxi'
+ - 'train'
+ - 'restaurant'
+ - 'shopping'
+ - null
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getSubcategory().value);
@@ -348,7 +349,7 @@ System.out.println(result.getDocument().getInference().getPrediction().getSuppli
 ```
 
 ## Supplier Company Registrations
-**supplierCompanyRegistrations**: List of company registrations associated to the supplier.
+**supplierCompanyRegistrations**: List of company registration numbers associated to the supplier.
 
 ```java
 for (supplierCompanyRegistrationsElem : result.getDocument().getInference().getPrediction().getSupplierCompanyRegistrations())
@@ -372,7 +373,7 @@ System.out.println(result.getDocument().getInference().getPrediction().getSuppli
 ```
 
 ## Taxes
-**taxes**: List of tax lines information.
+**taxes**: The list of taxes present on the receipt.
 
 ```java
 for (taxesElem : result.getDocument().getInference().getPrediction().getTaxes())
@@ -410,7 +411,7 @@ System.out.println(result.getDocument().getInference().getPrediction().getTotalN
 ```
 
 ## Total Tax
-**totalTax**: The total amount of taxes.
+**totalTax**: The sum of all taxes.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getTotalTax().value);

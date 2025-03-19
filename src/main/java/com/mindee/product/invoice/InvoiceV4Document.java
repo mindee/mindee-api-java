@@ -28,7 +28,7 @@ import lombok.Getter;
 public class InvoiceV4Document extends Prediction {
 
   /**
-   * The customer's address used for billing.
+   * The customer billing address.
    */
   @JsonProperty("billing_address")
   protected StringField billingAddress;
@@ -38,7 +38,7 @@ public class InvoiceV4Document extends Prediction {
   @JsonProperty("customer_address")
   protected StringField customerAddress;
   /**
-   * List of company registrations associated to the customer.
+   * List of company registration numbers associated to the customer.
    */
   @JsonProperty("customer_company_registrations")
   protected List<CompanyRegistrationField> customerCompanyRegistrations = new ArrayList<>();
@@ -58,7 +58,7 @@ public class InvoiceV4Document extends Prediction {
   @JsonProperty("date")
   protected DateField date;
   /**
-   * One of: 'INVOICE', 'CREDIT NOTE'.
+   * Document type: INVOICE or CREDIT NOTE.
    */
   @JsonProperty("document_type")
   protected ClassificationField documentType;
@@ -73,17 +73,17 @@ public class InvoiceV4Document extends Prediction {
   @JsonProperty("invoice_number")
   protected StringField invoiceNumber;
   /**
-   * List of line item details.
+   * List of all the line items present on the invoice.
    */
   @JsonProperty("line_items")
   protected List<InvoiceV4LineItem> lineItems = new ArrayList<>();
   /**
-   * The locale detected on the document.
+   * The locale of the document.
    */
   @JsonProperty("locale")
   protected LocaleField locale;
   /**
-   * The date on which the payment is due/ was full-filled.
+   * The date on which the payment is due / was full-filled.
    */
   @JsonProperty("payment_date")
   protected DateField paymentDate;
@@ -93,7 +93,7 @@ public class InvoiceV4Document extends Prediction {
   @JsonProperty("po_number")
   protected StringField poNumber;
   /**
-   * List of Reference numbers, including PO number.
+   * List of all reference numbers on the invoice, including the purchase order number.
    */
   @JsonProperty("reference_numbers")
   protected List<StringField> referenceNumbers = new ArrayList<>();
@@ -108,12 +108,12 @@ public class InvoiceV4Document extends Prediction {
   @JsonProperty("supplier_address")
   protected StringField supplierAddress;
   /**
-   * List of company registrations associated to the supplier.
+   * List of company registration numbers associated to the supplier.
    */
   @JsonProperty("supplier_company_registrations")
   protected List<CompanyRegistrationField> supplierCompanyRegistrations = new ArrayList<>();
   /**
-   * The email of the supplier or merchant.
+   * The email address of the supplier or merchant.
    */
   @JsonProperty("supplier_email")
   protected StringField supplierEmail;
@@ -123,7 +123,7 @@ public class InvoiceV4Document extends Prediction {
   @JsonProperty("supplier_name")
   protected StringField supplierName;
   /**
-   * List of payment details associated to the supplier.
+   * List of payment details associated to the supplier of the invoice.
    */
   @JsonProperty("supplier_payment_details")
   protected List<PaymentDetailsField> supplierPaymentDetails = new ArrayList<>();
@@ -138,23 +138,23 @@ public class InvoiceV4Document extends Prediction {
   @JsonProperty("supplier_website")
   protected StringField supplierWebsite;
   /**
-   * List of tax line details.
+   * List of taxes. Each item contains the detail of the tax.
    */
   @JsonProperty("taxes")
   @JsonDeserialize(using = TaxesDeserializer.class)
   protected Taxes taxes;
   /**
-   * The total amount paid: includes taxes, tips, fees, and other charges.
+   * The total amount of the invoice: includes taxes, tips, fees, and other charges.
    */
   @JsonProperty("total_amount")
   protected AmountField totalAmount;
   /**
-   * The net amount paid: does not include taxes, fees, and discounts.
+   * The net amount of the invoice: does not include taxes, fees, and discounts.
    */
   @JsonProperty("total_net")
   protected AmountField totalNet;
   /**
-   * The total tax: includes all the taxes paid for this invoice.
+   * The total tax: the sum of all the taxes for this invoice.
    */
   @JsonProperty("total_tax")
   protected AmountField totalTax;

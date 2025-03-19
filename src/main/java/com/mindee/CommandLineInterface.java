@@ -1,5 +1,7 @@
 package com.mindee;
 
+import com.mindee.cli.CommandLineInterfaceProducts;
+import com.mindee.cli.ProductProcessor;
 import com.mindee.http.Endpoint;
 import com.mindee.input.LocalInputSource;
 import com.mindee.input.PageOptions;
@@ -9,18 +11,14 @@ import com.mindee.parsing.common.Document;
 import com.mindee.parsing.common.Inference;
 import com.mindee.parsing.common.PredictResponse;
 import com.mindee.product.custom.CustomV1;
-import com.mindee.product.financialdocument.FinancialDocumentV1;
-import com.mindee.product.internationalid.InternationalIdV2;
-import com.mindee.product.invoice.InvoiceV4;
-import com.mindee.product.invoicesplitter.InvoiceSplitterV1;
-import com.mindee.product.multireceiptsdetector.MultiReceiptsDetectorV1;
-import com.mindee.product.passport.PassportV1;
-import com.mindee.product.receipt.ReceiptV4;
-import com.mindee.product.us.usmail.UsMailV3;
+import com.mindee.product.generated.GeneratedV1;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.Callable;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Model.CommandSpec;
@@ -34,11 +32,11 @@ import picocli.CommandLine.Spec;
  */
 @Command(
     name = "CLI",
-    scope = ScopeType.INHERIT,
+    description = "Invoke Off The Shelf API for invoice, receipt, and passports",
     subcommands = {CommandLine.HelpCommand.class},
-    description = "Invoke Off The Shelf API for invoice, receipt, and passports"
+    mixinStandardHelpOptions = true
 )
-public class CommandLineInterface {
+public class CommandLineInterface implements ProductProcessor {
 
   @Spec
   CommandSpec spec;
@@ -86,76 +84,63 @@ public class CommandLineInterface {
       description = "Keep only the first 5 pages of the document")
   private boolean cutDoc;
 
+  /**
+   * Instantiates all products one by one in a separate picocli instance and relays the command to them.
+   *
+   * @param args CLI args.
+   */
   public static void main(String[] args) {
-    int exitCode = new CommandLine(new CommandLineInterface()).execute(args);
+    CommandLineInterface cli = new CommandLineInterface();
+    CommandLine commandLine = new CommandLine(cli);
+    CommandLineInterfaceProducts products = new CommandLineInterfaceProducts(cli);
+
+    for (Method method : CommandLineInterfaceProducts.class.getDeclaredMethods()) {
+      if (method.isAnnotationPresent(CommandLine.Command.class)) {
+        CommandLine.Command annotation = method.getAnnotation(CommandLine.Command.class);
+        String subcommandName = annotation.name();
+        CommandLine subCmd = new CommandLine(new ProductCommandHandler(products, method));
+        commandLine.addSubcommand(subcommandName, subCmd);
+      }
+    }
+
+    int exitCode = commandLine.execute(args);
     System.exit(exitCode);
   }
 
-  @Command(name = "invoice", description = "Parse using Invoice")
-  void invoiceMethod(
-      @Parameters(index = "0", paramLabel = "<path>", scope = ScopeType.LOCAL)
-      File file
-  ) throws IOException {
-    System.out.println(standardProductOutput(InvoiceV4.class, file));
+  /**
+   * Adds all commands from CommandLineInterfaceProducts automatically.
+   * Avoids using a Mixin, which I can't get to work.
+   */
+  @CommandLine.Command(mixinStandardHelpOptions = true, description = "Auto-generated product command")
+  public static class ProductCommandHandler implements Callable<Integer> {
+    private final CommandLineInterfaceProducts products;
+    private final Method method;
+
+    @CommandLine.Parameters(index = "0", paramLabel = "<path>")
+    private File file;
+
+    /**
+     * Reads all products from the CommandLineInterfaceProducts file and makes them accessible.
+     *
+     * @param products List of all products to add.
+     * @param method Handler of each product.
+     */
+    public ProductCommandHandler(CommandLineInterfaceProducts products, Method method) {
+      this.products = products;
+      this.method = method;
+      this.method.setAccessible(true);
+    }
+
+    @Override
+    public Integer call() throws Exception {
+      method.invoke(products, file);
+      return 0;
+    }
   }
 
-  @Command(name = "receipt", description = "Parse using Expense Receipt")
-  void receiptMethod(
-      @Parameters(index = "0", paramLabel = "<path>", scope = ScopeType.LOCAL)
-      File file
-  ) throws IOException {
-    System.out.println(standardProductOutput(ReceiptV4.class, file));
-  }
 
-  @Command(name = "financial-document", description = "Parse using Financial Document")
-  void financialDocumentMethod(
-      @Parameters(index = "0", paramLabel = "<path>", scope = ScopeType.LOCAL)
-      File file
-  ) throws IOException {
-    System.out.println(standardProductOutput(FinancialDocumentV1.class, file));
-  }
 
-  @Command(name = "multi-receipt-detector", description = "Parse using Multi Receipts Detector")
-  void multiReceiptDetectorMethod(
-      @Parameters(index = "0", paramLabel = "<path>", scope = ScopeType.LOCAL)
-      File file
-  ) throws IOException {
-    System.out.println(standardProductOutput(MultiReceiptsDetectorV1.class, file));
-  }
-
-  @Command(name = "passport", description = "Parse using Passport")
-  void passportMethod(
-      @Parameters(index = "0", paramLabel = "<path>", scope = ScopeType.LOCAL)
-      File file
-  ) throws IOException {
-    System.out.println(standardProductOutput(PassportV1.class, file));
-  }
-
-  @Command(name = "invoice-splitter", description = "Parse using Invoice Splitter")
-  void invoiceSplitterMethod(
-      @Parameters(index = "0", paramLabel = "<path>", scope = ScopeType.LOCAL)
-      File file
-  ) throws IOException, InterruptedException {
-    System.out.println(standardProductAsyncOutput(InvoiceSplitterV1.class, file));
-  }
-
-  @Command(name = "international-id", description = "Parse using International ID")
-  void internationalIdMethod(
-      @Parameters(index = "0", paramLabel = "<path>", scope = ScopeType.LOCAL)
-      File file
-  ) throws IOException, InterruptedException {
-    System.out.println(standardProductAsyncOutput(InternationalIdV2.class, file));
-  }
-
-  @Command(name = "us-mail", description = "Parse using US Mail")
-  void usMailMethod(
-      @Parameters(index = "0", paramLabel = "<path>", scope = ScopeType.LOCAL)
-      File file
-  ) throws IOException, InterruptedException {
-    System.out.println(standardProductAsyncOutput(UsMailV3.class, file));
-  }
-
-  @Command(name = "custom", description = "Invokes a Custom API")
+  @Command(name = "custom", description = "Invokes a Custom API (API Builder only, use 'generated' for regular custom APIs)")
   void customMethod(
       @Option(
           names = {"-a", "--account"},
@@ -166,11 +151,11 @@ public class CommandLineInterface {
       )
       String accountName,
       @Option(
-        names = {"-e", "--endpointName"},
-        scope = ScopeType.LOCAL,
-        required = true,
-        paramLabel = "endpointName",
-        description = "The name of the endpoint"
+          names = {"-e", "--endpointName"},
+          scope = ScopeType.LOCAL,
+          required = true,
+          paramLabel = "endpointName",
+          description = "The name of the endpoint"
       )
       String endpointName,
       @Parameters(index = "0", scope = ScopeType.LOCAL, paramLabel = "<path>")
@@ -184,15 +169,97 @@ public class CommandLineInterface {
 
     if (cutDoc) {
       document = mindeeClient.parse(
-        new LocalInputSource(file),
-        endpoint,
-        getDefaultPageOptions());
+          new LocalInputSource(file),
+          endpoint,
+          getDefaultPageOptions());
     } else {
       document = mindeeClient.parse(
-        new LocalInputSource(file),
-        endpoint);
+          new LocalInputSource(file),
+          endpoint);
     }
     System.out.println(document.toString());
+  }
+
+  @Command(name = "generated", description = "Invokes a Generated API")
+  void generatedMethod(
+      @Option(
+          names = {"-a", "--account"},
+          scope = ScopeType.LOCAL,
+          required = true,
+          paramLabel = "accountName",
+          description = "The name of the account"
+      )
+      String accountName,
+      @Option(
+          names = {"-e", "--endpointName"},
+          scope = ScopeType.LOCAL,
+          required = true,
+          paramLabel = "endpointName",
+          description = "The name of the endpoint"
+      )
+      String endpointName,
+      @Option(
+          names = {"-v", "--productVersion"},
+          scope = ScopeType.LOCAL,
+          paramLabel = "productVersion",
+          description = "The version of the endpoint",
+          defaultValue = "1"
+      )
+      String productVersion,
+      @Option(
+          names = {"-m", "--parsingMode"},
+          description = "Whether to parse the document in synchronous mode or polling.",
+          scope = ScopeType.LOCAL,
+          defaultValue = "async"
+      )
+      String parsingMode,
+      @Parameters(index = "0", scope = ScopeType.LOCAL, paramLabel = "<path>")
+      File file
+  ) throws IOException, InterruptedException {
+
+    MindeeClient mindeeClient = new MindeeClient(apiKey);
+
+    Endpoint endpoint = new Endpoint(endpointName, accountName, productVersion);
+
+    if (Objects.equals(parsingMode, "sync")) {
+      if (cutDoc) {
+        PredictResponse<GeneratedV1> document = mindeeClient.parse(
+            GeneratedV1.class,
+            endpoint,
+            new LocalInputSource(file),
+            getDefaultPageOptions()
+        );
+        System.out.println(document.toString());
+      } else {
+        PredictResponse<GeneratedV1> document = mindeeClient.parse(
+            GeneratedV1.class,
+            endpoint,
+            new LocalInputSource(file)
+        );
+        System.out.println(document.toString());
+      }
+    } else if (Objects.equals(parsingMode, "async")) {
+      if (cutDoc) {
+        AsyncPredictResponse<GeneratedV1> document = mindeeClient.enqueueAndParse(
+            GeneratedV1.class,
+            endpoint,
+            new LocalInputSource(file),
+            PredictOptions.builder().build(),
+            getDefaultPageOptions(),
+            AsyncPollingOptions.builder().build()
+        );
+        System.out.println(document.toString());
+      } else {
+        AsyncPredictResponse<GeneratedV1> document = mindeeClient.enqueueAndParse(
+            GeneratedV1.class,
+            endpoint,
+            new LocalInputSource(file)
+        );
+        System.out.println(document.toString());
+      }
+    } else {
+      throw new MindeeException("Invalid parsing mode: " + parsingMode);
+    }
   }
 
   protected PageOptions getDefaultPageOptions() {
@@ -207,18 +274,16 @@ public class CommandLineInterface {
     return new PageOptions(pageNumbers, PageOptionsOperation.KEEP_ONLY);
   }
 
-  private <T extends Inference<?, ?>> String standardProductOutput(
-      Class<T> docClass,
-      File file
-  ) throws IOException {
+  @Override
+  public <T extends Inference<?, ?>> String standardProductOutput(Class<T> productClass, File file) throws IOException {
     MindeeClient mindeeClient = new MindeeClient(apiKey);
     LocalInputSource inputSource = new LocalInputSource(file);
     PredictResponse<T> response;
     PredictOptions predictOptions = PredictOptions.builder().allWords(words).fullText(fullText).build();
     if (cutDoc) {
-      response = mindeeClient.parse(docClass, inputSource, predictOptions, getDefaultPageOptions());
+      response = mindeeClient.parse(productClass, inputSource, predictOptions, getDefaultPageOptions());
     } else {
-      response = mindeeClient.parse(docClass, inputSource, predictOptions);
+      response = mindeeClient.parse(productClass, inputSource, predictOptions);
     }
 
     if (outputType == OutputChoices.full) {
@@ -231,21 +296,19 @@ public class CommandLineInterface {
     return document.getInference().getPrediction().toString();
   }
 
-  private <T extends Inference<?, ?>> String standardProductAsyncOutput(
-      Class<T> docClass,
-      File file
-  ) throws IOException, InterruptedException {
+  @Override
+  public <T extends Inference<?, ?>> String standardProductAsyncOutput(Class<T> productClass, File file) throws IOException, InterruptedException {
     MindeeClient mindeeClient = new MindeeClient(apiKey);
     LocalInputSource inputSource = new LocalInputSource(file);
     AsyncPredictResponse<T> response;
     PredictOptions predictOptions = PredictOptions.builder().allWords(words).fullText(fullText).build();
     if (cutDoc) {
       response = mindeeClient.enqueueAndParse(
-        docClass, inputSource, predictOptions, getDefaultPageOptions(), null
+        productClass, inputSource, predictOptions, getDefaultPageOptions(), null
       );
     } else {
       response = mindeeClient.enqueueAndParse(
-        docClass, inputSource, predictOptions, null, null
+        productClass, inputSource, predictOptions, null, null
       );
     }
 

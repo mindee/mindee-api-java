@@ -279,12 +279,12 @@ The `Taxes` field represents a List of `TaxField` objects. As it is the represen
 Fields which are specific to this product; they are not used in any other product.
 
 ### Line Items Field
-List of line item details.
+List of all the line items present on the invoice.
 
 A `InvoiceV4LineItem` implements the following attributes:
 
 * **description** (`String`): The item description.
-* **productCode** (`String`): The product code referring to the item.
+* **productCode** (`String`): The product code of the item.
 * **quantity** (`Double`): The item quantity
 * **taxAmount** (`Double`): The item tax amount.
 * **taxRate** (`Double`): The item tax rate in percentage.
@@ -296,7 +296,7 @@ A `InvoiceV4LineItem` implements the following attributes:
 The following fields are extracted for Invoice V4:
 
 ## Billing Address
-**billingAddress**: The customer's address used for billing.
+**billingAddress**: The customer billing address.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getBillingAddress().value);
@@ -310,7 +310,7 @@ System.out.println(result.getDocument().getInference().getPrediction().getCustom
 ```
 
 ## Customer Company Registrations
-**customerCompanyRegistrations**: List of company registrations associated to the customer.
+**customerCompanyRegistrations**: List of company registration numbers associated to the customer.
 
 ```java
 for (customerCompanyRegistrationsElem : result.getDocument().getInference().getPrediction().getCustomerCompanyRegistrations())
@@ -341,11 +341,11 @@ System.out.println(result.getDocument().getInference().getPrediction().getDate()
 ```
 
 ## Document Type
-**documentType**: One of: 'INVOICE', 'CREDIT NOTE'.
+**documentType**: Document type: INVOICE or CREDIT NOTE.
 
 #### Possible values include:
- - INVOICE
- - CREDIT NOTE
+ - 'INVOICE'
+ - 'CREDIT NOTE'
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getDocumentType().value);
@@ -366,7 +366,7 @@ System.out.println(result.getDocument().getInference().getPrediction().getInvoic
 ```
 
 ## Line Items
-**lineItems**(List<[InvoiceV4LineItem](#line-items-field)>): List of line item details.
+**lineItems**(List<[InvoiceV4LineItem](#line-items-field)>): List of all the line items present on the invoice.
 
 ```java
 for (lineItemsElem : result.getDocument().getInference().getPrediction().getLineItems())
@@ -376,14 +376,14 @@ for (lineItemsElem : result.getDocument().getInference().getPrediction().getLine
 ```
 
 ## Locale
-**locale**: The locale detected on the document.
+**locale**: The locale of the document.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getLocale().value);
 ```
 
 ## Payment Date
-**paymentDate**: The date on which the payment is due/ was full-filled.
+**paymentDate**: The date on which the payment is due / was full-filled.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getPaymentDate().value);
@@ -397,7 +397,7 @@ System.out.println(result.getDocument().getInference().getPrediction().getPoNumb
 ```
 
 ## Reference Numbers
-**referenceNumbers**: List of Reference numbers, including PO number.
+**referenceNumbers**: List of all reference numbers on the invoice, including the purchase order number.
 
 ```java
 for (referenceNumbersElem : result.getDocument().getInference().getPrediction().getReferenceNumbers())
@@ -421,7 +421,7 @@ System.out.println(result.getDocument().getInference().getPrediction().getSuppli
 ```
 
 ## Supplier Company Registrations
-**supplierCompanyRegistrations**: List of company registrations associated to the supplier.
+**supplierCompanyRegistrations**: List of company registration numbers associated to the supplier.
 
 ```java
 for (supplierCompanyRegistrationsElem : result.getDocument().getInference().getPrediction().getSupplierCompanyRegistrations())
@@ -431,7 +431,7 @@ for (supplierCompanyRegistrationsElem : result.getDocument().getInference().getP
 ```
 
 ## Supplier Email
-**supplierEmail**: The email of the supplier or merchant.
+**supplierEmail**: The email address of the supplier or merchant.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getSupplierEmail().value);
@@ -445,7 +445,7 @@ System.out.println(result.getDocument().getInference().getPrediction().getSuppli
 ```
 
 ## Supplier Payment Details
-**supplierPaymentDetails**: List of payment details associated to the supplier.
+**supplierPaymentDetails**: List of payment details associated to the supplier of the invoice.
 
 ```java
 for (supplierPaymentDetailsElem : result.getDocument().getInference().getPrediction().getSupplierPaymentDetails())
@@ -472,7 +472,7 @@ System.out.println(result.getDocument().getInference().getPrediction().getSuppli
 ```
 
 ## Taxes
-**taxes**: List of tax line details.
+**taxes**: List of taxes. Each item contains the detail of the tax.
 
 ```java
 for (taxesElem : result.getDocument().getInference().getPrediction().getTaxes())
@@ -482,21 +482,21 @@ for (taxesElem : result.getDocument().getInference().getPrediction().getTaxes())
 ```
 
 ## Total Amount
-**totalAmount**: The total amount paid: includes taxes, tips, fees, and other charges.
+**totalAmount**: The total amount of the invoice: includes taxes, tips, fees, and other charges.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getTotalAmount().value);
 ```
 
 ## Total Net
-**totalNet**: The net amount paid: does not include taxes, fees, and discounts.
+**totalNet**: The net amount of the invoice: does not include taxes, fees, and discounts.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getTotalNet().value);
 ```
 
 ## Total Tax
-**totalTax**: The total tax: includes all the taxes paid for this invoice.
+**totalTax**: The total tax: the sum of all the taxes for this invoice.
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getTotalTax().value);
