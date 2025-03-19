@@ -11,10 +11,12 @@ import com.mindee.parsing.common.Document;
 import com.mindee.parsing.common.Inference;
 import com.mindee.parsing.common.PredictResponse;
 import com.mindee.product.custom.CustomV1;
+import com.mindee.product.generated.GeneratedV1;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Model.CommandSpec;
@@ -28,11 +30,14 @@ import picocli.CommandLine.Spec;
  */
 @Command(
     name = "CLI",
-    scope = ScopeType.INHERIT,
+    description = "Invoke Off The Shelf API for invoice, receipt, and passports",
     subcommands = {CommandLine.HelpCommand.class},
-    description = "Invoke Off The Shelf API for invoice, receipt, and passports"
+    mixinStandardHelpOptions = true
 )
 public class CommandLineInterface implements ProductProcessor {
+
+  @CommandLine.Mixin
+  private final CommandLineInterfaceProducts productCommands = new CommandLineInterfaceProducts(this);
 
   @Spec
   CommandSpec spec;
@@ -86,21 +91,12 @@ public class CommandLineInterface implements ProductProcessor {
   public static void main(String[] args) {
     CommandLineInterface cli = new CommandLineInterface();
     CommandLine commandLine = new CommandLine(cli);
-    cli.setupCommands(commandLine);
 
-    int exitCode = new CommandLine(new CommandLineInterface()).execute(args);
+    int exitCode = commandLine.execute(args);
     System.exit(exitCode);
   }
 
-  /**
-   * @param commandLine Product to add to the CLI.
-   */
-  public void setupCommands(CommandLine commandLine) {
-    CommandLineInterfaceProducts productCommands = new CommandLineInterfaceProducts(this);
-    commandLine.addSubcommand(productCommands);
-  }
-
-  @Command(name = "custom", description = "Invokes a Custom API")
+  @Command(name = "custom", description = "Invokes a Custom API (API Builder only, use 'generated' for regular custom APIs)")
   void customMethod(
       @Option(
           names = {"-a", "--account"},
@@ -111,11 +107,11 @@ public class CommandLineInterface implements ProductProcessor {
       )
       String accountName,
       @Option(
-        names = {"-e", "--endpointName"},
-        scope = ScopeType.LOCAL,
-        required = true,
-        paramLabel = "endpointName",
-        description = "The name of the endpoint"
+          names = {"-e", "--endpointName"},
+          scope = ScopeType.LOCAL,
+          required = true,
+          paramLabel = "endpointName",
+          description = "The name of the endpoint"
       )
       String endpointName,
       @Parameters(index = "0", scope = ScopeType.LOCAL, paramLabel = "<path>")
@@ -129,15 +125,97 @@ public class CommandLineInterface implements ProductProcessor {
 
     if (cutDoc) {
       document = mindeeClient.parse(
-        new LocalInputSource(file),
-        endpoint,
-        getDefaultPageOptions());
+          new LocalInputSource(file),
+          endpoint,
+          getDefaultPageOptions());
     } else {
       document = mindeeClient.parse(
-        new LocalInputSource(file),
-        endpoint);
+          new LocalInputSource(file),
+          endpoint);
     }
     System.out.println(document.toString());
+  }
+
+  @Command(name = "generated", description = "Invokes a Generated API")
+  void generatedMethod(
+      @Option(
+          names = {"-a", "--account"},
+          scope = ScopeType.LOCAL,
+          required = true,
+          paramLabel = "accountName",
+          description = "The name of the account"
+      )
+      String accountName,
+      @Option(
+          names = {"-e", "--endpointName"},
+          scope = ScopeType.LOCAL,
+          required = true,
+          paramLabel = "endpointName",
+          description = "The name of the endpoint"
+      )
+      String endpointName,
+      @Option(
+          names = {"-v", "--productVersion"},
+          scope = ScopeType.LOCAL,
+          paramLabel = "productVersion",
+          description = "The version of the endpoint",
+          defaultValue = "1"
+      )
+      String productVersion,
+      @Option(
+          names = {"-m", "--parsingMode"},
+          description = "Whether to parse the document in synchronous mode or polling.",
+          scope = ScopeType.LOCAL,
+          defaultValue = "async"
+      )
+      String parsingMode,
+      @Parameters(index = "0", scope = ScopeType.LOCAL, paramLabel = "<path>")
+      File file
+  ) throws IOException, InterruptedException {
+
+    MindeeClient mindeeClient = new MindeeClient(apiKey);
+
+    Endpoint endpoint = new Endpoint(endpointName, accountName, productVersion);
+
+    if (Objects.equals(parsingMode, "sync")) {
+      if (cutDoc) {
+        PredictResponse<GeneratedV1> document = mindeeClient.parse(
+            GeneratedV1.class,
+            endpoint,
+            new LocalInputSource(file),
+            getDefaultPageOptions()
+        );
+        System.out.println(document.toString());
+      } else {
+        PredictResponse<GeneratedV1> document = mindeeClient.parse(
+            GeneratedV1.class,
+            endpoint,
+            new LocalInputSource(file)
+        );
+        System.out.println(document.toString());
+      }
+    } else if (Objects.equals(parsingMode, "async")) {
+      if (cutDoc) {
+        AsyncPredictResponse<GeneratedV1> document = mindeeClient.enqueueAndParse(
+            GeneratedV1.class,
+            endpoint,
+            new LocalInputSource(file),
+            PredictOptions.builder().build(),
+            getDefaultPageOptions(),
+            AsyncPollingOptions.builder().build()
+        );
+        System.out.println(document.toString());
+      } else {
+        AsyncPredictResponse<GeneratedV1> document = mindeeClient.enqueueAndParse(
+            GeneratedV1.class,
+            endpoint,
+            new LocalInputSource(file)
+        );
+        System.out.println(document.toString());
+      }
+    } else {
+      throw new MindeeException("Invalid parsing mode: " + parsingMode);
+    }
   }
 
   protected PageOptions getDefaultPageOptions() {

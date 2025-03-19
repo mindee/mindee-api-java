@@ -18,9 +18,7 @@ import picocli.CommandLine;
 
 @CommandLine.Command(
     name = "CLI",
-    scope = CommandLine.ScopeType.INHERIT,
-    subcommands = {CommandLine.HelpCommand.class},
-    description = "Invoke Off The Shelf API for invoice, receipt, and passports"
+    scope = CommandLine.ScopeType.INHERIT
 )
 public class CommandLineInterfaceProducts {
   private final ProductProcessor processor;
