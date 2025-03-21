@@ -99,6 +99,7 @@ public class CommandLineInterface implements ProductProcessor {
         CommandLine.Command annotation = method.getAnnotation(CommandLine.Command.class);
         String subcommandName = annotation.name();
         CommandLine subCmd = new CommandLine(new ProductCommandHandler(products, method));
+        subCmd.getCommandSpec().usageMessage().description(annotation.description());
         commandLine.addSubcommand(subcommandName, subCmd);
       }
     }
