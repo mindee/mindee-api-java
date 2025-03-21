@@ -1,4 +1,5 @@
 com.mindee
+com.mindee.cli
 com.mindee.extraction
 com.mindee.geometry
 com.mindee.http
