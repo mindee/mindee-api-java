@@ -1,4 +1,15 @@
-# Mindee Java API Library Changelog
+# Mindee Java Client Library Changelog
+
+## v4.25.0 - 2025-03-21
+### Fixes
+* :bug: harmonize OS names across clients
+* :bug: fix for no tests found
+### Changes
+* :recycle: increase async retry timers
+* :recycle: update display & structure for invoice splitter v1
+* :sparkles: bump FR EnergyBillV1 to V1.2 & US HealthcareCardV1 to V1.1
+* :sparkles: add OCR output to CLI
+
 
 ## v4.24.2 - 2025-01-06
 ### Fixes
