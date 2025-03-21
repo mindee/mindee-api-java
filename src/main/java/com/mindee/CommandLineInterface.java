@@ -7,18 +7,20 @@ import com.mindee.input.LocalInputSource;
 import com.mindee.input.PageOptions;
 import com.mindee.input.PageOptionsOperation;
 import com.mindee.parsing.common.AsyncPredictResponse;
-import com.mindee.parsing.common.Document;
 import com.mindee.parsing.common.Inference;
 import com.mindee.parsing.common.PredictResponse;
+import com.mindee.parsing.common.ocr.Ocr;
 import com.mindee.product.custom.CustomV1;
 import com.mindee.product.generated.GeneratedV1;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.Callable;
+import java.util.stream.Collectors;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Model.CommandSpec;
@@ -66,7 +68,8 @@ public class CommandLineInterface implements ProductProcessor {
       description = "Output type, one of:\n"
           + "  summary - document predictions\n"
           + "  full - all predictions\n"
-          + "  raw - raw response from the server"
+          + "  raw - raw response from the server",
+      defaultValue = "summary"
   )
   private OutputChoices outputType;
 
@@ -109,7 +112,6 @@ public class CommandLineInterface implements ProductProcessor {
 
   /**
    * Adds all commands from CommandLineInterfaceProducts automatically.
-   * Avoids using a Mixin, which I can't get to work.
    */
   @CommandLine.Command(mixinStandardHelpOptions = true, description = "Auto-generated product command")
   public static class ProductCommandHandler implements Callable<Integer> {
@@ -138,7 +140,10 @@ public class CommandLineInterface implements ProductProcessor {
     }
   }
 
-  @Command(name = "custom", description = "Invokes a Custom API (API Builder only, use 'generated' for regular custom APIs)")
+  @Command(
+      name = "custom",
+      description = "Invokes a Custom API (API Builder only, use 'generated' for regular custom APIs)"
+  )
   void customMethod(
       @Option(
           names = {"-a", "--account"},
@@ -261,19 +266,29 @@ public class CommandLineInterface implements ProductProcessor {
   }
 
   protected PageOptions getDefaultPageOptions() {
-
     List<Integer> pageNumbers = new ArrayList<>();
     pageNumbers.add(0);
     pageNumbers.add(1);
     pageNumbers.add(2);
     pageNumbers.add(3);
     pageNumbers.add(4);
-
     return new PageOptions(pageNumbers, PageOptionsOperation.KEEP_ONLY);
   }
 
+  private String wordsOutput(Ocr ocr) {
+    StringBuilder output = new StringBuilder();
+    output.append("\n#############\nDocument Text\n#############\n::\n  ");
+    output.append(
+        Arrays.stream(ocr.toString().split(String.format("%n")))
+            .collect(Collectors.joining(String.format("%n  ")))
+    );
+    output.append("\n");
+    return output.toString();
+  }
+
   @Override
-  public <T extends Inference<?, ?>> String standardProductOutput(Class<T> productClass, File file) throws IOException {
+  public <T extends Inference<?, ?>> String standardProductOutput(Class<T> productClass, File file)
+      throws IOException {
     MindeeClient mindeeClient = new MindeeClient(apiKey);
     LocalInputSource inputSource = new LocalInputSource(file);
     PredictResponse<T> response;
@@ -284,18 +299,28 @@ public class CommandLineInterface implements ProductProcessor {
       response = mindeeClient.parse(productClass, inputSource, predictOptions);
     }
 
-    if (outputType == OutputChoices.full) {
-      return response.getDocument().toString();
+    StringBuilder output = new StringBuilder();
+    switch (outputType) {
+      case full:
+        output.append(response.getDocument().toString());
+        break;
+      case raw:
+        output.append(response.getRawResponse());
+        break;
+      default:
+        output.append(
+            response.getDocument().getInference().getPrediction().toString()
+        );
     }
-    if (outputType == OutputChoices.raw) {
-      return response.getRawResponse();
+    if (words) {
+      output.append(wordsOutput(response.getDocument().getOcr()));
     }
-    Document<T> document = response.getDocument();
-    return document.getInference().getPrediction().toString();
+    return output.toString();
   }
 
   @Override
-  public <T extends Inference<?, ?>> String standardProductAsyncOutput(Class<T> productClass, File file) throws IOException, InterruptedException {
+  public <T extends Inference<?, ?>> String standardProductAsyncOutput(Class<T> productClass, File file)
+      throws IOException, InterruptedException {
     MindeeClient mindeeClient = new MindeeClient(apiKey);
     LocalInputSource inputSource = new LocalInputSource(file);
     AsyncPredictResponse<T> response;
@@ -310,13 +335,22 @@ public class CommandLineInterface implements ProductProcessor {
       );
     }
 
-    if (outputType == OutputChoices.full) {
-      return response.getDocumentObj().toString();
+    StringBuilder output = new StringBuilder();
+    switch (outputType) {
+      case full:
+        output.append(response.getDocument().toString());
+        break;
+      case raw:
+        output.append(response.getRawResponse());
+        break;
+      default:
+        output.append(
+            response.getDocumentObj().getInference().getPrediction().toString()
+        );
     }
-    if (outputType == OutputChoices.raw) {
-      return response.getRawResponse();
+    if (words) {
+      output.append(wordsOutput(response.getDocumentObj().getOcr()));
     }
-    Document<T> document = response.getDocumentObj();
-    return document.getInference().getPrediction().toString();
+    return output.toString();
   }
 }
