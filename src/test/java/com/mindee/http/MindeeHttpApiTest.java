@@ -24,7 +24,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
-import junit.framework.TestCase;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import okhttp3.mockwebserver.RecordedRequest;
@@ -33,21 +32,24 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.DefaultProxyRoutePlanner;
 import org.hamcrest.collection.IsMapContaining;
+import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class MindeeHttpApiTest extends TestCase {
+public class MindeeHttpApiTest {
 
   MockWebServer mockWebServer = new MockWebServer();
   private static ObjectMapper objectMapper = new ObjectMapper();
 
-  public void setUp() throws Exception {
-    super.setUp();
+  @Before
+  public void startWebServer() throws Exception {
     mockWebServer.start();
   }
 
-  public void tearDown() throws Exception {
+  @After
+  public void stopWebServer() throws Exception {
     mockWebServer.shutdown();
   }
 
@@ -360,9 +362,9 @@ public class MindeeHttpApiTest extends TestCase {
         new Endpoint(InvoiceV4.class),
         parseParameter)
     );
-    assertEquals(401, httpError.getStatusCode());
-    assertEquals("Authorization required", httpError.getMessage());
-    assertEquals("No token provided", httpError.getDetails());
+    Assertions.assertEquals(401, httpError.getStatusCode());
+    Assertions.assertEquals("Authorization required", httpError.getMessage());
+    Assertions.assertEquals("No token provided", httpError.getDetails());
   }
 
   @Test
@@ -386,10 +388,10 @@ public class MindeeHttpApiTest extends TestCase {
         new Endpoint(InvoiceV4.class),
         parseParameter)
     );
-    assertEquals(429, httpError.getStatusCode());
-    assertEquals("Too many requests", httpError.getMessage());
-    assertEquals("Too Many Requests.", httpError.getDetails());
-    assertEquals("TooManyRequests", httpError.getCode());
+    Assertions.assertEquals(429, httpError.getStatusCode());
+    Assertions.assertEquals("Too many requests", httpError.getMessage());
+    Assertions.assertEquals("Too Many Requests.", httpError.getDetails());
+    Assertions.assertEquals("TooManyRequests", httpError.getCode());
   }
 
   @Test
@@ -413,10 +415,10 @@ public class MindeeHttpApiTest extends TestCase {
         new Endpoint(InvoiceV4.class),
         parseParameter)
     );
-    assertEquals(413, httpError.getStatusCode());
-    assertEquals("HTTP Status 413 - Unhandled server response, check details.", httpError.getMessage());
-    assertTrue(httpError.getDetails().contains("<h1>An error occurred.</h1>"));
-    assertEquals("", httpError.getCode());
+    Assertions.assertEquals(413, httpError.getStatusCode());
+    Assertions.assertEquals("HTTP Status 413 - Unhandled server response, check details.", httpError.getMessage());
+    Assertions.assertTrue(httpError.getDetails().contains("<h1>An error occurred.</h1>"));
+    Assertions.assertEquals("", httpError.getCode());
   }
 
   @Test
@@ -440,9 +442,9 @@ public class MindeeHttpApiTest extends TestCase {
         new Endpoint(InvoiceV4.class),
         parseParameter)
     );
-    assertEquals(400, httpError.getStatusCode());
-    assertEquals("Some scary message here", httpError.getMessage());
-    assertEquals("", httpError.getDetails());
-    assertEquals("SomeCode", httpError.getCode());
+    Assertions.assertEquals(400, httpError.getStatusCode());
+    Assertions.assertEquals("Some scary message here", httpError.getMessage());
+    Assertions.assertEquals("", httpError.getDetails());
+    Assertions.assertEquals("SomeCode", httpError.getCode());
   }
 }

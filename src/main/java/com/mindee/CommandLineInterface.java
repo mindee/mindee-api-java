@@ -138,8 +138,6 @@ public class CommandLineInterface implements ProductProcessor {
     }
   }
 
-
-
   @Command(name = "custom", description = "Invokes a Custom API (API Builder only, use 'generated' for regular custom APIs)")
   void customMethod(
       @Option(
