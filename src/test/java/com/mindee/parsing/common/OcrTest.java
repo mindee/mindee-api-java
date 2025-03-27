@@ -2,9 +2,9 @@ package com.mindee.parsing.common;
 
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mindee.product.receipt.ReceiptV4;
 import com.mindee.parsing.common.ocr.Word;
 import com.mindee.parsing.common.ocr.Ocr;
+import com.mindee.product.receipt.ReceiptV5;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import java.io.File;
@@ -21,8 +21,8 @@ public class OcrTest {
 
     JavaType type = objectMapper.getTypeFactory().constructParametricType(
       PredictResponse.class,
-      ReceiptV4.class);
-    PredictResponse<ReceiptV4> prediction = objectMapper.readValue(
+      ReceiptV5.class);
+    PredictResponse<ReceiptV5> prediction = objectMapper.readValue(
       new File("src/test/resources/extras/ocr/complete.json"),
       type);
 
