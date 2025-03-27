@@ -25,7 +25,6 @@ import com.mindee.product.resume.ResumeV1;
 import com.mindee.product.us.bankcheck.BankCheckV1;
 import com.mindee.product.us.healthcarecard.HealthcareCardV1;
 import com.mindee.product.us.usmail.UsMailV3;
-import com.mindee.product.us.w9.W9V1;
 import java.io.File;
 import java.io.IOException;
 import picocli.CommandLine;
@@ -241,13 +240,5 @@ public class CommandLineInterfaceProducts {
       File file
   ) throws IOException, InterruptedException {
     System.out.println(processor.standardProductAsyncOutput(UsMailV3.class, file));
-  }
-
-  @CommandLine.Command(name = "us-w9", description = "Parse using US W9")
-  void w9V1Method(
-      @CommandLine.Parameters(index = "0", paramLabel = "<path>", scope = CommandLine.ScopeType.LOCAL)
-      File file
-  ) throws IOException, InterruptedException {
-    System.out.println(processor.standardProductOutput(W9V1.class, file));
   }
 }
