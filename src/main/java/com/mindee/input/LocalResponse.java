@@ -27,7 +27,7 @@ public class LocalResponse {
    * Load from an {@link InputStream}.
    * @param input will be decoded as UTF-8.
    */
-  public LocalResponse(InputStream input) throws IOException {
+  public LocalResponse(InputStream input) {
     this.file = this.getBytes(
         new BufferedReader(new InputStreamReader(input, StandardCharsets.UTF_8))
             .lines()

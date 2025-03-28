@@ -41,7 +41,7 @@ import org.apache.http.message.BasicNameValuePair;
 public final class MindeeHttpApi extends MindeeApi {
 
   private static final ObjectMapper mapper = new ObjectMapper();
-  private final Function<Endpoint, String> buildBaseUrl = this::buildUrl;
+  private final Function<Endpoint, String> buildBaseUrl = this::buildProductUrl;
   private final Function<String, String> buildWorkflowBaseUrl = this::buildWorkflowUrl;
   /**
    * The MindeeSetting needed to make the api call.
@@ -336,7 +336,7 @@ public final class MindeeHttpApi extends MindeeApi {
     return new MindeeHttpException(statusCode, message, details, errorCode);
   }
 
-  private String buildUrl(Endpoint endpoint) {
+  private String buildProductUrl(Endpoint endpoint) {
     return this.mindeeSettings.getBaseUrl()
         + "/products/"
         + endpoint.getAccountName()

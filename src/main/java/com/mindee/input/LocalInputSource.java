@@ -56,8 +56,7 @@ public final class LocalInputSource {
   public void compress(
       Integer quality, Integer maxWidth, Integer maxHeight,
       Boolean forceSourceText, Boolean disableSourceText
-  )
-      throws IOException {
+  ) throws IOException {
     if (isPdf()) {
       this.file = PdfCompressor.compressPdf(this.file, quality, forceSourceText, disableSourceText);
     } else {

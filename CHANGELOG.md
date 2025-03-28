@@ -73,7 +73,6 @@
 * :sparkles: add support for (FR) PayslipV1
 * :sparkles: add support for NutritionFactsLabelV1
 * :sparkles: add support for (US) HealthcareCardV1
-
 ### Fixes
 * :bug: fixed a bug that prevented longer decimals from appearing in the string representation of some objects
 * :bug: fixed a bug that caused non-table elements to unexpectedly appear truncated when printed to the console
