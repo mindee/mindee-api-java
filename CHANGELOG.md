@@ -1,5 +1,11 @@
 # Mindee Java Client Library Changelog
 
+## v4.26.0 - 2025-03-28
+### Changes
+* :recycle: minor internal cleanup
+* :coffin: deprecate LicensePlate, ProofOfAddress, ReceiptV4, US W9, EU Driver License & US Driver License
+
+
 ## v4.25.0 - 2025-03-21
 ### Fixes
 * :bug: harmonize OS names across clients

@@ -18,3 +18,4 @@ jobs:
   release:
     uses: mindee/client-lib-actions/.github/workflows/create-release.yml@main
     needs: tag
+    secrets: inherit
