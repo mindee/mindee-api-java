@@ -42,6 +42,7 @@ public class HealthcareCardV1Test {
     Assertions.assertNull(docPrediction.getGroupNumber().getValue());
     Assertions.assertNull(docPrediction.getPayerId().getValue());
     Assertions.assertNull(docPrediction.getRxBin().getValue());
+    Assertions.assertNull(docPrediction.getRxId().getValue());
     Assertions.assertNull(docPrediction.getRxGrp().getValue());
     Assertions.assertNull(docPrediction.getRxPcn().getValue());
     Assertions.assertTrue(docPrediction.getCopays().isEmpty());

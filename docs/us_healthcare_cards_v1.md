@@ -137,6 +137,15 @@ A `HealthcareCardV1Copay` implements the following attributes:
 * **serviceFees** (`Double`): The price of service.
 * **serviceName** (`String`): The name of service of the copay.
 
+#### Possible values include:
+ - primary_care
+ - emergency_room
+ - urgent_care
+ - specialist
+ - office_visit
+ - prescription
+
+
 # Attributes
 The following fields are extracted for Healthcare Card V1:
 
@@ -221,6 +230,13 @@ System.out.println(result.getDocument().getInference().getPrediction().getRxBin(
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getRxGrp().value);
+```
+
+## RX ID
+**rxId**: The ID number for prescription drug coverage.
+
+```java
+System.out.println(result.getDocument().getInference().getPrediction().getRxId().value);
 ```
 
 ## RX PCN

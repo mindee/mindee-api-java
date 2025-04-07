@@ -20,7 +20,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 /**
- * Invoice API version 4.9 document data.
+ * Invoice API version 4.10 document data.
  */
 @Getter
 @EqualsAndHashCode(callSuper = false)
@@ -62,6 +62,11 @@ public class InvoiceV4Document extends Prediction {
    */
   @JsonProperty("document_type")
   protected ClassificationField documentType;
+  /**
+   * Document type extended.
+   */
+  @JsonProperty("document_type_extended")
+  protected ClassificationField documentTypeExtended;
   /**
    * The date on which the payment is due.
    */
@@ -187,6 +192,7 @@ public class InvoiceV4Document extends Prediction {
       && this.shippingAddress == null
       && this.billingAddress == null
       && this.documentType == null
+      && this.documentTypeExtended == null
       && (this.lineItems == null || this.lineItems.isEmpty())
       );
   }
@@ -284,6 +290,9 @@ public class InvoiceV4Document extends Prediction {
     );
     outStr.append(
         String.format(":Document Type: %s%n", this.getDocumentType())
+    );
+    outStr.append(
+        String.format(":Document Type Extended: %s%n", this.getDocumentTypeExtended())
     );
     String lineItemsSummary = "";
     if (!this.getLineItems().isEmpty()) {
