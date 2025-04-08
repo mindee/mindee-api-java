@@ -146,11 +146,11 @@ public class HealthcareCardV1Document extends Prediction {
     );
     String copaysSummary = "";
     if (!this.getCopays().isEmpty()) {
-      int[] copaysColSizes = new int[]{14, 14};
+      int[] copaysColSizes = new int[]{14, 22};
       copaysSummary =
         String.format("%n%s%n  ", SummaryHelper.lineSeparator(copaysColSizes, "-"))
           + "| Service Fees "
-          + "| Service Name "
+          + "| Service Name         "
           + String.format("|%n%s%n  ", SummaryHelper.lineSeparator(copaysColSizes, "="));
       copaysSummary += SummaryHelper.arrayToString(this.getCopays(), copaysColSizes);
       copaysSummary += String.format("%n%s", SummaryHelper.lineSeparator(copaysColSizes, "-"));
