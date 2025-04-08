@@ -12,7 +12,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 /**
- * Healthcare Card API version 1.1 document data.
+ * Healthcare Card API version 1.2 document data.
  */
 @Getter
 @EqualsAndHashCode(callSuper = false)
@@ -75,6 +75,11 @@ public class HealthcareCardV1Document extends Prediction {
   @JsonProperty("rx_grp")
   protected StringField rxGrp;
   /**
+   * The ID number for prescription drug coverage.
+   */
+  @JsonProperty("rx_id")
+  protected StringField rxId;
+  /**
    * The PCN number for prescription drug coverage.
    */
   @JsonProperty("rx_pcn")
@@ -91,6 +96,7 @@ public class HealthcareCardV1Document extends Prediction {
       && this.groupNumber == null
       && this.payerId == null
       && this.rxBin == null
+      && this.rxId == null
       && this.rxGrp == null
       && this.rxPcn == null
       && (this.copays == null || this.copays.isEmpty())
@@ -130,6 +136,9 @@ public class HealthcareCardV1Document extends Prediction {
         String.format(":RX BIN: %s%n", this.getRxBin())
     );
     outStr.append(
+        String.format(":RX ID: %s%n", this.getRxId())
+    );
+    outStr.append(
         String.format(":RX GRP: %s%n", this.getRxGrp())
     );
     outStr.append(
@@ -137,11 +146,11 @@ public class HealthcareCardV1Document extends Prediction {
     );
     String copaysSummary = "";
     if (!this.getCopays().isEmpty()) {
-      int[] copaysColSizes = new int[]{14, 14};
+      int[] copaysColSizes = new int[]{14, 22};
       copaysSummary =
         String.format("%n%s%n  ", SummaryHelper.lineSeparator(copaysColSizes, "-"))
           + "| Service Fees "
-          + "| Service Name "
+          + "| Service Name         "
           + String.format("|%n%s%n  ", SummaryHelper.lineSeparator(copaysColSizes, "="));
       copaysSummary += SummaryHelper.arrayToString(this.getCopays(), copaysColSizes);
       copaysSummary += String.format("%n%s", SummaryHelper.lineSeparator(copaysColSizes, "-"));

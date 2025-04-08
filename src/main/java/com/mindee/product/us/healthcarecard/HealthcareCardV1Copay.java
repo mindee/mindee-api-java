@@ -41,7 +41,7 @@ public class HealthcareCardV1Copay extends BaseField implements LineItemField {
         "serviceFees",
         SummaryHelper.formatAmount(this.serviceFees)
     );
-    printable.put("serviceName", SummaryHelper.formatForDisplay(this.serviceName, null));
+    printable.put("serviceName", SummaryHelper.formatForDisplay(this.serviceName, 20));
     return printable;
   }
 
@@ -51,7 +51,7 @@ public class HealthcareCardV1Copay extends BaseField implements LineItemField {
   public String toTableLine() {
     Map<String, String> printable = this.tablePrintableValues();
     return String.format("| %-12s ", printable.get("serviceFees"))
-      + String.format("| %-12s |", printable.get("serviceName"));
+      + String.format("| %-20s |", printable.get("serviceName"));
   }
 
   @Override

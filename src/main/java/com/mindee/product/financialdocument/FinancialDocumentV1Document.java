@@ -20,7 +20,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 /**
- * Financial Document API version 1.11 document data.
+ * Financial Document API version 1.12 document data.
  */
 @Getter
 @EqualsAndHashCode(callSuper = false)
@@ -72,6 +72,11 @@ public class FinancialDocumentV1Document extends Prediction {
    */
   @JsonProperty("document_type")
   protected ClassificationField documentType;
+  /**
+   * Document type extended.
+   */
+  @JsonProperty("document_type_extended")
+  protected ClassificationField documentTypeExtended;
   /**
    * The date on which the payment is due.
    */
@@ -218,6 +223,7 @@ public class FinancialDocumentV1Document extends Prediction {
       && this.shippingAddress == null
       && this.billingAddress == null
       && this.documentType == null
+      && this.documentTypeExtended == null
       && this.subcategory == null
       && this.category == null
       && this.totalTax == null
@@ -323,6 +329,9 @@ public class FinancialDocumentV1Document extends Prediction {
     );
     outStr.append(
         String.format(":Document Type: %s%n", this.getDocumentType())
+    );
+    outStr.append(
+        String.format(":Document Type Extended: %s%n", this.getDocumentTypeExtended())
     );
     outStr.append(
         String.format(":Purchase Subcategory: %s%n", this.getSubcategory())

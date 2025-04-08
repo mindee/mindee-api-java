@@ -2,6 +2,7 @@ package com.mindee.product.financialdocument;
 
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mindee.parsing.common.Document;
 import com.mindee.parsing.common.PredictResponse;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -100,5 +101,48 @@ class FinancialDocumentV1Test {
 
     Assertions.assertEquals(expectedSummary, actualSummary);
   }
+  @Test
+  void givenFinancialV1_withEmptyDocument_whenDeserialized_MustHaveExpectedValues() throws IOException {
+    ObjectMapper objectMapper = new ObjectMapper();
+    objectMapper.findAndRegisterModules();
 
+    JavaType type = objectMapper.getTypeFactory().constructParametricType(PredictResponse.class,
+        FinancialDocumentV1.class);
+    PredictResponse<FinancialDocumentV1> response = objectMapper.readValue(
+        new File("src/test/resources/products/financial_document/response_v1/empty.json"),
+        type);
+
+    Document<FinancialDocumentV1> doc = response.getDocument();
+    FinancialDocumentV1Document prediction = doc.getInference().getPrediction();
+
+    Assertions.assertEquals("EUR;", prediction.getLocale().toString());
+    Assertions.assertNull(prediction.getTotalAmount().getValue());
+    Assertions.assertNull(prediction.getTotalNet().getValue());
+    Assertions.assertNull(prediction.getTotalTax().getValue());
+    Assertions.assertNull(prediction.getDate().getValue());
+    Assertions.assertNull(prediction.getInvoiceNumber().getValue());
+    Assertions.assertNull(prediction.getBillingAddress().getValue());
+    Assertions.assertNull(prediction.getDueDate().getValue());
+    Assertions.assertNull(prediction.getDocumentNumber().getValue());
+    Assertions.assertEquals("EXPENSE RECEIPT", prediction.getDocumentType().getValue());
+    Assertions.assertEquals("EXPENSE RECEIPT", prediction.getDocumentTypeExtended().getValue());
+    Assertions.assertNull(prediction.getSupplierName().getValue());
+    Assertions.assertNull(prediction.getSupplierAddress().getValue());
+    Assertions.assertNull(prediction.getCustomerId().getValue());
+    Assertions.assertNull(prediction.getCustomerName().getValue());
+    Assertions.assertNull(prediction.getCustomerAddress().getValue());
+    Assertions.assertTrue(prediction.getCustomerCompanyRegistrations().isEmpty());
+    Assertions.assertTrue(prediction.getTaxes().isEmpty());
+    Assertions.assertTrue(prediction.getSupplierPaymentDetails().isEmpty());
+    Assertions.assertTrue(prediction.getSupplierCompanyRegistrations().isEmpty());
+    Assertions.assertNull(prediction.getTip().getValue());
+    Assertions.assertNull(prediction.getTotalAmount().getValue());
+    Assertions.assertNull(prediction.getTotalNet().getValue());
+    Assertions.assertNull(prediction.getTotalTax().getValue());
+    Assertions.assertNull(prediction.getDate().getValue());
+    Assertions.assertNull(prediction.getTime().getValue());
+    Assertions.assertNull(prediction.getSupplierName().getValue());
+    Assertions.assertNull(prediction.getSupplierAddress().getValue());
+    Assertions.assertTrue(prediction.getTaxes().isEmpty());
+  }
 }
