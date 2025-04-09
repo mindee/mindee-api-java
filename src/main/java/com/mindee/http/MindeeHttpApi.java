@@ -20,20 +20,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import lombok.Builder;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpHeaders;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.utils.URIBuilder;
-import org.apache.http.entity.ContentType;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.entity.mime.HttpMultipartMode;
-import org.apache.http.entity.mime.MultipartEntityBuilder;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.message.BasicNameValuePair;
+import org.apache.hc.core5.http.HttpEntity;
+import org.apache.hc.core5.http.HttpHeaders;
+import org.apache.hc.core5.http.NameValuePair;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
+import org.apache.hc.client5.http.classic.methods.HttpGet;
+import org.apache.hc.client5.http.classic.methods.HttpPost;
+import org.apache.hc.core5.net.URIBuilder;
+import org.apache.hc.core5.http.ContentType;
+import org.apache.hc.core5.http.io.entity.StringEntity;
+import org.apache.hc.client5.http.entity.mime.HttpMultipartMode;
+import org.apache.hc.client5.http.entity.mime.MultipartEntityBuilder;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
+import org.apache.hc.core5.http.message.BasicNameValuePair;
 
 /**
  * HTTP Client class.
@@ -157,7 +157,7 @@ public final class MindeeHttpApi extends MindeeApi {
         CloseableHttpResponse response = httpClient.execute(get)
     ) {
       HttpEntity responseEntity = response.getEntity();
-      int statusCode = response.getStatusLine().getStatusCode();
+      int statusCode = response.getCode();
       if (!is2xxStatusCode(statusCode)) {
         throw getHttpError(parametricType, response);
       }
@@ -205,7 +205,7 @@ public final class MindeeHttpApi extends MindeeApi {
         CloseableHttpResponse response = httpClient.execute(post)
     ) {
       HttpEntity responseEntity = response.getEntity();
-      int statusCode = response.getStatusLine().getStatusCode();
+      int statusCode = response.getCode();
       if (!is2xxStatusCode(statusCode)) {
         throw getHttpError(parametricType, response);
       }
@@ -244,7 +244,7 @@ public final class MindeeHttpApi extends MindeeApi {
         CloseableHttpResponse response = httpClient.execute(post)
     ) {
       HttpEntity responseEntity = response.getEntity();
-      int statusCode = response.getStatusLine().getStatusCode();
+      int statusCode = response.getCode();
       if (!is2xxStatusCode(statusCode)) {
         throw getHttpError(parametricType, response);
       }
@@ -284,7 +284,7 @@ public final class MindeeHttpApi extends MindeeApi {
         CloseableHttpResponse response = httpClient.execute(post)
     ) {
       HttpEntity responseEntity = response.getEntity();
-      int statusCode = response.getStatusLine().getStatusCode();
+      int statusCode = response.getCode();
       if (!is2xxStatusCode(statusCode)) {
         throw getHttpError(parametricType, response);
       }
@@ -305,7 +305,7 @@ public final class MindeeHttpApi extends MindeeApi {
       JavaType parametricType,
       CloseableHttpResponse response
   ) {
-    int statusCode = response.getStatusLine().getStatusCode();
+    int statusCode = response.getCode();
     String message = "HTTP Status " + statusCode + " - ";
     String details;
     String errorCode;
@@ -392,7 +392,7 @@ public final class MindeeHttpApi extends MindeeApi {
   ) throws JsonProcessingException {
     if (requestParameters.getFile() != null) {
       MultipartEntityBuilder builder = MultipartEntityBuilder.create();
-      builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
+      builder.setMode(HttpMultipartMode.EXTENDED);
       builder.addBinaryBody(
           "document",
           requestParameters.getFile(),
