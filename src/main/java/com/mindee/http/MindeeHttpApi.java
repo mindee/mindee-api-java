@@ -25,8 +25,8 @@ import org.apache.hc.client5.http.classic.methods.HttpPost;
 import org.apache.hc.client5.http.entity.mime.HttpMultipartMode;
 import org.apache.hc.client5.http.entity.mime.MultipartEntityBuilder;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
-import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
 import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
+import org.apache.hc.core5.http.ClassicHttpResponse;
 import org.apache.hc.core5.http.ContentType;
 import org.apache.hc.core5.http.HttpEntity;
 import org.apache.hc.core5.http.HttpHeaders;
@@ -152,31 +152,33 @@ public final class MindeeHttpApi extends MindeeApi {
     }
     get.setHeader(HttpHeaders.USER_AGENT, getUserAgent());
 
-    try (
-        CloseableHttpClient httpClient = httpClientBuilder.build();
-        CloseableHttpResponse response = httpClient.execute(get)
-    ) {
-      HttpEntity responseEntity = response.getEntity();
-      int statusCode = response.getCode();
-      if (!is2xxStatusCode(statusCode)) {
-        throw getHttpError(parametricType, response);
-      }
-      String rawResponse = readRawResponse(responseEntity);
-      AsyncPredictResponse<DocT> mappedResponse = mapper.readValue(rawResponse, parametricType);
-      mappedResponse.setRawResponse(rawResponse);
-      if (
-          mappedResponse.getJob() != null
-              && mappedResponse.getJob().getError() != null
-              && mappedResponse.getJob().getError().getCode() != null
-      ) {
-        throw new MindeeHttpException(
-            500,
-            mappedResponse.getJob().getError().getMessage(),
-            mappedResponse.getJob().getError().getDetails().toString(),
-            mappedResponse.getJob().getError().getCode()
-        );
-      }
-      return mappedResponse;
+    try (CloseableHttpClient httpClient = httpClientBuilder.build()) {
+      return httpClient.execute(
+          get, response -> {
+            HttpEntity responseEntity = response.getEntity();
+            int statusCode = response.getCode();
+            if (!is2xxStatusCode(statusCode)) {
+              throw getHttpError(parametricType, response);
+            }
+            String rawResponse = readRawResponse(responseEntity);
+            AsyncPredictResponse<DocT> mappedResponse =
+                mapper.readValue(rawResponse, parametricType);
+            mappedResponse.setRawResponse(rawResponse);
+            if (
+                mappedResponse.getJob() != null
+                    && mappedResponse.getJob().getError() != null
+                    && mappedResponse.getJob().getError().getCode() != null
+            ) {
+              throw new MindeeHttpException(
+                  500,
+                  mappedResponse.getJob().getError().getMessage(),
+                  mappedResponse.getJob().getError().getDetails().toString(),
+                  mappedResponse.getJob().getError().getCode()
+              );
+            }
+            return mappedResponse;
+          }
+      );
     } catch (IOException err) {
       throw new MindeeException(err.getMessage(), err);
     }
@@ -200,22 +202,23 @@ public final class MindeeHttpApi extends MindeeApi {
         PredictResponse.class,
         documentClass
     );
-    try (
-        CloseableHttpClient httpClient = httpClientBuilder.build();
-        CloseableHttpResponse response = httpClient.execute(post)
-    ) {
-      HttpEntity responseEntity = response.getEntity();
-      int statusCode = response.getCode();
-      if (!is2xxStatusCode(statusCode)) {
-        throw getHttpError(parametricType, response);
-      }
-      if (responseEntity.getContentLength() == 0) {
-        throw new MindeeException("Empty response from server.");
-      }
-      String rawResponse = readRawResponse(responseEntity);
-      PredictResponse<DocT> mappedResponse = mapper.readValue(rawResponse, parametricType);
-      mappedResponse.setRawResponse(rawResponse);
-      return mappedResponse;
+    try (CloseableHttpClient httpClient = httpClientBuilder.build()) {
+      return httpClient.execute(
+          post, response -> {
+            HttpEntity responseEntity = response.getEntity();
+            int statusCode = response.getCode();
+            if (!is2xxStatusCode(statusCode)) {
+              throw getHttpError(parametricType, response);
+            }
+            if (responseEntity.getContentLength() == 0) {
+              throw new MindeeException("Empty response from server.");
+            }
+            String rawResponse = readRawResponse(responseEntity);
+            PredictResponse<DocT> mappedResponse = mapper.readValue(rawResponse, parametricType);
+            mappedResponse.setRawResponse(rawResponse);
+            return mappedResponse;
+          }
+      );
     } catch (IOException err) {
       throw new MindeeException(err.getMessage(), err);
     }
@@ -239,22 +242,24 @@ public final class MindeeHttpApi extends MindeeApi {
         AsyncPredictResponse.class,
         documentClass
     );
-    try (
-        CloseableHttpClient httpClient = httpClientBuilder.build();
-        CloseableHttpResponse response = httpClient.execute(post)
-    ) {
-      HttpEntity responseEntity = response.getEntity();
-      int statusCode = response.getCode();
-      if (!is2xxStatusCode(statusCode)) {
-        throw getHttpError(parametricType, response);
-      }
-      if (responseEntity.getContentLength() == 0) {
-        throw new MindeeException("Empty response from server.");
-      }
-      String rawResponse = readRawResponse(responseEntity);
-      AsyncPredictResponse<DocT> mappedResponse = mapper.readValue(rawResponse, parametricType);
-      mappedResponse.setRawResponse(rawResponse);
-      return mappedResponse;
+    try (CloseableHttpClient httpClient = httpClientBuilder.build()) {
+      return httpClient.execute(
+          post, response -> {
+            HttpEntity responseEntity = response.getEntity();
+            int statusCode = response.getCode();
+            if (!is2xxStatusCode(statusCode)) {
+              throw getHttpError(parametricType, response);
+            }
+            if (responseEntity.getContentLength() == 0) {
+              throw new MindeeException("Empty response from server.");
+            }
+            String rawResponse = readRawResponse(responseEntity);
+            AsyncPredictResponse<DocT> mappedResponse =
+                mapper.readValue(rawResponse, parametricType);
+            mappedResponse.setRawResponse(rawResponse);
+            return mappedResponse;
+          }
+      );
     } catch (IOException err) {
       throw new MindeeException(err.getMessage(), err);
     }
@@ -279,22 +284,21 @@ public final class MindeeHttpApi extends MindeeApi {
         WorkflowResponse.class,
         documentClass
     );
-    try (
-        CloseableHttpClient httpClient = httpClientBuilder.build();
-        CloseableHttpResponse response = httpClient.execute(post)
-    ) {
-      HttpEntity responseEntity = response.getEntity();
-      int statusCode = response.getCode();
-      if (!is2xxStatusCode(statusCode)) {
-        throw getHttpError(parametricType, response);
-      }
-      if (responseEntity.getContentLength() == 0) {
-        throw new MindeeException("Empty response from server.");
-      }
-      String rawResponse = readRawResponse(responseEntity);
-      WorkflowResponse<DocT> mappedResponse = mapper.readValue(rawResponse, parametricType);
-      mappedResponse.setRawResponse(rawResponse);
-      return mappedResponse;
+    try (CloseableHttpClient httpClient = httpClientBuilder.build()) {
+      return httpClient.execute(post, response -> {
+        HttpEntity responseEntity = response.getEntity();
+        int statusCode = response.getCode();
+        if (!is2xxStatusCode(statusCode)) {
+          throw getHttpError(parametricType, response);
+        }
+        if (responseEntity.getContentLength() == 0) {
+          throw new MindeeException("Empty response from server.");
+        }
+        String rawResponse = readRawResponse(responseEntity);
+        WorkflowResponse<DocT> mappedResponse = mapper.readValue(rawResponse, parametricType);
+        mappedResponse.setRawResponse(rawResponse);
+        return mappedResponse;
+      });
     } catch (IOException err) {
       throw new MindeeException(err.getMessage(), err);
     }
@@ -303,7 +307,7 @@ public final class MindeeHttpApi extends MindeeApi {
 
   private <ResponseT extends ApiResponse> MindeeHttpException getHttpError(
       JavaType parametricType,
-      CloseableHttpResponse response
+      ClassicHttpResponse response
   ) {
     int statusCode = response.getCode();
     String message = "HTTP Status " + statusCode + " - ";
