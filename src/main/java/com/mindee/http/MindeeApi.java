@@ -6,7 +6,7 @@ import com.mindee.parsing.common.PredictResponse;
 import com.mindee.parsing.common.WorkflowResponse;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import org.apache.http.HttpEntity;
+import org.apache.hc.core5.http.HttpEntity;
 
 /**
  * Defines required methods for an API.

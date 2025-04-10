@@ -314,6 +314,16 @@
     </dependency>
 
     <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>${org.slf4j.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-simple</artifactId>
+      <version>${org.slf4j.version}</version>
+    </dependency>
+    <dependency>
       <artifactId>mockwebserver</artifactId>
       <groupId>com.squareup.okhttp3</groupId>
       <scope>test</scope>
@@ -375,8 +385,6 @@
       <version>${org.hamcrest.version}</version>
       <scope>test</scope>
     </dependency>
-
-
   </dependencies>
 
   <scm>
@@ -393,7 +401,7 @@
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
     <org.apache.commons.math3.version>3.6.1</org.apache.commons.math3.version>
-    <org.apache.httpcomponents.client5.httpclient5.version>5.2.3</org.apache.httpcomponents.client5.httpclient5.version>
+    <org.apache.httpcomponents.client5.httpclient5.version>5.4.2</org.apache.httpcomponents.client5.httpclient5.version>
     <org.apache.httpcomponents.httpmime.version>4.5.14</org.apache.httpcomponents.httpmime.version>
     <org.apache.maven.clean.version>3.1.0</org.apache.maven.clean.version>
     <org.apache.maven.compiler.version>3.12.1</org.apache.maven.compiler.version>
@@ -417,6 +425,7 @@
     <org.mockito.junit.jupiter.version>4.5.1</org.mockito.junit.jupiter.version>
     <org.projectlombok.lombok-mapstruct-binding.version>0.2.0</org.projectlombok.lombok-mapstruct-binding.version>
     <org.projectlombok.version>1.18.32</org.projectlombok.version>
+    <org.slf4j.version>2.0.17</org.slf4j.version>
     <org.sonatype.nexus.staging.maven.version>1.6.12</org.sonatype.nexus.staging.maven.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <wiremock.version>2.27.2</wiremock.version>
