@@ -1,5 +1,10 @@
 # Mindee Java Client Library Changelog
 
+## v4.28.0 - 2025-04-15
+### Changes
+* :arrow_up: :boom: migrate to http-core 5
+
+
 ## v4.27.0 - 2025-04-08
 ### Changes
 * :sparkles: add support for Financial Document V1.12
