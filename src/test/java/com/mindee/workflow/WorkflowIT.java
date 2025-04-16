@@ -35,7 +35,7 @@ public class WorkflowIT {
       IOException, MindeeException {
 
     WorkflowOptions options = WorkflowOptions.builder().alias("java-" + currentDateTime).priority(
-        ExecutionPriority.LOW).build();
+        ExecutionPriority.LOW).rag(true).build();
     WorkflowResponse<GeneratedV1> response =
         client.executeWorkflow(workflowId, financialDocumentInputSource, options);
     return response.getExecution();

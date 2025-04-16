@@ -32,16 +32,23 @@ public class WorkflowOptions {
    */
   String publicUrl;
 
+  /**
+   * Whether to enable Retrieval-Augmented generation.
+   */
+  Boolean rag;
+
   @Builder
   private WorkflowOptions(
       String alias,
       ExecutionPriority priority,
       Boolean fullText,
-      String publicUrl
+      String publicUrl,
+      Boolean rag
   ) {
     this.alias = alias;
     this.priority = priority;
     this.fullText = fullText == null ? Boolean.FALSE : fullText;
     this.publicUrl = publicUrl;
+    this.rag = rag;
   }
 }
