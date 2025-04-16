@@ -388,6 +388,9 @@ public final class MindeeHttpApi extends MindeeApi {
     if (Boolean.TRUE.equals(requestParameters.getPredictOptions().getFullText())) {
       params.add(new BasicNameValuePair("full_text_ocr", "true"));
     }
+    if (Boolean.TRUE.equals(requestParameters.getWorkflowOptions().getRag())) {
+      params.add(new BasicNameValuePair("rag", "true"));
+    }
     return params;
   }
 
