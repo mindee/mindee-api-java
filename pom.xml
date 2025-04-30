@@ -401,7 +401,7 @@
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
     <org.apache.commons.math3.version>3.6.1</org.apache.commons.math3.version>
-    <org.apache.httpcomponents.client5.httpclient5.version>5.4.2</org.apache.httpcomponents.client5.httpclient5.version>
+    <org.apache.httpcomponents.client5.httpclient5.version>5.4.3</org.apache.httpcomponents.client5.httpclient5.version>
     <org.apache.httpcomponents.httpmime.version>4.5.14</org.apache.httpcomponents.httpmime.version>
     <org.apache.maven.clean.version>3.1.0</org.apache.maven.clean.version>
     <org.apache.maven.compiler.version>3.12.1</org.apache.maven.compiler.version>
