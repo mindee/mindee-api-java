@@ -41,8 +41,9 @@ import org.apache.hc.core5.net.URIBuilder;
 public final class MindeeHttpApi extends MindeeApi {
 
   private static final ObjectMapper mapper = new ObjectMapper();
-  private final Function<Endpoint, String> buildBaseUrl = this::buildProductUrl;
-  private final Function<String, String> buildWorkflowBaseUrl = this::buildWorkflowUrl;
+  private final Function<Endpoint, String> buildProductPredicBasetUrl = this::buildProductPredictBaseUrl;
+  private final Function<String, String> buildWorkflowPredictBaseUrl = this::buildWorkflowPredictBaseUrl;
+  private final Function<String, String> buildWorkflowExecutionBaseUrl = this::buildWorkflowExecutionUrl;
   /**
    * The MindeeSetting needed to make the api call.
    */
@@ -53,24 +54,27 @@ public final class MindeeHttpApi extends MindeeApi {
    */
   private final HttpClientBuilder httpClientBuilder;
   /**
-   * The function used to generate the API endpoint URL.
+   * The function used to generate the synchronous API endpoint URL.
    * Only needs to be set if the api calls need to be directed through internal URLs.
    */
   private final Function<Endpoint, String> urlFromEndpoint;
-
   /**
-   * The function used to generate the API endpoint URL for workflow execution calls.
+   * The function used to generate the asynchronous API endpoint URL for a product.
    * Only needs to be set if the api calls need to be directed through internal URLs.
    */
   private final Function<Endpoint, String> asyncUrlFromEndpoint;
+  /**
+   * The function used to generate the asynchronous API endpoint URL for a workflow.
+   * Only needs to be set if the api calls need to be directed through internal URLs.
+   */
+  private final Function<String, String> asyncUrlFromWorkflow;
   /**
    * The function used to generate the Job status URL for Async calls.
    * Only needs to be set if the api calls need to be directed through internal URLs.
    */
   private final Function<Endpoint, String> documentUrlFromEndpoint;
-
   /**
-   * The function used to generate the Job status URL for Async calls.
+   * The function used to generate the Job status URL for workflow execution calls.
    * Only needs to be set if the api calls need to be directed through internal URLs.
    */
   private final Function<String, String> workflowUrlFromId;
@@ -78,6 +82,7 @@ public final class MindeeHttpApi extends MindeeApi {
   public MindeeHttpApi(MindeeSettings mindeeSettings) {
     this(
         mindeeSettings,
+        null,
         null,
         null,
         null,
@@ -93,7 +98,8 @@ public final class MindeeHttpApi extends MindeeApi {
       Function<Endpoint, String> urlFromEndpoint,
       Function<Endpoint, String> asyncUrlFromEndpoint,
       Function<Endpoint, String> documentUrlFromEndpoint,
-      Function<String, String> workflowUrlFromEndpoint
+      Function<String, String> workflowUrlFromEndpoint,
+      Function<String, String> asyncUrlFromWorkflow
   ) {
     this.mindeeSettings = mindeeSettings;
 
@@ -106,26 +112,35 @@ public final class MindeeHttpApi extends MindeeApi {
     if (urlFromEndpoint != null) {
       this.urlFromEndpoint = urlFromEndpoint;
     } else {
-      this.urlFromEndpoint = buildBaseUrl.andThen((url) -> url.concat("/predict"));
+      this.urlFromEndpoint = buildProductPredicBasetUrl.andThen(
+          (url) -> url.concat("/predict"));
+    }
+
+    if (asyncUrlFromWorkflow != null) {
+      this.asyncUrlFromWorkflow = asyncUrlFromWorkflow;
+    } else {
+      this.asyncUrlFromWorkflow = this.buildWorkflowPredictBaseUrl.andThen(
+          (url) -> url.concat("/predict_async"));
     }
 
     if (asyncUrlFromEndpoint != null) {
       this.asyncUrlFromEndpoint = asyncUrlFromEndpoint;
     } else {
-      this.asyncUrlFromEndpoint = this.urlFromEndpoint.andThen((url) -> url.concat("_async"));
+      this.asyncUrlFromEndpoint = this.buildProductPredicBasetUrl.andThen(
+          (url) -> url.concat("/predict_async"));
     }
 
     if (documentUrlFromEndpoint != null) {
       this.documentUrlFromEndpoint = documentUrlFromEndpoint;
     } else {
-      this.documentUrlFromEndpoint = this.buildBaseUrl.andThen(
+      this.documentUrlFromEndpoint = this.buildProductPredicBasetUrl.andThen(
           (url) -> url.concat("/documents/queue/"));
     }
 
     if (workflowUrlFromEndpoint != null) {
       this.workflowUrlFromId = workflowUrlFromEndpoint;
     } else {
-      this.workflowUrlFromId = this.buildWorkflowBaseUrl;
+      this.workflowUrlFromId = this.buildWorkflowExecutionBaseUrl;
     }
   }
 
@@ -233,7 +248,12 @@ public final class MindeeHttpApi extends MindeeApi {
       RequestParameters requestParameters
   ) throws IOException {
 
-    String url = asyncUrlFromEndpoint.apply(endpoint);
+    String url;
+    if (requestParameters.getPredictOptions().getWorkflowId() != null) {
+      url = asyncUrlFromWorkflow.apply(requestParameters.getPredictOptions().getWorkflowId());
+    } else {
+      url = asyncUrlFromEndpoint.apply(endpoint);
+    }
     HttpPost post = buildHttpPost(url, requestParameters);
 
     // required to register jackson date module format to deserialize
@@ -340,7 +360,7 @@ public final class MindeeHttpApi extends MindeeApi {
     return new MindeeHttpException(statusCode, message, details, errorCode);
   }
 
-  private String buildProductUrl(Endpoint endpoint) {
+  private String buildProductPredictBaseUrl(Endpoint endpoint) {
     return this.mindeeSettings.getBaseUrl()
         + "/products/"
         + endpoint.getAccountName()
@@ -350,7 +370,11 @@ public final class MindeeHttpApi extends MindeeApi {
         + endpoint.getVersion();
   }
 
-  private String buildWorkflowUrl(String workflowId) {
+  private String buildWorkflowPredictBaseUrl(String workflowId) {
+    return this.mindeeSettings.getBaseUrl() + "/workflows/" + workflowId;
+  }
+
+  private String buildWorkflowExecutionUrl(String workflowId) {
     return this.mindeeSettings.getBaseUrl() + "/workflows/" + workflowId + "/executions";
   }
 
@@ -388,7 +412,9 @@ public final class MindeeHttpApi extends MindeeApi {
     if (Boolean.TRUE.equals(requestParameters.getPredictOptions().getFullText())) {
       params.add(new BasicNameValuePair("full_text_ocr", "true"));
     }
-    if (Boolean.TRUE.equals(requestParameters.getWorkflowOptions().getRag())) {
+    if (Boolean.TRUE.equals(requestParameters.getWorkflowOptions().getRag())
+        || Boolean.TRUE.equals(requestParameters.getPredictOptions().getRag())
+    ) {
       params.add(new BasicNameValuePair("rag", "true"));
     }
     return params;

@@ -147,6 +147,30 @@ public class MindeeClient {
   }
 
   /**
+   * Send a local file to an async queue.
+   * @param <T> Type of inference.
+   * @param type Type of inference.
+   * @param localInputSource A local input source file.
+   * @param predictOptions Prediction options for the enqueuing.
+   * @return an instance of {@link AsyncPredictResponse}.
+   * @throws IOException Throws if the file can't be accessed.
+   */
+  public <T extends Inference> AsyncPredictResponse<T> enqueue(
+      Class<T> type,
+      LocalInputSource localInputSource,
+      PredictOptions predictOptions
+  ) throws IOException {
+    return this.enqueue(
+        type,
+        new Endpoint(type),
+        localInputSource.getFile(),
+        localInputSource.getFilename(),
+        predictOptions,
+        null
+    );
+  }
+
+  /**
    * Send a remote file to an async queue.
    * @param <T> Type of inference.
    * @param type Type of inference.
@@ -287,6 +311,60 @@ public class MindeeClient {
       localInputSource.getFilename(),
       predictOptions,
       null
+    );
+  }
+
+  /**
+   * Send a local file to an async queue, poll, and parse when complete.
+   * @param <T> Type of inference.
+   * @param type Type of inference.
+   * @param localInputSource A local input source file.
+   * @param predictOptions Prediction options for the enqueuing.
+   * @param pollingOptions Options for async call parameters.
+   * @return an instance of {@link AsyncPredictResponse}.
+   * @throws IOException Throws if the file can't be accessed.
+   * @throws InterruptedException Throws in the event of a timeout.
+   */
+  public <T extends Inference> AsyncPredictResponse<T> enqueueAndParse(
+      Class<T> type,
+      LocalInputSource localInputSource,
+      PredictOptions predictOptions,
+      AsyncPollingOptions pollingOptions
+  ) throws IOException, InterruptedException {
+    return this.enqueueAndParse(
+        type,
+        new Endpoint(type),
+        pollingOptions,
+        localInputSource.getFile(),
+        localInputSource.getFilename(),
+        predictOptions,
+        null
+    );
+  }
+
+  /**
+   * Send a local file to an async queue, poll, and parse when complete.
+   * @param <T> Type of inference.
+   * @param type Type of inference.
+   * @param localInputSource A local input source file.
+   * @param predictOptions Prediction options for the enqueuing.
+   * @return an instance of {@link AsyncPredictResponse}.
+   * @throws IOException Throws if the file can't be accessed.
+   * @throws InterruptedException Throws in the event of a timeout.
+   */
+  public <T extends Inference> AsyncPredictResponse<T> enqueueAndParse(
+      Class<T> type,
+      LocalInputSource localInputSource,
+      PredictOptions predictOptions
+  ) throws IOException, InterruptedException {
+    return this.enqueueAndParse(
+        type,
+        new Endpoint(type),
+        null,
+        localInputSource.getFile(),
+        localInputSource.getFilename(),
+        predictOptions,
+        null
     );
   }
 
