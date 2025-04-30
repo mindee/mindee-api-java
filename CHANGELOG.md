@@ -1,5 +1,11 @@
 # Mindee Java Client Library Changelog
 
+## v4.30.0 - 2025-04-16
+### Changes
+* :sparkles: add support for workflow polling
+* :arrow_up: Bump org.apache.httpcomponents.client5:httpclient5
+
+
 ## v4.29.0 - 2025-04-16
 ### Changes
 * :sparkles: add support for RAG parameter in workflow executions (#235)
