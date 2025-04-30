@@ -74,6 +74,7 @@ import com.mindee.product.us.bankcheck.BankCheckV1;
 ### Custom Documents (docTI & Custom APIs)
 ```java
 import com.mindee.MindeeClient;
+import com.mindee.PredictOptions;
 import com.mindee.input.LocalInputSource;
 import com.mindee.parsing.common.PredictResponse;
 import com.mindee.product.generated.GeneratedV1;
@@ -98,6 +99,7 @@ public class SimpleMindeeClient {
     Document<GeneratedV1> customDocument = mindeeClient.enqueueAndParse(
         localInputSource,
         endpoint
+        // PredictOptions.builder().build(),
     );
   }
 }
@@ -116,6 +118,7 @@ This is the easiest way to get started.
 
 ```java
 import com.mindee.MindeeClient;
+import com.mindee.PredictOptions;
 import com.mindee.input.LocalInputSource;
 import com.mindee.parsing.common.AsyncPredictResponse;
 import com.mindee.product.internationalid.InternationalIdV2;
@@ -138,6 +141,7 @@ public class SimpleMindeeClient {
     AsyncPredictResponse<InternationalIdV2> response = mindeeClient.enqueueAndParse(
         InternationalIdV2.class,
         inputSource
+        // PredictOptions.builder().build(),
     );
 
     // Print a summary of the response

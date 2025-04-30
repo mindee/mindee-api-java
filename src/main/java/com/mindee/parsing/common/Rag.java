@@ -7,20 +7,16 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Inference-level optional info.
+ * Retrieval-Augmented Generation info class.
  */
-@Setter
 @Getter
 @EqualsAndHashCode
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class InferenceExtras {
+public class Rag {
   /**
-   * Full Text OCR result.
+   * The document ID that was matched.
    */
-  private String fullTextOcr;
-  /**
-   * Retrieval-Augmented Generation results.
-   */
-  @JsonProperty("rag")
-  private Rag rag;
+  @Setter
+  @JsonProperty("matching_document_id")
+  private String matchingDocumentId;
 }

@@ -24,15 +24,28 @@ public class PredictOptions {
    * size.
    */
   Boolean fullText;
+  /**
+   * If set, will enqueue to a workflow queue instead of a product's endpoint.
+   */
+  String workflowId;
+  /**
+   * If set, will enable Retrieval-Augmented Generation.
+   * Only works if a valid workflowId is set.
+   */
+  Boolean rag;
 
   @Builder
   private PredictOptions(
       Boolean allWords,
       Boolean fullText,
-      Boolean cropper
+      Boolean cropper,
+      String workflowId,
+      Boolean rag
   ) {
     this.allWords = allWords == null ? Boolean.FALSE : allWords;
     this.fullText = fullText == null ? Boolean.FALSE : fullText;
     this.cropper = cropper == null ? Boolean.FALSE : cropper;
+    this.workflowId = workflowId;
+    this.rag = rag == null ? Boolean.FALSE : rag;
   }
 }
