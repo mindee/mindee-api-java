@@ -17,6 +17,7 @@ import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.PDResources;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
+import org.apache.pdfbox.pdmodel.font.Standard14Fonts;
 import org.apache.pdfbox.pdmodel.graphics.color.PDColor;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 import org.apache.pdfbox.rendering.ImageType;
@@ -243,7 +244,7 @@ public final class PDFUtils {
         try {
           contentStream.showText(text);
         } catch (IllegalArgumentException | UnsupportedOperationException e) {
-          contentStream.setFont(PDType1Font.HELVETICA, fontSize);
+          contentStream.setFont(new PDType1Font(Standard14Fonts.FontName.HELVETICA), fontSize);
           contentStream.showText(text);
         }
         contentStream.endText();
