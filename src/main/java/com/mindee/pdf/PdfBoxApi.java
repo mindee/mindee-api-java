@@ -12,6 +12,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
+import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.pdmodel.PDDocument;
 
 /**
@@ -26,7 +27,7 @@ public final class PdfBoxApi implements PdfOperation {
       throw new MindeeException("This document cannot be open and cannot be split.");
     }
 
-    try (PDDocument originalDocument = PDDocument.load(splitQuery.getFile())) {
+    try (PDDocument originalDocument = Loader.loadPDF(splitQuery.getFile())) {
       try (PDDocument splitDocument = new PDDocument()) {
         int totalOriginalPages = countPages(splitQuery.getFile());
 
@@ -73,7 +74,7 @@ public final class PdfBoxApi implements PdfOperation {
   private boolean checkPdfOpen(byte[] documentFile) {
     boolean opens = false;
     try {
-      PDDocument.load(documentFile).close();
+      Loader.loadPDF(documentFile).close();
       opens = true;
     } catch (IOException e) {
       e.printStackTrace();
@@ -82,7 +83,7 @@ public final class PdfBoxApi implements PdfOperation {
   }
 
   private int countPages(byte[] documentFile) throws IOException {
-    PDDocument document = PDDocument.load(documentFile);
+    PDDocument document = Loader.loadPDF(documentFile);
     int pageCount = document.getNumberOfPages();
     document.close();
     return pageCount;
