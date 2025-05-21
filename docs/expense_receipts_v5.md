@@ -279,6 +279,9 @@ The following fields are extracted for Receipt V5:
  - 'gasoline'
  - 'telecom'
  - 'miscellaneous'
+ - 'software'
+ - 'shopping'
+ - 'energy'
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getCategory().value);
@@ -335,6 +338,15 @@ System.out.println(result.getDocument().getInference().getPrediction().getReceip
  - 'train'
  - 'restaurant'
  - 'shopping'
+ - 'other'
+ - 'groceries'
+ - 'cultural'
+ - 'electronics'
+ - 'office_supplies'
+ - 'micromobility'
+ - 'car_rental'
+ - 'public'
+ - 'delivery'
  - null
 
 ```java

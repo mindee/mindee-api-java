@@ -13,7 +13,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 /**
- * International ID API version 2.1 document data.
+ * International ID API version 2.2 document data.
  */
 @Getter
 @EqualsAndHashCode(callSuper = false)

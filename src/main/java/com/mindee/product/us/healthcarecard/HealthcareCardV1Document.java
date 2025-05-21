@@ -12,7 +12,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 /**
- * Healthcare Card API version 1.2 document data.
+ * Healthcare Card API version 1.3 document data.
  */
 @Getter
 @EqualsAndHashCode(callSuper = false)
@@ -25,7 +25,7 @@ public class HealthcareCardV1Document extends Prediction {
   @JsonProperty("company_name")
   protected StringField companyName;
   /**
-   * Is a fixed amount for a covered service.
+   * Copayments for covered services.
    */
   @JsonProperty("copays")
   protected List<HealthcareCardV1Copay> copays = new ArrayList<>();
@@ -65,6 +65,11 @@ public class HealthcareCardV1Document extends Prediction {
   @JsonProperty("payer_id")
   protected StringField payerId;
   /**
+   * The name of the healthcare plan.
+   */
+  @JsonProperty("plan_name")
+  protected StringField planName;
+  /**
    * The BIN number for prescription drug coverage.
    */
   @JsonProperty("rx_bin")
@@ -89,6 +94,7 @@ public class HealthcareCardV1Document extends Prediction {
   public boolean isEmpty() {
     return (
       this.companyName == null
+      && this.planName == null
       && this.memberName == null
       && this.memberId == null
       && this.issuer80840 == null
@@ -109,6 +115,9 @@ public class HealthcareCardV1Document extends Prediction {
     StringBuilder outStr = new StringBuilder();
     outStr.append(
         String.format(":Company Name: %s%n", this.getCompanyName())
+    );
+    outStr.append(
+        String.format(":Plan Name: %s%n", this.getPlanName())
     );
     outStr.append(
         String.format(":Member Name: %s%n", this.getMemberName())
@@ -156,7 +165,7 @@ public class HealthcareCardV1Document extends Prediction {
       copaysSummary += String.format("%n%s", SummaryHelper.lineSeparator(copaysColSizes, "-"));
     }
     outStr.append(
-        String.format(":copays: %s%n", copaysSummary)
+        String.format(":Copays: %s%n", copaysSummary)
     );
     outStr.append(
         String.format(":Enrollment Date: %s%n", this.getEnrollmentDate())

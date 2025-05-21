@@ -60,6 +60,8 @@ public class InvoiceV4Test {
     Assertions.assertNull(docPrediction.getBillingAddress().getValue());
     Assertions.assertInstanceOf(ClassificationField.class, docPrediction.getDocumentType());
     Assertions.assertInstanceOf(ClassificationField.class, docPrediction.getDocumentTypeExtended());
+    Assertions.assertInstanceOf(ClassificationField.class, docPrediction.getSubcategory());
+    Assertions.assertInstanceOf(ClassificationField.class, docPrediction.getCategory());
     Assertions.assertTrue(docPrediction.getLineItems().isEmpty());
   }
 

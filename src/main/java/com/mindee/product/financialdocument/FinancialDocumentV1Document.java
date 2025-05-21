@@ -20,7 +20,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 /**
- * Financial Document API version 1.12 document data.
+ * Financial Document API version 1.14 document data.
  */
 @Getter
 @EqualsAndHashCode(callSuper = false)
@@ -33,7 +33,7 @@ public class FinancialDocumentV1Document extends Prediction {
   @JsonProperty("billing_address")
   protected StringField billingAddress;
   /**
-   * The purchase category, only for receipts.
+   * The purchase category.
    */
   @JsonProperty("category")
   protected ClassificationField category;
@@ -123,7 +123,7 @@ public class FinancialDocumentV1Document extends Prediction {
   @JsonProperty("shipping_address")
   protected StringField shippingAddress;
   /**
-   * The purchase subcategory for transport and food, only for receipts.
+   * The purchase subcategory for transport, food and shooping.
    */
   @JsonProperty("subcategory")
   protected ClassificationField subcategory;

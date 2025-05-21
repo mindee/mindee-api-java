@@ -10,19 +10,19 @@ import java.util.Map;
 import lombok.Getter;
 
 /**
- * Is a fixed amount for a covered service.
+ * Copayments for covered services.
  */
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class HealthcareCardV1Copay extends BaseField implements LineItemField {
 
   /**
-   * The price of service.
+   * The price of the service.
    */
   @JsonProperty("service_fees")
   Double serviceFees;
   /**
-   * The name of service of the copay.
+   * The name of the service.
    */
   @JsonProperty("service_name")
   String serviceName;

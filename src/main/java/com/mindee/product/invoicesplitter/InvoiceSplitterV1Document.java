@@ -10,7 +10,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 /**
- * Invoice Splitter API version 1.2 document data.
+ * Invoice Splitter API version 1.4 document data.
  */
 @Getter
 @EqualsAndHashCode(callSuper = false)
