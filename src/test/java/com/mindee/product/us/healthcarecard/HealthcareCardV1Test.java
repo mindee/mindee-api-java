@@ -35,6 +35,7 @@ public class HealthcareCardV1Test {
     PredictResponse<HealthcareCardV1> response = getPrediction("empty");
     HealthcareCardV1Document docPrediction = response.getDocument().getInference().getPrediction();
     Assertions.assertNull(docPrediction.getCompanyName().getValue());
+    Assertions.assertNull(docPrediction.getPlanName().getValue());
     Assertions.assertNull(docPrediction.getMemberName().getValue());
     Assertions.assertNull(docPrediction.getMemberId().getValue());
     Assertions.assertNull(docPrediction.getIssuer80840().getValue());

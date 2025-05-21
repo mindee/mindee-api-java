@@ -107,12 +107,12 @@ public class SimpleMindeeClient {
 ########
 Document
 ########
-:Mindee ID: b55db8f9-ae3b-4f05-b2f1-ec0ced5e5b70
+:Mindee ID: 3e524d26-f7dc-4852-9bbf-833a127a9570
 :Filename: default_sample.jpg
 
 Inference
 #########
-:Product: mindee/invoices v4.9
+:Product: mindee/invoices v4.10
 :Rotation applied: Yes
 
 Prediction
@@ -147,6 +147,7 @@ Prediction
 :Shipping Address:
 :Billing Address: 1954 Bloor Street West Toronto, ON, M6P 3K9 Canada
 :Document Type: INVOICE
+:Document Type Extended: INVOICE
 :Line Items:
   +--------------------------------------+--------------+----------+------------+--------------+--------------+-----------------+------------+
   | Description                          | Product code | Quantity | Tax Amount | Tax Rate (%) | Total Amount | Unit of measure | Unit Price |
@@ -193,6 +194,7 @@ Page 0
 :Shipping Address:
 :Billing Address: 1954 Bloor Street West Toronto, ON, M6P 3K9 Canada
 :Document Type: INVOICE
+:Document Type Extended: INVOICE
 :Line Items:
   +--------------------------------------+--------------+----------+------------+--------------+--------------+-----------------+------------+
   | Description                          | Product code | Quantity | Tax Amount | Tax Rate (%) | Total Amount | Unit of measure | Unit Price |
@@ -300,6 +302,25 @@ The following fields are extracted for Invoice V4:
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getBillingAddress().value);
+```
+
+## Purchase Category
+**category**: The purchase category.
+
+#### Possible values include:
+ - 'toll'
+ - 'food'
+ - 'parking'
+ - 'transport'
+ - 'accommodation'
+ - 'telecom'
+ - 'miscellaneous'
+ - 'software'
+ - 'shopping'
+ - 'energy'
+
+```java
+System.out.println(result.getDocument().getInference().getPrediction().getCategory().value);
 ```
 
 ## Customer Address
@@ -429,6 +450,30 @@ for (referenceNumbersElem : result.getDocument().getInference().getPrediction().
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getShippingAddress().value);
+```
+
+## Purchase Subcategory
+**subcategory**: The purchase subcategory for transport, food and shopping.
+
+#### Possible values include:
+ - 'plane'
+ - 'taxi'
+ - 'train'
+ - 'restaurant'
+ - 'shopping'
+ - 'other'
+ - 'groceries'
+ - 'cultural'
+ - 'electronics'
+ - 'office_supplies'
+ - 'micromobility'
+ - 'car_rental'
+ - 'public'
+ - 'delivery'
+ - null
+
+```java
+System.out.println(result.getDocument().getInference().getPrediction().getSubcategory().value);
 ```
 
 ## Supplier Address

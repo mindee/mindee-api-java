@@ -107,12 +107,12 @@ public class SimpleMindeeClient {
 ########
 Document
 ########
-:Mindee ID: a80ac0ee-26f6-4e2e-988a-960b240d5ba7
+:Mindee ID: f52333ab-811e-4647-993e-ad79e072afa3
 :Filename: default_sample.jpg
 
 Inference
 #########
-:Product: mindee/financial_document v1.11
+:Product: mindee/financial_document v1.12
 :Rotation applied: Yes
 
 Prediction
@@ -148,6 +148,7 @@ Prediction
 :Shipping Address: 2019 Redbud Drive New York, NY 10011
 :Billing Address: 4312 Wood Road New York, NY 10031
 :Document Type: INVOICE
+:Document Type Extended: INVOICE
 :Purchase Subcategory:
 :Purchase Category: miscellaneous
 :Total Tax: 9.75
@@ -200,6 +201,7 @@ Page 0
 :Shipping Address: 2019 Redbud Drive New York, NY 10011
 :Billing Address: 4312 Wood Road New York, NY 10031
 :Document Type: INVOICE
+:Document Type Extended: INVOICE
 :Purchase Subcategory:
 :Purchase Category: miscellaneous
 :Total Tax: 9.75
@@ -315,7 +317,7 @@ System.out.println(result.getDocument().getInference().getPrediction().getBillin
 ```
 
 ## Purchase Category
-**category**: The purchase category, only for receipts.
+**category**: The purchase category.
 
 #### Possible values include:
  - 'toll'
@@ -326,6 +328,9 @@ System.out.println(result.getDocument().getInference().getPrediction().getBillin
  - 'gasoline'
  - 'telecom'
  - 'miscellaneous'
+ - 'software'
+ - 'shopping'
+ - 'energy'
 
 ```java
 System.out.println(result.getDocument().getInference().getPrediction().getCategory().value);
@@ -477,7 +482,7 @@ System.out.println(result.getDocument().getInference().getPrediction().getShippi
 ```
 
 ## Purchase Subcategory
-**subcategory**: The purchase subcategory for transport and food, only for receipts.
+**subcategory**: The purchase subcategory for transport, food and shooping.
 
 #### Possible values include:
  - 'plane'
@@ -485,6 +490,15 @@ System.out.println(result.getDocument().getInference().getPrediction().getShippi
  - 'train'
  - 'restaurant'
  - 'shopping'
+ - 'other'
+ - 'groceries'
+ - 'cultural'
+ - 'electronics'
+ - 'office_supplies'
+ - 'micromobility'
+ - 'car_rental'
+ - 'public'
+ - 'delivery'
  - null
 
 ```java

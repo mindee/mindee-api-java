@@ -19,7 +19,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 /**
- * Receipt API version 5.3 document data.
+ * Receipt API version 5.4 document data.
  */
 @Getter
 @EqualsAndHashCode(callSuper = false)

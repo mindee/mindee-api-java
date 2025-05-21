@@ -155,10 +155,10 @@ public class IndianPassportV1Document extends Prediction {
       && this.nameOfMother == null
       && this.oldPassportDateOfIssue == null
       && this.oldPassportNumber == null
+      && this.oldPassportPlaceOfIssue == null
       && this.address1 == null
       && this.address2 == null
       && this.address3 == null
-      && this.oldPassportPlaceOfIssue == null
       && this.fileNumber == null
       );
   }
@@ -221,6 +221,9 @@ public class IndianPassportV1Document extends Prediction {
         String.format(":Old Passport Number: %s%n", this.getOldPassportNumber())
     );
     outStr.append(
+        String.format(":Old Passport Place of Issue: %s%n", this.getOldPassportPlaceOfIssue())
+    );
+    outStr.append(
         String.format(":Address Line 1: %s%n", this.getAddress1())
     );
     outStr.append(
@@ -228,9 +231,6 @@ public class IndianPassportV1Document extends Prediction {
     );
     outStr.append(
         String.format(":Address Line 3: %s%n", this.getAddress3())
-    );
-    outStr.append(
-        String.format(":Old Passport Place of Issue: %s%n", this.getOldPassportPlaceOfIssue())
     );
     outStr.append(
         String.format(":File Number: %s%n", this.getFileNumber())

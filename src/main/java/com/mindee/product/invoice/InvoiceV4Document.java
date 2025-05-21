@@ -20,7 +20,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 /**
- * Invoice API version 4.10 document data.
+ * Invoice API version 4.11 document data.
  */
 @Getter
 @EqualsAndHashCode(callSuper = false)
@@ -32,6 +32,11 @@ public class InvoiceV4Document extends Prediction {
    */
   @JsonProperty("billing_address")
   protected StringField billingAddress;
+  /**
+   * The purchase category.
+   */
+  @JsonProperty("category")
+  protected ClassificationField category;
   /**
    * The address of the customer.
    */
@@ -107,6 +112,11 @@ public class InvoiceV4Document extends Prediction {
    */
   @JsonProperty("shipping_address")
   protected StringField shippingAddress;
+  /**
+   * The purchase subcategory for transport, food and shopping.
+   */
+  @JsonProperty("subcategory")
+  protected ClassificationField subcategory;
   /**
    * The address of the supplier or merchant.
    */
@@ -193,6 +203,8 @@ public class InvoiceV4Document extends Prediction {
       && this.billingAddress == null
       && this.documentType == null
       && this.documentTypeExtended == null
+      && this.subcategory == null
+      && this.category == null
       && (this.lineItems == null || this.lineItems.isEmpty())
       );
   }
@@ -293,6 +305,12 @@ public class InvoiceV4Document extends Prediction {
     );
     outStr.append(
         String.format(":Document Type Extended: %s%n", this.getDocumentTypeExtended())
+    );
+    outStr.append(
+        String.format(":Purchase Subcategory: %s%n", this.getSubcategory())
+    );
+    outStr.append(
+        String.format(":Purchase Category: %s%n", this.getCategory())
     );
     String lineItemsSummary = "";
     if (!this.getLineItems().isEmpty()) {

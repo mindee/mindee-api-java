@@ -52,10 +52,10 @@ public class IndianPassportV1Test {
     Assertions.assertNull(docPrediction.getNameOfMother().getValue());
     Assertions.assertNull(docPrediction.getOldPassportDateOfIssue().getValue());
     Assertions.assertNull(docPrediction.getOldPassportNumber().getValue());
+    Assertions.assertNull(docPrediction.getOldPassportPlaceOfIssue().getValue());
     Assertions.assertNull(docPrediction.getAddress1().getValue());
     Assertions.assertNull(docPrediction.getAddress2().getValue());
     Assertions.assertNull(docPrediction.getAddress3().getValue());
-    Assertions.assertNull(docPrediction.getOldPassportPlaceOfIssue().getValue());
     Assertions.assertNull(docPrediction.getFileNumber().getValue());
   }
 
