@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.cos.COSDictionary;
 import org.apache.pdfbox.cos.COSName;
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -16,6 +17,7 @@ import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.PDResources;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
+import org.apache.pdfbox.pdmodel.font.Standard14Fonts;
 import org.apache.pdfbox.pdmodel.graphics.color.PDColor;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 import org.apache.pdfbox.rendering.ImageType;
@@ -37,7 +39,7 @@ public final class PDFUtils {
    * @param inputSource The PDF file.
    */
   public static int getNumberOfPages(LocalInputSource inputSource) throws IOException {
-    PDDocument document = PDDocument.load(inputSource.getFile());
+    PDDocument document = Loader.loadPDF(inputSource.getFile());
     int pageCount = document.getNumberOfPages();
     document.close();
     return pageCount;
@@ -81,7 +83,7 @@ public final class PDFUtils {
    * @param pageNumbers Lit of page numbers to merge together.
    */
   public static byte[] mergePdfPages(File file, List<Integer> pageNumbers) throws IOException {
-    PDDocument document = PDDocument.load(file);
+    PDDocument document = Loader.loadPDF(file);
     return createPdfFromExistingPdf(document, pageNumbers, true);
   }
 
@@ -100,7 +102,7 @@ public final class PDFUtils {
 
 
   public static boolean isPdfEmpty(File file) throws IOException {
-    return checkIfPdfIsEmpty(PDDocument.load(file));
+    return checkIfPdfIsEmpty(Loader.loadPDF(file));
   }
 
   private static boolean checkIfPdfIsEmpty(PDDocument document) throws IOException {
@@ -143,7 +145,7 @@ public final class PDFUtils {
    * @return List of all pages as images.
    */
   public static List<PdfPageImage> pdfToImages(LocalInputSource source) throws IOException {
-    PDDocument document = PDDocument.load(source.getFile());
+    PDDocument document = Loader.loadPDF(source.getFile());
     PDFRenderer pdfRenderer = new PDFRenderer(document);
     List<PdfPageImage> pdfPageImages = new ArrayList<>();
     for (int i = 0; i < document.getNumberOfPages(); i++) {
@@ -182,7 +184,7 @@ public final class PDFUtils {
       int pageNumber
   ) throws IOException {
     int index = pageNumber - 1;
-    PDDocument document = PDDocument.load(source.getFile());
+    PDDocument document = Loader.loadPDF(source.getFile());
     PDFRenderer pdfRenderer = new PDFRenderer(document);
     BufferedImage imageBuffer = pdfPageToImageBuffer(index, document, pdfRenderer);
     document.close();
@@ -242,7 +244,7 @@ public final class PDFUtils {
         try {
           contentStream.showText(text);
         } catch (IllegalArgumentException | UnsupportedOperationException e) {
-          contentStream.setFont(PDType1Font.HELVETICA, fontSize);
+          contentStream.setFont(new PDType1Font(Standard14Fonts.FontName.HELVETICA), fontSize);
           contentStream.showText(text);
         }
         contentStream.endText();

@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import javax.imageio.ImageIO;
 import org.apache.commons.codec.binary.Base64;
+import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.junit.jupiter.api.Assertions;
@@ -338,8 +339,8 @@ public class LocalInputSourceTest {
     byte[] compressedWithText =
         PdfCompressor.compressPdf(initialWithText.getFile(), 100, true, false);
 
-    PDDocument originalDoc = PDDocument.load(initialWithText.getFile());
-    PDDocument compressedDoc = PDDocument.load(compressedWithText);
+    PDDocument originalDoc = Loader.loadPDF(initialWithText.getFile());
+    PDDocument compressedDoc = Loader.loadPDF(compressedWithText);
 
     Assertions.assertEquals(originalDoc.getNumberOfPages(), compressedDoc.getNumberOfPages());
     Assertions.assertNotEquals(originalDoc.hashCode(), compressedDoc.hashCode());

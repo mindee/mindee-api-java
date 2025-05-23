@@ -415,7 +415,7 @@
     <org.apache.maven.project.info.reports.version>3.0.0</org.apache.maven.project.info.reports.version>
     <org.apache.maven.site.version>3.7.1</org.apache.maven.site.version>
     <org.apache.maven.surfire.version>3.2.5</org.apache.maven.surfire.version>
-    <org.apache.pdfbox.version>2.0.31</org.apache.pdfbox.version>
+    <org.apache.pdfbox.version>3.0.5</org.apache.pdfbox.version>
     <org.junit.jupiter.version>5.8.2</org.junit.jupiter.version>
     <org.junit.pioneer.version>1.9.1</org.junit.pioneer.version>
     <org.junit.platform.version>1.8.2</org.junit.platform.version>

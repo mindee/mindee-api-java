@@ -14,6 +14,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.imageio.ImageIO;
+import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
@@ -46,7 +47,7 @@ public class PDFExtractor {
   public PDFExtractor(LocalInputSource source) throws IOException {
     this.filename = source.getFilename();
     if (source.isPdf()) {
-      this.sourcePdf = PDDocument.load(source.getFile());
+      this.sourcePdf = Loader.loadPDF(source.getFile());
     } else {
       PDDocument document = new PDDocument();
       PDPage page = new PDPage();
@@ -104,7 +105,7 @@ public class PDFExtractor {
           + String.format("%3s", pageIndexElement.get(pageIndexElement.size() - 1) + 1)
             .replace(" ", "0") + "." + splitName[1];
       extractedPDFs.add(
-        new ExtractedPDF(PDDocument.load(mergePdfPages(this.sourcePdf, pageIndexElement, false)),
+        new ExtractedPDF(Loader.loadPDF(mergePdfPages(this.sourcePdf, pageIndexElement, false)),
           fieldFilename));
     }
     return extractedPDFs;

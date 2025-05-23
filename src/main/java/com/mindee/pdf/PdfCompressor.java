@@ -5,6 +5,7 @@ import static com.mindee.input.InputSourceUtils.isPdf;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
@@ -38,7 +39,7 @@ public class PdfCompressor {
           "MINDEE WARNING: Found text inside of the provided PDF file. Compression operation aborted.");
       return pdfData;
     }
-    try (PDDocument inputDoc = PDDocument.load(pdfData);
+    try (PDDocument inputDoc = Loader.loadPDF(pdfData);
          PDDocument outputDoc = new PDDocument()) {
 
       PDFRenderer pdfRenderer = new PDFRenderer(inputDoc);

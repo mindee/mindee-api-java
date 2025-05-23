@@ -10,6 +10,8 @@ import java.nio.file.StandardCopyOption;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+
+import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.junit.jupiter.api.Assertions;
@@ -43,7 +45,7 @@ public class PDFUtilsTest {
     File file = new File("src/test/resources/output/fileToTest.pdf");
     List<Integer> pageList = Arrays.asList(0, 2, 3, 1, 10, 2, 1);
     byte[] newPdf = PDFUtils.mergePdfPages(file, pageList);
-    PDDocument document = PDDocument.load(newPdf);
+    PDDocument document = Loader.loadPDF(newPdf);
 
     Assertions.assertEquals(7, document.getNumberOfPages());
     document.close();
