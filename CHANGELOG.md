@@ -1,5 +1,13 @@
 # Mindee Java Client Library Changelog
 
+## v4.31.0 - 2025-05-23
+### Changes
+* :sparkles: add support for Financial Document v1.14
+* :sparkles: add support for US Healthcare Cards v1.3
+* :sparkles: add support for Invoice v4.11
+* :arrow_up: Bump pdfbox from 2.0.31 to 3.0.5
+
+
 ## v4.30.0 - 2025-04-16
 ### Changes
 * :sparkles: add support for workflow polling
