@@ -1,7 +1,6 @@
 package com.mindee.input;
 
 import com.mindee.MindeeException;
-
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.URL;
