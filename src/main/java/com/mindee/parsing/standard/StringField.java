@@ -13,7 +13,7 @@ import lombok.Getter;
  */
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
-public final class StringField extends BaseField {
+public class StringField extends BaseField {
 
   /**
    * The value of the field.

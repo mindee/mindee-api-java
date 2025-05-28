@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.mindee.geometry.Polygon;
 import com.mindee.geometry.PolygonDeserializer;
-import com.mindee.parsing.SummaryHelper;
 import lombok.Getter;
 
 /**
@@ -13,11 +12,7 @@ import lombok.Getter;
  */
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
-public final class AddressField extends BaseField {
-
-  /** The full address as a single string. */
-  private final String value;
-
+public final class AddressField extends StringField {
   /** The address exactly as it appears on the document. */
   private final String rawValue;
 
@@ -74,8 +69,7 @@ public final class AddressField extends BaseField {
       @JsonProperty("page_id")
       Integer pageId
   ) {
-    super(confidence, polygon, pageId);
-    this.value = value;
+    super(value, rawValue, confidence, polygon, pageId);
     this.rawValue = rawValue;
     this.streetNumber = streetNumber;
     this.streetName = streetName;
@@ -98,17 +92,5 @@ public final class AddressField extends BaseField {
     this(value, null, null, null, null,
         null, null, null, null, null,
         confidence, polygon, null);
-  }
-
-  /**
-   * The field is considered empty when the full value is either null or empty.
-   */
-  public boolean isEmpty() {
-    return value == null || value.isEmpty();
-  }
-
-  @Override
-  public String toString() {
-    return SummaryHelper.formatString(this.value);
   }
 }
