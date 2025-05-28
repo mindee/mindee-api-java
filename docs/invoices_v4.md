@@ -107,12 +107,12 @@ public class SimpleMindeeClient {
 ########
 Document
 ########
-:Mindee ID: 3e524d26-f7dc-4852-9bbf-833a127a9570
+:Mindee ID: 744748d5-9051-461c-b70c-bbf81f5ff943
 :Filename: default_sample.jpg
 
 Inference
 #########
-:Product: mindee/invoices v4.10
+:Product: mindee/invoices v4.11
 :Rotation applied: Yes
 
 Prediction
@@ -148,6 +148,8 @@ Prediction
 :Billing Address: 1954 Bloor Street West Toronto, ON, M6P 3K9 Canada
 :Document Type: INVOICE
 :Document Type Extended: INVOICE
+:Purchase Subcategory:
+:Purchase Category: miscellaneous
 :Line Items:
   +--------------------------------------+--------------+----------+------------+--------------+--------------+-----------------+------------+
   | Description                          | Product code | Quantity | Tax Amount | Tax Rate (%) | Total Amount | Unit of measure | Unit Price |
@@ -195,6 +197,8 @@ Page 0
 :Billing Address: 1954 Bloor Street West Toronto, ON, M6P 3K9 Canada
 :Document Type: INVOICE
 :Document Type Extended: INVOICE
+:Purchase Subcategory:
+:Purchase Category: miscellaneous
 :Line Items:
   +--------------------------------------+--------------+----------+------------+--------------+--------------+-----------------+------------+
   | Description                          | Product code | Quantity | Tax Amount | Tax Rate (%) | Total Amount | Unit of measure | Unit Price |
@@ -224,6 +228,21 @@ A typical `BaseField` object will have the following attributes:
 
 
 Aside from the previous attributes, all basic fields have access to a custom `toString` method that can be used to print their value as a string.
+
+
+### AddressField
+Aside from the basic `BaseField` attributes, the address field `AddressField` also implements the following:
+
+* **streetNumber** (`str`): String representation of the string number. Can be `null`.
+* **streetName** (`str`): Name of the street. Can be `null`.
+* **poBox** (`str`): String representation of the PO Box number. Can be `null`.
+* **addressComplement** (`str`): Address complement. Can be `null`.
+* **city** (`str`): City name. Can be `null`.
+* **postalcode** (`str`): String representation of the postal code. Can be `null`.
+* **state** (`str`): State name. Can be `null`.
+* **country** (`str`): Country name. Can be `null`.
+
+Note: The `value` field of an AddressField should be a concatenation of the rest of the values.
 
 ### AmountField
 An amount field `AmountField` extends `BaseField`, but also implements:

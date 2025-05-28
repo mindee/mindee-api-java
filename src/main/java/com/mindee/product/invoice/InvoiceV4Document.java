@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.mindee.parsing.SummaryHelper;
 import com.mindee.parsing.common.Prediction;
+import com.mindee.parsing.standard.AddressField;
 import com.mindee.parsing.standard.AmountField;
 import com.mindee.parsing.standard.ClassificationField;
 import com.mindee.parsing.standard.CompanyRegistrationField;
@@ -31,7 +32,7 @@ public class InvoiceV4Document extends Prediction {
    * The customer billing address.
    */
   @JsonProperty("billing_address")
-  protected StringField billingAddress;
+  protected AddressField billingAddress;
   /**
    * The purchase category.
    */
@@ -41,7 +42,7 @@ public class InvoiceV4Document extends Prediction {
    * The address of the customer.
    */
   @JsonProperty("customer_address")
-  protected StringField customerAddress;
+  protected AddressField customerAddress;
   /**
    * List of company registration numbers associated to the customer.
    */
@@ -111,7 +112,7 @@ public class InvoiceV4Document extends Prediction {
    * Customer's delivery address.
    */
   @JsonProperty("shipping_address")
-  protected StringField shippingAddress;
+  protected AddressField shippingAddress;
   /**
    * The purchase subcategory for transport, food and shopping.
    */
@@ -121,7 +122,7 @@ public class InvoiceV4Document extends Prediction {
    * The address of the supplier or merchant.
    */
   @JsonProperty("supplier_address")
-  protected StringField supplierAddress;
+  protected AddressField supplierAddress;
   /**
    * List of company registration numbers associated to the supplier.
    */
