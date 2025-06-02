@@ -107,12 +107,12 @@ public class SimpleMindeeClient {
 ########
 Document
 ########
-:Mindee ID: f52333ab-811e-4647-993e-ad79e072afa3
+:Mindee ID: 6dd26385-719b-4527-bf6f-87d9da619de5
 :Filename: default_sample.jpg
 
 Inference
 #########
-:Product: mindee/financial_document v1.12
+:Product: mindee/financial_document v1.14
 :Rotation applied: Yes
 
 Prediction
@@ -236,6 +236,21 @@ A typical `BaseField` object will have the following attributes:
 
 
 Aside from the previous attributes, all basic fields have access to a custom `toString` method that can be used to print their value as a string.
+
+
+### AddressField
+Aside from the basic `BaseField` attributes, the address field `AddressField` also implements the following:
+
+* **streetNumber** (`string`): String representation of the string number. Can be `null`.
+* **streetName** (`string`): Name of the street. Can be `null`.
+* **poBox** (`string`): String representation of the PO Box number. Can be `null`.
+* **addressComplement** (`string`): Address complement. Can be `null`.
+* **city** (`string`): City name. Can be `null`.
+* **postalcode** (`string`): String representation of the postal code. Can be `null`.
+* **state** (`string`): State name. Can be `null`.
+* **country** (`string`): Country name. Can be `null`.
+
+Note: The `value` field of an AddressField should be a concatenation of the rest of the values.
 
 ### AmountField
 An amount field `AmountField` extends `BaseField`, but also implements:
