@@ -1,5 +1,10 @@
 # Mindee Java Client Library Changelog
 
+## v4.32.0 - 2025-06-03
+### Changes
+* :sparkles: add support for address fields
+
+
 ## v4.31.0 - 2025-05-23
 ### Changes
 * :sparkles: add support for Financial Document v1.14
