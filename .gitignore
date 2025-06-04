@@ -46,3 +46,6 @@ hs_err_pid*
 
 # Mindee Test files
 local_test/
+
+# local config
+settings.xml

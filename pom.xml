@@ -30,19 +30,8 @@
     </developer>
   </developers>
 
-  <distributionManagement>
-    <snapshotRepository>
-      <id>ossrh</id>
-      <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
-    </snapshotRepository>
-    <repository>
-      <id>ossrh</id>
-      <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-    </repository>
-  </distributionManagement>
-
   <build>
-    <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
+    <pluginManagement>
       <plugins>
         <!-- clean lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#clean_Lifecycle -->
         <plugin>
@@ -69,10 +58,6 @@
         <plugin>
           <artifactId>maven-install-plugin</artifactId>
           <version>${org.apache.maven.install.version}</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-deploy-plugin</artifactId>
-          <version>${org.apache.maven.deploy.version}</version>
         </plugin>
         <!-- site lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#site_Lifecycle -->
         <plugin>
@@ -136,17 +121,6 @@
             </execution>
           </executions>
         </plugin>
-        <plugin>
-          <groupId>org.sonatype.plugins</groupId>
-          <artifactId>nexus-staging-maven-plugin</artifactId>
-          <version>${org.sonatype.nexus.staging.maven.version}</version>
-          <extensions>true</extensions>
-          <configuration>
-            <serverId>ossrh</serverId>
-            <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
-            <autoReleaseAfterClose>true</autoReleaseAfterClose>
-          </configuration>
-        </plugin>
       </plugins>
     </pluginManagement>
     <plugins>
@@ -156,6 +130,16 @@
         <configuration>
           <source>8</source>
           <target>8</target>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.sonatype.central</groupId>
+        <artifactId>central-publishing-maven-plugin</artifactId>
+        <version>0.7.0</version>
+        <extensions>true</extensions>
+        <configuration>
+          <publishingServerId>central</publishingServerId>
+          <autoPublish>false</autoPublish>
         </configuration>
       </plugin>
     </plugins>
@@ -219,6 +203,9 @@
                 <goals>
                   <goal>sign</goal>
                 </goals>
+                <configuration>
+                  <keyname>opensource@mindee.co</keyname>
+                </configuration>
               </execution>
             </executions>
           </plugin>
@@ -405,7 +392,6 @@
     <org.apache.httpcomponents.httpmime.version>4.5.14</org.apache.httpcomponents.httpmime.version>
     <org.apache.maven.clean.version>3.1.0</org.apache.maven.clean.version>
     <org.apache.maven.compiler.version>3.12.1</org.apache.maven.compiler.version>
-    <org.apache.maven.deploy.version>3.1.1</org.apache.maven.deploy.version>
     <org.apache.maven.failsafe.version>3.3.0</org.apache.maven.failsafe.version>
     <org.apache.maven.gpg.version>1.5</org.apache.maven.gpg.version>
     <org.apache.maven.install.version>2.5.2</org.apache.maven.install.version>
@@ -426,7 +412,6 @@
     <org.projectlombok.lombok-mapstruct-binding.version>0.2.0</org.projectlombok.lombok-mapstruct-binding.version>
     <org.projectlombok.version>1.18.32</org.projectlombok.version>
     <org.slf4j.version>2.0.17</org.slf4j.version>
-    <org.sonatype.nexus.staging.maven.version>1.6.12</org.sonatype.nexus.staging.maven.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <wiremock.version>2.27.2</wiremock.version>
   </properties>

@@ -19,23 +19,15 @@ jobs:
           cat <(echo -e "${{ secrets.OSSRH_GPG_SECRET_KEY }}") | gpg --batch --import
           gpg --list-secret-keys --keyid-format LONG
 
-      - name: Set up Maven Central Repository
+      - name: Set up JDK
         uses: actions/setup-java@v4
         with:
           java-version: "8"
           distribution: "adopt"
-          server-id: ossrh
-          server-username: MAVEN_USERNAME
-          server-password: MAVEN_PASSWORD
 
       - id: publish-to-central
         name: Publish to Central Repository
-        env:
-          MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-          MAVEN_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
         run: |
-          mvn \
-            --no-transfer-progress \
-            --batch-mode \
+          mvn --update-snapshots \
             -Dgpg.passphrase=${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }} \
-            clean deploy -P release
+            clean deploy -P release verify
