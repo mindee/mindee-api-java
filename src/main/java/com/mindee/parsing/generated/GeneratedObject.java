@@ -104,10 +104,26 @@ public class GeneratedObject extends HashMap<String, Object> {
    * @return A {@link Polygon}.
    */
   public Polygon getAsPolygon(String key) {
-    if (this.containsKey(key)) {
-      return PolygonUtils.getFrom((List<List<Double>>) this.get(key));
+    if (!this.containsKey(key)) {
+      return null;
     }
-    return null;
+    Object rawPolygon = this.get(key);
+    // a valid polygon must have at least 4 points
+    if (!(rawPolygon instanceof List && ((List<?>) rawPolygon).size() >= 4)) {
+      return null;
+    }
+    // a valid point must have exactly 2 coordinates
+    for (Object point : (List<?>) rawPolygon) {
+      if (!(point instanceof List) || ((List<?>) point).size() != 2) {
+        return null;
+      }
+      for (Object coord : (List<?>) point) {
+        if (!(coord instanceof Double)) {
+          return null;
+        }
+      }
+    }
+    return PolygonUtils.getFrom((List<List<Double>>) rawPolygon);
   }
 
   /**
