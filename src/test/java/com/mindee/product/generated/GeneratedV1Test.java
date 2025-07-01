@@ -29,7 +29,7 @@ public class GeneratedV1Test {
         GeneratedV1.class
     );
     return objectMapper.readValue(
-        new File("src/test/resources/products/generated/response_v1/" + name + "_international_id_v1.json"),
+        new File("src/test/resources/products/generated/response_v1/" + name + ".json"),
         type
     );
   }
@@ -63,8 +63,24 @@ public class GeneratedV1Test {
   }
 
   @Test
+  void whenAsyncBadPolygonsDeserialized_mustHaveValidProperties() throws IOException {
+    AsyncPredictResponse<GeneratedV1> response = getAsyncPrediction("bad_polygons_driver_license_v1");
+    GeneratedV1Document docPrediction = response.getDocumentObj().getInference().getPrediction();
+
+    Map<String, GeneratedFeature> features = docPrediction.getFields();
+
+    // invalid polygon returned by the server
+    StringField categoryField = features.get("category").asStringField();
+    Assertions.assertNull(categoryField.getPolygon());
+
+    // valid polygon
+    StringField mrzField = features.get("mrz").asStringField();
+    Assertions.assertNotNull(mrzField.getPolygon());
+  }
+
+  @Test
   void whenAsyncCompleteDeserialized_mustHaveValidProperties() throws IOException {
-    AsyncPredictResponse<GeneratedV1> response = getAsyncPrediction("complete");
+    AsyncPredictResponse<GeneratedV1> response = getAsyncPrediction("complete_international_id_v1");
     GeneratedV1Document docPrediction = response.getDocumentObj().getInference().getPrediction();
 
     Map<String, GeneratedFeature> features = docPrediction.getFields();
@@ -114,7 +130,7 @@ public class GeneratedV1Test {
 
   @Test
   void whenAsyncEmptyDeserialized_mustHaveValidProperties() throws IOException {
-    AsyncPredictResponse<GeneratedV1> response = getAsyncPrediction("empty");
+    AsyncPredictResponse<GeneratedV1> response = getAsyncPrediction("empty_international_id_v1");
     GeneratedV1Document docPrediction = response.getDocumentObj().getInference().getPrediction();
 
     Map<String, GeneratedFeature> features = docPrediction.getFields();
