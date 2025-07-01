@@ -1,5 +1,10 @@
 # Mindee Java Client Library Changelog
 
+## v4.32.1 - 2025-07-01
+### Fixes
+* :bug: fix for invalid polygons returned by the server (#249)
+
+
 ## v4.32.0 - 2025-06-03
 ### Changes
 * :sparkles: add support for address fields
