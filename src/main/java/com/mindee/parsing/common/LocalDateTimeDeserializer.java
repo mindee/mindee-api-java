@@ -14,7 +14,7 @@ import java.time.temporal.TemporalAccessor;
 /**
  * Deserializer for LocalDateTime
  */
-class LocalDateTimeDeserializer extends JsonDeserializer<LocalDateTime> {
+public class LocalDateTimeDeserializer extends JsonDeserializer<LocalDateTime> {
   @Override
   public LocalDateTime deserialize(
       JsonParser jsonParser,
