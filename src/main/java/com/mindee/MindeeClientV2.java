@@ -5,8 +5,8 @@ import com.mindee.http.MindeeApiV2;
 import com.mindee.http.MindeeHttpApiV2;
 import com.mindee.input.LocalInputSource;
 import com.mindee.input.LocalResponse;
-import com.mindee.parsing.v2.AsyncInferenceResponse;
-import com.mindee.parsing.v2.AsyncJobResponse;
+import com.mindee.parsing.v2.InferenceResponse;
+import com.mindee.parsing.v2.JobResponse;
 import com.mindee.parsing.v2.CommonResponse;
 import com.mindee.pdf.PdfBoxApi;
 import com.mindee.pdf.PdfOperation;
@@ -42,7 +42,7 @@ public class MindeeClientV2 extends CommonClient {
   /**
    * Enqueue a document in the asynchronous “Generated” queue.
    */
-  public AsyncJobResponse enqueue(
+  public JobResponse enqueue(
       LocalInputSource inputSource,
       InferencePredictOptions options) throws IOException {
     LocalInputSource finalInput;
@@ -67,7 +67,7 @@ public class MindeeClientV2 extends CommonClient {
   /**
    * Convenience helper: enqueue, poll, and return the final inference.
    */
-  public AsyncInferenceResponse enqueueAndParse(
+  public InferenceResponse enqueueAndParse(
       LocalInputSource inputSource,
       InferencePredictOptions options,
       AsyncPollingOptions polling) throws IOException, InterruptedException {
@@ -77,7 +77,7 @@ public class MindeeClientV2 extends CommonClient {
     }
     validatePollingOptions(polling);
 
-    AsyncJobResponse job = enqueue(inputSource, options);
+    JobResponse job = enqueue(inputSource, options);
 
     Thread.sleep((long) (polling.getInitialDelaySec() * 1000));
 
@@ -86,8 +86,8 @@ public class MindeeClientV2 extends CommonClient {
     while (attempts < max) {
       Thread.sleep((long) (polling.getIntervalSec() * 1000));
       CommonResponse resp = parseQueued(job.getJob().getId());
-      if (resp instanceof AsyncInferenceResponse) {
-        return (AsyncInferenceResponse) resp;
+      if (resp instanceof InferenceResponse) {
+        return (InferenceResponse) resp;
       }
       attempts++;
     }
@@ -96,12 +96,12 @@ public class MindeeClientV2 extends CommonClient {
 
   /**
    * Deserialize a webhook payload (or any saved response) into
-   * {@link AsyncInferenceResponse}.
+   * {@link InferenceResponse}.
    */
-  public AsyncInferenceResponse loadInference(LocalResponse localResponse) throws IOException {
+  public InferenceResponse loadInference(LocalResponse localResponse) throws IOException {
     ObjectMapper mapper = new ObjectMapper().findAndRegisterModules();
-    AsyncInferenceResponse model =
-        mapper.readValue(localResponse.getFile(), AsyncInferenceResponse.class);
+    InferenceResponse model =
+        mapper.readValue(localResponse.getFile(), InferenceResponse.class);
     model.setRawResponse(localResponse.toString());
     return model;
   }

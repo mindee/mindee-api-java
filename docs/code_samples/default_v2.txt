@@ -1,0 +1,44 @@
+import com.mindee.MindeeClientV2;
+import com.mindee.InferencePredictOptions;
+import com.mindee.input.LocalInputSource;
+import com.mindee.parsing.common.InferenceResponse;
+import java.io.File;
+import java.io.IOException;
+
+public class SimpleMindeeClient {
+
+  public static void main(String[] args) throws IOException {
+    String apiKey = "MY_API_KEY";
+    String filePath = "/path/to/the/file.ext";
+
+    // Init a new client
+    MindeeClientV2 mindeeClient = new MindeeClientV2(apiKey);
+
+    // Load a file from disk
+    LocalInputSource inputSource = new LocalInputSource(new File(filePath));
+
+    // Prepare the enqueueing options
+    InferencePredictOptions options = InferencePredictOptions.builder().modelId("MY_MODEL_ID").build();
+
+    // Parse the file
+    InferenceResponse response =  mindeeClient.enqueueAndParse(
+        inputSource;
+        options
+    );
+
+    // Print a summary of the response
+    System.out.println(response.toString());
+
+    // Print a summary of the predictions
+//  System.out.println(response.getDocument().toString());
+
+    // Print the document-level predictions
+//    System.out.println(response.getDocument().getInference().getPrediction().toString());
+
+    // Print the page-level predictions
+//    response.getDocument().getInference().getPages().forEach(
+//        page -> System.out.println(page.toString())
+//    );
+  }
+
+}

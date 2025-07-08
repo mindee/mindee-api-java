@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Represents an asynchronous inference response (V2).
  */
-public class AsyncInferenceResponse extends CommonResponse {
+public class InferenceResponse extends CommonResponse {
 
   /**
    * Inference result.

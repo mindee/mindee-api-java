@@ -5,8 +5,8 @@ import com.mindee.InferencePredictOptions;
 import com.mindee.MindeeException;
 import com.mindee.MindeeSettingsV2;
 import com.mindee.input.LocalInputSource;
-import com.mindee.parsing.v2.AsyncInferenceResponse;
-import com.mindee.parsing.v2.AsyncJobResponse;
+import com.mindee.parsing.v2.InferenceResponse;
+import com.mindee.parsing.v2.JobResponse;
 import com.mindee.parsing.v2.CommonResponse;
 import com.mindee.parsing.v2.ErrorResponse;
 import java.io.IOException;
@@ -76,7 +76,7 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
    * @param options     Options to send the file along with.
    * @return A job response.
    */
-  public AsyncJobResponse enqueuePost(
+  public JobResponse enqueuePost(
       LocalInputSource inputSource,
       InferencePredictOptions options
   ) {
@@ -88,7 +88,7 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
       return httpClient.execute(
           post, response -> {
             String raw = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
-            return deserializeOrThrow(raw, AsyncJobResponse.class, response.getCode());
+            return deserializeOrThrow(raw, JobResponse.class, response.getCode());
           }
       );
     } catch (IOException err) {
@@ -115,7 +115,7 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
             try {
               String raw = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
 
-              return deserializeOrThrow(raw, AsyncInferenceResponse.class, response.getCode());
+              return deserializeOrThrow(raw, InferenceResponse.class, response.getCode());
             } finally {
               /* make sure the connection can be reused even if parsing fails */
               EntityUtils.consumeQuietly(responseEntity);

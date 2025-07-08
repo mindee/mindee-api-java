@@ -2,7 +2,7 @@ package com.mindee.http;
 
 import com.mindee.InferencePredictOptions;
 import com.mindee.input.LocalInputSource;
-import com.mindee.parsing.v2.AsyncJobResponse;
+import com.mindee.parsing.v2.JobResponse;
 import com.mindee.parsing.v2.CommonResponse;
 import java.io.IOException;
 
@@ -13,7 +13,7 @@ abstract public class MindeeApiV2 extends MindeeApiCommon {
   /**
    * Send a file to the prediction queue.
    */
-  abstract public AsyncJobResponse enqueuePost(
+  abstract public JobResponse enqueuePost(
       LocalInputSource inputSource,
       InferencePredictOptions options
   ) throws IOException;

@@ -12,7 +12,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public final class AsyncJobResponse extends CommonResponse {
+public final class JobResponse extends CommonResponse {
   /**
    * Representation of the Job.
    */
