@@ -1,12 +1,17 @@
 package com.mindee.http;
 
-import org.apache.hc.core5.http.HttpEntity;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import org.apache.hc.core5.http.HttpEntity;
 
+/**
+ * Defines common methods for mindee APIs.
+ */
 public abstract class MindeeApiCommon {
-
+  /**
+   * Retrieves the user agent.
+   * @return the user agent.
+   */
   protected String getUserAgent() {
     String javaVersion = System.getProperty("java.version");
     String sdkVersion = getClass().getPackage().getImplementationVersion();
@@ -28,6 +33,11 @@ public abstract class MindeeApiCommon {
     return String.format("mindee-api-java@v%s java-v%s %s", sdkVersion, javaVersion, osName);
   }
 
+  /**
+   * Checks if the status code is in the 2xx range.
+   * @param statusCode the status code to check.
+   * @return {@code true} if the status code is in the 2xx range, false otherwise.
+   */
   protected boolean is2xxStatusCode(int statusCode) {
     return statusCode >= 200 && statusCode <= 299;
   }

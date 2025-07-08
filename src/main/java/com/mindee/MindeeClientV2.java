@@ -5,23 +5,17 @@ import com.mindee.http.MindeeApiV2;
 import com.mindee.http.MindeeHttpApiV2;
 import com.mindee.input.LocalInputSource;
 import com.mindee.input.LocalResponse;
-import com.mindee.input.PageOptions;
-import com.mindee.pdf.PdfBoxApi;
-import com.mindee.pdf.PdfOperation;
-import com.mindee.pdf.SplitQuery;
 import com.mindee.parsing.v2.AsyncInferenceResponse;
 import com.mindee.parsing.v2.AsyncJobResponse;
-import com.mindee.parsing.v2.PredictParameterV2;
-import com.mindee.parsing.v2.InferenceOptionsV2;
-import com.mindee.parsing.v2.AsyncPollingOptions;
+import com.mindee.parsing.v2.CommonResponse;
+import com.mindee.pdf.PdfBoxApi;
+import com.mindee.pdf.PdfOperation;
 import java.io.IOException;
 
 /**
  * Entry point for the Mindee **V2** API features.
  */
-public class MindeeClientV2 {
-
-  private final PdfOperation pdfOperation;
+public class MindeeClientV2 extends CommonClient {
   private final MindeeApiV2 mindeeApi;
 
   /** Uses an API-key read from the environment variables. */
@@ -45,45 +39,26 @@ public class MindeeClientV2 {
     this.mindeeApi = mindeeApi;
   }
 
-  /* ------------------------------------------------------------------ */
-  /* Queue helpers                                                      */
-  /* ------------------------------------------------------------------ */
-
   /**
    * Enqueue a document in the asynchronous “Generated” queue.
    */
   public AsyncJobResponse enqueue(
       LocalInputSource inputSource,
-      InferenceOptionsV2 options,
-      PageOptions pageOptions) throws IOException {
-
-    if (pageOptions != null && inputSource.isPdf()) {
-      inputSource.setFileBytes(
-          pdfOperation.split(new SplitQuery(inputSource.getFileBytes(), pageOptions)).getFile());
+      InferencePredictOptions options) throws IOException {
+    LocalInputSource finalInput;
+    if (options.getPageOptions() != null) {
+      finalInput = new LocalInputSource(getSplitFile(inputSource, options.getPageOptions()), inputSource.getFilename());
+    } else {
+      finalInput = inputSource;
     }
-
-    PredictParameterV2 payload = new PredictParameterV2(
-        inputSource,
-        options.getModelId(),
-        options.getAlias(),
-        options.getWebhookIds(),
-        options.getRag());
-
-    return mindeeApi.enqueuePost(payload);
-  }
-
-  /** Overload without page options. */
-  public AsyncJobResponse enqueue(
-      LocalInputSource inputSource,
-      InferenceOptionsV2 options) throws IOException {
-    return enqueue(inputSource, options, null);
+    return mindeeApi.enqueuePost(finalInput, options);
   }
 
   /**
    * Retrieve results for a previously enqueued document.
    */
-  public AsyncInferenceResponse parseQueued(String jobId) {
-    if (jobId == null || jobId.isBlank()) {
+  public CommonResponse parseQueued(String jobId) {
+    if (jobId == null || jobId.trim().isEmpty()) {
       throw new IllegalArgumentException("jobId must not be null or blank.");
     }
     return mindeeApi.getInferenceFromQueue(jobId);
@@ -94,16 +69,15 @@ public class MindeeClientV2 {
    */
   public AsyncInferenceResponse enqueueAndParse(
       LocalInputSource inputSource,
-      InferenceOptionsV2 options,
-      PageOptions pageOptions,
+      InferencePredictOptions options,
       AsyncPollingOptions polling) throws IOException, InterruptedException {
 
     if (polling == null) {
-      polling = new AsyncPollingOptions(); // default values
+      polling = AsyncPollingOptions.builder().build(); // default values
     }
     validatePollingOptions(polling);
 
-    AsyncJobResponse job = enqueue(inputSource, options, pageOptions);
+    AsyncJobResponse job = enqueue(inputSource, options);
 
     Thread.sleep((long) (polling.getInitialDelaySec() * 1000));
 
@@ -111,32 +85,21 @@ public class MindeeClientV2 {
     int max = polling.getMaxRetries();
     while (attempts < max) {
       Thread.sleep((long) (polling.getIntervalSec() * 1000));
-      AsyncInferenceResponse resp = parseQueued(job.getJob().getId());
-      if (resp.getInference() != null) {
-        return resp;
+      CommonResponse resp = parseQueued(job.getJob().getId());
+      if (resp instanceof AsyncInferenceResponse) {
+        return (AsyncInferenceResponse) resp;
       }
       attempts++;
     }
     throw new RuntimeException("Max retries exceeded (" + max + ").");
   }
 
-  /** Overload with defaults (no page splitting, default polling). */
-  public AsyncInferenceResponse enqueueAndParse(
-      LocalInputSource inputSource,
-      InferenceOptionsV2 options) throws IOException, InterruptedException {
-    return enqueueAndParse(inputSource, options, null, null);
-  }
-
-  /* ------------------------------------------------------------------ */
-  /* Utility / helpers                                                  */
-  /* ------------------------------------------------------------------ */
-
   /**
    * Deserialize a webhook payload (or any saved response) into
    * {@link AsyncInferenceResponse}.
    */
   public AsyncInferenceResponse loadInference(LocalResponse localResponse) throws IOException {
-    ObjectMapper mapper = new ObjectMapper().findAndConfigureModules();
+    ObjectMapper mapper = new ObjectMapper().findAndRegisterModules();
     AsyncInferenceResponse model =
         mapper.readValue(localResponse.getFile(), AsyncInferenceResponse.class);
     model.setRawResponse(localResponse.toString());
@@ -144,9 +107,9 @@ public class MindeeClientV2 {
   }
 
   private static MindeeApiV2 createDefaultApiV2(String apiKey) {
-    MindeeSettings settings = apiKey == null || apiKey.isBlank()
-        ? new MindeeSettings()
-        : new MindeeSettings(apiKey);
+    MindeeSettingsV2 settings = apiKey == null || apiKey.trim().isEmpty()
+        ? new MindeeSettingsV2()
+        : new MindeeSettingsV2(apiKey);
     return MindeeHttpApiV2.builder()
         .mindeeSettings(settings)
         .build();

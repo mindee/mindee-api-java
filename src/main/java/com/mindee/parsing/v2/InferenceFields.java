@@ -1,9 +1,8 @@
 package com.mindee.parsing.v2;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.EqualsAndHashCode;
-
 import java.util.HashMap;
+import lombok.EqualsAndHashCode;
 
 /**
  * Inference fields map.

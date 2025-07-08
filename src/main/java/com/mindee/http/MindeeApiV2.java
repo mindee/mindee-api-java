@@ -1,9 +1,9 @@
 package com.mindee.http;
 
-import com.mindee.PredictOptionsV2;
-import com.mindee.parsing.v2.AsyncInferenceResponse;
+import com.mindee.InferencePredictOptions;
+import com.mindee.input.LocalInputSource;
 import com.mindee.parsing.v2.AsyncJobResponse;
-
+import com.mindee.parsing.v2.CommonResponse;
 import java.io.IOException;
 
 /**
@@ -14,14 +14,14 @@ abstract public class MindeeApiV2 extends MindeeApiCommon {
    * Send a file to the prediction queue.
    */
   abstract public AsyncJobResponse enqueuePost(
-      PredictOptionsV2 options,
-      RequestParameters requestParameters
+      LocalInputSource inputSource,
+      InferencePredictOptions options
   ) throws IOException;
 
   /**
    * Get a document from the predict queue.
    */
-  abstract public AsyncInferenceResponse getInferenceFromQueue(
+  abstract public CommonResponse getInferenceFromQueue(
       String jobId
   );
 

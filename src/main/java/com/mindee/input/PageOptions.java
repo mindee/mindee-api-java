@@ -46,4 +46,31 @@ public class PageOptions {
     this.operation = operation;
     this.onMinPages = onMinPages;
   }
+
+  /**
+   * Builder for page options.
+   */
+  public static final class Builder {
+    private List<Integer> pageIndexes;
+    private PageOptionsOperation operation;
+    private Integer onMinPages;
+
+    public Builder pageIndexes(List<Integer> pageIndexes) {
+      this.pageIndexes = pageIndexes;
+      return this;
+    }
+
+    public Builder operation(PageOptionsOperation operation) {
+      this.operation = operation;
+      return this;
+    }
+    public Builder onMinPages(Integer onMinPages) {
+      this.onMinPages = onMinPages;
+      return this;
+    }
+
+    public PageOptions build() {
+      return new PageOptions(pageIndexes, operation, onMinPages);
+    }
+  }
 }

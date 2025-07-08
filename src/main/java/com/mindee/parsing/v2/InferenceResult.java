@@ -2,13 +2,12 @@ package com.mindee.parsing.v2;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.Map;
+import java.util.StringJoiner;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.util.Map;
-import java.util.StringJoiner;
 
 /**
  * Generic result for any off-the-shelf Mindee V2 model.

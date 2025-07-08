@@ -4,7 +4,6 @@ import com.mindee.parsing.common.AsyncPredictResponse;
 import com.mindee.parsing.common.Inference;
 import com.mindee.parsing.common.PredictResponse;
 import com.mindee.parsing.common.WorkflowResponse;
-
 import java.io.IOException;
 
 /**

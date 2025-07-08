@@ -1,8 +1,7 @@
 package com.mindee;
 
-import lombok.Getter;
-
 import java.util.Optional;
+import lombok.Getter;
 
 /**
  * Mindee API V2 configuration.
