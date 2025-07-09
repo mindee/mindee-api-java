@@ -3,21 +3,25 @@ name: Pull Request
 on:
   pull_request:
 
+permissions:
+  contents: read
+  pull-requests: read
+
 jobs:
   static_analysis:
-    uses: mindee/mindee-api-java/.github/workflows/_static-analysis.yml@main
+    uses: ./.github/workflows/_static-analysis.yml
   build:
-    uses: mindee/mindee-api-java/.github/workflows/_build.yml@main
+    uses: ./.github/workflows/_build.yml
     needs: static_analysis
     secrets: inherit
   codeql:
-    uses: mindee/mindee-api-java/.github/workflows/_codeql.yml@main
+    uses: ./.github/workflows/_codeql.yml
     needs: build
   test_integrations:
-    uses: mindee/mindee-api-java/.github/workflows/_test-integrations.yml@main
+    uses: ./.github/workflows/_test-integrations.yml
     needs: build
     secrets: inherit
   test_code_samples:
-    uses: mindee/mindee-api-java/.github/workflows/_test-code-samples.yml@main
+    uses: ./.github/workflows/_test-code-samples.yml
     needs: build
     secrets: inherit
