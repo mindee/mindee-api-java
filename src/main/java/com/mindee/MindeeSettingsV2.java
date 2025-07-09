@@ -1,15 +1,17 @@
 package com.mindee;
 
 import java.util.Optional;
+import lombok.Builder;
 import lombok.Getter;
 
 /**
  * Mindee API V2 configuration.
  */
 @Getter
+@Builder
 public class MindeeSettingsV2 {
 
-  private static final String DEFAULT_MINDEE_V2_API_URL = "https://api-v2.mindee.net/v1";
+  private static final String DEFAULT_MINDEE_V2_API_URL = "https://api-v2.mindee.net/v2";
   private final String apiKey;
   private final String baseUrl;
 

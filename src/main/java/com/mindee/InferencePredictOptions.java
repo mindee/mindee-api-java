@@ -65,7 +65,7 @@ public final class InferencePredictOptions {
     private String alias;
     private List<String> webhookIds = Collections.emptyList();
     private PageOptions pageOptions = null;
-    private AsyncPollingOptions pollingOptions = null;
+    private AsyncPollingOptions pollingOptions = AsyncPollingOptions.builder().build();
 
     private Builder(String modelId) {
       this.modelId = Objects.requireNonNull(modelId, "modelId must not be null");

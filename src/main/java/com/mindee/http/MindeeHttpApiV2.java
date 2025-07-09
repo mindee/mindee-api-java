@@ -5,15 +5,13 @@ import com.mindee.InferencePredictOptions;
 import com.mindee.MindeeException;
 import com.mindee.MindeeSettingsV2;
 import com.mindee.input.LocalInputSource;
-import com.mindee.parsing.v2.InferenceResponse;
-import com.mindee.parsing.v2.JobResponse;
 import com.mindee.parsing.v2.CommonResponse;
 import com.mindee.parsing.v2.ErrorResponse;
+import com.mindee.parsing.v2.InferenceResponse;
+import com.mindee.parsing.v2.JobResponse;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
 import lombok.Builder;
 import org.apache.hc.client5.http.classic.methods.HttpGet;
 import org.apache.hc.client5.http.classic.methods.HttpPost;
@@ -25,9 +23,7 @@ import org.apache.hc.core5.http.ClassicHttpResponse;
 import org.apache.hc.core5.http.ContentType;
 import org.apache.hc.core5.http.HttpEntity;
 import org.apache.hc.core5.http.HttpHeaders;
-import org.apache.hc.core5.http.NameValuePair;
 import org.apache.hc.core5.http.io.entity.EntityUtils;
-import org.apache.hc.core5.http.message.BasicNameValuePair;
 import org.apache.hc.core5.net.URIBuilder;
 
 /**
@@ -103,6 +99,10 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
     String url = this.mindeeSettings.getBaseUrl() + "/inferences/" + jobId;
     HttpGet get = new HttpGet(url);
 
+    if (this.mindeeSettings.getApiKey().isPresent()) {
+      get.setHeader(HttpHeaders.AUTHORIZATION, this.mindeeSettings.getApiKey().get());
+    }
+    get.setHeader(HttpHeaders.USER_AGENT, getUserAgent());
     mapper.findAndRegisterModules();
     try (CloseableHttpClient httpClient = httpClientBuilder.build()) {
       return httpClient.execute(
@@ -120,32 +120,11 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
               /* make sure the connection can be reused even if parsing fails */
               EntityUtils.consumeQuietly(responseEntity);
             }
-
           }
       );
     } catch (IOException err) {
       throw new MindeeException(err.getMessage(), err);
     }
-  }
-
-  private List<NameValuePair> buildPostParams(
-      InferencePredictOptions options
-  ) {
-    ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
-    params.add(new BasicNameValuePair("model_id", options.getModelId()));
-    if (options.isFullText()) {
-      params.add(new BasicNameValuePair("full_text_ocr", "true"));
-    }
-    if (options.isRag()) {
-      params.add(new BasicNameValuePair("rag", "true"));
-    }
-    if (options.getAlias() != null) {
-      params.add(new BasicNameValuePair("alias", options.getAlias()));
-    }
-    if (!options.getWebhookIds().isEmpty()) {
-      params.add(new BasicNameValuePair("webhook_ids", String.join(",", options.getWebhookIds())));
-    }
-    return params;
   }
 
   private MindeeHttpExceptionV2 getHttpError(ClassicHttpResponse response) {
@@ -175,7 +154,7 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
     MultipartEntityBuilder builder = MultipartEntityBuilder.create();
     builder.setMode(HttpMultipartMode.EXTENDED);
     builder.addBinaryBody(
-        "document",
+        "file",
         inputSource.getFile(),
         ContentType.DEFAULT_BINARY,
         inputSource.getFilename()
@@ -186,6 +165,20 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
           "alias",
           options.getAlias().toLowerCase()
       );
+    }
+
+    builder.addTextBody("model_id", options.getModelId());
+    if (options.isFullText()) {
+      builder.addTextBody("full_text_ocr", "true");
+    }
+    if (options.isRag()) {
+      builder.addTextBody("rag", "true");
+    }
+    if (options.getAlias() != null) {
+      builder.addTextBody("alias", options.getAlias());
+    }
+    if (!options.getWebhookIds().isEmpty()) {
+      builder.addTextBody("webhook_ids", String.join(",", options.getWebhookIds()));
     }
     return builder.build();
   }
@@ -199,7 +192,6 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
     HttpPost post;
     try {
       URIBuilder uriBuilder = new URIBuilder(url);
-      uriBuilder.addParameters(buildPostParams(options));
       post = new HttpPost(uriBuilder.build());
     }
     // This exception will never happen because we are providing the URL internally.
@@ -222,10 +214,11 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
 
     if (httpStatus >= 200 && httpStatus < 300) {
       try {
-        R model = mapper.readValue(body, clazz);
+        R model = mapper.readerFor(clazz).readValue(body);
         model.setRawResponse(body);
         return model;
-      } catch (Exception ignored) {
+      } catch (Exception exception) {
+        throw new MindeeException("Couldn't deserialize server response:\n" + exception.getMessage());
       }
     }
 

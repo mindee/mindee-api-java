@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringJoiner;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -29,10 +28,10 @@ public final class ListField extends BaseField {
   @Override
   public String toString() {
     if (items == null || items.isEmpty()) {
-      return "";
+      return "\n";
     }
-    StringJoiner joiner = new StringJoiner("\n");
-    items.forEach(f -> joiner.add(f == null ? "null" : f.toString()));
-    return joiner.toString();
+    StringBuilder strBuilder = new StringBuilder();
+    items.forEach(f -> strBuilder.append(f == null ? "" : f.toString()));
+    return strBuilder.toString();
   }
 }

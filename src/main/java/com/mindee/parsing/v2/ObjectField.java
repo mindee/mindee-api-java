@@ -2,8 +2,6 @@ package com.mindee.parsing.v2;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.util.Map;
-import java.util.StringJoiner;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -23,13 +21,33 @@ public class ObjectField extends BaseField {
    * Sub-fields keyed by their name.
    */
   @JsonProperty("fields")
-  private Map<String, DynamicField> fields;
+  private InferenceFields fields;
 
   @Override
   public String toString() {
-    if (fields == null || fields.isEmpty()) return "";
-    StringJoiner joiner = new StringJoiner("\n");
-    fields.forEach((k, v) -> joiner.add(k + ": " + v));
-    return joiner.toString();
+    if (fields == null || fields.isEmpty()) {
+      return "\n";
+    }
+
+    StringBuilder outStr = new StringBuilder();
+
+    fields.forEach((fieldKey, fieldValue) -> {
+      outStr.append("\n");
+      outStr.append(':').append(fieldKey).append(": ");
+
+      if (fieldValue.getListField() != null) {
+        ListField listField = fieldValue.getListField();
+        if (listField.getItems() != null && !listField.getItems().isEmpty()) {
+          outStr.append(listField);
+        }
+      } else if (fieldValue.getObjectField() != null) {
+        outStr.append(fieldValue.getObjectField());
+      } else if (fieldValue.getSimpleField() != null) {
+        outStr.append(fieldValue.getSimpleField().getValue() != null ? fieldValue.getSimpleField().getValue() : "");
+      }
+    });
+
+    return outStr + "\n";
   }
+
 }

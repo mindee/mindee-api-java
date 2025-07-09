@@ -2,8 +2,8 @@ package com.mindee.http;
 
 import com.mindee.InferencePredictOptions;
 import com.mindee.input.LocalInputSource;
-import com.mindee.parsing.v2.JobResponse;
 import com.mindee.parsing.v2.CommonResponse;
+import com.mindee.parsing.v2.JobResponse;
 import java.io.IOException;
 
 /**

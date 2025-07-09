@@ -5,9 +5,9 @@ import com.mindee.http.MindeeApiV2;
 import com.mindee.http.MindeeHttpApiV2;
 import com.mindee.input.LocalInputSource;
 import com.mindee.input.LocalResponse;
+import com.mindee.parsing.v2.CommonResponse;
 import com.mindee.parsing.v2.InferenceResponse;
 import com.mindee.parsing.v2.JobResponse;
-import com.mindee.parsing.v2.CommonResponse;
 import com.mindee.pdf.PdfBoxApi;
 import com.mindee.pdf.PdfOperation;
 import java.io.IOException;
@@ -65,26 +65,27 @@ public class MindeeClientV2 extends CommonClient {
   }
 
   /**
-   * Convenience helper: enqueue, poll, and return the final inference.
+   * Send a local file to an async queue, poll, and parse when complete.
+   * @param inputSource The input source to send.
+   * @param options The options to send along with the file.
+   * @return an instance of {@link InferenceResponse}.
+   * @throws IOException Throws if the file can't be accessed.
+   * @throws InterruptedException Throws if the thread is interrupted.
    */
   public InferenceResponse enqueueAndParse(
       LocalInputSource inputSource,
-      InferencePredictOptions options,
-      AsyncPollingOptions polling) throws IOException, InterruptedException {
+      InferencePredictOptions options) throws IOException, InterruptedException {
 
-    if (polling == null) {
-      polling = AsyncPollingOptions.builder().build(); // default values
-    }
-    validatePollingOptions(polling);
+    validatePollingOptions(options.getPollingOptions());
 
     JobResponse job = enqueue(inputSource, options);
 
-    Thread.sleep((long) (polling.getInitialDelaySec() * 1000));
+    Thread.sleep((long) (options.getPollingOptions().getInitialDelaySec() * 1000));
 
     int attempts = 0;
-    int max = polling.getMaxRetries();
+    int max = options.getPollingOptions().getMaxRetries();
     while (attempts < max) {
-      Thread.sleep((long) (polling.getIntervalSec() * 1000));
+      Thread.sleep((long) (options.getPollingOptions().getIntervalSec() * 1000));
       CommonResponse resp = parseQueued(job.getJob().getId());
       if (resp instanceof InferenceResponse) {
         return (InferenceResponse) resp;

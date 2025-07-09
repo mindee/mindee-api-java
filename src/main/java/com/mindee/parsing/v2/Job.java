@@ -61,7 +61,7 @@ public final class Job {
   /**
    * Optional alias of the file.
    */
-  @JsonProperty("file_name")
+  @JsonProperty("file_alias")
   private String fileAlias;
 
   /**
