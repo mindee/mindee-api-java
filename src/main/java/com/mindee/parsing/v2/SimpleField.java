@@ -27,6 +27,6 @@ public final class SimpleField extends BaseField {
 
   @Override
   public String toString() {
-    return value == null ? "\n" : (value + "\n");
+    return value == null ? "" : value.toString();
   }
 }

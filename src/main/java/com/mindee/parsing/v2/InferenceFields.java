@@ -1,8 +1,9 @@
 package com.mindee.parsing.v2;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.mindee.parsing.SummaryHelper;
 import java.util.HashMap;
-import java.util.Map;
+import java.util.StringJoiner;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -13,10 +14,28 @@ import lombok.EqualsAndHashCode;
 public final class InferenceFields extends HashMap<String, DynamicField> {
   @Override
   public String toString() {
-    StringBuilder strBuilder = new StringBuilder();
-    for (Map.Entry<String, DynamicField> entry : this.entrySet()) {
-      strBuilder.append(':').append(entry.getKey()).append(": ").append(entry.getValue());
+    if (this.isEmpty()) {
+      return "";
     }
-    return strBuilder.toString();
+    StringJoiner joiner = new StringJoiner("\n");
+
+    this.forEach((fieldKey, fieldValue) -> {
+      StringBuilder strBuilder = new StringBuilder();
+      strBuilder.append(':').append(fieldKey).append(": ");
+
+      if (fieldValue.getListField() != null) {
+        ListField listField = fieldValue.getListField();
+        if (listField.getItems() != null && !listField.getItems().isEmpty()) {
+          strBuilder.append(listField);
+        }
+      } else if (fieldValue.getObjectField() != null) {
+        strBuilder.append(fieldValue.getObjectField());
+      } else if (fieldValue.getSimpleField() != null) {
+        strBuilder.append(fieldValue.getSimpleField().getValue() != null ? fieldValue.getSimpleField().getValue() : "");
+      }
+      joiner.add(strBuilder);
+    });
+
+    return SummaryHelper.cleanSummary(joiner.toString());
   }
 }
