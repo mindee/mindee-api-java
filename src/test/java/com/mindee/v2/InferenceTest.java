@@ -1,12 +1,16 @@
 package com.mindee.v2;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mindee.MindeeClientV2;
+import com.mindee.input.LocalResponse;
 import com.mindee.parsing.v2.DynamicField;
 import com.mindee.parsing.v2.DynamicField.FieldType;
 import com.mindee.parsing.v2.InferenceFields;
 import com.mindee.parsing.v2.InferenceResponse;
 import com.mindee.parsing.v2.ListField;
 import com.mindee.parsing.v2.ObjectField;
+
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
@@ -18,24 +22,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("InferenceV2 – field integrity checks")
 class InferenceTest {
-
-  /* ------------------------------------------------------------------ */
-  /* Helper                                                             */
-  /* ------------------------------------------------------------------ */
-
-  private static InferenceResponse loadPrediction(String name) throws IOException {
-    String resourcePath = "v2/products/financial_document/" + name + ".json";
-    try (InputStream is = InferenceTest.class.getClassLoader().getResourceAsStream(resourcePath)) {
-      assertNotNull(is, "Test resource not found: " + resourcePath);
-      ObjectMapper mapper = new ObjectMapper().findAndRegisterModules();
-      return mapper.readValue(is, InferenceResponse.class);
-    }
-  }
-
-  /* ------------------------------------------------------------------ */
-  /* Tests – “blank”                                                    */
-  /* ------------------------------------------------------------------ */
-
   @Nested
   @DisplayName("When the async prediction is blank")
   class BlankPrediction {
@@ -43,25 +29,23 @@ class InferenceTest {
     @Test
     @DisplayName("all properties must be valid")
     void asyncPredict_whenEmpty_mustHaveValidProperties() throws IOException {
-      InferenceResponse response = loadPrediction("blank");
+      MindeeClientV2 mindeeClient = new MindeeClientV2("dummy");
+      InferenceResponse response = mindeeClient.loadInference(new LocalResponse(InferenceTest.class.getClassLoader().getResourceAsStream("v2/products/financial_document/blank.json")));
       InferenceFields fields = response.getInference().getResult().getFields();
 
       assertEquals(21, fields.size(), "Expected 21 fields");
 
-      /* taxes ----------------------------------------------------------------- */
       DynamicField taxes = fields.get("taxes");
       assertNotNull(taxes, "'taxes' field must exist");
       ListField taxesList = taxes.getListField();
       assertNotNull(taxesList, "'taxes' must be a ListField");
       assertTrue(taxesList.getItems().isEmpty(), "'taxes' list must be empty");
 
-      /* supplier_address ------------------------------------------------------- */
       DynamicField supplierAddress = fields.get("supplier_address");
       assertNotNull(supplierAddress, "'supplier_address' field must exist");
       ObjectField supplierObj = supplierAddress.getObjectField();
       assertNotNull(supplierObj, "'supplier_address' must be an ObjectField");
 
-      /* generic checks --------------------------------------------------------- */
       for (Map.Entry<String, DynamicField> entry : fields.entrySet()) {
         DynamicField value = entry.getValue();
         if (value == null) {
@@ -82,7 +66,8 @@ class InferenceTest {
             assertNull(value.getSimpleField(), entry.getKey() + " – SimpleField must be null");
             break;
 
-          default: // SimpleField (or any scalar)
+          case SIMPLE_FIELD:
+          default:
             assertNotNull(value.getSimpleField(), entry.getKey() + " – SimpleField expected");
             assertNull(value.getListField(), entry.getKey() + " – ListField must be null");
             assertNull(value.getObjectField(), entry.getKey() + " – ObjectField must be null");
@@ -99,7 +84,8 @@ class InferenceTest {
     @Test
     @DisplayName("all properties must be valid")
     void asyncPredict_whenComplete_mustHaveValidProperties() throws IOException {
-      InferenceResponse response = loadPrediction("complete");
+      MindeeClientV2 mindeeClient = new MindeeClientV2("dummy");
+      InferenceResponse response = mindeeClient.loadInference(new LocalResponse(InferenceTest.class.getClassLoader().getResourceAsStream("v2/products/financial_document/complete.json")));
       InferenceFields fields = response.getInference().getResult().getFields();
 
       assertEquals(21, fields.size(), "Expected 21 fields");
@@ -120,7 +106,6 @@ class InferenceTest {
           "'taxes.base' value mismatch"
       );
 
-      /* supplier_address ------------------------------------------------------- */
       DynamicField supplierAddress = fields.get("supplier_address");
       assertNotNull(supplierAddress, "'supplier_address' field must exist");
 
