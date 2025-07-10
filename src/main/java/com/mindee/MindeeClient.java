@@ -16,7 +16,6 @@ import com.mindee.parsing.common.PredictResponse;
 import com.mindee.parsing.common.WorkflowResponse;
 import com.mindee.pdf.PdfBoxApi;
 import com.mindee.pdf.PdfOperation;
-import com.mindee.pdf.SplitQuery;
 import com.mindee.product.custom.CustomV1;
 import com.mindee.product.generated.GeneratedV1;
 import java.io.IOException;
@@ -25,10 +24,9 @@ import java.net.URL;
 /**
  * Main entrypoint for Mindee operations.
  */
-public class MindeeClient {
+public class MindeeClient extends CommonClient {
 
   private final MindeeApi mindeeApi;
-  private final PdfOperation pdfOperation;
 
   /**
    * Create a default MindeeClient.
@@ -1122,21 +1120,6 @@ public class MindeeClient {
         type
     );
     return objectMapper.readValue(localResponse.getFile(), parametricType);
-  }
-
-  private byte[] getSplitFile(
-      LocalInputSource localInputSource,
-      PageOptions pageOptions
-  ) throws IOException {
-    byte[] splitFile;
-    if (pageOptions == null || !localInputSource.isPdf()) {
-      splitFile = localInputSource.getFile();
-    } else {
-      splitFile = pdfOperation.split(
-          new SplitQuery(localInputSource.getFile(), pageOptions)
-      ).getFile();
-    }
-    return splitFile;
   }
 
 }
