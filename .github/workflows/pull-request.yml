@@ -18,6 +18,7 @@ jobs:
     uses: ./.github/workflows/_codeql.yml
     needs: build
     permissions:
+      contents: read
       actions: read
       security-events: write
   test_integrations:
