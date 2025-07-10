@@ -17,6 +17,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Inference {
+  /**
+   * Inference ID.
+   */
+  @JsonProperty("id")
+  private String id;
 
   /**
    * Model info.

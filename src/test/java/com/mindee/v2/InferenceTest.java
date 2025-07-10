@@ -1,18 +1,11 @@
 package com.mindee.v2;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mindee.MindeeClientV2;
 import com.mindee.input.LocalResponse;
-import com.mindee.parsing.v2.DynamicField;
+import com.mindee.parsing.v2.*;
 import com.mindee.parsing.v2.DynamicField.FieldType;
-import com.mindee.parsing.v2.InferenceFields;
-import com.mindee.parsing.v2.InferenceResponse;
-import com.mindee.parsing.v2.ListField;
-import com.mindee.parsing.v2.ObjectField;
-
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
+import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -22,6 +15,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("InferenceV2 – field integrity checks")
 class InferenceTest {
+
+  private InferenceResponse loadFromResource(String resourcePath) throws IOException {
+    MindeeClientV2 dummyClient = new MindeeClientV2("dummy");
+    return dummyClient.loadInference(new LocalResponse(InferenceTest.class.getClassLoader().getResourceAsStream(resourcePath)));
+  }
+
+
   @Nested
   @DisplayName("When the async prediction is blank")
   class BlankPrediction {
@@ -29,8 +29,7 @@ class InferenceTest {
     @Test
     @DisplayName("all properties must be valid")
     void asyncPredict_whenEmpty_mustHaveValidProperties() throws IOException {
-      MindeeClientV2 mindeeClient = new MindeeClientV2("dummy");
-      InferenceResponse response = mindeeClient.loadInference(new LocalResponse(InferenceTest.class.getClassLoader().getResourceAsStream("v2/products/financial_document/blank.json")));
+      InferenceResponse response = loadFromResource("v2/products/financial_document/blank.json");
       InferenceFields fields = response.getInference().getResult().getFields();
 
       assertEquals(21, fields.size(), "Expected 21 fields");
@@ -84,8 +83,7 @@ class InferenceTest {
     @Test
     @DisplayName("all properties must be valid")
     void asyncPredict_whenComplete_mustHaveValidProperties() throws IOException {
-      MindeeClientV2 mindeeClient = new MindeeClientV2("dummy");
-      InferenceResponse response = mindeeClient.loadInference(new LocalResponse(InferenceTest.class.getClassLoader().getResourceAsStream("v2/products/financial_document/complete.json")));
+      InferenceResponse response = loadFromResource("v2/products/financial_document/complete.json");
       InferenceFields fields = response.getInference().getResult().getFields();
 
       assertEquals(21, fields.size(), "Expected 21 fields");
@@ -118,6 +116,123 @@ class InferenceTest {
       assertEquals("USA", country.toString());
 
       assertNotNull(supplierAddress.toString(), "'supplier_address'.toString() must not be null");
+    }
+  }
+
+  @Nested
+  @DisplayName("deep_nested_fields.json")
+  class DeepNestedFields {
+
+    @Test
+    @DisplayName("all nested structures must be typed correctly")
+    void deepNestedFields_mustExposeCorrectTypes() throws IOException {
+      InferenceResponse resp = loadFromResource("v2/inference/deep_nested_fields.json");
+      Inference inf = resp.getInference();
+      assertNotNull(inf);
+
+      InferenceFields root = inf.getResult().getFields();
+      assertNotNull(root.get("field_simple").getSimpleField());
+      assertNotNull(root.get("field_object").getObjectField());
+
+      ObjectField fieldObject = root.get("field_object").getObjectField();
+      InferenceFields lvl1 = fieldObject.getFields();
+      assertNotNull(lvl1.get("sub_object_list").getListField());
+      assertNotNull(lvl1.get("sub_object_object").getObjectField());
+
+      ObjectField subObjectObject = lvl1.get("sub_object_object").getObjectField();
+      InferenceFields lvl2 = subObjectObject.getFields();
+      assertNotNull(lvl2.get("sub_object_object_sub_object_list").getListField());
+
+      ListField nestedList = lvl2.get("sub_object_object_sub_object_list").getListField();
+      List<DynamicField> items = nestedList.getItems();
+      assertFalse(items.isEmpty());
+      assertNotNull(items.get(0).getObjectField());
+
+      ObjectField firstItem = items.get(0).getObjectField();
+      SimpleField deepSimple = firstItem.getFields()
+          .get("sub_object_object_sub_object_list_simple").getSimpleField();
+      assertEquals("value_9", deepSimple.getValue());
+    }
+  }
+
+  @Nested
+  @DisplayName("standard_field_types.json")
+  class StandardFieldTypes {
+
+    @Test
+    @DisplayName("simple / object / list variants must be recognised")
+    void standardFieldTypes_mustExposeCorrectTypes() throws IOException {
+      InferenceResponse resp = loadFromResource("v2/inference/standard_field_types.json");
+      Inference inf = resp.getInference();
+      assertNotNull(inf);
+
+      InferenceFields root = inf.getResult().getFields();
+      assertNotNull(root.get("field_simple").getSimpleField());
+      assertNotNull(root.get("field_object").getObjectField());
+      assertNotNull(root.get("field_simple_list").getListField());
+      assertNotNull(root.get("field_object_list").getListField());
+    }
+  }
+
+  @Nested
+  @DisplayName("raw_texts.json")
+  class RawTexts {
+
+    @Test
+    @DisplayName("raw texts option must be parsed and exposed")
+    void rawTexts_mustBeAccessible() throws IOException {
+      InferenceResponse resp = loadFromResource("v2/inference/raw_texts.json");
+      Inference inf = resp.getInference();
+      assertNotNull(inf);
+
+      InferenceOptions opts = inf.getResult().getOptions();
+      assertNotNull(opts, "Options should not be null");
+
+      List<RawText> rawTexts = opts.getRawTexts();
+      assertEquals(2, rawTexts.size());
+
+      RawText first = rawTexts.get(0);
+      assertEquals(0, first.getPage());
+      assertEquals("This is the raw text of the first page...", first.getContent());
+    }
+  }
+
+  @Nested
+  @DisplayName("complete.json – full inference response")
+  class FullInference {
+    @Test
+    @DisplayName("complete financial-document JSON must round-trip correctly")
+    void fullInferenceResponse_mustExposeEveryProperty() throws IOException {
+      InferenceResponse resp = loadFromResource("v2/products/financial_document/complete.json");
+
+      Inference inf = resp.getInference();
+      assertNotNull(inf);
+      assertEquals("12345678-1234-1234-1234-123456789abc", inf.getId());
+
+      InferenceFields f = inf.getResult().getFields();
+
+      SimpleField date = f.get("date").getSimpleField();
+      assertEquals("2019-11-02", date.getValue());
+
+      ListField taxes = f.get("taxes").getListField();
+      ObjectField firstTax = taxes.getItems().get(0).getObjectField();
+      SimpleField baseTax = firstTax.getFields().get("base").getSimpleField();
+      assertEquals(31.5, baseTax.getValue());
+
+      ObjectField customerAddr = f.get("customer_address").getObjectField();
+      SimpleField city = customerAddr.getFields().get("city").getSimpleField();
+      assertEquals("New York", city.getValue());
+
+      InferenceModel model = inf.getModel();
+      assertNotNull(model);
+      assertEquals("12345678-1234-1234-1234-123456789abc", model.getId());
+
+      InferenceFile file = inf.getFile();
+      assertNotNull(file);
+      assertEquals("complete.jpg", file.getName());
+      assertNull(file.getAlias());
+
+      assertNull(inf.getResult().getOptions());
     }
   }
 }

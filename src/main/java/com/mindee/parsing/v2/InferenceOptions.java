@@ -10,6 +10,6 @@ import lombok.Getter;
 @Getter
 public final class InferenceOptions {
 
-  @JsonProperty("raw_text")
-  private List<String> rawText;
+  @JsonProperty("raw_texts")
+  private List<RawText> rawTexts;
 }
