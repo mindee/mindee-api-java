@@ -27,13 +27,13 @@ public class Inference {
    * Model info.
    */
   @JsonProperty("model")
-  private InferenceModel model;
+  private InferenceResultModel model;
 
   /**
    * File info.
    */
   @JsonProperty("file")
-  private InferenceFile file;
+  private InferenceResultFile file;
 
   /**
    * Model result values.

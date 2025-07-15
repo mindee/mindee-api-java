@@ -13,7 +13,6 @@ import lombok.Getter;
 @Getter
 @Data
 public final class InferencePredictOptions {
-
   /**
    * ID of the model (required).
    */

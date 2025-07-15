@@ -2,6 +2,7 @@ package com.mindee.parsing.v2;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.mindee.parsing.v2.field.InferenceFields;
 import java.util.StringJoiner;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -28,7 +29,7 @@ public final class InferenceResult {
    * Options.
    */
   @JsonProperty("options")
-  private InferenceOptions options;
+  private InferenceResultOptions options;
 
   @Override
   public String toString() {

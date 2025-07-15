@@ -11,14 +11,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 /**
- * Webhook info.
+ * JobResponseWebhook info.
  */
 @Getter
 @EqualsAndHashCode
 @JsonIgnoreProperties(ignoreUnknown = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public final class Webhook {
+public final class JobResponseWebhook {
 
   /**
    * ID of the webhook.

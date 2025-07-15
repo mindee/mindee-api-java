@@ -8,7 +8,7 @@ import lombok.Getter;
  * Option response for V2 API inference.
  */
 @Getter
-public final class InferenceOptions {
+public final class InferenceResultOptions {
 
   @JsonProperty("raw_texts")
   private List<RawText> rawTexts;

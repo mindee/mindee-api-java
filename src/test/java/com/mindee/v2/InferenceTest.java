@@ -3,10 +3,12 @@ package com.mindee.v2;
 import com.mindee.MindeeClientV2;
 import com.mindee.input.LocalResponse;
 import com.mindee.parsing.v2.*;
-import com.mindee.parsing.v2.DynamicField.FieldType;
+import com.mindee.parsing.v2.field.*;
+import com.mindee.parsing.v2.field.DynamicField.FieldType;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -185,7 +187,7 @@ class InferenceTest {
       Inference inf = resp.getInference();
       assertNotNull(inf);
 
-      InferenceOptions opts = inf.getResult().getOptions();
+      InferenceResultOptions opts = inf.getResult().getOptions();
       assertNotNull(opts, "Options should not be null");
 
       List<RawText> rawTexts = opts.getRawTexts();
@@ -223,11 +225,11 @@ class InferenceTest {
       SimpleField city = customerAddr.getFields().get("city").getSimpleField();
       assertEquals("New York", city.getValue());
 
-      InferenceModel model = inf.getModel();
+      InferenceResultModel model = inf.getModel();
       assertNotNull(model);
       assertEquals("12345678-1234-1234-1234-123456789abc", model.getId());
 
-      InferenceFile file = inf.getFile();
+      InferenceResultFile file = inf.getFile();
       assertNotNull(file);
       assertEquals("complete.jpg", file.getName());
       assertNull(file.getAlias());

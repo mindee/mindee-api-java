@@ -1,4 +1,4 @@
-package com.mindee.parsing.v2;
+package com.mindee.parsing.v2.field;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;

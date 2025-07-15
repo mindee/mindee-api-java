@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class InferenceModel {
+public class InferenceResultModel {
 
   /**
    * The ID of the model.

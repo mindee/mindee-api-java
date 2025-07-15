@@ -1,4 +1,4 @@
-package com.mindee.parsing.v2;
+package com.mindee.parsing.v2.field;
 
 /**
  * Base class for V2 fields.
