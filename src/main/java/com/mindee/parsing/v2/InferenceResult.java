@@ -34,9 +34,13 @@ public final class InferenceResult {
   @Override
   public String toString() {
     StringJoiner joiner = new StringJoiner("\n");
+    joiner.add("Fields")
+          .add("======");
     joiner.add(fields.toString());
-    if (options != null) {
-      joiner.add(options.toString());
+    if (this.getOptions() != null) {
+      joiner.add("Options")
+          .add("=======")
+          .add(this.getOptions().toString());
     }
     return joiner.toString();
   }

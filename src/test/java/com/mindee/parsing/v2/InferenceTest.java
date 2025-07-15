@@ -1,18 +1,19 @@
-package com.mindee.v2;
+package com.mindee.parsing.v2;
 
 import com.mindee.MindeeClientV2;
 import com.mindee.input.LocalResponse;
-import com.mindee.parsing.v2.*;
 import com.mindee.parsing.v2.field.*;
 import com.mindee.parsing.v2.field.DynamicField.FieldType;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
+import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("InferenceV2 – field integrity checks")
@@ -21,6 +22,13 @@ class InferenceTest {
   private InferenceResponse loadFromResource(String resourcePath) throws IOException {
     MindeeClientV2 dummyClient = new MindeeClientV2("dummy");
     return dummyClient.loadInference(new LocalResponse(InferenceTest.class.getClassLoader().getResourceAsStream(resourcePath)));
+  }
+
+  private String readFileAsString(String path)
+      throws IOException
+  {
+    byte[] encoded = IOUtils.toByteArray(Objects.requireNonNull(InferenceTest.class.getClassLoader().getResourceAsStream(path)));
+    return new String(encoded);
   }
 
 
@@ -235,6 +243,20 @@ class InferenceTest {
       assertNull(file.getAlias());
 
       assertNull(inf.getResult().getOptions());
+    }
+  }
+
+  @Nested
+  @DisplayName("rst display")
+  class RstDisplay {
+    @Test
+    @DisplayName("rst display must be parsed and exposed")
+    void rstDisplay_mustBeAccessible() throws IOException {
+      InferenceResponse resp = loadFromResource("v2/inference/standard_field_types.json");
+      String rstRef = readFileAsString("v2/inference/standard_field_types.rst");
+      Inference inf = resp.getInference();
+      assertNotNull(inf);
+      assertEquals(rstRef, resp.getInference().toString());
     }
   }
 }

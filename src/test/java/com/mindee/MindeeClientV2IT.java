@@ -40,8 +40,8 @@ class MindeeClientV2IntegrationTest {
     LocalInputSource source = new LocalInputSource(
         new File("src/test/resources/file_types/pdf/multipage_cut-2.pdf"));
 
-    InferencePredictOptions options =
-        InferencePredictOptions.builder(modelId).build();
+    InferenceOptions options =
+        InferenceOptions.builder(modelId).build();
 
     InferenceResponse response = mindeeClient.enqueueAndParse(source, options);
 
@@ -64,8 +64,8 @@ class MindeeClientV2IntegrationTest {
     LocalInputSource source = new LocalInputSource(
         new File("src/test/resources/products/financial_document/default_sample.jpg"));
 
-    InferencePredictOptions options =
-        InferencePredictOptions.builder(modelId).build();
+    InferenceOptions options =
+        InferenceOptions.builder(modelId).build();
 
     InferenceResponse response = mindeeClient.enqueueAndParse(source, options);
 
@@ -98,8 +98,8 @@ class MindeeClientV2IntegrationTest {
     LocalInputSource source = new LocalInputSource(
         new File("src/test/resources/file_types/pdf/multipage_cut-2.pdf"));
 
-    InferencePredictOptions options =
-        InferencePredictOptions.builder("INVALID MODEL ID").build();
+    InferenceOptions options =
+        InferenceOptions.builder("INVALID MODEL ID").build();
 
     MindeeHttpExceptionV2 ex = assertThrows(
         MindeeHttpExceptionV2.class,

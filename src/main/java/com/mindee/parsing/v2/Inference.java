@@ -43,18 +43,19 @@ public class Inference {
 
   @Override
   public String toString() {
-    StringJoiner sj = new StringJoiner("\n");
-    sj.add("#########")
+    StringJoiner joiner = new StringJoiner("\n");
+    joiner
         .add("Inference")
         .add("#########")
-        .add(":Model: " + (model != null ? model.getId() : ""))
-        .add(":File:")
-        .add("  :Name: " + (file != null ? file.getName() : ""))
-        .add("  :Alias: " + (file != null ? file.getAlias() : ""))
+        .add("Model")
+        .add("=====")
+        .add(":ID: " + (model != null ? model.getId() : ""))
         .add("")
-        .add("Result")
-        .add("======")
+        .add("File")
+        .add("====")
+        .add(file != null ? file.toString() : "")
+        .add("")
         .add(result != null ? result.toString() : "");
-    return sj.toString().trim();
+    return joiner.toString().trim() + "\n";
   }
 }

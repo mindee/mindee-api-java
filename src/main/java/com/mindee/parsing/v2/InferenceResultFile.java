@@ -27,4 +27,8 @@ public class InferenceResultFile {
    */
   @JsonProperty("alias")
   private String alias;
+
+  public String toString() {
+    return ":Name: " + name + "\n:Alias:" + (alias != null ? " " + alias : "");
+  }
 }

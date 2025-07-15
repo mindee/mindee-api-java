@@ -1,6 +1,6 @@
 package com.mindee.http;
 
-import com.mindee.InferencePredictOptions;
+import com.mindee.InferenceOptions;
 import com.mindee.input.LocalInputSource;
 import com.mindee.parsing.v2.CommonResponse;
 import com.mindee.parsing.v2.JobResponse;
@@ -15,7 +15,7 @@ abstract public class MindeeApiV2 extends MindeeApiCommon {
    */
   abstract public JobResponse enqueuePost(
       LocalInputSource inputSource,
-      InferencePredictOptions options
+      InferenceOptions options
   ) throws IOException;
 
   /**

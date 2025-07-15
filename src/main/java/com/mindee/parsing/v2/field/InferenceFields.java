@@ -2,7 +2,7 @@ package com.mindee.parsing.v2.field;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.mindee.parsing.SummaryHelper;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.StringJoiner;
 import lombok.EqualsAndHashCode;
 
@@ -11,9 +11,9 @@ import lombok.EqualsAndHashCode;
  */
 @EqualsAndHashCode(callSuper = true)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public final class InferenceFields extends HashMap<String, DynamicField> {
-  @Override
-  public String toString() {
+public final class InferenceFields extends LinkedHashMap<String, DynamicField> {
+  public String toString(int indent) {
+    String padding = String.join("", java.util.Collections.nCopies(indent, "  "));
     if (this.isEmpty()) {
       return "";
     }
@@ -21,7 +21,7 @@ public final class InferenceFields extends HashMap<String, DynamicField> {
 
     this.forEach((fieldKey, fieldValue) -> {
       StringBuilder strBuilder = new StringBuilder();
-      strBuilder.append(':').append(fieldKey).append(": ");
+      strBuilder.append(padding).append(":").append(fieldKey).append(": ");
 
       if (fieldValue.getListField() != null) {
         ListField listField = fieldValue.getListField();
@@ -32,10 +32,16 @@ public final class InferenceFields extends HashMap<String, DynamicField> {
         strBuilder.append(fieldValue.getObjectField());
       } else if (fieldValue.getSimpleField() != null) {
         strBuilder.append(fieldValue.getSimpleField().getValue() != null ? fieldValue.getSimpleField().getValue() : "");
+
       }
       joiner.add(strBuilder);
     });
 
     return SummaryHelper.cleanSummary(joiner.toString());
+  }
+
+  @Override
+  public String toString() {
+    return this.toString(0);
   }
 }

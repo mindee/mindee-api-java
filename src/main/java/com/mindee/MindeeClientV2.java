@@ -44,7 +44,7 @@ public class MindeeClientV2 extends CommonClient {
    */
   public JobResponse enqueue(
       LocalInputSource inputSource,
-      InferencePredictOptions options) throws IOException {
+      InferenceOptions options) throws IOException {
     LocalInputSource finalInput;
     if (options.getPageOptions() != null) {
       finalInput = new LocalInputSource(getSplitFile(inputSource, options.getPageOptions()), inputSource.getFilename());
@@ -74,7 +74,7 @@ public class MindeeClientV2 extends CommonClient {
    */
   public InferenceResponse enqueueAndParse(
       LocalInputSource inputSource,
-      InferencePredictOptions options) throws IOException, InterruptedException {
+      InferenceOptions options) throws IOException, InterruptedException {
 
     validatePollingOptions(options.getPollingOptions());
 
