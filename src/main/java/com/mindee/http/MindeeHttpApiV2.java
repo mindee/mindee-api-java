@@ -168,9 +168,6 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
     }
 
     builder.addTextBody("model_id", options.getModelId());
-    if (options.isFullText()) {
-      builder.addTextBody("full_text_ocr", "true");
-    }
     if (options.isRag()) {
       builder.addTextBody("rag", "true");
     }

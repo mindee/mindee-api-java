@@ -10,6 +10,7 @@ public class SimpleMindeeClient {
   public static void main(String[] args) throws IOException, InterruptedException {
     String apiKey = "MY_API_KEY";
     String filePath = "/path/to/the/file.ext";
+    String modelId = "MY_MODEL_ID";
 
     // Init a new client
     MindeeClientV2 mindeeClient = new MindeeClientV2(apiKey);
@@ -19,7 +20,7 @@ public class SimpleMindeeClient {
 
     // Prepare the enqueueing options
     // Note: modelId is mandatory.
-    InferenceOptions options = InferenceOptions.builder("MY_MODEL_ID").build();
+    InferenceOptions options = InferenceOptions.builder(modelId).build();
 
     // Parse the file
     InferenceResponse response =  mindeeClient.enqueueAndParse(
@@ -29,17 +30,5 @@ public class SimpleMindeeClient {
 
     // Print a summary of the response
     System.out.println(response.getInference().toString());
-
-    // Print a summary of the predictions
-//  System.out.println(response.getDocument().toString());
-
-    // Print the document-level predictions
-//    System.out.println(response.getDocument().getInference().getPrediction().toString());
-
-    // Print the page-level predictions
-//    response.getDocument().getInference().getPages().forEach(
-//        page -> System.out.println(page.toString())
-//    );
   }
-
 }

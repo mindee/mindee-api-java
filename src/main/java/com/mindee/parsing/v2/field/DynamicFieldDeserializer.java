@@ -17,7 +17,6 @@ public final class DynamicFieldDeserializer extends JsonDeserializer<DynamicFiel
     ObjectCodec codec = jp.getCodec();
     JsonNode root = codec.readTree(jp);
 
-    // -------- LIST FEATURE --------
     if (root.has("items") && root.get("items").isArray()) {
       ListField list = new ListField();
       for (JsonNode itemNode : root.get("items")) {
@@ -26,13 +25,11 @@ public final class DynamicFieldDeserializer extends JsonDeserializer<DynamicFiel
       return DynamicField.of(list);
     }
 
-    // -------- OBJECT WITH NESTED FIELDS --------
     if (root.has("fields") && root.get("fields").isObject()) {
       ObjectField objectField = codec.treeToValue(root, ObjectField.class);
       return DynamicField.of(objectField);
     }
 
-    // -------- SIMPLE OBJECT --------
     if (root.has("value")) {
       SimpleField simple = codec.treeToValue(root, SimpleField.class);
       return DynamicField.of(simple);

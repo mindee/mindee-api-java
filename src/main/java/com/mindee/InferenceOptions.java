@@ -18,11 +18,6 @@ public final class InferenceOptions {
    */
   private final String modelId;
   /**
-   * Whether to include full text data for async APIs.
-   * Performing a full OCR on the server increases response time and payload size.
-   */
-  private final boolean fullText;
-  /**
    * Enables Retrieval-Augmented Generation (optional, default: {@code false}).
    */
   private final boolean rag;
@@ -59,7 +54,6 @@ public final class InferenceOptions {
   public static final class Builder {
 
     private final String modelId;
-    private boolean fullText = false;
     private boolean rag = false;
     private String alias;
     private List<String> webhookIds = Collections.emptyList();
@@ -68,14 +62,6 @@ public final class InferenceOptions {
 
     private Builder(String modelId) {
       this.modelId = Objects.requireNonNull(modelId, "modelId must not be null");
-    }
-
-    /**
-     * Toggle full-text OCR extraction.
-     */
-    public Builder fullText(boolean fullText) {
-      this.fullText = fullText;
-      return this;
     }
 
     /** Enable / disable Retrieval-Augmented Generation. */
@@ -110,7 +96,6 @@ public final class InferenceOptions {
     public InferenceOptions build() {
       return new InferenceOptions(
           modelId,
-          fullText,
           rag,
           alias,
           webhookIds,
