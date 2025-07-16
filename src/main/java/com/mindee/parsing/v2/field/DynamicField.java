@@ -1,7 +1,6 @@
 package com.mindee.parsing.v2.field;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -22,25 +21,21 @@ public class DynamicField {
   /**
    * Type of the wrapped field.
    */
-  @JsonProperty("type")
   private FieldType type;
 
   /**
    * Value as simple field.
    */
-  @JsonProperty("simple_field")
   private SimpleField simpleField;
 
   /**
    * Value as list field.
    */
-  @JsonProperty("list_field")
   private ListField listField;
 
   /**
    * Value as object field.
    */
-  @JsonProperty("object_field")
   private ObjectField objectField;
 
   public static DynamicField of(SimpleField value) {

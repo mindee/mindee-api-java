@@ -117,7 +117,6 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
 
               return deserializeOrThrow(raw, InferenceResponse.class, response.getCode());
             } finally {
-              /* make sure the connection can be reused even if parsing fails */
               EntityUtils.consumeQuietly(responseEntity);
             }
           }
