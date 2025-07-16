@@ -3,26 +3,31 @@ package com.mindee.http;
 import com.mindee.InferenceOptions;
 import com.mindee.input.LocalInputSource;
 import com.mindee.parsing.v2.CommonResponse;
+import com.mindee.parsing.v2.InferenceResponse;
 import com.mindee.parsing.v2.JobResponse;
 import java.io.IOException;
 
 /**
  * Defines required methods for an API.
  */
-abstract public class MindeeApiV2 extends MindeeApiCommon {
+public abstract class MindeeApiV2 extends MindeeApiCommon {
   /**
    * Send a file to the prediction queue.
    */
-  abstract public JobResponse enqueuePost(
+  public abstract JobResponse enqueuePost(
       LocalInputSource inputSource,
       InferenceOptions options
   ) throws IOException;
 
   /**
-   * Get a document from the predict queue.
+   * Attempts to poll the queue.
    */
-  abstract public CommonResponse getInferenceFromQueue(
+  public abstract JobResponse getJobResponse(
       String jobId
   );
 
+  /**
+   * Retrieves the inference from a 302 redirect.
+   */
+  abstract public InferenceResponse getInferenceFromQueue(String jobId);
 }

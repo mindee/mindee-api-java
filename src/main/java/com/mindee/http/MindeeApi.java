@@ -9,12 +9,12 @@ import java.io.IOException;
 /**
  * Defines required methods for an API.
  */
-abstract public class MindeeApi extends MindeeApiCommon {
+public abstract class MindeeApi extends MindeeApiCommon {
 
   /**
    * Get a document from the predict queue.
    */
-  abstract public <DocT extends Inference> AsyncPredictResponse<DocT> documentQueueGet(
+  public abstract <DocT extends Inference> AsyncPredictResponse<DocT> documentQueueGet(
       Class<DocT> documentClass,
       Endpoint endpoint,
       String jobId
@@ -23,7 +23,7 @@ abstract public class MindeeApi extends MindeeApiCommon {
   /**
    * Send a file to the prediction queue.
    */
-  abstract public <DocT extends Inference> AsyncPredictResponse<DocT> predictAsyncPost(
+  public abstract <DocT extends Inference> AsyncPredictResponse<DocT> predictAsyncPost(
       Class<DocT> documentClass,
       Endpoint endpoint,
       RequestParameters requestParameters
@@ -32,13 +32,13 @@ abstract public class MindeeApi extends MindeeApiCommon {
   /**
    * Send a file to the prediction API.
    */
-  abstract public <DocT extends Inference> PredictResponse<DocT> predictPost(
+  public abstract <DocT extends Inference> PredictResponse<DocT> predictPost(
       Class<DocT> documentClass,
       Endpoint endpoint,
       RequestParameters requestParameters
   ) throws IOException;
 
-  abstract public <DocT extends Inference> WorkflowResponse<DocT> executeWorkflowPost(
+  public abstract <DocT extends Inference> WorkflowResponse<DocT> executeWorkflowPost(
       Class<DocT> documentClass,
       String workflowId,
       RequestParameters requestParameters

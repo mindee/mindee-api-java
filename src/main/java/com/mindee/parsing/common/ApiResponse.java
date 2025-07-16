@@ -12,7 +12,7 @@ import lombok.Getter;
 @Data
 @EqualsAndHashCode
 @JsonIgnoreProperties(ignoreUnknown = true)
-abstract public class ApiResponse {
+public abstract class ApiResponse {
   /**
    * Information from Mindee about the api request.
    */

@@ -1,5 +1,7 @@
 package com.mindee;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mindee.http.MindeeApiV2;
 import com.mindee.input.LocalInputSource;
 import com.mindee.input.LocalResponse;
@@ -12,7 +14,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
@@ -56,10 +57,16 @@ class MindeeClientV2Test {
   class ParseQueued {
     @Test
     @DisplayName("hits the HTTP endpoint once and returns a non-null response")
-    void document_getQueued_async() {
+    void document_getQueued_async() throws JsonProcessingException {
       MindeeApiV2 predictable = Mockito.mock(MindeeApiV2.class);
-      when(predictable.getInferenceFromQueue(anyString()))
-          .thenReturn(new JobResponse());
+      String json = " {\"job\": {\"id\": \"dummy-id\", \"status\": \"Processing\"}}";
+      ObjectMapper mapper = new ObjectMapper();
+      mapper.findAndRegisterModules();
+
+      JobResponse processing = mapper.readValue(json, JobResponse.class);
+
+      when(predictable.getJobResponse(anyString()))
+          .thenReturn(processing);
 
       MindeeClientV2 mindeeClient = makeClientWithMockedApi(predictable);
 

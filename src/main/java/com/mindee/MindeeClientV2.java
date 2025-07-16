@@ -61,7 +61,11 @@ public class MindeeClientV2 extends CommonClient {
     if (jobId == null || jobId.trim().isEmpty()) {
       throw new IllegalArgumentException("jobId must not be null or blank.");
     }
-    return mindeeApi.getInferenceFromQueue(jobId);
+    JobResponse jobResponse = mindeeApi.getJobResponse(jobId);
+    if (jobResponse.getJob().getStatus().equals("Processed")) {
+      return mindeeApi.getInferenceFromQueue(jobId);
+    }
+    return jobResponse;
   }
 
   /**

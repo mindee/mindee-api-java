@@ -15,6 +15,7 @@ import java.nio.charset.StandardCharsets;
 import lombok.Builder;
 import org.apache.hc.client5.http.classic.methods.HttpGet;
 import org.apache.hc.client5.http.classic.methods.HttpPost;
+import org.apache.hc.client5.http.config.RequestConfig;
 import org.apache.hc.client5.http.entity.mime.HttpMultipartMode;
 import org.apache.hc.client5.http.entity.mime.MultipartEntityBuilder;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
@@ -92,7 +93,8 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
     }
   }
 
-  public CommonResponse getInferenceFromQueue(
+  @Override
+  public JobResponse getJobResponse(
       String jobId
   ) {
 
@@ -103,6 +105,12 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
       get.setHeader(HttpHeaders.AUTHORIZATION, this.mindeeSettings.getApiKey().get());
     }
     get.setHeader(HttpHeaders.USER_AGENT, getUserAgent());
+    RequestConfig noRedirect =
+        RequestConfig.custom()
+            .setRedirectsEnabled(false)
+            .build();
+    get.setConfig(noRedirect);
+
     mapper.findAndRegisterModules();
     try (CloseableHttpClient httpClient = httpClientBuilder.build()) {
       return httpClient.execute(
@@ -115,7 +123,7 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
             try {
               String raw = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
 
-              return deserializeOrThrow(raw, InferenceResponse.class, response.getCode());
+              return deserializeOrThrow(raw, JobResponse.class, response.getCode());
             } finally {
               EntityUtils.consumeQuietly(responseEntity);
             }
@@ -125,6 +133,43 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
       throw new MindeeException(err.getMessage(), err);
     }
   }
+
+  @Override
+  public InferenceResponse getInferenceFromQueue(String jobId) {
+
+    String url = this.mindeeSettings.getBaseUrl() + "/inferences/" + jobId;
+    HttpGet get = new HttpGet(url);
+
+    if (this.mindeeSettings.getApiKey().isPresent()) {
+      get.setHeader(HttpHeaders.AUTHORIZATION, this.mindeeSettings.getApiKey().get());
+    }
+    get.setHeader(HttpHeaders.USER_AGENT, getUserAgent());
+
+    mapper.findAndRegisterModules();
+
+    try (CloseableHttpClient httpClient = httpClientBuilder
+        .build()) {
+
+      return httpClient.execute(
+          get,
+          response -> {
+            HttpEntity entity = response.getEntity();
+            int status = response.getCode();
+            try {
+              if (!is2xxStatusCode(status)) {
+                throw getHttpError(response);
+              }
+              String raw = EntityUtils.toString(entity, StandardCharsets.UTF_8);
+              return deserializeOrThrow(raw, InferenceResponse.class, status);
+            } finally {
+              EntityUtils.consumeQuietly(entity);
+            }
+          });
+    } catch (IOException err) {
+      throw new MindeeException(err.getMessage(), err);
+    }
+  }
+
 
   private MindeeHttpExceptionV2 getHttpError(ClassicHttpResponse response) {
     String rawBody;
