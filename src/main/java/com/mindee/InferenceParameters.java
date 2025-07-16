@@ -12,7 +12,7 @@ import lombok.Getter;
  */
 @Getter
 @Data
-public final class InferenceOptions {
+public final class InferenceParameters {
   /**
    * ID of the model (required).
    */
@@ -49,7 +49,7 @@ public final class InferenceOptions {
   }
 
   /**
-   * Fluent builder for {@link InferenceOptions}.
+   * Fluent builder for {@link InferenceParameters}.
    */
   public static final class Builder {
 
@@ -92,9 +92,9 @@ public final class InferenceOptions {
       return this;
     }
 
-    /** Build an immutable {@link InferenceOptions} instance. */
-    public InferenceOptions build() {
-      return new InferenceOptions(
+    /** Build an immutable {@link InferenceParameters} instance. */
+    public InferenceParameters build() {
+      return new InferenceParameters(
           modelId,
           rag,
           alias,

@@ -44,14 +44,14 @@ public class MindeeClientV2 extends CommonClient {
    */
   public JobResponse enqueue(
       LocalInputSource inputSource,
-      InferenceOptions options) throws IOException {
+      InferenceParameters params) throws IOException {
     LocalInputSource finalInput;
-    if (options.getPageOptions() != null) {
-      finalInput = new LocalInputSource(getSplitFile(inputSource, options.getPageOptions()), inputSource.getFilename());
+    if (params.getPageOptions() != null) {
+      finalInput = new LocalInputSource(getSplitFile(inputSource, params.getPageOptions()), inputSource.getFilename());
     } else {
       finalInput = inputSource;
     }
-    return mindeeApi.enqueuePost(finalInput, options);
+    return mindeeApi.enqueuePost(finalInput, params);
   }
 
   /**
@@ -78,7 +78,7 @@ public class MindeeClientV2 extends CommonClient {
    */
   public InferenceResponse enqueueAndParse(
       LocalInputSource inputSource,
-      InferenceOptions options) throws IOException, InterruptedException {
+      InferenceParameters options) throws IOException, InterruptedException {
 
     validatePollingOptions(options.getPollingOptions());
 

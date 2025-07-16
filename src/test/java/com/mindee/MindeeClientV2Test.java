@@ -34,7 +34,7 @@ class MindeeClientV2Test {
     @DisplayName("sends exactly one HTTP call and yields a non-null response")
     void enqueue_post_async() throws IOException {
       MindeeApiV2 predictable = Mockito.mock(MindeeApiV2.class);
-      when(predictable.enqueuePost(any(LocalInputSource.class), any(InferenceOptions.class)))
+      when(predictable.enqueuePost(any(LocalInputSource.class), any(InferenceParameters.class)))
           .thenReturn(new JobResponse());
 
       MindeeClientV2 mindeeClient = makeClientWithMockedApi(predictable);
@@ -43,12 +43,12 @@ class MindeeClientV2Test {
           new LocalInputSource(new File("src/test/resources/file_types/pdf/blank_1.pdf"));
       JobResponse response = mindeeClient.enqueue(
           input,
-          InferenceOptions.builder("dummy-model-id").build()
+          InferenceParameters.builder("dummy-model-id").build()
       );
 
       assertNotNull(response, "enqueue() must return a response");
       verify(predictable, atMostOnce())
-          .enqueuePost(any(LocalInputSource.class), any(InferenceOptions.class));
+          .enqueuePost(any(LocalInputSource.class), any(InferenceParameters.class));
     }
   }
 

@@ -1,7 +1,7 @@
 package com.mindee.http;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mindee.InferenceOptions;
+import com.mindee.InferenceParameters;
 import com.mindee.MindeeException;
 import com.mindee.MindeeSettingsV2;
 import com.mindee.input.LocalInputSource;
@@ -75,7 +75,7 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
    */
   public JobResponse enqueuePost(
       LocalInputSource inputSource,
-      InferenceOptions options
+      InferenceParameters options
   ) {
     String url = this.mindeeSettings.getBaseUrl() + "/inferences/enqueue";
     HttpPost post = buildHttpPost(url, inputSource, options);
@@ -193,7 +193,7 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
 
   private HttpEntity buildHttpBody(
       LocalInputSource inputSource,
-      InferenceOptions options
+      InferenceParameters options
   ) {
     MultipartEntityBuilder builder = MultipartEntityBuilder.create();
     builder.setMode(HttpMultipartMode.EXTENDED);
@@ -228,7 +228,7 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
   private HttpPost buildHttpPost(
       String url,
       LocalInputSource inputSource,
-      InferenceOptions options
+      InferenceParameters options
   ) {
     HttpPost post;
     try {

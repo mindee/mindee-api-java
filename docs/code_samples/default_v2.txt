@@ -1,5 +1,5 @@
 import com.mindee.MindeeClientV2;
-import com.mindee.InferenceOptions;
+import com.mindee.InferenceParameters;
 import com.mindee.input.LocalInputSource;
 import com.mindee.parsing.v2.InferenceResponse;
 import java.io.File;
@@ -20,7 +20,7 @@ public class SimpleMindeeClient {
 
     // Prepare the enqueueing options
     // Note: modelId is mandatory.
-    InferenceOptions options = InferenceOptions.builder(modelId).build();
+    InferenceParameters options = InferenceParameters.builder(modelId).build();
 
     // Parse the file
     InferenceResponse response =  mindeeClient.enqueueAndParse(
