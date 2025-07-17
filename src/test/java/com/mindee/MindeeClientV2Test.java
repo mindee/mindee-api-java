@@ -70,7 +70,7 @@ class MindeeClientV2Test {
 
       MindeeClientV2 mindeeClient = makeClientWithMockedApi(predictable);
 
-      CommonResponse response = mindeeClient.pollQueue("dummy-id");
+      CommonResponse response = mindeeClient.getJob("dummy-id");
       assertNotNull(response, "parseQueued() must return a response");
       verify(predictable, atMostOnce()).reqGetInference(anyString());
     }

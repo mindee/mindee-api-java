@@ -43,7 +43,7 @@ class MindeeClientV2IntegrationTest {
     InferenceParameters options =
         InferenceParameters.builder(modelId).build();
 
-    InferenceResponse response = mindeeClient.enqueueAndParse(source, options);
+    InferenceResponse response = mindeeClient.enqueueAndGetInference(source, options);
 
     assertNotNull(response);
     assertNotNull(response.getInference());
@@ -67,7 +67,7 @@ class MindeeClientV2IntegrationTest {
     InferenceParameters options =
         InferenceParameters.builder(modelId).build();
 
-    InferenceResponse response = mindeeClient.enqueueAndParse(source, options);
+    InferenceResponse response = mindeeClient.enqueueAndGetInference(source, options);
 
     assertNotNull(response);
     assertNotNull(response.getInference());
@@ -113,7 +113,7 @@ class MindeeClientV2IntegrationTest {
   void invalidJob_mustThrowError() {
     MindeeHttpExceptionV2 ex = assertThrows(
         MindeeHttpExceptionV2.class,
-        () -> mindeeClient.parseQueued("not-a-valid-job-ID")
+        () -> mindeeClient.getInference("not-a-valid-job-ID")
     );
     assertEquals(404, ex.getStatus());
     assertNotNull(ex);

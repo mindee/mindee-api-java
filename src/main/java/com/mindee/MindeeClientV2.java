@@ -45,7 +45,7 @@ public class MindeeClientV2 {
   /**
    * Poll queue for a previously enqueued document.
    */
-  public JobResponse pollQueue(String jobId) {
+  public JobResponse getJob(String jobId) {
     if (jobId == null || jobId.trim().isEmpty()) {
       throw new IllegalArgumentException("jobId must not be null or blank.");
     }
@@ -55,7 +55,7 @@ public class MindeeClientV2 {
   /**
    * Retrieve results for a previously enqueued document.
    */
-  public InferenceResponse parseQueued(String inferenceId) {
+  public InferenceResponse getInference(String inferenceId) {
     if (inferenceId == null || inferenceId.trim().isEmpty()) {
       throw new IllegalArgumentException("jobId must not be null or blank.");
     }
@@ -71,7 +71,7 @@ public class MindeeClientV2 {
    * @throws IOException Throws if the file can't be accessed.
    * @throws InterruptedException Throws if the thread is interrupted.
    */
-  public InferenceResponse enqueueAndParse(
+  public InferenceResponse enqueueAndGetInference(
       LocalInputSource inputSource,
       InferenceParameters options) throws IOException, InterruptedException {
 
@@ -85,12 +85,12 @@ public class MindeeClientV2 {
     int max = options.getPollingOptions().getMaxRetries();
     while (attempts < max) {
       Thread.sleep((long) (options.getPollingOptions().getIntervalSec() * 1000));
-      resp = pollQueue(job.getJob().getId());
+      resp = getJob(job.getJob().getId());
       if (resp.getJob().getStatus().equals("Failed")) {
         break;
       }
       else if (resp.getJob().getStatus().equals("Processed")) {
-        return parseQueued(resp.getJob().getId());
+        return getInference(resp.getJob().getId());
       }
       attempts++;
     }

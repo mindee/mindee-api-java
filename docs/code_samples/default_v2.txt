@@ -23,7 +23,7 @@ public class SimpleMindeeClient {
     InferenceParameters options = InferenceParameters.builder(modelId).build();
 
     // Parse the file
-    InferenceResponse response =  mindeeClient.enqueueAndParse(
+    InferenceResponse response =  mindeeClient.enqueueAndGetInference(
         inputSource,
         options
     );
