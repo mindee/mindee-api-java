@@ -27,8 +27,8 @@ import java.net.URL;
  */
 public class MindeeClient {
 
+  protected PdfOperation pdfOperation;
   private final MindeeApi mindeeApi;
-  private final PdfOperation pdfOperation;
 
   /**
    * Create a default MindeeClient.
@@ -118,6 +118,28 @@ public class MindeeClient {
         localInputSource.getFilename(),
         null,
         null);
+  }
+
+  /**
+   * Retrieves the file after applying page operations to it.
+   * @param localInputSource Local input source to apply operations to.
+   * @param pageOptions Options to apply.
+   * @return A byte array of the file after applying page operations.
+   * @throws IOException Throws if the file can't be accessed.
+   */
+  protected byte[] getSplitFile(
+      LocalInputSource localInputSource,
+      PageOptions pageOptions
+  ) throws IOException {
+    byte[] splitFile;
+    if (pageOptions == null || !localInputSource.isPdf()) {
+      splitFile = localInputSource.getFile();
+    } else {
+      splitFile = pdfOperation.split(
+          new SplitQuery(localInputSource.getFile(), pageOptions)
+      ).getFile();
+    }
+    return splitFile;
   }
 
   /**
@@ -1122,21 +1144,6 @@ public class MindeeClient {
         type
     );
     return objectMapper.readValue(localResponse.getFile(), parametricType);
-  }
-
-  private byte[] getSplitFile(
-      LocalInputSource localInputSource,
-      PageOptions pageOptions
-  ) throws IOException {
-    byte[] splitFile;
-    if (pageOptions == null || !localInputSource.isPdf()) {
-      splitFile = localInputSource.getFile();
-    } else {
-      splitFile = pdfOperation.split(
-          new SplitQuery(localInputSource.getFile(), pageOptions)
-      ).getFile();
-    }
-    return splitFile;
   }
 
 }
