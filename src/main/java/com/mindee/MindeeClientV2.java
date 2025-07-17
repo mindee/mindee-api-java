@@ -3,9 +3,11 @@ package com.mindee;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mindee.http.MindeeApiV2;
 import com.mindee.http.MindeeHttpApiV2;
+import com.mindee.http.MindeeHttpExceptionV2;
 import com.mindee.input.LocalInputSource;
 import com.mindee.input.LocalResponse;
 import com.mindee.parsing.v2.CommonResponse;
+import com.mindee.parsing.v2.ErrorResponse;
 import com.mindee.parsing.v2.InferenceResponse;
 import com.mindee.parsing.v2.JobResponse;
 import com.mindee.pdf.PdfBoxApi;
@@ -51,7 +53,7 @@ public class MindeeClientV2 extends CommonClient {
     } else {
       finalInput = inputSource;
     }
-    return mindeeApi.enqueuePost(finalInput, params);
+    return mindeeApi.reqPostInferenceEnqueue(finalInput, params);
   }
 
   /**
@@ -61,9 +63,9 @@ public class MindeeClientV2 extends CommonClient {
     if (jobId == null || jobId.trim().isEmpty()) {
       throw new IllegalArgumentException("jobId must not be null or blank.");
     }
-    JobResponse jobResponse = mindeeApi.getJobResponse(jobId);
+    JobResponse jobResponse = mindeeApi.reqGetJob(jobId);
     if (jobResponse.getJob().getStatus().equals("Processed")) {
-      return mindeeApi.getInferenceFromQueue(jobId);
+      return mindeeApi.reqGetInference(jobId);
     }
     return jobResponse;
   }
@@ -85,16 +87,20 @@ public class MindeeClientV2 extends CommonClient {
     JobResponse job = enqueue(inputSource, options);
 
     Thread.sleep((long) (options.getPollingOptions().getInitialDelaySec() * 1000));
-
+    CommonResponse resp = job;
     int attempts = 0;
     int max = options.getPollingOptions().getMaxRetries();
     while (attempts < max) {
       Thread.sleep((long) (options.getPollingOptions().getIntervalSec() * 1000));
-      CommonResponse resp = parseQueued(job.getJob().getId());
+      resp = parseQueued(job.getJob().getId());
       if (resp instanceof InferenceResponse) {
         return (InferenceResponse) resp;
       }
       attempts++;
+    }
+    if (resp instanceof JobResponse && ((JobResponse) resp).getJob().getError() != null) {
+      ErrorResponse error = ((JobResponse) resp).getJob().getError();
+      throw new MindeeHttpExceptionV2(error.getStatus(), error.getDetail());
     }
     throw new RuntimeException("Max retries exceeded (" + max + ").");
   }

@@ -34,7 +34,7 @@ class MindeeClientV2Test {
     @DisplayName("sends exactly one HTTP call and yields a non-null response")
     void enqueue_post_async() throws IOException {
       MindeeApiV2 predictable = Mockito.mock(MindeeApiV2.class);
-      when(predictable.enqueuePost(any(LocalInputSource.class), any(InferenceParameters.class)))
+      when(predictable.reqPostInferenceEnqueue(any(LocalInputSource.class), any(InferenceParameters.class)))
           .thenReturn(new JobResponse());
 
       MindeeClientV2 mindeeClient = makeClientWithMockedApi(predictable);
@@ -48,7 +48,7 @@ class MindeeClientV2Test {
 
       assertNotNull(response, "enqueue() must return a response");
       verify(predictable, atMostOnce())
-          .enqueuePost(any(LocalInputSource.class), any(InferenceParameters.class));
+          .reqPostInferenceEnqueue(any(LocalInputSource.class), any(InferenceParameters.class));
     }
   }
 
@@ -65,14 +65,14 @@ class MindeeClientV2Test {
 
       JobResponse processing = mapper.readValue(json, JobResponse.class);
 
-      when(predictable.getJobResponse(anyString()))
+      when(predictable.reqGetJob(anyString()))
           .thenReturn(processing);
 
       MindeeClientV2 mindeeClient = makeClientWithMockedApi(predictable);
 
       CommonResponse response = mindeeClient.parseQueued("dummy-id");
       assertNotNull(response, "parseQueued() must return a response");
-      verify(predictable, atMostOnce()).getInferenceFromQueue(anyString());
+      verify(predictable, atMostOnce()).reqGetInference(anyString());
     }
   }
 

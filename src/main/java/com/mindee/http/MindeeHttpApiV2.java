@@ -73,7 +73,8 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
    * @param options     Options to send the file along with.
    * @return A job response.
    */
-  public JobResponse enqueuePost(
+  @Override
+  public JobResponse reqPostInferenceEnqueue(
       LocalInputSource inputSource,
       InferenceParameters options
   ) {
@@ -84,8 +85,18 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
     try (CloseableHttpClient httpClient = httpClientBuilder.build()) {
       return httpClient.execute(
           post, response -> {
-            String raw = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
-            return deserializeOrThrow(raw, JobResponse.class, response.getCode());
+            HttpEntity responseEntity = response.getEntity();
+            int statusCode = response.getCode();
+            if (isInvalidStatusCode(statusCode)) {
+              throw getHttpError(response);
+            }
+            try {
+              String raw = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
+
+              return deserializeOrThrow(raw, JobResponse.class, response.getCode());
+            } finally {
+              EntityUtils.consumeQuietly(responseEntity);
+            }
           }
       );
     } catch (IOException err) {
@@ -94,11 +105,11 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
   }
 
   @Override
-  public JobResponse getJobResponse(
+  public JobResponse reqGetJob(
       String jobId
   ) {
 
-    String url = this.mindeeSettings.getBaseUrl() + "/inferences/" + jobId;
+    String url = this.mindeeSettings.getBaseUrl() + "/jobs/" + jobId;
     HttpGet get = new HttpGet(url);
 
     if (this.mindeeSettings.getApiKey().isPresent()) {
@@ -135,7 +146,7 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
   }
 
   @Override
-  public InferenceResponse getInferenceFromQueue(String jobId) {
+  public InferenceResponse reqGetInference(String jobId) {
 
     String url = this.mindeeSettings.getBaseUrl() + "/inferences/" + jobId;
     HttpGet get = new HttpGet(url);
@@ -169,7 +180,6 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
       throw new MindeeException(err.getMessage(), err);
     }
   }
-
 
   private MindeeHttpExceptionV2 getHttpError(ClassicHttpResponse response) {
     String rawBody;

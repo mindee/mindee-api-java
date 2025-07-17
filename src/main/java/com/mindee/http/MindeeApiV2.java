@@ -13,7 +13,7 @@ public abstract class MindeeApiV2 extends MindeeApiCommon {
   /**
    * Send a file to the prediction queue.
    */
-  public abstract JobResponse enqueuePost(
+  public abstract JobResponse reqPostInferenceEnqueue(
       LocalInputSource inputSource,
       InferenceParameters options
   ) throws IOException;
@@ -21,12 +21,12 @@ public abstract class MindeeApiV2 extends MindeeApiCommon {
   /**
    * Attempts to poll the queue.
    */
-  public abstract JobResponse getJobResponse(
+  public abstract JobResponse reqGetJob(
       String jobId
   );
 
   /**
    * Retrieves the inference from a 302 redirect.
    */
-  abstract public InferenceResponse getInferenceFromQueue(String jobId);
+  abstract public InferenceResponse reqGetInference(String jobId);
 }
