@@ -55,7 +55,7 @@ public final class LocalInputSource {
    * @param pageOptions The options specifying which pages to modify or retain in the PDF file.
    * @throws IOException If an I/O error occurs during the PDF operation.
    */
-  public void applyOperations (PageOptions pageOptions) throws IOException {
+  public void applyPageOptions(PageOptions pageOptions) throws IOException {
     if (pageOptions != null && this.isPdf()) {
       PdfOperation pdfOperation = new PdfBoxApi();
       this.file = pdfOperation.split(
