@@ -5,7 +5,7 @@
 
   <groupId>com.mindee.sdk</groupId>
   <artifactId>mindee-api-java</artifactId>
-  <version>4.33.0-rc1</version>
+  <version>${revision}</version>
   <modelVersion>4.0.0</modelVersion>
   <name>Mindee Java Helper Library</name>
   <description>Java Library to call Mindee's Off-The-Shelf and Custom APIs</description>
@@ -135,11 +135,12 @@
       <plugin>
         <groupId>org.sonatype.central</groupId>
         <artifactId>central-publishing-maven-plugin</artifactId>
-        <version>0.7.0</version>
+        <version>0.8.0</version>
         <extensions>true</extensions>
         <configuration>
           <publishingServerId>central</publishingServerId>
           <autoPublish>false</autoPublish>
+          <deploymentName>mindee-${revision}</deploymentName>
         </configuration>
       </plugin>
     </plugins>
@@ -381,6 +382,9 @@
   </scm>
 
   <properties>
+    <!-- MINDEE VERSION GOES HERE -->
+    <revision>4.33.0-rc1</revision>
+
     <com.fasterxml.jackson.version>2.15.4</com.fasterxml.jackson.version>
     <com.fasterxml.jackson.datatype.version>2.15.4</com.fasterxml.jackson.datatype.version>
     <com.squareup.okhttp3.version>4.12.0</com.squareup.okhttp3.version>
