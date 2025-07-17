@@ -55,12 +55,12 @@ public class MindeeClientV2 {
   /**
    * Retrieve results for a previously enqueued document.
    */
-  public InferenceResponse parseQueued(String jobId) {
-    if (jobId == null || jobId.trim().isEmpty()) {
+  public InferenceResponse parseQueued(String inferenceId) {
+    if (inferenceId == null || inferenceId.trim().isEmpty()) {
       throw new IllegalArgumentException("jobId must not be null or blank.");
     }
 
-    return mindeeApi.reqGetInference(jobId);
+    return mindeeApi.reqGetInference(inferenceId);
   }
 
   /**

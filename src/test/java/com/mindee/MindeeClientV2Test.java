@@ -59,7 +59,7 @@ class MindeeClientV2Test {
     @DisplayName("hits the HTTP endpoint once and returns a non-null response")
     void document_getQueued_async() throws JsonProcessingException {
       MindeeApiV2 predictable = Mockito.mock(MindeeApiV2.class);
-      String json = " {\"job\": {\"id\": \"dummy-id\", \"status\": \"Processing\"}}";
+      String json = "{\"job\": {\"id\": \"dummy-id\", \"status\": \"Processing\"}}";
       ObjectMapper mapper = new ObjectMapper();
       mapper.findAndRegisterModules();
 
@@ -70,7 +70,7 @@ class MindeeClientV2Test {
 
       MindeeClientV2 mindeeClient = makeClientWithMockedApi(predictable);
 
-      CommonResponse response = mindeeClient.parseQueued("dummy-id");
+      CommonResponse response = mindeeClient.pollQueue("dummy-id");
       assertNotNull(response, "parseQueued() must return a response");
       verify(predictable, atMostOnce()).reqGetInference(anyString());
     }
