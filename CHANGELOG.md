@@ -1,5 +1,12 @@
 # Mindee Java Client Library Changelog
 
+## v4.33.0-rc1 - 2025-07-17
+### Changes
+* :sparkles: add support for mindee API V2 client & features
+* :wrench: tweak CI & testing
+* :recycle: uniformize variable naming across files
+
+
 ## v4.32.1 - 2025-07-01
 ### Fixes
 * :bug: fix for invalid polygons returned by the server (#249)

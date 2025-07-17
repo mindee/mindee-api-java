@@ -5,7 +5,6 @@ import com.mindee.input.LocalResponse;
 import com.mindee.parsing.v2.field.*;
 import com.mindee.parsing.v2.field.DynamicField.FieldType;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
