@@ -41,7 +41,7 @@ class MindeeClientV2Test {
 
       LocalInputSource input =
           new LocalInputSource(new File("src/test/resources/file_types/pdf/blank_1.pdf"));
-      JobResponse response = mindeeClient.enqueue(
+      JobResponse response = mindeeClient.enqueueInference(
           input,
           InferenceParameters.builder("dummy-model-id").build()
       );

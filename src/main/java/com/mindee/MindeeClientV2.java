@@ -34,16 +34,17 @@ public class MindeeClientV2 {
   }
 
   /**
-   * Enqueue a document in the asynchronous “Generated” queue.
+   * Enqueue a document in the asynchronous queue.
    */
-  public JobResponse enqueue(
+  public JobResponse enqueueInference(
       LocalInputSource inputSource,
       InferenceParameters params) throws IOException {
     return mindeeApi.reqPostInferenceEnqueue(inputSource, params);
   }
 
   /**
-   * Poll queue for a previously enqueued document.
+   * Get the status of an inference that was previously enqueued.
+   * Can be used for polling.
    */
   public JobResponse getJob(String jobId) {
     if (jobId == null || jobId.trim().isEmpty()) {
@@ -53,11 +54,12 @@ public class MindeeClientV2 {
   }
 
   /**
-   * Retrieve results for a previously enqueued document.
+   * Get the result of an inference that was previously enqueued.
+   * The inference will only be available after it has finished processing.
    */
   public InferenceResponse getInference(String inferenceId) {
     if (inferenceId == null || inferenceId.trim().isEmpty()) {
-      throw new IllegalArgumentException("jobId must not be null or blank.");
+      throw new IllegalArgumentException("inferenceId must not be null or blank.");
     }
 
     return mindeeApi.reqGetInference(inferenceId);
@@ -77,7 +79,7 @@ public class MindeeClientV2 {
 
     validatePollingOptions(options.getPollingOptions());
 
-    JobResponse job = enqueue(inputSource, options);
+    JobResponse job = enqueueInference(inputSource, options);
 
     Thread.sleep((long) (options.getPollingOptions().getInitialDelaySec() * 1000));
     JobResponse resp = job;
@@ -102,7 +104,7 @@ public class MindeeClientV2 {
   }
 
   /**
-   * Deserialize a webhook payload (or any saved response) into
+   * Deserialize a webhook payload (or any saved response) into an
    * {@link InferenceResponse}.
    */
   public InferenceResponse loadInference(LocalResponse localResponse) throws IOException {

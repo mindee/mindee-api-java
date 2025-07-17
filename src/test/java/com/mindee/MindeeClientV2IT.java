@@ -103,7 +103,7 @@ class MindeeClientV2IntegrationTest {
 
     MindeeHttpExceptionV2 ex = assertThrows(
         MindeeHttpExceptionV2.class,
-        () -> mindeeClient.enqueue(source, options)
+        () -> mindeeClient.enqueueInference(source, options)
     );
     assertEquals(422, ex.getStatus());
   }
