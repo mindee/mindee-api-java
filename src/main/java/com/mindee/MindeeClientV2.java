@@ -6,7 +6,6 @@ import com.mindee.http.MindeeHttpApiV2;
 import com.mindee.http.MindeeHttpExceptionV2;
 import com.mindee.input.LocalInputSource;
 import com.mindee.input.LocalResponse;
-import com.mindee.parsing.v2.CommonResponse;
 import com.mindee.parsing.v2.ErrorResponse;
 import com.mindee.parsing.v2.InferenceResponse;
 import com.mindee.parsing.v2.JobResponse;
@@ -56,18 +55,26 @@ public class MindeeClientV2 extends CommonClient {
     return mindeeApi.reqPostInferenceEnqueue(finalInput, params);
   }
 
+
   /**
-   * Retrieve results for a previously enqueued document.
+   * Poll queue for a previously enqueued document.
    */
-  public CommonResponse parseQueued(String jobId) {
+  public JobResponse pollQueue(String jobId) {
     if (jobId == null || jobId.trim().isEmpty()) {
       throw new IllegalArgumentException("jobId must not be null or blank.");
     }
-    JobResponse jobResponse = mindeeApi.reqGetJob(jobId);
-    if (jobResponse.getJob().getStatus().equals("Processed")) {
-      return mindeeApi.reqGetInference(jobId);
+    return mindeeApi.reqGetJob(jobId);
+  }
+
+  /**
+   * Retrieve results for a previously enqueued document.
+   */
+  public InferenceResponse parseQueued(String jobId) {
+    if (jobId == null || jobId.trim().isEmpty()) {
+      throw new IllegalArgumentException("jobId must not be null or blank.");
     }
-    return jobResponse;
+
+    return mindeeApi.reqGetInference(jobId);
   }
 
   /**
@@ -87,19 +94,22 @@ public class MindeeClientV2 extends CommonClient {
     JobResponse job = enqueue(inputSource, options);
 
     Thread.sleep((long) (options.getPollingOptions().getInitialDelaySec() * 1000));
-    CommonResponse resp = job;
+    JobResponse resp = job;
     int attempts = 0;
     int max = options.getPollingOptions().getMaxRetries();
     while (attempts < max) {
       Thread.sleep((long) (options.getPollingOptions().getIntervalSec() * 1000));
-      resp = parseQueued(job.getJob().getId());
-      if (resp instanceof InferenceResponse) {
-        return (InferenceResponse) resp;
+      resp = pollQueue(job.getJob().getId());
+      if (resp.getJob().getStatus().equals("Failed")) {
+        break;
+      }
+      else if(resp.getJob().getStatus().equals("Processed")) {
+        return parseQueued(resp.getJob().getId());
       }
       attempts++;
     }
-    if (resp instanceof JobResponse && ((JobResponse) resp).getJob().getError() != null) {
-      ErrorResponse error = ((JobResponse) resp).getJob().getError();
+    ErrorResponse error = resp.getJob().getError();
+    if (error != null) {
       throw new MindeeHttpExceptionV2(error.getStatus(), error.getDetail());
     }
     throw new RuntimeException("Max retries exceeded (" + max + ").");
