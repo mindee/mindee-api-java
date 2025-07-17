@@ -29,10 +29,6 @@ public final class InferenceParameters {
    * IDs of webhooks to propagate the API response to (may be empty).
    */
   private final List<String> webhookIds;
-  /**
-   * Page options to apply to the document.
-   */
-  private final PageOptions pageOptions;
   /*
    * Asynchronous polling options.
    */
@@ -57,7 +53,6 @@ public final class InferenceParameters {
     private boolean rag = false;
     private String alias;
     private List<String> webhookIds = Collections.emptyList();
-    private PageOptions pageOptions = null;
     private AsyncPollingOptions pollingOptions = AsyncPollingOptions.builder().build();
 
     private Builder(String modelId) {
@@ -82,10 +77,6 @@ public final class InferenceParameters {
       return this;
     }
 
-    public Builder pageOptions(PageOptions pageOptions) {
-      this.pageOptions = pageOptions;
-      return this;
-    }
 
     public Builder pollingOptions(AsyncPollingOptions pollingOptions) {
       this.pollingOptions = pollingOptions;
@@ -99,7 +90,6 @@ public final class InferenceParameters {
           rag,
           alias,
           webhookIds,
-          pageOptions,
           pollingOptions
       );
     }

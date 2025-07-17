@@ -1,7 +1,10 @@
 package com.mindee.input;
 
 import com.mindee.image.ImageCompressor;
+import com.mindee.pdf.PdfBoxApi;
 import com.mindee.pdf.PdfCompressor;
+import com.mindee.pdf.PdfOperation;
+import com.mindee.pdf.SplitQuery;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -43,6 +46,22 @@ public final class LocalInputSource {
   public LocalInputSource(String fileAsBase64, String filename) {
     this.file = Base64.getDecoder().decode(fileAsBase64.getBytes());
     this.filename = filename;
+  }
+
+
+  /**
+   * Applies PDF-specific operations on the current file based on the specified {@code PageOptions}.
+   *
+   * @param pageOptions The options specifying which pages to modify or retain in the PDF file.
+   * @throws IOException If an I/O error occurs during the PDF operation.
+   */
+  public void applyOperations (PageOptions pageOptions) throws IOException {
+    if (pageOptions != null && this.isPdf()) {
+      PdfOperation pdfOperation = new PdfBoxApi();
+      this.file = pdfOperation.split(
+          new SplitQuery(this.file, pageOptions)
+      ).getFile();
+    }
   }
 
   public boolean isPdf() {

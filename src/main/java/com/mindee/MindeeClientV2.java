@@ -9,34 +9,27 @@ import com.mindee.input.LocalResponse;
 import com.mindee.parsing.v2.ErrorResponse;
 import com.mindee.parsing.v2.InferenceResponse;
 import com.mindee.parsing.v2.JobResponse;
-import com.mindee.pdf.PdfBoxApi;
-import com.mindee.pdf.PdfOperation;
 import java.io.IOException;
 
 /**
  * Entry point for the Mindee **V2** API features.
  */
-public class MindeeClientV2 extends CommonClient {
+public class MindeeClientV2 {
   private final MindeeApiV2 mindeeApi;
 
   /** Uses an API-key read from the environment variables. */
   public MindeeClientV2() {
-    this(new PdfBoxApi(), createDefaultApiV2(""));
+    this(createDefaultApiV2(""));
   }
 
   /** Uses the supplied API-key. */
   public MindeeClientV2(String apiKey) {
-    this(new PdfBoxApi(), createDefaultApiV2(apiKey));
+    this(createDefaultApiV2(apiKey));
   }
 
-  /** Directly inject an already configured {@link MindeeApiV2}. */
-  public MindeeClientV2(MindeeApiV2 mindeeApi) {
-    this(new PdfBoxApi(), mindeeApi);
-  }
 
   /** Inject both a PDF implementation and a HTTP implementation. */
-  public MindeeClientV2(PdfOperation pdfOperation, MindeeApiV2 mindeeApi) {
-    this.pdfOperation = pdfOperation;
+  public MindeeClientV2(MindeeApiV2 mindeeApi) {
     this.mindeeApi = mindeeApi;
   }
 
@@ -46,15 +39,8 @@ public class MindeeClientV2 extends CommonClient {
   public JobResponse enqueue(
       LocalInputSource inputSource,
       InferenceParameters params) throws IOException {
-    LocalInputSource finalInput;
-    if (params.getPageOptions() != null) {
-      finalInput = new LocalInputSource(getSplitFile(inputSource, params.getPageOptions()), inputSource.getFilename());
-    } else {
-      finalInput = inputSource;
-    }
-    return mindeeApi.reqPostInferenceEnqueue(finalInput, params);
+    return mindeeApi.reqPostInferenceEnqueue(inputSource, params);
   }
-
 
   /**
    * Poll queue for a previously enqueued document.
@@ -103,7 +89,7 @@ public class MindeeClientV2 extends CommonClient {
       if (resp.getJob().getStatus().equals("Failed")) {
         break;
       }
-      else if(resp.getJob().getStatus().equals("Processed")) {
+      else if (resp.getJob().getStatus().equals("Processed")) {
         return parseQueued(resp.getJob().getId());
       }
       attempts++;
