@@ -34,12 +34,12 @@ public abstract class MindeeApiCommon {
   }
 
   /**
-   * Checks if the status code is in the 2xx range.
+   * Checks if the status code is out of the 2xx-3xx range.
    * @param statusCode the status code to check.
    * @return {@code true} if the status code is in the 2xx range, false otherwise.
    */
-  protected boolean is2xxStatusCode(int statusCode) {
-    return statusCode >= 200 && statusCode <= 299;
+  protected boolean isInvalidStatusCode(int statusCode) {
+    return statusCode < 200 || statusCode > 399;
   }
 
   protected String readRawResponse(HttpEntity responseEntity) throws IOException {

@@ -172,7 +172,7 @@ public final class MindeeHttpApi extends MindeeApi {
           get, response -> {
             HttpEntity responseEntity = response.getEntity();
             int statusCode = response.getCode();
-            if (!is2xxStatusCode(statusCode)) {
+            if (isInvalidStatusCode(statusCode)) {
               throw getHttpError(parametricType, response);
             }
             String rawResponse = readRawResponse(responseEntity);
@@ -222,7 +222,7 @@ public final class MindeeHttpApi extends MindeeApi {
           post, response -> {
             HttpEntity responseEntity = response.getEntity();
             int statusCode = response.getCode();
-            if (!is2xxStatusCode(statusCode)) {
+            if (isInvalidStatusCode(statusCode)) {
               throw getHttpError(parametricType, response);
             }
             if (responseEntity.getContentLength() == 0) {
@@ -267,7 +267,7 @@ public final class MindeeHttpApi extends MindeeApi {
           post, response -> {
             HttpEntity responseEntity = response.getEntity();
             int statusCode = response.getCode();
-            if (!is2xxStatusCode(statusCode)) {
+            if (isInvalidStatusCode(statusCode)) {
               throw getHttpError(parametricType, response);
             }
             if (responseEntity.getContentLength() == 0) {
@@ -308,7 +308,7 @@ public final class MindeeHttpApi extends MindeeApi {
       return httpClient.execute(post, response -> {
         HttpEntity responseEntity = response.getEntity();
         int statusCode = response.getCode();
-        if (!is2xxStatusCode(statusCode)) {
+        if (isInvalidStatusCode(statusCode)) {
           throw getHttpError(parametricType, response);
         }
         if (responseEntity.getContentLength() == 0) {

@@ -117,7 +117,7 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
           get, response -> {
             HttpEntity responseEntity = response.getEntity();
             int statusCode = response.getCode();
-            if (!is2xxStatusCode(statusCode)) {
+            if (isInvalidStatusCode(statusCode)) {
               throw getHttpError(response);
             }
             try {
@@ -156,7 +156,7 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
             HttpEntity entity = response.getEntity();
             int status = response.getCode();
             try {
-              if (!is2xxStatusCode(status)) {
+              if (isInvalidStatusCode(status)) {
                 throw getHttpError(response);
               }
               String raw = EntityUtils.toString(entity, StandardCharsets.UTF_8);
