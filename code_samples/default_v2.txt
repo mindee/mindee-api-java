@@ -1,0 +1,34 @@
+import com.mindee.MindeeClientV2;
+import com.mindee.InferenceParameters;
+import com.mindee.input.LocalInputSource;
+import com.mindee.parsing.v2.InferenceResponse;
+import java.io.File;
+import java.io.IOException;
+
+public class SimpleMindeeClient {
+
+  public static void main(String[] args) throws IOException, InterruptedException {
+    String apiKey = "MY_API_KEY";
+    String filePath = "/path/to/the/file.ext";
+    String modelId = "MY_MODEL_ID";
+
+    // Init a new client
+    MindeeClientV2 mindeeClient = new MindeeClientV2(apiKey);
+
+    // Load a file from disk
+    LocalInputSource inputSource = new LocalInputSource(new File(filePath));
+
+    // Prepare the enqueueing options
+    // Note: modelId is mandatory.
+    InferenceParameters options = InferenceParameters.builder(modelId).build();
+
+    // Parse the file
+    InferenceResponse response =  mindeeClient.enqueueAndGetInference(
+        inputSource,
+        options
+    );
+
+    // Print a summary of the response
+    System.out.println(response.getInference().toString());
+  }
+}

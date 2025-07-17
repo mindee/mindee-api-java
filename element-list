@@ -12,6 +12,8 @@ com.mindee.parsing.custom
 com.mindee.parsing.custom.lineitems
 com.mindee.parsing.generated
 com.mindee.parsing.standard
+com.mindee.parsing.v2
+com.mindee.parsing.v2.field
 com.mindee.pdf
 com.mindee.product.barcodereader
 com.mindee.product.billoflading
