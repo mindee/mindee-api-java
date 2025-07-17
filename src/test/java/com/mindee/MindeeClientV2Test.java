@@ -5,15 +5,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mindee.http.MindeeApiV2;
 import com.mindee.input.LocalInputSource;
 import com.mindee.input.LocalResponse;
-import com.mindee.parsing.v2.CommonResponse;
 import com.mindee.parsing.v2.InferenceResponse;
 import com.mindee.parsing.v2.JobResponse;
 import java.io.File;
 import java.io.IOException;
+import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
@@ -53,11 +54,11 @@ class MindeeClientV2Test {
   }
 
   @Nested
-  @DisplayName("parseQueued()")
-  class ParseQueued {
+  @DisplayName("getJob()")
+  class GetJob {
     @Test
     @DisplayName("hits the HTTP endpoint once and returns a non-null response")
-    void document_getQueued_async() throws JsonProcessingException {
+    void document_getJob_async() throws JsonProcessingException {
       MindeeApiV2 predictable = Mockito.mock(MindeeApiV2.class);
       String json = "{\"job\": {\"id\": \"dummy-id\", \"status\": \"Processing\"}}";
       ObjectMapper mapper = new ObjectMapper();
@@ -70,8 +71,44 @@ class MindeeClientV2Test {
 
       MindeeClientV2 mindeeClient = makeClientWithMockedApi(predictable);
 
-      CommonResponse response = mindeeClient.getJob("dummy-id");
-      assertNotNull(response, "parseQueued() must return a response");
+      JobResponse response = mindeeClient.getJob("dummy-id");
+      assertNotNull(response, "getJob() must return a response");
+      verify(predictable, atMostOnce()).reqGetJob(anyString());
+    }
+  }
+
+
+  @Nested
+  @DisplayName("getInference()")
+  class GetInference {
+    @Test
+    @DisplayName("hits the HTTP endpoint once and returns a non-null response")
+    void document_getInference_async() throws IOException {
+      MindeeApiV2 predictable = Mockito.mock(MindeeApiV2.class);
+
+      String json = FileUtils.readFileToString(new File("src/test/resources/v2/products/financial_document/complete.json"));
+
+      ObjectMapper mapper = new ObjectMapper();
+      mapper.findAndRegisterModules();
+
+      InferenceResponse processing = mapper.readValue(json, InferenceResponse.class);
+
+      when(predictable.reqGetInference(anyString()))
+          .thenReturn(processing);
+
+      MindeeClientV2 mindeeClient = makeClientWithMockedApi(predictable);
+
+      InferenceResponse response = mindeeClient.getInference("12345678-1234-1234-1234-123456789abc");
+      assertNotNull(response, "getInference() must return a response");
+      assertEquals(
+          21, response.getInference().getResult().getFields().size(),
+          "Result must have one field"
+      );
+      assertEquals(
+          "John Smith",
+          response.getInference().getResult().getFields().get("supplier_name").getSimpleField().getValue(),
+          "Result must deserialize fields properly."
+      );
       verify(predictable, atMostOnce()).reqGetInference(anyString());
     }
   }
