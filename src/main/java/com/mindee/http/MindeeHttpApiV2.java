@@ -263,7 +263,7 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
   private <R extends CommonResponse> R deserializeOrThrow(
       String body, Class<R> clazz, int httpStatus) throws MindeeHttpExceptionV2 {
 
-    if (httpStatus >= 200 && httpStatus < 300) {
+    if (httpStatus >= 200 && httpStatus < 400) {
       try {
         R model = mapper.readerFor(clazz).readValue(body);
         model.setRawResponse(body);

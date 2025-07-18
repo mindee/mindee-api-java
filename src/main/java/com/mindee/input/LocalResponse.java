@@ -102,9 +102,8 @@ public class LocalResponse {
    *
    * @param responseClass the concrete class to instantiate
    * @param <T>           generic {@link CommonResponse}
-   * @return a fully populated instance of {@code responseClass}
-   * @throws MindeeException if the payload cannot be deserialized into the
-   *                         requested type
+   * @return Either a {@code InferenceResponse} or {@code JobResponse} instance.
+   * @throws MindeeException if the payload cannot be deserialized into the requested type
    */
   public <T extends CommonResponse> T deserializeResponse(Class<T> responseClass) {
     ObjectMapper mapper = new ObjectMapper();

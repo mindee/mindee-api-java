@@ -106,7 +106,7 @@ class MindeeClientV2IT {
         MindeeHttpExceptionV2.class,
         () -> mindeeClient.getInference("not-a-valid-job-ID")
     );
-    assertEquals(404, ex.getStatus());
+    assertEquals(422, ex.getStatus());
     assertNotNull(ex);
   }
 }
