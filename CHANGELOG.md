@@ -1,5 +1,14 @@
 # Mindee Java Client Library Changelog
 
+## v4.33.0-rc2 - 2025-07-18
+### Changes
+* :wrench: tweak CI & testing
+* :recycle: rework internal syntaxes
+### Fixes
+* :bug: fix http calls not redirecting properly
+* :wrench: fix CI
+
+
 ## v4.33.0-rc1 - 2025-07-17
 ### Changes
 * :sparkles: add support for mindee API V2 client & features
