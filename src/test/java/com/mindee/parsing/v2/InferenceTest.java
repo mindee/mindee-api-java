@@ -19,8 +19,8 @@ import static org.junit.jupiter.api.Assertions.*;
 class InferenceTest {
 
   private InferenceResponse loadFromResource(String resourcePath) throws IOException {
-    MindeeClientV2 dummyClient = new MindeeClientV2("dummy");
-    return dummyClient.loadInference(new LocalResponse(InferenceTest.class.getClassLoader().getResourceAsStream(resourcePath)));
+    LocalResponse localResponse = new LocalResponse(InferenceTest.class.getClassLoader().getResourceAsStream(resourcePath));
+    return localResponse.deserializeResponse(InferenceResponse.class);
   }
 
   private String readFileAsString(String path)
@@ -90,41 +90,55 @@ class InferenceTest {
   class CompletePrediction {
 
     @Test
-    @DisplayName("all properties must be valid")
-    void asyncPredict_whenComplete_mustHaveValidProperties() throws IOException {
+    @DisplayName("every exposed property must be valid and consistent")
+    void asyncPredict_whenComplete_mustExposeAllProperties() throws IOException {
       InferenceResponse response = loadFromResource("v2/products/financial_document/complete.json");
-      InferenceFields fields = response.getInference().getResult().getFields();
+      Inference inf = response.getInference();
+      assertNotNull(inf, "Inference must not be null");
+      assertEquals("12345678-1234-1234-1234-123456789abc", inf.getId(), "Inference ID mismatch");
 
-      assertEquals(21, fields.size(), "Expected 21 fields");
+      InferenceResultModel model = inf.getModel();
+      assertNotNull(model, "Model must not be null");
+      assertEquals("12345678-1234-1234-1234-123456789abc", model.getId(), "Model ID mismatch");
+
+      InferenceResultFile file = inf.getFile();
+      assertNotNull(file, "File must not be null");
+      assertEquals("complete.jpg", file.getName(), "File name mismatch");
+      assertNull(file.getAlias(), "File alias must be null for this payload");
+
+      InferenceFields fields = inf.getResult().getFields();
+      assertEquals(21, fields.size(), "Expected 21 fields in the payload");
+
+      SimpleField date = fields.get("date").getSimpleField();
+      assertEquals("2019-11-02", date.getValue(), "'date' value mismatch");
 
       DynamicField taxes = fields.get("taxes");
       assertNotNull(taxes, "'taxes' field must exist");
       ListField taxesList = taxes.getListField();
       assertNotNull(taxesList, "'taxes' must be a ListField");
       assertEquals(1, taxesList.getItems().size(), "'taxes' list must contain exactly one item");
-      assertNotNull(taxes.toString(), "'taxes' toString() must not be null");
-
       ObjectField taxItemObj = taxesList.getItems().get(0).getObjectField();
       assertNotNull(taxItemObj, "First item of 'taxes' must be an ObjectField");
       assertEquals(3, taxItemObj.getFields().size(), "Tax ObjectField must contain 3 sub-fields");
-      assertEquals(
-          31.5,
-          taxItemObj.getFields().get("base").getSimpleField().getValue(),
-          "'taxes.base' value mismatch"
-      );
+      SimpleField baseTax = taxItemObj.getFields().get("base").getSimpleField();
+      assertEquals(31.5, baseTax.getValue(), "'taxes.base' value mismatch");
+      assertNotNull(taxes.toString(), "'taxes'.toString() must not be null");
 
       DynamicField supplierAddress = fields.get("supplier_address");
       assertNotNull(supplierAddress, "'supplier_address' field must exist");
-
       ObjectField supplierObj = supplierAddress.getObjectField();
       assertNotNull(supplierObj, "'supplier_address' must be an ObjectField");
-
       DynamicField country = supplierObj.getFields().get("country");
       assertNotNull(country, "'supplier_address.country' must exist");
-      assertEquals("USA", country.getSimpleField().getValue());
-      assertEquals("USA", country.toString());
-
+      assertEquals("USA", country.getSimpleField().getValue(), "Country mismatch");
+      assertEquals("USA", country.toString(), "'country'.toString() mismatch");
       assertNotNull(supplierAddress.toString(), "'supplier_address'.toString() must not be null");
+
+      ObjectField customerAddr = fields.get("customer_address").getObjectField();
+      SimpleField city = customerAddr.getFields().get("city").getSimpleField();
+      assertEquals("New York", city.getValue(), "City mismatch");
+
+      assertNull(inf.getResult().getOptions(), "Options must be null");
     }
   }
 
@@ -203,45 +217,6 @@ class InferenceTest {
       RawText first = rawTexts.get(0);
       assertEquals(0, first.getPage());
       assertEquals("This is the raw text of the first page...", first.getContent());
-    }
-  }
-
-  @Nested
-  @DisplayName("complete.json – full inference response")
-  class FullInference {
-    @Test
-    @DisplayName("complete financial-document JSON must round-trip correctly")
-    void fullInferenceResponse_mustExposeEveryProperty() throws IOException {
-      InferenceResponse resp = loadFromResource("v2/products/financial_document/complete.json");
-
-      Inference inf = resp.getInference();
-      assertNotNull(inf);
-      assertEquals("12345678-1234-1234-1234-123456789abc", inf.getId());
-
-      InferenceFields f = inf.getResult().getFields();
-
-      SimpleField date = f.get("date").getSimpleField();
-      assertEquals("2019-11-02", date.getValue());
-
-      ListField taxes = f.get("taxes").getListField();
-      ObjectField firstTax = taxes.getItems().get(0).getObjectField();
-      SimpleField baseTax = firstTax.getFields().get("base").getSimpleField();
-      assertEquals(31.5, baseTax.getValue());
-
-      ObjectField customerAddr = f.get("customer_address").getObjectField();
-      SimpleField city = customerAddr.getFields().get("city").getSimpleField();
-      assertEquals("New York", city.getValue());
-
-      InferenceResultModel model = inf.getModel();
-      assertNotNull(model);
-      assertEquals("12345678-1234-1234-1234-123456789abc", model.getId());
-
-      InferenceResultFile file = inf.getFile();
-      assertNotNull(file);
-      assertEquals("complete.jpg", file.getName());
-      assertNull(file.getAlias());
-
-      assertNull(inf.getResult().getOptions());
     }
   }
 

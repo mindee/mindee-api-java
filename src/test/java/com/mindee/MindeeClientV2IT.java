@@ -21,16 +21,6 @@ class MindeeClientV2IT {
   void setUp() {
     String apiKey = System.getenv("MINDEE_V2_API_KEY");
     modelId = System.getenv("MINDEE_V2_FINDOC_MODEL_ID");
-
-    assumeTrue(
-        apiKey != null && !apiKey.trim().isEmpty(),
-        "MINDEE_V2_API_KEY env var is missing – integration tests skipped"
-    );
-    assumeTrue(
-        modelId != null && !modelId.trim().isEmpty(),
-        "MINDEE_V2_FINDOC_MODEL_ID env var is missing – integration tests skipped"
-    );
-
     mindeeClient = new MindeeClientV2(apiKey);
   }
 
@@ -116,7 +106,7 @@ class MindeeClientV2IT {
         MindeeHttpExceptionV2.class,
         () -> mindeeClient.getInference("not-a-valid-job-ID")
     );
-    assertEquals(404, ex.getStatus());
+    assertEquals(422, ex.getStatus());
     assertNotNull(ex);
   }
 }

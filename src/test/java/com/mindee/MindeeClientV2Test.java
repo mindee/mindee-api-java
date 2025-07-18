@@ -114,18 +114,17 @@ class MindeeClientV2Test {
   }
 
   @Nested
-  @DisplayName("loadInference()")
-  class LoadInference {
+  @DisplayName("deserializeResponse()")
+  class DeserializeResponse {
 
     @Test
     @DisplayName("parses local JSON and exposes correct field values")
     void inference_loadsLocally() throws IOException {
-      MindeeClientV2 mindeeClient = new MindeeClientV2("dummy");
       File jsonFile =
           new File("src/test/resources/v2/products/financial_document/complete.json");
       LocalResponse localResponse = new LocalResponse(jsonFile);
 
-      InferenceResponse loaded = mindeeClient.loadInference(localResponse);
+      InferenceResponse loaded = localResponse.deserializeResponse(InferenceResponse.class);
 
       assertNotNull(loaded, "Loaded InferenceResponse must not be null");
       assertEquals(

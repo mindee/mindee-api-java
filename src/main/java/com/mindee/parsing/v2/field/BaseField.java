@@ -11,7 +11,7 @@ public abstract class BaseField {
    * Field's location.
    */
   @JsonProperty("locations")
-  private List<FieldLocation> page;
+  private List<FieldLocation> locations;
 
   /**
    * Confidence associated with the field.
