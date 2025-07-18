@@ -7,7 +7,9 @@ import java.io.IOException;
 
 public class SimpleMindeeClient {
 
-  public static void main(String[] args) throws IOException, InterruptedException {
+  public static void main(String[] args)
+      throws IOException, InterruptedException
+  {
     String apiKey = "MY_API_KEY";
     String filePath = "/path/to/the/file.ext";
     String modelId = "MY_MODEL_ID";
@@ -15,15 +17,20 @@ public class SimpleMindeeClient {
     // Init a new client
     MindeeClientV2 mindeeClient = new MindeeClientV2(apiKey);
 
-    // Load a file from disk
-    LocalInputSource inputSource = new LocalInputSource(new File(filePath));
-
-    // Prepare the enqueueing options
+    // Set inference parameters
     // Note: modelId is mandatory.
-    InferenceParameters options = InferenceParameters.builder(modelId).build();
+    InferenceParameters options = InferenceParameters.builder(modelId)
+        // If set to `true`, will enable Retrieval-Augmented Generation.
+        .rag(false)
+        .build();
 
-    // Parse the file
-    InferenceResponse response =  mindeeClient.enqueueAndGetInference(
+    // Load a file from disk
+    LocalInputSource inputSource = new LocalInputSource(
+        new File(filePath)
+    );
+
+    // Upload the file
+    InferenceResponse response = mindeeClient.enqueueAndGetInference(
         inputSource,
         options
     );

@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assumptions.assumeTrue;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @Tag("integration")
 @DisplayName("MindeeClientV2 – integration tests (V2)")
-class MindeeClientV2IntegrationTest {
+class MindeeClientV2IT {
 
   private MindeeClientV2 mindeeClient;
   private String modelId;
@@ -64,8 +64,9 @@ class MindeeClientV2IntegrationTest {
     LocalInputSource source = new LocalInputSource(
         new File("src/test/resources/products/financial_document/default_sample.jpg"));
 
-    InferenceParameters options =
-        InferenceParameters.builder(modelId).build();
+    InferenceParameters options = InferenceParameters.builder(modelId)
+        .rag(false)
+        .build();
 
     InferenceResponse response = mindeeClient.enqueueAndGetInference(source, options);
 
