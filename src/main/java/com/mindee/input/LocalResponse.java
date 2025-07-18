@@ -1,5 +1,8 @@
 package com.mindee.input;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mindee.MindeeException;
+import com.mindee.parsing.v2.CommonResponse;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -13,10 +16,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mindee.MindeeException;
-import com.mindee.parsing.v2.CommonResponse;
 import lombok.Getter;
 import org.apache.commons.codec.binary.Hex;
 
