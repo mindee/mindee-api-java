@@ -13,6 +13,10 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mindee.MindeeException;
+import com.mindee.parsing.v2.CommonResponse;
 import lombok.Getter;
 import org.apache.commons.codec.binary.Hex;
 
@@ -90,5 +94,27 @@ public class LocalResponse {
    */
   public boolean isValidHmacSignature(String secretKey, String signature) {
     return signature.equals(getHmacSignature(secretKey));
+  }
+
+
+  /**
+   * Deserialize this local JSON payload into a specific {@link CommonResponse}
+   * subtype: {@code InferenceResponse}, {@code JobResponse}.
+   *
+   * @param responseClass the concrete class to instantiate
+   * @param <T>           generic {@link CommonResponse}
+   * @return a fully populated instance of {@code responseClass}
+   * @throws MindeeException if the payload cannot be deserialized into the
+   *                         requested type
+   */
+  public <T extends CommonResponse> T deserializeResponse(Class<T> responseClass) {
+    ObjectMapper mapper = new ObjectMapper();
+    try {
+      T response = mapper.readValue(this.file, responseClass);
+      response.setRawResponse(new String(this.file, StandardCharsets.UTF_8));
+      return response;
+    } catch (Exception ex) {
+      throw new MindeeException("Invalid class specified for deserialization.", ex);
+    }
   }
 }

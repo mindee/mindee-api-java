@@ -19,8 +19,8 @@ import static org.junit.jupiter.api.Assertions.*;
 class InferenceTest {
 
   private InferenceResponse loadFromResource(String resourcePath) throws IOException {
-    MindeeClientV2 dummyClient = new MindeeClientV2("dummy");
-    return dummyClient.loadInference(new LocalResponse(InferenceTest.class.getClassLoader().getResourceAsStream(resourcePath)));
+    LocalResponse localResponse = new LocalResponse(InferenceTest.class.getClassLoader().getResourceAsStream(resourcePath));
+    return localResponse.deserializeResponse(InferenceResponse.class);
   }
 
   private String readFileAsString(String path)

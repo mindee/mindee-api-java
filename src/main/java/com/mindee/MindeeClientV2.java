@@ -103,18 +103,6 @@ public class MindeeClientV2 {
     throw new RuntimeException("Max retries exceeded (" + max + ").");
   }
 
-  /**
-   * Deserialize a webhook payload (or any saved response) into an
-   * {@link InferenceResponse}.
-   */
-  public InferenceResponse loadInference(LocalResponse localResponse) throws IOException {
-    ObjectMapper mapper = new ObjectMapper().findAndRegisterModules();
-    InferenceResponse model =
-        mapper.readValue(localResponse.getFile(), InferenceResponse.class);
-    model.setRawResponse(localResponse.toString());
-    return model;
-  }
-
   private static MindeeApiV2 createDefaultApiV2(String apiKey) {
     MindeeSettingsV2 settings = apiKey == null || apiKey.trim().isEmpty()
         ? new MindeeSettingsV2()
