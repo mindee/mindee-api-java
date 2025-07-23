@@ -1,6 +1,5 @@
 package com.mindee.parsing.v2;
 
-import com.mindee.MindeeClientV2;
 import com.mindee.input.LocalResponse;
 import com.mindee.parsing.v2.field.*;
 import com.mindee.parsing.v2.field.DynamicField.FieldType;
@@ -8,7 +7,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-
 import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -185,15 +183,71 @@ class InferenceTest {
     @Test
     @DisplayName("simple / object / list variants must be recognised")
     void standardFieldTypes_mustExposeCorrectTypes() throws IOException {
-      InferenceResponse resp = loadFromResource("v2/inference/standard_field_types.json");
-      Inference inf = resp.getInference();
-      assertNotNull(inf);
+      InferenceResponse response = loadFromResource("v2/inference/standard_field_types.json");
+      Inference inference = response.getInference();
+      assertNotNull(inference);
 
-      InferenceFields root = inf.getResult().getFields();
-      assertNotNull(root.get("field_simple_string").getSimpleField());
-      assertNotNull(root.get("field_object").getObjectField());
-      assertNotNull(root.get("field_simple_list").getListField());
-      assertNotNull(root.get("field_object_list").getListField());
+      InferenceFields fields = inference.getResult().getFields();
+
+      assertNotNull(fields.get("field_simple_string").getSimpleField());
+
+      SimpleField fieldSimpleString = fields.get("field_simple_string").getSimpleField();
+      assertNotNull(fieldSimpleString);
+      assertInstanceOf(String.class, fieldSimpleString.getValue());
+
+      SimpleField fieldSimpleFloat = fields.get("field_simple_float").getSimpleField();
+      assertNotNull(fieldSimpleFloat);
+      assertInstanceOf(Double.class, fieldSimpleFloat.getValue());
+
+      SimpleField fieldSimpleInt = fields.get("field_simple_int").getSimpleField();
+      assertNotNull(fieldSimpleInt);
+      assertInstanceOf(Double.class, fieldSimpleInt.getValue());
+
+      SimpleField fieldSimpleZero = fields.get("field_simple_zero").getSimpleField();
+      assertNotNull(fieldSimpleZero);
+      assertInstanceOf(Double.class, fieldSimpleZero.getValue());
+
+      SimpleField fieldSimpleBool = fields.get("field_simple_bool").getSimpleField();
+      assertNotNull(fieldSimpleBool);
+      assertInstanceOf(Boolean.class, fieldSimpleBool.getValue());
+
+      SimpleField fieldSimpleNull = fields.get("field_simple_null").getSimpleField();
+      assertNotNull(fieldSimpleNull);
+      assertNull(fieldSimpleNull.getValue());
+
+      ListField fieldSimpleList = fields.get("field_simple_list").getListField();
+      assertNotNull(fieldSimpleList);
+      List<DynamicField> simpleItems = fieldSimpleList.getItems();
+      assertEquals(2, simpleItems.size());
+      SimpleField firstSimpleItem = simpleItems.get(0).getSimpleField();
+      assertNotNull(firstSimpleItem);
+      assertInstanceOf(String.class, firstSimpleItem.getValue());
+      for (DynamicField item : fieldSimpleList.getItems()) {
+        assertInstanceOf(String.class, item.getSimpleField().getValue());
+      }
+
+      ObjectField fieldObject = fields.get("field_object").getObjectField();
+      assertNotNull(fieldObject);
+      InferenceFields fieldObjectFields = fieldObject.getFields();
+      assertEquals(2, fieldObjectFields.size());
+      assertInstanceOf(String.class, fieldObjectFields.get("subfield_1").getSimpleField().getValue());
+
+      ListField fieldObjectList = fields.get("field_object_list").getListField();
+      assertNotNull(fieldObjectList);
+      List<DynamicField> objectItems = fieldObjectList.getItems();
+      assertEquals(2, objectItems.size());
+      ObjectField firstObjectItem = objectItems.get(0).getObjectField();
+      assertNotNull(firstObjectItem);
+      assertInstanceOf(
+          String.class,
+          firstObjectItem.getFields().get("subfield_1").getSimpleField().getValue()
+      );
+      for (DynamicField item : fieldObjectList.getItems()) {
+        assertInstanceOf(
+            String.class,
+            item.getObjectField().getFields().get("subfield_1").getSimpleField().getValue()
+        );
+      }
     }
   }
 
