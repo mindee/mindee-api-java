@@ -21,14 +21,24 @@ public final class SimpleFieldDeserializer extends JsonDeserializer<SimpleField>
     Object value = null;
 
     if (valueNode != null && !valueNode.isNull()) {
-      if (valueNode.isTextual()) {
-        value = valueNode.asText();
-      } else if (valueNode.isNumber()) {
-        value = valueNode.doubleValue();
-      } else if (valueNode.isBoolean()) {
-        value = valueNode.asBoolean();
+      switch (valueNode.getNodeType()) {
+        case BOOLEAN:
+          value = valueNode.booleanValue();
+          break;
+
+        case NUMBER:
+          value = valueNode.doubleValue();
+          break;
+
+        case STRING:
+          value = valueNode.textValue();
+          break;
+
+        default:
+          value = codec.treeToValue(valueNode, Object.class);
       }
     }
+
     return new SimpleField(value);
   }
 }

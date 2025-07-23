@@ -6,6 +6,7 @@ import com.mindee.http.MindeeHttpApiV2;
 import com.mindee.http.MindeeHttpExceptionV2;
 import com.mindee.input.LocalInputSource;
 import com.mindee.input.LocalResponse;
+import com.mindee.input.URLInputSource;
 import com.mindee.parsing.v2.ErrorResponse;
 import com.mindee.parsing.v2.InferenceResponse;
 import com.mindee.parsing.v2.JobResponse;
@@ -38,6 +39,16 @@ public class MindeeClientV2 {
    */
   public JobResponse enqueueInference(
       LocalInputSource inputSource,
+      InferenceParameters params) throws IOException {
+    return mindeeApi.reqPostInferenceEnqueue(inputSource, params);
+  }
+
+
+  /**
+   * Enqueue a document in the asynchronous queue.
+   */
+  public JobResponse enqueueInference(
+      URLInputSource inputSource,
       InferenceParameters params) throws IOException {
     return mindeeApi.reqPostInferenceEnqueue(inputSource, params);
   }
@@ -78,24 +89,57 @@ public class MindeeClientV2 {
       InferenceParameters options) throws IOException, InterruptedException {
 
     validatePollingOptions(options.getPollingOptions());
-
     JobResponse job = enqueueInference(inputSource, options);
+    return pollAndFetch(job, options);
+  }
 
+
+
+  /**
+   * Send a local file to an async queue, poll, and parse when complete.
+   * @param inputSource The input source to send.
+   * @param options The options to send along with the file.
+   * @return an instance of {@link InferenceResponse}.
+   * @throws IOException Throws if the file can't be accessed.
+   * @throws InterruptedException Throws if the thread is interrupted.
+   */
+  public InferenceResponse enqueueAndGetInference(
+      URLInputSource inputSource,
+      InferenceParameters options) throws IOException, InterruptedException {
+
+    validatePollingOptions(options.getPollingOptions());
+    JobResponse job = enqueueInference(inputSource, options);
+    return pollAndFetch(job, options);
+  }
+
+
+  /**
+   * Common logic for polling an asynchronous job for local & url files.
+   * @param initialJob The initial job response.
+   * @return an instance of {@link InferenceResponse}.
+   * @throws InterruptedException Throws if interrupted.
+   */
+  private InferenceResponse pollAndFetch(JobResponse initialJob,
+      InferenceParameters options) throws InterruptedException {
     Thread.sleep((long) (options.getPollingOptions().getInitialDelaySec() * 1000));
-    JobResponse resp = job;
+
+    JobResponse resp = initialJob;
     int attempts = 0;
     int max = options.getPollingOptions().getMaxRetries();
+
     while (attempts < max) {
       Thread.sleep((long) (options.getPollingOptions().getIntervalSec() * 1000));
-      resp = getJob(job.getJob().getId());
+      resp = getJob(initialJob.getJob().getId());
+
       if (resp.getJob().getStatus().equals("Failed")) {
-        break;
+        attempts = max;
       }
-      else if (resp.getJob().getStatus().equals("Processed")) {
+      if (resp.getJob().getStatus().equals("Processed")) {
         return getInference(resp.getJob().getId());
       }
       attempts++;
     }
+
     ErrorResponse error = resp.getJob().getError();
     if (error != null) {
       throw new MindeeHttpExceptionV2(error.getStatus(), error.getDetail());
