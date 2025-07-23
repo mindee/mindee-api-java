@@ -4,14 +4,10 @@ import com.mindee.http.MindeeHttpExceptionV2;
 import com.mindee.input.LocalInputSource;
 import com.mindee.input.URLInputSource;
 import com.mindee.parsing.v2.InferenceResponse;
-
 import java.io.File;
 import java.io.IOException;
-
 import org.junit.jupiter.api.*;
-
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @Tag("integration")

@@ -114,11 +114,10 @@ public class MindeeClientV2 {
 
 
   /**
-   * Common logic for polling an asynchronous job until it is either processed
-   * successfully or fails / times out.
+   * Common logic for polling an asynchronous job for local & url files.
    * @param initialJob The initial job response.
    * @return an instance of {@link InferenceResponse}.
-   * @throws InterruptedException Throws if the thread is interrupted.
+   * @throws InterruptedException Throws if interrupted.
    */
   private InferenceResponse pollAndFetch(JobResponse initialJob,
       InferenceParameters options) throws InterruptedException {

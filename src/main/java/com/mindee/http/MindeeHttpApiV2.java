@@ -191,9 +191,9 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
   }
 
   @Override
-  public InferenceResponse reqGetInference(String jobId) {
+  public InferenceResponse reqGetInference(String inferenceId) {
 
-    String url = this.mindeeSettings.getBaseUrl() + "/inferences/" + jobId;
+    String url = this.mindeeSettings.getBaseUrl() + "/inferences/" + inferenceId;
     HttpGet get = new HttpGet(url);
 
     if (this.mindeeSettings.getApiKey().isPresent()) {
