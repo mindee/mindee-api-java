@@ -1,5 +1,13 @@
 # Mindee Java Client Library Changelog
 
+## v4.33.0-rc3 - 2025-07-23
+### Changes
+* :sparkles: add support for URL input sources
+### Fixes
+* :bug: fix improper deserialization types for simple fields
+* :bug: fix rst display
+
+
 ## v4.33.0-rc2 - 2025-07-18
 ### Changes
 * :wrench: tweak CI & testing
