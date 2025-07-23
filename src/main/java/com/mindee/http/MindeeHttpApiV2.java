@@ -5,6 +5,7 @@ import com.mindee.InferenceParameters;
 import com.mindee.MindeeException;
 import com.mindee.MindeeSettingsV2;
 import com.mindee.input.LocalInputSource;
+import com.mindee.input.URLInputSource;
 import com.mindee.parsing.v2.CommonResponse;
 import com.mindee.parsing.v2.ErrorResponse;
 import com.mindee.parsing.v2.InferenceResponse;
@@ -79,8 +80,52 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
       InferenceParameters options
   ) {
     String url = this.mindeeSettings.getBaseUrl() + "/inferences/enqueue";
-    HttpPost post = buildHttpPost(url, inputSource, options);
+    HttpPost post = buildHttpPost(url, options);
 
+    MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+    builder.setMode(HttpMultipartMode.EXTENDED);
+    builder.addBinaryBody(
+        "file",
+        inputSource.getFile(),
+        ContentType.DEFAULT_BINARY,
+        inputSource.getFilename()
+    );
+    post.setEntity(buildHttpBody(builder, options));
+    return executeEnqueue(post);
+  }
+
+
+  /**
+   * Enqueues a doc with the POST method.
+   *
+   * @param inputSource Input source to send.
+   * @param options     Options to send the file along with.
+   * @return A job response.
+   */
+  @Override
+  public JobResponse reqPostInferenceEnqueue(
+      URLInputSource inputSource,
+      InferenceParameters options
+  ) {
+    String url = this.mindeeSettings.getBaseUrl() + "/inferences/enqueue";
+    HttpPost post = buildHttpPost(url, options);
+
+    MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+    builder.setMode(HttpMultipartMode.EXTENDED);
+    builder.addTextBody(
+        "url",
+        inputSource.getUrl()
+    );
+    post.setEntity(buildHttpBody(builder, options));
+    return executeEnqueue(post);
+  }
+
+  /**
+   * Executes an enqueue action, common to URL & local inputs.
+   * @param post HTTP Post object.
+   * @return a valid job response.
+   */
+  private JobResponse executeEnqueue(HttpPost post) {
     mapper.findAndRegisterModules();
     try (CloseableHttpClient httpClient = httpClientBuilder.build()) {
       return httpClient.execute(
@@ -202,17 +247,9 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
 
 
   private HttpEntity buildHttpBody(
-      LocalInputSource inputSource,
+      MultipartEntityBuilder builder,
       InferenceParameters options
   ) {
-    MultipartEntityBuilder builder = MultipartEntityBuilder.create();
-    builder.setMode(HttpMultipartMode.EXTENDED);
-    builder.addBinaryBody(
-        "file",
-        inputSource.getFile(),
-        ContentType.DEFAULT_BINARY,
-        inputSource.getFilename()
-    );
 
     if (options.getAlias() != null) {
       builder.addTextBody(
@@ -237,7 +274,6 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
 
   private HttpPost buildHttpPost(
       String url,
-      LocalInputSource inputSource,
       InferenceParameters options
   ) {
     HttpPost post;
@@ -255,7 +291,6 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
       post.setHeader(HttpHeaders.AUTHORIZATION, this.mindeeSettings.getApiKey().get());
     }
     post.setHeader(HttpHeaders.USER_AGENT, getUserAgent());
-    post.setEntity(buildHttpBody(inputSource, options));
     return post;
   }
 

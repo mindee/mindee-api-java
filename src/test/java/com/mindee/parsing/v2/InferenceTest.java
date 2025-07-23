@@ -190,7 +190,7 @@ class InferenceTest {
       assertNotNull(inf);
 
       InferenceFields root = inf.getResult().getFields();
-      assertNotNull(root.get("field_simple").getSimpleField());
+      assertNotNull(root.get("field_simple_string").getSimpleField());
       assertNotNull(root.get("field_object").getObjectField());
       assertNotNull(root.get("field_simple_list").getListField());
       assertNotNull(root.get("field_object_list").getListField());

@@ -27,6 +27,10 @@ public final class SimpleField extends BaseField {
 
   @Override
   public String toString() {
-    return value == null ? "" : value.toString();
+    if (value == null) return "";
+    if (value.getClass().equals(Boolean.class)) {
+      return ((Boolean) value) ? "True" : "False";
+    }
+    return value.toString();
   }
 }

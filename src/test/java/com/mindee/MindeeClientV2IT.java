@@ -2,10 +2,14 @@ package com.mindee;
 
 import com.mindee.http.MindeeHttpExceptionV2;
 import com.mindee.input.LocalInputSource;
+import com.mindee.input.URLInputSource;
 import com.mindee.parsing.v2.InferenceResponse;
+
 import java.io.File;
 import java.io.IOException;
+
 import org.junit.jupiter.api.*;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
@@ -83,6 +87,7 @@ class MindeeClientV2IT {
     );
   }
 
+
   @Test
   @DisplayName("Invalid model ID – enqueue must raise 422")
   void invalidModel_mustThrowError() throws IOException {
@@ -108,5 +113,21 @@ class MindeeClientV2IT {
     );
     assertEquals(422, ex.getStatus());
     assertNotNull(ex);
+  }
+
+  @Test
+  @DisplayName("URL input source - A url param should not raise errors.")
+  void urlInputSource_mustNotRaiseErrors() throws IOException, InterruptedException {
+    URLInputSource urlSource = URLInputSource.builder(
+        "https://upload.wikimedia.org/wikipedia/commons/1/1d/Blank_Page.pdf"
+    ).build();
+
+    InferenceParameters options =
+        InferenceParameters.builder(modelId).build();
+
+    InferenceResponse response = mindeeClient.enqueueAndGetInference(urlSource, options);
+
+    assertNotNull(response);
+    assertNotNull(response.getInference());
   }
 }

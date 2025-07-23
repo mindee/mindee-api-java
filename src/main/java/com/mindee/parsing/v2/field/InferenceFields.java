@@ -31,7 +31,11 @@ public final class InferenceFields extends LinkedHashMap<String, DynamicField> {
       } else if (fieldValue.getObjectField() != null) {
         strBuilder.append(fieldValue.getObjectField());
       } else if (fieldValue.getSimpleField() != null) {
-        strBuilder.append(fieldValue.getSimpleField().getValue() != null ? fieldValue.getSimpleField().getValue() : "");
+        strBuilder.append(
+            fieldValue.getSimpleField().getValue() != null
+                ? fieldValue.getSimpleField().toString()
+                : ""
+        );
 
       }
       joiner.add(strBuilder);
