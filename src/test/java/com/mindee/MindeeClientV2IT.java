@@ -30,8 +30,11 @@ class MindeeClientV2IT {
     LocalInputSource source = new LocalInputSource(
         new File("src/test/resources/file_types/pdf/multipage_cut-2.pdf"));
 
-    InferenceParameters options =
-        InferenceParameters.builder(modelId).build();
+    InferenceParameters options = InferenceParameters
+        .builder(modelId)
+        .rag(false)
+        .alias("java-integration-test")
+        .build();
 
     InferenceResponse response = mindeeClient.enqueueAndGetInference(source, options);
 
@@ -54,8 +57,10 @@ class MindeeClientV2IT {
     LocalInputSource source = new LocalInputSource(
         new File("src/test/resources/products/financial_document/default_sample.jpg"));
 
-    InferenceParameters options = InferenceParameters.builder(modelId)
+    InferenceParameters options = InferenceParameters
+        .builder(modelId)
         .rag(false)
+        .alias("java-integration-test")
         .build();
 
     InferenceResponse response = mindeeClient.enqueueAndGetInference(source, options);
@@ -90,8 +95,9 @@ class MindeeClientV2IT {
     LocalInputSource source = new LocalInputSource(
         new File("src/test/resources/file_types/pdf/multipage_cut-2.pdf"));
 
-    InferenceParameters options =
-        InferenceParameters.builder("INVALID MODEL ID").build();
+    InferenceParameters options = InferenceParameters
+        .builder("INVALID MODEL ID")
+        .build();
 
     MindeeHttpExceptionV2 ex = assertThrows(
         MindeeHttpExceptionV2.class,
@@ -118,8 +124,9 @@ class MindeeClientV2IT {
         "https://upload.wikimedia.org/wikipedia/commons/1/1d/Blank_Page.pdf"
     ).build();
 
-    InferenceParameters options =
-        InferenceParameters.builder(modelId).build();
+    InferenceParameters options = InferenceParameters
+        .builder(modelId)
+        .build();
 
     InferenceResponse response = mindeeClient.enqueueAndGetInference(urlSource, options);
 

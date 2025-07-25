@@ -29,8 +29,8 @@ public final class InferenceParameters {
    * IDs of webhooks to propagate the API response to (may be empty).
    */
   private final List<String> webhookIds;
-  /*
-   * Asynchronous polling options.
+  /**
+   * Polling options. Set only if having timeout issues.
    */
   private final AsyncPollingOptions pollingOptions;
 
