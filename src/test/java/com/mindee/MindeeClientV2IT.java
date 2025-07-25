@@ -30,13 +30,20 @@ class MindeeClientV2IT {
     LocalInputSource source = new LocalInputSource(
         new File("src/test/resources/file_types/pdf/multipage_cut-2.pdf"));
 
-    InferenceParameters options = InferenceParameters
+    InferenceParameters params = InferenceParameters
         .builder(modelId)
         .rag(false)
         .alias("java-integration-test")
+        .pollingOptions(
+            AsyncPollingOptions.builder()
+                .initialDelaySec(3.0)
+                .intervalSec(1.5)
+                .maxRetries(80)
+                .build()
+        )
         .build();
 
-    InferenceResponse response = mindeeClient.enqueueAndGetInference(source, options);
+    InferenceResponse response = mindeeClient.enqueueAndGetInference(source, params);
 
     assertNotNull(response);
     assertNotNull(response.getInference());
@@ -93,15 +100,33 @@ class MindeeClientV2IT {
   @DisplayName("Invalid model ID – enqueue must raise 422")
   void invalidModel_mustThrowError() throws IOException {
     LocalInputSource source = new LocalInputSource(
-        new File("src/test/resources/file_types/pdf/multipage_cut-2.pdf"));
+        new File("src/test/resources/file_types/pdf/blank_1.pdf"));
 
-    InferenceParameters options = InferenceParameters
-        .builder("INVALID MODEL ID")
+    InferenceParameters params = InferenceParameters
+        .builder("INVALID_MODEL_ID")
         .build();
 
     MindeeHttpExceptionV2 ex = assertThrows(
         MindeeHttpExceptionV2.class,
-        () -> mindeeClient.enqueueInference(source, options)
+        () -> mindeeClient.enqueueInference(source, params)
+    );
+    assertEquals(422, ex.getStatus());
+  }
+
+  @Test
+  @DisplayName("Invalid webhook ID – enqueue must raise 422")
+  void invalidWebhook_mustThrowError() throws IOException {
+    LocalInputSource source = new LocalInputSource(
+        new File("src/test/resources/file_types/pdf/blank_1.pdf"));
+
+    InferenceParameters params = InferenceParameters
+        .builder(modelId)
+        .webhookIds(new String[]{"INVALID_WEBHOOK_ID"})
+        .build();
+
+    MindeeHttpExceptionV2 ex = assertThrows(
+        MindeeHttpExceptionV2.class,
+        () -> mindeeClient.enqueueInference(source, params)
     );
     assertEquals(422, ex.getStatus());
   }
@@ -111,7 +136,7 @@ class MindeeClientV2IT {
   void invalidJob_mustThrowError() {
     MindeeHttpExceptionV2 ex = assertThrows(
         MindeeHttpExceptionV2.class,
-        () -> mindeeClient.getInference("not-a-valid-job-ID")
+        () -> mindeeClient.getInference("INVALID_JOB_ID")
     );
     assertEquals(422, ex.getStatus());
     assertNotNull(ex);

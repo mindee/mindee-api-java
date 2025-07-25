@@ -1,8 +1,5 @@
 package com.mindee;
 
-import com.mindee.input.PageOptions;
-import java.util.Collections;
-import java.util.List;
 import java.util.Objects;
 import lombok.Data;
 import lombok.Getter;
@@ -28,7 +25,7 @@ public final class InferenceParameters {
   /**
    * IDs of webhooks to propagate the API response to (may be empty).
    */
-  private final List<String> webhookIds;
+  private final String[] webhookIds;
   /**
    * Polling options. Set only if having timeout issues.
    */
@@ -52,7 +49,7 @@ public final class InferenceParameters {
     private final String modelId;
     private boolean rag = false;
     private String alias;
-    private List<String> webhookIds = Collections.emptyList();
+    private String[] webhookIds = new String[]{};
     private AsyncPollingOptions pollingOptions = AsyncPollingOptions.builder().build();
 
     private Builder(String modelId) {
@@ -72,11 +69,10 @@ public final class InferenceParameters {
     }
 
     /** Provide IDs of webhooks to forward the API response to. */
-    public Builder webhookIds(List<String> webhookIds) {
+    public Builder webhookIds(String[] webhookIds) {
       this.webhookIds = webhookIds;
       return this;
     }
-
 
     public Builder pollingOptions(AsyncPollingOptions pollingOptions) {
       this.pollingOptions = pollingOptions;
