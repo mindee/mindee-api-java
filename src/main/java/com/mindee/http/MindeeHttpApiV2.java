@@ -248,25 +248,25 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
 
   private HttpEntity buildHttpBody(
       MultipartEntityBuilder builder,
-      InferenceParameters options
+      InferenceParameters params
   ) {
 
-    if (options.getAlias() != null) {
+    if (params.getAlias() != null) {
       builder.addTextBody(
           "alias",
-          options.getAlias().toLowerCase()
+          params.getAlias().toLowerCase()
       );
     }
 
-    builder.addTextBody("model_id", options.getModelId());
-    if (options.isRag()) {
+    builder.addTextBody("model_id", params.getModelId());
+    if (params.isRag()) {
       builder.addTextBody("rag", "true");
     }
-    if (options.getAlias() != null) {
-      builder.addTextBody("alias", options.getAlias());
+    if (params.getAlias() != null) {
+      builder.addTextBody("alias", params.getAlias());
     }
-    if (!options.getWebhookIds().isEmpty()) {
-      builder.addTextBody("webhook_ids", String.join(",", options.getWebhookIds()));
+    if (params.getWebhookIds().length > 0) {
+      builder.addTextBody("webhook_ids", String.join(",", params.getWebhookIds()));
     }
     return builder.build();
   }
@@ -274,7 +274,7 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
 
   private HttpPost buildHttpPost(
       String url,
-      InferenceParameters options
+      InferenceParameters params
   ) {
     HttpPost post;
     try {
