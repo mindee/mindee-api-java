@@ -1,5 +1,10 @@
 # Mindee Java Client Library Changelog
 
+## v4.33.0-rc4 - 2025-07-25
+### Changes
+* :recycle: :boom: use array instead of List for webhook ids
+
+
 ## v4.33.0-rc3 - 2025-07-23
 ### Changes
 * :sparkles: add support for URL input sources
