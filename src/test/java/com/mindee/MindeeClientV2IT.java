@@ -145,9 +145,7 @@ class MindeeClientV2IT {
   @Test
   @DisplayName("URL input source - A url param should not raise errors.")
   void urlInputSource_mustNotRaiseErrors() throws IOException, InterruptedException {
-    URLInputSource urlSource = URLInputSource.builder(
-        "https://upload.wikimedia.org/wikipedia/commons/1/1d/Blank_Page.pdf"
-    ).build();
+    URLInputSource urlSource = URLInputSource.builder(System.getenv("MINDEE_V2_SE_TESTS_BLANK_PDF_URL")).build();
 
     InferenceParameters options = InferenceParameters
         .builder(modelId)
