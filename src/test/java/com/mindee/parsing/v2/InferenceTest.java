@@ -102,6 +102,8 @@ class InferenceTest {
       InferenceFile file = inf.getFile();
       assertNotNull(file, "File must not be null");
       assertEquals("complete.jpg", file.getName(), "File name mismatch");
+      assertEquals(1, file.getPageCount(), "Page count mismatch");
+      assertEquals("image/jpeg", file.getMimeType(), "MIME type mismatch");
       assertNull(file.getAlias(), "File alias must be null for this payload");
 
       InferenceFields fields = inf.getResult().getFields();
