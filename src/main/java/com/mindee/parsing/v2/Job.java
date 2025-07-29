@@ -80,5 +80,5 @@ public final class Job {
    * Polling URL.
    */
   @JsonProperty("webhooks")
-  private List<JobResponseWebhook> webhooks;
+  private List<JobWebhook> webhooks;
 }
