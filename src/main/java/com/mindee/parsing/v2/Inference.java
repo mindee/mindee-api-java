@@ -27,13 +27,13 @@ public class Inference {
    * Model info.
    */
   @JsonProperty("model")
-  private InferenceResultModel model;
+  private InferenceModel model;
 
   /**
    * File info.
    */
   @JsonProperty("file")
-  private InferenceResultFile file;
+  private InferenceFile file;
 
   /**
    * Model result values.
@@ -51,9 +51,7 @@ public class Inference {
         .add("=====")
         .add(":ID: " + (model != null ? model.getId() : ""))
         .add("")
-        .add("File")
-        .add("====")
-        .add(file != null ? file.toString() : "")
+        .add(file.toString())
         .add("")
         .add(result != null ? result.toString() : "");
     return joiner.toString().trim() + "\n";

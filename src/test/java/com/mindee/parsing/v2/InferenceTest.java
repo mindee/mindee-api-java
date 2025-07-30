@@ -95,13 +95,15 @@ class InferenceTest {
       assertNotNull(inf, "Inference must not be null");
       assertEquals("12345678-1234-1234-1234-123456789abc", inf.getId(), "Inference ID mismatch");
 
-      InferenceResultModel model = inf.getModel();
+      InferenceModel model = inf.getModel();
       assertNotNull(model, "Model must not be null");
       assertEquals("12345678-1234-1234-1234-123456789abc", model.getId(), "Model ID mismatch");
 
-      InferenceResultFile file = inf.getFile();
+      InferenceFile file = inf.getFile();
       assertNotNull(file, "File must not be null");
       assertEquals("complete.jpg", file.getName(), "File name mismatch");
+      assertEquals(1, file.getPageCount(), "Page count mismatch");
+      assertEquals("image/jpeg", file.getMimeType(), "MIME type mismatch");
       assertNull(file.getAlias(), "File alias must be null for this payload");
 
       InferenceFields fields = inf.getResult().getFields();

@@ -8,27 +8,18 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 /**
- * File info for V2 API.
+ * Model information for a V2 API inference.
  */
 @Getter
 @EqualsAndHashCode
 @JsonIgnoreProperties(ignoreUnknown = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class InferenceResultFile {
-  /**
-   * File name.
-   */
-  @JsonProperty("name")
-  private String name;
+public class InferenceModel {
 
   /**
-   * Optional file alias.
+   * The ID of the model.
    */
-  @JsonProperty("alias")
-  private String alias;
-
-  public String toString() {
-    return ":Name: " + name + "\n:Alias:" + (alias != null ? " " + alias : "");
-  }
+  @JsonProperty("id")
+  private String id;
 }
