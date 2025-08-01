@@ -19,7 +19,7 @@ public class SimpleMindeeClient {
 
     // Set inference parameters
     // Note: modelId is mandatory.
-    InferenceParameters options = InferenceParameters.builder(modelId)
+    InferenceParameters inferenceParams = InferenceParameters.builder(modelId)
         // If set to `true`, will enable Retrieval-Augmented Generation.
         .rag(false)
         .build();
@@ -29,10 +29,10 @@ public class SimpleMindeeClient {
         new File(filePath)
     );
 
-    // Upload the file
+    // Send for processing
     InferenceResponse response = mindeeClient.enqueueAndGetInference(
         inputSource,
-        options
+        inferenceParams
     );
 
     // Print a summary of the response

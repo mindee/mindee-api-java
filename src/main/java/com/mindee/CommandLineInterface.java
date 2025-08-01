@@ -15,9 +15,7 @@ import com.mindee.product.generated.GeneratedV1;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
@@ -267,13 +265,10 @@ public class CommandLineInterface implements ProductProcessor {
   }
 
   protected PageOptions getDefaultPageOptions() {
-    List<Integer> pageNumbers = new ArrayList<>();
-    pageNumbers.add(0);
-    pageNumbers.add(1);
-    pageNumbers.add(2);
-    pageNumbers.add(3);
-    pageNumbers.add(4);
-    return new PageOptions(pageNumbers, PageOptionsOperation.KEEP_ONLY);
+    return new PageOptions.Builder()
+        .pageIndexes(new Integer[]{0, 1, 2, 3, 4})
+        .operation(PageOptionsOperation.KEEP_ONLY)
+        .build();
   }
 
   private String wordsOutput(Ocr ocr) {

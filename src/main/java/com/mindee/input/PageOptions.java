@@ -1,5 +1,6 @@
 package com.mindee.input;
 
+import java.util.Arrays;
 import java.util.List;
 import lombok.Value;
 
@@ -26,10 +27,18 @@ public class PageOptions {
    */
   Integer onMinPages;
 
+  /**
+   * @deprecated Use the Builder pattern instead.
+   */
+  @Deprecated
   public PageOptions(List<Integer> pages) {
     this(pages, PageOptionsOperation.KEEP_ONLY, 0);
   }
 
+  /**
+   * @deprecated Use the Builder pattern instead.
+   */
+  @Deprecated
   public PageOptions(
       List<Integer> pages,
       PageOptionsOperation operation
@@ -53,7 +62,12 @@ public class PageOptions {
   public static final class Builder {
     private List<Integer> pageIndexes;
     private PageOptionsOperation operation;
-    private Integer onMinPages;
+    private Integer onMinPages = 0;
+
+    public Builder pageIndexes(Integer[] pageIndexes) {
+      this.pageIndexes = Arrays.asList(pageIndexes);
+      return this;
+    }
 
     public Builder pageIndexes(List<Integer> pageIndexes) {
       this.pageIndexes = pageIndexes;
