@@ -1,5 +1,13 @@
 # Mindee Java Client Library Changelog
 
+## v4.33.0 - 2025-08-04
+### Changes
+* :sparkles: add support for page count & mime type
+* :recycle: use builder pattern for page options
+### Fixes
+* :bug: fix for locations and confidence
+
+
 ## v4.33.0-rc4 - 2025-07-25
 ### Changes
 * :recycle: :boom: use array instead of List for webhook ids
