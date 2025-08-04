@@ -6,6 +6,8 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Custom deserializer for {@link DynamicField}.
@@ -18,11 +20,8 @@ public final class DynamicFieldDeserializer extends JsonDeserializer<DynamicFiel
     JsonNode root = codec.readTree(jp);
 
     if (root.has("items") && root.get("items").isArray()) {
-      ListField list = new ListField();
-      for (JsonNode itemNode : root.get("items")) {
-        list.getItems().add(codec.treeToValue(itemNode, DynamicField.class));
-      }
-      return DynamicField.of(list);
+      ListField listField = codec.treeToValue(root, ListField.class);
+      return DynamicField.of(listField);
     }
 
     if (root.has("fields") && root.get("fields").isObject()) {
