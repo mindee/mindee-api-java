@@ -196,17 +196,23 @@ class InferenceTest {
       SimpleField fieldSimpleString = fields.get("field_simple_string").getSimpleField();
       assertNotNull(fieldSimpleString);
       assertInstanceOf(String.class, fieldSimpleString.getValue());
+      assertEquals(FieldConfidence.Certain, fieldSimpleString.getConfidence());
+      assertInstanceOf(List.class, fieldSimpleString.getLocations());
+      assertEquals(1, fieldSimpleString.getLocations().size());
 
       SimpleField fieldSimpleFloat = fields.get("field_simple_float").getSimpleField();
       assertNotNull(fieldSimpleFloat);
       assertInstanceOf(Double.class, fieldSimpleFloat.getValue());
+      assertEquals(FieldConfidence.High, fieldSimpleFloat.getConfidence());
 
       SimpleField fieldSimpleInt = fields.get("field_simple_int").getSimpleField();
       assertNotNull(fieldSimpleInt);
       assertInstanceOf(Double.class, fieldSimpleInt.getValue());
+      assertEquals(FieldConfidence.Medium, fieldSimpleInt.getConfidence());
 
       SimpleField fieldSimpleZero = fields.get("field_simple_zero").getSimpleField();
       assertNotNull(fieldSimpleZero);
+      assertEquals(FieldConfidence.Low, fieldSimpleZero.getConfidence());
       assertInstanceOf(Double.class, fieldSimpleZero.getValue());
 
       SimpleField fieldSimpleBool = fields.get("field_simple_bool").getSimpleField();
@@ -223,16 +229,21 @@ class InferenceTest {
       assertEquals(2, simpleItems.size());
       SimpleField firstSimpleItem = simpleItems.get(0).getSimpleField();
       assertNotNull(firstSimpleItem);
+      assertEquals(FieldConfidence.Medium, firstSimpleItem.getConfidence());
       assertInstanceOf(String.class, firstSimpleItem.getValue());
       for (DynamicField item : fieldSimpleList.getItems()) {
-        assertInstanceOf(String.class, item.getSimpleField().getValue());
+        SimpleField itemField = item.getSimpleField();
+        assertInstanceOf(String.class, itemField.getValue());
+        assertEquals(1, itemField.getLocations().size());
       }
 
       ObjectField fieldObject = fields.get("field_object").getObjectField();
       assertNotNull(fieldObject);
       InferenceFields fieldObjectFields = fieldObject.getFields();
       assertEquals(2, fieldObjectFields.size());
-      assertInstanceOf(String.class, fieldObjectFields.get("subfield_1").getSimpleField().getValue());
+      SimpleField subfield1 = fieldObjectFields.get("subfield_1").getSimpleField();
+      assertInstanceOf(String.class, subfield1.getValue());
+      assertEquals(FieldConfidence.High, subfield1.getConfidence());
 
       ListField fieldObjectList = fields.get("field_object_list").getListField();
       assertNotNull(fieldObjectList);
@@ -245,10 +256,9 @@ class InferenceTest {
           firstObjectItem.getFields().get("subfield_1").getSimpleField().getValue()
       );
       for (DynamicField item : fieldObjectList.getItems()) {
-        assertInstanceOf(
-            String.class,
-            item.getObjectField().getFields().get("subfield_1").getSimpleField().getValue()
-        );
+        SimpleField listSubfield1 = item.getObjectField().getFields().get("subfield_1").getSimpleField();
+        assertInstanceOf(String.class, listSubfield1.getValue());
+        assertEquals(1, listSubfield1.getLocations().size());
       }
     }
   }

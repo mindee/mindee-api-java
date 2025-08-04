@@ -2,7 +2,6 @@ package com.mindee.parsing.v2.field;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.StringJoiner;
 import lombok.AllArgsConstructor;
@@ -24,7 +23,7 @@ public final class ListField extends BaseField {
    * Items of the list.
    */
   @JsonProperty("items")
-  private List<DynamicField> items = new ArrayList<>();
+  private List<DynamicField> items;
 
   @Override
   public String toString() {

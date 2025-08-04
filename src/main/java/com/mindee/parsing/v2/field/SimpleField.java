@@ -3,10 +3,9 @@ package com.mindee.parsing.v2.field;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import lombok.AllArgsConstructor;
+import java.util.List;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 /**
  * Field holding a single scalar value.
@@ -15,15 +14,19 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonDeserialize(using = SimpleFieldDeserializer.class)
-@AllArgsConstructor
-@NoArgsConstructor
 public final class SimpleField extends BaseField {
 
   /**
-   * Value (string, boolean, number … or {@code null}).
+   * Value (string, boolean, double, or {@code null}).
    */
   @JsonProperty("value")
   private Object value;
+
+  public SimpleField(Object value, FieldConfidence confidence, List<FieldLocation> locations) {
+    super(confidence, locations);
+    this.value = value;
+  }
+
 
   @Override
   public String toString() {

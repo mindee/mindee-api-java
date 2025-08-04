@@ -28,7 +28,7 @@ public class ObjectField extends BaseField {
     return "\n" + (fields != null ? fields.toString(1) : "");
   }
 
-  public String toStringFromList(){
+  public String toStringFromList() {
     return fields != null ? fields.toString(2).substring(4) : "";
   }
 }
