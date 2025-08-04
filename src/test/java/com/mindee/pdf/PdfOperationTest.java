@@ -22,7 +22,7 @@ public class PdfOperationTest {
     throws IOException {
 
     PageOptions pageOptions = new PageOptions.Builder()
-        .pageIndexes(new Integer[]{2})
+        .pageIndexes(new Integer[]{ 2 })
         .operation(PageOptionsOperation.KEEP_ONLY)
         .build();
 
@@ -42,8 +42,8 @@ public class PdfOperationTest {
     throws IOException {
 
     List<Integer> pageNumbersToKeep = new ArrayList<>();
+    pageNumbersToKeep.add(0);
     pageNumbersToKeep.add(1);
-    pageNumbersToKeep.add(2);
 
     PageOptions pageOptions = new PageOptions.Builder()
         .pageIndexes(pageNumbersToKeep)
@@ -66,7 +66,7 @@ public class PdfOperationTest {
     throws IOException {
 
     PageOptions pageOptions = new PageOptions.Builder()
-        .pageIndexes(new Integer[]{1,2,3})
+        .pageIndexes(new Integer[]{ 0,1,2 })
         .operation(PageOptionsOperation.REMOVE)
         .build();
 
@@ -86,7 +86,7 @@ public class PdfOperationTest {
     throws IOException {
 
     PageOptions pageOptions = new PageOptions.Builder()
-        .pageIndexes(new Integer[]{1,2,3})
+        .pageIndexes(new Integer[]{ 1,2,3 })
         .operation(PageOptionsOperation.REMOVE)
         .build();
 
@@ -105,7 +105,7 @@ public class PdfOperationTest {
     throws IOException {
 
     PageOptions pageOptions = new PageOptions.Builder()
-        .pageIndexes(new Integer[]{1})
+        .pageIndexes(new Integer[]{ 0 })
         .operation(PageOptionsOperation.REMOVE)
         .onMinPages(5)
         .build();
@@ -126,7 +126,7 @@ public class PdfOperationTest {
     throws IOException {
 
     PageOptions pageOptions = new PageOptions.Builder()
-        .pageIndexes(new Integer[]{1,-2,-1})
+        .pageIndexes(new Integer[]{ 0,-2,-1 })
         .operation(PageOptionsOperation.KEEP_ONLY)
         .build();
 
