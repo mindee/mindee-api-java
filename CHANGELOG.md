@@ -1,5 +1,12 @@
 # Mindee Java Client Library Changelog
 
+## v4.34.0 - 2025-08-25
+### Changes
+* :sparkles: add typed accessors for values and fields
+### Fixes
+* :memo: fix documentation of page options
+
+
 ## v4.33.0 - 2025-08-04
 ### Changes
 * :sparkles: add support for page count & mime type
