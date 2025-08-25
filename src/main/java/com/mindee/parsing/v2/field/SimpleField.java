@@ -27,6 +27,35 @@ public final class SimpleField extends BaseField {
     this.value = value;
   }
 
+  /**
+   * Retrieves the value of the field as a string.
+   *
+   * @return the field value as a string
+   * @throws ClassCastException if the value cannot be cast to a string
+   */
+  public String getStringValue() throws ClassCastException {
+    return (String) value;
+  }
+
+  /**
+   * Retrieves the value of the field as a Double.
+   *
+   * @return the field value as a Double
+   * @throws ClassCastException if the value cannot be cast to a Double
+   */
+  public Double getDoubleValue() throws ClassCastException {
+    return (Double) value;
+  }
+
+  /**
+   * Retrieves the value of the field as a Boolean.
+   *
+   * @return the field value as a Boolean
+   * @throws ClassCastException if the value cannot be cast to a Boolean
+   */
+  public Boolean getBooleanValue() throws ClassCastException {
+    return (Boolean) value;
+  }
 
   @Override
   public String toString() {

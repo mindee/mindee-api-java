@@ -12,6 +12,8 @@ import com.mindee.parsing.v2.field.ListField;
 import com.mindee.parsing.v2.field.ObjectField;
 import com.mindee.parsing.v2.field.DynamicField.FieldType;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -188,9 +190,17 @@ class InferenceTest {
   @DisplayName("standard_field_types.json")
   class StandardFieldTypes {
 
+    private void testSimpleFieldString(SimpleField field) {
+      assertNotNull(field);
+      assertEquals(field.getValue(), field.getStringValue());
+      assertThrows(ClassCastException.class, field::getDoubleValue);
+      assertThrows(ClassCastException.class, field::getBooleanValue);
+      assertInstanceOf(List.class, field.getLocations());
+    }
+
     @Test
-    @DisplayName("simple / object / list variants must be recognised")
-    void standardFieldTypes_mustExposeCorrectTypes() throws IOException {
+    @DisplayName("simple fields must be recognised")
+    void standardFieldTypes_mustExposeSimpleFieldValues() throws IOException {
       InferenceResponse response = loadFromResource("v2/inference/standard_field_types.json");
       Inference inference = response.getInference();
       assertNotNull(inference);
@@ -200,20 +210,22 @@ class InferenceTest {
       assertNotNull(fields.get("field_simple_string").getSimpleField());
 
       SimpleField fieldSimpleString = fields.get("field_simple_string").getSimpleField();
-      assertNotNull(fieldSimpleString);
-      assertInstanceOf(String.class, fieldSimpleString.getValue());
+      testSimpleFieldString(fieldSimpleString);
       assertEquals(FieldConfidence.Certain, fieldSimpleString.getConfidence());
-      assertInstanceOf(List.class, fieldSimpleString.getLocations());
       assertEquals(1, fieldSimpleString.getLocations().size());
 
       SimpleField fieldSimpleFloat = fields.get("field_simple_float").getSimpleField();
       assertNotNull(fieldSimpleFloat);
       assertInstanceOf(Double.class, fieldSimpleFloat.getValue());
+      assertEquals(fieldSimpleFloat.getValue(), fieldSimpleFloat.getDoubleValue());
+      assertThrows(ClassCastException.class, fieldSimpleFloat::getStringValue);
+      assertThrows(ClassCastException.class, fieldSimpleFloat::getBooleanValue);
       assertEquals(FieldConfidence.High, fieldSimpleFloat.getConfidence());
 
       SimpleField fieldSimpleInt = fields.get("field_simple_int").getSimpleField();
       assertNotNull(fieldSimpleInt);
       assertInstanceOf(Double.class, fieldSimpleInt.getValue());
+      assertEquals(fieldSimpleInt.getValue(), fieldSimpleInt.getDoubleValue());
       assertEquals(FieldConfidence.Medium, fieldSimpleInt.getConfidence());
 
       SimpleField fieldSimpleZero = fields.get("field_simple_zero").getSimpleField();
@@ -224,47 +236,142 @@ class InferenceTest {
       SimpleField fieldSimpleBool = fields.get("field_simple_bool").getSimpleField();
       assertNotNull(fieldSimpleBool);
       assertInstanceOf(Boolean.class, fieldSimpleBool.getValue());
+      assertEquals(fieldSimpleBool.getValue(), fieldSimpleBool.getBooleanValue());
+      assertThrows(ClassCastException.class, fieldSimpleBool::getStringValue);
+      assertThrows(ClassCastException.class, fieldSimpleBool::getDoubleValue);
 
       SimpleField fieldSimpleNull = fields.get("field_simple_null").getSimpleField();
       assertNotNull(fieldSimpleNull);
       assertNull(fieldSimpleNull.getValue());
+      assertNull(fieldSimpleNull.getStringValue());
+      assertNull(fieldSimpleNull.getBooleanValue());
+      assertNull(fieldSimpleNull.getDoubleValue());
+    }
 
-      ListField fieldSimpleList = fields.get("field_simple_list").getListField();
-      assertNotNull(fieldSimpleList);
-      List<DynamicField> simpleItems = fieldSimpleList.getItems();
-      assertEquals(2, simpleItems.size());
-      SimpleField firstSimpleItem = simpleItems.get(0).getSimpleField();
-      assertNotNull(firstSimpleItem);
-      assertEquals(FieldConfidence.Medium, firstSimpleItem.getConfidence());
-      assertInstanceOf(String.class, firstSimpleItem.getValue());
-      for (DynamicField item : fieldSimpleList.getItems()) {
+    @Test
+    @DisplayName("simple list fields must be recognised")
+    void standardFieldTypes_mustExposeSimpleListFieldValues() throws IOException {
+      InferenceResponse response = loadFromResource("v2/inference/standard_field_types.json");
+      Inference inference = response.getInference();
+      assertNotNull(inference);
+
+      InferenceFields fields = inference.getResult().getFields();
+
+      ListField listField = fields.get("field_simple_list").getListField();
+      assertNotNull(listField);
+
+      // Low level (dynamic) access
+      List<DynamicField> dynamicItems = listField.getItems();
+      assertEquals(2, dynamicItems.size());
+      SimpleField firstDynamicItem = dynamicItems.get(0).getSimpleField();
+      assertNotNull(firstDynamicItem);
+      assertEquals(FieldConfidence.Medium, firstDynamicItem.getConfidence());
+      assertInstanceOf(String.class, firstDynamicItem.getValue());
+      for (DynamicField item : dynamicItems) {
         SimpleField itemField = item.getSimpleField();
-        assertInstanceOf(String.class, itemField.getValue());
+        testSimpleFieldString(itemField);
         assertEquals(1, itemField.getLocations().size());
       }
 
+      // High level (typed) access
+      List<SimpleField> simpleItems = listField.getSimpleItems();
+      assertEquals(2, simpleItems.size());
+      SimpleField firstSimpleItem = simpleItems.get(0);
+      assertEquals(FieldConfidence.Medium, firstSimpleItem.getConfidence());
+      for (SimpleField itemField : simpleItems) {
+        testSimpleFieldString(itemField);
+        assertEquals(1, itemField.getLocations().size());
+      }
+
+      assertThrows(IllegalStateException.class, listField::getObjectItems);
+    }
+
+    private void testObjectSubFieldSimpleString(String fieldName, SimpleField subField) {
+      assertTrue(fieldName.startsWith("subfield_"));
+      testSimpleFieldString(subField);
+    }
+
+    @Test
+    @DisplayName("object list fields must be recognised")
+    void standardFieldTypes_mustExposeObjectListFieldValues() throws IOException {
+      InferenceResponse response = loadFromResource("v2/inference/standard_field_types.json");
+      Inference inference = response.getInference();
+      assertNotNull(inference);
+
+      InferenceFields fields = inference.getResult().getFields();
+
+      ListField listField = fields.get("field_object_list").getListField();
+      assertNotNull(listField);
+
+      List<DynamicField> dynamicItems = listField.getItems();
+      assertEquals(2, dynamicItems.size());
+      ObjectField firstDynamicItem = dynamicItems.get(0).getObjectField();
+      assertEquals(
+          FieldConfidence.Low,
+          firstDynamicItem.getFields().get("subfield_1").getSimpleField().getConfidence()
+      );
+      for (DynamicField item : dynamicItems) {
+        ObjectField itemField = item.getObjectField();
+        assertNotNull(itemField);
+        InferenceFields itemFields = itemField.getFields();
+        assertEquals(2, itemFields.size());
+      }
+
+      List<ObjectField> objectItems = listField.getObjectItems();
+      assertEquals(2, objectItems.size());
+      ObjectField firstObjectItem = objectItems.get(0);
+      assertEquals(
+          FieldConfidence.Low,
+          firstObjectItem.getSimpleFields().get("subfield_1").getConfidence()
+      );
+      for (ObjectField itemField : objectItems) {
+        assertNotNull(itemField);
+        HashMap<String, SimpleField> itemFields = itemField.getSimpleFields();
+        assertEquals(2, itemFields.size());
+        InferenceFields itemSubFields = itemField.getFields();
+        SimpleField itemSubfield1 = itemSubFields.getSimpleField("subfield_1");
+        assertInstanceOf(String.class, itemSubfield1.getValue());
+        for (Map.Entry<String, SimpleField> entry : itemFields.entrySet()) {
+            String fieldName = entry.getKey();
+            SimpleField subfield = entry.getValue();
+            testObjectSubFieldSimpleString(fieldName, subfield);
+        }
+      }
+
+      assertThrows(IllegalStateException.class, listField::getSimpleItems);
+    }
+
+    @Test
+    @DisplayName("simple / object / list variants must be recognised")
+    void standardFieldTypes_mustExposeObjectFieldValues() throws IOException {
+      InferenceResponse response = loadFromResource("v2/inference/standard_field_types.json");
+      Inference inference = response.getInference();
+      assertNotNull(inference);
+
+      InferenceFields fields = inference.getResult().getFields();
+
       ObjectField fieldObject = fields.get("field_object").getObjectField();
       assertNotNull(fieldObject);
-      InferenceFields fieldObjectFields = fieldObject.getFields();
-      assertEquals(2, fieldObjectFields.size());
-      SimpleField subfield1 = fieldObjectFields.get("subfield_1").getSimpleField();
-      assertInstanceOf(String.class, subfield1.getValue());
-      assertEquals(FieldConfidence.High, subfield1.getConfidence());
 
-      ListField fieldObjectList = fields.get("field_object_list").getListField();
-      assertNotNull(fieldObjectList);
-      List<DynamicField> objectItems = fieldObjectList.getItems();
-      assertEquals(2, objectItems.size());
-      ObjectField firstObjectItem = objectItems.get(0).getObjectField();
-      assertNotNull(firstObjectItem);
-      assertInstanceOf(
-          String.class,
-          firstObjectItem.getFields().get("subfield_1").getSimpleField().getValue()
-      );
-      for (DynamicField item : fieldObjectList.getItems()) {
-        SimpleField listSubfield1 = item.getObjectField().getFields().get("subfield_1").getSimpleField();
-        assertInstanceOf(String.class, listSubfield1.getValue());
-        assertEquals(1, listSubfield1.getLocations().size());
+      InferenceFields subFieldsDynamic = fieldObject.getFields();
+      assertEquals(2, subFieldsDynamic.size());
+      SimpleField dynamicSubfield1 = subFieldsDynamic.get("subfield_1").getSimpleField();
+      assertInstanceOf(String.class, dynamicSubfield1.getValue());
+      assertEquals(FieldConfidence.High, dynamicSubfield1.getConfidence());
+      for (Map.Entry<String, DynamicField> entry : subFieldsDynamic.entrySet()) {
+        String fieldName = entry.getKey();
+        SimpleField subField = entry.getValue().getSimpleField();
+        testObjectSubFieldSimpleString(fieldName, subField);
+      }
+
+      LinkedHashMap<String, SimpleField> subFieldsSimple = fieldObject.getSimpleFields();
+      assertEquals(2, subFieldsSimple.size());
+      SimpleField simpleSubfield1 = subFieldsSimple.get("subfield_1");
+      assertEquals(FieldConfidence.High, simpleSubfield1.getConfidence());
+      for (Map.Entry<String, SimpleField> entry : subFieldsSimple.entrySet()) {
+        String fieldName = entry.getKey();
+        SimpleField subField = entry.getValue();
+        testObjectSubFieldSimpleString(fieldName, subField);
       }
     }
   }
