@@ -28,7 +28,7 @@ public class FieldLocation {
   private Polygon polygon;
 
   /**
-   * Page ID.
+   * 0-based page index of where the polygon is located.
    */
   @JsonProperty("page")
   private int page;

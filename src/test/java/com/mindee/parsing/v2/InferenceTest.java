@@ -1,7 +1,15 @@
 package com.mindee.parsing.v2;
 
+import com.mindee.geometry.Point;
+import com.mindee.geometry.Polygon;
 import com.mindee.input.LocalResponse;
-import com.mindee.parsing.v2.field.*;
+import com.mindee.parsing.v2.field.DynamicField;
+import com.mindee.parsing.v2.field.FieldConfidence;
+import com.mindee.parsing.v2.field.FieldLocation;
+import com.mindee.parsing.v2.field.InferenceFields;
+import com.mindee.parsing.v2.field.SimpleField;
+import com.mindee.parsing.v2.field.ListField;
+import com.mindee.parsing.v2.field.ObjectField;
 import com.mindee.parsing.v2.field.DynamicField.FieldType;
 import java.io.IOException;
 import java.util.List;
@@ -62,21 +70,19 @@ class InferenceTest {
         switch (type) {
           case LIST_FIELD:
             assertNotNull(value.getListField(), entry.getKey() + " – ListField expected");
-            assertNull(value.getObjectField(), entry.getKey() + " – ObjectField must be null");
-            assertNull(value.getSimpleField(), entry.getKey() + " – SimpleField must be null");
+            assertThrows(IllegalStateException.class, value::getSimpleField);
+            assertThrows(IllegalStateException.class, value::getObjectField);
             break;
-
           case OBJECT_FIELD:
             assertNotNull(value.getObjectField(), entry.getKey() + " – ObjectField expected");
-            assertNull(value.getListField(), entry.getKey() + " – ListField must be null");
-            assertNull(value.getSimpleField(), entry.getKey() + " – SimpleField must be null");
+            assertThrows(IllegalStateException.class, value::getSimpleField);
+            assertThrows(IllegalStateException.class, value::getListField);
             break;
-
           case SIMPLE_FIELD:
           default:
             assertNotNull(value.getSimpleField(), entry.getKey() + " – SimpleField expected");
-            assertNull(value.getListField(), entry.getKey() + " – ListField must be null");
-            assertNull(value.getObjectField(), entry.getKey() + " – ObjectField must be null");
+            assertThrows(IllegalStateException.class, value::getListField);
+            assertThrows(IllegalStateException.class, value::getObjectField);
             break;
         }
       }
@@ -261,6 +267,73 @@ class InferenceTest {
         assertEquals(1, listSubfield1.getLocations().size());
       }
     }
+  }
+
+  @Test
+  @DisplayName("allow getting fields using generics")
+  void standardFieldTypes_getWithGenerics() throws IOException {
+    InferenceResponse response = loadFromResource("v2/inference/standard_field_types.json");
+    Inference inference = response.getInference();
+    assertNotNull(inference);
+    InferenceFields fields = inference.getResult().getFields();
+
+    assertEquals(
+        fields.get("field_simple_bool").getSimpleField(),
+        fields.get("field_simple_bool").getField(SimpleField.class)
+    );
+    assertEquals(
+        fields.get("field_simple_bool").getSimpleField(),
+        fields.getSimpleField("field_simple_bool")
+    );
+
+    assertEquals(
+        fields.get("field_simple_list").getListField(),
+        fields.get("field_simple_list").getField(ListField.class)
+    );
+    assertEquals(
+        fields.get("field_simple_list").getListField(),
+        fields.getListField("field_simple_list")
+    );
+
+    assertEquals(
+        fields.get("field_object").getObjectField(),
+        fields.get("field_object").getField(ObjectField.class)
+    );
+    assertEquals(
+        fields.get("field_object").getObjectField(),
+        fields.getObjectField("field_object")
+    );
+  }
+
+  @Test
+  @DisplayName("confidence and locations must be usable")
+  void standardFieldTypes_confidenceAndLocations() throws IOException {
+    InferenceResponse response = loadFromResource("v2/inference/standard_field_types.json");
+    Inference inference = response.getInference();
+    assertNotNull(inference);
+
+    InferenceFields fields = inference.getResult().getFields();
+
+    SimpleField fieldSimpleString = fields.get("field_simple_string").getField(SimpleField.class);
+    FieldConfidence confidence = fieldSimpleString.getConfidence();
+    boolean isCertain = confidence == FieldConfidence.Certain;
+    assertTrue(isCertain);
+
+    List<FieldLocation> locations = fieldSimpleString.getLocations();
+    assertEquals(1, locations.size());
+    FieldLocation location = locations.get(0);
+
+    Polygon polygon = location.getPolygon();
+    List<Point> coords = polygon.getCoordinates();
+    assertEquals(4, coords.size());
+    double topX = coords.get(0).getX();
+    assertEquals(0.0, topX);
+
+    Point center = polygon.getCentroid();
+    assertEquals(0.5, center.getX(), 0.00001);
+
+    int pageIndex = location.getPage();
+    assertEquals(0, pageIndex);
   }
 
   @Nested
