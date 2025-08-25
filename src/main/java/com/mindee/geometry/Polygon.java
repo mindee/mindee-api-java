@@ -12,6 +12,9 @@ import lombok.Getter;
 @Getter
 @JsonDeserialize(using = PolygonDeserializer.class)
 public class Polygon {
+  /**
+   * Position information as a list of points in clockwise order.
+   */
   private List<Point> coordinates = new ArrayList<>();
 
   @Builder
