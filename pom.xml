@@ -383,7 +383,7 @@
 
   <properties>
     <!-- MINDEE VERSION GOES HERE -->
-    <revision>4.33.0</revision>
+    <revision>4.34.0</revision>
 
     <com.fasterxml.jackson.version>2.15.4</com.fasterxml.jackson.version>
     <com.fasterxml.jackson.datatype.version>2.15.4</com.fasterxml.jackson.datatype.version>
