@@ -1,6 +1,6 @@
 # Mindee Java Client Library Changelog
 
-## v4.34.0 - 2025-08-25
+## v4.34.0 - 2025-08-26
 ### Changes
 * :sparkles: add typed accessors for values and fields
 ### Fixes
