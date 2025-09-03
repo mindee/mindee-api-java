@@ -2,6 +2,7 @@ package com.mindee.parsing.v2;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.StringJoiner;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -22,4 +23,13 @@ public class InferenceModel {
    */
   @JsonProperty("id")
   private String id;
+
+  public String toString() {
+    StringJoiner joiner = new StringJoiner("\n");
+    return joiner
+        .add("Model")
+        .add("=====")
+        .add(":ID: " + id)
+        .toString();
+  }
 }

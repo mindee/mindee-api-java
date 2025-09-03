@@ -3,6 +3,7 @@ package com.mindee;
 import com.mindee.http.MindeeHttpExceptionV2;
 import com.mindee.input.LocalInputSource;
 import com.mindee.input.URLInputSource;
+import com.mindee.parsing.v2.InferenceActiveOptions;
 import com.mindee.parsing.v2.InferenceResponse;
 import java.io.File;
 import java.io.IOException;
@@ -55,7 +56,13 @@ class MindeeClientV2IT {
     assertEquals(modelId, response.getInference().getModel().getId());
 
     assertNotNull(response.getInference().getResult());
-    assertNull(response.getInference().getResult().getOptions());
+
+    InferenceActiveOptions activeOptions = response.getInference().getActiveOptions();
+    assertNotNull(activeOptions);
+    assertFalse(activeOptions.getRag());
+    assertFalse(activeOptions.getRawText());
+    assertFalse(activeOptions.getPolygon());
+    assertFalse(activeOptions.getConfidence());
   }
 
   @Test

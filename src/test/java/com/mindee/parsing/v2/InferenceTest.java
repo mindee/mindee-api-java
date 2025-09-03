@@ -99,22 +99,22 @@ class InferenceTest {
     @DisplayName("every exposed property must be valid and consistent")
     void asyncPredict_whenComplete_mustExposeAllProperties() throws IOException {
       InferenceResponse response = loadFromResource("v2/products/financial_document/complete.json");
-      Inference inf = response.getInference();
-      assertNotNull(inf, "Inference must not be null");
-      assertEquals("12345678-1234-1234-1234-123456789abc", inf.getId(), "Inference ID mismatch");
+      Inference inference = response.getInference();
+      assertNotNull(inference, "Inference must not be null");
+      assertEquals("12345678-1234-1234-1234-123456789abc", inference.getId(), "Inference ID mismatch");
 
-      InferenceModel model = inf.getModel();
+      InferenceModel model = inference.getModel();
       assertNotNull(model, "Model must not be null");
       assertEquals("12345678-1234-1234-1234-123456789abc", model.getId(), "Model ID mismatch");
 
-      InferenceFile file = inf.getFile();
+      InferenceFile file = inference.getFile();
       assertNotNull(file, "File must not be null");
       assertEquals("complete.jpg", file.getName(), "File name mismatch");
       assertEquals(1, file.getPageCount(), "Page count mismatch");
       assertEquals("image/jpeg", file.getMimeType(), "MIME type mismatch");
       assertNull(file.getAlias(), "File alias must be null for this payload");
 
-      InferenceFields fields = inf.getResult().getFields();
+      InferenceFields fields = inference.getResult().getFields();
       assertEquals(21, fields.size(), "Expected 21 fields in the payload");
 
       SimpleField date = fields.get("date").getSimpleField();
@@ -146,7 +146,8 @@ class InferenceTest {
       SimpleField city = customerAddr.getFields().get("city").getSimpleField();
       assertEquals("New York", city.getValue(), "City mismatch");
 
-      assertNull(inf.getResult().getOptions(), "Options must be null");
+      InferenceActiveOptions activeOptions = inference.getActiveOptions();
+      assertNotNull(activeOptions);
     }
   }
 
@@ -451,17 +452,20 @@ class InferenceTest {
     @DisplayName("raw texts option must be parsed and exposed")
     void rawTexts_mustBeAccessible() throws IOException {
       InferenceResponse resp = loadFromResource("v2/inference/raw_texts.json");
-      Inference inf = resp.getInference();
-      assertNotNull(inf);
+      Inference inference = resp.getInference();
+      assertNotNull(inference);
 
-      InferenceResultOptions opts = inf.getResult().getOptions();
-      assertNotNull(opts, "Options should not be null");
+      InferenceActiveOptions activeOptions = inference.getActiveOptions();
+      assertNotNull(activeOptions);
+      assertFalse(activeOptions.getRag());
+      assertTrue(activeOptions.getRawText());
+      assertFalse(activeOptions.getPolygon());
+      assertFalse(activeOptions.getConfidence());
 
-      List<RawText> rawTexts = opts.getRawTexts();
-      assertEquals(2, rawTexts.size());
+      RawText rawText = inference.getResult().getRawText();
+      assertEquals(2, rawText.getPages().size());
 
-      RawText first = rawTexts.get(0);
-      assertEquals(0, first.getPage());
+      RawTextPage first = rawText.getPages().get(0);
       assertEquals("This is the raw text of the first page...", first.getContent());
     }
   }

@@ -28,8 +28,8 @@ public final class InferenceResult {
   /**
    * Options.
    */
-  @JsonProperty("options")
-  private InferenceResultOptions options;
+  @JsonProperty("raw_text")
+  private RawText rawText;
 
   @Override
   public String toString() {
@@ -37,11 +37,7 @@ public final class InferenceResult {
     joiner.add("Fields")
           .add("======");
     joiner.add(fields.toString());
-    if (this.getOptions() != null) {
-      joiner.add("Options")
-          .add("=======")
-          .add(this.getOptions().toString());
-    }
+
     return joiner.toString();
   }
 }
