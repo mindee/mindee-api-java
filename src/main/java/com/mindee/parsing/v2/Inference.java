@@ -36,6 +36,12 @@ public class Inference {
   private InferenceFile file;
 
   /**
+   * Active options for the inference.
+   */
+  @JsonProperty("active_options")
+  private InferenceActiveOptions activeOptions;
+
+  /**
    * Model result values.
    */
   @JsonProperty("result")
@@ -47,11 +53,11 @@ public class Inference {
     joiner
         .add("Inference")
         .add("#########")
-        .add("Model")
-        .add("=====")
-        .add(":ID: " + (model != null ? model.getId() : ""))
+        .add(model.toString())
         .add("")
         .add(file.toString())
+        .add("")
+        .add(activeOptions.toString())
         .add("")
         .add(result != null ? result.toString() : "");
     return joiner.toString().trim() + "\n";
