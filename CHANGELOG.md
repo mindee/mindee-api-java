@@ -1,5 +1,12 @@
 # Mindee Java Client Library Changelog
 
+## v4.35.0 - 2025-09-04
+### Changes
+* :sparkles: add inference options
+### ¡Breaking Changes!
+* :recycle: :boom: update raw text output from server
+
+
 ## v4.34.0 - 2025-08-26
 ### Changes
 * :sparkles: add typed accessors for values and fields
