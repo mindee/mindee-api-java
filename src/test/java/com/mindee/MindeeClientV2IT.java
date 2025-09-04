@@ -3,8 +3,14 @@ package com.mindee;
 import com.mindee.http.MindeeHttpExceptionV2;
 import com.mindee.input.LocalInputSource;
 import com.mindee.input.URLInputSource;
+import com.mindee.parsing.v2.Inference;
 import com.mindee.parsing.v2.InferenceActiveOptions;
+import com.mindee.parsing.v2.InferenceFile;
 import com.mindee.parsing.v2.InferenceResponse;
+import com.mindee.parsing.v2.InferenceResult;
+import com.mindee.parsing.v2.RawText;
+import com.mindee.parsing.v2.field.InferenceFields;
+import com.mindee.parsing.v2.field.SimpleField;
 import java.io.File;
 import java.io.IOException;
 import org.junit.jupiter.api.*;
@@ -34,6 +40,9 @@ class MindeeClientV2IT {
     InferenceParameters params = InferenceParameters
         .builder(modelId)
         .rag(false)
+        .rawText(true)
+        .polygon(null)
+        .confidence(null)
         .alias("java-integration-test")
         .pollingOptions(
             AsyncPollingOptions.builder()
@@ -45,24 +54,33 @@ class MindeeClientV2IT {
         .build();
 
     InferenceResponse response = mindeeClient.enqueueAndGetInference(source, params);
-
     assertNotNull(response);
-    assertNotNull(response.getInference());
+    Inference inference = response.getInference();
+    assertNotNull(inference);
 
-    assertNotNull(response.getInference().getFile());
-    assertEquals("multipage_cut-2.pdf", response.getInference().getFile().getName());
+    InferenceFile file = inference.getFile();
+    assertNotNull(file);
+    assertEquals("multipage_cut-2.pdf", file.getName());
+    assertEquals(2, file.getPageCount());
 
-    assertNotNull(response.getInference().getModel());
-    assertEquals(modelId, response.getInference().getModel().getId());
+    assertNotNull(inference.getModel());
+    assertEquals(modelId, inference.getModel().getId());
 
-    assertNotNull(response.getInference().getResult());
-
-    InferenceActiveOptions activeOptions = response.getInference().getActiveOptions();
+    InferenceActiveOptions activeOptions = inference.getActiveOptions();
     assertNotNull(activeOptions);
     assertFalse(activeOptions.getRag());
-    assertFalse(activeOptions.getRawText());
+    assertTrue(activeOptions.getRawText());
     assertFalse(activeOptions.getPolygon());
     assertFalse(activeOptions.getConfidence());
+
+    InferenceResult result = inference.getResult();
+    assertNotNull(result);
+
+    RawText rawText = result.getRawText();
+    assertEquals(2, rawText.getPages().size());
+
+    InferenceFields fields = result.getFields();
+    assertNotNull(fields);
   }
 
   @Test
@@ -71,35 +89,44 @@ class MindeeClientV2IT {
     LocalInputSource source = new LocalInputSource(
         new File("src/test/resources/products/financial_document/default_sample.jpg"));
 
-    InferenceParameters options = InferenceParameters
+    InferenceParameters params = InferenceParameters
         .builder(modelId)
         .rag(false)
         .alias("java-integration-test")
         .build();
 
-    InferenceResponse response = mindeeClient.enqueueAndGetInference(source, options);
-
+    InferenceResponse response = mindeeClient.enqueueAndGetInference(source, params);
     assertNotNull(response);
-    assertNotNull(response.getInference());
+    Inference inference = response.getInference();
+    assertNotNull(inference);
 
-    assertNotNull(response.getInference().getFile());
-    assertEquals("default_sample.jpg", response.getInference().getFile().getName());
+    InferenceFile file = inference.getFile();
+    assertNotNull(file);
+    assertEquals("default_sample.jpg", file.getName());
+    assertEquals(1, file.getPageCount());
 
-    assertNotNull(response.getInference().getModel());
-    assertEquals(modelId, response.getInference().getModel().getId());
+    assertNotNull(inference.getModel());
+    assertEquals(modelId, inference.getModel().getId());
 
-    assertNotNull(response.getInference().getResult());
-    assertNotNull(response.getInference().getResult().getFields());
-    assertNotNull(response.getInference().getResult().getFields().get("supplier_name"));
-    assertEquals(
-        "John Smith",
-        response.getInference()
-            .getResult()
-            .getFields()
-            .get("supplier_name")
-            .getSimpleField()
-            .getValue()
-    );
+    InferenceActiveOptions activeOptions = inference.getActiveOptions();
+    assertNotNull(activeOptions);
+    assertFalse(activeOptions.getRag());
+    assertFalse(activeOptions.getRawText());
+    assertFalse(activeOptions.getPolygon());
+    assertFalse(activeOptions.getConfidence());
+
+    InferenceResult result = inference.getResult();
+    assertNotNull(result);
+
+    RawText rawText = result.getRawText();
+    assertNull(rawText);
+
+    InferenceFields fields = result.getFields();
+    assertNotNull(fields);
+
+    SimpleField supplierName = fields.getSimpleField("supplier_name");
+    assertNotNull(supplierName);
+    assertEquals("John Smith", supplierName.getStringValue());
   }
 
 

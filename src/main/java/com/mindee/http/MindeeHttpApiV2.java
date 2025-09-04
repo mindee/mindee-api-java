@@ -259,8 +259,17 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
     }
 
     builder.addTextBody("model_id", params.getModelId());
-    if (params.isRag()) {
-      builder.addTextBody("rag", "true");
+    if (params.getRag() != null) {
+      builder.addTextBody("rag", params.getRag().toString().toLowerCase());
+    }
+    if (params.getRawText() != null) {
+      builder.addTextBody("raw_text", params.getRawText().toString().toLowerCase());
+    }
+    if (params.getPolygon() != null) {
+      builder.addTextBody("polygon", params.getPolygon().toString().toLowerCase());
+    }
+    if (params.getConfidence() != null) {
+      builder.addTextBody("confidence", params.getConfidence().toString().toLowerCase());
     }
     if (params.getAlias() != null) {
       builder.addTextBody("alias", params.getAlias());
