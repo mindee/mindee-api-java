@@ -451,8 +451,8 @@ class InferenceTest {
     @Test
     @DisplayName("raw texts option must be parsed and exposed")
     void rawTexts_mustBeAccessible() throws IOException {
-      InferenceResponse resp = loadFromResource("v2/inference/raw_texts.json");
-      Inference inference = resp.getInference();
+      InferenceResponse response = loadFromResource("v2/inference/raw_texts.json");
+      Inference inference = response.getInference();
       assertNotNull(inference);
 
       InferenceActiveOptions activeOptions = inference.getActiveOptions();

@@ -15,9 +15,22 @@ public final class InferenceParameters {
    */
   private final String modelId;
   /**
-   * Enables Retrieval-Augmented Generation (optional, default: {@code false}).
+   * Enhance extraction accuracy with Retrieval-Augmented Generation.
    */
-  private final boolean rag;
+  private final Boolean rag;
+  /**
+   * Extract the full text content from the document as strings.
+   */
+  private final Boolean rawText;
+  /**
+   * Calculate bounding box polygons for all fields.
+   */
+  private final Boolean polygon;
+  /**
+   * Boost the precision and accuracy of all extractions.
+   * Calculate confidence scores for all fields.
+   */
+  private final Boolean confidence;
   /**
    * Optional alias for the file.
    */
@@ -47,7 +60,10 @@ public final class InferenceParameters {
   public static final class Builder {
 
     private final String modelId;
-    private boolean rag = false;
+    private Boolean rag = null;
+    private Boolean rawText = null;
+    private Boolean polygon = null;
+    private Boolean confidence = null;
     private String alias;
     private String[] webhookIds = new String[]{};
     private AsyncPollingOptions pollingOptions = AsyncPollingOptions.builder().build();
@@ -56,9 +72,30 @@ public final class InferenceParameters {
       this.modelId = Objects.requireNonNull(modelId, "modelId must not be null");
     }
 
-    /** Enable / disable Retrieval-Augmented Generation. */
-    public Builder rag(boolean rag) {
+    /** Enhance extraction accuracy with Retrieval-Augmented Generation. */
+    public Builder rag(Boolean rag) {
       this.rag = rag;
+      return this;
+    }
+
+    /** Extract the full text content from the document as strings. */
+    public Builder rawText(Boolean rawText) {
+      this.rawText = rawText;
+      return this;
+    }
+
+    /** Calculate bounding box polygons for all fields. */
+    public Builder polygon(Boolean polygon) {
+      this.polygon = polygon;
+      return this;
+    }
+
+    /**
+     * Boost the precision and accuracy of all extractions.
+     * Calculate confidence scores for all fields.
+     */
+    public Builder confidence(Boolean confidence) {
+      this.confidence = confidence;
       return this;
     }
 
@@ -84,6 +121,9 @@ public final class InferenceParameters {
       return new InferenceParameters(
           modelId,
           rag,
+          rawText,
+          polygon,
+          confidence,
           alias,
           webhookIds,
           pollingOptions
