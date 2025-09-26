@@ -464,6 +464,12 @@ class InferenceTest {
 
       RawText rawText = inference.getResult().getRawText();
       assertEquals(2, rawText.getPages().size());
+      String documentText = rawText.toString();
+
+      for (RawTextPage page : rawText.getPages()) {
+        assertNotNull(page.getContent());
+        assertFalse(page.getContent().isEmpty());
+      }
 
       RawTextPage first = rawText.getPages().get(0);
       assertEquals("This is the raw text of the first page...", first.getContent());
