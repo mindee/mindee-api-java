@@ -1,5 +1,12 @@
 # Mindee Java Client Library Changelog
 
+## v4.36.0 - 2025-10-14
+### Changes
+* :sparkles: add getting page count from a local input source
+* :sparkles: allow comparing v2 field confidence
+* :coffin: remove obsolete US Mail V2
+
+
 ## v4.35.0 - 2025-09-04
 ### Changes
 * :sparkles: add inference options
