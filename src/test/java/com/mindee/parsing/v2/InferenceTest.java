@@ -426,6 +426,11 @@ class InferenceTest {
     FieldConfidence confidence = fieldSimpleString.getConfidence();
     boolean isCertain = confidence == FieldConfidence.Certain;
     assertTrue(isCertain);
+    assertEquals(3, confidence.ordinal());
+    assertTrue(confidence.greaterThanOrEqual(FieldConfidence.Certain));
+    assertTrue(confidence.greaterThan(FieldConfidence.Medium));
+    assertTrue(confidence.lessThanOrEqual(FieldConfidence.Certain));
+    assertFalse(confidence.lessThan(FieldConfidence.Certain));
 
     List<FieldLocation> locations = fieldSimpleString.getLocations();
     assertEquals(1, locations.size());
