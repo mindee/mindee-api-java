@@ -39,7 +39,16 @@ public final class PDFUtils {
    * @param inputSource The PDF file.
    */
   public static int getNumberOfPages(LocalInputSource inputSource) throws IOException {
-    PDDocument document = Loader.loadPDF(inputSource.getFile());
+    return getNumberOfPages(inputSource.getFile());
+  }
+
+  /**
+   * Get the number of pages in the PDF.
+   *
+   * @param pdfBytes The PDF file as a byte array.
+   */
+  public static int getNumberOfPages(byte[] pdfBytes) throws IOException {
+    PDDocument document = Loader.loadPDF(pdfBytes);
     int pageCount = document.getNumberOfPages();
     document.close();
     return pageCount;

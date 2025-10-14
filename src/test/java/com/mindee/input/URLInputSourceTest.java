@@ -16,7 +16,6 @@ import static org.mockito.Mockito.*;
 public class URLInputSourceTest {
 
   private static final String TEST_URL = "https://example.com/testfile.pdf";
-  private static final String TEST_LOCAL_FILENAME = "testfile.pdf";
   private TestableURLInputSource urlInputSource;
 
   @BeforeEach
