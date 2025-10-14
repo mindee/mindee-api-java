@@ -1,6 +1,7 @@
 package com.mindee.input;
 
 import com.mindee.image.ImageCompressor;
+import com.mindee.pdf.PDFUtils;
 import com.mindee.pdf.PdfBoxApi;
 import com.mindee.pdf.PdfCompressor;
 import com.mindee.pdf.PdfOperation;
@@ -48,6 +49,17 @@ public final class LocalInputSource {
     this.filename = filename;
   }
 
+  /**
+   * Get the number of pages in the document.
+   * @return the number of pages in the current file.
+   * @throws IOException If an I/O error occurs during the PDF operation.
+   */
+  public int getPageCount() throws IOException {
+    if (!this.isPdf()) {
+      return 1;
+    }
+    return PDFUtils.getNumberOfPages(this.file);
+  }
 
   /**
    * Applies PDF-specific operations on the current file based on the specified {@code PageOptions}.

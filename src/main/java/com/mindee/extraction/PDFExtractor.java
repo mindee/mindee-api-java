@@ -111,7 +111,6 @@ public class PDFExtractor {
     return extractedPDFs;
   }
 
-
   /**
    * Extract invoices from the given page indexes (from an invoice-splitter prediction).
    *
@@ -119,17 +118,16 @@ public class PDFExtractor {
    * @return a list of extracted files.
    * @throws IOException Throws if the file can't be accessed.
    */
-  public List<ExtractedPDF> extractInvoices(List<InvoiceSplitterV1InvoicePageGroup> pageIndexes)
-      throws IOException {
+  public List<ExtractedPDF> extractInvoices(
+      List<InvoiceSplitterV1InvoicePageGroup> pageIndexes
+  ) throws IOException {
 
     List<List<Integer>> indexes =
         pageIndexes.stream().map(InvoiceSplitterV1InvoicePageGroup::getPageIndexes)
         .collect(Collectors.toList());
 
-
     return extractSubDocuments(indexes);
   }
-
 
   /**
    * Extract invoices from the given page indexes (from an invoice-splitter prediction).
@@ -139,8 +137,10 @@ public class PDFExtractor {
    * @return a list of extracted files.
    * @throws IOException Throws if the file can't be accessed.
    */
-  public List<ExtractedPDF> extractInvoices(List<InvoiceSplitterV1InvoicePageGroup> pageIndexes,
-                                            boolean strict) throws IOException {
+  public List<ExtractedPDF> extractInvoices(
+      List<InvoiceSplitterV1InvoicePageGroup> pageIndexes,
+      boolean strict
+  ) throws IOException {
     List<List<Integer>> correctPageIndexes = new ArrayList<>();
     if (!strict) {
       return extractInvoices(pageIndexes);
