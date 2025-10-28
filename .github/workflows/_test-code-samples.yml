@@ -8,7 +8,6 @@ jobs:
     name: Test Code Samples
     runs-on: ubuntu-latest
     strategy:
-      max-parallel: 2
       matrix:
         java-version:
           - "21"
