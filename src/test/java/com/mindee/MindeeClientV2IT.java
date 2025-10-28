@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @Tag("integration")
-@DisplayName("MindeeClientV2 – integration tests (V2)")
+@DisplayName("MindeeV2 – Integration Tests")
 class MindeeClientV2IT {
 
   private MindeeClientV2 mindeeClient;

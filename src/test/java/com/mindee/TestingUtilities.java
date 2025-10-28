@@ -18,6 +18,10 @@ public class TestingUtilities {
     return Paths.get("src/test/resources/v1/" + filePath);
   }
 
+  public static Path getV2ResourcePath(String filePath) {
+    return Paths.get("src/test/resources/v2/" + filePath);
+  }
+
   public static String getV1ResourcePathString(String filePath) {
     return getV1ResourcePath(filePath).toString();
   }

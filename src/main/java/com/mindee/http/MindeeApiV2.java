@@ -3,6 +3,7 @@ package com.mindee.http;
 import com.mindee.InferenceParameters;
 import com.mindee.input.LocalInputSource;
 import com.mindee.input.URLInputSource;
+import com.mindee.parsing.v2.ErrorResponse;
 import com.mindee.parsing.v2.InferenceResponse;
 import com.mindee.parsing.v2.JobResponse;
 import java.io.IOException;
@@ -44,4 +45,17 @@ public abstract class MindeeApiV2 extends MindeeApiCommon {
    * @param inferenceId ID of the inference to poll.
    */
   abstract public InferenceResponse reqGetInference(String inferenceId);
+
+  /**
+   * Creates an "unknown error" response from an HTTP status code.
+   */
+  protected ErrorResponse makeUnknownError(int statusCode) {
+    return new ErrorResponse(
+        "Unknown Error",
+        "The server returned an Unknown error.",
+        statusCode,
+        statusCode + "-000",
+        null
+    );
+  }
 }

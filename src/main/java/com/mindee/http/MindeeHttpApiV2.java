@@ -236,7 +236,7 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
       ErrorResponse err = mapper.readValue(rawBody, ErrorResponse.class);
 
       if (err.getDetail() == null) {
-        err = new ErrorResponse("Unknown error", response.getCode());
+        err = makeUnknownError(response.getCode());
       }
       return new MindeeHttpExceptionV2(err.getStatus(), err.getDetail());
 
@@ -321,10 +321,10 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
     try {
       err = mapper.readValue(body, ErrorResponse.class);
       if (err.getDetail() == null) {
-        err = new ErrorResponse("Unknown error", httpStatus);
+        err = makeUnknownError(httpStatus);
       }
     } catch (Exception ignored) {
-      err = new ErrorResponse("Unknown error", httpStatus);
+      err = makeUnknownError(httpStatus);
     }
     throw new MindeeHttpExceptionV2(err.getStatus(), err.getDetail());
   }
