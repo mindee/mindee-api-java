@@ -1,5 +1,11 @@
 # Mindee Java Client Library Changelog
 
+## v4.37.0 - 2025-10-28
+### Changes
+* :sparkles: add loading input sources using `Path`
+* :sparkles: add extra error information and RAG metadata
+
+
 ## v4.36.0 - 2025-10-14
 ### Changes
 * :sparkles: add getting page count from a local input source
