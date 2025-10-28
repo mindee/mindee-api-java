@@ -5,11 +5,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mindee.parsing.common.Document;
 import com.mindee.parsing.common.PredictResponse;
 import com.mindee.parsing.standard.ClassificationField;
-import com.mindee.product.ProductTestHelper;
+import static com.mindee.TestingUtilities.assertStringEqualsFile;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.io.IOException;
+
+import static com.mindee.TestingUtilities.getV1ResourcePathString;
 
 /**
  * Unit tests for PayslipV3.
@@ -25,7 +27,7 @@ public class PayslipV3Test {
       PayslipV3.class
     );
     return objectMapper.readValue(
-      new File("src/test/resources/products/payslip_fra/response_v3/" + name + ".json"),
+      new File(getV1ResourcePathString("products/payslip_fra/response_v3/" + name + ".json")),
       type
     );
   }
@@ -81,9 +83,9 @@ public class PayslipV3Test {
   void whenCompleteDeserialized_mustHaveValidDocumentSummary() throws IOException {
     PredictResponse<PayslipV3> response = getPrediction("complete");
     Document<PayslipV3> doc = response.getDocument();
-    ProductTestHelper.assertStringEqualsFile(
+    assertStringEqualsFile(
         doc.toString(),
-        "src/test/resources/products/payslip_fra/response_v3/summary_full.rst"
+        getV1ResourcePathString("products/payslip_fra/response_v3/summary_full.rst")
     );
   }
 

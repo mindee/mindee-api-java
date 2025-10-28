@@ -5,11 +5,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mindee.input.LocalInputSource;
 import com.mindee.parsing.common.PredictResponse;
 import com.mindee.product.invoicesplitter.InvoiceSplitterV1;
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import static com.mindee.TestingUtilities.getV1ResourcePath;
 
 public class PDFExtractorTest {
 
@@ -23,7 +24,7 @@ public class PDFExtractorTest {
       InvoiceSplitterV1.class
     );
     return objectMapper.readValue(
-      new File("src/test/resources/products/invoice_splitter/response_v1/complete.json"),
+      getV1ResourcePath("products/invoice_splitter/response_v1/complete.json").toFile(),
       type
     );
   }
@@ -32,7 +33,7 @@ public class PDFExtractorTest {
   @Test
   public void givenAPDF_shouldExtractInvoicesNoStrict() throws IOException {
     LocalInputSource pdf = new LocalInputSource(
-      "src/test/resources/products/invoice_splitter/invoice_5p.pdf"
+      getV1ResourcePath("products/invoice_splitter/invoice_5p.pdf")
     );
     PredictResponse<InvoiceSplitterV1> response = getInvoiceSplitterPrediction();
     InvoiceSplitterV1 inference = response.getDocument().getInference();
@@ -50,7 +51,7 @@ public class PDFExtractorTest {
   @Test
   public void givenAPDF_shouldExtractInvoicesStrict() throws IOException {
     LocalInputSource pdf = new LocalInputSource(
-      "src/test/resources/products/invoice_splitter/invoice_5p.pdf"
+      getV1ResourcePath("products/invoice_splitter/invoice_5p.pdf")
     );
     PredictResponse<InvoiceSplitterV1> response = getInvoiceSplitterPrediction();
     InvoiceSplitterV1 inference = response.getDocument().getInference();

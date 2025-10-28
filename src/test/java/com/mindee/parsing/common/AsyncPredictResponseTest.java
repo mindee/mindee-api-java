@@ -8,10 +8,13 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+
+import static com.mindee.TestingUtilities.getV1ResourcePath;
 
 public class AsyncPredictResponseTest {
 
-  private AsyncPredictResponse<InvoiceSplitterV1> loadAsyncResponse(String filePath) throws IOException {
+  private AsyncPredictResponse<InvoiceSplitterV1> loadAsyncResponse(Path filePath) throws IOException {
     ObjectMapper objectMapper = new ObjectMapper();
     objectMapper.findAndRegisterModules();
 
@@ -19,7 +22,7 @@ public class AsyncPredictResponseTest {
       AsyncPredictResponse.class,
       InvoiceSplitterV1.class
     );
-    return objectMapper.readValue(new File(filePath), type);
+    return objectMapper.readValue(filePath.toFile(), type);
   }
 
   @Test
@@ -35,7 +38,7 @@ public class AsyncPredictResponseTest {
   @Test
   void whenAsyncPost_returnsErrorForbidden_mustBeDeserialized() throws IOException {
     AsyncPredictResponse<InvoiceSplitterV1> response = loadAsyncResponse(
-        "src/test/resources/async/post_fail_forbidden.json"
+        getV1ResourcePath("async/post_fail_forbidden.json")
     );
     Assertions.assertNotNull(response);
     Assertions.assertEquals("failure", response.getApiRequest().getStatus());
@@ -46,7 +49,7 @@ public class AsyncPredictResponseTest {
   @Test
   void whenAsyncPost_returnsSuccess_mustBeDeserialized() throws IOException {
     AsyncPredictResponse<InvoiceSplitterV1> response = loadAsyncResponse(
-      "src/test/resources/async/post_success.json"
+      getV1ResourcePath("async/post_success.json")
     );
     Assertions.assertNotNull(response);
     Assertions.assertEquals("success", response.getApiRequest().getStatus());
@@ -60,7 +63,7 @@ public class AsyncPredictResponseTest {
   @Test
   void whenAsyncGet_returnsProcessing_mustBeDeserialized() throws IOException {
     AsyncPredictResponse<InvoiceSplitterV1> response = loadAsyncResponse(
-        "src/test/resources/async/get_processing.json"
+        getV1ResourcePath("async/get_processing.json")
     );
     Assertions.assertNotNull(response);
     Assertions.assertEquals("success", response.getApiRequest().getStatus());
@@ -73,7 +76,7 @@ public class AsyncPredictResponseTest {
   @Test
   void whenAsyncGet_returnsCompleted_mustBeDeserialized() throws IOException {
     AsyncPredictResponse<InvoiceSplitterV1> response = loadAsyncResponse(
-        "src/test/resources/async/get_completed.json"
+        getV1ResourcePath("async/get_completed.json")
     );
     Assertions.assertNotNull(response);
     Assertions.assertEquals("success", response.getApiRequest().getStatus());
@@ -87,7 +90,7 @@ public class AsyncPredictResponseTest {
   @Test
   void whenAsyncGet_returnsJobFailed_mustBeDeserialized() throws IOException {
     AsyncPredictResponse<InvoiceSplitterV1> response = loadAsyncResponse(
-      "src/test/resources/async/get_failed_job_error.json"
+      getV1ResourcePath("async/get_failed_job_error.json")
     );
     Assertions.assertNotNull(response);
     Assertions.assertEquals("success", response.getApiRequest().getStatus());

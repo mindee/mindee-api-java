@@ -11,9 +11,11 @@ import com.mindee.parsing.v2.InferenceResult;
 import com.mindee.parsing.v2.RawText;
 import com.mindee.parsing.v2.field.InferenceFields;
 import com.mindee.parsing.v2.field.SimpleField;
-import java.io.File;
 import java.io.IOException;
 import org.junit.jupiter.api.*;
+
+import static com.mindee.TestingUtilities.getResourcePath;
+import static com.mindee.TestingUtilities.getV1ResourcePathString;
 import static org.junit.jupiter.api.Assertions.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -35,8 +37,8 @@ class MindeeClientV2IT {
   @DisplayName("Empty, multi-page PDF – enqueue & parse must succeed")
   void parseFile_emptyMultiPage_mustSucceed() throws IOException, InterruptedException {
     LocalInputSource source = new LocalInputSource(
-        new File("src/test/resources/file_types/pdf/multipage_cut-2.pdf"));
-
+        getResourcePath("file_types/pdf/multipage_cut-2.pdf")
+    );
     InferenceParameters params = InferenceParameters
         .builder(modelId)
         .rag(false)
@@ -87,7 +89,7 @@ class MindeeClientV2IT {
   @DisplayName("Filled, single-page image – enqueue & parse must succeed")
   void parseFile_filledSinglePage_mustSucceed() throws IOException, InterruptedException {
     LocalInputSource source = new LocalInputSource(
-        new File("src/test/resources/products/financial_document/default_sample.jpg"));
+        getV1ResourcePathString("products/financial_document/default_sample.jpg"));
 
     InferenceParameters params = InferenceParameters
         .builder(modelId)
@@ -134,8 +136,8 @@ class MindeeClientV2IT {
   @DisplayName("Invalid model ID – enqueue must raise 422")
   void invalidModel_mustThrowError() throws IOException {
     LocalInputSource source = new LocalInputSource(
-        new File("src/test/resources/file_types/pdf/blank_1.pdf"));
-
+        getResourcePath("file_types/pdf/blank_1.pdf")
+    );
     InferenceParameters params = InferenceParameters
         .builder("INVALID_MODEL_ID")
         .build();
@@ -151,8 +153,8 @@ class MindeeClientV2IT {
   @DisplayName("Invalid webhook ID – enqueue must raise 422")
   void invalidWebhook_mustThrowError() throws IOException {
     LocalInputSource source = new LocalInputSource(
-        new File("src/test/resources/file_types/pdf/blank_1.pdf"));
-
+        getResourcePath("file_types/pdf/blank_1.pdf")
+    );
     InferenceParameters params = InferenceParameters
         .builder(modelId)
         .webhookIds(new String[]{"INVALID_WEBHOOK_ID"})

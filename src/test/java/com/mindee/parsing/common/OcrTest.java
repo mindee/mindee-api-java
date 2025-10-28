@@ -13,6 +13,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 
+import static com.mindee.TestingUtilities.getV1ResourcePath;
+
 public class OcrTest {
 
   private Ocr loadResult() throws IOException {
@@ -23,7 +25,7 @@ public class OcrTest {
       PredictResponse.class,
       ReceiptV5.class);
     PredictResponse<ReceiptV5> prediction = objectMapper.readValue(
-      new File("src/test/resources/extras/ocr/complete.json"),
+      getV1ResourcePath("extras/ocr/complete.json").toFile(),
       type);
 
     return prediction.getDocument().getOcr();
@@ -51,8 +53,9 @@ public class OcrTest {
 
     Ocr ocr = loadResult();
 
-    List<String> expectedLines = Files
-      .readAllLines(Paths.get("src/test/resources/extras/ocr/ocr.txt"));
+    List<String> expectedLines = Files.readAllLines(
+        getV1ResourcePath("extras/ocr/ocr.txt")
+    );
     String expectedSummary = String.join(String.format("%n"), expectedLines);
 
     Assertions.assertEquals(expectedSummary, ocr.toString(), "Should match expected string exactly.");

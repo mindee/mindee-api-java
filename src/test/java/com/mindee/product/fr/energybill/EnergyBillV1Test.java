@@ -5,11 +5,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mindee.parsing.common.Document;
 import com.mindee.parsing.common.PredictResponse;
 import com.mindee.parsing.standard.ClassificationField;
-import com.mindee.product.ProductTestHelper;
+import static com.mindee.TestingUtilities.assertStringEqualsFile;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.io.IOException;
+
+import static com.mindee.TestingUtilities.getV1ResourcePathString;
 
 /**
  * Unit tests for EnergyBillV1.
@@ -25,7 +27,7 @@ public class EnergyBillV1Test {
       EnergyBillV1.class
     );
     return objectMapper.readValue(
-      new File("src/test/resources/products/energy_bill_fra/response_v1/" + name + ".json"),
+      new File(getV1ResourcePathString("products/energy_bill_fra/response_v1/" + name + ".json")),
       type
     );
   }
@@ -58,9 +60,9 @@ public class EnergyBillV1Test {
   void whenCompleteDeserialized_mustHaveValidDocumentSummary() throws IOException {
     PredictResponse<EnergyBillV1> response = getPrediction("complete");
     Document<EnergyBillV1> doc = response.getDocument();
-    ProductTestHelper.assertStringEqualsFile(
+    assertStringEqualsFile(
         doc.toString(),
-        "src/test/resources/products/energy_bill_fra/response_v1/summary_full.rst"
+        getV1ResourcePathString("products/energy_bill_fra/response_v1/summary_full.rst")
     );
   }
 

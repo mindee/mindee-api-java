@@ -1,5 +1,8 @@
 package com.mindee.workflow;
 
+import static com.mindee.TestingUtilities.getResourcePath;
+import static com.mindee.TestingUtilities.getV1ResourcePath;
+import static com.mindee.TestingUtilities.getV1ResourcePathString;
 import static org.mockito.Mockito.when;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -45,8 +48,6 @@ public class WorkflowTest {
   void givenAWorkflowMockFileShouldReturnAValidWorkflowObject()
       throws IOException {
 
-    File file = new File("src/test/resources/file_types/pdf/blank_1.pdf");
-
     WorkflowResponse workflowResponse = new WorkflowResponse();
     workflowResponse.setExecution(new Execution());
     workflowResponse.setApiRequest(null);
@@ -60,7 +61,7 @@ public class WorkflowTest {
 
     WorkflowResponse<GeneratedV1> execution = client.executeWorkflow(
         "",
-        new LocalInputSource(file)
+        new LocalInputSource(getResourcePath("file_types/pdf/blank_1.pdf"))
     );
 
     Assertions.assertNotNull(execution);
@@ -70,9 +71,10 @@ public class WorkflowTest {
 
   @Test
   void sendingADocumentToAnExecutionShouldDeserializeResponseCorrectly() throws IOException {
-    File jsonFile = new File("src/test/resources/workflows/success.json");
-    WorkflowResponse.Default mockResponse =
-        objectMapper.readValue(jsonFile, WorkflowResponse.Default.class);
+    WorkflowResponse.Default mockResponse = objectMapper.readValue(
+        getV1ResourcePath("workflows/success.json").toFile(),
+        WorkflowResponse.Default.class
+    );
 
     when(mockedClient.executeWorkflow(Mockito.anyString(),
         Mockito.any(LocalInputSource.class)
@@ -80,8 +82,9 @@ public class WorkflowTest {
         .thenReturn(mockResponse);
 
     String workflowId = "07ebf237-ff27-4eee-b6a2-425df4a5cca6";
-    String filePath = "src/test/resources/products/financial_document/default_sample.jpg";
-    LocalInputSource inputSource = new LocalInputSource(filePath);
+    LocalInputSource inputSource = new LocalInputSource(
+        getV1ResourcePath("products/financial_document/default_sample.jpg")
+    );
 
     WorkflowResponse<GeneratedV1> response =
         mockedClient.executeWorkflow(workflowId, inputSource);
@@ -112,9 +115,10 @@ public class WorkflowTest {
   @Test
   void sendingADocumentToAnExecutionWithPriorityAndAliasShouldDeserializeResponseCorrectly()
       throws IOException {
-    File jsonFile = new File("src/test/resources/workflows/success_low_priority.json");
-    WorkflowResponse.Default mockResponse =
-        objectMapper.readValue(jsonFile, WorkflowResponse.Default.class);
+    WorkflowResponse.Default mockResponse = objectMapper.readValue(
+        getV1ResourcePath("workflows/success_low_priority.json").toFile(),
+        WorkflowResponse.Default.class
+    );
 
     when(mockedClient.executeWorkflow(Mockito.anyString(),
         Mockito.any(LocalInputSource.class)
@@ -122,8 +126,9 @@ public class WorkflowTest {
         .thenReturn(mockResponse);
 
     String workflowId = "07ebf237-ff27-4eee-b6a2-425df4a5cca6";
-    String filePath = "src/test/resources/products/financial_document/default_sample.jpg";
-    LocalInputSource inputSource = new LocalInputSource(filePath);
+    LocalInputSource inputSource = new LocalInputSource(
+        getV1ResourcePath("products/financial_document/default_sample.jpg")
+    );
 
     WorkflowResponse<GeneratedV1> response =
         mockedClient.executeWorkflow(workflowId, inputSource);
@@ -133,10 +138,12 @@ public class WorkflowTest {
     Assertions.assertNull(response.getExecution().getBatchName());
     Assertions.assertNull(response.getExecution().getCreatedAt());
     Assertions.assertEquals(
-        "low-priority-sample-test", response.getExecution().getFile().getAlias());
+        "low-priority-sample-test", response.getExecution().getFile().getAlias()
+    );
     Assertions.assertEquals("default_sample.jpg", response.getExecution().getFile().getName());
     Assertions.assertEquals(
-        "b743e123-e18c-4b62-8a07-811a4f72afd3", response.getExecution().getId());
+        "b743e123-e18c-4b62-8a07-811a4f72afd3", response.getExecution().getId()
+    );
     Assertions.assertNull(response.getExecution().getInference());
     Assertions.assertEquals("low", response.getExecution().getPriority());
     Assertions.assertNull(response.getExecution().getReviewedAt());

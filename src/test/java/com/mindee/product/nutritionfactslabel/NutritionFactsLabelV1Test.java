@@ -5,11 +5,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mindee.parsing.common.Document;
 import com.mindee.parsing.common.PredictResponse;
 import com.mindee.parsing.standard.ClassificationField;
-import com.mindee.product.ProductTestHelper;
+import static com.mindee.TestingUtilities.assertStringEqualsFile;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.io.IOException;
+
+import static com.mindee.TestingUtilities.getV1ResourcePathString;
 
 /**
  * Unit tests for NutritionFactsLabelV1.
@@ -25,7 +27,7 @@ public class NutritionFactsLabelV1Test {
       NutritionFactsLabelV1.class
     );
     return objectMapper.readValue(
-      new File("src/test/resources/products/nutrition_facts/response_v1/" + name + ".json"),
+      new File(getV1ResourcePathString("products/nutrition_facts/response_v1/" + name + ".json")),
       type
     );
   }
@@ -78,9 +80,9 @@ public class NutritionFactsLabelV1Test {
   void whenCompleteDeserialized_mustHaveValidDocumentSummary() throws IOException {
     PredictResponse<NutritionFactsLabelV1> response = getPrediction("complete");
     Document<NutritionFactsLabelV1> doc = response.getDocument();
-    ProductTestHelper.assertStringEqualsFile(
+    assertStringEqualsFile(
         doc.toString(),
-        "src/test/resources/products/nutrition_facts/response_v1/summary_full.rst"
+        getV1ResourcePathString("products/nutrition_facts/response_v1/summary_full.rst")
     );
   }
 

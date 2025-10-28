@@ -5,11 +5,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mindee.parsing.common.Document;
 import com.mindee.parsing.common.PredictResponse;
 import com.mindee.parsing.standard.ClassificationField;
-import com.mindee.product.ProductTestHelper;
+import static com.mindee.TestingUtilities.assertStringEqualsFile;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.io.IOException;
+
+import static com.mindee.TestingUtilities.getV1ResourcePathString;
 
 /**
  * Unit tests for ReceiptV5.
@@ -25,7 +27,7 @@ public class ReceiptV5Test {
       ReceiptV5.class
     );
     return objectMapper.readValue(
-      new File("src/test/resources/products/expense_receipts/response_v5/" + name + ".json"),
+      new File(getV1ResourcePathString("products/expense_receipts/response_v5/" + name + ".json")),
       type
     );
   }
@@ -57,9 +59,9 @@ public class ReceiptV5Test {
   void whenCompleteDeserialized_mustHaveValidDocumentSummary() throws IOException {
     PredictResponse<ReceiptV5> response = getPrediction("complete");
     Document<ReceiptV5> doc = response.getDocument();
-    ProductTestHelper.assertStringEqualsFile(
+    assertStringEqualsFile(
         doc.toString(),
-        "src/test/resources/products/expense_receipts/response_v5/summary_full.rst"
+        getV1ResourcePathString("products/expense_receipts/response_v5/summary_full.rst")
     );
   }
 

@@ -6,11 +6,13 @@ import com.mindee.parsing.common.Document;
 import com.mindee.parsing.common.Page;
 import com.mindee.parsing.common.PredictResponse;
 import com.mindee.parsing.standard.ClassificationField;
-import com.mindee.product.ProductTestHelper;
+import static com.mindee.TestingUtilities.assertStringEqualsFile;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.io.IOException;
+
+import static com.mindee.TestingUtilities.getV1ResourcePathString;
 
 /**
  * Unit tests for CropperV1.
@@ -26,7 +28,7 @@ public class CropperV1Test {
       CropperV1.class
     );
     return objectMapper.readValue(
-      new File("src/test/resources/products/cropper/response_v1/" + name + ".json"),
+      new File(getV1ResourcePathString("products/cropper/response_v1/" + name + ".json")),
       type
     );
   }
@@ -42,9 +44,9 @@ public class CropperV1Test {
   void whenCompleteDeserialized_mustHaveValidDocumentSummary() throws IOException {
     PredictResponse<CropperV1> response = getPrediction("complete");
     Document<CropperV1> doc = response.getDocument();
-    ProductTestHelper.assertStringEqualsFile(
+    assertStringEqualsFile(
         doc.toString(),
-        "src/test/resources/products/cropper/response_v1/summary_full.rst"
+        getV1ResourcePathString("products/cropper/response_v1/summary_full.rst")
     );
   }
 
@@ -52,9 +54,9 @@ public class CropperV1Test {
   void whenCompleteDeserialized_mustHaveValidPage0Summary() throws IOException {
     PredictResponse<CropperV1> response = getPrediction("complete");
     Page<CropperV1Page> page = response.getDocument().getInference().getPages().get(0);
-    ProductTestHelper.assertStringEqualsFile(
+    assertStringEqualsFile(
         page.toString(),
-        "src/test/resources/products/cropper/response_v1/summary_page0.rst"
+        getV1ResourcePathString("products/cropper/response_v1/summary_page0.rst")
     );
   }
 }

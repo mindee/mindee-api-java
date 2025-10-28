@@ -4,12 +4,13 @@ import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mindee.parsing.common.Document;
 import com.mindee.parsing.common.PredictResponse;
-import com.mindee.parsing.standard.ClassificationField;
-import com.mindee.product.ProductTestHelper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.io.IOException;
+
+import static com.mindee.TestingUtilities.getV1ResourcePathString;
+import static com.mindee.TestingUtilities.assertStringEqualsFile;
 
 /**
  * Unit tests for BarcodeReaderV1.
@@ -25,7 +26,7 @@ public class BarcodeReaderV1Test {
       BarcodeReaderV1.class
     );
     return objectMapper.readValue(
-      new File("src/test/resources/products/barcode_reader/response_v1/" + name + ".json"),
+      new File(getV1ResourcePathString("products/barcode_reader/response_v1/" + name + ".json")),
       type
     );
   }
@@ -42,9 +43,9 @@ public class BarcodeReaderV1Test {
   void whenCompleteDeserialized_mustHaveValidDocumentSummary() throws IOException {
     PredictResponse<BarcodeReaderV1> response = getPrediction("complete");
     Document<BarcodeReaderV1> doc = response.getDocument();
-    ProductTestHelper.assertStringEqualsFile(
+    assertStringEqualsFile(
         doc.toString(),
-        "src/test/resources/products/barcode_reader/response_v1/summary_full.rst"
+        getV1ResourcePathString("products/barcode_reader/response_v1/summary_full.rst")
     );
   }
 

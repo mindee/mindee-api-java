@@ -4,12 +4,13 @@ import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mindee.parsing.common.Document;
 import com.mindee.parsing.common.PredictResponse;
-import com.mindee.parsing.standard.ClassificationField;
-import com.mindee.product.ProductTestHelper;
+import static com.mindee.TestingUtilities.assertStringEqualsFile;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.io.IOException;
+
+import static com.mindee.TestingUtilities.getV1ResourcePathString;
 
 /**
  * Unit tests for BillOfLadingV1.
@@ -25,7 +26,7 @@ public class BillOfLadingV1Test {
       BillOfLadingV1.class
     );
     return objectMapper.readValue(
-      new File("src/test/resources/products/bill_of_lading/response_v1/" + name + ".json"),
+      new File(getV1ResourcePathString("products/bill_of_lading/response_v1/" + name + ".json")),
       type
     );
   }
@@ -62,9 +63,9 @@ public class BillOfLadingV1Test {
   void whenCompleteDeserialized_mustHaveValidDocumentSummary() throws IOException {
     PredictResponse<BillOfLadingV1> response = getPrediction("complete");
     Document<BillOfLadingV1> doc = response.getDocument();
-    ProductTestHelper.assertStringEqualsFile(
+    assertStringEqualsFile(
         doc.toString(),
-        "src/test/resources/products/bill_of_lading/response_v1/summary_full.rst"
+        getV1ResourcePathString("products/bill_of_lading/response_v1/summary_full.rst")
     );
   }
 

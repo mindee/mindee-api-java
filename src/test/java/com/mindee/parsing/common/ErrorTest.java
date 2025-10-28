@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.io.IOException;
 
+import static com.mindee.TestingUtilities.getV1ResourcePath;
+
 public class ErrorTest {
 
   @Test
@@ -15,7 +17,7 @@ public class ErrorTest {
     objectMapper.findAndRegisterModules();
 
     Error error = objectMapper.readValue(
-      new File("src/test/resources/errors/with_object_response_in_detail.json"),
+        getV1ResourcePath("errors/with_object_response_in_detail.json").toFile(),
       Error.class);
 
     Assertions.assertNotNull(error);
@@ -32,7 +34,7 @@ public class ErrorTest {
     objectMapper.findAndRegisterModules();
 
     Error error = objectMapper.readValue(
-      new File("src/test/resources/errors/with_string_response_in_detail.json"),
+        getV1ResourcePath("errors/with_string_response_in_detail.json").toFile(),
       Error.class);
 
     Assertions.assertNotNull(error);

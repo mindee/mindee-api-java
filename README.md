@@ -8,7 +8,7 @@ Quickly and easily connect to Mindee's API services using Java.
 This client library has support for both Mindee platform versions.
 
 ### V2 - Latest
-This is the new platform located here:
+This is the latest platform located here:
 
 https://app.mindee.com
 
@@ -19,7 +19,7 @@ Consult the
 
 
 ### V1
-This is the legacy platform located here:
+This is the platform located here:
 
 https://platform.mindee.com/
 
