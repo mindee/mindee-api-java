@@ -7,9 +7,10 @@ import com.mindee.product.receipt.ReceiptV5;
 import com.mindee.product.receipt.ReceiptV5Document;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
+
+import static com.mindee.TestingUtilities.getV1ResourcePath;
 
 public class CropperTest {
 
@@ -21,7 +22,7 @@ public class CropperTest {
       PredictResponse.class,
       ReceiptV5.class);
     PredictResponse<ReceiptV5> prediction = objectMapper.readValue(
-      new File("src/test/resources/extras/cropper/complete.json"),
+        getV1ResourcePath("extras/cropper/complete.json").toFile(),
       type);
 
     return prediction.getDocument().getInference().getPages();

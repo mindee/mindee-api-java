@@ -14,6 +14,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 
+import static com.mindee.TestingUtilities.getV1ResourcePathString;
+
 class CustomV1WithLineItemsTest {
 
   @Test
@@ -25,7 +27,7 @@ class CustomV1WithLineItemsTest {
     JavaType type = objectMapper.getTypeFactory().constructParametricType(PredictResponse.class,
       CustomV1.class);
     PredictResponse<CustomV1> response = objectMapper.readValue(
-      new File("src/test/resources/products/custom/response_v1/line_items/single_table_01.json"),
+      new File(getV1ResourcePathString("products/custom/response_v1/line_items/single_table_01.json")),
       type);
 
     LineItems lineItems = LineItemsGenerator.generate(

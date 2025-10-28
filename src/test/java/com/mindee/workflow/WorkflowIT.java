@@ -4,7 +4,6 @@ import com.mindee.MindeeClient;
 import com.mindee.PredictOptions;
 import com.mindee.WorkflowOptions;
 import com.mindee.input.LocalInputSource;
-import com.mindee.input.PageOptions;
 import com.mindee.parsing.common.AsyncPredictResponse;
 import com.mindee.parsing.common.Execution;
 import com.mindee.parsing.common.ExecutionPriority;
@@ -17,6 +16,8 @@ import java.time.format.DateTimeFormatter;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+
+import static com.mindee.TestingUtilities.getV1ResourcePath;
 
 public class WorkflowIT {
   private static MindeeClient client;
@@ -32,7 +33,7 @@ public class WorkflowIT {
     client = new MindeeClient();
     workflowId = System.getenv("WORKFLOW_ID");
     financialDocumentInputSource = new LocalInputSource(
-        "src/test/resources/products/financial_document/default_sample.jpg"
+        getV1ResourcePath("products/financial_document/default_sample.jpg")
     );
   }
 

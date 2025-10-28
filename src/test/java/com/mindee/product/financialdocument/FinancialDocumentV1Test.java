@@ -12,6 +12,9 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 
+import static com.mindee.TestingUtilities.getV1ResourcePath;
+import static com.mindee.TestingUtilities.getV1ResourcePathString;
+
 class FinancialDocumentV1Test {
 
   @Test
@@ -23,12 +26,12 @@ class FinancialDocumentV1Test {
     JavaType type = objectMapper.getTypeFactory().constructParametricType(PredictResponse.class,
       FinancialDocumentV1.class);
     PredictResponse<FinancialDocumentV1> prediction = objectMapper.readValue(
-        new File("src/test/resources/products/financial_document/response_v1/complete_invoice.json"),
+        new File(getV1ResourcePathString("products/financial_document/response_v1/complete_invoice.json")),
         type);
 
     String[] actualLines = prediction.getDocument().toString().split(System.lineSeparator());
     List<String> expectedLines = Files
-        .readAllLines(Paths.get("src/test/resources/products/financial_document/response_v1/summary_full_invoice.rst"));
+        .readAllLines(getV1ResourcePath("products/financial_document/response_v1/summary_full_invoice.rst"));
     String expectedSummary = String.join(String.format("%n"), expectedLines);
     String actualSummary = String.join(String.format("%n"), actualLines);
 
@@ -44,14 +47,15 @@ class FinancialDocumentV1Test {
     JavaType type = objectMapper.getTypeFactory().constructParametricType(PredictResponse.class,
       FinancialDocumentV1.class);
     PredictResponse<FinancialDocumentV1> prediction = objectMapper.readValue(
-      new File("src/test/resources/products/financial_document/response_v1/complete_invoice.json"),
+      new File(getV1ResourcePathString("products/financial_document/response_v1/complete_invoice.json")),
       type);
 
     String[] actualLines = prediction.getDocument().getInference()
       .getPages()
       .get(0).toString().split(System.lineSeparator());
-    List<String> expectedLines = Files
-      .readAllLines(Paths.get("src/test/resources/products/financial_document/response_v1/summary_page0_invoice.rst"));
+    List<String> expectedLines = Files.readAllLines(
+        getV1ResourcePath("products/financial_document/response_v1/summary_page0_invoice.rst")
+    );
     String expectedSummary = String.join(String.format("%n"), expectedLines);
     String actualSummary = String.join(String.format("%n"), actualLines);
 
@@ -67,12 +71,12 @@ class FinancialDocumentV1Test {
     JavaType type = objectMapper.getTypeFactory().constructParametricType(PredictResponse.class,
       FinancialDocumentV1.class);
     PredictResponse<FinancialDocumentV1> prediction = objectMapper.readValue(
-      new File("src/test/resources/products/financial_document/response_v1/complete_receipt.json"),
+      new File(getV1ResourcePathString("products/financial_document/response_v1/complete_receipt.json")),
       type);
 
     String[] actualLines = prediction.getDocument().toString().split(System.lineSeparator());
     List<String> expectedLines = Files
-      .readAllLines(Paths.get("src/test/resources/products/financial_document/response_v1/summary_full_receipt.rst"));
+      .readAllLines(getV1ResourcePath("products/financial_document/response_v1/summary_full_receipt.rst"));
     String expectedSummary = String.join(String.format("%n"), expectedLines);
     String actualSummary = String.join(String.format("%n"), actualLines);
 
@@ -88,14 +92,14 @@ class FinancialDocumentV1Test {
     JavaType type = objectMapper.getTypeFactory().constructParametricType(PredictResponse.class,
       FinancialDocumentV1.class);
     PredictResponse<FinancialDocumentV1> prediction = objectMapper.readValue(
-      new File("src/test/resources/products/financial_document/response_v1/complete_receipt.json"),
+      new File(getV1ResourcePathString("products/financial_document/response_v1/complete_receipt.json")),
       type);
 
     String[] actualLines = prediction.getDocument().getInference()
       .getPages()
       .get(0).toString().split(System.lineSeparator());
     List<String> expectedLines = Files
-      .readAllLines(Paths.get("src/test/resources/products/financial_document/response_v1/summary_page0_receipt.rst"));
+      .readAllLines(getV1ResourcePath("products/financial_document/response_v1/summary_page0_receipt.rst"));
     String expectedSummary = String.join(String.format("%n"), expectedLines);
     String actualSummary = String.join(String.format("%n"), actualLines);
 
@@ -109,7 +113,7 @@ class FinancialDocumentV1Test {
     JavaType type = objectMapper.getTypeFactory().constructParametricType(PredictResponse.class,
         FinancialDocumentV1.class);
     PredictResponse<FinancialDocumentV1> response = objectMapper.readValue(
-        new File("src/test/resources/products/financial_document/response_v1/empty.json"),
+        new File(getV1ResourcePathString("products/financial_document/response_v1/empty.json")),
         type);
 
     Document<FinancialDocumentV1> doc = response.getDocument();

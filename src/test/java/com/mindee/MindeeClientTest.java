@@ -11,7 +11,7 @@ import com.mindee.parsing.common.AsyncPredictResponse;
 import com.mindee.parsing.common.Document;
 import com.mindee.parsing.common.Job;
 import com.mindee.parsing.common.PredictResponse;
-import com.mindee.product.ProductTestHelper;
+import static com.mindee.TestingUtilities.assertStringEqualsFile;
 import com.mindee.product.custom.CustomV1;
 import com.mindee.product.generated.GeneratedV1;
 import com.mindee.product.invoice.InvoiceV4;
@@ -33,6 +33,9 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import static com.mindee.TestingUtilities.getResourcePath;
+import static com.mindee.TestingUtilities.getV1ResourcePathString;
+
 @ExtendWith(MockitoExtension.class)
 class MindeeClientTest {
 
@@ -51,8 +54,6 @@ class MindeeClientTest {
   void givenAClientForCustom_withFile_parse_thenShouldCallMindeeApi()
       throws IOException {
 
-    File file = new File("src/test/resources/file_types/pdf/blank_1.pdf");
-
     PredictResponse predictResponse = new PredictResponse();
     predictResponse.setDocument(new Document<>());
     predictResponse.setApiRequest(null);
@@ -64,7 +65,7 @@ class MindeeClientTest {
         .thenReturn(predictResponse);
 
     PredictResponse<CustomV1> document = client.parse(
-        new LocalInputSource(file),
+        new LocalInputSource(getResourcePath("file_types/pdf/blank_1.pdf")),
         new Endpoint("", "", ""));
 
     Assertions.assertNotNull(document);
@@ -76,7 +77,6 @@ class MindeeClientTest {
   void givenAClientForCustomAndPageOptions_parse_thenShouldOperateCutOnPagesAndCallTheHttpClientCorrectly()
       throws IOException {
 
-    File file = new File("src/test/resources/file_types/pdf/multipage.pdf");
     List<Integer> pageNumberToKeep = new ArrayList<>();
     pageNumberToKeep.add(1);
 
@@ -93,7 +93,7 @@ class MindeeClientTest {
         .thenReturn(new SplitPdf(new byte[0], 0));
 
     PredictResponse<CustomV1> document = client.parse(
-        new LocalInputSource(file),
+        new LocalInputSource(getResourcePath("file_types/pdf/multipage.pdf")),
         new Endpoint("", "", ""),
         new PageOptions(
             pageNumberToKeep, PageOptionsOperation.KEEP_ONLY, 0));
@@ -109,7 +109,6 @@ class MindeeClientTest {
   void givenAClientForInvoice_withFile_parse_thenShouldCallMindeeApi()
       throws IOException {
 
-    File file = new File("src/test/resources/file_types/pdf/blank_1.pdf");
     PredictResponse predictResponse = new PredictResponse();
     predictResponse.setDocument(new Document<>());
     predictResponse.setApiRequest(null);
@@ -123,7 +122,7 @@ class MindeeClientTest {
 
     PredictResponse<InvoiceV4> document = client.parse(
         InvoiceV4.class,
-        new LocalInputSource(file));
+        new LocalInputSource(getResourcePath("file_types/pdf/blank_1.pdf")));
 
     Assertions.assertNotNull(document);
     Mockito.verify(mindeeApi, Mockito.times(1))
@@ -133,8 +132,6 @@ class MindeeClientTest {
   @Test
   void givenAClientForInvoice_withInputStream_parse_thenShouldCallMindeeApi()
       throws IOException {
-
-    File file = new File("src/test/resources/file_types/pdf/blank_1.pdf");
 
     PredictResponse predictResponse = new PredictResponse();
     predictResponse.setDocument(new Document<>());
@@ -149,7 +146,7 @@ class MindeeClientTest {
     PredictResponse<InvoiceV4> document = client.parse(
         InvoiceV4.class,
         new LocalInputSource(
-            Files.newInputStream(file.toPath()),
+            Files.newInputStream(getResourcePath("file_types/pdf/blank_1.pdf")),
             ""));
 
     Assertions.assertNotNull(document);
@@ -161,7 +158,6 @@ class MindeeClientTest {
   void givenAClientForInvoice_withByteArray_parse_thenShouldCallMindeeApi()
       throws IOException {
 
-    File file = new File("src/test/resources/file_types/pdf/blank_1.pdf");
     PredictResponse predictResponse = new PredictResponse();
     predictResponse.setDocument(new Document<>());
     predictResponse.setApiRequest(null);
@@ -175,7 +171,7 @@ class MindeeClientTest {
     PredictResponse<InvoiceV4> document = client.parse(
         InvoiceV4.class,
         new LocalInputSource(
-            Files.readAllBytes(file.toPath()),
+            Files.readAllBytes(getResourcePath("file_types/pdf/blank_1.pdf")),
             ""));
 
     Assertions.assertNotNull(document);
@@ -187,7 +183,6 @@ class MindeeClientTest {
   void givenAClientForInvoiceAndPageOptions_parse_thenShouldOperateCutOnPagesAndCallTheHttpClientCorrectly()
       throws IOException {
 
-    File file = new File("src/test/resources/file_types/pdf/multipage.pdf");
     List<Integer> pageNumberToKeep = new ArrayList<>();
     pageNumberToKeep.add(1);
     PredictResponse predictResponse = new PredictResponse();
@@ -206,7 +201,7 @@ class MindeeClientTest {
 
     PredictResponse<InvoiceV4> document = client.parse(
         InvoiceV4.class,
-        new LocalInputSource(file),
+        new LocalInputSource(getResourcePath("file_types/pdf/multipage.pdf")),
         new PageOptions(
             pageNumberToKeep, PageOptionsOperation.KEEP_ONLY, 0));
 
@@ -286,8 +281,9 @@ class MindeeClientTest {
   @Test
   void givenAnAsyncDoc_whenEnqueued_shouldInvokeApiCorrectly() throws IOException {
 
-    File file = new File("src/test/resources/file_types/pdf/blank_1.pdf");
-    LocalInputSource localInputSource = new LocalInputSource(file);
+    LocalInputSource localInputSource = new LocalInputSource(
+        getResourcePath("file_types/pdf/blank_1.pdf")
+    );
 
     Job job = new Job(LocalDateTime.now(), "someid", LocalDateTime.now(), "Completed", null);
     AsyncPredictResponse predictResponse = new AsyncPredictResponse();
@@ -326,8 +322,9 @@ class MindeeClientTest {
   @Test
   void givenAnAsyncDoc_whenEnqueuedNoParams_shouldInvokeApiCorrectly() throws IOException {
 
-    File file = new File("src/test/resources/file_types/pdf/blank_1.pdf");
-    LocalInputSource localInputSource = new LocalInputSource(file);
+    LocalInputSource localInputSource = new LocalInputSource(
+        getResourcePath("file_types/pdf/blank_1.pdf")
+    );
 
     Job job = new Job(LocalDateTime.now(), "someid", LocalDateTime.now(), "Completed", null);
     AsyncPredictResponse predictResponse = new AsyncPredictResponse();
@@ -399,9 +396,9 @@ class MindeeClientTest {
   @Test
   void givenAnAsyncGeneratedDoc_whenEnqueuedNoParams_shouldInvokeApiCorrectly() throws IOException, InterruptedException {
 
-    File file = new File("src/test/resources/file_types/pdf/blank_1.pdf");
-    LocalInputSource localInputSource = new LocalInputSource(file);
-
+    LocalInputSource localInputSource = new LocalInputSource(
+        getResourcePath("file_types/pdf/blank_1.pdf")
+    );
     Job job = new Job(LocalDateTime.now(), "someid", LocalDateTime.now(), "Completed", null);
     Endpoint endpoint = new Endpoint("dsddw", "dcsdcd", "dsfdd");
     AsyncPredictResponse predictResponse = new AsyncPredictResponse();
@@ -438,26 +435,26 @@ class MindeeClientTest {
 
   @Test
   void givenJsonInput_whenSync_shouldDeserializeCorrectly() throws IOException {
-    File file = new File("src/test/resources/products/invoices/response_v4/complete.json");
+    File file = new File(getV1ResourcePathString("products/invoices/response_v4/complete.json"));
     LocalResponse localResponse = new LocalResponse(file);
     AsyncPredictResponse<InvoiceV4> predictResponse = client.loadPrediction(InvoiceV4.class, localResponse);
-    ProductTestHelper.assertStringEqualsFile(
+    assertStringEqualsFile(
       predictResponse.getDocumentObj().toString(),
-      "src/test/resources/products/invoices/response_v4/summary_full.rst"
+        getV1ResourcePathString("/products/invoices/response_v4/summary_full.rst")
     );
   }
 
   @Test
   void givenJsonInput_whenAsync_shouldDeserializeCorrectly() throws IOException {
-    File file = new File("src/test/resources/products/international_id/response_v2/complete.json");
+    File file = new File(getV1ResourcePathString("products/international_id/response_v2/complete.json"));
     LocalResponse localResponse = new LocalResponse(file);
     AsyncPredictResponse<InternationalIdV2> predictResponse = client.loadPrediction(
       InternationalIdV2.class,
       localResponse
     );
-    ProductTestHelper.assertStringEqualsFile(
+    assertStringEqualsFile(
       predictResponse.getDocumentObj().toString(),
-      "src/test/resources/products/international_id/response_v2/summary_full.rst"
+      getV1ResourcePathString("products/international_id/response_v2/summary_full.rst")
     );
   }
 }

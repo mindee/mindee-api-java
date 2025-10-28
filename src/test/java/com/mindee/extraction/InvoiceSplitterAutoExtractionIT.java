@@ -1,5 +1,6 @@
 package com.mindee.extraction;
 
+import static com.mindee.TestingUtilities.getV1ResourcePath;
 import static com.mindee.TestingUtilities.levenshteinRatio;
 
 import com.mindee.MindeeClient;
@@ -13,7 +14,7 @@ import com.mindee.product.invoice.InvoiceV4;
 import com.mindee.product.invoicesplitter.InvoiceSplitterV1;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -28,7 +29,7 @@ public class InvoiceSplitterAutoExtractionIT {
   static void clientSetUp() throws IOException {
     client = new MindeeClient();
     invoiceSplitterInputSource = new LocalInputSource(
-      "src/test/resources/products/invoice_splitter/default_sample.pdf"
+      getV1ResourcePath("products/invoice_splitter/default_sample.pdf")
     );
   }
 
@@ -44,9 +45,9 @@ public class InvoiceSplitterAutoExtractionIT {
     return client.parse(InvoiceV4.class, invoicePDF);
   }
 
-  protected String prepareInvoiceReturn(String rstFilePath, Document<InvoiceV4> invoicePrediction)
+  protected String prepareInvoiceReturn(Path rstFilePath, Document<InvoiceV4> invoicePrediction)
     throws IOException {
-    List<String> rstRefLines = Files.readAllLines(Paths.get(rstFilePath));
+    List<String> rstRefLines = Files.readAllLines(rstFilePath);
     String parsingVersion = invoicePrediction.getInference().getProduct().getVersion();
     String parsingId = invoicePrediction.getId();
     String rstRefString = String.join(String.format("%n"), rstRefLines);
@@ -74,7 +75,7 @@ public class InvoiceSplitterAutoExtractionIT {
         extractedPDFsStrict.get(0).asInputSource()
     );
     String testStringRSTInvoice0 = prepareInvoiceReturn(
-      "src/test/resources/products/invoices/response_v4/summary_full_invoice_p1.rst",
+        getV1ResourcePath("products/invoices/response_v4/summary_full_invoice_p1.rst"),
       invoice0.getDocument()
     );
     double invoice0Ratio = levenshteinRatio(
@@ -90,7 +91,7 @@ public class InvoiceSplitterAutoExtractionIT {
         extractedPDFsStrict.get(1).asInputSource()
     );
     String testStringRSTInvoice1 = prepareInvoiceReturn(
-      "src/test/resources/products/invoices/response_v4/summary_full_invoice_p2.rst",
+        getV1ResourcePath("products/invoices/response_v4/summary_full_invoice_p2.rst"),
       invoice1.getDocument()
     );
     double invoice1Ratio = levenshteinRatio(

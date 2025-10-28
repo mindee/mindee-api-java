@@ -7,7 +7,6 @@ import com.mindee.input.LocalInputSource;
 import com.mindee.input.LocalResponse;
 import com.mindee.parsing.v2.InferenceResponse;
 import com.mindee.parsing.v2.JobResponse;
-import java.io.File;
 import java.io.IOException;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.DisplayName;
@@ -15,6 +14,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import static com.mindee.TestingUtilities.getResourcePath;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
@@ -41,7 +41,7 @@ class MindeeClientV2Test {
       MindeeClientV2 mindeeClient = makeClientWithMockedApi(predictable);
 
       LocalInputSource input =
-          new LocalInputSource(new File("src/test/resources/file_types/pdf/blank_1.pdf"));
+          new LocalInputSource(getResourcePath("file_types/pdf/blank_1.pdf"));
       JobResponse response = mindeeClient.enqueueInference(
           input,
           InferenceParameters.builder("dummy-model-id").build()
@@ -86,7 +86,9 @@ class MindeeClientV2Test {
     void document_getInference_async() throws IOException {
       MindeeApiV2 predictable = Mockito.mock(MindeeApiV2.class);
 
-      String json = FileUtils.readFileToString(new File("src/test/resources/v2/products/financial_document/complete.json"));
+      String json = FileUtils.readFileToString(
+          getResourcePath("v2/products/financial_document/complete.json").toFile()
+      );
 
       ObjectMapper mapper = new ObjectMapper();
       mapper.findAndRegisterModules();
@@ -120,10 +122,9 @@ class MindeeClientV2Test {
     @Test
     @DisplayName("parses local JSON and exposes correct field values")
     void inference_loadsLocally() throws IOException {
-      File jsonFile =
-          new File("src/test/resources/v2/products/financial_document/complete.json");
-      LocalResponse localResponse = new LocalResponse(jsonFile);
-
+      LocalResponse localResponse = new LocalResponse(
+          getResourcePath("v2/products/financial_document/complete.json")
+      );
       InferenceResponse loaded = localResponse.deserializeResponse(InferenceResponse.class);
 
       assertNotNull(loaded, "Loaded InferenceResponse must not be null");

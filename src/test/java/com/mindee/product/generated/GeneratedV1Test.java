@@ -19,6 +19,8 @@ import java.time.LocalDate;
 import java.util.Map;
 import java.util.Objects;
 
+import static com.mindee.TestingUtilities.getV1ResourcePathString;
+
 public class GeneratedV1Test {
   protected AsyncPredictResponse<GeneratedV1> getAsyncPrediction(String name) throws IOException {
     ObjectMapper objectMapper = new ObjectMapper();
@@ -29,7 +31,7 @@ public class GeneratedV1Test {
         GeneratedV1.class
     );
     return objectMapper.readValue(
-        new File("src/test/resources/products/generated/response_v1/" + name + ".json"),
+        new File(getV1ResourcePathString("products/generated/response_v1/" + name + ".json")),
         type
     );
   }
@@ -43,7 +45,7 @@ public class GeneratedV1Test {
         GeneratedV1.class
     );
     return objectMapper.readValue(
-        new File("src/test/resources/products/us_mail/response_v3/complete.json"),
+        new File(getV1ResourcePathString("products/us_mail/response_v3/complete.json")),
         type
     );
   }
@@ -57,7 +59,7 @@ public class GeneratedV1Test {
       GeneratedV1.class
     );
     return objectMapper.readValue(
-      new File("src/test/resources/products/generated/response_v1/" + name + "_invoice_v4.json"),
+      new File(getV1ResourcePathString("products/generated/response_v1/" + name + "_invoice_v4.json")),
       type
     );
   }

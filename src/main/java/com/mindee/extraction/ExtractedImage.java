@@ -38,7 +38,19 @@ public class ExtractedImage {
    */
   public void writeToFile(String outputPath) throws IOException {
     Path imagePath = Paths.get(outputPath, this.filename);
-    File outputfile = new File(imagePath.toString());
+    File outputfile = imagePath.toFile();
+    ImageIO.write(this.image, this.saveFormat, outputfile);
+  }
+
+  /**
+   * Write the image to a file.
+   * Uses the default image format and filename.
+   * @param outputPath the output directory (must exist).
+   * @throws IOException Throws if the file can't be accessed.
+   */
+  public void writeToFile(Path outputPath) throws IOException {
+    Path imagePath = outputPath.resolve(this.filename);
+    File outputfile = imagePath.toFile();
     ImageIO.write(this.image, this.saveFormat, outputfile);
   }
 

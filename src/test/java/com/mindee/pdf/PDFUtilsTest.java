@@ -17,6 +17,8 @@ import org.apache.pdfbox.pdmodel.PDPage;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import static com.mindee.TestingUtilities.getResourcePath;
+
 
 public class PDFUtilsTest {
 
@@ -30,7 +32,7 @@ public class PDFUtilsTest {
     }
     document.save("src/test/resources/output/test.pdf");
     document.close();
-    File file = new File("src/test/resources/output/test.pdf");
+    File file = getResourcePath("output/test.pdf").toFile();
     LocalInputSource source = new LocalInputSource(file);
     Assertions.assertEquals(random, PDFUtils.getNumberOfPages(source));
     file.delete();
@@ -42,7 +44,7 @@ public class PDFUtilsTest {
     Path original = Paths.get("src/test/resources/file_types/pdf/multipage.pdf");
     Path copied = Paths.get("src/test/resources/output/fileToTest.pdf");
     Files.copy(original, copied, StandardCopyOption.REPLACE_EXISTING);
-    File file = new File("src/test/resources/output/fileToTest.pdf");
+    File file = getResourcePath("output/fileToTest.pdf").toFile();
     List<Integer> pageList = Arrays.asList(0, 2, 3, 1, 10, 2, 1);
     byte[] newPdf = PDFUtils.mergePdfPages(file, pageList);
     PDDocument document = Loader.loadPDF(newPdf);
@@ -54,7 +56,7 @@ public class PDFUtilsTest {
 
   @Test
   public void givenANonEmptyDocument_whenEmptyChecked_shouldReturnFalse() throws IOException {
-    File pdfFile = new File("src/test/resources/file_types/pdf/multipage.pdf");
+    File pdfFile = getResourcePath("file_types/pdf/multipage.pdf").toFile();
     Assertions.assertFalse(PDFUtils.isPdfEmpty(pdfFile));
   }
 
@@ -68,7 +70,7 @@ public class PDFUtilsTest {
     }
     document.save("src/test/resources/output/test.pdf");
     document.close();
-    File file = new File("src/test/resources/output/test.pdf");
+    File file = getResourcePath("output/test.pdf").toFile();
     Assertions.assertTrue(PDFUtils.isPdfEmpty(file));
     file.delete();
   }

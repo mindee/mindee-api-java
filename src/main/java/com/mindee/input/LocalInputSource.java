@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Base64;
 import lombok.Getter;
 import org.apache.pdfbox.io.IOUtils;
@@ -32,6 +33,11 @@ public final class LocalInputSource {
     File file = new File(filePath);
     this.file = Files.readAllBytes(file.toPath());
     this.filename = file.getName();
+  }
+
+  public LocalInputSource(Path filePath) throws IOException {
+    this.file = Files.readAllBytes(filePath);
+    this.filename = filePath.getFileName().toString();
   }
 
   public LocalInputSource(File file) throws IOException {

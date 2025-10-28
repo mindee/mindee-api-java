@@ -6,11 +6,12 @@ import com.mindee.MindeeException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.mindee.TestingUtilities.getResourcePath;
 
 
 public class PdfOperationTest {
@@ -27,8 +28,8 @@ public class PdfOperationTest {
         .build();
 
     byte[] fileBytes = Files.readAllBytes(
-        new File("src/test/resources/file_types/pdf/multipage.pdf").toPath());
-
+        getResourcePath("file_types/pdf/multipage.pdf")
+    );
     SplitQuery splitQuery = new SplitQuery(fileBytes, pageOptions);
     SplitPdf splitPdf = pdfOperation.split(splitQuery);
 
@@ -51,7 +52,7 @@ public class PdfOperationTest {
         .build();
 
     SplitQuery splitQuery = new SplitQuery(
-        Files.readAllBytes(new File("src/test/resources/file_types/pdf/multipage.pdf").toPath()),
+        Files.readAllBytes(getResourcePath("file_types/pdf/multipage.pdf")),
         pageOptions
     );
     SplitPdf splitPdf = pdfOperation.split(splitQuery);
@@ -71,7 +72,7 @@ public class PdfOperationTest {
         .build();
 
     SplitQuery splitQuery = new SplitQuery(
-        Files.readAllBytes(new File("src/test/resources/file_types/pdf/multipage.pdf").toPath()),
+        Files.readAllBytes(getResourcePath("file_types/pdf/multipage.pdf")),
         pageOptions
     );
     SplitPdf splitPdf = pdfOperation.split(splitQuery);
@@ -91,7 +92,7 @@ public class PdfOperationTest {
         .build();
 
     SplitQuery splitQuery = new SplitQuery(
-        Files.readAllBytes(new File("src/test/resources/file_types/receipt.jpg").toPath()),
+        Files.readAllBytes(getResourcePath("file_types/receipt.jpg")),
         pageOptions
     );
 
@@ -111,7 +112,7 @@ public class PdfOperationTest {
         .build();
 
     SplitQuery splitQuery = new SplitQuery(
-        Files.readAllBytes(new File("src/test/resources/file_types/pdf/multipage_cut-2.pdf").toPath()),
+        Files.readAllBytes(getResourcePath("file_types/pdf/multipage_cut-2.pdf")),
         pageOptions
     );
     SplitPdf splitPdf = pdfOperation.split(splitQuery);
@@ -131,7 +132,7 @@ public class PdfOperationTest {
         .build();
 
     SplitQuery splitQuery = new SplitQuery(
-        Files.readAllBytes(new File("src/test/resources/file_types/pdf/multipage.pdf").toPath()),
+        Files.readAllBytes(getResourcePath("file_types/pdf/multipage.pdf")),
         pageOptions
     );
     SplitPdf splitPdf = pdfOperation.split(splitQuery);

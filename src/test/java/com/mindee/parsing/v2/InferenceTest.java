@@ -27,7 +27,9 @@ import static org.junit.jupiter.api.Assertions.*;
 class InferenceTest {
 
   private InferenceResponse loadFromResource(String resourcePath) throws IOException {
-    LocalResponse localResponse = new LocalResponse(InferenceTest.class.getClassLoader().getResourceAsStream(resourcePath));
+    LocalResponse localResponse = new LocalResponse(
+        InferenceTest.class.getClassLoader().getResourceAsStream(resourcePath)
+    );
     return localResponse.deserializeResponse(InferenceResponse.class);
   }
 

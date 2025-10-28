@@ -1,8 +1,36 @@
 package com.mindee;
 
+import org.junit.jupiter.api.Assertions;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
 import java.util.Objects;
 
 public class TestingUtilities {
+  public static Path getResourcePath(String filePath) {
+    return Paths.get("src/test/resources/" + filePath);
+  }
+
+  public static Path getV1ResourcePath(String filePath) {
+    return Paths.get("src/test/resources/v1/" + filePath);
+  }
+
+  public static String getV1ResourcePathString(String filePath) {
+    return getV1ResourcePath(filePath).toString();
+  }
+
+  public static void assertStringEqualsFile(String expected, String filePath) throws IOException {
+    String[] actualLines = expected.split(System.lineSeparator());
+    List<String> expectedLines = Files.readAllLines(Paths.get(filePath));
+    String expectedSummary = String.join(String.format("%n"), expectedLines);
+    String actualSummary = String.join(String.format("%n"), actualLines);
+
+    Assertions.assertEquals(expectedSummary, actualSummary);
+  }
+
   /**
    * Retrieves the version from an RST prediction output.
    *

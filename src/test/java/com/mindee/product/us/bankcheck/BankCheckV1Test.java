@@ -6,11 +6,13 @@ import com.mindee.parsing.common.Document;
 import com.mindee.parsing.common.Page;
 import com.mindee.parsing.common.PredictResponse;
 import com.mindee.parsing.standard.ClassificationField;
-import com.mindee.product.ProductTestHelper;
+import static com.mindee.TestingUtilities.assertStringEqualsFile;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.io.IOException;
+
+import static com.mindee.TestingUtilities.getV1ResourcePathString;
 
 /**
  * Unit tests for BankCheckV1.
@@ -26,7 +28,7 @@ public class BankCheckV1Test {
       BankCheckV1.class
     );
     return objectMapper.readValue(
-      new File("src/test/resources/products/bank_check/response_v1/" + name + ".json"),
+      new File(getV1ResourcePathString("products/bank_check/response_v1/" + name + ".json")),
       type
     );
   }
@@ -50,9 +52,9 @@ public class BankCheckV1Test {
   void whenCompleteDeserialized_mustHaveValidDocumentSummary() throws IOException {
     PredictResponse<BankCheckV1> response = getPrediction("complete");
     Document<BankCheckV1> doc = response.getDocument();
-    ProductTestHelper.assertStringEqualsFile(
+    assertStringEqualsFile(
         doc.toString(),
-        "src/test/resources/products/bank_check/response_v1/summary_full.rst"
+        getV1ResourcePathString("products/bank_check/response_v1/summary_full.rst")
     );
   }
 
@@ -60,9 +62,9 @@ public class BankCheckV1Test {
   void whenCompleteDeserialized_mustHaveValidPage0Summary() throws IOException {
     PredictResponse<BankCheckV1> response = getPrediction("complete");
     Page<BankCheckV1Page> page = response.getDocument().getInference().getPages().get(0);
-    ProductTestHelper.assertStringEqualsFile(
+    assertStringEqualsFile(
         page.toString(),
-        "src/test/resources/products/bank_check/response_v1/summary_page0.rst"
+        getV1ResourcePathString("products/bank_check/response_v1/summary_page0.rst")
     );
   }
 }

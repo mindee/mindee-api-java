@@ -5,11 +5,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mindee.parsing.common.Document;
 import com.mindee.parsing.common.PredictResponse;
 import com.mindee.parsing.standard.ClassificationField;
-import com.mindee.product.ProductTestHelper;
+import static com.mindee.TestingUtilities.assertStringEqualsFile;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.io.IOException;
+
+import static com.mindee.TestingUtilities.getV1ResourcePathString;
 
 /**
  * Unit tests for InternationalIdV2.
@@ -25,7 +27,7 @@ public class InternationalIdV2Test {
       InternationalIdV2.class
     );
     return objectMapper.readValue(
-      new File("src/test/resources/products/international_id/response_v2/" + name + ".json"),
+      new File(getV1ResourcePathString("products/international_id/response_v2/" + name + ".json")),
       type
     );
   }
@@ -57,9 +59,9 @@ public class InternationalIdV2Test {
   void whenCompleteDeserialized_mustHaveValidDocumentSummary() throws IOException {
     PredictResponse<InternationalIdV2> response = getPrediction("complete");
     Document<InternationalIdV2> doc = response.getDocument();
-    ProductTestHelper.assertStringEqualsFile(
+    assertStringEqualsFile(
         doc.toString(),
-        "src/test/resources/products/international_id/response_v2/summary_full.rst"
+        getV1ResourcePathString("products/international_id/response_v2/summary_full.rst")
     );
   }
 

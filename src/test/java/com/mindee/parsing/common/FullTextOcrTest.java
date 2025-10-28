@@ -2,16 +2,15 @@ package com.mindee.parsing.common;
 
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mindee.parsing.standard.StringField;
 import com.mindee.product.internationalid.InternationalIdV2;
 import com.mindee.product.internationalid.InternationalIdV2Document;
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
+
+import static com.mindee.TestingUtilities.getV1ResourcePath;
 
 public class FullTextOcrTest {
   private Inference<InternationalIdV2Document, InternationalIdV2Document> loadInference() throws IOException {
@@ -22,7 +21,7 @@ public class FullTextOcrTest {
       AsyncPredictResponse.class,
       InternationalIdV2.class);
     AsyncPredictResponse<InternationalIdV2> prediction = objectMapper.readValue(
-      new File("src/test/resources/extras/full_text_ocr/complete.json"),
+      getV1ResourcePath("extras/full_text_ocr/complete.json").toFile(),
       type);
 
     return prediction.getDocumentObj().getInference();
@@ -36,7 +35,7 @@ public class FullTextOcrTest {
       AsyncPredictResponse.class,
       InternationalIdV2.class);
     AsyncPredictResponse<InternationalIdV2> prediction = objectMapper.readValue(
-      new File("src/test/resources/extras/full_text_ocr/complete.json"),
+      getV1ResourcePath("extras/full_text_ocr/complete.json").toFile(),
       type);
 
     return prediction.getDocumentObj().getInference().getPages();
@@ -44,8 +43,9 @@ public class FullTextOcrTest {
 
   @Test
   void should_GetFullTextOcrResult() throws IOException {
-    List<String> expectedText = Files
-      .readAllLines(Paths.get("src/test/resources/extras/full_text_ocr/full_text_ocr.txt"));
+    List<String> expectedText = Files.readAllLines(
+        getV1ResourcePath("extras/full_text_ocr/full_text_ocr.txt")
+    );
     List<Page<InternationalIdV2Document>> pages = loadPages();
     Inference<InternationalIdV2Document, InternationalIdV2Document> inference = loadInference();
     String fullTextOcr = inference.getExtras().getFullTextOcr();

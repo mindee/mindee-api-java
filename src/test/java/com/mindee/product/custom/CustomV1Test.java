@@ -7,12 +7,14 @@ import com.mindee.parsing.common.Page;
 import com.mindee.parsing.common.PredictResponse;
 import com.mindee.parsing.custom.ListField;
 import com.mindee.parsing.custom.ListFieldValue;
-import com.mindee.product.ProductTestHelper;
+import static com.mindee.TestingUtilities.assertStringEqualsFile;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
+
+import static com.mindee.TestingUtilities.getV1ResourcePathString;
 
 class CustomV1Test {
 
@@ -25,7 +27,7 @@ class CustomV1Test {
       CustomV1.class
     );
     return objectMapper.readValue(
-      new File("src/test/resources/products/custom/response_v1/" + name + ".json"),
+      new File(getV1ResourcePathString("products/custom/response_v1/" + name + ".json")),
       type
     );
   }
@@ -74,9 +76,9 @@ class CustomV1Test {
   void whenCompleteDeserialized_mustHaveValidDocumentSummary() throws IOException {
     PredictResponse<CustomV1> response = getPrediction("complete");
     Document<CustomV1> doc = response.getDocument();
-    ProductTestHelper.assertStringEqualsFile(
+    assertStringEqualsFile(
       doc.toString(),
-      "src/test/resources/products/custom/response_v1/summary_full.rst"
+      getV1ResourcePathString("products/custom/response_v1/summary_full.rst")
     );
   }
 
@@ -84,9 +86,9 @@ class CustomV1Test {
   void whenCompleteDeserialized_mustHaveValidPage0Summary() throws IOException {
     PredictResponse<CustomV1> response = getPrediction("complete");
     Page<CustomV1Page> page = response.getDocument().getInference().getPages().get(0);
-    ProductTestHelper.assertStringEqualsFile(
+    assertStringEqualsFile(
       page.toString(),
-      "src/test/resources/products/custom/response_v1/summary_page0.rst"
+      getV1ResourcePathString("products/custom/response_v1/summary_page0.rst")
     );
   }
 }

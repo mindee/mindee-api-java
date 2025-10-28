@@ -13,26 +13,28 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.mindee.TestingUtilities.getResourcePath;
+import static com.mindee.TestingUtilities.getV1ResourcePath;
 
 public class FileCompressionTest {
 
   @Test
   public void fromInputSource_imageQuality_should_Compress() throws IOException {
-    LocalInputSource receiptInput =
-        new LocalInputSource("src/test/resources/file_types/receipt.jpg");
+    Path testFilePath = getResourcePath("file_types/receipt.jpg");
+    Path outputPath = getResourcePath("output/compress-test.jpg");
 
+    LocalInputSource receiptInput = new LocalInputSource(testFilePath);
     receiptInput.compress(40);
-    Path outputPath = Paths.get("src/test/resources/output/compresstest.jpg");
 
     Files.write(outputPath, receiptInput.getFile());
 
     Assertions.assertTrue(Files.exists(outputPath));
 
-    long initialFileSize = Files.size(Paths.get("src/test/resources/file_types/receipt.jpg"));
+    long initialFileSize = Files.size(testFilePath);
     long compressedFileSize = Files.size(outputPath);
 
     Assertions.assertTrue(
@@ -44,9 +46,11 @@ public class FileCompressionTest {
 
   @Test
   public void testImageQualityCompressesFromCompressor() throws IOException {
-    Path outputDir = Paths.get("src/test/resources/output");
-    LocalInputSource receiptInput =
-        new LocalInputSource("src/test/resources/file_types/receipt.jpg");
+    Path testFilePath = getResourcePath("file_types/receipt.jpg");
+    Path outputDir = getResourcePath("output");
+
+    LocalInputSource receiptInput = new LocalInputSource(testFilePath);
+
     List<byte[]> compresses = Arrays.asList(
         ImageCompressor.compressImage(receiptInput.getFile(), 100),
         ImageCompressor.compressImage(receiptInput.getFile()),
@@ -54,7 +58,6 @@ public class FileCompressionTest {
         ImageCompressor.compressImage(receiptInput.getFile(), 10),
         ImageCompressor.compressImage(receiptInput.getFile(), 1)
     );
-
     List<Path> outputPaths = Arrays.asList(
         outputDir.resolve("compress100.jpg"),
         outputDir.resolve("compress75.jpg"),
@@ -67,7 +70,7 @@ public class FileCompressionTest {
       Files.write(outputPaths.get(i), compresses.get(i));
     }
 
-    long initialFileSize = Files.size(Paths.get("src/test/resources/file_types/receipt.jpg"));
+    long initialFileSize = Files.size(testFilePath);
     List<Long> compressedFileSizes = outputPaths.stream()
         .map(path -> {
           try {
@@ -106,14 +109,14 @@ public class FileCompressionTest {
 
   @Test
   public void testImageResizeFromInputSource() throws IOException {
-    Path outputDir = Paths.get("src/test/resources/output");
-    LocalInputSource imageResizeInput =
-        new LocalInputSource("src/test/resources/file_types/receipt.jpg");
+    Path testFilePath = getResourcePath("file_types/receipt.jpg");
+    Path outputDir = getResourcePath("output");
+    LocalInputSource imageResizeInput = new LocalInputSource(testFilePath);
     imageResizeInput.compress(75, 250, 1000);
     Path outputPath = outputDir.resolve("resize_indirect.jpg");
     Files.write(outputPath, imageResizeInput.getFile());
 
-    long initialFileSize = Files.size(Paths.get("src/test/resources/file_types/receipt.jpg"));
+    long initialFileSize = Files.size(testFilePath);
     long resizedFileSize = Files.size(outputPath);
     Assertions.assertTrue(resizedFileSize < initialFileSize);
 
@@ -124,9 +127,9 @@ public class FileCompressionTest {
 
   @Test
   public void testImageResizeFromCompressor() throws IOException {
-    Path outputDir = Paths.get("src/test/resources/output");
-    LocalInputSource imageResizeInput =
-        new LocalInputSource("src/test/resources/file_types/receipt.jpg");
+    Path testFilePath = getResourcePath("file_types/receipt.jpg");
+    Path outputDir = getResourcePath("output");
+    LocalInputSource imageResizeInput = new LocalInputSource(testFilePath);
     List<byte[]> resizes = Arrays.asList(
         ImageCompressor.compressImage(imageResizeInput.getFile(), 75, 500, null),
         ImageCompressor.compressImage(imageResizeInput.getFile(), 75, 250, 500),
@@ -145,7 +148,7 @@ public class FileCompressionTest {
       Files.write(outputPaths.get(i), resizes.get(i));
     }
 
-    long initialFileSize = Files.size(Paths.get("src/test/resources/file_types/receipt.jpg"));
+    long initialFileSize = Files.size(testFilePath);
     List<Long> resizedFileSizes = outputPaths.stream()
         .map(path -> {
           try {
@@ -178,8 +181,8 @@ public class FileCompressionTest {
 
   @Test
   public void testPdfResizeFromInputSource() throws IOException {
-    Path outputDir = Paths.get("src/test/resources/output");
-    Path inputPath = Paths.get("src/test/resources/products/invoice_splitter/default_sample.pdf");
+    Path outputDir = getResourcePath("output");
+    Path inputPath = getV1ResourcePath("products/invoice_splitter/default_sample.pdf");
     Path outputPath = outputDir.resolve("resize_indirect.pdf");
 
     LocalInputSource pdfResizeInput = new LocalInputSource(inputPath.toString());
@@ -198,8 +201,8 @@ public class FileCompressionTest {
 
   @Test
   public void testPdfResizeFromCompressor() throws IOException {
-    Path outputDir = Paths.get("src/test/resources/output");
-    Path inputPath = Paths.get("src/test/resources/products/invoice_splitter/default_sample.pdf");
+    Path outputDir = getResourcePath("output");
+    Path inputPath = getV1ResourcePath("products/invoice_splitter/default_sample.pdf");
     LocalInputSource pdfResizeInput = new LocalInputSource(inputPath.toString());
 
     List<byte[]> resizes = Arrays.asList(
@@ -255,7 +258,7 @@ public class FileCompressionTest {
 
   @Test
   public void testPdfResizeWithTextKeepsText() throws IOException {
-    Path inputPath = Paths.get("src/test/resources/file_types/pdf/multipage.pdf");
+    Path inputPath = getResourcePath("file_types/pdf/multipage.pdf");
     LocalInputSource initialWithText = new LocalInputSource(inputPath.toString());
     byte[] compressedWithText =
         PdfCompressor.compressPdf(initialWithText.getFile(), 100, true, false);

@@ -21,7 +21,7 @@ public class URLInputSourceIT {
   @Test
   public void testURLInputSource_shouldSendApiCall() throws IOException {
     URLInputSource remoteSource = URLInputSource.builder(
-        "https://github.com/mindee/client-lib-test-data/blob/main/products/invoice_splitter/invoice_5p.pdf?raw=true"
+        "https://github.com/mindee/client-lib-test-data/blob/main/v1/products/invoice_splitter/invoice_5p.pdf?raw=true"
     ).build();
     remoteSource.fetchFile();
     LocalInputSource localSource = remoteSource.toLocalInputSource();

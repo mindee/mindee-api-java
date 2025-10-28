@@ -10,6 +10,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.stream.Collectors;
@@ -52,6 +53,16 @@ public class LocalResponse {
   public LocalResponse(File input) throws IOException {
     this.file = this.getBytes(
         Files.lines(input.toPath(), StandardCharsets.UTF_8)
+    );
+  }
+
+  /**
+   * Load from a {@link Path}.
+   * @param input will be decoded as UTF-8.
+   */
+  public LocalResponse(Path input) throws IOException {
+    this.file = this.getBytes(
+        Files.lines(input, StandardCharsets.UTF_8)
     );
   }
 

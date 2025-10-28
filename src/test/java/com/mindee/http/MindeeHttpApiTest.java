@@ -6,6 +6,8 @@ import static com.github.tomakehurst.wiremock.client.WireMock.post;
 import static com.github.tomakehurst.wiremock.client.WireMock.postRequestedFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlMatching;
+import static com.mindee.TestingUtilities.getV1ResourcePath;
+import static com.mindee.TestingUtilities.getV1ResourcePathString;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -23,7 +25,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -72,8 +73,7 @@ public class MindeeHttpApiTest {
   }
 
   private MindeeHttpApi getClientForResponse(String filePath, int statusCode) throws IOException {
-    Path path = Paths.get("src/test/resources/" + filePath);
-    return getClientForResponse(path, statusCode);
+    return getClientForResponse(getV1ResourcePath(filePath), statusCode);
   }
 
   @Test
@@ -81,14 +81,14 @@ public class MindeeHttpApiTest {
       throws IOException {
     MindeeHttpApi client = getClientForResponse("products/invoices/response_v4/complete.json", 200);
 
-    File file = new File("src/test/resources/products/invoices/invoice.pdf");
+    Path filePath = getV1ResourcePath("products/invoices/invoice.pdf");
 
     Document<InvoiceV4> document = client.predictPost(
             InvoiceV4.class,
             new Endpoint("", ""),
             RequestParameters.builder()
-                .file(Files.readAllBytes(file.toPath()))
-                .fileName(file.getName())
+                .file(Files.readAllBytes(filePath))
+                .fileName(filePath.getFileName().toString())
                 .build()
         )
         .getDocument();
@@ -97,9 +97,9 @@ public class MindeeHttpApiTest {
 
     String[] actualLines = document.toString().split(System.lineSeparator());
     String actualSummary = String.join(String.format("%n"), actualLines);
-    List<String> expectedLines = Files
-        .readAllLines(
-            Paths.get("src/test/resources/products/invoices/response_v4/summary_full.rst"));
+    List<String> expectedLines = Files.readAllLines(
+        getV1ResourcePath("products/invoices/response_v4/summary_full.rst")
+    );
     String expectedSummary = String.join(String.format("%n"), expectedLines);
 
     Assertions.assertNotNull(document);
@@ -109,16 +109,17 @@ public class MindeeHttpApiTest {
   @Test
   void givenParseParametersWithFile_whenParsed_shouldBuildRequestCorrectly()
       throws IOException, InterruptedException {
-    MindeeHttpApi client = getClientForResponse("products/invoices/response_v4/complete.json", 200);
-
-    File file = new File("src/test/resources/products/invoices/invoice.pdf");
-    byte[] fileBytes = Files.readAllBytes(file.toPath());
+    MindeeHttpApi client = getClientForResponse(
+        "products/invoices/response_v4/complete.json", 200
+    );
+    Path filePath = getV1ResourcePath("products/invoices/invoice.pdf");
+    byte[] fileBytes = Files.readAllBytes(filePath);
     Document<InvoiceV4> document = client.predictPost(
             InvoiceV4.class,
             new Endpoint("", ""),
             RequestParameters.builder()
                 .file(fileBytes)
-                .fileName(file.getName())
+                .fileName(filePath.getFileName().toString())
                 .build()
         )
         .getDocument();
@@ -135,10 +136,11 @@ public class MindeeHttpApiTest {
   @Test
   void givenPredictOptions_whenParsed_shouldBuildRequestCorrectly()
       throws IOException, InterruptedException {
-    MindeeHttpApi client = getClientForResponse("products/invoices/response_v4/complete.json", 200);
-
-    File file = new File("src/test/resources/products/invoices/invoice.pdf");
-    byte[] fileBytes = Files.readAllBytes(file.toPath());
+    MindeeHttpApi client = getClientForResponse(
+        "products/invoices/response_v4/complete.json", 200
+    );
+    Path filePath = getV1ResourcePath("products/invoices/invoice.pdf");
+    byte[] fileBytes = Files.readAllBytes(filePath);
     PredictOptions predictOptions = PredictOptions.builder()
         .cropper(true)
         .allWords(true)
@@ -148,7 +150,7 @@ public class MindeeHttpApiTest {
             new Endpoint("", ""),
             RequestParameters.builder()
                 .file(fileBytes)
-                .fileName(file.getName())
+                .fileName(filePath.getFileName().toString())
                 .predictOptions(predictOptions)
                 .build()
         )
@@ -189,7 +191,9 @@ public class MindeeHttpApiTest {
         Long.toString(recordedRequest.getBodySize()),
         recordedRequest.getHeader("Content-Length")
     );
-    Assertions.assertTrue(Objects.requireNonNull(recordedRequest.getHeader("Content-Type")).contains("application/json"));
+    Assertions.assertTrue(
+        Objects.requireNonNull(recordedRequest.getHeader("Content-Type")).contains("application/json")
+    );
     Map<String, String> requestMap = objectMapper.readValue(
         recordedRequest.getBody().readUtf8(),
         new TypeReference<Map<String, String>>() {}
@@ -202,7 +206,7 @@ public class MindeeHttpApiTest {
       throws IOException, InterruptedException {
     String url = String.format("http://localhost:%s", mockWebServer.getPort());
     String mockPath = "/testinvoice/v2/test";
-    Path path = Paths.get("src/test/resources/products/invoices/response_v4/complete.json");
+    Path path = getV1ResourcePath("products/invoices/response_v4/complete.json");
     mockWebServer.enqueue(new MockResponse()
         .setResponseCode(200)
         .setBody(new String(Files.readAllBytes(path)))
@@ -218,7 +222,7 @@ public class MindeeHttpApiTest {
             endpoint -> String.format("http://localhost:%s%s", mockWebServer.getPort(), mockPath))
         .build();
 
-    File file = new File("src/test/resources/products/invoices/invoice.pdf");
+    File file = new File(getV1ResourcePathString("products/invoices/invoice.pdf"));
     Document<InvoiceV4> document = client.predictPost(
             InvoiceV4.class,
             new Endpoint("", ""),
@@ -233,9 +237,9 @@ public class MindeeHttpApiTest {
 
     String[] actualLines = document.toString().split(System.lineSeparator());
     String actualSummary = String.join(String.format("%n"), actualLines);
-    List<String> expectedLines = Files
-        .readAllLines(
-            Paths.get("src/test/resources/products/invoices/response_v4/summary_full.rst"));
+    List<String> expectedLines = Files.readAllLines(
+        getV1ResourcePath("products/invoices/response_v4/summary_full.rst")
+    );
     String expectedSummary = String.join(String.format("%n"), expectedLines);
 
     Assertions.assertNotNull(document);
@@ -252,11 +256,11 @@ public class MindeeHttpApiTest {
     String url = String.format("http://localhost:%s", mockWebServer.getPort());
     proxyMock.stubFor(post(urlMatching(".*"))
         .willReturn(aResponse().proxiedFrom(url)));
-    Path path = Paths.get("src/test/resources/products/invoices/response_v4/complete.json");
+    Path path = getV1ResourcePath("products/invoices/response_v4/complete.json");
     mockWebServer.enqueue(new MockResponse()
         .setResponseCode(200)
         .setBody(new String(Files.readAllBytes(path))));
-    File file = new File("src/test/resources/products/invoices/invoice.pdf");
+    File file = new File(getV1ResourcePathString("products/invoices/invoice.pdf"));
 
     HttpHost proxy = new HttpHost("localhost", proxyPort);
     DefaultProxyRoutePlanner routePlanner = new DefaultProxyRoutePlanner(proxy);
@@ -286,9 +290,9 @@ public class MindeeHttpApiTest {
 
     String[] actualLines = response.getDocument().toString().split(System.lineSeparator());
     String actualSummary = String.join(String.format("%n"), actualLines);
-    List<String> expectedLines = Files
-        .readAllLines(
-            Paths.get("src/test/resources/products/invoices/response_v4/summary_full.rst"));
+    List<String> expectedLines = Files.readAllLines(
+            getV1ResourcePath("products/invoices/response_v4/summary_full.rst")
+    );
     String expectedSummary = String.join(String.format("%n"), expectedLines);
 
     proxyMock.verify(postRequestedFor(urlEqualTo("/products/mindee/invoices/v4/predict"))
@@ -298,14 +302,13 @@ public class MindeeHttpApiTest {
     proxyMock.shutdown();
   }
 
-
   @Test
   void givenAnAsncResponse_whenDeserialized_mustHaveValidJob()
       throws IOException, InterruptedException {
-    Path path = Paths.get("src/test/resources/async/post_success.json");
+    Path path = getV1ResourcePath("async/post_success.json");
     MindeeHttpApi client = getClientForResponse(path, 200);
 
-    File file = new File("src/test/resources/products/invoices/invoice.pdf");
+    File file = new File(getV1ResourcePathString("products/invoices/invoice.pdf"));
     AsyncPredictResponse<InvoiceV4> response = client.predictAsyncPost(
         InvoiceV4.class,
         new Endpoint(InvoiceV4.class),
@@ -337,7 +340,7 @@ public class MindeeHttpApiTest {
   @Test
   void givenAResponseFromTheJobEndpoint_whenDeserialized_mustHaveValidJobAndDocument()
       throws IOException, InterruptedException {
-    Path path = Paths.get("src/test/resources/async/get_completed.json");
+    Path path = getV1ResourcePath("async/get_completed.json");
     MindeeHttpApi client = getClientForResponse(path, 200);
 
     AsyncPredictResponse<InvoiceSplitterV1> response = client.documentQueueGet(
@@ -370,7 +373,7 @@ public class MindeeHttpApiTest {
       throws IOException {
     MindeeHttpApi client = getClientForResponse("errors/error_401_no_token.json", 401);
 
-    File file = new File("src/test/resources/products/invoices/invoice.pdf");
+    File file = new File(getV1ResourcePathString("products/invoices/invoice.pdf"));
     byte[] fileInBytes = Files.readAllBytes(file.toPath());
     RequestParameters parseParameter =
         RequestParameters.builder()
@@ -398,7 +401,7 @@ public class MindeeHttpApiTest {
   {
     MindeeHttpApi client = getClientForResponse("errors/error_429_too_many_requests.json", 429);
 
-    File file = new File("src/test/resources/products/invoices/invoice.pdf");
+    File file = new File(getV1ResourcePathString("products/invoices/invoice.pdf"));
     byte[] fileInBytes = Files.readAllBytes(file.toPath());
     RequestParameters parseParameter =
         RequestParameters.builder()
@@ -424,12 +427,12 @@ public class MindeeHttpApiTest {
       throws IOException {
     MindeeHttpApi client = getClientForResponse("errors/error_50x.html", 413);
 
-    File file = new File("src/test/resources/products/invoices/invoice.pdf");
-    byte[] fileInBytes = Files.readAllBytes(file.toPath());
+    Path filePath = getV1ResourcePath("products/invoices/invoice.pdf");
+    byte[] fileBytes = Files.readAllBytes(filePath);
     RequestParameters parseParameter =
         RequestParameters.builder()
-            .file(fileInBytes)
-            .fileName(file.getName())
+            .file(fileBytes)
+            .fileName(filePath.getFileName().toString())
             .build();
 
     MindeeHttpException httpError = Assertions.assertThrows(
@@ -452,12 +455,12 @@ public class MindeeHttpApiTest {
       throws IOException {
     MindeeHttpApi client = getClientForResponse("errors/error_400_no_details.json", 400);
 
-    File file = new File("src/test/resources/products/invoices/invoice.pdf");
-    byte[] fileInBytes = Files.readAllBytes(file.toPath());
+    Path filePath = getV1ResourcePath("products/invoices/invoice.pdf");
+    byte[] fileBytes = Files.readAllBytes(filePath);
     RequestParameters parseParameter =
         RequestParameters.builder()
-            .file(fileInBytes)
-            .fileName(file.getName())
+            .file(fileBytes)
+            .fileName(filePath.getFileName().toString())
             .build();
 
     MindeeHttpException httpError = Assertions.assertThrows(
