@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RawText {
-  /*
+  /**
    * Page Number the text was found on.
    */
   @JsonProperty("pages")

@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
-@DisplayName("MindeeClientV2 – client / API interaction tests")
+@DisplayName("MindeeV2 – Client and API Tests")
 class MindeeClientV2Test {
   /**
    * Creates a fully mocked MindeeClientV2.

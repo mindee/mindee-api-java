@@ -20,16 +20,22 @@ import lombok.NoArgsConstructor;
 public final class InferenceResult {
 
   /**
-   * Model fields.
+   * Extracted fields, the key corresponds to the field's name in the data schema.
    */
   @JsonProperty("fields")
   private InferenceFields fields;
 
   /**
-   * Options.
+   * Raw text extracted from all pages in the document.
    */
   @JsonProperty("raw_text")
   private RawText rawText;
+
+  /**
+   * RAG metadata.
+   */
+  @JsonProperty("rag")
+  private RagMetadata rag;
 
   @Override
   public String toString() {

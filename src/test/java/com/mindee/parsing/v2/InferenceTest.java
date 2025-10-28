@@ -12,43 +12,41 @@ import com.mindee.parsing.v2.field.ListField;
 import com.mindee.parsing.v2.field.ObjectField;
 import com.mindee.parsing.v2.field.DynamicField.FieldType;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
-import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import static com.mindee.TestingUtilities.getV2ResourcePath;
 import static org.junit.jupiter.api.Assertions.*;
 
-@DisplayName("InferenceV2 – field integrity checks")
+@DisplayName("MindeeV2 - Inference Tests")
 class InferenceTest {
 
-  private InferenceResponse loadFromResource(String resourcePath) throws IOException {
-    LocalResponse localResponse = new LocalResponse(
-        InferenceTest.class.getClassLoader().getResourceAsStream(resourcePath)
-    );
+  private InferenceResponse loadInference(String filePath) throws IOException {
+    LocalResponse localResponse = new LocalResponse(getV2ResourcePath(filePath));
     return localResponse.deserializeResponse(InferenceResponse.class);
   }
 
   private String readFileAsString(String path)
       throws IOException
   {
-    byte[] encoded = IOUtils.toByteArray(Objects.requireNonNull(InferenceTest.class.getClassLoader().getResourceAsStream(path)));
+    byte[] encoded = Files.readAllBytes(getV2ResourcePath(path));
     return new String(encoded);
   }
 
 
   @Nested
-  @DisplayName("When the async prediction is blank")
-  class BlankPrediction {
+  @DisplayName("Inference on blank file")
+  class BlankPredictionTest {
 
     @Test
     @DisplayName("all properties must be valid")
     void asyncPredict_whenEmpty_mustHaveValidProperties() throws IOException {
-      InferenceResponse response = loadFromResource("v2/products/financial_document/blank.json");
+      InferenceResponse response = loadInference("products/financial_document/blank.json");
       InferenceFields fields = response.getInference().getResult().getFields();
 
       assertEquals(21, fields.size(), "Expected 21 fields");
@@ -94,13 +92,13 @@ class InferenceTest {
   }
 
   @Nested
-  @DisplayName("When the async prediction is complete")
-  class CompletePrediction {
+  @DisplayName("Inference on filled file")
+  class CompletePredictionTest {
 
     @Test
     @DisplayName("every exposed property must be valid and consistent")
     void asyncPredict_whenComplete_mustExposeAllProperties() throws IOException {
-      InferenceResponse response = loadFromResource("v2/products/financial_document/complete.json");
+      InferenceResponse response = loadInference("products/financial_document/complete.json");
       Inference inference = response.getInference();
       assertNotNull(inference, "Inference must not be null");
       assertEquals("12345678-1234-1234-1234-123456789abc", inference.getId(), "Inference ID mismatch");
@@ -155,12 +153,12 @@ class InferenceTest {
 
   @Nested
   @DisplayName("deep_nested_fields.json")
-  class DeepNestedFields {
+  class DeepNestedFieldsTest {
 
     @Test
     @DisplayName("all nested structures must be typed correctly")
     void deepNestedFields_mustExposeCorrectTypes() throws IOException {
-      InferenceResponse resp = loadFromResource("v2/inference/deep_nested_fields.json");
+      InferenceResponse resp = loadInference("inference/deep_nested_fields.json");
       Inference inf = resp.getInference();
       assertNotNull(inf);
 
@@ -191,7 +189,7 @@ class InferenceTest {
 
   @Nested
   @DisplayName("standard_field_types.json")
-  class StandardFieldTypes {
+  class StandardFieldTypesTest {
 
     private void testSimpleFieldString(SimpleField field) {
       assertNotNull(field);
@@ -204,7 +202,7 @@ class InferenceTest {
     @Test
     @DisplayName("simple fields must be recognised")
     void standardFieldTypes_mustExposeSimpleFieldValues() throws IOException {
-      InferenceResponse response = loadFromResource("v2/inference/standard_field_types.json");
+      InferenceResponse response = loadInference("inference/standard_field_types.json");
       Inference inference = response.getInference();
       assertNotNull(inference);
 
@@ -254,7 +252,7 @@ class InferenceTest {
     @Test
     @DisplayName("simple list fields must be recognised")
     void standardFieldTypes_mustExposeSimpleListFieldValues() throws IOException {
-      InferenceResponse response = loadFromResource("v2/inference/standard_field_types.json");
+      InferenceResponse response = loadInference("inference/standard_field_types.json");
       Inference inference = response.getInference();
       assertNotNull(inference);
 
@@ -297,7 +295,7 @@ class InferenceTest {
     @Test
     @DisplayName("object list fields must be recognised")
     void standardFieldTypes_mustExposeObjectListFieldValues() throws IOException {
-      InferenceResponse response = loadFromResource("v2/inference/standard_field_types.json");
+      InferenceResponse response = loadInference("inference/standard_field_types.json");
       Inference inference = response.getInference();
       assertNotNull(inference);
 
@@ -347,7 +345,7 @@ class InferenceTest {
     @Test
     @DisplayName("simple / object / list variants must be recognised")
     void standardFieldTypes_mustExposeObjectFieldValues() throws IOException {
-      InferenceResponse response = loadFromResource("v2/inference/standard_field_types.json");
+      InferenceResponse response = loadInference("inference/standard_field_types.json");
       Inference inference = response.getInference();
       assertNotNull(inference);
 
@@ -382,7 +380,7 @@ class InferenceTest {
   @Test
   @DisplayName("allow getting fields using generics")
   void standardFieldTypes_getWithGenerics() throws IOException {
-    InferenceResponse response = loadFromResource("v2/inference/standard_field_types.json");
+    InferenceResponse response = loadInference("inference/standard_field_types.json");
     Inference inference = response.getInference();
     assertNotNull(inference);
     InferenceFields fields = inference.getResult().getFields();
@@ -418,7 +416,7 @@ class InferenceTest {
   @Test
   @DisplayName("confidence and locations must be usable")
   void standardFieldTypes_confidenceAndLocations() throws IOException {
-    InferenceResponse response = loadFromResource("v2/inference/standard_field_types.json");
+    InferenceResponse response = loadInference("inference/standard_field_types.json");
     Inference inference = response.getInference();
     assertNotNull(inference);
 
@@ -452,13 +450,13 @@ class InferenceTest {
   }
 
   @Nested
-  @DisplayName("raw_texts.json")
-  class RawTexts {
+  @DisplayName("Raw Text")
+  class RawTextTest {
 
     @Test
     @DisplayName("raw texts option must be parsed and exposed")
     void rawTexts_mustBeAccessible() throws IOException {
-      InferenceResponse response = loadFromResource("v2/inference/raw_texts.json");
+      InferenceResponse response = loadInference("inference/raw_texts.json");
       Inference inference = response.getInference();
       assertNotNull(inference);
 
@@ -469,9 +467,10 @@ class InferenceTest {
       assertFalse(activeOptions.getPolygon());
       assertFalse(activeOptions.getConfidence());
 
+      assertNull(inference.getResult().getRag());
+
       RawText rawText = inference.getResult().getRawText();
       assertEquals(2, rawText.getPages().size());
-      String documentText = rawText.toString();
 
       for (RawTextPage page : rawText.getPages()) {
         assertNotNull(page.getContent());
@@ -484,13 +483,42 @@ class InferenceTest {
   }
 
   @Nested
-  @DisplayName("rst display")
+  @DisplayName("Rag Metadata")
+  class RagMetadataTest {
+
+    @Test
+    @DisplayName("RAG metadata when matched")
+    void rag_mustBeFilled_whenMatched() throws IOException {
+      InferenceResponse response = loadInference("inference/rag_matched.json");
+      Inference inference = response.getInference();
+      assertNotNull(inference);
+
+      RagMetadata rag = inference.getResult().getRag();
+      assertNotNull(rag);
+      assertEquals("12345abc-1234-1234-1234-123456789abc", rag.getRetrievedDocumentId());
+    }
+
+    @Test
+    @DisplayName("RAG metadata when not matched")
+    void rag_mustBeNull_whenNotMatched() throws IOException {
+      InferenceResponse response = loadInference("inference/rag_not_matched.json");
+      Inference inference = response.getInference();
+      assertNotNull(inference);
+
+      RagMetadata rag = inference.getResult().getRag();
+      assertNotNull(rag);
+      assertNull(rag.getRetrievedDocumentId());
+    }
+  }
+
+  @Nested
+  @DisplayName("RST Display")
   class RstDisplay {
     @Test
     @DisplayName("rst display must be parsed and exposed")
     void rstDisplay_mustBeAccessible() throws IOException {
-      InferenceResponse resp = loadFromResource("v2/inference/standard_field_types.json");
-      String rstRef = readFileAsString("v2/inference/standard_field_types.rst");
+      InferenceResponse resp = loadInference("inference/standard_field_types.json");
+      String rstRef = readFileAsString("inference/standard_field_types.rst");
       Inference inf = resp.getInference();
       assertNotNull(inf);
       assertEquals(rstRef, resp.getInference().toString());
