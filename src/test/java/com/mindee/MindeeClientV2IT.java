@@ -46,6 +46,7 @@ class MindeeClientV2IT {
         .polygon(null)
         .confidence(null)
         .alias("java-integration-test")
+        .textContext(null)
         .pollingOptions(
             AsyncPollingOptions.builder()
                 .initialDelaySec(3.0)
@@ -95,6 +96,7 @@ class MindeeClientV2IT {
         .builder(modelId)
         .rag(false)
         .alias("java-integration-test")
+        .textContext("this is an invoice")
         .build();
 
     InferenceResponse response = mindeeClient.enqueueAndGetInference(source, params);
@@ -140,6 +142,7 @@ class MindeeClientV2IT {
     );
     InferenceParameters params = InferenceParameters
         .builder("INVALID_MODEL_ID")
+        .textContext("this is invalid")
         .build();
 
     MindeeHttpExceptionV2 ex = assertThrows(

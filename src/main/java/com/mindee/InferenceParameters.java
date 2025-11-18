@@ -45,6 +45,11 @@ public final class InferenceParameters {
   private final AsyncPollingOptions pollingOptions;
 
   /**
+   * Additional text context used by the model during inference. Not recommended, for specific use only.
+   */
+  private final String textContext;
+
+  /**
    * Create a new builder.
    *
    * @param modelId the mandatory model identifier
@@ -66,6 +71,7 @@ public final class InferenceParameters {
     private Boolean confidence = null;
     private String alias;
     private String[] webhookIds = new String[]{};
+    private String textContext;
     private AsyncPollingOptions pollingOptions = AsyncPollingOptions.builder().build();
 
     private Builder(String modelId) {
@@ -111,6 +117,13 @@ public final class InferenceParameters {
       return this;
     }
 
+    /** Provide additional text context used by the model during inference. */
+    public Builder textContext(String textContext) {
+      this.textContext = textContext;
+      return this;
+    }
+
+    /** Set polling options. */
     public Builder pollingOptions(AsyncPollingOptions pollingOptions) {
       this.pollingOptions = pollingOptions;
       return this;
@@ -126,7 +139,8 @@ public final class InferenceParameters {
           confidence,
           alias,
           webhookIds,
-          pollingOptions
+          pollingOptions,
+          textContext
       );
     }
   }

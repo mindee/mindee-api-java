@@ -44,7 +44,7 @@ class MindeeClientV2Test {
           new LocalInputSource(getResourcePath("file_types/pdf/blank_1.pdf"));
       JobResponse response = mindeeClient.enqueueInference(
           input,
-          InferenceParameters.builder("dummy-model-id").build()
+          InferenceParameters.builder("dummy-model-id").textContext("test text context").build()
       );
 
       assertNotNull(response, "enqueue() must return a response");

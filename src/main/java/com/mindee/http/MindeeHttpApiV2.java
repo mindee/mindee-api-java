@@ -250,11 +250,10 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
       MultipartEntityBuilder builder,
       InferenceParameters params
   ) {
-
-    if (params.getAlias() != null) {
+    if (params.getTextContext() != null) {
       builder.addTextBody(
-          "alias",
-          params.getAlias().toLowerCase()
+          "text_context",
+          params.getTextContext().toLowerCase()
       );
     }
 
