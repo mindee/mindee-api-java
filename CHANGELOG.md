@@ -1,5 +1,13 @@
 # Mindee Java Client Library Changelog
 
+## v4.38.0 - 2025-11-26
+### Changes
+* :sparkles: add support for textContext parameter in V2
+* :sparkles: add support for data_schema property
+### Fixes
+* :bug: fix for missing data_schema property in active options 
+
+
 ## v4.37.0 - 2025-10-28
 ### Changes
 * :sparkles: add loading input sources using `Path`
