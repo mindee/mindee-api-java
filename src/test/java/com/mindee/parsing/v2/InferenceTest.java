@@ -466,6 +466,7 @@ class InferenceTest {
       assertTrue(activeOptions.getRawText());
       assertFalse(activeOptions.getPolygon());
       assertFalse(activeOptions.getConfidence());
+      assertFalse(activeOptions.getDataSchema().getOverride());
 
       assertNull(inference.getResult().getRag());
 

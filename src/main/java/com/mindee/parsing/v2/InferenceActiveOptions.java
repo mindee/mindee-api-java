@@ -2,12 +2,17 @@ package com.mindee.parsing.v2;
 
 import static com.mindee.parsing.SummaryHelper.formatForDisplay;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.StringJoiner;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 
 /**
  * Option response for V2 API inference.
  */
+@EqualsAndHashCode
+@JsonIgnoreProperties(ignoreUnknown = true)
 public final class InferenceActiveOptions {
 
   @JsonProperty("rag")
@@ -21,6 +26,13 @@ public final class InferenceActiveOptions {
 
   @JsonProperty("confidence")
   private boolean confidence;
+
+  /**
+   *  Data schema options provided for the inference.
+   */
+  @Getter
+  @JsonProperty("data_schema")
+  private DataSchemaActiveOptions dataSchema;
 
   /**
    * Whether the RAG feature was activated.
