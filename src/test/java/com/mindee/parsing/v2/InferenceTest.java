@@ -148,6 +148,11 @@ class InferenceTest {
 
       InferenceActiveOptions activeOptions = inference.getActiveOptions();
       assertNotNull(activeOptions);
+      assertFalse(activeOptions.getConfidence());
+      assertFalse(activeOptions.getRag());
+      assertFalse(activeOptions.getRawText());
+      assertFalse(activeOptions.getTextContext());
+      assertFalse(activeOptions.getPolygon());
     }
   }
 
@@ -466,6 +471,7 @@ class InferenceTest {
       assertTrue(activeOptions.getRawText());
       assertFalse(activeOptions.getPolygon());
       assertFalse(activeOptions.getConfidence());
+      assertFalse(activeOptions.getTextContext());
       assertFalse(activeOptions.getDataSchema().getOverride());
 
       assertNull(inference.getResult().getRag());
@@ -523,6 +529,19 @@ class InferenceTest {
       Inference inf = resp.getInference();
       assertNotNull(inf);
       assertEquals(rstRef, resp.getInference().toString());
+    }
+  }
+
+  @Nested
+  @DisplayName("Text Context Return")
+  class TextContextTest {
+    @Test
+    @DisplayName("should be present and true when enabled")
+    void textContext_mustBePresentAndTrue() throws IOException {
+      InferenceResponse resp = loadInference("inference/text_context_enabled.json");
+      Inference inf = resp.getInference();
+      assertNotNull(inf);
+      assertTrue(inf.getActiveOptions().getTextContext());
     }
   }
 }
