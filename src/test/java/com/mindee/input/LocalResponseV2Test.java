@@ -51,6 +51,9 @@ public class LocalResponseV2Test {
     Assertions.assertFalse(localResponse.isValidHmacSignature(
         this.secretKey, "invalid signature is invalid")
     );
+    InferenceResponse response = localResponse.deserializeResponse(InferenceResponse.class);
+    Assertions.assertNotNull(response);
+    Assertions.assertNotNull(response.getInference());
   }
 
   @Test
