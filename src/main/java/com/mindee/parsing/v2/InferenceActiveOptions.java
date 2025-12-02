@@ -27,6 +27,9 @@ public final class InferenceActiveOptions {
   @JsonProperty("confidence")
   private boolean confidence;
 
+  @JsonProperty("text_context")
+  private boolean textContext;
+
   /**
    *  Data schema options provided for the inference.
    */
@@ -61,6 +64,11 @@ public final class InferenceActiveOptions {
   public boolean getConfidence() {
     return confidence;
   }
+
+  /**
+   * Whether the text context feature was activated.
+   */
+  public boolean getTextContext() { return textContext; }
 
   @Override
   public String toString() {
