@@ -1,5 +1,10 @@
 # Mindee Java Client Library Changelog
 
+## v4.39.0 - 2025-12-02
+### Changes
+* :sparkles: add support text context return option
+
+
 ## v4.38.0 - 2025-11-26
 ### Changes
 * :sparkles: add support for textContext parameter in V2
