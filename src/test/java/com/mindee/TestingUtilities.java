@@ -26,6 +26,13 @@ public class TestingUtilities {
     return getV1ResourcePath(filePath).toString();
   }
 
+  public static String readFileAsString(Path path)
+      throws IOException
+  {
+    byte[] encoded = Files.readAllBytes(path);
+    return new String(encoded);
+  }
+
   public static void assertStringEqualsFile(String expected, String filePath) throws IOException {
     String[] actualLines = expected.split(System.lineSeparator());
     List<String> expectedLines = Files.readAllLines(Paths.get(filePath));

@@ -1,5 +1,10 @@
 package com.mindee;
 
+import static com.mindee.TestingUtilities.getResourcePath;
+import static com.mindee.TestingUtilities.getV2ResourcePath;
+import static com.mindee.TestingUtilities.readFileAsString;
+import static org.junit.jupiter.api.Assertions.*;
+
 import com.mindee.http.MindeeHttpExceptionV2;
 import com.mindee.input.LocalInputSource;
 import com.mindee.input.URLInputSource;
@@ -13,10 +18,6 @@ import com.mindee.parsing.v2.field.InferenceFields;
 import com.mindee.parsing.v2.field.SimpleField;
 import java.io.IOException;
 import org.junit.jupiter.api.*;
-
-import static com.mindee.TestingUtilities.getResourcePath;
-import static com.mindee.TestingUtilities.getV1ResourcePathString;
-import static org.junit.jupiter.api.Assertions.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @Tag("integration")
@@ -45,7 +46,7 @@ class MindeeClientV2IT {
         .rawText(true)
         .polygon(null)
         .confidence(null)
-        .alias("java-integration-test")
+        .alias("java-integration-test_multipage")
         .textContext(null)
         .pollingOptions(
             AsyncPollingOptions.builder()
@@ -90,12 +91,12 @@ class MindeeClientV2IT {
   @DisplayName("Filled, single-page image – enqueue & parse must succeed")
   void parseFile_filledSinglePage_mustSucceed() throws IOException, InterruptedException {
     LocalInputSource source = new LocalInputSource(
-        getV1ResourcePathString("products/financial_document/default_sample.jpg"));
+        getV2ResourcePath("products/financial_document/default_sample.jpg"));
 
     InferenceParameters params = InferenceParameters
         .builder(modelId)
         .rag(false)
-        .alias("java-integration-test")
+        .alias("java-integration-test_single-page")
         .textContext("this is an invoice")
         .build();
 
@@ -131,6 +132,38 @@ class MindeeClientV2IT {
     SimpleField supplierName = fields.getSimpleField("supplier_name");
     assertNotNull(supplierName);
     assertEquals("John Smith", supplierName.getStringValue());
+  }
+
+  @Test
+  @DisplayName("Data Schema Replace – enqueue & parse must succeed")
+  void parseFile_dataSchemaReplace_mustSucceed() throws IOException, InterruptedException {
+    LocalInputSource source = new LocalInputSource(
+        getV2ResourcePath("products/financial_document/default_sample.jpg"));
+
+    InferenceParameters params = InferenceParameters
+        .builder(modelId)
+        .rag(false)
+        .alias("java-integration-test_data-schema-replace")
+        .dataSchema(readFileAsString(getV2ResourcePath("inference/data_schema_replace_param.json")))
+        .build();
+
+    InferenceResponse response = mindeeClient.enqueueAndGetInference(source, params);
+    assertNotNull(response);
+    Inference inference = response.getInference();
+    assertNotNull(inference);
+
+    InferenceResult result = inference.getResult();
+    assertNotNull(result);
+
+    RawText rawText = result.getRawText();
+    assertNull(rawText);
+
+    InferenceFields fields = result.getFields();
+    assertNotNull(fields);
+
+    SimpleField supplierName = fields.getSimpleField("test_replace");
+    assertNotNull(supplierName);
+    assertEquals("a test value", supplierName.getStringValue());
   }
 
 

@@ -1,11 +1,9 @@
 package com.mindee;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mindee.http.MindeeApiV2;
 import com.mindee.http.MindeeHttpApiV2;
 import com.mindee.http.MindeeHttpExceptionV2;
 import com.mindee.input.LocalInputSource;
-import com.mindee.input.LocalResponse;
 import com.mindee.input.URLInputSource;
 import com.mindee.parsing.v2.ErrorResponse;
 import com.mindee.parsing.v2.InferenceResponse;
@@ -18,18 +16,18 @@ import java.io.IOException;
 public class MindeeClientV2 {
   private final MindeeApiV2 mindeeApi;
 
-  /** Uses an API-key read from the environment variables. */
+  /** Uses an API key read from the environment variables. */
   public MindeeClientV2() {
     this(createDefaultApiV2(""));
   }
 
-  /** Uses the supplied API-key. */
+  /** Uses the supplied API key. */
   public MindeeClientV2(String apiKey) {
     this(createDefaultApiV2(apiKey));
   }
 
 
-  /** Inject both a PDF implementation and a HTTP implementation. */
+  /** Inject both a PDF implementation and an HTTP implementation. */
   public MindeeClientV2(MindeeApiV2 mindeeApi) {
     this.mindeeApi = mindeeApi;
   }
@@ -39,7 +37,8 @@ public class MindeeClientV2 {
    */
   public JobResponse enqueueInference(
       LocalInputSource inputSource,
-      InferenceParameters params) throws IOException {
+      InferenceParameters params
+  ) throws IOException {
     return mindeeApi.reqPostInferenceEnqueue(inputSource, params);
   }
 
@@ -49,7 +48,8 @@ public class MindeeClientV2 {
    */
   public JobResponse enqueueInference(
       URLInputSource inputSource,
-      InferenceParameters params) throws IOException {
+      InferenceParameters params
+  ) throws IOException {
     return mindeeApi.reqPostInferenceEnqueue(inputSource, params);
   }
 
@@ -72,7 +72,6 @@ public class MindeeClientV2 {
     if (inferenceId == null || inferenceId.trim().isEmpty()) {
       throw new IllegalArgumentException("inferenceId must not be null or blank.");
     }
-
     return mindeeApi.reqGetInference(inferenceId);
   }
 
@@ -86,8 +85,8 @@ public class MindeeClientV2 {
    */
   public InferenceResponse enqueueAndGetInference(
       LocalInputSource inputSource,
-      InferenceParameters options) throws IOException, InterruptedException {
-
+      InferenceParameters options
+  ) throws IOException, InterruptedException {
     validatePollingOptions(options.getPollingOptions());
     JobResponse job = enqueueInference(inputSource, options);
     return pollAndFetch(job, options);
@@ -105,8 +104,8 @@ public class MindeeClientV2 {
    */
   public InferenceResponse enqueueAndGetInference(
       URLInputSource inputSource,
-      InferenceParameters options) throws IOException, InterruptedException {
-
+      InferenceParameters options
+  ) throws IOException, InterruptedException {
     validatePollingOptions(options.getPollingOptions());
     JobResponse job = enqueueInference(inputSource, options);
     return pollAndFetch(job, options);
@@ -119,8 +118,10 @@ public class MindeeClientV2 {
    * @return an instance of {@link InferenceResponse}.
    * @throws InterruptedException Throws if interrupted.
    */
-  private InferenceResponse pollAndFetch(JobResponse initialJob,
-      InferenceParameters options) throws InterruptedException {
+  private InferenceResponse pollAndFetch(
+      JobResponse initialJob,
+      InferenceParameters options
+  ) throws InterruptedException {
     Thread.sleep((long) (options.getPollingOptions().getInitialDelaySec() * 1000));
 
     JobResponse resp = initialJob;

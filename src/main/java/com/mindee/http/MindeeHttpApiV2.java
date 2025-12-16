@@ -250,13 +250,6 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
       MultipartEntityBuilder builder,
       InferenceParameters params
   ) {
-    if (params.getTextContext() != null) {
-      builder.addTextBody(
-          "text_context",
-          params.getTextContext().toLowerCase()
-      );
-    }
-
     builder.addTextBody("model_id", params.getModelId());
     if (params.getRag() != null) {
       builder.addTextBody("rag", params.getRag().toString().toLowerCase());
@@ -275,6 +268,12 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
     }
     if (params.getWebhookIds().length > 0) {
       builder.addTextBody("webhook_ids", String.join(",", params.getWebhookIds()));
+    }
+    if (params.getTextContext() != null) {
+      builder.addTextBody("text_context", params.getTextContext());
+    }
+    if (params.getDataSchema() != null) {
+      builder.addTextBody("data_schema", params.getDataSchema());
     }
     return builder.build();
   }
