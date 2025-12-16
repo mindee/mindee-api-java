@@ -1,7 +1,10 @@
 package com.mindee.parsing.v2;
 
+import static com.mindee.parsing.SummaryHelper.formatForDisplay;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.StringJoiner;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -11,13 +14,23 @@ import lombok.EqualsAndHashCode;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class DataSchemaActiveOptions {
 
-  @JsonProperty("override")
-  private boolean override;
+  @JsonProperty("replace")
+  private boolean replace;
 
   /**
-   * Whether a data schema override was provided for the inference.
+   * Whether the data schema was replaced for the inference.
    */
-  public boolean getOverride() {
-    return override;
+  public boolean getReplace() {
+    return replace;
+  }
+
+  @Override
+  public String toString() {
+    StringJoiner joiner = new StringJoiner("\n");
+    return joiner
+        .add("Data Schema")
+        .add("-----------")
+        .add(":Replace: " + formatForDisplay(replace, 5))
+        .toString();
   }
 }
