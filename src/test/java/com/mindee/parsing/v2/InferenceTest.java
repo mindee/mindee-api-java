@@ -1,5 +1,9 @@
 package com.mindee.parsing.v2;
 
+import static com.mindee.TestingUtilities.getV2ResourcePath;
+import static com.mindee.TestingUtilities.readFileAsString;
+import static org.junit.jupiter.api.Assertions.*;
+
 import com.mindee.geometry.Point;
 import com.mindee.geometry.Polygon;
 import com.mindee.input.LocalResponse;
@@ -12,7 +16,6 @@ import com.mindee.parsing.v2.field.ListField;
 import com.mindee.parsing.v2.field.ObjectField;
 import com.mindee.parsing.v2.field.DynamicField.FieldType;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -20,8 +23,6 @@ import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import static com.mindee.TestingUtilities.getV2ResourcePath;
-import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("MindeeV2 - Inference Tests")
 class InferenceTest {
@@ -29,13 +30,6 @@ class InferenceTest {
   private InferenceResponse loadInference(String filePath) throws IOException {
     LocalResponse localResponse = new LocalResponse(getV2ResourcePath(filePath));
     return localResponse.deserializeResponse(InferenceResponse.class);
-  }
-
-  private String readFileAsString(String path)
-      throws IOException
-  {
-    byte[] encoded = Files.readAllBytes(getV2ResourcePath(path));
-    return new String(encoded);
   }
 
 
@@ -525,7 +519,7 @@ class InferenceTest {
     @DisplayName("rst display must be parsed and exposed")
     void rstDisplay_mustBeAccessible() throws IOException {
       InferenceResponse resp = loadInference("inference/standard_field_types.json");
-      String rstRef = readFileAsString("inference/standard_field_types.rst");
+      String rstRef = readFileAsString(getV2ResourcePath("inference/standard_field_types.rst"));
       Inference inference = resp.getInference();
       assertNotNull(inference);
       assertEquals(rstRef, resp.getInference().toString());

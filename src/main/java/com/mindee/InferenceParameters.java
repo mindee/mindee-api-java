@@ -11,7 +11,7 @@ import lombok.Getter;
 @Data
 public final class InferenceParameters {
   /**
-   * ID of the model (required).
+   * Model ID to use for the inference (required).
    */
   private final String modelId;
   /**
@@ -36,18 +36,21 @@ public final class InferenceParameters {
    */
   private final String alias;
   /**
-   * IDs of webhooks to propagate the API response to (may be empty).
+   * Webhook IDs to call after all processing is finished. If empty, no webhooks will be used.
    */
   private final String[] webhookIds;
   /**
    * Polling options. Set only if having timeout issues.
    */
   private final AsyncPollingOptions pollingOptions;
-
   /**
    * Additional text context used by the model during inference. Not recommended, for specific use only.
    */
   private final String textContext;
+  /**
+   * Dynamic changes to the data schema of the model for this inference.
+   */
+  private final String dataSchema;
 
   /**
    * Create a new builder.
@@ -72,6 +75,7 @@ public final class InferenceParameters {
     private String alias;
     private String[] webhookIds = new String[]{};
     private String textContext;
+    private String dataSchema;
     private AsyncPollingOptions pollingOptions = AsyncPollingOptions.builder().build();
 
     private Builder(String modelId) {
@@ -123,6 +127,12 @@ public final class InferenceParameters {
       return this;
     }
 
+    /** Provide additional text context used by the model during inference. */
+    public Builder dataSchema(String dataSchema) {
+      this.dataSchema = dataSchema;
+      return this;
+    }
+
     /** Set polling options. */
     public Builder pollingOptions(AsyncPollingOptions pollingOptions) {
       this.pollingOptions = pollingOptions;
@@ -140,7 +150,8 @@ public final class InferenceParameters {
           alias,
           webhookIds,
           pollingOptions,
-          textContext
+          textContext,
+          dataSchema
       );
     }
   }
