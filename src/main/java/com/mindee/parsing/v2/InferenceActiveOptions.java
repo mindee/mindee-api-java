@@ -9,7 +9,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 /**
- * Option response for V2 API inference.
+ * Options which were activated during the inference.
  */
 @EqualsAndHashCode
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -80,6 +80,9 @@ public final class InferenceActiveOptions {
         .add(":Polygon: " + formatForDisplay(polygon, 5))
         .add(":Confidence: " + formatForDisplay(confidence, 5))
         .add(":RAG: " + formatForDisplay(rag, 5))
+        .add(":Text Context: " + formatForDisplay(textContext, 5))
+        .add("")
+        .add(dataSchema.toString())
         .toString();
   }
 }

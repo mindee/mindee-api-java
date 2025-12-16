@@ -472,7 +472,7 @@ class InferenceTest {
       assertFalse(activeOptions.getPolygon());
       assertFalse(activeOptions.getConfidence());
       assertFalse(activeOptions.getTextContext());
-      assertFalse(activeOptions.getDataSchema().getOverride());
+      assertFalse(activeOptions.getDataSchema().getReplace());
 
       assertNull(inference.getResult().getRag());
 
@@ -526,8 +526,8 @@ class InferenceTest {
     void rstDisplay_mustBeAccessible() throws IOException {
       InferenceResponse resp = loadInference("inference/standard_field_types.json");
       String rstRef = readFileAsString("inference/standard_field_types.rst");
-      Inference inf = resp.getInference();
-      assertNotNull(inf);
+      Inference inference = resp.getInference();
+      assertNotNull(inference);
       assertEquals(rstRef, resp.getInference().toString());
     }
   }
@@ -539,9 +539,28 @@ class InferenceTest {
     @DisplayName("should be present and true when enabled")
     void textContext_mustBePresentAndTrue() throws IOException {
       InferenceResponse resp = loadInference("inference/text_context_enabled.json");
-      Inference inf = resp.getInference();
-      assertNotNull(inf);
-      assertTrue(inf.getActiveOptions().getTextContext());
+      Inference inference = resp.getInference();
+      assertNotNull(inference);
+      assertTrue(inference.getActiveOptions().getTextContext());
+    }
+  }
+
+  @Nested
+  @DisplayName("Data Schema Return")
+  class DataSchemaTest {
+    @Test
+    @DisplayName("should be present and true when enabled")
+    void textContext_mustBePresentAndTrue() throws IOException {
+      InferenceResponse resp = loadInference("inference/data_schema_replace.json");
+      Inference inference = resp.getInference();
+      assertNotNull(inference);
+      InferenceFields fields = inference.getResult().getFields();
+      assertEquals(
+          "a test value",
+          fields.get("test_replace").getSimpleField().getStringValue()
+      );
+
+      assertTrue(inference.getActiveOptions().getDataSchema().getReplace());
     }
   }
 }
