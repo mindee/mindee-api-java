@@ -221,8 +221,8 @@
         <plugins>
           <!-- Integration Test Configuration -->
           <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-failsafe-plugin</artifactId>
+            <groupId>org.apache.maven.plugins</groupId>
             <version>${org.apache.maven.failsafe.version}</version>
             <executions>
               <execution>
@@ -278,10 +278,11 @@
       <version>${com.fasterxml.jackson.datatype.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.apache.httpcomponents.client5</groupId>
       <artifactId>httpclient5</artifactId>
+      <groupId>org.apache.httpcomponents.client5</groupId>
       <version>${org.apache.httpcomponents.client5.httpclient5.version}</version>
     </dependency>
+
     <dependency>
       <artifactId>httpmime</artifactId>
       <groupId>org.apache.httpcomponents</groupId>
@@ -392,11 +393,11 @@
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
     <org.apache.commons.math3.version>3.6.1</org.apache.commons.math3.version>
-    <org.apache.httpcomponents.client5.httpclient5.version>5.4.3</org.apache.httpcomponents.client5.httpclient5.version>
+    <org.apache.httpcomponents.client5.httpclient5.version>5.4.4</org.apache.httpcomponents.client5.httpclient5.version>
     <org.apache.httpcomponents.httpmime.version>4.5.14</org.apache.httpcomponents.httpmime.version>
     <org.apache.maven.clean.version>3.1.0</org.apache.maven.clean.version>
     <org.apache.maven.compiler.version>3.12.1</org.apache.maven.compiler.version>
-    <org.apache.maven.failsafe.version>3.3.0</org.apache.maven.failsafe.version>
+    <org.apache.maven.failsafe.version>3.3.1</org.apache.maven.failsafe.version>
     <org.apache.maven.gpg.version>1.5</org.apache.maven.gpg.version>
     <org.apache.maven.install.version>2.5.2</org.apache.maven.install.version>
     <org.apache.maven.javadoc.version>3.2.0</org.apache.maven.javadoc.version>
