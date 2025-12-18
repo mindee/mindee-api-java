@@ -278,15 +278,14 @@
       <version>${com.fasterxml.jackson.datatype.version}</version>
     </dependency>
     <dependency>
-      <artifactId>httpclient5</artifactId>
       <groupId>org.apache.httpcomponents.client5</groupId>
+      <artifactId>httpclient5</artifactId>
       <version>${org.apache.httpcomponents.client5.httpclient5.version}</version>
     </dependency>
-
     <dependency>
-      <artifactId>httpmime</artifactId>
-      <groupId>org.apache.httpcomponents</groupId>
-      <version>${org.apache.httpcomponents.httpmime.version}</version>
+      <groupId>commons-codec</groupId>
+      <artifactId>commons-codec</artifactId>
+      <version>${commons-codec.version}</version>
     </dependency>
 
     <dependency>
@@ -363,7 +362,7 @@
     </dependency>
     <dependency>
       <groupId>com.github.tomakehurst</groupId>
-      <artifactId>wiremock</artifactId>
+      <artifactId>wiremock-jre8</artifactId>
       <version>${wiremock.version}</version>
       <scope>test</scope>
     </dependency>
@@ -394,7 +393,7 @@
     <maven.compiler.target>1.8</maven.compiler.target>
     <org.apache.commons.math3.version>3.6.1</org.apache.commons.math3.version>
     <org.apache.httpcomponents.client5.httpclient5.version>5.4.4</org.apache.httpcomponents.client5.httpclient5.version>
-    <org.apache.httpcomponents.httpmime.version>4.5.14</org.apache.httpcomponents.httpmime.version>
+    <commons-codec.version>1.20.0</commons-codec.version>
     <org.apache.maven.clean.version>3.1.0</org.apache.maven.clean.version>
     <org.apache.maven.compiler.version>3.12.1</org.apache.maven.compiler.version>
     <org.apache.maven.failsafe.version>3.3.1</org.apache.maven.failsafe.version>
@@ -418,7 +417,7 @@
     <org.projectlombok.version>1.18.32</org.projectlombok.version>
     <org.slf4j.version>2.0.17</org.slf4j.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <wiremock.version>2.27.2</wiremock.version>
+    <wiremock.version>2.35.2</wiremock.version>
   </properties>
 
 </project>
