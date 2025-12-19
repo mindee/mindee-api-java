@@ -16,6 +16,7 @@ import com.mindee.parsing.v2.field.ListField;
 import com.mindee.parsing.v2.field.ObjectField;
 import com.mindee.parsing.v2.field.SimpleField;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -93,51 +94,52 @@ class InferenceTest {
     void asyncPredict_whenComplete_mustExposeAllProperties() throws IOException {
       InferenceResponse response = loadInference("products/financial_document/complete.json");
       Inference inference = response.getInference();
-      assertNotNull(inference, "Inference must not be null");
-      assertEquals(
-        "12345678-1234-1234-1234-123456789abc",
-        inference.getId(),
-        "Inference ID mismatch"
-      );
+      assertNotNull(inference);
+      assertEquals("12345678-1234-1234-1234-123456789abc", inference.getId());
 
       InferenceModel model = inference.getModel();
       assertNotNull(model, "Model must not be null");
-      assertEquals("12345678-1234-1234-1234-123456789abc", model.getId(), "Model ID mismatch");
+      assertEquals("12345678-1234-1234-1234-123456789abc", model.getId());
 
       InferenceFile file = inference.getFile();
-      assertNotNull(file, "File must not be null");
-      assertEquals("complete.jpg", file.getName(), "File name mismatch");
-      assertEquals(1, file.getPageCount(), "Page count mismatch");
-      assertEquals("image/jpeg", file.getMimeType(), "MIME type mismatch");
-      assertNull(file.getAlias(), "File alias must be null for this payload");
+      assertNotNull(file);
+      assertEquals("complete.jpg", file.getName());
+      assertEquals(1, file.getPageCount());
+      assertEquals("image/jpeg", file.getMimeType());
+      assertNull(file.getAlias());
 
       InferenceFields fields = inference.getResult().getFields();
-      assertEquals(21, fields.size(), "Expected 21 fields in the payload");
+      assertEquals(21, fields.size());
 
       SimpleField date = fields.get("date").getSimpleField();
-      assertEquals("2019-11-02", date.getValue(), "'date' value mismatch");
+      assertEquals("2019-11-02", date.getValue());
 
+      // list of objects
       DynamicField taxes = fields.get("taxes");
-      assertNotNull(taxes, "'taxes' field must exist");
+      assertNotNull(taxes);
       ListField taxesList = taxes.getListField();
-      assertNotNull(taxesList, "'taxes' must be a ListField");
-      assertEquals(1, taxesList.getItems().size(), "'taxes' list must contain exactly one item");
+      assertNotNull(taxesList);
+      assertEquals(1, taxesList.getItems().size());
       ObjectField taxItemObj = taxesList.getItems().get(0).getObjectField();
-      assertNotNull(taxItemObj, "First item of 'taxes' must be an ObjectField");
-      assertEquals(3, taxItemObj.getFields().size(), "Tax ObjectField must contain 3 sub-fields");
+      assertNotNull(taxItemObj);
+      assertEquals(3, taxItemObj.getFields().size());
       SimpleField baseTax = taxItemObj.getFields().get("base").getSimpleField();
-      assertEquals(31.5, baseTax.getValue(), "'taxes.base' value mismatch");
-      assertNotNull(taxes.toString(), "'taxes'.toString() must not be null");
+      assertEquals(31.5, baseTax.getValue());
+      assertEquals(31.5, baseTax.getDoubleValue());
+      assertEquals(BigDecimal.valueOf(31.5), baseTax.getBigDecimalValue());
+      assertNotNull(taxes.toString());
 
+      // single object
       DynamicField supplierAddress = fields.get("supplier_address");
-      assertNotNull(supplierAddress, "'supplier_address' field must exist");
+      assertNotNull(supplierAddress);
       ObjectField supplierObj = supplierAddress.getObjectField();
-      assertNotNull(supplierObj, "'supplier_address' must be an ObjectField");
+      assertEquals(9, supplierObj.getFields().size());
+      assertNotNull(supplierObj);
       DynamicField country = supplierObj.getFields().get("country");
-      assertNotNull(country, "'supplier_address.country' must exist");
-      assertEquals("USA", country.getSimpleField().getValue(), "Country mismatch");
-      assertEquals("USA", country.toString(), "'country'.toString() mismatch");
-      assertNotNull(supplierAddress.toString(), "'supplier_address'.toString() must not be null");
+      assertNotNull(country);
+      assertEquals("USA", country.getSimpleField().getValue());
+      assertEquals("USA", country.toString());
+      assertNotNull(supplierAddress.toString());
 
       ObjectField customerAddr = fields.get("customer_address").getObjectField();
       SimpleField city = customerAddr.getFields().get("city").getSimpleField();
@@ -214,7 +216,7 @@ class InferenceTest {
 
       assertNotNull(fields.get("field_simple_string").getSimpleField());
 
-      SimpleField fieldSimpleString = fields.get("field_simple_string").getSimpleField();
+      SimpleField fieldSimpleString = fields.getSimpleField("field_simple_string");
       testSimpleFieldString(fieldSimpleString);
       assertEquals(FieldConfidence.Certain, fieldSimpleString.getConfidence());
       assertEquals(1, fieldSimpleString.getLocations().size());
@@ -232,11 +234,16 @@ class InferenceTest {
       assertInstanceOf(Double.class, fieldSimpleInt.getValue());
       assertEquals(fieldSimpleInt.getValue(), fieldSimpleInt.getDoubleValue());
       assertEquals(FieldConfidence.Medium, fieldSimpleInt.getConfidence());
+      assertThrows(ClassCastException.class, fieldSimpleInt::getStringValue);
 
       SimpleField fieldSimpleZero = fields.get("field_simple_zero").getSimpleField();
       assertNotNull(fieldSimpleZero);
       assertEquals(FieldConfidence.Low, fieldSimpleZero.getConfidence());
       assertInstanceOf(Double.class, fieldSimpleZero.getValue());
+      assertEquals(0.0, fieldSimpleZero.getDoubleValue());
+      assertEquals(BigDecimal.valueOf(0.0), fieldSimpleZero.getBigDecimalValue());
+      assertThrows(ClassCastException.class, fieldSimpleZero::getStringValue);
+      assertThrows(ClassCastException.class, fieldSimpleZero::getBooleanValue);
 
       SimpleField fieldSimpleBool = fields.get("field_simple_bool").getSimpleField();
       assertNotNull(fieldSimpleBool);
@@ -244,6 +251,7 @@ class InferenceTest {
       assertEquals(fieldSimpleBool.getValue(), fieldSimpleBool.getBooleanValue());
       assertThrows(ClassCastException.class, fieldSimpleBool::getStringValue);
       assertThrows(ClassCastException.class, fieldSimpleBool::getDoubleValue);
+      assertThrows(ClassCastException.class, fieldSimpleBool::getBigDecimalValue);
 
       SimpleField fieldSimpleNull = fields.get("field_simple_null").getSimpleField();
       assertNotNull(fieldSimpleNull);
@@ -251,6 +259,7 @@ class InferenceTest {
       assertNull(fieldSimpleNull.getStringValue());
       assertNull(fieldSimpleNull.getBooleanValue());
       assertNull(fieldSimpleNull.getDoubleValue());
+      assertNull(fieldSimpleNull.getBigDecimalValue());
     }
 
     @Test
