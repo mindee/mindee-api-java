@@ -1,5 +1,10 @@
 package com.mindee;
 
+import static com.mindee.TestingUtilities.getResourcePath;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mindee.http.MindeeApiV2;
@@ -13,11 +18,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-
-import static com.mindee.TestingUtilities.getResourcePath;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.*;
 
 @DisplayName("MindeeV2 – Client and API Tests")
 class MindeeClientV2Test {

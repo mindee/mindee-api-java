@@ -1,14 +1,15 @@
 package com.mindee.parsing.v2;
 
-import com.mindee.input.LocalResponse;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
-import java.io.IOException;
 import static com.mindee.TestingUtilities.getV2ResourcePath;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+
+import com.mindee.input.LocalResponse;
+import java.io.IOException;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 
 @DisplayName("MindeeV2 - Job Tests")
 public class JobTest {

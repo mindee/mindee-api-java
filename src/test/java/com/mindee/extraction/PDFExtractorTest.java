@@ -1,5 +1,7 @@
 package com.mindee.extraction;
 
+import static com.mindee.TestingUtilities.getV1ResourcePath;
+
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mindee.input.LocalInputSource;
@@ -9,8 +11,6 @@ import java.io.IOException;
 import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
-import static com.mindee.TestingUtilities.getV1ResourcePath;
 
 public class PDFExtractorTest {
 

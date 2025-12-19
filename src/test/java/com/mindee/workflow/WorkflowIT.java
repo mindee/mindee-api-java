@@ -1,5 +1,7 @@
 package com.mindee.workflow;
 
+import static com.mindee.TestingUtilities.getV1ResourcePath;
+
 import com.mindee.MindeeClient;
 import com.mindee.PredictOptions;
 import com.mindee.WorkflowOptions;
@@ -16,8 +18,6 @@ import java.time.format.DateTimeFormatter;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-
-import static com.mindee.TestingUtilities.getV1ResourcePath;
 
 public class WorkflowIT {
   private static MindeeClient client;

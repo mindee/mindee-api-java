@@ -1,18 +1,18 @@
 package com.mindee.product.fr.idcard;
 
+import static com.mindee.TestingUtilities.assertStringEqualsFile;
+import static com.mindee.TestingUtilities.getV1ResourcePathString;
+
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mindee.parsing.common.Document;
 import com.mindee.parsing.common.Page;
 import com.mindee.parsing.common.PredictResponse;
 import com.mindee.parsing.standard.ClassificationField;
-import static com.mindee.TestingUtilities.assertStringEqualsFile;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.io.IOException;
-
-import static com.mindee.TestingUtilities.getV1ResourcePathString;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests for IdCardV1.

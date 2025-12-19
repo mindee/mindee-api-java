@@ -1,16 +1,16 @@
 package com.mindee.parsing.common;
 
+import static com.mindee.TestingUtilities.getV1ResourcePath;
+
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mindee.parsing.standard.PositionField;
 import com.mindee.product.receipt.ReceiptV5;
 import com.mindee.product.receipt.ReceiptV5Document;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.util.List;
-
-import static com.mindee.TestingUtilities.getV1ResourcePath;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class CropperTest {
 

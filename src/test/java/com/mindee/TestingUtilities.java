@@ -1,13 +1,12 @@
 package com.mindee;
 
-import org.junit.jupiter.api.Assertions;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Objects;
+import org.junit.jupiter.api.Assertions;
 
 public class TestingUtilities {
   public static Path getResourcePath(String filePath) {
@@ -156,4 +155,3 @@ public class TestingUtilities {
   }
 
 }
-

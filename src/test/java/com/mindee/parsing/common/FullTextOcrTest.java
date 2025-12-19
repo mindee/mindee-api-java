@@ -1,5 +1,7 @@
 package com.mindee.parsing.common;
 
+import static com.mindee.TestingUtilities.getV1ResourcePath;
+
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mindee.product.internationalid.InternationalIdV2;
@@ -7,10 +9,8 @@ import com.mindee.product.internationalid.InternationalIdV2Document;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.List;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
-
-import static com.mindee.TestingUtilities.getV1ResourcePath;
+import org.junit.jupiter.api.Test;
 
 public class FullTextOcrTest {
   private Inference<InternationalIdV2Document, InternationalIdV2Document> loadInference() throws IOException {

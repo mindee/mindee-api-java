@@ -1,5 +1,7 @@
 package com.mindee.product.custom;
 
+import static com.mindee.TestingUtilities.getV1ResourcePathString;
+
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mindee.parsing.common.PredictResponse;
@@ -7,14 +9,11 @@ import com.mindee.parsing.custom.lineitems.Anchor;
 import com.mindee.parsing.custom.lineitems.Line;
 import com.mindee.parsing.custom.lineitems.LineItems;
 import com.mindee.parsing.custom.lineitems.LineItemsGenerator;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
-
-import static com.mindee.TestingUtilities.getV1ResourcePathString;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 class CustomV1WithLineItemsTest {
 

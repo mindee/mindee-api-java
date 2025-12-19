@@ -1,5 +1,9 @@
 package com.mindee.extraction;
 
+import static com.mindee.TestingUtilities.getResourcePath;
+import static com.mindee.TestingUtilities.getV1ResourcePath;
+import static com.mindee.TestingUtilities.getV1ResourcePathString;
+
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mindee.input.LocalInputSource;
@@ -9,14 +13,10 @@ import com.mindee.product.barcodereader.BarcodeReaderV1;
 import com.mindee.product.barcodereader.BarcodeReaderV1Document;
 import com.mindee.product.multireceiptsdetector.MultiReceiptsDetectorV1;
 import com.mindee.product.multireceiptsdetector.MultiReceiptsDetectorV1Document;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.util.List;
-
-import static com.mindee.TestingUtilities.getResourcePath;
-import static com.mindee.TestingUtilities.getV1ResourcePath;
-import static com.mindee.TestingUtilities.getV1ResourcePathString;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 
 public class ImageExtractorTest {

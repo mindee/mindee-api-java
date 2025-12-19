@@ -1,17 +1,16 @@
 package com.mindee.input;
 
+import static com.mindee.TestingUtilities.getResourcePath;
+import static com.mindee.TestingUtilities.getV1ResourcePath;
+
 import com.mindee.MindeeException;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-
 import org.apache.commons.codec.binary.Base64;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
-import static com.mindee.TestingUtilities.getResourcePath;
-import static com.mindee.TestingUtilities.getV1ResourcePath;
 
 public class LocalInputSourceTest {
   void assertMultipagePDF(LocalInputSource inputSource, Path filePath) throws IOException {

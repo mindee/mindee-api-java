@@ -1,15 +1,14 @@
 package com.mindee.input;
 
-import com.mindee.parsing.v2.InferenceResponse;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import static com.mindee.TestingUtilities.getV2ResourcePath;
 
+import com.mindee.parsing.v2.InferenceResponse;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-
-import static com.mindee.TestingUtilities.getV2ResourcePath;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 
 public class LocalResponseV2Test {

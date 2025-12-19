@@ -1,17 +1,16 @@
 package com.mindee.pdf;
 
+import static com.mindee.TestingUtilities.getResourcePath;
+
+import com.mindee.MindeeException;
 import com.mindee.input.PageOptions;
 import com.mindee.input.PageOptionsOperation;
-import com.mindee.MindeeException;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.mindee.TestingUtilities.getResourcePath;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 
 public class PdfOperationTest {

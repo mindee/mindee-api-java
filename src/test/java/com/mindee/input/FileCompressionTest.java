@@ -1,14 +1,10 @@
 package com.mindee.input;
 
+import static com.mindee.TestingUtilities.getResourcePath;
+import static com.mindee.TestingUtilities.getV1ResourcePath;
+
 import com.mindee.image.ImageCompressor;
 import com.mindee.pdf.PdfCompressor;
-import org.apache.pdfbox.Loader;
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.text.PDFTextStripper;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-
-import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -16,9 +12,12 @@ import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static com.mindee.TestingUtilities.getResourcePath;
-import static com.mindee.TestingUtilities.getV1ResourcePath;
+import javax.imageio.ImageIO;
+import org.apache.pdfbox.Loader;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.text.PDFTextStripper;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class FileCompressionTest {
 

@@ -1,23 +1,26 @@
 package com.mindee;
 
+import static com.mindee.TestingUtilities.assertStringEqualsFile;
+import static com.mindee.TestingUtilities.getResourcePath;
+import static com.mindee.TestingUtilities.getV1ResourcePathString;
+
 import com.mindee.http.Endpoint;
-import com.mindee.input.LocalResponse;
-import com.mindee.input.LocalInputSource;
 import com.mindee.http.MindeeApi;
 import com.mindee.http.RequestParameters;
+import com.mindee.input.LocalInputSource;
+import com.mindee.input.LocalResponse;
 import com.mindee.input.PageOptions;
 import com.mindee.input.PageOptionsOperation;
 import com.mindee.parsing.common.AsyncPredictResponse;
 import com.mindee.parsing.common.Document;
 import com.mindee.parsing.common.Job;
 import com.mindee.parsing.common.PredictResponse;
-import static com.mindee.TestingUtilities.assertStringEqualsFile;
-import com.mindee.product.custom.CustomV1;
-import com.mindee.product.generated.GeneratedV1;
-import com.mindee.product.invoice.InvoiceV4;
-import com.mindee.product.internationalid.InternationalIdV2;
 import com.mindee.pdf.PdfOperation;
 import com.mindee.pdf.SplitPdf;
+import com.mindee.product.custom.CustomV1;
+import com.mindee.product.generated.GeneratedV1;
+import com.mindee.product.internationalid.InternationalIdV2;
+import com.mindee.product.invoice.InvoiceV4;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -32,9 +35,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import static com.mindee.TestingUtilities.getResourcePath;
-import static com.mindee.TestingUtilities.getV1ResourcePathString;
 
 @ExtendWith(MockitoExtension.class)
 class MindeeClientTest {

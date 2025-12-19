@@ -1,17 +1,16 @@
 package com.mindee.input;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import lombok.Setter;
-import org.junit.jupiter.api.*;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.nio.file.Files;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import lombok.Setter;
+import org.junit.jupiter.api.*;
 
 public class URLInputSourceTest {
 

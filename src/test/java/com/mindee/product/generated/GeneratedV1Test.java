@@ -1,5 +1,7 @@
 package com.mindee.product.generated;
 
+import static com.mindee.TestingUtilities.getV1ResourcePathString;
+
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mindee.parsing.common.AsyncPredictResponse;
@@ -11,15 +13,13 @@ import com.mindee.parsing.standard.BooleanField;
 import com.mindee.parsing.standard.ClassificationField;
 import com.mindee.parsing.standard.DateField;
 import com.mindee.parsing.standard.StringField;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Map;
 import java.util.Objects;
-
-import static com.mindee.TestingUtilities.getV1ResourcePathString;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class GeneratedV1Test {
   protected AsyncPredictResponse<GeneratedV1> getAsyncPrediction(String name) throws IOException {

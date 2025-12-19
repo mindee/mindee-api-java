@@ -1,19 +1,19 @@
 package com.mindee.parsing.common;
 
+import static com.mindee.TestingUtilities.getV1ResourcePath;
+
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mindee.parsing.common.ocr.Word;
 import com.mindee.parsing.common.ocr.Ocr;
+import com.mindee.parsing.common.ocr.Word;
 import com.mindee.product.receipt.ReceiptV5;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
-
-import static com.mindee.TestingUtilities.getV1ResourcePath;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class OcrTest {
 

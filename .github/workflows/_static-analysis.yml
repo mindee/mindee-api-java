@@ -20,4 +20,4 @@ jobs:
           cache: "maven"
 
       - name: Check Code Style
-        run: mvn --update-snapshots --no-transfer-progress checkstyle:check
+        run: mvn --update-snapshots --no-transfer-progress process-sources

@@ -1,5 +1,7 @@
 package com.mindee.pdf;
 
+import static com.mindee.TestingUtilities.getResourcePath;
+
 import com.mindee.input.LocalInputSource;
 import java.io.File;
 import java.io.IOException;
@@ -10,14 +12,11 @@ import java.nio.file.StandardCopyOption;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
-
 import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
-import static com.mindee.TestingUtilities.getResourcePath;
 
 
 public class PDFUtilsTest {
