@@ -1,6 +1,5 @@
 package com.mindee.extraction;
 
-import com.mindee.MindeeException;
 import com.mindee.input.LocalInputSource;
 import java.io.ByteArrayOutputStream;
 import java.io.File;

@@ -3,7 +3,6 @@ package com.mindee.parsing.common;
 import static com.mindee.TestingUtilities.getV1ResourcePath;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.File;
 import java.io.IOException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

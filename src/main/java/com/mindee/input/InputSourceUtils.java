@@ -4,7 +4,6 @@ import com.mindee.MindeeException;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.URL;
-import javax.imageio.ImageIO;
 import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.io.RandomAccessReadBuffer;
 import org.apache.pdfbox.pdmodel.PDDocument;

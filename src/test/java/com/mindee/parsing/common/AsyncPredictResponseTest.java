@@ -6,7 +6,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mindee.product.invoicesplitter.InvoiceSplitterV1;
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import org.junit.jupiter.api.Assertions;

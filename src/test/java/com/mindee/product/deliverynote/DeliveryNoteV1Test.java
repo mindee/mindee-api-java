@@ -7,7 +7,6 @@ import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mindee.parsing.common.Document;
 import com.mindee.parsing.common.PredictResponse;
-import com.mindee.parsing.standard.ClassificationField;
 import java.io.File;
 import java.io.IOException;
 import org.junit.jupiter.api.Assertions;

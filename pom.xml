@@ -102,7 +102,8 @@
             <dependency>
               <groupId>com.puppycrawl.tools</groupId>
               <artifactId>checkstyle</artifactId>
-              <version>10.12.7</version>
+              <!-- Version 10.x is the last with JRE 11 support -->
+              <version>10.14.2</version>
             </dependency>
           </dependencies>
           <configuration>
@@ -111,32 +112,19 @@
             <failsOnError>true</failsOnError>
             <violationSeverity>error</violationSeverity>
           </configuration>
-          <executions>
-            <execution>
-              <phase>process-sources</phase>
-              <goals>
-                <goal>check</goal>
-              </goals>
-            </execution>
-          </executions>
         </plugin>
         <plugin>
           <groupId>com.diffplug.spotless</groupId>
           <artifactId>spotless-maven-plugin</artifactId>
-          <version>2.30.0</version>
+          <!-- Version 2.x is the last with JRE 11 support -->
+          <version>2.46.1</version>
           <configuration>
             <java>
               <importOrder/>
+              <removeUnusedImports />
+              <formatAnnotations />
             </java>
           </configuration>
-          <executions>
-            <execution>
-              <phase>validate</phase>
-              <goals>
-                <goal>check</goal>
-              </goals>
-            </execution>
-          </executions>
         </plugin>
       </plugins>
     </pluginManagement>
@@ -149,14 +137,6 @@
           <source>8</source>
           <target>8</target>
         </configuration>
-      </plugin>
-      <plugin>
-        <groupId>com.diffplug.spotless</groupId>
-        <artifactId>spotless-maven-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-checkstyle-plugin</artifactId>
       </plugin>
       <plugin>
         <groupId>org.sonatype.central</groupId>

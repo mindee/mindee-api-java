@@ -2,7 +2,6 @@ package com.mindee.workflow;
 
 import static com.mindee.TestingUtilities.getResourcePath;
 import static com.mindee.TestingUtilities.getV1ResourcePath;
-import static com.mindee.TestingUtilities.getV1ResourcePathString;
 import static org.mockito.Mockito.when;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -13,7 +12,6 @@ import com.mindee.parsing.common.Execution;
 import com.mindee.parsing.common.WorkflowResponse;
 import com.mindee.pdf.PdfOperation;
 import com.mindee.product.generated.GeneratedV1;
-import java.io.File;
 import java.io.IOException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
