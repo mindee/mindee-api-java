@@ -32,11 +32,9 @@ public class BillOfLadingV1Carrier extends BaseField {
   String scac;
 
   public boolean isEmpty() {
-    return (
-        (name == null || name.isEmpty())
-        && (professionalNumber == null || professionalNumber.isEmpty())
-        && (scac == null || scac.isEmpty())
-      );
+    return ((name == null || name.isEmpty())
+      && (professionalNumber == null || professionalNumber.isEmpty())
+      && (scac == null || scac.isEmpty()));
   }
 
   /**
@@ -45,8 +43,8 @@ public class BillOfLadingV1Carrier extends BaseField {
   public String toFieldList() {
     Map<String, String> printable = this.printableValues();
     return String.format("  :Name: %s%n", printable.get("name"))
-        + String.format("  :Professional Number: %s%n", printable.get("professionalNumber"))
-        + String.format("  :SCAC: %s%n", printable.get("scac"));
+      + String.format("  :Professional Number: %s%n", printable.get("professionalNumber"))
+      + String.format("  :SCAC: %s%n", printable.get("scac"));
   }
 
   @Override
@@ -61,7 +59,8 @@ public class BillOfLadingV1Carrier extends BaseField {
     Map<String, String> printable = new HashMap<>();
 
     printable.put("name", SummaryHelper.formatForDisplay(this.name, null));
-    printable.put("professionalNumber", SummaryHelper.formatForDisplay(this.professionalNumber, null));
+    printable
+      .put("professionalNumber", SummaryHelper.formatForDisplay(this.professionalNumber, null));
     printable.put("scac", SummaryHelper.formatForDisplay(this.scac, null));
     return printable;
   }

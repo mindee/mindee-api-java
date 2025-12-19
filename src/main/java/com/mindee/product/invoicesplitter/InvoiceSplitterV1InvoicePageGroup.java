@@ -24,20 +24,17 @@ public class InvoiceSplitterV1InvoicePageGroup extends BaseField implements Line
   List<Integer> pageIndexes;
 
   public boolean isEmpty() {
-    return (
-        pageIndexes == null
-      );
+    return (pageIndexes == null);
   }
 
   private Map<String, String> tablePrintableValues() {
     Map<String, String> printable = new HashMap<>();
 
-    printable.put(
+    printable
+      .put(
         "pageIndexes",
-        this.pageIndexes.stream()
-          .map(String::valueOf)
-          .collect(Collectors.joining(", "))
-    );
+        this.pageIndexes.stream().map(String::valueOf).collect(Collectors.joining(", "))
+      );
     return printable;
   }
 
@@ -58,12 +55,11 @@ public class InvoiceSplitterV1InvoicePageGroup extends BaseField implements Line
   private Map<String, String> printableValues() {
     Map<String, String> printable = new HashMap<>();
 
-    printable.put(
+    printable
+      .put(
         "pageIndexes",
-        this.pageIndexes.stream()
-          .map(String::valueOf)
-          .collect(Collectors.joining(", "))
-    );
+        this.pageIndexes.stream().map(String::valueOf).collect(Collectors.joining(", "))
+      );
     return printable;
   }
 }

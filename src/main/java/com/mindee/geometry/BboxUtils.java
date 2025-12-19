@@ -20,22 +20,19 @@ public final class BboxUtils {
       return null;
     }
 
-    DoubleSummaryStatistics statsX = polygon.getCoordinates()
-        .stream()
-        .mapToDouble(Point::getX)
-        .summaryStatistics();
+    DoubleSummaryStatistics statsX = polygon
+      .getCoordinates()
+      .stream()
+      .mapToDouble(Point::getX)
+      .summaryStatistics();
 
-    DoubleSummaryStatistics statsY = polygon.getCoordinates()
-        .stream()
-        .mapToDouble(Point::getY)
-        .summaryStatistics();
+    DoubleSummaryStatistics statsY = polygon
+      .getCoordinates()
+      .stream()
+      .mapToDouble(Point::getY)
+      .summaryStatistics();
 
-    return new Bbox(
-      statsX.getMin(),
-      statsX.getMax(),
-      statsY.getMin(),
-      statsY.getMax()
-    );
+    return new Bbox(statsX.getMin(), statsX.getMax(), statsY.getMin(), statsY.getMax());
   }
 
   /**
@@ -47,8 +44,7 @@ public final class BboxUtils {
       return null;
     }
 
-    Optional<Polygon> mergedPolygon = polygons.stream()
-        .reduce(PolygonUtils::combine);
+    Optional<Polygon> mergedPolygon = polygons.stream().reduce(PolygonUtils::combine);
 
     if (!mergedPolygon.isPresent()) {
       return null;

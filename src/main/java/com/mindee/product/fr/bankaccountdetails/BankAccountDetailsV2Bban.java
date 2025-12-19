@@ -37,12 +37,10 @@ public class BankAccountDetailsV2Bban extends BaseField {
   String bbanNumber;
 
   public boolean isEmpty() {
-    return (
-        (bbanBankCode == null || bbanBankCode.isEmpty())
-        && (bbanBranchCode == null || bbanBranchCode.isEmpty())
-        && (bbanKey == null || bbanKey.isEmpty())
-        && (bbanNumber == null || bbanNumber.isEmpty())
-      );
+    return ((bbanBankCode == null || bbanBankCode.isEmpty())
+      && (bbanBranchCode == null || bbanBranchCode.isEmpty())
+      && (bbanKey == null || bbanKey.isEmpty())
+      && (bbanNumber == null || bbanNumber.isEmpty()));
   }
 
   /**
@@ -51,9 +49,9 @@ public class BankAccountDetailsV2Bban extends BaseField {
   public String toFieldList() {
     Map<String, String> printable = this.printableValues();
     return String.format("  :Bank Code: %s%n", printable.get("bbanBankCode"))
-        + String.format("  :Branch Code: %s%n", printable.get("bbanBranchCode"))
-        + String.format("  :Key: %s%n", printable.get("bbanKey"))
-        + String.format("  :Account Number: %s%n", printable.get("bbanNumber"));
+      + String.format("  :Branch Code: %s%n", printable.get("bbanBranchCode"))
+      + String.format("  :Key: %s%n", printable.get("bbanKey"))
+      + String.format("  :Account Number: %s%n", printable.get("bbanNumber"));
   }
 
   @Override

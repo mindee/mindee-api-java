@@ -19,12 +19,11 @@ public class OcrTest {
     ObjectMapper objectMapper = new ObjectMapper();
     objectMapper.findAndRegisterModules();
 
-    JavaType type = objectMapper.getTypeFactory().constructParametricType(
-      PredictResponse.class,
-      ReceiptV5.class);
-    PredictResponse<ReceiptV5> prediction = objectMapper.readValue(
-      getV1ResourcePath("extras/ocr/complete.json").toFile(),
-      type);
+    JavaType type = objectMapper
+      .getTypeFactory()
+      .constructParametricType(PredictResponse.class, ReceiptV5.class);
+    PredictResponse<ReceiptV5> prediction = objectMapper
+      .readValue(getV1ResourcePath("extras/ocr/complete.json").toFile(), type);
 
     return prediction.getDocument().getOcr();
   }
@@ -51,11 +50,10 @@ public class OcrTest {
 
     Ocr ocr = loadResult();
 
-    List<String> expectedLines = Files.readAllLines(
-        getV1ResourcePath("extras/ocr/ocr.txt")
-    );
+    List<String> expectedLines = Files.readAllLines(getV1ResourcePath("extras/ocr/ocr.txt"));
     String expectedSummary = String.join(String.format("%n"), expectedLines);
 
-    Assertions.assertEquals(expectedSummary, ocr.toString(), "Should match expected string exactly.");
+    Assertions
+      .assertEquals(expectedSummary, ocr.toString(), "Should match expected string exactly.");
   }
 }

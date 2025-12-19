@@ -85,8 +85,7 @@ public class DriverLicenseV1Document extends Prediction {
 
   @Override
   public boolean isEmpty() {
-    return (
-      this.countryCode == null
+    return (this.countryCode == null
       && this.state == null
       && this.id == null
       && this.category == null
@@ -98,52 +97,25 @@ public class DriverLicenseV1Document extends Prediction {
       && this.issuedDate == null
       && this.issuingAuthority == null
       && this.mrz == null
-      && this.ddNumber == null
-      );
+      && this.ddNumber == null);
   }
 
   @Override
   public String toString() {
     StringBuilder outStr = new StringBuilder();
-    outStr.append(
-        String.format(":Country Code: %s%n", this.getCountryCode())
-    );
-    outStr.append(
-        String.format(":State: %s%n", this.getState())
-    );
-    outStr.append(
-        String.format(":ID: %s%n", this.getId())
-    );
-    outStr.append(
-        String.format(":Category: %s%n", this.getCategory())
-    );
-    outStr.append(
-        String.format(":Last Name: %s%n", this.getLastName())
-    );
-    outStr.append(
-        String.format(":First Name: %s%n", this.getFirstName())
-    );
-    outStr.append(
-        String.format(":Date of Birth: %s%n", this.getDateOfBirth())
-    );
-    outStr.append(
-        String.format(":Place of Birth: %s%n", this.getPlaceOfBirth())
-    );
-    outStr.append(
-        String.format(":Expiry Date: %s%n", this.getExpiryDate())
-    );
-    outStr.append(
-        String.format(":Issued Date: %s%n", this.getIssuedDate())
-    );
-    outStr.append(
-        String.format(":Issuing Authority: %s%n", this.getIssuingAuthority())
-    );
-    outStr.append(
-        String.format(":MRZ: %s%n", this.getMrz())
-    );
-    outStr.append(
-        String.format(":DD Number: %s%n", this.getDdNumber())
-    );
+    outStr.append(String.format(":Country Code: %s%n", this.getCountryCode()));
+    outStr.append(String.format(":State: %s%n", this.getState()));
+    outStr.append(String.format(":ID: %s%n", this.getId()));
+    outStr.append(String.format(":Category: %s%n", this.getCategory()));
+    outStr.append(String.format(":Last Name: %s%n", this.getLastName()));
+    outStr.append(String.format(":First Name: %s%n", this.getFirstName()));
+    outStr.append(String.format(":Date of Birth: %s%n", this.getDateOfBirth()));
+    outStr.append(String.format(":Place of Birth: %s%n", this.getPlaceOfBirth()));
+    outStr.append(String.format(":Expiry Date: %s%n", this.getExpiryDate()));
+    outStr.append(String.format(":Issued Date: %s%n", this.getIssuedDate()));
+    outStr.append(String.format(":Issuing Authority: %s%n", this.getIssuingAuthority()));
+    outStr.append(String.format(":MRZ: %s%n", this.getMrz()));
+    outStr.append(String.format(":DD Number: %s%n", this.getDdNumber()));
     return SummaryHelper.cleanSummary(outStr.toString());
   }
 }

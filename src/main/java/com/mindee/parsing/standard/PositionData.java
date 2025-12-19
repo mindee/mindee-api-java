@@ -7,5 +7,6 @@ import com.mindee.geometry.Polygon;
  */
 public interface PositionData {
   Polygon getBoundingBox();
+
   Polygon getPolygon();
 }

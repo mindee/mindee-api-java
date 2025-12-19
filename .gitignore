@@ -36,6 +36,8 @@ hs_err_pid*
 .idea
 *.iml
 .run
+.project
+.settings
 
 # Mac OS
 .DS_Store

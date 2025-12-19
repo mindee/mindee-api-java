@@ -41,19 +41,17 @@ public final class Endpoint {
 
     // that means it could be custom document
     if (endpointAnnotation == null) {
-      CustomEndpointInfo customEndpointAnnotation = documentClass.getAnnotation(
-          CustomEndpointInfo.class
-      );
-      if (customEndpointAnnotation == null) {
+      CustomEndpointInfo annotation = documentClass.getAnnotation(CustomEndpointInfo.class);
+      if (annotation == null) {
         throw new MindeeException(
           "The class is not supported as a prediction model. "
             + "The endpoint attribute is missing. "
             + "Please refer to the document or contact support."
         );
       }
-      this.endpointName = customEndpointAnnotation.endpointName();
-      this.accountName = customEndpointAnnotation.accountName();
-      this.version = customEndpointAnnotation.version();
+      this.endpointName = annotation.endpointName();
+      this.accountName = annotation.accountName();
+      this.version = annotation.version();
       return;
     }
     this.endpointName = endpointAnnotation.endpointName();

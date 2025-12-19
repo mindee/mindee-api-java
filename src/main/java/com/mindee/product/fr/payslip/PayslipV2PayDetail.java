@@ -67,18 +67,16 @@ public class PayslipV2PayDetail extends BaseField {
   Double totalTaxesAndDeductions;
 
   public boolean isEmpty() {
-    return (
-        grossSalary == null
-        && grossSalaryYtd == null
-        && incomeTaxRate == null
-        && incomeTaxWithheld == null
-        && netPaid == null
-        && netPaidBeforeTax == null
-        && netTaxable == null
-        && netTaxableYtd == null
-        && totalCostEmployer == null
-        && totalTaxesAndDeductions == null
-      );
+    return (grossSalary == null
+      && grossSalaryYtd == null
+      && incomeTaxRate == null
+      && incomeTaxWithheld == null
+      && netPaid == null
+      && netPaidBeforeTax == null
+      && netTaxable == null
+      && netTaxableYtd == null
+      && totalCostEmployer == null
+      && totalTaxesAndDeductions == null);
   }
 
   /**
@@ -87,15 +85,16 @@ public class PayslipV2PayDetail extends BaseField {
   public String toFieldList() {
     Map<String, String> printable = this.printableValues();
     return String.format("  :Gross Salary: %s%n", printable.get("grossSalary"))
-        + String.format("  :Gross Salary YTD: %s%n", printable.get("grossSalaryYtd"))
-        + String.format("  :Income Tax Rate: %s%n", printable.get("incomeTaxRate"))
-        + String.format("  :Income Tax Withheld: %s%n", printable.get("incomeTaxWithheld"))
-        + String.format("  :Net Paid: %s%n", printable.get("netPaid"))
-        + String.format("  :Net Paid Before Tax: %s%n", printable.get("netPaidBeforeTax"))
-        + String.format("  :Net Taxable: %s%n", printable.get("netTaxable"))
-        + String.format("  :Net Taxable YTD: %s%n", printable.get("netTaxableYtd"))
-        + String.format("  :Total Cost Employer: %s%n", printable.get("totalCostEmployer"))
-        + String.format("  :Total Taxes and Deductions: %s%n", printable.get("totalTaxesAndDeductions"));
+      + String.format("  :Gross Salary YTD: %s%n", printable.get("grossSalaryYtd"))
+      + String.format("  :Income Tax Rate: %s%n", printable.get("incomeTaxRate"))
+      + String.format("  :Income Tax Withheld: %s%n", printable.get("incomeTaxWithheld"))
+      + String.format("  :Net Paid: %s%n", printable.get("netPaid"))
+      + String.format("  :Net Paid Before Tax: %s%n", printable.get("netPaidBeforeTax"))
+      + String.format("  :Net Taxable: %s%n", printable.get("netTaxable"))
+      + String.format("  :Net Taxable YTD: %s%n", printable.get("netTaxableYtd"))
+      + String.format("  :Total Cost Employer: %s%n", printable.get("totalCostEmployer"))
+      + String
+        .format("  :Total Taxes and Deductions: %s%n", printable.get("totalTaxesAndDeductions"));
   }
 
   @Override
@@ -116,46 +115,17 @@ public class PayslipV2PayDetail extends BaseField {
   private Map<String, String> printableValues() {
     Map<String, String> printable = new HashMap<>();
 
-    printable.put(
-        "grossSalary",
-        SummaryHelper.formatAmount(this.grossSalary)
-    );
-    printable.put(
-        "grossSalaryYtd",
-        SummaryHelper.formatAmount(this.grossSalaryYtd)
-    );
-    printable.put(
-        "incomeTaxRate",
-        SummaryHelper.formatAmount(this.incomeTaxRate)
-    );
-    printable.put(
-        "incomeTaxWithheld",
-        SummaryHelper.formatAmount(this.incomeTaxWithheld)
-    );
-    printable.put(
-        "netPaid",
-        SummaryHelper.formatAmount(this.netPaid)
-    );
-    printable.put(
-        "netPaidBeforeTax",
-        SummaryHelper.formatAmount(this.netPaidBeforeTax)
-    );
-    printable.put(
-        "netTaxable",
-        SummaryHelper.formatAmount(this.netTaxable)
-    );
-    printable.put(
-        "netTaxableYtd",
-        SummaryHelper.formatAmount(this.netTaxableYtd)
-    );
-    printable.put(
-        "totalCostEmployer",
-        SummaryHelper.formatAmount(this.totalCostEmployer)
-    );
-    printable.put(
-        "totalTaxesAndDeductions",
-        SummaryHelper.formatAmount(this.totalTaxesAndDeductions)
-    );
+    printable.put("grossSalary", SummaryHelper.formatAmount(this.grossSalary));
+    printable.put("grossSalaryYtd", SummaryHelper.formatAmount(this.grossSalaryYtd));
+    printable.put("incomeTaxRate", SummaryHelper.formatAmount(this.incomeTaxRate));
+    printable.put("incomeTaxWithheld", SummaryHelper.formatAmount(this.incomeTaxWithheld));
+    printable.put("netPaid", SummaryHelper.formatAmount(this.netPaid));
+    printable.put("netPaidBeforeTax", SummaryHelper.formatAmount(this.netPaidBeforeTax));
+    printable.put("netTaxable", SummaryHelper.formatAmount(this.netTaxable));
+    printable.put("netTaxableYtd", SummaryHelper.formatAmount(this.netTaxableYtd));
+    printable.put("totalCostEmployer", SummaryHelper.formatAmount(this.totalCostEmployer));
+    printable
+      .put("totalTaxesAndDeductions", SummaryHelper.formatAmount(this.totalTaxesAndDeductions));
     return printable;
   }
 }

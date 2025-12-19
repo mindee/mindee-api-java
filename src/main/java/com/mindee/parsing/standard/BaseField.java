@@ -45,13 +45,9 @@ public abstract class BaseField implements PositionData {
    * JSON constructor.
    */
   protected BaseField(
-      @JsonProperty("confidence")
-      Double confidence,
-      @JsonProperty("polygon")
-      @JsonDeserialize(using = PolygonDeserializer.class)
-      Polygon polygon,
-      @JsonProperty("page_id")
-      Integer pageId
+      @JsonProperty("confidence") Double confidence,
+      @JsonProperty("polygon") @JsonDeserialize(using = PolygonDeserializer.class) Polygon polygon,
+      @JsonProperty("page_id") Integer pageId
   ) {
     this.confidence = confidence;
     this.polygon = polygon;

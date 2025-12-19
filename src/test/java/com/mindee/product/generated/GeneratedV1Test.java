@@ -26,47 +26,51 @@ public class GeneratedV1Test {
     ObjectMapper objectMapper = new ObjectMapper();
     objectMapper.findAndRegisterModules();
 
-    JavaType type = objectMapper.getTypeFactory().constructParametricType(
-        AsyncPredictResponse.class,
-        GeneratedV1.class
-    );
-    return objectMapper.readValue(
+    JavaType type = objectMapper
+      .getTypeFactory()
+      .constructParametricType(AsyncPredictResponse.class, GeneratedV1.class);
+    return objectMapper
+      .readValue(
         new File(getV1ResourcePathString("products/generated/response_v1/" + name + ".json")),
         type
-    );
+      );
   }
 
   protected AsyncPredictResponse<GeneratedV1> getUsMailPrediction() throws IOException {
     ObjectMapper objectMapper = new ObjectMapper();
     objectMapper.findAndRegisterModules();
 
-    JavaType type = objectMapper.getTypeFactory().constructParametricType(
-        AsyncPredictResponse.class,
-        GeneratedV1.class
-    );
-    return objectMapper.readValue(
+    JavaType type = objectMapper
+      .getTypeFactory()
+      .constructParametricType(AsyncPredictResponse.class, GeneratedV1.class);
+    return objectMapper
+      .readValue(
         new File(getV1ResourcePathString("products/us_mail/response_v3/complete.json")),
         type
-    );
+      );
   }
 
   protected PredictResponse<GeneratedV1> getSyncPrediction(String name) throws IOException {
     ObjectMapper objectMapper = new ObjectMapper();
     objectMapper.findAndRegisterModules();
 
-    JavaType type = objectMapper.getTypeFactory().constructParametricType(
-      PredictResponse.class,
-      GeneratedV1.class
-    );
-    return objectMapper.readValue(
-      new File(getV1ResourcePathString("products/generated/response_v1/" + name + "_invoice_v4.json")),
-      type
-    );
+    JavaType type = objectMapper
+      .getTypeFactory()
+      .constructParametricType(PredictResponse.class, GeneratedV1.class);
+    return objectMapper
+      .readValue(
+        new File(
+          getV1ResourcePathString("products/generated/response_v1/" + name + "_invoice_v4.json")
+        ),
+        type
+      );
   }
 
   @Test
   void whenAsyncBadPolygonsDeserialized_mustHaveValidProperties() throws IOException {
-    AsyncPredictResponse<GeneratedV1> response = getAsyncPrediction("bad_polygons_driver_license_v1");
+    AsyncPredictResponse<GeneratedV1> response = getAsyncPrediction(
+      "bad_polygons_driver_license_v1"
+    );
     GeneratedV1Document docPrediction = response.getDocumentObj().getInference().getPrediction();
 
     Map<String, GeneratedFeature> features = docPrediction.getFields();
@@ -90,7 +94,11 @@ public class GeneratedV1Test {
     // Direct access to the hashmap
 
     Assertions.assertFalse(features.get("address").isList());
-    Assertions.assertEquals("AVDA DE MADRID S-N MADRID MADRID", features.get("address").get(0).get("value"));
+    Assertions
+      .assertEquals(
+        "AVDA DE MADRID S-N MADRID MADRID",
+        features.get("address").get(0).get("value")
+      );
 
     Assertions.assertFalse(features.get("birth_date").isList());
     Assertions.assertEquals("1980-01-01", features.get("birth_date").get(0).get("value"));
@@ -113,10 +121,7 @@ public class GeneratedV1Test {
 
     // Access as a StringField without raw_value
     StringField addressField = features.get("address").asStringField();
-    Assertions.assertEquals(
-        "AVDA DE MADRID S-N MADRID MADRID",
-        addressField.getValue()
-    );
+    Assertions.assertEquals("AVDA DE MADRID S-N MADRID MADRID", addressField.getValue());
     Assertions.assertNull(addressField.getRawValue());
     Assertions.assertNull(addressField.getConfidence());
     Assertions.assertNull(addressField.getPageId());
@@ -124,10 +129,7 @@ public class GeneratedV1Test {
 
     // Access as a DateField
     DateField expiryDateField = features.get("expiry_date").asDateField();
-    Assertions.assertEquals(
-      LocalDate.parse("2025-01-01"),
-      expiryDateField.getValue()
-    );
+    Assertions.assertEquals(LocalDate.parse("2025-01-01"), expiryDateField.getValue());
   }
 
   @Test
@@ -157,92 +159,47 @@ public class GeneratedV1Test {
     // Direct access to the hashmap
     GeneratedFeature customerName = features.get("customer_name");
     Assertions.assertFalse(customerName.isList());
-    Assertions.assertEquals(
-      "JIRO DOI",
-      customerName.get(0).get("value")
-    );
-    Assertions.assertEquals(
-      "Jiro Doi",
-      customerName.get(0).get("raw_value")
-    );
-    Assertions.assertEquals(
-      0.87,
-      customerName.get(0).get("confidence")
-    );
-    Assertions.assertEquals(
-      1,
-      customerName.get(0).get("page_id")
-    );
-    Assertions.assertEquals(
-      "Polygon with 4 points.",
-      customerName.get(0).getAsPolygon("polygon").toString()
-    );
+    Assertions.assertEquals("JIRO DOI", customerName.get(0).get("value"));
+    Assertions.assertEquals("Jiro Doi", customerName.get(0).get("raw_value"));
+    Assertions.assertEquals(0.87, customerName.get(0).get("confidence"));
+    Assertions.assertEquals(1, customerName.get(0).get("page_id"));
+    Assertions
+      .assertEquals(
+        "Polygon with 4 points.",
+        customerName.get(0).getAsPolygon("polygon").toString()
+      );
 
     // Access as a StringField with raw_value
     StringField customerNameField = customerName.asStringField();
-    Assertions.assertEquals(
-      "JIRO DOI",
-      customerNameField.getValue()
-    );
-    Assertions.assertEquals(
-      "Jiro Doi",
-      customerNameField.getRawValue()
-    );
-    Assertions.assertEquals(
-      0.87,
-      customerNameField.getConfidence()
-    );
-    Assertions.assertEquals(
-      1,
-      customerNameField.getPageId()
-    );
-    Assertions.assertEquals(
-      "Polygon with 4 points.",
-      customerNameField.getPolygon().toString()
-    );
+    Assertions.assertEquals("JIRO DOI", customerNameField.getValue());
+    Assertions.assertEquals("Jiro Doi", customerNameField.getRawValue());
+    Assertions.assertEquals(0.87, customerNameField.getConfidence());
+    Assertions.assertEquals(1, customerNameField.getPageId());
+    Assertions.assertEquals("Polygon with 4 points.", customerNameField.getPolygon().toString());
 
     // Access as a StringField without raw_value
     StringField supplierAddressField = features.get("supplier_address").asStringField();
-    Assertions.assertEquals(
-      "156 University Ave, Toronto ON, Canada M5H 2H7",
-      supplierAddressField.getValue()
-    );
-    Assertions.assertNull(
-      supplierAddressField.getRawValue()
-    );
-    Assertions.assertEquals(
-      0.53,
-      supplierAddressField.getConfidence()
-    );
-    Assertions.assertEquals(
-      1,
-      supplierAddressField.getPageId()
-    );
-    Assertions.assertEquals(
-      "Polygon with 4 points.",
-      supplierAddressField.getPolygon().toString()
-    );
+    Assertions
+      .assertEquals(
+        "156 University Ave, Toronto ON, Canada M5H 2H7",
+        supplierAddressField.getValue()
+      );
+    Assertions.assertNull(supplierAddressField.getRawValue());
+    Assertions.assertEquals(0.53, supplierAddressField.getConfidence());
+    Assertions.assertEquals(1, supplierAddressField.getPageId());
+    Assertions.assertEquals("Polygon with 4 points.", supplierAddressField.getPolygon().toString());
 
     // Access as an AmountField
     AmountField totalAmountField = features.get("total_amount").asAmountField();
-    Assertions.assertEquals(
-      587.95,
-      totalAmountField.getValue()
-    );
+    Assertions.assertEquals(587.95, totalAmountField.getValue());
 
     // Access as a DateField
     DateField dueDateField = features.get("due_date").asDateField();
-    Assertions.assertEquals(
-      LocalDate.parse("2020-02-17"),
-      dueDateField.getValue()
-    );
+    Assertions.assertEquals(LocalDate.parse("2020-02-17"), dueDateField.getValue());
 
     // Access as a ClassificationField
     ClassificationField documentTypeField = features.get("document_type").asClassificationField();
-    Assertions.assertEquals(
-      "INVOICE",
-      documentTypeField.getValue()
-    );
+    Assertions.assertEquals("INVOICE", documentTypeField.getValue());
 
     // Access line items
     GeneratedFeature lineItems = features.get("line_items");
@@ -268,8 +225,7 @@ public class GeneratedV1Test {
       GeneratedFeature featureValue = featureEntry.getValue();
       if (Objects.equals(featureEntry.getKey(), "document_type")) {
         Assertions.assertEquals("INVOICE", featureValue.get(0).get("value"));
-      }
-      else if (featureValue.isList()) {
+      } else if (featureValue.isList()) {
         Assertions.assertTrue(featureValue.isEmpty());
       } else {
         Assertions.assertNull(featureValue.get(0).get("value"));

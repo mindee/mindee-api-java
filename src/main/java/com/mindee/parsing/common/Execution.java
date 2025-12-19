@@ -103,18 +103,43 @@ public class Execution<DocT extends Inference> {
 
   @Override
   public String toString() {
-    return ":batch_name: " + batchName + "\n"
-        + ":created_at: " + createdAt + "\n"
-        + ":file: " + file + "\n"
-        + ":id: " + id + "\n"
-        + ":inference: " + inference + "\n"
-        + ":priority: " + priority + "\n"
-        + ":reviewed_at: " + reviewedAt + "\n"
-        + ":available_at: " + availableAt + "\n"
-        + ":reviewed_prediction: " + reviewedPrediction + "\n"
-        + ":status: " + status + "\n"
-        + ":type: " + type + "\n"
-        + ":uploaded_at: " + uploadedAt + "\n"
-        + ":workflow_id: " + workflowId;
+    return ":batch_name: "
+      + batchName
+      + "\n"
+      + ":created_at: "
+      + createdAt
+      + "\n"
+      + ":file: "
+      + file
+      + "\n"
+      + ":id: "
+      + id
+      + "\n"
+      + ":inference: "
+      + inference
+      + "\n"
+      + ":priority: "
+      + priority
+      + "\n"
+      + ":reviewed_at: "
+      + reviewedAt
+      + "\n"
+      + ":available_at: "
+      + availableAt
+      + "\n"
+      + ":reviewed_prediction: "
+      + reviewedPrediction
+      + "\n"
+      + ":status: "
+      + status
+      + "\n"
+      + ":type: "
+      + type
+      + "\n"
+      + ":uploaded_at: "
+      + uploadedAt
+      + "\n"
+      + ":workflow_id: "
+      + workflowId;
   }
 }

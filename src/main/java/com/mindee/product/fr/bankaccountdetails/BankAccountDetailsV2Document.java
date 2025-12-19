@@ -39,29 +39,19 @@ public class BankAccountDetailsV2Document extends Prediction {
 
   @Override
   public boolean isEmpty() {
-    return (
-      this.accountHoldersNames == null
+    return (this.accountHoldersNames == null
       && this.bban == null
       && this.iban == null
-      && this.swiftCode == null
-      );
+      && this.swiftCode == null);
   }
 
   @Override
   public String toString() {
     StringBuilder outStr = new StringBuilder();
-    outStr.append(
-        String.format(":Account Holder's Names: %s%n", this.getAccountHoldersNames())
-    );
-    outStr.append(
-        String.format(":Basic Bank Account Number:%n%s", this.getBban().toFieldList())
-    );
-    outStr.append(
-        String.format(":IBAN: %s%n", this.getIban())
-    );
-    outStr.append(
-        String.format(":SWIFT Code: %s%n", this.getSwiftCode())
-    );
+    outStr.append(String.format(":Account Holder's Names: %s%n", this.getAccountHoldersNames()));
+    outStr.append(String.format(":Basic Bank Account Number:%n%s", this.getBban().toFieldList()));
+    outStr.append(String.format(":IBAN: %s%n", this.getIban()));
+    outStr.append(String.format(":SWIFT Code: %s%n", this.getSwiftCode()));
     return SummaryHelper.cleanSummary(outStr.toString());
   }
 }

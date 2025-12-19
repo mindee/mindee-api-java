@@ -38,30 +38,19 @@ public class ReceiptV5LineItem extends BaseField implements LineItemField {
   Double unitPrice;
 
   public boolean isEmpty() {
-    return (
-        (description == null || description.isEmpty())
-        && quantity == null
-        && totalAmount == null
-        && unitPrice == null
-      );
+    return ((description == null || description.isEmpty())
+      && quantity == null
+      && totalAmount == null
+      && unitPrice == null);
   }
 
   private Map<String, String> tablePrintableValues() {
     Map<String, String> printable = new HashMap<>();
 
     printable.put("description", SummaryHelper.formatForDisplay(this.description, 36));
-    printable.put(
-        "quantity",
-        SummaryHelper.formatAmount(this.quantity)
-    );
-    printable.put(
-        "totalAmount",
-        SummaryHelper.formatAmount(this.totalAmount)
-    );
-    printable.put(
-        "unitPrice",
-        SummaryHelper.formatAmount(this.unitPrice)
-    );
+    printable.put("quantity", SummaryHelper.formatAmount(this.quantity));
+    printable.put("totalAmount", SummaryHelper.formatAmount(this.totalAmount));
+    printable.put("unitPrice", SummaryHelper.formatAmount(this.unitPrice));
     return printable;
   }
 
@@ -89,18 +78,9 @@ public class ReceiptV5LineItem extends BaseField implements LineItemField {
     Map<String, String> printable = new HashMap<>();
 
     printable.put("description", SummaryHelper.formatForDisplay(this.description, null));
-    printable.put(
-        "quantity",
-        SummaryHelper.formatAmount(this.quantity)
-    );
-    printable.put(
-        "totalAmount",
-        SummaryHelper.formatAmount(this.totalAmount)
-    );
-    printable.put(
-        "unitPrice",
-        SummaryHelper.formatAmount(this.unitPrice)
-    );
+    printable.put("quantity", SummaryHelper.formatAmount(this.quantity));
+    printable.put("totalAmount", SummaryHelper.formatAmount(this.totalAmount));
+    printable.put("unitPrice", SummaryHelper.formatAmount(this.unitPrice));
     return printable;
   }
 }

@@ -8,7 +8,6 @@ import com.mindee.geometry.PolygonDeserializer;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
-
 /**
  * A single value in a ListField.
  */
@@ -43,11 +42,7 @@ public class ListFieldValue {
   public ListFieldValue() {
   }
 
-  public ListFieldValue(
-      String content,
-      double confidence,
-      Polygon polygon
-  ) {
+  public ListFieldValue(String content, double confidence, Polygon polygon) {
     this.confidence = confidence;
     this.polygon = polygon;
     this.content = content;

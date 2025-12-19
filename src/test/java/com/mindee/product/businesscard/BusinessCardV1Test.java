@@ -21,14 +21,14 @@ public class BusinessCardV1Test {
     ObjectMapper objectMapper = new ObjectMapper();
     objectMapper.findAndRegisterModules();
 
-    JavaType type = objectMapper.getTypeFactory().constructParametricType(
-      PredictResponse.class,
-      BusinessCardV1.class
-    );
-    return objectMapper.readValue(
-      new File(getV1ResourcePathString("products/business_card/response_v1/" + name + ".json")),
-      type
-    );
+    JavaType type = objectMapper
+      .getTypeFactory()
+      .constructParametricType(PredictResponse.class, BusinessCardV1.class);
+    return objectMapper
+      .readValue(
+        new File(getV1ResourcePathString("products/business_card/response_v1/" + name + ".json")),
+        type
+      );
   }
 
   @Test
@@ -53,8 +53,8 @@ public class BusinessCardV1Test {
     PredictResponse<BusinessCardV1> response = getPrediction("complete");
     Document<BusinessCardV1> doc = response.getDocument();
     assertStringEqualsFile(
-        doc.toString(),
-        getV1ResourcePathString("products/business_card/response_v1/summary_full.rst")
+      doc.toString(),
+      getV1ResourcePathString("products/business_card/response_v1/summary_full.rst")
     );
   }
 

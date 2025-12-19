@@ -31,29 +31,17 @@ public class BarcodeReaderV1Document extends Prediction {
 
   @Override
   public boolean isEmpty() {
-    return (
-      (this.codes1D == null || this.codes1D.isEmpty())
-      && (this.codes2D == null || this.codes2D.isEmpty())
-      );
+    return ((this.codes1D == null || this.codes1D.isEmpty())
+      && (this.codes2D == null || this.codes2D.isEmpty()));
   }
 
   @Override
   public String toString() {
     StringBuilder outStr = new StringBuilder();
-    String codes1D = SummaryHelper.arrayToString(
-        this.getCodes1D(),
-        "%n              "
-    );
-    outStr.append(
-        String.format(":Barcodes 1D: %s%n", codes1D)
-    );
-    String codes2D = SummaryHelper.arrayToString(
-        this.getCodes2D(),
-        "%n              "
-    );
-    outStr.append(
-        String.format(":Barcodes 2D: %s%n", codes2D)
-    );
+    String codes1D = SummaryHelper.arrayToString(this.getCodes1D(), "%n              ");
+    outStr.append(String.format(":Barcodes 1D: %s%n", codes1D));
+    String codes2D = SummaryHelper.arrayToString(this.getCodes2D(), "%n              ");
+    outStr.append(String.format(":Barcodes 2D: %s%n", codes2D));
     return SummaryHelper.cleanSummary(outStr.toString());
   }
 }

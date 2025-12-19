@@ -25,9 +25,7 @@ public class InvoiceSplitterV1Document extends Prediction {
 
   @Override
   public boolean isEmpty() {
-    return (
-      (this.invoicePageGroups == null || this.invoicePageGroups.isEmpty())
-      );
+    return ((this.invoicePageGroups == null || this.invoicePageGroups.isEmpty()));
   }
 
   @Override
@@ -35,17 +33,17 @@ public class InvoiceSplitterV1Document extends Prediction {
     StringBuilder outStr = new StringBuilder();
     String invoicePageGroupsSummary = "";
     if (!this.getInvoicePageGroups().isEmpty()) {
-      int[] invoicePageGroupsColSizes = new int[]{74};
-      invoicePageGroupsSummary =
-        String.format("%n%s%n  ", SummaryHelper.lineSeparator(invoicePageGroupsColSizes, "-"))
-          + "| Page Indexes                                                             "
-          + String.format("|%n%s%n  ", SummaryHelper.lineSeparator(invoicePageGroupsColSizes, "="));
-      invoicePageGroupsSummary += SummaryHelper.arrayToString(this.getInvoicePageGroups(), invoicePageGroupsColSizes);
-      invoicePageGroupsSummary += String.format("%n%s", SummaryHelper.lineSeparator(invoicePageGroupsColSizes, "-"));
+      int[] invoicePageGroupsColSizes = new int[] { 74 };
+      invoicePageGroupsSummary = String
+        .format("%n%s%n  ", SummaryHelper.lineSeparator(invoicePageGroupsColSizes, "-"))
+        + "| Page Indexes                                                             "
+        + String.format("|%n%s%n  ", SummaryHelper.lineSeparator(invoicePageGroupsColSizes, "="));
+      invoicePageGroupsSummary += SummaryHelper
+        .arrayToString(this.getInvoicePageGroups(), invoicePageGroupsColSizes);
+      invoicePageGroupsSummary += String
+        .format("%n%s", SummaryHelper.lineSeparator(invoicePageGroupsColSizes, "-"));
     }
-    outStr.append(
-        String.format(":Invoice Page Groups: %s%n", invoicePageGroupsSummary)
-    );
+    outStr.append(String.format(":Invoice Page Groups: %s%n", invoicePageGroupsSummary));
     return SummaryHelper.cleanSummary(outStr.toString());
   }
 }

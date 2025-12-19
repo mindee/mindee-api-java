@@ -36,6 +36,7 @@ public class ListField {
 
   /**
    * Returns <code>true</code> if there are no values.
+   * 
    * @return <code>true</code> if there are no values.
    */
   public boolean isEmpty() {
@@ -44,24 +45,25 @@ public class ListField {
 
   /**
    * Get all the value contents.
+   * 
    * @return all the values as a list of strings.
    */
   public List<String> getContentsList() {
-    return values.stream()
-      .map(ListFieldValue::getContent)
-      .collect(Collectors.toList());
+    return values.stream().map(ListFieldValue::getContent).collect(Collectors.toList());
   }
 
   /**
    * Get all the joined value contents.
+   * 
    * @param separator the separator to use between values.
    * @return all the values as a single string.
    */
   public String getContentsString(String separator) {
-    return String.format("%s",
-      values.stream()
-        .map(ListFieldValue::toString)
-        .collect(Collectors.joining(separator)));
+    return String
+      .format(
+        "%s",
+        values.stream().map(ListFieldValue::toString).collect(Collectors.joining(separator))
+      );
   }
 
   @Override

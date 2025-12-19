@@ -61,6 +61,7 @@ public class MindeeClient {
 
   /**
    * Create a MindeeClient.
+   * 
    * @param pdfOperation The PdfOperation implementation to be used by the created MindeeClient.
    * @param mindeeApi The MindeeApi implementation to be used by the created MindeeClient.
    */
@@ -76,31 +77,24 @@ public class MindeeClient {
     } else {
       mindeeSettings = new MindeeSettings();
     }
-    return MindeeHttpApi.builder()
-      .mindeeSettings(mindeeSettings)
-      .build();
+    return MindeeHttpApi.builder().mindeeSettings(mindeeSettings).build();
   }
 
   /**
    * Parse a document from an async queue.
+   * 
    * @param <T> Type of inference.
    * @param type Type of inference;
    * @param jobId ID of the job.
    * @return A valid prediction.
    */
-  public <T extends Inference> AsyncPredictResponse<T> parseQueued(
-      Class<T> type,
-      String jobId
-  ) {
-    return this.mindeeApi.documentQueueGet(
-        type,
-        new Endpoint(type),
-        jobId
-    );
+  public <T extends Inference> AsyncPredictResponse<T> parseQueued(Class<T> type, String jobId) {
+    return this.mindeeApi.documentQueueGet(type, new Endpoint(type), jobId);
   }
 
   /**
    * Send a local file to an async queue.
+   * 
    * @param <T> Type of inference.
    * @param type Type of inference.
    * @param localInputSource A local input source file.
@@ -111,17 +105,20 @@ public class MindeeClient {
       Class<T> type,
       LocalInputSource localInputSource
   ) throws IOException {
-    return this.enqueue(
+    return this
+      .enqueue(
         type,
         new Endpoint(type),
         localInputSource.getFile(),
         localInputSource.getFilename(),
         null,
-        null);
+        null
+      );
   }
 
   /**
    * Retrieves the file after applying page operations to it.
+   * 
    * @param localInputSource Local input source to apply operations to.
    * @param pageOptions Options to apply.
    * @return A byte array of the file after applying page operations.
@@ -135,15 +132,16 @@ public class MindeeClient {
     if (pageOptions == null || !localInputSource.isPdf()) {
       splitFile = localInputSource.getFile();
     } else {
-      splitFile = pdfOperation.split(
-          new SplitQuery(localInputSource.getFile(), pageOptions)
-      ).getFile();
+      splitFile = pdfOperation
+        .split(new SplitQuery(localInputSource.getFile(), pageOptions))
+        .getFile();
     }
     return splitFile;
   }
 
   /**
    * Send a local file to an async queue.
+   * 
    * @param <T> Type of inference.
    * @param type Type of inference.
    * @param localInputSource A local input source file.
@@ -158,18 +156,20 @@ public class MindeeClient {
       PredictOptions predictOptions,
       PageOptions pageOptions
   ) throws IOException {
-    return this.enqueue(
+    return this
+      .enqueue(
         type,
         new Endpoint(type),
         getSplitFile(localInputSource, pageOptions),
         localInputSource.getFilename(),
         predictOptions,
-      null
-    );
+        null
+      );
   }
 
   /**
    * Send a local file to an async queue.
+   * 
    * @param <T> Type of inference.
    * @param type Type of inference.
    * @param localInputSource A local input source file.
@@ -182,18 +182,20 @@ public class MindeeClient {
       LocalInputSource localInputSource,
       PredictOptions predictOptions
   ) throws IOException {
-    return this.enqueue(
+    return this
+      .enqueue(
         type,
         new Endpoint(type),
         localInputSource.getFile(),
         localInputSource.getFilename(),
         predictOptions,
         null
-    );
+      );
   }
 
   /**
    * Send a remote file to an async queue.
+   * 
    * @param <T> Type of inference.
    * @param type Type of inference.
    * @param sourceUrl A URL to a remote file.
@@ -205,18 +207,12 @@ public class MindeeClient {
       URL sourceUrl
   ) throws IOException {
     InputSourceUtils.validateUrl(sourceUrl);
-    return this.enqueue(
-        type,
-        new Endpoint(type),
-        null,
-        null,
-        null,
-        sourceUrl
-    );
+    return this.enqueue(type, new Endpoint(type), null, null, null, sourceUrl);
   }
 
   /**
    * Send a remote file to an async queue.
+   * 
    * @param <T> Type of inference.
    * @param type Type of inference.
    * @param sourceUrl A URL to a remote file.
@@ -230,14 +226,7 @@ public class MindeeClient {
       PredictOptions predictOptions
   ) throws IOException {
     InputSourceUtils.validateUrl(sourceUrl);
-    return this.enqueue(
-      type,
-      new Endpoint(type),
-      null,
-      null,
-      predictOptions,
-      sourceUrl
-    );
+    return this.enqueue(type, new Endpoint(type), null, null, predictOptions, sourceUrl);
   }
 
   private <T extends Inference> AsyncPredictResponse<T> enqueue(
@@ -248,17 +237,19 @@ public class MindeeClient {
       PredictOptions predictOptions,
       URL urlInputSource
   ) throws IOException {
-    RequestParameters params = RequestParameters.builder()
-        .file(file)
-        .fileName(filename)
-        .predictOptions(predictOptions)
-        .urlInputSource(urlInputSource)
-        .build();
+    RequestParameters params = RequestParameters
+      .builder()
+      .file(file)
+      .fileName(filename)
+      .predictOptions(predictOptions)
+      .urlInputSource(urlInputSource)
+      .build();
     return this.mindeeApi.predictAsyncPost(type, endpoint, params);
   }
 
   /**
    * Send a local file to an async queue, poll, and parse when complete.
+   * 
    * @param <T> Type of inference.
    * @param type Type of inference.
    * @param localInputSource A local input source file.
@@ -270,18 +261,21 @@ public class MindeeClient {
       Class<T> type,
       LocalInputSource localInputSource
   ) throws IOException, InterruptedException {
-    return this.enqueueAndParse(
-      type,
-      new Endpoint(type),
-      null,
-      localInputSource.getFile(),
-      localInputSource.getFilename(),
-      null,
-      null);
+    return this
+      .enqueueAndParse(
+        type,
+        new Endpoint(type),
+        null,
+        localInputSource.getFile(),
+        localInputSource.getFilename(),
+        null,
+        null
+      );
   }
 
   /**
    * Send a local file to an async queue, poll, and parse when complete.
+   * 
    * @param <T> Type of inference.
    * @param type Type of inference.
    * @param localInputSource A local input source file.
@@ -295,19 +289,21 @@ public class MindeeClient {
       LocalInputSource localInputSource,
       AsyncPollingOptions pollingOptions
   ) throws IOException, InterruptedException {
-    return this.enqueueAndParse(
-      type,
-      new Endpoint(type),
-      pollingOptions,
-      localInputSource.getFile(),
-      localInputSource.getFilename(),
-      null,
-      null
-    );
+    return this
+      .enqueueAndParse(
+        type,
+        new Endpoint(type),
+        pollingOptions,
+        localInputSource.getFile(),
+        localInputSource.getFilename(),
+        null,
+        null
+      );
   }
 
   /**
    * Send a local file to an async queue, poll, and parse when complete.
+   * 
    * @param <T> Type of inference.
    * @param type Type of inference.
    * @param localInputSource A local input source file.
@@ -325,19 +321,21 @@ public class MindeeClient {
       PageOptions pageOptions,
       AsyncPollingOptions pollingOptions
   ) throws IOException, InterruptedException {
-    return this.enqueueAndParse(
-      type,
-      new Endpoint(type),
-      pollingOptions,
-      getSplitFile(localInputSource, pageOptions),
-      localInputSource.getFilename(),
-      predictOptions,
-      null
-    );
+    return this
+      .enqueueAndParse(
+        type,
+        new Endpoint(type),
+        pollingOptions,
+        getSplitFile(localInputSource, pageOptions),
+        localInputSource.getFilename(),
+        predictOptions,
+        null
+      );
   }
 
   /**
    * Send a local file to an async queue, poll, and parse when complete.
+   * 
    * @param <T> Type of inference.
    * @param type Type of inference.
    * @param localInputSource A local input source file.
@@ -353,7 +351,8 @@ public class MindeeClient {
       PredictOptions predictOptions,
       AsyncPollingOptions pollingOptions
   ) throws IOException, InterruptedException {
-    return this.enqueueAndParse(
+    return this
+      .enqueueAndParse(
         type,
         new Endpoint(type),
         pollingOptions,
@@ -361,11 +360,12 @@ public class MindeeClient {
         localInputSource.getFilename(),
         predictOptions,
         null
-    );
+      );
   }
 
   /**
    * Send a local file to an async queue, poll, and parse when complete.
+   * 
    * @param <T> Type of inference.
    * @param type Type of inference.
    * @param localInputSource A local input source file.
@@ -379,7 +379,8 @@ public class MindeeClient {
       LocalInputSource localInputSource,
       PredictOptions predictOptions
   ) throws IOException, InterruptedException {
-    return this.enqueueAndParse(
+    return this
+      .enqueueAndParse(
         type,
         new Endpoint(type),
         null,
@@ -387,11 +388,12 @@ public class MindeeClient {
         localInputSource.getFilename(),
         predictOptions,
         null
-    );
+      );
   }
 
   /**
    * Send a remote file to an async queue, poll, and parse when complete.
+   * 
    * @param <T> Type of inference.
    * @param type Type of inference.
    * @param sourceUrl A URL to a remote file.
@@ -404,19 +406,12 @@ public class MindeeClient {
       URL sourceUrl
   ) throws IOException, InterruptedException {
     InputSourceUtils.validateUrl(sourceUrl);
-    return this.enqueueAndParse(
-      type,
-      new Endpoint(type),
-      null,
-      null,
-      null,
-      null,
-      sourceUrl
-    );
+    return this.enqueueAndParse(type, new Endpoint(type), null, null, null, null, sourceUrl);
   }
 
   /**
    * Validate async polling options.
+   * 
    * @param pollingOptions Options for async call parameters
    * @throws MindeeException Throws if settings aren't set properly.
    */
@@ -425,19 +420,20 @@ public class MindeeClient {
     Double minimumIntervalSec = 1.0;
     Integer minimumRetry = 2;
     if (pollingOptions.getInitialDelaySec() < minimumInitialDelaySec) {
-      throw new MindeeException(String.format(
-        "Cannot set initial delay to less than %.0f second(s)", minimumInitialDelaySec
-      ));
+      throw new MindeeException(
+        String
+          .format("Cannot set initial delay to less than %.0f second(s)", minimumInitialDelaySec)
+      );
     }
     if (pollingOptions.getIntervalSec() < minimumIntervalSec) {
-      throw new MindeeException(String.format(
-        "Cannot set auto-poll delay to less than %.0f second(s)", minimumIntervalSec
-      ));
+      throw new MindeeException(
+        String.format("Cannot set auto-poll delay to less than %.0f second(s)", minimumIntervalSec)
+      );
     }
     if (pollingOptions.getMaxRetries() < minimumRetry) {
-      throw new MindeeException(String.format(
-        "Cannot set async retries to less than %d attempts", minimumRetry
-      ));
+      throw new MindeeException(
+        String.format("Cannot set async retries to less than %d attempts", minimumRetry)
+      );
     }
   }
 
@@ -458,12 +454,12 @@ public class MindeeClient {
     final int intervalSec = (int) (pollingOptions.getIntervalSec() * 1000);
 
     AsyncPredictResponse<T> enqueueResponse = enqueue(
-        type,
-        endpoint,
-        file,
-        filename,
-        predictOptions,
-        urlInputSource
+      type,
+      endpoint,
+      file,
+      filename,
+      predictOptions,
+      urlInputSource
     );
 
     String jobId = enqueueResponse.getJob().getId();
@@ -481,11 +477,14 @@ public class MindeeClient {
       retryCount++;
       Thread.sleep(intervalSec);
     }
-    throw new RuntimeException("Max retries exceeded: " + retryCount +". Failed to get the document.");
+    throw new RuntimeException(
+      "Max retries exceeded: " + retryCount + ". Failed to get the document."
+    );
   }
 
   /**
    * Send a local file to a workflow execution.
+   * 
    * @param workflowId ID of the workflow to send the document to.
    * @param localInputSource A local input source file.
    * @param workflowOptions Options for the workflow execution.
@@ -497,18 +496,22 @@ public class MindeeClient {
       LocalInputSource localInputSource,
       WorkflowOptions workflowOptions
   ) throws IOException {
-    return this.mindeeApi.executeWorkflowPost(
+    return this.mindeeApi
+      .executeWorkflowPost(
         GeneratedV1.class,
         workflowId,
-        RequestParameters.builder()
-            .file(localInputSource.getFile())
-            .fileName(localInputSource.getFilename())
-            .workflowOptions(workflowOptions)
-            .build()
-    );
+        RequestParameters
+          .builder()
+          .file(localInputSource.getFile())
+          .fileName(localInputSource.getFilename())
+          .workflowOptions(workflowOptions)
+          .build()
+      );
   }
+
   /**
    * Send a local file to a workflow execution.
+   * 
    * @param workflowId ID of the workflow to send the document to.
    * @param localInputSource A local input source file.
    * @return A workflow response.
@@ -518,19 +521,22 @@ public class MindeeClient {
       String workflowId,
       LocalInputSource localInputSource
   ) throws IOException {
-    return this.mindeeApi.executeWorkflowPost(
+    return this.mindeeApi
+      .executeWorkflowPost(
         GeneratedV1.class,
         workflowId,
-        RequestParameters.builder()
-            .file(localInputSource.getFile())
-            .fileName(localInputSource.getFilename())
-            .workflowOptions(WorkflowOptions.builder().build())
-            .build()
-    );
+        RequestParameters
+          .builder()
+          .file(localInputSource.getFile())
+          .fileName(localInputSource.getFilename())
+          .workflowOptions(WorkflowOptions.builder().build())
+          .build()
+      );
   }
 
   /**
    * Send a local file to a Standard prediction API and parse the results.
+   * 
    * @param <T> Type of inference.
    * @param type Type of inference.
    * @param localInputSource A local input source file.
@@ -541,18 +547,20 @@ public class MindeeClient {
       Class<T> type,
       LocalInputSource localInputSource
   ) throws IOException {
-    return this.parse(
+    return this
+      .parse(
         type,
         new Endpoint(type),
         localInputSource.getFile(),
         localInputSource.getFilename(),
         null,
         null
-    );
+      );
   }
 
   /**
    * Send a local file to a Standard prediction API and parse the results.
+   * 
    * @param <T> Type of inference.
    * @param type Type of inference.
    * @param localInputSource A local input source file.
@@ -565,18 +573,20 @@ public class MindeeClient {
       LocalInputSource localInputSource,
       PredictOptions predictOptions
   ) throws IOException {
-    return this.parse(
+    return this
+      .parse(
         type,
         new Endpoint(type),
         localInputSource.getFile(),
         localInputSource.getFilename(),
         predictOptions,
         null
-    );
+      );
   }
 
   /**
    * Send a local file to a Standard prediction API and parse the results.
+   * 
    * @param <T> Type of inference.
    * @param type Type of inference.
    * @param localInputSource A local input source file.
@@ -589,18 +599,20 @@ public class MindeeClient {
       LocalInputSource localInputSource,
       PageOptions pageOptions
   ) throws IOException {
-    return this.parse(
+    return this
+      .parse(
         type,
         new Endpoint(type),
         getSplitFile(localInputSource, pageOptions),
         localInputSource.getFilename(),
         null,
         null
-    );
+      );
   }
 
   /**
    * Send a local file to a Standard prediction API and parse the results.
+   * 
    * @param <T> Type of inference.
    * @param type Type of inference.
    * @param localInputSource A local input source file.
@@ -615,18 +627,20 @@ public class MindeeClient {
       PredictOptions predictOptions,
       PageOptions pageOptions
   ) throws IOException {
-    return this.parse(
+    return this
+      .parse(
         type,
         new Endpoint(type),
         getSplitFile(localInputSource, pageOptions),
         localInputSource.getFilename(),
         predictOptions,
         null
-    );
+      );
   }
 
   /**
    * Send a remote file to a Standard prediction API and parse the results.
+   * 
    * @param <T> Type of inference.
    * @param type Type of inference.
    * @param urlInputSource A URL to a remote file.
@@ -643,6 +657,7 @@ public class MindeeClient {
 
   /**
    * Send a remote file to a Standard prediction API and parse the results.
+   * 
    * @param <T> Type of inference.
    * @param type Type of inference.
    * @param urlInputSource A URL to a remote file.
@@ -667,17 +682,19 @@ public class MindeeClient {
       PredictOptions predictOptions,
       URL urlInputSource
   ) throws IOException {
-    RequestParameters params = RequestParameters.builder()
-        .file(file)
-        .fileName(filename)
-        .predictOptions(predictOptions)
-        .urlInputSource(urlInputSource)
-        .build();
+    RequestParameters params = RequestParameters
+      .builder()
+      .file(file)
+      .fileName(filename)
+      .predictOptions(predictOptions)
+      .urlInputSource(urlInputSource)
+      .build();
     return this.mindeeApi.predictPost(type, endpoint, params);
   }
 
   /**
    * Send a local file to a Custom prediction API and parse the results.
+   * 
    * @param localInputSource A local input source file.
    * @param endpoint Custom endpoint to send the document to.
    * @return an instance of {@link PredictResponse}.
@@ -687,15 +704,12 @@ public class MindeeClient {
       LocalInputSource localInputSource,
       Endpoint endpoint
   ) throws IOException {
-    return this.parse(
-      localInputSource.getFile(),
-      localInputSource.getFilename(),
-      endpoint,
-    null);
+    return this.parse(localInputSource.getFile(), localInputSource.getFilename(), endpoint, null);
   }
 
   /**
    * Send a local file to a Custom prediction API and parse the results.
+   * 
    * @param localInputSource A local input source file.
    * @param endpoint Custom endpoint to send the document to.
    * @param pageOptions Page options for PDF documents.
@@ -707,24 +721,24 @@ public class MindeeClient {
       Endpoint endpoint,
       PageOptions pageOptions
   ) throws IOException {
-    return this.parse(
-      getSplitFile(localInputSource, pageOptions),
-      localInputSource.getFilename(),
-      endpoint, null
-    );
+    return this
+      .parse(
+        getSplitFile(localInputSource, pageOptions),
+        localInputSource.getFilename(),
+        endpoint,
+        null
+      );
   }
 
   /**
    * Send a remote file to a Custom prediction API and parse the results.
+   * 
    * @param documentUrl A URL to a remote file.
    * @param endpoint Custom endpoint to send the document to.
    * @return an instance of {@link PredictResponse}.
    * @throws IOException Throws if the file can't be accessed.
    */
-  public PredictResponse<CustomV1> parse(
-      URL documentUrl,
-      Endpoint endpoint
-  ) throws IOException {
+  public PredictResponse<CustomV1> parse(URL documentUrl, Endpoint endpoint) throws IOException {
     InputSourceUtils.validateUrl(documentUrl);
     return this.parse(null, null, endpoint, documentUrl);
   }
@@ -735,18 +749,22 @@ public class MindeeClient {
       Endpoint endpoint,
       URL urlInputSource
   ) throws IOException {
-    return this.mindeeApi.predictPost(
-      CustomV1.class,
-      endpoint,
-      RequestParameters.builder()
+    return this.mindeeApi
+      .predictPost(
+        CustomV1.class,
+        endpoint,
+        RequestParameters
+          .builder()
           .file(file)
           .fileName(filename)
           .urlInputSource(urlInputSource)
-          .build());
+          .build()
+      );
   }
 
   /**
    * Send a local file to a Generated prediction async API queue.
+   * 
    * @param <T> Type of inference.
    * @param type Type of inference.
    * @param localInputSource A local input source file.
@@ -759,18 +777,20 @@ public class MindeeClient {
       Endpoint endpoint,
       LocalInputSource localInputSource
   ) throws IOException {
-    return this.enqueue(
-      type,
-      endpoint,
-      localInputSource.getFile(),
-      localInputSource.getFilename(),
-      null,
-      null
-    );
+    return this
+      .enqueue(
+        type,
+        endpoint,
+        localInputSource.getFile(),
+        localInputSource.getFilename(),
+        null,
+        null
+      );
   }
 
   /**
    * Send a local file to a Generated prediction async API queue.
+   * 
    * @param <T> Type of inference.
    * @param type Type of inference.
    * @param localInputSource A local input source file.
@@ -787,18 +807,20 @@ public class MindeeClient {
       PredictOptions predictOptions,
       PageOptions pageOptions
   ) throws IOException {
-    return this.enqueue(
-      type,
-      endpoint,
-      getSplitFile(localInputSource, pageOptions),
-      localInputSource.getFilename(),
-      predictOptions,
-      null
-    );
+    return this
+      .enqueue(
+        type,
+        endpoint,
+        getSplitFile(localInputSource, pageOptions),
+        localInputSource.getFilename(),
+        predictOptions,
+        null
+      );
   }
 
   /**
    * Send a remote file to a Generated prediction async API queue.
+   * 
    * @param <T> Type of inference.
    * @param type Type of inference.
    * @param endpoint Custom endpoint to send the document to.
@@ -812,18 +834,12 @@ public class MindeeClient {
       URL sourceUrl
   ) throws IOException {
     InputSourceUtils.validateUrl(sourceUrl);
-    return this.enqueue(
-      type,
-      endpoint,
-      null,
-      null,
-      null,
-      sourceUrl
-    );
+    return this.enqueue(type, endpoint, null, null, null, sourceUrl);
   }
 
   /**
    * Send a remote file to a Generated prediction async API queue.
+   * 
    * @param <T> Type of inference.
    * @param type Type of inference.
    * @param sourceUrl A URL to a remote file.
@@ -839,19 +855,12 @@ public class MindeeClient {
       PredictOptions predictOptions
   ) throws IOException {
     InputSourceUtils.validateUrl(sourceUrl);
-    return this.enqueue(
-      type,
-      endpoint,
-      null,
-      null,
-      predictOptions,
-      sourceUrl
-    );
+    return this.enqueue(type, endpoint, null, null, predictOptions, sourceUrl);
   }
-
 
   /**
    * Send a local file to a Generated prediction API async queue, poll, and parse when complete.
+   * 
    * @param <T> Type of inference.
    * @param type Type of inference.
    * @param localInputSource A local input source file.
@@ -865,18 +874,21 @@ public class MindeeClient {
       Endpoint endpoint,
       LocalInputSource localInputSource
   ) throws IOException, InterruptedException {
-    return this.enqueueAndParse(
-      type,
-      endpoint,
-      null,
-      localInputSource.getFile(),
-      localInputSource.getFilename(),
-      null,
-      null);
+    return this
+      .enqueueAndParse(
+        type,
+        endpoint,
+        null,
+        localInputSource.getFile(),
+        localInputSource.getFilename(),
+        null,
+        null
+      );
   }
 
   /**
    * Send a local file to a Generated prediction API async queue, poll, and parse when complete.
+   * 
    * @param <T> Type of inference.
    * @param type Type of inference.
    * @param localInputSource A local input source file.
@@ -892,19 +904,21 @@ public class MindeeClient {
       LocalInputSource localInputSource,
       AsyncPollingOptions pollingOptions
   ) throws IOException, InterruptedException {
-    return this.enqueueAndParse(
-      type,
-      endpoint,
-      pollingOptions,
-      localInputSource.getFile(),
-      localInputSource.getFilename(),
-      null,
-      null
-    );
+    return this
+      .enqueueAndParse(
+        type,
+        endpoint,
+        pollingOptions,
+        localInputSource.getFile(),
+        localInputSource.getFilename(),
+        null,
+        null
+      );
   }
 
   /**
    * Send a local file to a Generated prediction API async queue, poll, and parse when complete.
+   * 
    * @param <T> Type of inference.
    * @param type Type of inference.
    * @param localInputSource A local input source file.
@@ -924,19 +938,21 @@ public class MindeeClient {
       PageOptions pageOptions,
       AsyncPollingOptions pollingOptions
   ) throws IOException, InterruptedException {
-    return this.enqueueAndParse(
-      type,
-      endpoint,
-      pollingOptions,
-      getSplitFile(localInputSource, pageOptions),
-      localInputSource.getFilename(),
-      predictOptions,
-      null
-    );
+    return this
+      .enqueueAndParse(
+        type,
+        endpoint,
+        pollingOptions,
+        getSplitFile(localInputSource, pageOptions),
+        localInputSource.getFilename(),
+        predictOptions,
+        null
+      );
   }
 
   /**
    * Send a remote file to a Generated prediction API async queue, poll, and parse when complete.
+   * 
    * @param <T> Type of inference.
    * @param type Type of inference.
    * @param endpoint Custom endpoint to send the document to.
@@ -951,19 +967,12 @@ public class MindeeClient {
       URL sourceUrl
   ) throws IOException, InterruptedException {
     InputSourceUtils.validateUrl(sourceUrl);
-    return this.enqueueAndParse(
-      type,
-      endpoint,
-      null,
-      null,
-      null,
-      null,
-      sourceUrl
-    );
+    return this.enqueueAndParse(type, endpoint, null, null, null, null, sourceUrl);
   }
 
   /**
    * Send a local file to a Generated prediction API and parse the results.
+   * 
    * @param <T> Type of inference.
    * @param type Type of inference.
    * @param localInputSource A local input source file.
@@ -976,18 +985,20 @@ public class MindeeClient {
       Endpoint endpoint,
       LocalInputSource localInputSource
   ) throws IOException {
-    return this.parse(
-      type,
-      endpoint,
-      localInputSource.getFile(),
-      localInputSource.getFilename(),
-      null,
-      null
-    );
+    return this
+      .parse(
+        type,
+        endpoint,
+        localInputSource.getFile(),
+        localInputSource.getFilename(),
+        null,
+        null
+      );
   }
 
   /**
    * Send a local file to a Generated prediction API and parse the results.
+   * 
    * @param <T> Type of inference.
    * @param type Type of inference.
    * @param localInputSource A local input source file.
@@ -1002,18 +1013,20 @@ public class MindeeClient {
       LocalInputSource localInputSource,
       PredictOptions predictOptions
   ) throws IOException {
-    return this.parse(
-      type,
-      endpoint,
-      localInputSource.getFile(),
-      localInputSource.getFilename(),
-      predictOptions,
-      null
-    );
+    return this
+      .parse(
+        type,
+        endpoint,
+        localInputSource.getFile(),
+        localInputSource.getFilename(),
+        predictOptions,
+        null
+      );
   }
 
   /**
    * Send a local file to a Generated prediction API and parse the results.
+   * 
    * @param <T> Type of inference.
    * @param type Type of inference.
    * @param localInputSource A local input source file.
@@ -1028,18 +1041,20 @@ public class MindeeClient {
       LocalInputSource localInputSource,
       PageOptions pageOptions
   ) throws IOException {
-    return this.parse(
-      type,
-      endpoint,
-      getSplitFile(localInputSource, pageOptions),
-      localInputSource.getFilename(),
-      null,
-      null
-    );
+    return this
+      .parse(
+        type,
+        endpoint,
+        getSplitFile(localInputSource, pageOptions),
+        localInputSource.getFilename(),
+        null,
+        null
+      );
   }
 
   /**
    * Send a local file to a Standard prediction API and parse the results.
+   * 
    * @param <T> Type of inference.
    * @param type Type of inference.
    * @param localInputSource A local input source file.
@@ -1056,18 +1071,20 @@ public class MindeeClient {
       PredictOptions predictOptions,
       PageOptions pageOptions
   ) throws IOException {
-    return this.parse(
-      type,
-      endpoint,
-      getSplitFile(localInputSource, pageOptions),
-      localInputSource.getFilename(),
-      predictOptions,
-      null
-    );
+    return this
+      .parse(
+        type,
+        endpoint,
+        getSplitFile(localInputSource, pageOptions),
+        localInputSource.getFilename(),
+        predictOptions,
+        null
+      );
   }
 
   /**
    * Send a remote file to a Generated prediction API and parse the results.
+   * 
    * @param <T> Type of inference.
    * @param type Type of inference.
    * @param endpoint Custom endpoint to send the document to.
@@ -1086,6 +1103,7 @@ public class MindeeClient {
 
   /**
    * Send a remote file to a Generated prediction API and parse the results.
+   * 
    * @param <T> Type of inference.
    * @param type Type of inference.
    * @param documentUrl A URL to a remote file.
@@ -1106,6 +1124,7 @@ public class MindeeClient {
 
   /**
    * Parse a document from a Generated prediction API async queue.
+   * 
    * @param <T> Type of inference.
    * @param type Type of inference.
    * @param endpoint Custom endpoint to send the document to.
@@ -1117,17 +1136,14 @@ public class MindeeClient {
       Endpoint endpoint,
       String jobId
   ) {
-    return this.mindeeApi.documentQueueGet(
-      type,
-      endpoint,
-      jobId
-    );
+    return this.mindeeApi.documentQueueGet(type, endpoint, jobId);
   }
 
   /**
    * Load a local prediction.
    * Typically used when wanting to load from a webhook callback.
    * However, any kind of Mindee response may be loaded.
+   * 
    * @param <T> Type of inference.
    * @param type Type of inference.
    * @param localResponse A loaded local response.
@@ -1140,10 +1156,9 @@ public class MindeeClient {
   ) throws IOException {
     ObjectMapper objectMapper = new ObjectMapper();
     objectMapper.findAndRegisterModules();
-    JavaType parametricType = objectMapper.getTypeFactory().constructParametricType(
-        AsyncPredictResponse.class,
-        type
-    );
+    JavaType parametricType = objectMapper
+      .getTypeFactory()
+      .constructParametricType(AsyncPredictResponse.class, type);
     return objectMapper.readValue(localResponse.getFile(), parametricType);
   }
 

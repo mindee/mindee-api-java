@@ -14,6 +14,7 @@ import java.io.IOException;
 public abstract class MindeeApiV2 extends MindeeApiCommon {
   /**
    * Send a file to the prediction queue with a local file.
+   * 
    * @param inputSource Local input source from URL.
    * @param options parameters.
    */
@@ -24,6 +25,7 @@ public abstract class MindeeApiV2 extends MindeeApiCommon {
 
   /**
    * Send a file to the prediction queue with a remote file.
+   * 
    * @param inputSource Remote input source from URL.
    * @param options parameters.
    */
@@ -34,14 +36,14 @@ public abstract class MindeeApiV2 extends MindeeApiCommon {
 
   /**
    * Attempts to poll the queue.
+   * 
    * @param jobId id of the job to get.
    */
-  public abstract JobResponse reqGetJob(
-      String jobId
-  );
+  public abstract JobResponse reqGetJob(String jobId);
 
   /**
    * Retrieves the inference from a 302 redirect.
+   * 
    * @param inferenceId ID of the inference to poll.
    */
   abstract public InferenceResponse reqGetInference(String inferenceId);
@@ -51,11 +53,11 @@ public abstract class MindeeApiV2 extends MindeeApiCommon {
    */
   protected ErrorResponse makeUnknownError(int statusCode) {
     return new ErrorResponse(
-        "Unknown Error",
-        "The server returned an Unknown error.",
-        statusCode,
-        statusCode + "-000",
-        null
+      "Unknown Error",
+      "The server returned an Unknown error.",
+      statusCode,
+      statusCode + "-000",
+      null
     );
   }
 }

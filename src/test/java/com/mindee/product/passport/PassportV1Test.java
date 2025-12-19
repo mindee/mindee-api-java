@@ -21,14 +21,14 @@ public class PassportV1Test {
     ObjectMapper objectMapper = new ObjectMapper();
     objectMapper.findAndRegisterModules();
 
-    JavaType type = objectMapper.getTypeFactory().constructParametricType(
-      PredictResponse.class,
-      PassportV1.class
-    );
-    return objectMapper.readValue(
-      new File(getV1ResourcePathString("products/passport/response_v1/" + name + ".json")),
-      type
-    );
+    JavaType type = objectMapper
+      .getTypeFactory()
+      .constructParametricType(PredictResponse.class, PassportV1.class);
+    return objectMapper
+      .readValue(
+        new File(getV1ResourcePathString("products/passport/response_v1/" + name + ".json")),
+        type
+      );
   }
 
   @Test
@@ -53,8 +53,8 @@ public class PassportV1Test {
     PredictResponse<PassportV1> response = getPrediction("complete");
     Document<PassportV1> doc = response.getDocument();
     assertStringEqualsFile(
-        doc.toString(),
-        getV1ResourcePathString("products/passport/response_v1/summary_full.rst")
+      doc.toString(),
+      getV1ResourcePathString("products/passport/response_v1/summary_full.rst")
     );
   }
 

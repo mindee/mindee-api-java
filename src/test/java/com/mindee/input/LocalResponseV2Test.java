@@ -10,7 +10,6 @@ import java.nio.file.Path;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-
 public class LocalResponseV2Test {
   /**
    * Fake secret key.
@@ -29,9 +28,10 @@ public class LocalResponseV2Test {
 
   protected void assertLocalResponse(LocalResponse localResponse) {
     Assertions.assertNotNull(localResponse.getFile());
-    Assertions.assertFalse(localResponse.isValidHmacSignature(
-        this.secretKey, "invalid signature is invalid")
-    );
+    Assertions
+      .assertFalse(
+        localResponse.isValidHmacSignature(this.secretKey, "invalid signature is invalid")
+      );
     Assertions.assertEquals(this.signature, localResponse.getHmacSignature(this.secretKey));
     Assertions.assertTrue(localResponse.isValidHmacSignature(this.secretKey, this.signature));
     InferenceResponse response = localResponse.deserializeResponse(InferenceResponse.class);
@@ -49,16 +49,15 @@ public class LocalResponseV2Test {
   void loadDocument_withString_mustReturnValidLocalResponse() {
     LocalResponse localResponse = new LocalResponse("{'some': 'json', 'with': 'data'}");
     Assertions.assertNotNull(localResponse.getFile());
-    Assertions.assertFalse(localResponse.isValidHmacSignature(
-        this.secretKey, "invalid signature is invalid")
-    );
+    Assertions
+      .assertFalse(
+        localResponse.isValidHmacSignature(this.secretKey, "invalid signature is invalid")
+      );
   }
 
   @Test
   void loadDocument_withInputStream_mustReturnValidLocalResponse() throws IOException {
-    LocalResponse localResponse = new LocalResponse(
-        Files.newInputStream(this.filePath)
-    );
+    LocalResponse localResponse = new LocalResponse(Files.newInputStream(this.filePath));
     assertLocalResponse(localResponse);
   }
 }

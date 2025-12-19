@@ -39,13 +39,14 @@ public class Page<TPagePrediction> {
   @Override
   public String toString() {
     return String.format("Page %s%n", this.getPageId())
-        + String.format("------%n")
-        + prediction.toString();
+      + String.format("------%n")
+      + prediction.toString();
   }
 
   /**
    * Returns <code>true</code> if there are no predictions in this page.
-   * Accessing prediction values when this is <code>true</code> may result in a {@link NullPointerException}
+   * Accessing prediction values when this is <code>true</code> may result in a
+   * {@link NullPointerException}
    */
   public boolean isPredictionEmpty() {
     //

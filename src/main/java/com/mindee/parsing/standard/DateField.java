@@ -28,17 +28,11 @@ public class DateField extends BaseField {
   private Boolean isComputed;
 
   public DateField(
-      @JsonProperty("value")
-      LocalDate value,
-      @JsonProperty("confidence")
-      Double confidence,
-      @JsonProperty("polygon")
-      @JsonDeserialize(using = PolygonDeserializer.class)
-      Polygon polygon,
-      @JsonProperty("page_id")
-      Integer pageId,
-      @JsonProperty("is_computed")
-      Boolean isComputed
+      @JsonProperty("value") LocalDate value,
+      @JsonProperty("confidence") Double confidence,
+      @JsonProperty("polygon") @JsonDeserialize(using = PolygonDeserializer.class) Polygon polygon,
+      @JsonProperty("page_id") Integer pageId,
+      @JsonProperty("is_computed") Boolean isComputed
   ) {
     super(confidence, polygon, pageId);
     this.value = value;

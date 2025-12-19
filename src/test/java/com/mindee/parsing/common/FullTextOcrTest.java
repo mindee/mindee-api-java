@@ -17,12 +17,11 @@ public class FullTextOcrTest {
     ObjectMapper objectMapper = new ObjectMapper();
     objectMapper.findAndRegisterModules();
 
-    JavaType type = objectMapper.getTypeFactory().constructParametricType(
-      AsyncPredictResponse.class,
-      InternationalIdV2.class);
-    AsyncPredictResponse<InternationalIdV2> prediction = objectMapper.readValue(
-      getV1ResourcePath("extras/full_text_ocr/complete.json").toFile(),
-      type);
+    JavaType type = objectMapper
+      .getTypeFactory()
+      .constructParametricType(AsyncPredictResponse.class, InternationalIdV2.class);
+    AsyncPredictResponse<InternationalIdV2> prediction = objectMapper
+      .readValue(getV1ResourcePath("extras/full_text_ocr/complete.json").toFile(), type);
 
     return prediction.getDocumentObj().getInference();
   }
@@ -31,21 +30,19 @@ public class FullTextOcrTest {
     ObjectMapper objectMapper = new ObjectMapper();
     objectMapper.findAndRegisterModules();
 
-    JavaType type = objectMapper.getTypeFactory().constructParametricType(
-      AsyncPredictResponse.class,
-      InternationalIdV2.class);
-    AsyncPredictResponse<InternationalIdV2> prediction = objectMapper.readValue(
-      getV1ResourcePath("extras/full_text_ocr/complete.json").toFile(),
-      type);
+    JavaType type = objectMapper
+      .getTypeFactory()
+      .constructParametricType(AsyncPredictResponse.class, InternationalIdV2.class);
+    AsyncPredictResponse<InternationalIdV2> prediction = objectMapper
+      .readValue(getV1ResourcePath("extras/full_text_ocr/complete.json").toFile(), type);
 
     return prediction.getDocumentObj().getInference().getPages();
   }
 
   @Test
   void should_GetFullTextOcrResult() throws IOException {
-    List<String> expectedText = Files.readAllLines(
-        getV1ResourcePath("extras/full_text_ocr/full_text_ocr.txt")
-    );
+    List<String> expectedText = Files
+      .readAllLines(getV1ResourcePath("extras/full_text_ocr/full_text_ocr.txt"));
     List<Page<InternationalIdV2Document>> pages = loadPages();
     Inference<InternationalIdV2Document, InternationalIdV2Document> inference = loadInference();
     String fullTextOcr = inference.getExtras().getFullTextOcr();

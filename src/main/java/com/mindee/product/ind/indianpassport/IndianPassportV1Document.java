@@ -136,8 +136,7 @@ public class IndianPassportV1Document extends Prediction {
 
   @Override
   public boolean isEmpty() {
-    return (
-      this.pageNumber == null
+    return (this.pageNumber == null
       && this.country == null
       && this.idNumber == null
       && this.givenNames == null
@@ -159,82 +158,39 @@ public class IndianPassportV1Document extends Prediction {
       && this.address1 == null
       && this.address2 == null
       && this.address3 == null
-      && this.fileNumber == null
-      );
+      && this.fileNumber == null);
   }
 
   @Override
   public String toString() {
     StringBuilder outStr = new StringBuilder();
-    outStr.append(
-        String.format(":Page Number: %s%n", this.getPageNumber())
-    );
-    outStr.append(
-        String.format(":Country: %s%n", this.getCountry())
-    );
-    outStr.append(
-        String.format(":ID Number: %s%n", this.getIdNumber())
-    );
-    outStr.append(
-        String.format(":Given Names: %s%n", this.getGivenNames())
-    );
-    outStr.append(
-        String.format(":Surname: %s%n", this.getSurname())
-    );
-    outStr.append(
-        String.format(":Birth Date: %s%n", this.getBirthDate())
-    );
-    outStr.append(
-        String.format(":Birth Place: %s%n", this.getBirthPlace())
-    );
-    outStr.append(
-        String.format(":Issuance Place: %s%n", this.getIssuancePlace())
-    );
-    outStr.append(
-        String.format(":Gender: %s%n", this.getGender())
-    );
-    outStr.append(
-        String.format(":Issuance Date: %s%n", this.getIssuanceDate())
-    );
-    outStr.append(
-        String.format(":Expiry Date: %s%n", this.getExpiryDate())
-    );
-    outStr.append(
-        String.format(":MRZ Line 1: %s%n", this.getMrz1())
-    );
-    outStr.append(
-        String.format(":MRZ Line 2: %s%n", this.getMrz2())
-    );
-    outStr.append(
-        String.format(":Legal Guardian: %s%n", this.getLegalGuardian())
-    );
-    outStr.append(
-        String.format(":Name of Spouse: %s%n", this.getNameOfSpouse())
-    );
-    outStr.append(
-        String.format(":Name of Mother: %s%n", this.getNameOfMother())
-    );
-    outStr.append(
-        String.format(":Old Passport Date of Issue: %s%n", this.getOldPassportDateOfIssue())
-    );
-    outStr.append(
-        String.format(":Old Passport Number: %s%n", this.getOldPassportNumber())
-    );
-    outStr.append(
+    outStr.append(String.format(":Page Number: %s%n", this.getPageNumber()));
+    outStr.append(String.format(":Country: %s%n", this.getCountry()));
+    outStr.append(String.format(":ID Number: %s%n", this.getIdNumber()));
+    outStr.append(String.format(":Given Names: %s%n", this.getGivenNames()));
+    outStr.append(String.format(":Surname: %s%n", this.getSurname()));
+    outStr.append(String.format(":Birth Date: %s%n", this.getBirthDate()));
+    outStr.append(String.format(":Birth Place: %s%n", this.getBirthPlace()));
+    outStr.append(String.format(":Issuance Place: %s%n", this.getIssuancePlace()));
+    outStr.append(String.format(":Gender: %s%n", this.getGender()));
+    outStr.append(String.format(":Issuance Date: %s%n", this.getIssuanceDate()));
+    outStr.append(String.format(":Expiry Date: %s%n", this.getExpiryDate()));
+    outStr.append(String.format(":MRZ Line 1: %s%n", this.getMrz1()));
+    outStr.append(String.format(":MRZ Line 2: %s%n", this.getMrz2()));
+    outStr.append(String.format(":Legal Guardian: %s%n", this.getLegalGuardian()));
+    outStr.append(String.format(":Name of Spouse: %s%n", this.getNameOfSpouse()));
+    outStr.append(String.format(":Name of Mother: %s%n", this.getNameOfMother()));
+    outStr
+      .append(String.format(":Old Passport Date of Issue: %s%n", this.getOldPassportDateOfIssue()));
+    outStr.append(String.format(":Old Passport Number: %s%n", this.getOldPassportNumber()));
+    outStr
+      .append(
         String.format(":Old Passport Place of Issue: %s%n", this.getOldPassportPlaceOfIssue())
-    );
-    outStr.append(
-        String.format(":Address Line 1: %s%n", this.getAddress1())
-    );
-    outStr.append(
-        String.format(":Address Line 2: %s%n", this.getAddress2())
-    );
-    outStr.append(
-        String.format(":Address Line 3: %s%n", this.getAddress3())
-    );
-    outStr.append(
-        String.format(":File Number: %s%n", this.getFileNumber())
-    );
+      );
+    outStr.append(String.format(":Address Line 1: %s%n", this.getAddress1()));
+    outStr.append(String.format(":Address Line 2: %s%n", this.getAddress2()));
+    outStr.append(String.format(":Address Line 3: %s%n", this.getAddress3()));
+    outStr.append(String.format(":File Number: %s%n", this.getFileNumber()));
     return SummaryHelper.cleanSummary(outStr.toString());
   }
 }

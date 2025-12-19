@@ -13,14 +13,15 @@ import org.junit.jupiter.api.Test;
 
 public class AsyncPredictResponseTest {
 
-  private AsyncPredictResponse<InvoiceSplitterV1> loadAsyncResponse(Path filePath) throws IOException {
+  private AsyncPredictResponse<InvoiceSplitterV1> loadAsyncResponse(
+      Path filePath
+  ) throws IOException {
     ObjectMapper objectMapper = new ObjectMapper();
     objectMapper.findAndRegisterModules();
 
-    JavaType type = objectMapper.getTypeFactory().constructParametricType(
-      AsyncPredictResponse.class,
-      InvoiceSplitterV1.class
-    );
+    JavaType type = objectMapper
+      .getTypeFactory()
+      .constructParametricType(AsyncPredictResponse.class, InvoiceSplitterV1.class);
     return objectMapper.readValue(filePath.toFile(), type);
   }
 
@@ -31,13 +32,13 @@ public class AsyncPredictResponseTest {
     ObjectMapper objectMapper = new ObjectMapper();
 
     Job job = objectMapper.readValue(json, Job.class);
-    Assertions.assertEquals("2023-01-01T03:00",job.getIssuedAt().toString());
+    Assertions.assertEquals("2023-01-01T03:00", job.getIssuedAt().toString());
   }
 
   @Test
   void whenAsyncPost_returnsErrorForbidden_mustBeDeserialized() throws IOException {
     AsyncPredictResponse<InvoiceSplitterV1> response = loadAsyncResponse(
-        getV1ResourcePath("async/post_fail_forbidden.json")
+      getV1ResourcePath("async/post_fail_forbidden.json")
     );
     Assertions.assertNotNull(response);
     Assertions.assertEquals("failure", response.getApiRequest().getStatus());
@@ -54,7 +55,8 @@ public class AsyncPredictResponseTest {
     Assertions.assertEquals("success", response.getApiRequest().getStatus());
     Assertions.assertEquals(200, response.getApiRequest().getStatusCode());
     Assertions.assertEquals("waiting", response.getJob().getStatus());
-    Assertions.assertEquals("2023-02-16T12:33:49.602947", response.getJob().getIssuedAt().toString());
+    Assertions
+      .assertEquals("2023-02-16T12:33:49.602947", response.getJob().getIssuedAt().toString());
     Assertions.assertNull(response.getJob().getAvailableAt());
     Assertions.assertFalse(response.getDocument().isPresent());
   }
@@ -62,12 +64,13 @@ public class AsyncPredictResponseTest {
   @Test
   void whenAsyncGet_returnsProcessing_mustBeDeserialized() throws IOException {
     AsyncPredictResponse<InvoiceSplitterV1> response = loadAsyncResponse(
-        getV1ResourcePath("async/get_processing.json")
+      getV1ResourcePath("async/get_processing.json")
     );
     Assertions.assertNotNull(response);
     Assertions.assertEquals("success", response.getApiRequest().getStatus());
     Assertions.assertEquals("processing", response.getJob().getStatus());
-    Assertions.assertEquals("2023-03-16T12:33:49.602947", response.getJob().getIssuedAt().toString());
+    Assertions
+      .assertEquals("2023-03-16T12:33:49.602947", response.getJob().getIssuedAt().toString());
     Assertions.assertNull(response.getJob().getAvailableAt());
     Assertions.assertFalse(response.getDocument().isPresent());
   }
@@ -75,13 +78,15 @@ public class AsyncPredictResponseTest {
   @Test
   void whenAsyncGet_returnsCompleted_mustBeDeserialized() throws IOException {
     AsyncPredictResponse<InvoiceSplitterV1> response = loadAsyncResponse(
-        getV1ResourcePath("async/get_completed.json")
+      getV1ResourcePath("async/get_completed.json")
     );
     Assertions.assertNotNull(response);
     Assertions.assertEquals("success", response.getApiRequest().getStatus());
     Assertions.assertEquals("completed", response.getJob().getStatus());
-    Assertions.assertEquals("2023-03-21T13:52:56.326107", response.getJob().getIssuedAt().toString());
-    Assertions.assertEquals("2023-03-21T13:53:00.990339", response.getJob().getAvailableAt().toString());
+    Assertions
+      .assertEquals("2023-03-21T13:52:56.326107", response.getJob().getIssuedAt().toString());
+    Assertions
+      .assertEquals("2023-03-21T13:53:00.990339", response.getJob().getAvailableAt().toString());
     Assertions.assertTrue(response.getDocument().isPresent());
     Assertions.assertEquals(2, response.getDocumentObj().getNPages());
   }
@@ -96,8 +101,10 @@ public class AsyncPredictResponseTest {
     Assertions.assertEquals(200, response.getApiRequest().getStatusCode());
     Assertions.assertEquals("failed", response.getJob().getStatus());
     Assertions.assertEquals("ServerError", response.getJob().getError().getCode());
-    Assertions.assertEquals("2024-02-20T10:31:06.878599", response.getJob().getIssuedAt().toString());
-    Assertions.assertEquals("2024-02-20T10:31:06.878599", response.getJob().getAvailableAt().toString());
+    Assertions
+      .assertEquals("2024-02-20T10:31:06.878599", response.getJob().getIssuedAt().toString());
+    Assertions
+      .assertEquals("2024-02-20T10:31:06.878599", response.getJob().getAvailableAt().toString());
     Assertions.assertFalse(response.getDocument().isPresent());
   }
 }

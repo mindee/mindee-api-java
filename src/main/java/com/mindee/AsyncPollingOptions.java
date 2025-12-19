@@ -22,11 +22,7 @@ public class AsyncPollingOptions {
   Integer maxRetries;
 
   @Builder
-  private AsyncPollingOptions(
-      Double initialDelaySec,
-      Double intervalSec,
-      Integer maxRetries
-  ) {
+  private AsyncPollingOptions(Double initialDelaySec, Double intervalSec, Integer maxRetries) {
     this.initialDelaySec = initialDelaySec == null ? 2.0 : initialDelaySec;
     this.intervalSec = intervalSec == null ? 1.5 : intervalSec;
     this.maxRetries = maxRetries == null ? 80 : maxRetries;

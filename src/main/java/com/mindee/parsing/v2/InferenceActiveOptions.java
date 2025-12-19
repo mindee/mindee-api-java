@@ -31,7 +31,7 @@ public final class InferenceActiveOptions {
   private boolean textContext;
 
   /**
-   *  Data schema options provided for the inference.
+   * Data schema options provided for the inference.
    */
   @Getter
   @JsonProperty("data_schema")
@@ -68,21 +68,23 @@ public final class InferenceActiveOptions {
   /**
    * Whether the text context feature was activated.
    */
-  public boolean getTextContext() { return textContext; }
+  public boolean getTextContext() {
+    return textContext;
+  }
 
   @Override
   public String toString() {
     StringJoiner joiner = new StringJoiner("\n");
     return joiner
-        .add("Active Options")
-        .add("==============")
-        .add(":Raw Text: " + formatForDisplay(rawText, 5))
-        .add(":Polygon: " + formatForDisplay(polygon, 5))
-        .add(":Confidence: " + formatForDisplay(confidence, 5))
-        .add(":RAG: " + formatForDisplay(rag, 5))
-        .add(":Text Context: " + formatForDisplay(textContext, 5))
-        .add("")
-        .add(dataSchema.toString())
-        .toString();
+      .add("Active Options")
+      .add("==============")
+      .add(":Raw Text: " + formatForDisplay(rawText, 5))
+      .add(":Polygon: " + formatForDisplay(polygon, 5))
+      .add(":Confidence: " + formatForDisplay(confidence, 5))
+      .add(":RAG: " + formatForDisplay(rag, 5))
+      .add(":Text Context: " + formatForDisplay(textContext, 5))
+      .add("")
+      .add(dataSchema.toString())
+      .toString();
   }
 }

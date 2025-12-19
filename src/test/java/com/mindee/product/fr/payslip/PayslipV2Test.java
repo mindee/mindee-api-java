@@ -21,14 +21,14 @@ public class PayslipV2Test {
     ObjectMapper objectMapper = new ObjectMapper();
     objectMapper.findAndRegisterModules();
 
-    JavaType type = objectMapper.getTypeFactory().constructParametricType(
-      PredictResponse.class,
-      PayslipV2.class
-    );
-    return objectMapper.readValue(
-      new File(getV1ResourcePathString("products/payslip_fra/response_v2/" + name + ".json")),
-      type
-    );
+    JavaType type = objectMapper
+      .getTypeFactory()
+      .constructParametricType(PredictResponse.class, PayslipV2.class);
+    return objectMapper
+      .readValue(
+        new File(getV1ResourcePathString("products/payslip_fra/response_v2/" + name + ".json")),
+        type
+      );
   }
 
   @Test
@@ -84,8 +84,8 @@ public class PayslipV2Test {
     PredictResponse<PayslipV2> response = getPrediction("complete");
     Document<PayslipV2> doc = response.getDocument();
     assertStringEqualsFile(
-        doc.toString(),
-        getV1ResourcePathString("products/payslip_fra/response_v2/summary_full.rst")
+      doc.toString(),
+      getV1ResourcePathString("products/payslip_fra/response_v2/summary_full.rst")
     );
   }
 

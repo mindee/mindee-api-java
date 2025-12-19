@@ -33,7 +33,7 @@ import picocli.CommandLine.Spec;
 @Command(
     name = "CLI",
     description = "Invoke Off The Shelf API for invoice, receipt, and passports",
-    subcommands = {CommandLine.HelpCommand.class},
+    subcommands = { CommandLine.HelpCommand.class },
     mixinStandardHelpOptions = true
 )
 public class CommandLineInterface implements ProductProcessor {
@@ -42,7 +42,7 @@ public class CommandLineInterface implements ProductProcessor {
   CommandSpec spec;
 
   @Option(
-      names = {"-w", "--all-words"},
+      names = { "-w", "--all-words" },
       scope = ScopeType.INHERIT,
       paramLabel = "WORDS",
       description = "Include all document words in the response"
@@ -50,43 +50,50 @@ public class CommandLineInterface implements ProductProcessor {
   private boolean words;
 
   @Option(
-      names = {"-f", "--full-text"},
+      names = { "-f", "--full-text" },
       scope = ScopeType.INHERIT,
       paramLabel = "FULL_TEXT",
       description = "Include full text response, if available"
   )
   private boolean fullText;
 
-  private enum OutputChoices { summary, full, raw }
+  private enum OutputChoices {
+    summary,
+    full,
+    raw
+  }
 
   @Option(
-      names = {"-o", "--output-type"},
+      names = { "-o", "--output-type" },
       scope = ScopeType.INHERIT,
       paramLabel = "OUTPUT_TYPE",
       description = "Output type, one of:\n"
-          + "  summary - document predictions\n"
-          + "  full - all predictions\n"
-          + "  raw - raw response from the server",
+        + "  summary - document predictions\n"
+        + "  full - all predictions\n"
+        + "  raw - raw response from the server",
       defaultValue = "summary"
   )
   private OutputChoices outputType;
 
   @Option(
-      names = {"-k", "--api-key"},
+      names = { "-k", "--api-key" },
       scope = ScopeType.INHERIT,
       paramLabel = "MINDEE_API_KEY",
-      description = "API key, if not set, will use system property")
+      description = "API key, if not set, will use system property"
+  )
   private String apiKey;
 
   @Option(
-      names = {"-c", "--cut-doc"},
+      names = { "-c", "--cut-doc" },
       scope = ScopeType.INHERIT,
       paramLabel = "<CutDoc>",
-      description = "Keep only the first 5 pages of the document")
+      description = "Keep only the first 5 pages of the document"
+  )
   private boolean cutDoc;
 
   /**
-   * Instantiates all products one by one in a separate picocli instance and relays the command to them.
+   * Instantiates all products one by one in a separate picocli instance and relays the command to
+   * them.
    *
    * @param args CLI args.
    */
@@ -112,7 +119,10 @@ public class CommandLineInterface implements ProductProcessor {
   /**
    * Adds all commands from CommandLineInterfaceProducts automatically.
    */
-  @CommandLine.Command(mixinStandardHelpOptions = true, description = "Auto-generated product command")
+  @CommandLine.Command(
+      mixinStandardHelpOptions = true,
+      description = "Auto-generated product command"
+  )
   public static class ProductCommandHandler implements Callable<Integer> {
     private final CommandLineInterfaceProducts products;
     private final Method method;
@@ -145,23 +155,20 @@ public class CommandLineInterface implements ProductProcessor {
   )
   void customMethod(
       @Option(
-          names = {"-a", "--account"},
+          names = { "-a", "--account" },
           scope = ScopeType.LOCAL,
           required = true,
           paramLabel = "accountName",
           description = "The name of the account"
-      )
-      String accountName,
+      ) String accountName,
       @Option(
-          names = {"-e", "--endpointName"},
+          names = { "-e", "--endpointName" },
           scope = ScopeType.LOCAL,
           required = true,
           paramLabel = "endpointName",
           description = "The name of the endpoint"
-      )
-      String endpointName,
-      @Parameters(index = "0", scope = ScopeType.LOCAL, paramLabel = "<path>")
-      File file
+      ) String endpointName,
+      @Parameters(index = "0", scope = ScopeType.LOCAL, paramLabel = "<path>") File file
   ) throws IOException {
 
     MindeeClient mindeeClient = new MindeeClient(apiKey);
@@ -170,14 +177,9 @@ public class CommandLineInterface implements ProductProcessor {
     Endpoint endpoint = new Endpoint(endpointName, accountName, "1");
 
     if (cutDoc) {
-      document = mindeeClient.parse(
-          new LocalInputSource(file),
-          endpoint,
-          getDefaultPageOptions());
+      document = mindeeClient.parse(new LocalInputSource(file), endpoint, getDefaultPageOptions());
     } else {
-      document = mindeeClient.parse(
-          new LocalInputSource(file),
-          endpoint);
+      document = mindeeClient.parse(new LocalInputSource(file), endpoint);
     }
     System.out.println(document.toString());
   }
@@ -185,38 +187,33 @@ public class CommandLineInterface implements ProductProcessor {
   @Command(name = "generated", description = "Invokes a Generated API")
   void generatedMethod(
       @Option(
-          names = {"-a", "--account"},
+          names = { "-a", "--account" },
           scope = ScopeType.LOCAL,
           required = true,
           paramLabel = "accountName",
           description = "The name of the account"
-      )
-      String accountName,
+      ) String accountName,
       @Option(
-          names = {"-e", "--endpointName"},
+          names = { "-e", "--endpointName" },
           scope = ScopeType.LOCAL,
           required = true,
           paramLabel = "endpointName",
           description = "The name of the endpoint"
-      )
-      String endpointName,
+      ) String endpointName,
       @Option(
-          names = {"-v", "--productVersion"},
+          names = { "-v", "--productVersion" },
           scope = ScopeType.LOCAL,
           paramLabel = "productVersion",
           description = "The version of the endpoint",
           defaultValue = "1"
-      )
-      String productVersion,
+      ) String productVersion,
       @Option(
-          names = {"-m", "--parsingMode"},
+          names = { "-m", "--parsingMode" },
           description = "Whether to parse the document in synchronous mode or polling.",
           scope = ScopeType.LOCAL,
           defaultValue = "async"
-      )
-      String parsingMode,
-      @Parameters(index = "0", scope = ScopeType.LOCAL, paramLabel = "<path>")
-      File file
+      ) String parsingMode,
+      @Parameters(index = "0", scope = ScopeType.LOCAL, paramLabel = "<path>") File file
   ) throws IOException, InterruptedException {
 
     MindeeClient mindeeClient = new MindeeClient(apiKey);
@@ -225,38 +222,29 @@ public class CommandLineInterface implements ProductProcessor {
 
     if (Objects.equals(parsingMode, "sync")) {
       if (cutDoc) {
-        PredictResponse<GeneratedV1> document = mindeeClient.parse(
-            GeneratedV1.class,
-            endpoint,
-            new LocalInputSource(file),
-            getDefaultPageOptions()
-        );
+        PredictResponse<GeneratedV1> document = mindeeClient
+          .parse(GeneratedV1.class, endpoint, new LocalInputSource(file), getDefaultPageOptions());
         System.out.println(document.toString());
       } else {
-        PredictResponse<GeneratedV1> document = mindeeClient.parse(
-            GeneratedV1.class,
-            endpoint,
-            new LocalInputSource(file)
-        );
+        PredictResponse<GeneratedV1> document = mindeeClient
+          .parse(GeneratedV1.class, endpoint, new LocalInputSource(file));
         System.out.println(document.toString());
       }
     } else if (Objects.equals(parsingMode, "async")) {
       if (cutDoc) {
-        AsyncPredictResponse<GeneratedV1> document = mindeeClient.enqueueAndParse(
+        AsyncPredictResponse<GeneratedV1> document = mindeeClient
+          .enqueueAndParse(
             GeneratedV1.class,
             endpoint,
             new LocalInputSource(file),
             PredictOptions.builder().build(),
             getDefaultPageOptions(),
             AsyncPollingOptions.builder().build()
-        );
+          );
         System.out.println(document.toString());
       } else {
-        AsyncPredictResponse<GeneratedV1> document = mindeeClient.enqueueAndParse(
-            GeneratedV1.class,
-            endpoint,
-            new LocalInputSource(file)
-        );
+        AsyncPredictResponse<GeneratedV1> document = mindeeClient
+          .enqueueAndParse(GeneratedV1.class, endpoint, new LocalInputSource(file));
         System.out.println(document.toString());
       }
     } else {
@@ -266,31 +254,40 @@ public class CommandLineInterface implements ProductProcessor {
 
   protected PageOptions getDefaultPageOptions() {
     return new PageOptions.Builder()
-        .pageIndexes(new Integer[]{0, 1, 2, 3, 4})
-        .operation(PageOptionsOperation.KEEP_ONLY)
-        .build();
+      .pageIndexes(new Integer[] { 0, 1, 2, 3, 4 })
+      .operation(PageOptionsOperation.KEEP_ONLY)
+      .build();
   }
 
   private String wordsOutput(Ocr ocr) {
     StringBuilder output = new StringBuilder();
     output.append("\n#############\nDocument Text\n#############\n::\n  ");
-    output.append(
-        Arrays.stream(ocr.toString().split(String.format("%n")))
-            .collect(Collectors.joining(String.format("%n  ")))
-    );
+    output
+      .append(
+        Arrays
+          .stream(ocr.toString().split(String.format("%n")))
+          .collect(Collectors.joining(String.format("%n  ")))
+      );
     output.append("\n");
     return output.toString();
   }
 
   @Override
-  public <T extends Inference<?, ?>> String standardProductOutput(Class<T> productClass, File file)
-      throws IOException {
+  public <T extends Inference<?, ?>> String standardProductOutput(
+      Class<T> productClass,
+      File file
+  ) throws IOException {
     MindeeClient mindeeClient = new MindeeClient(apiKey);
     LocalInputSource inputSource = new LocalInputSource(file);
     PredictResponse<T> response;
-    PredictOptions predictOptions = PredictOptions.builder().allWords(words).fullText(fullText).build();
+    PredictOptions predictOptions = PredictOptions
+      .builder()
+      .allWords(words)
+      .fullText(fullText)
+      .build();
     if (cutDoc) {
-      response = mindeeClient.parse(productClass, inputSource, predictOptions, getDefaultPageOptions());
+      response = mindeeClient
+        .parse(productClass, inputSource, predictOptions, getDefaultPageOptions());
     } else {
       response = mindeeClient.parse(productClass, inputSource, predictOptions);
     }
@@ -304,9 +301,7 @@ public class CommandLineInterface implements ProductProcessor {
         output.append(response.getRawResponse());
         break;
       default:
-        output.append(
-            response.getDocument().getInference().getPrediction().toString()
-        );
+        output.append(response.getDocument().getInference().getPrediction().toString());
     }
     if (words) {
       output.append(wordsOutput(response.getDocument().getOcr()));
@@ -315,20 +310,24 @@ public class CommandLineInterface implements ProductProcessor {
   }
 
   @Override
-  public <T extends Inference<?, ?>> String standardProductAsyncOutput(Class<T> productClass, File file)
-      throws IOException, InterruptedException {
+  public <T extends Inference<?, ?>> String standardProductAsyncOutput(
+      Class<T> productClass,
+      File file
+  ) throws IOException, InterruptedException {
     MindeeClient mindeeClient = new MindeeClient(apiKey);
     LocalInputSource inputSource = new LocalInputSource(file);
     AsyncPredictResponse<T> response;
-    PredictOptions predictOptions = PredictOptions.builder().allWords(words).fullText(fullText).build();
+    PredictOptions predictOptions = PredictOptions
+      .builder()
+      .allWords(words)
+      .fullText(fullText)
+      .build();
     if (cutDoc) {
-      response = mindeeClient.enqueueAndParse(
-        productClass, inputSource, predictOptions, getDefaultPageOptions(), null
-      );
+      response = mindeeClient
+        .enqueueAndParse(productClass, inputSource, predictOptions, getDefaultPageOptions(), null);
     } else {
-      response = mindeeClient.enqueueAndParse(
-        productClass, inputSource, predictOptions, null, null
-      );
+      response = mindeeClient
+        .enqueueAndParse(productClass, inputSource, predictOptions, null, null);
     }
 
     StringBuilder output = new StringBuilder();
@@ -340,9 +339,7 @@ public class CommandLineInterface implements ProductProcessor {
         output.append(response.getRawResponse());
         break;
       default:
-        output.append(
-            response.getDocumentObj().getInference().getPrediction().toString()
-        );
+        output.append(response.getDocumentObj().getInference().getPrediction().toString());
     }
     if (words) {
       output.append(wordsOutput(response.getDocumentObj().getOcr()));

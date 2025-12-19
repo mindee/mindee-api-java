@@ -26,7 +26,8 @@ public class EnergyBillV1Document extends Prediction {
   @JsonProperty("contract_id")
   protected StringField contractId;
   /**
-   * The unique identifier assigned to each electricity or gas consumption point. It specifies the exact location where the energy is delivered.
+   * The unique identifier assigned to each electricity or gas consumption point. It specifies the
+   * exact location where the energy is delivered.
    */
   @JsonProperty("delivery_point")
   protected StringField deliveryPoint;
@@ -93,8 +94,7 @@ public class EnergyBillV1Document extends Prediction {
 
   @Override
   public boolean isEmpty() {
-    return (
-      this.invoiceNumber == null
+    return (this.invoiceNumber == null
       && this.contractId == null
       && this.deliveryPoint == null
       && this.invoiceDate == null
@@ -107,102 +107,79 @@ public class EnergyBillV1Document extends Prediction {
       && (this.subscription == null || this.subscription.isEmpty())
       && (this.energyUsage == null || this.energyUsage.isEmpty())
       && (this.taxesAndContributions == null || this.taxesAndContributions.isEmpty())
-      && this.meterDetails == null
-      );
+      && this.meterDetails == null);
   }
 
   @Override
   public String toString() {
     StringBuilder outStr = new StringBuilder();
-    outStr.append(
-        String.format(":Invoice Number: %s%n", this.getInvoiceNumber())
-    );
-    outStr.append(
-        String.format(":Contract ID: %s%n", this.getContractId())
-    );
-    outStr.append(
-        String.format(":Delivery Point: %s%n", this.getDeliveryPoint())
-    );
-    outStr.append(
-        String.format(":Invoice Date: %s%n", this.getInvoiceDate())
-    );
-    outStr.append(
-        String.format(":Due Date: %s%n", this.getDueDate())
-    );
-    outStr.append(
-        String.format(":Total Before Taxes: %s%n", this.getTotalBeforeTaxes())
-    );
-    outStr.append(
-        String.format(":Total Taxes: %s%n", this.getTotalTaxes())
-    );
-    outStr.append(
-        String.format(":Total Amount: %s%n", this.getTotalAmount())
-    );
-    outStr.append(
-        String.format(":Energy Supplier:%n%s", this.getEnergySupplier().toFieldList())
-    );
-    outStr.append(
-        String.format(":Energy Consumer:%n%s", this.getEnergyConsumer().toFieldList())
-    );
+    outStr.append(String.format(":Invoice Number: %s%n", this.getInvoiceNumber()));
+    outStr.append(String.format(":Contract ID: %s%n", this.getContractId()));
+    outStr.append(String.format(":Delivery Point: %s%n", this.getDeliveryPoint()));
+    outStr.append(String.format(":Invoice Date: %s%n", this.getInvoiceDate()));
+    outStr.append(String.format(":Due Date: %s%n", this.getDueDate()));
+    outStr.append(String.format(":Total Before Taxes: %s%n", this.getTotalBeforeTaxes()));
+    outStr.append(String.format(":Total Taxes: %s%n", this.getTotalTaxes()));
+    outStr.append(String.format(":Total Amount: %s%n", this.getTotalAmount()));
+    outStr.append(String.format(":Energy Supplier:%n%s", this.getEnergySupplier().toFieldList()));
+    outStr.append(String.format(":Energy Consumer:%n%s", this.getEnergyConsumer().toFieldList()));
     String subscriptionSummary = "";
     if (!this.getSubscription().isEmpty()) {
-      int[] subscriptionColSizes = new int[]{38, 12, 12, 10, 11, 12};
-      subscriptionSummary =
-        String.format("%n%s%n  ", SummaryHelper.lineSeparator(subscriptionColSizes, "-"))
-          + "| Description                          "
-          + "| End Date   "
-          + "| Start Date "
-          + "| Tax Rate "
-          + "| Total     "
-          + "| Unit Price "
-          + String.format("|%n%s%n  ", SummaryHelper.lineSeparator(subscriptionColSizes, "="));
-      subscriptionSummary += SummaryHelper.arrayToString(this.getSubscription(), subscriptionColSizes);
-      subscriptionSummary += String.format("%n%s", SummaryHelper.lineSeparator(subscriptionColSizes, "-"));
+      int[] subscriptionColSizes = new int[] { 38, 12, 12, 10, 11, 12 };
+      subscriptionSummary = String
+        .format("%n%s%n  ", SummaryHelper.lineSeparator(subscriptionColSizes, "-"))
+        + "| Description                          "
+        + "| End Date   "
+        + "| Start Date "
+        + "| Tax Rate "
+        + "| Total     "
+        + "| Unit Price "
+        + String.format("|%n%s%n  ", SummaryHelper.lineSeparator(subscriptionColSizes, "="));
+      subscriptionSummary += SummaryHelper
+        .arrayToString(this.getSubscription(), subscriptionColSizes);
+      subscriptionSummary += String
+        .format("%n%s", SummaryHelper.lineSeparator(subscriptionColSizes, "-"));
     }
-    outStr.append(
-        String.format(":Subscription: %s%n", subscriptionSummary)
-    );
+    outStr.append(String.format(":Subscription: %s%n", subscriptionSummary));
     String energyUsageSummary = "";
     if (!this.getEnergyUsage().isEmpty()) {
-      int[] energyUsageColSizes = new int[]{13, 38, 12, 12, 10, 11, 17, 12};
-      energyUsageSummary =
-        String.format("%n%s%n  ", SummaryHelper.lineSeparator(energyUsageColSizes, "-"))
-          + "| Consumption "
-          + "| Description                          "
-          + "| End Date   "
-          + "| Start Date "
-          + "| Tax Rate "
-          + "| Total     "
-          + "| Unit of Measure "
-          + "| Unit Price "
-          + String.format("|%n%s%n  ", SummaryHelper.lineSeparator(energyUsageColSizes, "="));
+      int[] energyUsageColSizes = new int[] { 13, 38, 12, 12, 10, 11, 17, 12 };
+      energyUsageSummary = String
+        .format("%n%s%n  ", SummaryHelper.lineSeparator(energyUsageColSizes, "-"))
+        + "| Consumption "
+        + "| Description                          "
+        + "| End Date   "
+        + "| Start Date "
+        + "| Tax Rate "
+        + "| Total     "
+        + "| Unit of Measure "
+        + "| Unit Price "
+        + String.format("|%n%s%n  ", SummaryHelper.lineSeparator(energyUsageColSizes, "="));
       energyUsageSummary += SummaryHelper.arrayToString(this.getEnergyUsage(), energyUsageColSizes);
-      energyUsageSummary += String.format("%n%s", SummaryHelper.lineSeparator(energyUsageColSizes, "-"));
+      energyUsageSummary += String
+        .format("%n%s", SummaryHelper.lineSeparator(energyUsageColSizes, "-"));
     }
-    outStr.append(
-        String.format(":Energy Usage: %s%n", energyUsageSummary)
-    );
+    outStr.append(String.format(":Energy Usage: %s%n", energyUsageSummary));
     String taxesAndContributionsSummary = "";
     if (!this.getTaxesAndContributions().isEmpty()) {
-      int[] taxesAndContributionsColSizes = new int[]{38, 12, 12, 10, 11, 12};
-      taxesAndContributionsSummary =
-        String.format("%n%s%n  ", SummaryHelper.lineSeparator(taxesAndContributionsColSizes, "-"))
-          + "| Description                          "
-          + "| End Date   "
-          + "| Start Date "
-          + "| Tax Rate "
-          + "| Total     "
-          + "| Unit Price "
-          + String.format("|%n%s%n  ", SummaryHelper.lineSeparator(taxesAndContributionsColSizes, "="));
-      taxesAndContributionsSummary += SummaryHelper.arrayToString(this.getTaxesAndContributions(), taxesAndContributionsColSizes);
-      taxesAndContributionsSummary += String.format("%n%s", SummaryHelper.lineSeparator(taxesAndContributionsColSizes, "-"));
+      int[] taxesAndContributionsColSizes = new int[] { 38, 12, 12, 10, 11, 12 };
+      taxesAndContributionsSummary = String
+        .format("%n%s%n  ", SummaryHelper.lineSeparator(taxesAndContributionsColSizes, "-"))
+        + "| Description                          "
+        + "| End Date   "
+        + "| Start Date "
+        + "| Tax Rate "
+        + "| Total     "
+        + "| Unit Price "
+        + String
+          .format("|%n%s%n  ", SummaryHelper.lineSeparator(taxesAndContributionsColSizes, "="));
+      taxesAndContributionsSummary += SummaryHelper
+        .arrayToString(this.getTaxesAndContributions(), taxesAndContributionsColSizes);
+      taxesAndContributionsSummary += String
+        .format("%n%s", SummaryHelper.lineSeparator(taxesAndContributionsColSizes, "-"));
     }
-    outStr.append(
-        String.format(":Taxes and Contributions: %s%n", taxesAndContributionsSummary)
-    );
-    outStr.append(
-        String.format(":Meter Details:%n%s", this.getMeterDetails().toFieldList())
-    );
+    outStr.append(String.format(":Taxes and Contributions: %s%n", taxesAndContributionsSummary));
+    outStr.append(String.format(":Meter Details:%n%s", this.getMeterDetails().toFieldList()));
     return SummaryHelper.cleanSummary(outStr.toString());
   }
 }

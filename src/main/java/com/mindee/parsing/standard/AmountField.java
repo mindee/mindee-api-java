@@ -22,15 +22,10 @@ public class AmountField extends BaseField {
   private Double value;
 
   public AmountField(
-      @JsonProperty("value")
-      Double value,
-      @JsonProperty("confidence")
-      Double confidence,
-      @JsonProperty("polygon")
-      @JsonDeserialize(using = PolygonDeserializer.class)
-      Polygon polygon,
-      @JsonProperty("page_id")
-      Integer pageId
+      @JsonProperty("value") Double value,
+      @JsonProperty("confidence") Double confidence,
+      @JsonProperty("polygon") @JsonDeserialize(using = PolygonDeserializer.class) Polygon polygon,
+      @JsonProperty("page_id") Integer pageId
   ) {
     super(confidence, polygon, pageId);
     this.value = value;

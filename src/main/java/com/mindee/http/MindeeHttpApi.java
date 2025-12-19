@@ -80,15 +80,7 @@ public final class MindeeHttpApi extends MindeeApi {
   private final Function<String, String> workflowUrlFromId;
 
   public MindeeHttpApi(MindeeSettings mindeeSettings) {
-    this(
-        mindeeSettings,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null
-    );
+    this(mindeeSettings, null, null, null, null, null, null);
   }
 
   @Builder
@@ -112,29 +104,28 @@ public final class MindeeHttpApi extends MindeeApi {
     if (urlFromEndpoint != null) {
       this.urlFromEndpoint = urlFromEndpoint;
     } else {
-      this.urlFromEndpoint = buildProductPredicBasetUrl.andThen(
-          (url) -> url.concat("/predict"));
+      this.urlFromEndpoint = buildProductPredicBasetUrl.andThen((url) -> url.concat("/predict"));
     }
 
     if (asyncUrlFromWorkflow != null) {
       this.asyncUrlFromWorkflow = asyncUrlFromWorkflow;
     } else {
-      this.asyncUrlFromWorkflow = this.buildWorkflowPredictBaseUrl.andThen(
-          (url) -> url.concat("/predict_async"));
+      this.asyncUrlFromWorkflow = this.buildWorkflowPredictBaseUrl
+        .andThen((url) -> url.concat("/predict_async"));
     }
 
     if (asyncUrlFromEndpoint != null) {
       this.asyncUrlFromEndpoint = asyncUrlFromEndpoint;
     } else {
-      this.asyncUrlFromEndpoint = this.buildProductPredicBasetUrl.andThen(
-          (url) -> url.concat("/predict_async"));
+      this.asyncUrlFromEndpoint = this.buildProductPredicBasetUrl
+        .andThen((url) -> url.concat("/predict_async"));
     }
 
     if (documentUrlFromEndpoint != null) {
       this.documentUrlFromEndpoint = documentUrlFromEndpoint;
     } else {
-      this.documentUrlFromEndpoint = this.buildProductPredicBasetUrl.andThen(
-          (url) -> url.concat("/documents/queue/"));
+      this.documentUrlFromEndpoint = this.buildProductPredicBasetUrl
+        .andThen((url) -> url.concat("/documents/queue/"));
     }
 
     if (workflowUrlFromEndpoint != null) {
@@ -157,10 +148,9 @@ public final class MindeeHttpApi extends MindeeApi {
 
     // required to register jackson date module format to deserialize
     mapper.findAndRegisterModules();
-    JavaType parametricType = mapper.getTypeFactory().constructParametricType(
-        AsyncPredictResponse.class,
-        documentClass
-    );
+    JavaType parametricType = mapper
+      .getTypeFactory()
+      .constructParametricType(AsyncPredictResponse.class, documentClass);
 
     if (this.mindeeSettings.getApiKey().isPresent()) {
       get.setHeader(HttpHeaders.AUTHORIZATION, this.mindeeSettings.getApiKey().get());
@@ -168,32 +158,29 @@ public final class MindeeHttpApi extends MindeeApi {
     get.setHeader(HttpHeaders.USER_AGENT, getUserAgent());
 
     try (CloseableHttpClient httpClient = httpClientBuilder.build()) {
-      return httpClient.execute(
-          get, response -> {
-            HttpEntity responseEntity = response.getEntity();
-            int statusCode = response.getCode();
-            if (isInvalidStatusCode(statusCode)) {
-              throw getHttpError(parametricType, response);
-            }
-            String rawResponse = readRawResponse(responseEntity);
-            AsyncPredictResponse<DocT> mappedResponse =
-                mapper.readValue(rawResponse, parametricType);
-            mappedResponse.setRawResponse(rawResponse);
-            if (
-                mappedResponse.getJob() != null
-                    && mappedResponse.getJob().getError() != null
-                    && mappedResponse.getJob().getError().getCode() != null
-            ) {
-              throw new MindeeHttpException(
-                  500,
-                  mappedResponse.getJob().getError().getMessage(),
-                  mappedResponse.getJob().getError().getDetails().toString(),
-                  mappedResponse.getJob().getError().getCode()
-              );
-            }
-            return mappedResponse;
-          }
-      );
+      return httpClient.execute(get, response -> {
+        HttpEntity responseEntity = response.getEntity();
+        int statusCode = response.getCode();
+        if (isInvalidStatusCode(statusCode)) {
+          throw getHttpError(parametricType, response);
+        }
+        String rawResponse = readRawResponse(responseEntity);
+        AsyncPredictResponse<DocT> mappedResponse = mapper.readValue(rawResponse, parametricType);
+        mappedResponse.setRawResponse(rawResponse);
+        if (
+          mappedResponse.getJob() != null
+            && mappedResponse.getJob().getError() != null
+            && mappedResponse.getJob().getError().getCode() != null
+        ) {
+          throw new MindeeHttpException(
+            500,
+            mappedResponse.getJob().getError().getMessage(),
+            mappedResponse.getJob().getError().getDetails().toString(),
+            mappedResponse.getJob().getError().getCode()
+          );
+        }
+        return mappedResponse;
+      });
     } catch (IOException err) {
       throw new MindeeException(err.getMessage(), err);
     }
@@ -213,27 +200,24 @@ public final class MindeeHttpApi extends MindeeApi {
 
     // required to register jackson date module format to deserialize
     mapper.findAndRegisterModules();
-    JavaType parametricType = mapper.getTypeFactory().constructParametricType(
-        PredictResponse.class,
-        documentClass
-    );
+    JavaType parametricType = mapper
+      .getTypeFactory()
+      .constructParametricType(PredictResponse.class, documentClass);
     try (CloseableHttpClient httpClient = httpClientBuilder.build()) {
-      return httpClient.execute(
-          post, response -> {
-            HttpEntity responseEntity = response.getEntity();
-            int statusCode = response.getCode();
-            if (isInvalidStatusCode(statusCode)) {
-              throw getHttpError(parametricType, response);
-            }
-            if (responseEntity.getContentLength() == 0) {
-              throw new MindeeException("Empty response from server.");
-            }
-            String rawResponse = readRawResponse(responseEntity);
-            PredictResponse<DocT> mappedResponse = mapper.readValue(rawResponse, parametricType);
-            mappedResponse.setRawResponse(rawResponse);
-            return mappedResponse;
-          }
-      );
+      return httpClient.execute(post, response -> {
+        HttpEntity responseEntity = response.getEntity();
+        int statusCode = response.getCode();
+        if (isInvalidStatusCode(statusCode)) {
+          throw getHttpError(parametricType, response);
+        }
+        if (responseEntity.getContentLength() == 0) {
+          throw new MindeeException("Empty response from server.");
+        }
+        String rawResponse = readRawResponse(responseEntity);
+        PredictResponse<DocT> mappedResponse = mapper.readValue(rawResponse, parametricType);
+        mappedResponse.setRawResponse(rawResponse);
+        return mappedResponse;
+      });
     } catch (IOException err) {
       throw new MindeeException(err.getMessage(), err);
     }
@@ -258,33 +242,28 @@ public final class MindeeHttpApi extends MindeeApi {
 
     // required to register jackson date module format to deserialize
     mapper.findAndRegisterModules();
-    JavaType parametricType = mapper.getTypeFactory().constructParametricType(
-        AsyncPredictResponse.class,
-        documentClass
-    );
+    JavaType parametricType = mapper
+      .getTypeFactory()
+      .constructParametricType(AsyncPredictResponse.class, documentClass);
     try (CloseableHttpClient httpClient = httpClientBuilder.build()) {
-      return httpClient.execute(
-          post, response -> {
-            HttpEntity responseEntity = response.getEntity();
-            int statusCode = response.getCode();
-            if (isInvalidStatusCode(statusCode)) {
-              throw getHttpError(parametricType, response);
-            }
-            if (responseEntity.getContentLength() == 0) {
-              throw new MindeeException("Empty response from server.");
-            }
-            String rawResponse = readRawResponse(responseEntity);
-            AsyncPredictResponse<DocT> mappedResponse =
-                mapper.readValue(rawResponse, parametricType);
-            mappedResponse.setRawResponse(rawResponse);
-            return mappedResponse;
-          }
-      );
+      return httpClient.execute(post, response -> {
+        HttpEntity responseEntity = response.getEntity();
+        int statusCode = response.getCode();
+        if (isInvalidStatusCode(statusCode)) {
+          throw getHttpError(parametricType, response);
+        }
+        if (responseEntity.getContentLength() == 0) {
+          throw new MindeeException("Empty response from server.");
+        }
+        String rawResponse = readRawResponse(responseEntity);
+        AsyncPredictResponse<DocT> mappedResponse = mapper.readValue(rawResponse, parametricType);
+        mappedResponse.setRawResponse(rawResponse);
+        return mappedResponse;
+      });
     } catch (IOException err) {
       throw new MindeeException(err.getMessage(), err);
     }
   }
-
 
   /**
    * POST a prediction request for a workflow response.
@@ -300,10 +279,9 @@ public final class MindeeHttpApi extends MindeeApi {
 
     // required to register jackson date module format to deserialize
     mapper.findAndRegisterModules();
-    JavaType parametricType = mapper.getTypeFactory().constructParametricType(
-        WorkflowResponse.class,
-        documentClass
-    );
+    JavaType parametricType = mapper
+      .getTypeFactory()
+      .constructParametricType(WorkflowResponse.class, documentClass);
     try (CloseableHttpClient httpClient = httpClientBuilder.build()) {
       return httpClient.execute(post, response -> {
         HttpEntity responseEntity = response.getEntity();
@@ -323,7 +301,6 @@ public final class MindeeHttpApi extends MindeeApi {
       throw new MindeeException(err.getMessage(), err);
     }
   }
-
 
   private <ResponseT extends ApiResponse> MindeeHttpException getHttpError(
       JavaType parametricType,
@@ -362,12 +339,12 @@ public final class MindeeHttpApi extends MindeeApi {
 
   private String buildProductPredictBaseUrl(Endpoint endpoint) {
     return this.mindeeSettings.getBaseUrl()
-        + "/products/"
-        + endpoint.getAccountName()
-        + "/"
-        + endpoint.getEndpointName()
-        + "/v"
-        + endpoint.getVersion();
+      + "/products/"
+      + endpoint.getAccountName()
+      + "/"
+      + endpoint.getEndpointName()
+      + "/v"
+      + endpoint.getVersion();
   }
 
   private String buildWorkflowPredictBaseUrl(String workflowId) {
@@ -402,9 +379,7 @@ public final class MindeeHttpApi extends MindeeApi {
     return post;
   }
 
-  private List<NameValuePair> buildPostParams(
-      RequestParameters requestParameters
-  ) {
+  private List<NameValuePair> buildPostParams(RequestParameters requestParameters) {
     ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
     if (Boolean.TRUE.equals(requestParameters.getPredictOptions().getCropper())) {
       params.add(new BasicNameValuePair("cropper", "true"));
@@ -412,7 +387,8 @@ public final class MindeeHttpApi extends MindeeApi {
     if (Boolean.TRUE.equals(requestParameters.getPredictOptions().getFullText())) {
       params.add(new BasicNameValuePair("full_text_ocr", "true"));
     }
-    if (Boolean.TRUE.equals(requestParameters.getWorkflowOptions().getRag())
+    if (
+      Boolean.TRUE.equals(requestParameters.getWorkflowOptions().getRag())
         || Boolean.TRUE.equals(requestParameters.getPredictOptions().getRag())
     ) {
       params.add(new BasicNameValuePair("rag", "true"));
@@ -426,42 +402,33 @@ public final class MindeeHttpApi extends MindeeApi {
     if (requestParameters.getFile() != null) {
       MultipartEntityBuilder builder = MultipartEntityBuilder.create();
       builder.setMode(HttpMultipartMode.EXTENDED);
-      builder.addBinaryBody(
+      builder
+        .addBinaryBody(
           "document",
           requestParameters.getFile(),
           ContentType.DEFAULT_BINARY,
           requestParameters.getFileName()
-      );
+        );
       if (Boolean.TRUE.equals(requestParameters.getPredictOptions().getAllWords())) {
         builder.addTextBody("include_mvision", "true");
       }
 
       if (requestParameters.getWorkflowOptions().getPriority() != null) {
-        builder.addTextBody(
-            "priority",
-            requestParameters.getWorkflowOptions().getPriority().getValue()
-        );
+        builder
+          .addTextBody("priority", requestParameters.getWorkflowOptions().getPriority().getValue());
       }
       if (requestParameters.getWorkflowOptions().getAlias() != null) {
-        builder.addTextBody(
-            "alias",
-            requestParameters.getWorkflowOptions().getAlias().toLowerCase()
-        );
+        builder
+          .addTextBody("alias", requestParameters.getWorkflowOptions().getAlias().toLowerCase());
       }
       if (requestParameters.getWorkflowOptions().getPublicUrl() != null) {
-        builder.addTextBody(
-            "public_url",
-            requestParameters.getWorkflowOptions().getPublicUrl()
-        );
+        builder.addTextBody("public_url", requestParameters.getWorkflowOptions().getPublicUrl());
       }
       return builder.build();
     } else if (requestParameters.getFileUrl() != null) {
       Map<String, URL> urlMap = new HashMap<>();
       urlMap.put("document", requestParameters.getFileUrl());
-      return new StringEntity(
-          mapper.writeValueAsString(urlMap),
-          ContentType.APPLICATION_JSON
-      );
+      return new StringEntity(mapper.writeValueAsString(urlMap), ContentType.APPLICATION_JSON);
     } else {
       throw new MindeeException("Either document bytes or a document URL are needed");
     }

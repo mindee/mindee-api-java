@@ -21,14 +21,14 @@ public class DriverLicenseV1Test {
     ObjectMapper objectMapper = new ObjectMapper();
     objectMapper.findAndRegisterModules();
 
-    JavaType type = objectMapper.getTypeFactory().constructParametricType(
-      PredictResponse.class,
-      DriverLicenseV1.class
-    );
-    return objectMapper.readValue(
-      new File(getV1ResourcePathString("products/driver_license/response_v1/" + name + ".json")),
-      type
-    );
+    JavaType type = objectMapper
+      .getTypeFactory()
+      .constructParametricType(PredictResponse.class, DriverLicenseV1.class);
+    return objectMapper
+      .readValue(
+        new File(getV1ResourcePathString("products/driver_license/response_v1/" + name + ".json")),
+        type
+      );
   }
 
   @Test
@@ -55,8 +55,8 @@ public class DriverLicenseV1Test {
     PredictResponse<DriverLicenseV1> response = getPrediction("complete");
     Document<DriverLicenseV1> doc = response.getDocument();
     assertStringEqualsFile(
-        doc.toString(),
-        getV1ResourcePathString("products/driver_license/response_v1/summary_full.rst")
+      doc.toString(),
+      getV1ResourcePathString("products/driver_license/response_v1/summary_full.rst")
     );
   }
 

@@ -51,15 +51,15 @@ public class Inference {
   public String toString() {
     StringJoiner joiner = new StringJoiner("\n");
     joiner
-        .add("Inference")
-        .add("#########")
-        .add(model.toString())
-        .add("")
-        .add(file.toString())
-        .add("")
-        .add(activeOptions.toString())
-        .add("")
-        .add(result != null ? result.toString() : "");
+      .add("Inference")
+      .add("#########")
+      .add(model.toString())
+      .add("")
+      .add(file.toString())
+      .add("")
+      .add(activeOptions.toString())
+      .add("")
+      .add(result != null ? result.toString() : "");
     return joiner.toString().trim() + "\n";
   }
 }

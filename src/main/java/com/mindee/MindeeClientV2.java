@@ -26,7 +26,6 @@ public class MindeeClientV2 {
     this(createDefaultApiV2(apiKey));
   }
 
-
   /** Inject both a PDF implementation and an HTTP implementation. */
   public MindeeClientV2(MindeeApiV2 mindeeApi) {
     this.mindeeApi = mindeeApi;
@@ -41,7 +40,6 @@ public class MindeeClientV2 {
   ) throws IOException {
     return mindeeApi.reqPostInferenceEnqueue(inputSource, params);
   }
-
 
   /**
    * Enqueue a document in the asynchronous queue.
@@ -77,6 +75,7 @@ public class MindeeClientV2 {
 
   /**
    * Send a local file to an async queue, poll, and parse when complete.
+   * 
    * @param inputSource The input source to send.
    * @param options The options to send along with the file.
    * @return an instance of {@link InferenceResponse}.
@@ -92,10 +91,9 @@ public class MindeeClientV2 {
     return pollAndFetch(job, options);
   }
 
-
-
   /**
    * Send a local file to an async queue, poll, and parse when complete.
+   * 
    * @param inputSource The input source to send.
    * @param options The options to send along with the file.
    * @return an instance of {@link InferenceResponse}.
@@ -111,9 +109,9 @@ public class MindeeClientV2 {
     return pollAndFetch(job, options);
   }
 
-
   /**
    * Common logic for polling an asynchronous job for local & url files.
+   * 
    * @param initialJob The initial job response.
    * @return an instance of {@link InferenceResponse}.
    * @throws InterruptedException Throws if interrupted.
@@ -152,9 +150,7 @@ public class MindeeClientV2 {
     MindeeSettingsV2 settings = apiKey == null || apiKey.trim().isEmpty()
         ? new MindeeSettingsV2()
         : new MindeeSettingsV2(apiKey);
-    return MindeeHttpApiV2.builder()
-        .mindeeSettings(settings)
-        .build();
+    return MindeeHttpApiV2.builder().mindeeSettings(settings).build();
   }
 
   private static void validatePollingOptions(AsyncPollingOptions p) {

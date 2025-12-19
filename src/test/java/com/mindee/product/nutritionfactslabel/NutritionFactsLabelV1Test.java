@@ -21,20 +21,23 @@ public class NutritionFactsLabelV1Test {
     ObjectMapper objectMapper = new ObjectMapper();
     objectMapper.findAndRegisterModules();
 
-    JavaType type = objectMapper.getTypeFactory().constructParametricType(
-      PredictResponse.class,
-      NutritionFactsLabelV1.class
-    );
-    return objectMapper.readValue(
-      new File(getV1ResourcePathString("products/nutrition_facts/response_v1/" + name + ".json")),
-      type
-    );
+    JavaType type = objectMapper
+      .getTypeFactory()
+      .constructParametricType(PredictResponse.class, NutritionFactsLabelV1.class);
+    return objectMapper
+      .readValue(
+        new File(getV1ResourcePathString("products/nutrition_facts/response_v1/" + name + ".json")),
+        type
+      );
   }
 
   @Test
   void whenEmptyDeserialized_mustHaveValidProperties() throws IOException {
     PredictResponse<NutritionFactsLabelV1> response = getPrediction("empty");
-    NutritionFactsLabelV1Document docPrediction = response.getDocument().getInference().getPrediction();
+    NutritionFactsLabelV1Document docPrediction = response
+      .getDocument()
+      .getInference()
+      .getPrediction();
     Assertions.assertNull(docPrediction.getServingPerBox().getValue());
     Assertions.assertNull(docPrediction.getServingSize().getAmount());
     Assertions.assertNull(docPrediction.getServingSize().getUnit());
@@ -80,8 +83,8 @@ public class NutritionFactsLabelV1Test {
     PredictResponse<NutritionFactsLabelV1> response = getPrediction("complete");
     Document<NutritionFactsLabelV1> doc = response.getDocument();
     assertStringEqualsFile(
-        doc.toString(),
-        getV1ResourcePathString("products/nutrition_facts/response_v1/summary_full.rst")
+      doc.toString(),
+      getV1ResourcePathString("products/nutrition_facts/response_v1/summary_full.rst")
     );
   }
 

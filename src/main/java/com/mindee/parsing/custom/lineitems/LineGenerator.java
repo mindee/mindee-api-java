@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Map;
 import org.apache.commons.math3.util.Precision;
 
-
 /**
  * Get lines.
  */
@@ -21,10 +20,7 @@ public final class LineGenerator {
   private LineGenerator() {
   }
 
-  public static PreparedLines prepareLines(
-      Map<String, ListField> fields,
-      List<Anchor> anchors
-  ) {
+  public static PreparedLines prepareLines(Map<String, ListField> fields, List<Anchor> anchors) {
     Anchor bestAnchor = null;
     Collection<Line> lines = null;
     int lineCount = 0;
@@ -33,10 +29,7 @@ public final class LineGenerator {
       if (anchorColumn == null) {
         throw new IllegalStateException("The field selected for the anchor was not found.");
       }
-      Collection<Line> currentLines = createLines(
-          anchorColumn.getValues(),
-          anchor.getTolerance()
-      );
+      Collection<Line> currentLines = createLines(anchorColumn.getValues(), anchor.getTolerance());
       if (currentLines.size() > lineCount) {
         bestAnchor = anchor;
         lines = currentLines;
@@ -46,10 +39,7 @@ public final class LineGenerator {
     if (lines == null) {
       throw new IllegalStateException("Could not determine which anchor to use.");
     }
-    return new PreparedLines(
-        bestAnchor,
-        new ArrayList<>(lines)
-    );
+    return new PreparedLines(bestAnchor, new ArrayList<>(lines));
   }
 
   private static Collection<Line> createLines(List<ListFieldValue> anchorValues, double tolerance) {
@@ -64,15 +54,10 @@ public final class LineGenerator {
       currentValue = anchorValue;
       Bbox currentFieldBbox = currentValue.getPolygon().getAsBbox();
       if (
-          Precision.equals(
-            currentLine.getBbox().getMinY(),
-            currentFieldBbox.getMinY(),
-            tolerance
-          )
+        Precision.equals(currentLine.getBbox().getMinY(), currentFieldBbox.getMinY(), tolerance)
       ) {
-        currentLine.setBbox(
-            BboxUtils.merge(Arrays.asList(currentLine.getBbox(), currentFieldBbox))
-        );
+        currentLine
+          .setBbox(BboxUtils.merge(Arrays.asList(currentLine.getBbox(), currentFieldBbox)));
       } else {
         // when it is a new line
         table.put(lineNumber, currentLine);

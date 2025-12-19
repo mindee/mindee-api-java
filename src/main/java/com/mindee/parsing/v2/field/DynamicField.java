@@ -76,7 +76,8 @@ public class DynamicField {
    *
    * @param type the class representing the desired field type
    * @param <T> the type of field to return
-   * @throws IllegalArgumentException if the requested type is not SimpleField, ListField, or ObjectField
+   * @throws IllegalArgumentException if the requested type is not:
+   * SimpleField, ListField, or ObjectField
    * @throws IllegalStateException if the field's internal type does not match the requested type
    */
   public <T extends BaseField> T getField(Class<T> type) throws IllegalArgumentException {
@@ -89,21 +90,26 @@ public class DynamicField {
     if (type == ObjectField.class) {
       return (T) this.getObjectField();
     }
-    throw new IllegalArgumentException(
-        "Cannot cast to " + type.getSimpleName()
-    );
+    throw new IllegalArgumentException("Cannot cast to " + type.getSimpleName());
   }
 
   @Override
   public String toString() {
-    if (simpleField != null) return simpleField.toString();
-    if (listField   != null) return listField.toString();
-    if (objectField != null) return objectField.toString();
+    if (simpleField != null)
+      return simpleField.toString();
+    if (listField != null)
+      return listField.toString();
+    if (objectField != null)
+      return objectField.toString();
     return "";
   }
 
   /**
    * Possible field kinds.
    */
-  public enum FieldType { SIMPLE_FIELD, OBJECT_FIELD, LIST_FIELD }
+  public enum FieldType {
+    SIMPLE_FIELD,
+    OBJECT_FIELD,
+    LIST_FIELD,
+  }
 }

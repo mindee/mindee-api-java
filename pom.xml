@@ -95,25 +95,6 @@
           </configuration>
         </plugin>
         <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-checkstyle-plugin</artifactId>
-          <version>3.6.0</version>
-          <dependencies>
-            <dependency>
-              <groupId>com.puppycrawl.tools</groupId>
-              <artifactId>checkstyle</artifactId>
-              <!-- Version 10.x is the last with JRE 11 support -->
-              <version>10.14.2</version>
-            </dependency>
-          </dependencies>
-          <configuration>
-            <configLocation>checkstyle.xml</configLocation>
-            <consoleOutput>true</consoleOutput>
-            <failsOnError>true</failsOnError>
-            <violationSeverity>error</violationSeverity>
-          </configuration>
-        </plugin>
-        <plugin>
           <groupId>com.diffplug.spotless</groupId>
           <artifactId>spotless-maven-plugin</artifactId>
           <!-- Version 2.x is the last with JRE 11 support -->
@@ -122,6 +103,9 @@
             <java>
               <importOrder/>
               <removeUnusedImports />
+              <eclipse>
+                <file>${project.basedir}/eclipse-formatter.xml</file>
+              </eclipse>
               <formatAnnotations />
             </java>
           </configuration>

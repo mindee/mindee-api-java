@@ -38,9 +38,7 @@ public final class SimpleFieldDeserializer extends JsonDeserializer<SimpleField>
       }
     }
 
-    FieldConfidence confidence = codec.treeToValue(
-        root.get("confidence"), FieldConfidence.class
-    );
+    FieldConfidence confidence = codec.treeToValue(root.get("confidence"), FieldConfidence.class);
 
     List<FieldLocation> locations = null;
     JsonNode locationsNode = root.get("locations");

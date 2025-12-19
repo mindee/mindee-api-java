@@ -32,11 +32,7 @@ public class PayslipV2Pto extends BaseField {
   Double usedThisPeriod;
 
   public boolean isEmpty() {
-    return (
-        accruedThisPeriod == null
-        && balanceEndOfPeriod == null
-        && usedThisPeriod == null
-      );
+    return (accruedThisPeriod == null && balanceEndOfPeriod == null && usedThisPeriod == null);
   }
 
   /**
@@ -45,8 +41,8 @@ public class PayslipV2Pto extends BaseField {
   public String toFieldList() {
     Map<String, String> printable = this.printableValues();
     return String.format("  :Accrued This Period: %s%n", printable.get("accruedThisPeriod"))
-        + String.format("  :Balance End of Period: %s%n", printable.get("balanceEndOfPeriod"))
-        + String.format("  :Used This Period: %s%n", printable.get("usedThisPeriod"));
+      + String.format("  :Balance End of Period: %s%n", printable.get("balanceEndOfPeriod"))
+      + String.format("  :Used This Period: %s%n", printable.get("usedThisPeriod"));
   }
 
   @Override
@@ -60,18 +56,9 @@ public class PayslipV2Pto extends BaseField {
   private Map<String, String> printableValues() {
     Map<String, String> printable = new HashMap<>();
 
-    printable.put(
-        "accruedThisPeriod",
-        SummaryHelper.formatAmount(this.accruedThisPeriod)
-    );
-    printable.put(
-        "balanceEndOfPeriod",
-        SummaryHelper.formatAmount(this.balanceEndOfPeriod)
-    );
-    printable.put(
-        "usedThisPeriod",
-        SummaryHelper.formatAmount(this.usedThisPeriod)
-    );
+    printable.put("accruedThisPeriod", SummaryHelper.formatAmount(this.accruedThisPeriod));
+    printable.put("balanceEndOfPeriod", SummaryHelper.formatAmount(this.balanceEndOfPeriod));
+    printable.put("usedThisPeriod", SummaryHelper.formatAmount(this.usedThisPeriod));
     return printable;
   }
 }

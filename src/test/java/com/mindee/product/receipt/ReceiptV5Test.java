@@ -22,14 +22,16 @@ public class ReceiptV5Test {
     ObjectMapper objectMapper = new ObjectMapper();
     objectMapper.findAndRegisterModules();
 
-    JavaType type = objectMapper.getTypeFactory().constructParametricType(
-      PredictResponse.class,
-      ReceiptV5.class
-    );
-    return objectMapper.readValue(
-      new File(getV1ResourcePathString("products/expense_receipts/response_v5/" + name + ".json")),
-      type
-    );
+    JavaType type = objectMapper
+      .getTypeFactory()
+      .constructParametricType(PredictResponse.class, ReceiptV5.class);
+    return objectMapper
+      .readValue(
+        new File(
+          getV1ResourcePathString("products/expense_receipts/response_v5/" + name + ".json")
+        ),
+        type
+      );
   }
 
   @Test
@@ -60,8 +62,8 @@ public class ReceiptV5Test {
     PredictResponse<ReceiptV5> response = getPrediction("complete");
     Document<ReceiptV5> doc = response.getDocument();
     assertStringEqualsFile(
-        doc.toString(),
-        getV1ResourcePathString("products/expense_receipts/response_v5/summary_full.rst")
+      doc.toString(),
+      getV1ResourcePathString("products/expense_receipts/response_v5/summary_full.rst")
     );
   }
 

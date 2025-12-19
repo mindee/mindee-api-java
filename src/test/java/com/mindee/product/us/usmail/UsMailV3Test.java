@@ -21,14 +21,14 @@ public class UsMailV3Test {
     ObjectMapper objectMapper = new ObjectMapper();
     objectMapper.findAndRegisterModules();
 
-    JavaType type = objectMapper.getTypeFactory().constructParametricType(
-      PredictResponse.class,
-      UsMailV3.class
-    );
-    return objectMapper.readValue(
-      new File(getV1ResourcePathString("products/us_mail/response_v3/" + name + ".json")),
-      type
-    );
+    JavaType type = objectMapper
+      .getTypeFactory()
+      .constructParametricType(PredictResponse.class, UsMailV3.class);
+    return objectMapper
+      .readValue(
+        new File(getV1ResourcePathString("products/us_mail/response_v3/" + name + ".json")),
+        type
+      );
   }
 
   @Test
@@ -51,8 +51,8 @@ public class UsMailV3Test {
     PredictResponse<UsMailV3> response = getPrediction("complete");
     Document<UsMailV3> doc = response.getDocument();
     assertStringEqualsFile(
-        doc.toString(),
-        getV1ResourcePathString("products/us_mail/response_v3/summary_full.rst")
+      doc.toString(),
+      getV1ResourcePathString("products/us_mail/response_v3/summary_full.rst")
     );
   }
 

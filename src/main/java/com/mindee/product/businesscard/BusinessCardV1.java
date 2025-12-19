@@ -11,6 +11,5 @@ import lombok.Getter;
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
 @EndpointInfo(endpointName = "business_card", version = "1")
-public class BusinessCardV1
-    extends Inference<BusinessCardV1Document, BusinessCardV1Document> {
+public class BusinessCardV1 extends Inference<BusinessCardV1Document, BusinessCardV1Document> {
 }

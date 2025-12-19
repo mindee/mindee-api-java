@@ -25,9 +25,7 @@ public class TestingUtilities {
     return getV1ResourcePath(filePath).toString();
   }
 
-  public static String readFileAsString(Path path)
-      throws IOException
-  {
+  public static String readFileAsString(Path path) throws IOException {
     byte[] encoded = Files.readAllBytes(path);
     return new String(encoded);
   }
@@ -85,7 +83,8 @@ public class TestingUtilities {
 
   /**
    * Compute the Levenshtein distance between two strings.
-   * Taken & adapted from <a href="https://rosettacode.org/wiki/Levenshtein_distance#Iterative_space_optimized_(even_bounded)">here</a>
+   * Taken & adapted from <a href=
+   * "https://rosettacode.org/wiki/Levenshtein_distance#Iterative_space_optimized_(even_bounded)">here</a>
    *
    * @param refStr Source string to compare.
    * @param targetStr Target string to compare.
@@ -122,11 +121,13 @@ public class TestingUtilities {
       int previousDistance = i - 1;
       int minDistance = previousDistance;
       for (int j = 1; j <= targetLength; j++) {
-        int currentDistance =
-          previousDistance + (refStr.charAt(i - 1) == targetStr.charAt(j - 1) ? 0 : 1);
-        distanceVector[j] =
-          Math.min(Math.min(1 + (previousDistance = distanceVector[j]), 1 + distanceVector[j - 1]),
-            currentDistance);
+        int currentDistance = previousDistance
+          + (refStr.charAt(i - 1) == targetStr.charAt(j - 1) ? 0 : 1);
+        distanceVector[j] = Math
+          .min(
+            Math.min(1 + (previousDistance = distanceVector[j]), 1 + distanceVector[j - 1]),
+            currentDistance
+          );
         if (previousDistance < minDistance) {
           minDistance = previousDistance;
         }
@@ -139,7 +140,7 @@ public class TestingUtilities {
    * Computes the Levenshtein ratio between two given strings.
    *
    * @param referenceString First string.
-   * @param targetString    Second string.
+   * @param targetString Second string.
    * @return The ratio of similarities between the two strings.
    */
   public static double levenshteinRatio(String referenceString, String targetString) {

@@ -23,17 +23,29 @@ class CustomV1WithLineItemsTest {
     ObjectMapper objectMapper = new ObjectMapper();
     objectMapper.findAndRegisterModules();
 
-    JavaType type = objectMapper.getTypeFactory().constructParametricType(PredictResponse.class,
-      CustomV1.class);
-    PredictResponse<CustomV1> response = objectMapper.readValue(
-      new File(getV1ResourcePathString("products/custom/response_v1/line_items/single_table_01.json")),
-      type);
+    JavaType type = objectMapper
+      .getTypeFactory()
+      .constructParametricType(PredictResponse.class, CustomV1.class);
+    PredictResponse<CustomV1> response = objectMapper
+      .readValue(
+        new File(
+          getV1ResourcePathString("products/custom/response_v1/line_items/single_table_01.json")
+        ),
+        type
+      );
 
-    LineItems lineItems = LineItemsGenerator.generate(
-      Arrays.asList("beneficiary_birth_date", "beneficiary_number", "beneficiary_name", "beneficiary_rank"),
-      response.getDocument().getInference().getPrediction().getFields(),
-      new Anchor("beneficiary_name", 0.011d)
-    );
+    LineItems lineItems = LineItemsGenerator
+      .generate(
+        Arrays
+          .asList(
+            "beneficiary_birth_date",
+            "beneficiary_number",
+            "beneficiary_name",
+            "beneficiary_rank"
+          ),
+        response.getDocument().getInference().getPrediction().getFields(),
+        new Anchor("beneficiary_name", 0.011d)
+      );
 
     Assertions.assertNotNull(lineItems);
     Assertions.assertEquals(3, lineItems.getRows().size());
@@ -47,13 +59,16 @@ class CustomV1WithLineItemsTest {
     Assertions.assertTrue(line1.getFields().containsKey("beneficiary_number"));
     Assertions.assertTrue(line1.getFields().containsKey("beneficiary_name"));
     Assertions.assertTrue(line1.getFields().containsKey("beneficiary_rank"));
-    Assertions.assertEquals("1970-11-11", line1.getFields().get("beneficiary_birth_date").getValue());
+    Assertions
+      .assertEquals("1970-11-11", line1.getFields().get("beneficiary_birth_date").getValue());
     Assertions.assertEquals("1", line1.getFields().get("beneficiary_rank").getValue());
     Line line2 = lineItems.getRows().get(1);
-    Assertions.assertEquals("2010-07-18", line2.getFields().get("beneficiary_birth_date").getValue());
+    Assertions
+      .assertEquals("2010-07-18", line2.getFields().get("beneficiary_birth_date").getValue());
     Assertions.assertEquals("2", line2.getFields().get("beneficiary_rank").getValue());
     Line line3 = lineItems.getRows().get(2);
-    Assertions.assertEquals("2015-07-05", line3.getFields().get("beneficiary_birth_date").getValue());
+    Assertions
+      .assertEquals("2015-07-05", line3.getFields().get("beneficiary_birth_date").getValue());
     Assertions.assertEquals("3", line3.getFields().get("beneficiary_rank").getValue());
   }
 }

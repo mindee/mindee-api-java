@@ -41,17 +41,16 @@ public class InferenceFile {
   @JsonProperty("mime_type")
   private String mimeType;
 
-
   public String toString() {
 
     StringJoiner joiner = new StringJoiner("\n");
     joiner
-        .add("File")
-        .add("====")
-        .add(":Name: " + name)
-        .add(":Alias:" + (alias != null ? " " + alias : ""))
-        .add(":Page Count: " + pageCount)
-        .add(":MIME Type: " + mimeType);
+      .add("File")
+      .add("====")
+      .add(":Name: " + name)
+      .add(":Alias:" + (alias != null ? " " + alias : ""))
+      .add(":Page Count: " + pageCount)
+      .add(":MIME Type: " + mimeType);
     return joiner.toString();
   }
 }

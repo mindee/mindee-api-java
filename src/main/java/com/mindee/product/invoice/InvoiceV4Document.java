@@ -177,8 +177,7 @@ public class InvoiceV4Document extends Prediction {
 
   @Override
   public boolean isEmpty() {
-    return (
-      this.locale == null
+    return (this.locale == null
       && this.invoiceNumber == null
       && this.poNumber == null
       && (this.referenceNumbers == null || this.referenceNumbers.isEmpty())
@@ -206,133 +205,69 @@ public class InvoiceV4Document extends Prediction {
       && this.documentTypeExtended == null
       && this.subcategory == null
       && this.category == null
-      && (this.lineItems == null || this.lineItems.isEmpty())
-      );
+      && (this.lineItems == null || this.lineItems.isEmpty()));
   }
 
   @Override
   public String toString() {
     StringBuilder outStr = new StringBuilder();
-    outStr.append(
-        String.format(":Locale: %s%n", this.getLocale())
-    );
-    outStr.append(
-        String.format(":Invoice Number: %s%n", this.getInvoiceNumber())
-    );
-    outStr.append(
-        String.format(":Purchase Order Number: %s%n", this.getPoNumber())
-    );
-    String referenceNumbers = SummaryHelper.arrayToString(
-        this.getReferenceNumbers(),
-        "%n                    "
-    );
-    outStr.append(
-        String.format(":Reference Numbers: %s%n", referenceNumbers)
-    );
-    outStr.append(
-        String.format(":Purchase Date: %s%n", this.getDate())
-    );
-    outStr.append(
-        String.format(":Due Date: %s%n", this.getDueDate())
-    );
-    outStr.append(
-        String.format(":Payment Date: %s%n", this.getPaymentDate())
-    );
-    outStr.append(
-        String.format(":Total Net: %s%n", this.getTotalNet())
-    );
-    outStr.append(
-        String.format(":Total Amount: %s%n", this.getTotalAmount())
-    );
-    outStr.append(
-        String.format(":Total Tax: %s%n", this.getTotalTax())
-    );
-    outStr.append(
-        String.format(":Taxes: %s%n", this.getTaxes())
-    );
-    String supplierPaymentDetails = SummaryHelper.arrayToString(
-        this.getSupplierPaymentDetails(),
-        "%n                           "
-    );
-    outStr.append(
-        String.format(":Supplier Payment Details: %s%n", supplierPaymentDetails)
-    );
-    outStr.append(
-        String.format(":Supplier Name: %s%n", this.getSupplierName())
-    );
-    String supplierCompanyRegistrations = SummaryHelper.arrayToString(
-        this.getSupplierCompanyRegistrations(),
-        "%n                                 "
-    );
-    outStr.append(
-        String.format(":Supplier Company Registrations: %s%n", supplierCompanyRegistrations)
-    );
-    outStr.append(
-        String.format(":Supplier Address: %s%n", this.getSupplierAddress())
-    );
-    outStr.append(
-        String.format(":Supplier Phone Number: %s%n", this.getSupplierPhoneNumber())
-    );
-    outStr.append(
-        String.format(":Supplier Website: %s%n", this.getSupplierWebsite())
-    );
-    outStr.append(
-        String.format(":Supplier Email: %s%n", this.getSupplierEmail())
-    );
-    outStr.append(
-        String.format(":Customer Name: %s%n", this.getCustomerName())
-    );
-    String customerCompanyRegistrations = SummaryHelper.arrayToString(
-        this.getCustomerCompanyRegistrations(),
-        "%n                                 "
-    );
-    outStr.append(
-        String.format(":Customer Company Registrations: %s%n", customerCompanyRegistrations)
-    );
-    outStr.append(
-        String.format(":Customer Address: %s%n", this.getCustomerAddress())
-    );
-    outStr.append(
-        String.format(":Customer ID: %s%n", this.getCustomerId())
-    );
-    outStr.append(
-        String.format(":Shipping Address: %s%n", this.getShippingAddress())
-    );
-    outStr.append(
-        String.format(":Billing Address: %s%n", this.getBillingAddress())
-    );
-    outStr.append(
-        String.format(":Document Type: %s%n", this.getDocumentType())
-    );
-    outStr.append(
-        String.format(":Document Type Extended: %s%n", this.getDocumentTypeExtended())
-    );
-    outStr.append(
-        String.format(":Purchase Subcategory: %s%n", this.getSubcategory())
-    );
-    outStr.append(
-        String.format(":Purchase Category: %s%n", this.getCategory())
-    );
+    outStr.append(String.format(":Locale: %s%n", this.getLocale()));
+    outStr.append(String.format(":Invoice Number: %s%n", this.getInvoiceNumber()));
+    outStr.append(String.format(":Purchase Order Number: %s%n", this.getPoNumber()));
+    String referenceNumbers = SummaryHelper
+      .arrayToString(this.getReferenceNumbers(), "%n                    ");
+    outStr.append(String.format(":Reference Numbers: %s%n", referenceNumbers));
+    outStr.append(String.format(":Purchase Date: %s%n", this.getDate()));
+    outStr.append(String.format(":Due Date: %s%n", this.getDueDate()));
+    outStr.append(String.format(":Payment Date: %s%n", this.getPaymentDate()));
+    outStr.append(String.format(":Total Net: %s%n", this.getTotalNet()));
+    outStr.append(String.format(":Total Amount: %s%n", this.getTotalAmount()));
+    outStr.append(String.format(":Total Tax: %s%n", this.getTotalTax()));
+    outStr.append(String.format(":Taxes: %s%n", this.getTaxes()));
+    String supplierPaymentDetails = SummaryHelper
+      .arrayToString(this.getSupplierPaymentDetails(), "%n                           ");
+    outStr.append(String.format(":Supplier Payment Details: %s%n", supplierPaymentDetails));
+    outStr.append(String.format(":Supplier Name: %s%n", this.getSupplierName()));
+    String supplierCompanyRegistrations = SummaryHelper
+      .arrayToString(this.getSupplierCompanyRegistrations(), "%n                                 ");
+    outStr
+      .append(String.format(":Supplier Company Registrations: %s%n", supplierCompanyRegistrations));
+    outStr.append(String.format(":Supplier Address: %s%n", this.getSupplierAddress()));
+    outStr.append(String.format(":Supplier Phone Number: %s%n", this.getSupplierPhoneNumber()));
+    outStr.append(String.format(":Supplier Website: %s%n", this.getSupplierWebsite()));
+    outStr.append(String.format(":Supplier Email: %s%n", this.getSupplierEmail()));
+    outStr.append(String.format(":Customer Name: %s%n", this.getCustomerName()));
+    String customerCompanyRegistrations = SummaryHelper
+      .arrayToString(this.getCustomerCompanyRegistrations(), "%n                                 ");
+    outStr
+      .append(String.format(":Customer Company Registrations: %s%n", customerCompanyRegistrations));
+    outStr.append(String.format(":Customer Address: %s%n", this.getCustomerAddress()));
+    outStr.append(String.format(":Customer ID: %s%n", this.getCustomerId()));
+    outStr.append(String.format(":Shipping Address: %s%n", this.getShippingAddress()));
+    outStr.append(String.format(":Billing Address: %s%n", this.getBillingAddress()));
+    outStr.append(String.format(":Document Type: %s%n", this.getDocumentType()));
+    outStr.append(String.format(":Document Type Extended: %s%n", this.getDocumentTypeExtended()));
+    outStr.append(String.format(":Purchase Subcategory: %s%n", this.getSubcategory()));
+    outStr.append(String.format(":Purchase Category: %s%n", this.getCategory()));
     String lineItemsSummary = "";
     if (!this.getLineItems().isEmpty()) {
-      int[] lineItemsColSizes = new int[]{38, 14, 10, 12, 14, 14, 17, 12};
-      lineItemsSummary =
-        String.format("%n%s%n  ", SummaryHelper.lineSeparator(lineItemsColSizes, "-"))
-          + "| Description                          "
-          + "| Product code "
-          + "| Quantity "
-          + "| Tax Amount "
-          + "| Tax Rate (%) "
-          + "| Total Amount "
-          + "| Unit of measure "
-          + "| Unit Price "
-          + String.format("|%n%s%n  ", SummaryHelper.lineSeparator(lineItemsColSizes, "="));
+      int[] lineItemsColSizes = new int[] { 38, 14, 10, 12, 14, 14, 17, 12 };
+      lineItemsSummary = String
+        .format("%n%s%n  ", SummaryHelper.lineSeparator(lineItemsColSizes, "-"))
+        + "| Description                          "
+        + "| Product code "
+        + "| Quantity "
+        + "| Tax Amount "
+        + "| Tax Rate (%) "
+        + "| Total Amount "
+        + "| Unit of measure "
+        + "| Unit Price "
+        + String.format("|%n%s%n  ", SummaryHelper.lineSeparator(lineItemsColSizes, "="));
       lineItemsSummary += SummaryHelper.arrayToString(this.getLineItems(), lineItemsColSizes);
-      lineItemsSummary += String.format("%n%s", SummaryHelper.lineSeparator(lineItemsColSizes, "-"));
+      lineItemsSummary += String
+        .format("%n%s", SummaryHelper.lineSeparator(lineItemsColSizes, "-"));
     }
-    outStr.append(
-        String.format(":Line Items: %s%n", lineItemsSummary)
-    );
+    outStr.append(String.format(":Line Items: %s%n", lineItemsSummary));
     return SummaryHelper.cleanSummary(outStr.toString());
   }
 }

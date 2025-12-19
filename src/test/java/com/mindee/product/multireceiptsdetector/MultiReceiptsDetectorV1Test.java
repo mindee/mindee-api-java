@@ -21,20 +21,25 @@ public class MultiReceiptsDetectorV1Test {
     ObjectMapper objectMapper = new ObjectMapper();
     objectMapper.findAndRegisterModules();
 
-    JavaType type = objectMapper.getTypeFactory().constructParametricType(
-      PredictResponse.class,
-      MultiReceiptsDetectorV1.class
-    );
-    return objectMapper.readValue(
-      new File(getV1ResourcePathString("products/multi_receipts_detector/response_v1/" + name + ".json")),
-      type
-    );
+    JavaType type = objectMapper
+      .getTypeFactory()
+      .constructParametricType(PredictResponse.class, MultiReceiptsDetectorV1.class);
+    return objectMapper
+      .readValue(
+        new File(
+          getV1ResourcePathString("products/multi_receipts_detector/response_v1/" + name + ".json")
+        ),
+        type
+      );
   }
 
   @Test
   void whenEmptyDeserialized_mustHaveValidProperties() throws IOException {
     PredictResponse<MultiReceiptsDetectorV1> response = getPrediction("empty");
-    MultiReceiptsDetectorV1Document docPrediction = response.getDocument().getInference().getPrediction();
+    MultiReceiptsDetectorV1Document docPrediction = response
+      .getDocument()
+      .getInference()
+      .getPrediction();
     Assertions.assertTrue(docPrediction.getReceipts().isEmpty());
   }
 
@@ -43,8 +48,8 @@ public class MultiReceiptsDetectorV1Test {
     PredictResponse<MultiReceiptsDetectorV1> response = getPrediction("complete");
     Document<MultiReceiptsDetectorV1> doc = response.getDocument();
     assertStringEqualsFile(
-        doc.toString(),
-        getV1ResourcePathString("products/multi_receipts_detector/response_v1/summary_full.rst")
+      doc.toString(),
+      getV1ResourcePathString("products/multi_receipts_detector/response_v1/summary_full.rst")
     );
   }
 

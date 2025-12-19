@@ -22,15 +22,22 @@ class FinancialDocumentV1Test {
     ObjectMapper objectMapper = new ObjectMapper();
     objectMapper.findAndRegisterModules();
 
-    JavaType type = objectMapper.getTypeFactory().constructParametricType(PredictResponse.class,
-      FinancialDocumentV1.class);
-    PredictResponse<FinancialDocumentV1> prediction = objectMapper.readValue(
-        new File(getV1ResourcePathString("products/financial_document/response_v1/complete_invoice.json")),
-        type);
+    JavaType type = objectMapper
+      .getTypeFactory()
+      .constructParametricType(PredictResponse.class, FinancialDocumentV1.class);
+    PredictResponse<FinancialDocumentV1> prediction = objectMapper
+      .readValue(
+        new File(
+          getV1ResourcePathString("products/financial_document/response_v1/complete_invoice.json")
+        ),
+        type
+      );
 
     String[] actualLines = prediction.getDocument().toString().split(System.lineSeparator());
     List<String> expectedLines = Files
-        .readAllLines(getV1ResourcePath("products/financial_document/response_v1/summary_full_invoice.rst"));
+      .readAllLines(
+        getV1ResourcePath("products/financial_document/response_v1/summary_full_invoice.rst")
+      );
     String expectedSummary = String.join(String.format("%n"), expectedLines);
     String actualSummary = String.join(String.format("%n"), actualLines);
 
@@ -43,18 +50,28 @@ class FinancialDocumentV1Test {
     ObjectMapper objectMapper = new ObjectMapper();
     objectMapper.findAndRegisterModules();
 
-    JavaType type = objectMapper.getTypeFactory().constructParametricType(PredictResponse.class,
-      FinancialDocumentV1.class);
-    PredictResponse<FinancialDocumentV1> prediction = objectMapper.readValue(
-      new File(getV1ResourcePathString("products/financial_document/response_v1/complete_invoice.json")),
-      type);
+    JavaType type = objectMapper
+      .getTypeFactory()
+      .constructParametricType(PredictResponse.class, FinancialDocumentV1.class);
+    PredictResponse<FinancialDocumentV1> prediction = objectMapper
+      .readValue(
+        new File(
+          getV1ResourcePathString("products/financial_document/response_v1/complete_invoice.json")
+        ),
+        type
+      );
 
-    String[] actualLines = prediction.getDocument().getInference()
+    String[] actualLines = prediction
+      .getDocument()
+      .getInference()
       .getPages()
-      .get(0).toString().split(System.lineSeparator());
-    List<String> expectedLines = Files.readAllLines(
+      .get(0)
+      .toString()
+      .split(System.lineSeparator());
+    List<String> expectedLines = Files
+      .readAllLines(
         getV1ResourcePath("products/financial_document/response_v1/summary_page0_invoice.rst")
-    );
+      );
     String expectedSummary = String.join(String.format("%n"), expectedLines);
     String actualSummary = String.join(String.format("%n"), actualLines);
 
@@ -67,15 +84,22 @@ class FinancialDocumentV1Test {
     ObjectMapper objectMapper = new ObjectMapper();
     objectMapper.findAndRegisterModules();
 
-    JavaType type = objectMapper.getTypeFactory().constructParametricType(PredictResponse.class,
-      FinancialDocumentV1.class);
-    PredictResponse<FinancialDocumentV1> prediction = objectMapper.readValue(
-      new File(getV1ResourcePathString("products/financial_document/response_v1/complete_receipt.json")),
-      type);
+    JavaType type = objectMapper
+      .getTypeFactory()
+      .constructParametricType(PredictResponse.class, FinancialDocumentV1.class);
+    PredictResponse<FinancialDocumentV1> prediction = objectMapper
+      .readValue(
+        new File(
+          getV1ResourcePathString("products/financial_document/response_v1/complete_receipt.json")
+        ),
+        type
+      );
 
     String[] actualLines = prediction.getDocument().toString().split(System.lineSeparator());
     List<String> expectedLines = Files
-      .readAllLines(getV1ResourcePath("products/financial_document/response_v1/summary_full_receipt.rst"));
+      .readAllLines(
+        getV1ResourcePath("products/financial_document/response_v1/summary_full_receipt.rst")
+      );
     String expectedSummary = String.join(String.format("%n"), expectedLines);
     String actualSummary = String.join(String.format("%n"), actualLines);
 
@@ -88,32 +112,47 @@ class FinancialDocumentV1Test {
     ObjectMapper objectMapper = new ObjectMapper();
     objectMapper.findAndRegisterModules();
 
-    JavaType type = objectMapper.getTypeFactory().constructParametricType(PredictResponse.class,
-      FinancialDocumentV1.class);
-    PredictResponse<FinancialDocumentV1> prediction = objectMapper.readValue(
-      new File(getV1ResourcePathString("products/financial_document/response_v1/complete_receipt.json")),
-      type);
+    JavaType type = objectMapper
+      .getTypeFactory()
+      .constructParametricType(PredictResponse.class, FinancialDocumentV1.class);
+    PredictResponse<FinancialDocumentV1> prediction = objectMapper
+      .readValue(
+        new File(
+          getV1ResourcePathString("products/financial_document/response_v1/complete_receipt.json")
+        ),
+        type
+      );
 
-    String[] actualLines = prediction.getDocument().getInference()
+    String[] actualLines = prediction
+      .getDocument()
+      .getInference()
       .getPages()
-      .get(0).toString().split(System.lineSeparator());
+      .get(0)
+      .toString()
+      .split(System.lineSeparator());
     List<String> expectedLines = Files
-      .readAllLines(getV1ResourcePath("products/financial_document/response_v1/summary_page0_receipt.rst"));
+      .readAllLines(
+        getV1ResourcePath("products/financial_document/response_v1/summary_page0_receipt.rst")
+      );
     String expectedSummary = String.join(String.format("%n"), expectedLines);
     String actualSummary = String.join(String.format("%n"), actualLines);
 
     Assertions.assertEquals(expectedSummary, actualSummary);
   }
+
   @Test
   void givenFinancialV1_withEmptyDocument_whenDeserialized_MustHaveExpectedValues() throws IOException {
     ObjectMapper objectMapper = new ObjectMapper();
     objectMapper.findAndRegisterModules();
 
-    JavaType type = objectMapper.getTypeFactory().constructParametricType(PredictResponse.class,
-        FinancialDocumentV1.class);
-    PredictResponse<FinancialDocumentV1> response = objectMapper.readValue(
+    JavaType type = objectMapper
+      .getTypeFactory()
+      .constructParametricType(PredictResponse.class, FinancialDocumentV1.class);
+    PredictResponse<FinancialDocumentV1> response = objectMapper
+      .readValue(
         new File(getV1ResourcePathString("products/financial_document/response_v1/empty.json")),
-        type);
+        type
+      );
 
     Document<FinancialDocumentV1> doc = response.getDocument();
     FinancialDocumentV1Document prediction = doc.getInference().getPrediction();

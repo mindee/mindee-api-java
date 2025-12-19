@@ -15,8 +15,7 @@ public class PolygonUtilsTest {
     // then
     Point centroid = polygonWichIsNotRectangle.getCentroid();
 
-    Assertions.assertEquals(new Point(0.149, 0.538),
-        centroid);
+    Assertions.assertEquals(new Point(0.149, 0.538), centroid);
   }
 
   @Test
@@ -66,17 +65,25 @@ public class PolygonUtilsTest {
   @Test
   public void combinePolygonsWithTwoNotNullMustGetAValidPolygon() {
     // given
-    Polygon polygon1 = new Polygon(Arrays.asList(
-        new Point(0.081, 0.442),
-        new Point(0.15, 0.442),
-        new Point(0.15, 0.451),
-        new Point(0.081, 0.451)));
+    Polygon polygon1 = new Polygon(
+      Arrays
+        .asList(
+          new Point(0.081, 0.442),
+          new Point(0.15, 0.442),
+          new Point(0.15, 0.451),
+          new Point(0.081, 0.451)
+        )
+    );
 
-    Polygon polygon2 = new Polygon(Arrays.asList(
-        new Point(0.157, 0.442),
-        new Point(0.26, 0.442),
-        new Point(0.26, 0.451),
-        new Point(0.157, 0.451)));
+    Polygon polygon2 = new Polygon(
+      Arrays
+        .asList(
+          new Point(0.157, 0.442),
+          new Point(0.26, 0.442),
+          new Point(0.26, 0.451),
+          new Point(0.157, 0.451)
+        )
+    );
 
     // then
     Polygon mergedPolygon = PolygonUtils.combine(polygon1, polygon2);
@@ -98,11 +105,15 @@ public class PolygonUtilsTest {
   @Test
   public void combineWith1PolygonAndANullPolygonMustGetNull() {
     // given
-    Polygon polygon1 = new Polygon(Arrays.asList(
-        new Point(0.081, 0.442),
-        new Point(0.15, 0.442),
-        new Point(0.15, 0.451),
-        new Point(0.081, 0.451)));
+    Polygon polygon1 = new Polygon(
+      Arrays
+        .asList(
+          new Point(0.081, 0.442),
+          new Point(0.15, 0.442),
+          new Point(0.15, 0.451),
+          new Point(0.081, 0.451)
+        )
+    );
 
     Polygon polygon2 = null;
 

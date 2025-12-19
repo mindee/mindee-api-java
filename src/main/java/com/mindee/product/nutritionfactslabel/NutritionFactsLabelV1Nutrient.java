@@ -43,31 +43,20 @@ public class NutritionFactsLabelV1Nutrient extends BaseField implements LineItem
   String unit;
 
   public boolean isEmpty() {
-    return (
-        dailyValue == null
-        && (name == null || name.isEmpty())
-        && per100G == null
-        && perServing == null
-        && (unit == null || unit.isEmpty())
-      );
+    return (dailyValue == null
+      && (name == null || name.isEmpty())
+      && per100G == null
+      && perServing == null
+      && (unit == null || unit.isEmpty()));
   }
 
   private Map<String, String> tablePrintableValues() {
     Map<String, String> printable = new HashMap<>();
 
-    printable.put(
-        "dailyValue",
-        SummaryHelper.formatAmount(this.dailyValue)
-    );
+    printable.put("dailyValue", SummaryHelper.formatAmount(this.dailyValue));
     printable.put("name", SummaryHelper.formatForDisplay(this.name, 20));
-    printable.put(
-        "per100G",
-        SummaryHelper.formatAmount(this.per100G)
-    );
-    printable.put(
-        "perServing",
-        SummaryHelper.formatAmount(this.perServing)
-    );
+    printable.put("per100G", SummaryHelper.formatAmount(this.per100G));
+    printable.put("perServing", SummaryHelper.formatAmount(this.perServing));
     printable.put("unit", SummaryHelper.formatForDisplay(this.unit, null));
     return printable;
   }
@@ -97,19 +86,10 @@ public class NutritionFactsLabelV1Nutrient extends BaseField implements LineItem
   private Map<String, String> printableValues() {
     Map<String, String> printable = new HashMap<>();
 
-    printable.put(
-        "dailyValue",
-        SummaryHelper.formatAmount(this.dailyValue)
-    );
+    printable.put("dailyValue", SummaryHelper.formatAmount(this.dailyValue));
     printable.put("name", SummaryHelper.formatForDisplay(this.name, null));
-    printable.put(
-        "per100G",
-        SummaryHelper.formatAmount(this.per100G)
-    );
-    printable.put(
-        "perServing",
-        SummaryHelper.formatAmount(this.perServing)
-    );
+    printable.put("per100G", SummaryHelper.formatAmount(this.per100G));
+    printable.put("perServing", SummaryHelper.formatAmount(this.perServing));
     printable.put("unit", SummaryHelper.formatForDisplay(this.unit, null));
     return printable;
   }

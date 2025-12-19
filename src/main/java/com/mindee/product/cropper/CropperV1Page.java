@@ -25,21 +25,14 @@ public class CropperV1Page extends CropperV1Document {
 
   @Override
   public boolean isEmpty() {
-    return (
-      (this.cropping == null || this.cropping.isEmpty())
-      );
+    return ((this.cropping == null || this.cropping.isEmpty()));
   }
 
   @Override
   public String toString() {
     StringBuilder outStr = new StringBuilder();
-    String cropping = SummaryHelper.arrayToString(
-        this.getCropping(),
-        "%n                   "
-    );
-    outStr.append(
-        String.format(":Document Cropper: %s%n", cropping)
-    );
+    String cropping = SummaryHelper.arrayToString(this.getCropping(), "%n                   ");
+    outStr.append(String.format(":Document Cropper: %s%n", cropping));
     outStr.append(super.toString());
     return SummaryHelper.cleanSummary(outStr.toString());
   }

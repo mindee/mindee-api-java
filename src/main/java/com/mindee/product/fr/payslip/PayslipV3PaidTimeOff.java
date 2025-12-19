@@ -43,32 +43,21 @@ public class PayslipV3PaidTimeOff extends BaseField implements LineItemField {
   Double used;
 
   public boolean isEmpty() {
-    return (
-        accrued == null
-        && (period == null || period.isEmpty())
-        && (ptoType == null || ptoType.isEmpty())
-        && remaining == null
-        && used == null
-      );
+    return (accrued == null
+      && (period == null || period.isEmpty())
+      && (ptoType == null || ptoType.isEmpty())
+      && remaining == null
+      && used == null);
   }
 
   private Map<String, String> tablePrintableValues() {
     Map<String, String> printable = new HashMap<>();
 
-    printable.put(
-        "accrued",
-        SummaryHelper.formatAmount(this.accrued)
-    );
+    printable.put("accrued", SummaryHelper.formatAmount(this.accrued));
     printable.put("period", SummaryHelper.formatForDisplay(this.period, 6));
     printable.put("ptoType", SummaryHelper.formatForDisplay(this.ptoType, 11));
-    printable.put(
-        "remaining",
-        SummaryHelper.formatAmount(this.remaining)
-    );
-    printable.put(
-        "used",
-        SummaryHelper.formatAmount(this.used)
-    );
+    printable.put("remaining", SummaryHelper.formatAmount(this.remaining));
+    printable.put("used", SummaryHelper.formatAmount(this.used));
     return printable;
   }
 
@@ -97,20 +86,11 @@ public class PayslipV3PaidTimeOff extends BaseField implements LineItemField {
   private Map<String, String> printableValues() {
     Map<String, String> printable = new HashMap<>();
 
-    printable.put(
-        "accrued",
-        SummaryHelper.formatAmount(this.accrued)
-    );
+    printable.put("accrued", SummaryHelper.formatAmount(this.accrued));
     printable.put("period", SummaryHelper.formatForDisplay(this.period, null));
     printable.put("ptoType", SummaryHelper.formatForDisplay(this.ptoType, null));
-    printable.put(
-        "remaining",
-        SummaryHelper.formatAmount(this.remaining)
-    );
-    printable.put(
-        "used",
-        SummaryHelper.formatAmount(this.used)
-    );
+    printable.put("remaining", SummaryHelper.formatAmount(this.remaining));
+    printable.put("used", SummaryHelper.formatAmount(this.used));
     return printable;
   }
 }

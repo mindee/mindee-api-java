@@ -38,24 +38,20 @@ class MindeeClientV2IT {
   @DisplayName("Empty, multi-page PDF – enqueue & parse must succeed")
   void parseFile_emptyMultiPage_mustSucceed() throws IOException, InterruptedException {
     LocalInputSource source = new LocalInputSource(
-        getResourcePath("file_types/pdf/multipage_cut-2.pdf")
+      getResourcePath("file_types/pdf/multipage_cut-2.pdf")
     );
     InferenceParameters params = InferenceParameters
-        .builder(modelId)
-        .rag(false)
-        .rawText(true)
-        .polygon(null)
-        .confidence(null)
-        .alias("java-integration-test_multipage")
-        .textContext(null)
-        .pollingOptions(
-            AsyncPollingOptions.builder()
-                .initialDelaySec(3.0)
-                .intervalSec(1.5)
-                .maxRetries(80)
-                .build()
-        )
-        .build();
+      .builder(modelId)
+      .rag(false)
+      .rawText(true)
+      .polygon(null)
+      .confidence(null)
+      .alias("java-integration-test_multipage")
+      .textContext(null)
+      .pollingOptions(
+        AsyncPollingOptions.builder().initialDelaySec(3.0).intervalSec(1.5).maxRetries(80).build()
+      )
+      .build();
 
     InferenceResponse response = mindeeClient.enqueueAndGetInference(source, params);
     assertNotNull(response);
@@ -91,14 +87,15 @@ class MindeeClientV2IT {
   @DisplayName("Filled, single-page image – enqueue & parse must succeed")
   void parseFile_filledSinglePage_mustSucceed() throws IOException, InterruptedException {
     LocalInputSource source = new LocalInputSource(
-        getV2ResourcePath("products/financial_document/default_sample.jpg"));
+      getV2ResourcePath("products/financial_document/default_sample.jpg")
+    );
 
     InferenceParameters params = InferenceParameters
-        .builder(modelId)
-        .rag(false)
-        .alias("java-integration-test_single-page")
-        .textContext("this is an invoice")
-        .build();
+      .builder(modelId)
+      .rag(false)
+      .alias("java-integration-test_single-page")
+      .textContext("this is an invoice")
+      .build();
 
     InferenceResponse response = mindeeClient.enqueueAndGetInference(source, params);
     assertNotNull(response);
@@ -138,14 +135,15 @@ class MindeeClientV2IT {
   @DisplayName("Data Schema Replace – enqueue & parse must succeed")
   void parseFile_dataSchemaReplace_mustSucceed() throws IOException, InterruptedException {
     LocalInputSource source = new LocalInputSource(
-        getV2ResourcePath("products/financial_document/default_sample.jpg"));
+      getV2ResourcePath("products/financial_document/default_sample.jpg")
+    );
 
     InferenceParameters params = InferenceParameters
-        .builder(modelId)
-        .rag(false)
-        .alias("java-integration-test_data-schema-replace")
-        .dataSchema(readFileAsString(getV2ResourcePath("inference/data_schema_replace_param.json")))
-        .build();
+      .builder(modelId)
+      .rag(false)
+      .alias("java-integration-test_data-schema-replace")
+      .dataSchema(readFileAsString(getV2ResourcePath("inference/data_schema_replace_param.json")))
+      .build();
 
     InferenceResponse response = mindeeClient.enqueueAndGetInference(source, params);
     assertNotNull(response);
@@ -166,21 +164,18 @@ class MindeeClientV2IT {
     assertEquals("a test value", supplierName.getStringValue());
   }
 
-
   @Test
   @DisplayName("Invalid model ID – enqueue must raise 422")
   void invalidModel_mustThrowError() throws IOException {
-    LocalInputSource source = new LocalInputSource(
-        getResourcePath("file_types/pdf/blank_1.pdf")
-    );
+    LocalInputSource source = new LocalInputSource(getResourcePath("file_types/pdf/blank_1.pdf"));
     InferenceParameters params = InferenceParameters
-        .builder("INVALID_MODEL_ID")
-        .textContext("this is invalid")
-        .build();
+      .builder("INVALID_MODEL_ID")
+      .textContext("this is invalid")
+      .build();
 
     MindeeHttpExceptionV2 ex = assertThrows(
-        MindeeHttpExceptionV2.class,
-        () -> mindeeClient.enqueueInference(source, params)
+      MindeeHttpExceptionV2.class,
+      () -> mindeeClient.enqueueInference(source, params)
     );
     assertEquals(422, ex.getStatus());
   }
@@ -188,17 +183,15 @@ class MindeeClientV2IT {
   @Test
   @DisplayName("Invalid webhook ID – enqueue must raise 422")
   void invalidWebhook_mustThrowError() throws IOException {
-    LocalInputSource source = new LocalInputSource(
-        getResourcePath("file_types/pdf/blank_1.pdf")
-    );
+    LocalInputSource source = new LocalInputSource(getResourcePath("file_types/pdf/blank_1.pdf"));
     InferenceParameters params = InferenceParameters
-        .builder(modelId)
-        .webhookIds(new String[]{"INVALID_WEBHOOK_ID"})
-        .build();
+      .builder(modelId)
+      .webhookIds(new String[] { "INVALID_WEBHOOK_ID" })
+      .build();
 
     MindeeHttpExceptionV2 ex = assertThrows(
-        MindeeHttpExceptionV2.class,
-        () -> mindeeClient.enqueueInference(source, params)
+      MindeeHttpExceptionV2.class,
+      () -> mindeeClient.enqueueInference(source, params)
     );
     assertEquals(422, ex.getStatus());
   }
@@ -207,8 +200,8 @@ class MindeeClientV2IT {
   @DisplayName("Invalid job ID – parseQueued must raise an error")
   void invalidJob_mustThrowError() {
     MindeeHttpExceptionV2 ex = assertThrows(
-        MindeeHttpExceptionV2.class,
-        () -> mindeeClient.getInference("INVALID_JOB_ID")
+      MindeeHttpExceptionV2.class,
+      () -> mindeeClient.getInference("INVALID_JOB_ID")
     );
     assertEquals(422, ex.getStatus());
     assertNotNull(ex);
@@ -217,11 +210,11 @@ class MindeeClientV2IT {
   @Test
   @DisplayName("URL input source - A url param should not raise errors.")
   void urlInputSource_mustNotRaiseErrors() throws IOException, InterruptedException {
-    URLInputSource urlSource = URLInputSource.builder(System.getenv("MINDEE_V2_SE_TESTS_BLANK_PDF_URL")).build();
+    URLInputSource urlSource = URLInputSource
+      .builder(System.getenv("MINDEE_V2_SE_TESTS_BLANK_PDF_URL"))
+      .build();
 
-    InferenceParameters options = InferenceParameters
-        .builder(modelId)
-        .build();
+    InferenceParameters options = InferenceParameters.builder(modelId).build();
 
     InferenceResponse response = mindeeClient.enqueueAndGetInference(urlSource, options);
 

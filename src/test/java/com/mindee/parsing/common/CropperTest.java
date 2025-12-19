@@ -18,12 +18,11 @@ public class CropperTest {
     ObjectMapper objectMapper = new ObjectMapper();
     objectMapper.findAndRegisterModules();
 
-    JavaType type = objectMapper.getTypeFactory().constructParametricType(
-      PredictResponse.class,
-      ReceiptV5.class);
-    PredictResponse<ReceiptV5> prediction = objectMapper.readValue(
-        getV1ResourcePath("extras/cropper/complete.json").toFile(),
-      type);
+    JavaType type = objectMapper
+      .getTypeFactory()
+      .constructParametricType(PredictResponse.class, ReceiptV5.class);
+    PredictResponse<ReceiptV5> prediction = objectMapper
+      .readValue(getV1ResourcePath("extras/cropper/complete.json").toFile(), type);
 
     return prediction.getDocument().getInference().getPages();
   }

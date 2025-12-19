@@ -9,16 +9,15 @@ import org.junit.jupiter.api.Test;
 class BboxUtilsTest {
 
   private static final Polygon polyA = new Polygon(
-    Arrays.asList(
-      new Point(0.081, 0.442),
-      new Point(0.15, 0.442),
-      new Point(0.15, 0.451),
-      new Point(0.081, 0.451)
-    )
+    Arrays
+      .asList(
+        new Point(0.081, 0.442),
+        new Point(0.15, 0.442),
+        new Point(0.15, 0.451),
+        new Point(0.081, 0.451)
+      )
   );
-  private static final Bbox bboxA = new Bbox(
-    0.081, 0.15, 0.442, 0.451
-  );
+  private static final Bbox bboxA = new Bbox(0.081, 0.15, 0.442, 0.451);
 
   @Test
   public void withZeroPolygonMustGetNull() {
@@ -41,10 +40,7 @@ class BboxUtilsTest {
 
   @Test
   public void withOnePolygonAndANullPolygonMustGetNull() {
-    List<Polygon> polygons = Arrays.asList(
-      BboxUtilsTest.polyA,
-      null
-    );
+    List<Polygon> polygons = Arrays.asList(BboxUtilsTest.polyA, null);
     Bbox bbox = BboxUtils.generate(polygons);
 
     Assertions.assertEquals(0.442, bbox.getMinY());
@@ -55,9 +51,7 @@ class BboxUtilsTest {
 
   @Test
   public void withOnePolygonMustGetValidBbox() {
-    List<Polygon> polygons = Arrays.asList(
-      BboxUtilsTest.polyA
-    );
+    List<Polygon> polygons = Arrays.asList(BboxUtilsTest.polyA);
     Bbox bbox = BboxUtils.generate(polygons);
 
     Assertions.assertEquals(0.442, bbox.getMinY());
@@ -68,13 +62,19 @@ class BboxUtilsTest {
 
   @Test
   public void withTwoPolygonsMustGetValidBbox() {
-    List<Polygon> polygons = Arrays.asList(
-      BboxUtilsTest.polyA,
-      new Polygon(Arrays.asList(
-        new Point(0.157, 0.442),
-        new Point(0.26, 0.442),
-        new Point(0.26, 0.451),
-        new Point(0.157, 0.451))));
+    List<Polygon> polygons = Arrays
+      .asList(
+        BboxUtilsTest.polyA,
+        new Polygon(
+          Arrays
+            .asList(
+              new Point(0.157, 0.442),
+              new Point(0.26, 0.442),
+              new Point(0.26, 0.451),
+              new Point(0.157, 0.451)
+            )
+        )
+      );
 
     Bbox bbox = BboxUtils.generate(polygons);
 
@@ -86,9 +86,7 @@ class BboxUtilsTest {
 
   @Test
   public void merge2BboxMustGetValidBbox() {
-    List<Bbox> bboxs = Arrays.asList(
-      BboxUtilsTest.bboxA,
-      new Bbox(0.157, 0.26, 0.442, 0.451));
+    List<Bbox> bboxs = Arrays.asList(BboxUtilsTest.bboxA, new Bbox(0.157, 0.26, 0.442, 0.451));
 
     Bbox bbox = BboxUtils.merge(bboxs);
 

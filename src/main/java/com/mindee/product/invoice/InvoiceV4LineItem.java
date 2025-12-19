@@ -58,16 +58,14 @@ public class InvoiceV4LineItem extends BaseField implements LineItemField {
   Double unitPrice;
 
   public boolean isEmpty() {
-    return (
-        (description == null || description.isEmpty())
-        && (productCode == null || productCode.isEmpty())
-        && quantity == null
-        && taxAmount == null
-        && taxRate == null
-        && totalAmount == null
-        && (unitMeasure == null || unitMeasure.isEmpty())
-        && unitPrice == null
-      );
+    return ((description == null || description.isEmpty())
+      && (productCode == null || productCode.isEmpty())
+      && quantity == null
+      && taxAmount == null
+      && taxRate == null
+      && totalAmount == null
+      && (unitMeasure == null || unitMeasure.isEmpty())
+      && unitPrice == null);
   }
 
   private Map<String, String> tablePrintableValues() {
@@ -75,27 +73,12 @@ public class InvoiceV4LineItem extends BaseField implements LineItemField {
 
     printable.put("description", SummaryHelper.formatForDisplay(this.description, 36));
     printable.put("productCode", SummaryHelper.formatForDisplay(this.productCode, null));
-    printable.put(
-        "quantity",
-        SummaryHelper.formatAmount(this.quantity)
-    );
-    printable.put(
-        "taxAmount",
-        SummaryHelper.formatAmount(this.taxAmount)
-    );
-    printable.put(
-        "taxRate",
-        SummaryHelper.formatAmount(this.taxRate)
-    );
-    printable.put(
-        "totalAmount",
-        SummaryHelper.formatAmount(this.totalAmount)
-    );
+    printable.put("quantity", SummaryHelper.formatAmount(this.quantity));
+    printable.put("taxAmount", SummaryHelper.formatAmount(this.taxAmount));
+    printable.put("taxRate", SummaryHelper.formatAmount(this.taxRate));
+    printable.put("totalAmount", SummaryHelper.formatAmount(this.totalAmount));
     printable.put("unitMeasure", SummaryHelper.formatForDisplay(this.unitMeasure, null));
-    printable.put(
-        "unitPrice",
-        SummaryHelper.formatAmount(this.unitPrice)
-    );
+    printable.put("unitPrice", SummaryHelper.formatAmount(this.unitPrice));
     return printable;
   }
 
@@ -132,27 +115,12 @@ public class InvoiceV4LineItem extends BaseField implements LineItemField {
 
     printable.put("description", SummaryHelper.formatForDisplay(this.description, null));
     printable.put("productCode", SummaryHelper.formatForDisplay(this.productCode, null));
-    printable.put(
-        "quantity",
-        SummaryHelper.formatAmount(this.quantity)
-    );
-    printable.put(
-        "taxAmount",
-        SummaryHelper.formatAmount(this.taxAmount)
-    );
-    printable.put(
-        "taxRate",
-        SummaryHelper.formatAmount(this.taxRate)
-    );
-    printable.put(
-        "totalAmount",
-        SummaryHelper.formatAmount(this.totalAmount)
-    );
+    printable.put("quantity", SummaryHelper.formatAmount(this.quantity));
+    printable.put("taxAmount", SummaryHelper.formatAmount(this.taxAmount));
+    printable.put("taxRate", SummaryHelper.formatAmount(this.taxRate));
+    printable.put("totalAmount", SummaryHelper.formatAmount(this.totalAmount));
     printable.put("unitMeasure", SummaryHelper.formatForDisplay(this.unitMeasure, null));
-    printable.put(
-        "unitPrice",
-        SummaryHelper.formatAmount(this.unitPrice)
-    );
+    printable.put("unitPrice", SummaryHelper.formatAmount(this.unitPrice));
     return printable;
   }
 }

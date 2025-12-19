@@ -28,21 +28,14 @@ public class IdCardV2Page extends IdCardV2Document {
 
   @Override
   public boolean isEmpty() {
-    return (
-      this.documentType == null
-      && this.documentSide == null
-      );
+    return (this.documentType == null && this.documentSide == null);
   }
 
   @Override
   public String toString() {
     StringBuilder outStr = new StringBuilder();
-    outStr.append(
-        String.format(":Document Type: %s%n", this.getDocumentType())
-    );
-    outStr.append(
-        String.format(":Document Sides: %s%n", this.getDocumentSide())
-    );
+    outStr.append(String.format(":Document Type: %s%n", this.getDocumentType()));
+    outStr.append(String.format(":Document Sides: %s%n", this.getDocumentSide()));
     outStr.append(super.toString());
     return SummaryHelper.cleanSummary(outStr.toString());
   }

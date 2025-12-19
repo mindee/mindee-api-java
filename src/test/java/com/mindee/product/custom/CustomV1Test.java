@@ -22,14 +22,14 @@ class CustomV1Test {
     ObjectMapper objectMapper = new ObjectMapper();
     objectMapper.findAndRegisterModules();
 
-    JavaType type = objectMapper.getTypeFactory().constructParametricType(
-      PredictResponse.class,
-      CustomV1.class
-    );
-    return objectMapper.readValue(
-      new File(getV1ResourcePathString("products/custom/response_v1/" + name + ".json")),
-      type
-    );
+    JavaType type = objectMapper
+      .getTypeFactory()
+      .constructParametricType(PredictResponse.class, CustomV1.class);
+    return objectMapper
+      .readValue(
+        new File(getV1ResourcePathString("products/custom/response_v1/" + name + ".json")),
+        type
+      );
   }
 
   @Test

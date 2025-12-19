@@ -22,14 +22,14 @@ public class ResumeV1Test {
     ObjectMapper objectMapper = new ObjectMapper();
     objectMapper.findAndRegisterModules();
 
-    JavaType type = objectMapper.getTypeFactory().constructParametricType(
-      PredictResponse.class,
-      ResumeV1.class
-    );
-    return objectMapper.readValue(
-      new File(getV1ResourcePathString("products/resume/response_v1/" + name + ".json")),
-      type
-    );
+    JavaType type = objectMapper
+      .getTypeFactory()
+      .constructParametricType(PredictResponse.class, ResumeV1.class);
+    return objectMapper
+      .readValue(
+        new File(getV1ResourcePathString("products/resume/response_v1/" + name + ".json")),
+        type
+      );
   }
 
   @Test
@@ -60,8 +60,8 @@ public class ResumeV1Test {
     PredictResponse<ResumeV1> response = getPrediction("complete");
     Document<ResumeV1> doc = response.getDocument();
     assertStringEqualsFile(
-        doc.toString(),
-        getV1ResourcePathString("products/resume/response_v1/summary_full.rst")
+      doc.toString(),
+      getV1ResourcePathString("products/resume/response_v1/summary_full.rst")
     );
   }
 

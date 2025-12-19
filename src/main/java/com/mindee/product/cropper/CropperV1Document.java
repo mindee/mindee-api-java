@@ -13,7 +13,6 @@ import lombok.Getter;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CropperV1Document extends Prediction {
 
-
   @Override
   public boolean isEmpty() {
     return false;

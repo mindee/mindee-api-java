@@ -42,13 +42,11 @@ public class UsMailV3SenderAddress extends BaseField {
   String street;
 
   public boolean isEmpty() {
-    return (
-        (city == null || city.isEmpty())
-        && (complete == null || complete.isEmpty())
-        && (postalCode == null || postalCode.isEmpty())
-        && (state == null || state.isEmpty())
-        && (street == null || street.isEmpty())
-      );
+    return ((city == null || city.isEmpty())
+      && (complete == null || complete.isEmpty())
+      && (postalCode == null || postalCode.isEmpty())
+      && (state == null || state.isEmpty())
+      && (street == null || street.isEmpty()));
   }
 
   /**
@@ -57,10 +55,10 @@ public class UsMailV3SenderAddress extends BaseField {
   public String toFieldList() {
     Map<String, String> printable = this.printableValues();
     return String.format("  :City: %s%n", printable.get("city"))
-        + String.format("  :Complete Address: %s%n", printable.get("complete"))
-        + String.format("  :Postal Code: %s%n", printable.get("postalCode"))
-        + String.format("  :State: %s%n", printable.get("state"))
-        + String.format("  :Street: %s%n", printable.get("street"));
+      + String.format("  :Complete Address: %s%n", printable.get("complete"))
+      + String.format("  :Postal Code: %s%n", printable.get("postalCode"))
+      + String.format("  :State: %s%n", printable.get("state"))
+      + String.format("  :Street: %s%n", printable.get("street"));
   }
 
   @Override

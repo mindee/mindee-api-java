@@ -22,7 +22,6 @@ public class URLInputSourceTest {
     urlInputSource = new TestableURLInputSource(TEST_URL);
   }
 
-
   @AfterEach
   public void tearDown() {
     urlInputSource = null;
@@ -47,7 +46,8 @@ public class URLInputSourceTest {
   }
 
   @Test
-  void fetchFile_shouldHandleRedirects() throws IOException {urlInputSource.setMockResponseCode(HttpURLConnection.HTTP_MOVED_TEMP);
+  void fetchFile_shouldHandleRedirects() throws IOException {
+    urlInputSource.setMockResponseCode(HttpURLConnection.HTTP_MOVED_TEMP);
     urlInputSource.setMockRedirectUrl("https://example.com/redirectedfile.pdf");
 
     urlInputSource.setMockResponseCode(HttpURLConnection.HTTP_OK);
@@ -84,7 +84,6 @@ public class URLInputSourceTest {
     urlInputSource.cleanup();
   }
 
-
   class TestableURLInputSource extends URLInputSource {
 
     @Setter
@@ -96,7 +95,6 @@ public class URLInputSourceTest {
     public TestableURLInputSource(String url) {
       super(builder(url));
     }
-
 
     @Override
     protected HttpURLConnection createConnection(String urlString) throws IOException {

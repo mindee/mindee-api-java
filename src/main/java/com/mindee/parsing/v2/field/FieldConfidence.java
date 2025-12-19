@@ -42,7 +42,7 @@ public enum FieldConfidence {
    *
    * @param other the other FieldConfidence level to compare against
    * @return true if the current FieldConfidence level is greater than the specified level,
-   *         false otherwise
+   * false otherwise
    */
   public boolean greaterThan(FieldConfidence other) {
     return this.compareTo(other) > 0;
@@ -53,8 +53,8 @@ public enum FieldConfidence {
    * to determine if the current level is greater than or equal to the specified level.
    *
    * @param other the other FieldConfidence level to compare against
-   * @return true if the current FieldConfidence level is greater than or equal to the specified level,
-   *         false otherwise
+   * @return true if the current FieldConfidence level is greater than or equal to the specified
+   * level, false otherwise
    */
   public boolean greaterThanOrEqual(FieldConfidence other) {
     return this.compareTo(other) >= 0;
@@ -66,7 +66,7 @@ public enum FieldConfidence {
    *
    * @param other the other FieldConfidence level to compare against
    * @return true if the current FieldConfidence level is less than the specified level,
-   *         false otherwise
+   * false otherwise
    */
   public boolean lessThan(FieldConfidence other) {
     return this.compareTo(other) < 0;
@@ -78,7 +78,7 @@ public enum FieldConfidence {
    *
    * @param other the other FieldConfidence level to compare against
    * @return true if the current FieldConfidence level is less than or equal to the specified level,
-   *         false otherwise
+   * false otherwise
    */
   public boolean lessThanOrEqual(FieldConfidence other) {
     return this.compareTo(other) <= 0;

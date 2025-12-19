@@ -43,49 +43,40 @@ public class WorkflowTest {
   }
 
   @Test
-  void givenAWorkflowMockFileShouldReturnAValidWorkflowObject()
-      throws IOException {
+  void givenAWorkflowMockFileShouldReturnAValidWorkflowObject() throws IOException {
 
     WorkflowResponse workflowResponse = new WorkflowResponse();
     workflowResponse.setExecution(new Execution());
     workflowResponse.setApiRequest(null);
-    when(
-        mindeeApi.executeWorkflowPost(
-            Mockito.any(),
-            Mockito.any(),
-            Mockito.any()
-        ))
-        .thenReturn(workflowResponse);
+    when(mindeeApi.executeWorkflowPost(Mockito.any(), Mockito.any(), Mockito.any()))
+      .thenReturn(workflowResponse);
 
-    WorkflowResponse<GeneratedV1> execution = client.executeWorkflow(
-        "",
-        new LocalInputSource(getResourcePath("file_types/pdf/blank_1.pdf"))
-    );
+    WorkflowResponse<GeneratedV1> execution = client
+      .executeWorkflow("", new LocalInputSource(getResourcePath("file_types/pdf/blank_1.pdf")));
 
     Assertions.assertNotNull(execution);
-    Mockito.verify(mindeeApi, Mockito.times(1))
-        .executeWorkflowPost(Mockito.any(), Mockito.any(), Mockito.any());
+    Mockito
+      .verify(mindeeApi, Mockito.times(1))
+      .executeWorkflowPost(Mockito.any(), Mockito.any(), Mockito.any());
   }
 
   @Test
   void sendingADocumentToAnExecutionShouldDeserializeResponseCorrectly() throws IOException {
-    WorkflowResponse.Default mockResponse = objectMapper.readValue(
+    WorkflowResponse.Default mockResponse = objectMapper
+      .readValue(
         getV1ResourcePath("workflows/success.json").toFile(),
         WorkflowResponse.Default.class
-    );
+      );
 
-    when(mockedClient.executeWorkflow(Mockito.anyString(),
-        Mockito.any(LocalInputSource.class)
-    ))
-        .thenReturn(mockResponse);
+    when(mockedClient.executeWorkflow(Mockito.anyString(), Mockito.any(LocalInputSource.class)))
+      .thenReturn(mockResponse);
 
     String workflowId = "07ebf237-ff27-4eee-b6a2-425df4a5cca6";
     LocalInputSource inputSource = new LocalInputSource(
-        getV1ResourcePath("products/financial_document/default_sample.jpg")
+      getV1ResourcePath("products/financial_document/default_sample.jpg")
     );
 
-    WorkflowResponse<GeneratedV1> response =
-        mockedClient.executeWorkflow(workflowId, inputSource);
+    WorkflowResponse<GeneratedV1> response = mockedClient.executeWorkflow(workflowId, inputSource);
 
     Assertions.assertNotNull(response);
     Assertions.assertNotNull(response.getApiRequest());
@@ -93,65 +84,63 @@ public class WorkflowTest {
     Assertions.assertNull(response.getExecution().getCreatedAt());
     Assertions.assertNull(response.getExecution().getFile().getAlias());
     Assertions.assertEquals("default_sample.jpg", response.getExecution().getFile().getName());
-    Assertions.assertEquals(
-        "8c75c035-e083-4e77-ba3b-7c3598bd1d8a", response.getExecution().getId());
+    Assertions
+      .assertEquals("8c75c035-e083-4e77-ba3b-7c3598bd1d8a", response.getExecution().getId());
     Assertions.assertNull(response.getExecution().getInference());
     Assertions.assertEquals("medium", response.getExecution().getPriority());
     Assertions.assertNull(response.getExecution().getReviewedAt());
     Assertions.assertNull(response.getExecution().getReviewedPrediction());
     Assertions.assertEquals("processing", response.getExecution().getStatus());
     Assertions.assertEquals("manual", response.getExecution().getType());
-    Assertions.assertEquals(
-        "2024-11-13T13:02:31.699190", response.getExecution().getUploadedAt().toString());
-    Assertions.assertEquals(
-        workflowId, response.getExecution().getWorkflowId());
+    Assertions
+      .assertEquals(
+        "2024-11-13T13:02:31.699190",
+        response.getExecution().getUploadedAt().toString()
+      );
+    Assertions.assertEquals(workflowId, response.getExecution().getWorkflowId());
 
     Mockito.verify(mockedClient).executeWorkflow(workflowId, inputSource);
   }
 
-
   @Test
-  void sendingADocumentToAnExecutionWithPriorityAndAliasShouldDeserializeResponseCorrectly()
-      throws IOException {
-    WorkflowResponse.Default mockResponse = objectMapper.readValue(
+  void sendingADocumentToAnExecutionWithPriorityAndAliasShouldDeserializeResponseCorrectly() throws IOException {
+    WorkflowResponse.Default mockResponse = objectMapper
+      .readValue(
         getV1ResourcePath("workflows/success_low_priority.json").toFile(),
         WorkflowResponse.Default.class
-    );
+      );
 
-    when(mockedClient.executeWorkflow(Mockito.anyString(),
-        Mockito.any(LocalInputSource.class)
-    ))
-        .thenReturn(mockResponse);
+    when(mockedClient.executeWorkflow(Mockito.anyString(), Mockito.any(LocalInputSource.class)))
+      .thenReturn(mockResponse);
 
     String workflowId = "07ebf237-ff27-4eee-b6a2-425df4a5cca6";
     LocalInputSource inputSource = new LocalInputSource(
-        getV1ResourcePath("products/financial_document/default_sample.jpg")
+      getV1ResourcePath("products/financial_document/default_sample.jpg")
     );
 
-    WorkflowResponse<GeneratedV1> response =
-        mockedClient.executeWorkflow(workflowId, inputSource);
+    WorkflowResponse<GeneratedV1> response = mockedClient.executeWorkflow(workflowId, inputSource);
 
     Assertions.assertNotNull(response);
     Assertions.assertNotNull(response.getApiRequest());
     Assertions.assertNull(response.getExecution().getBatchName());
     Assertions.assertNull(response.getExecution().getCreatedAt());
-    Assertions.assertEquals(
-        "low-priority-sample-test", response.getExecution().getFile().getAlias()
-    );
+    Assertions
+      .assertEquals("low-priority-sample-test", response.getExecution().getFile().getAlias());
     Assertions.assertEquals("default_sample.jpg", response.getExecution().getFile().getName());
-    Assertions.assertEquals(
-        "b743e123-e18c-4b62-8a07-811a4f72afd3", response.getExecution().getId()
-    );
+    Assertions
+      .assertEquals("b743e123-e18c-4b62-8a07-811a4f72afd3", response.getExecution().getId());
     Assertions.assertNull(response.getExecution().getInference());
     Assertions.assertEquals("low", response.getExecution().getPriority());
     Assertions.assertNull(response.getExecution().getReviewedAt());
     Assertions.assertNull(response.getExecution().getReviewedPrediction());
     Assertions.assertEquals("processing", response.getExecution().getStatus());
     Assertions.assertEquals("manual", response.getExecution().getType());
-    Assertions.assertEquals(
-        "2024-11-13T13:17:01.315179", response.getExecution().getUploadedAt().toString());
-    Assertions.assertEquals(
-        workflowId, response.getExecution().getWorkflowId());
+    Assertions
+      .assertEquals(
+        "2024-11-13T13:17:01.315179",
+        response.getExecution().getUploadedAt().toString()
+      );
+    Assertions.assertEquals(workflowId, response.getExecution().getWorkflowId());
 
     Mockito.verify(mockedClient).executeWorkflow(workflowId, inputSource);
   }

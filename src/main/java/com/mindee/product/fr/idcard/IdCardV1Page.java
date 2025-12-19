@@ -23,17 +23,13 @@ public class IdCardV1Page extends IdCardV1Document {
 
   @Override
   public boolean isEmpty() {
-    return (
-      this.documentSide == null
-      );
+    return (this.documentSide == null);
   }
 
   @Override
   public String toString() {
     StringBuilder outStr = new StringBuilder();
-    outStr.append(
-        String.format(":Document Side: %s%n", this.getDocumentSide())
-    );
+    outStr.append(String.format(":Document Side: %s%n", this.getDocumentSide()));
     outStr.append(super.toString());
     return SummaryHelper.cleanSummary(outStr.toString());
   }

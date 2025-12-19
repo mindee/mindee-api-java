@@ -225,8 +225,7 @@ public class CarteGriseV1Document extends Prediction {
 
   @Override
   public boolean isEmpty() {
-    return (
-      this.a == null
+    return (this.a == null
       && this.b == null
       && this.c1 == null
       && this.c3 == null
@@ -266,136 +265,53 @@ public class CarteGriseV1Document extends Prediction {
       && this.ownerFirstName == null
       && this.ownerSurname == null
       && this.mrz1 == null
-      && this.mrz2 == null
-      );
+      && this.mrz2 == null);
   }
 
   @Override
   public String toString() {
     StringBuilder outStr = new StringBuilder();
-    outStr.append(
-        String.format(":a: %s%n", this.getA())
-    );
-    outStr.append(
-        String.format(":b: %s%n", this.getB())
-    );
-    outStr.append(
-        String.format(":c1: %s%n", this.getC1())
-    );
-    outStr.append(
-        String.format(":c3: %s%n", this.getC3())
-    );
-    outStr.append(
-        String.format(":c41: %s%n", this.getC41())
-    );
-    outStr.append(
-        String.format(":c4a: %s%n", this.getC4A())
-    );
-    outStr.append(
-        String.format(":d1: %s%n", this.getD1())
-    );
-    outStr.append(
-        String.format(":d3: %s%n", this.getD3())
-    );
-    outStr.append(
-        String.format(":e: %s%n", this.getE())
-    );
-    outStr.append(
-        String.format(":f1: %s%n", this.getF1())
-    );
-    outStr.append(
-        String.format(":f2: %s%n", this.getF2())
-    );
-    outStr.append(
-        String.format(":f3: %s%n", this.getF3())
-    );
-    outStr.append(
-        String.format(":g: %s%n", this.getG())
-    );
-    outStr.append(
-        String.format(":g1: %s%n", this.getG1())
-    );
-    outStr.append(
-        String.format(":i: %s%n", this.getI())
-    );
-    outStr.append(
-        String.format(":j: %s%n", this.getJ())
-    );
-    outStr.append(
-        String.format(":j1: %s%n", this.getJ1())
-    );
-    outStr.append(
-        String.format(":j2: %s%n", this.getJ2())
-    );
-    outStr.append(
-        String.format(":j3: %s%n", this.getJ3())
-    );
-    outStr.append(
-        String.format(":p1: %s%n", this.getP1())
-    );
-    outStr.append(
-        String.format(":p2: %s%n", this.getP2())
-    );
-    outStr.append(
-        String.format(":p3: %s%n", this.getP3())
-    );
-    outStr.append(
-        String.format(":p6: %s%n", this.getP6())
-    );
-    outStr.append(
-        String.format(":q: %s%n", this.getQ())
-    );
-    outStr.append(
-        String.format(":s1: %s%n", this.getS1())
-    );
-    outStr.append(
-        String.format(":s2: %s%n", this.getS2())
-    );
-    outStr.append(
-        String.format(":u1: %s%n", this.getU1())
-    );
-    outStr.append(
-        String.format(":u2: %s%n", this.getU2())
-    );
-    outStr.append(
-        String.format(":v7: %s%n", this.getV7())
-    );
-    outStr.append(
-        String.format(":x1: %s%n", this.getX1())
-    );
-    outStr.append(
-        String.format(":y1: %s%n", this.getY1())
-    );
-    outStr.append(
-        String.format(":y2: %s%n", this.getY2())
-    );
-    outStr.append(
-        String.format(":y3: %s%n", this.getY3())
-    );
-    outStr.append(
-        String.format(":y4: %s%n", this.getY4())
-    );
-    outStr.append(
-        String.format(":y5: %s%n", this.getY5())
-    );
-    outStr.append(
-        String.format(":y6: %s%n", this.getY6())
-    );
-    outStr.append(
-        String.format(":Formula Number: %s%n", this.getFormulaNumber())
-    );
-    outStr.append(
-        String.format(":Owner's First Name: %s%n", this.getOwnerFirstName())
-    );
-    outStr.append(
-        String.format(":Owner's Surname: %s%n", this.getOwnerSurname())
-    );
-    outStr.append(
-        String.format(":MRZ Line 1: %s%n", this.getMrz1())
-    );
-    outStr.append(
-        String.format(":MRZ Line 2: %s%n", this.getMrz2())
-    );
+    outStr.append(String.format(":a: %s%n", this.getA()));
+    outStr.append(String.format(":b: %s%n", this.getB()));
+    outStr.append(String.format(":c1: %s%n", this.getC1()));
+    outStr.append(String.format(":c3: %s%n", this.getC3()));
+    outStr.append(String.format(":c41: %s%n", this.getC41()));
+    outStr.append(String.format(":c4a: %s%n", this.getC4A()));
+    outStr.append(String.format(":d1: %s%n", this.getD1()));
+    outStr.append(String.format(":d3: %s%n", this.getD3()));
+    outStr.append(String.format(":e: %s%n", this.getE()));
+    outStr.append(String.format(":f1: %s%n", this.getF1()));
+    outStr.append(String.format(":f2: %s%n", this.getF2()));
+    outStr.append(String.format(":f3: %s%n", this.getF3()));
+    outStr.append(String.format(":g: %s%n", this.getG()));
+    outStr.append(String.format(":g1: %s%n", this.getG1()));
+    outStr.append(String.format(":i: %s%n", this.getI()));
+    outStr.append(String.format(":j: %s%n", this.getJ()));
+    outStr.append(String.format(":j1: %s%n", this.getJ1()));
+    outStr.append(String.format(":j2: %s%n", this.getJ2()));
+    outStr.append(String.format(":j3: %s%n", this.getJ3()));
+    outStr.append(String.format(":p1: %s%n", this.getP1()));
+    outStr.append(String.format(":p2: %s%n", this.getP2()));
+    outStr.append(String.format(":p3: %s%n", this.getP3()));
+    outStr.append(String.format(":p6: %s%n", this.getP6()));
+    outStr.append(String.format(":q: %s%n", this.getQ()));
+    outStr.append(String.format(":s1: %s%n", this.getS1()));
+    outStr.append(String.format(":s2: %s%n", this.getS2()));
+    outStr.append(String.format(":u1: %s%n", this.getU1()));
+    outStr.append(String.format(":u2: %s%n", this.getU2()));
+    outStr.append(String.format(":v7: %s%n", this.getV7()));
+    outStr.append(String.format(":x1: %s%n", this.getX1()));
+    outStr.append(String.format(":y1: %s%n", this.getY1()));
+    outStr.append(String.format(":y2: %s%n", this.getY2()));
+    outStr.append(String.format(":y3: %s%n", this.getY3()));
+    outStr.append(String.format(":y4: %s%n", this.getY4()));
+    outStr.append(String.format(":y5: %s%n", this.getY5()));
+    outStr.append(String.format(":y6: %s%n", this.getY6()));
+    outStr.append(String.format(":Formula Number: %s%n", this.getFormulaNumber()));
+    outStr.append(String.format(":Owner's First Name: %s%n", this.getOwnerFirstName()));
+    outStr.append(String.format(":Owner's Surname: %s%n", this.getOwnerSurname()));
+    outStr.append(String.format(":MRZ Line 1: %s%n", this.getMrz1()));
+    outStr.append(String.format(":MRZ Line 2: %s%n", this.getMrz2()));
     return SummaryHelper.cleanSummary(outStr.toString());
   }
 }

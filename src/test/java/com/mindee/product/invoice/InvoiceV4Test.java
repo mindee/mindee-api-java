@@ -22,14 +22,14 @@ public class InvoiceV4Test {
     ObjectMapper objectMapper = new ObjectMapper();
     objectMapper.findAndRegisterModules();
 
-    JavaType type = objectMapper.getTypeFactory().constructParametricType(
-      PredictResponse.class,
-      InvoiceV4.class
-    );
-    return objectMapper.readValue(
-      new File(getV1ResourcePathString("products/invoices/response_v4/" + name + ".json")),
-      type
-    );
+    JavaType type = objectMapper
+      .getTypeFactory()
+      .constructParametricType(PredictResponse.class, InvoiceV4.class);
+    return objectMapper
+      .readValue(
+        new File(getV1ResourcePathString("products/invoices/response_v4/" + name + ".json")),
+        type
+      );
   }
 
   @Test
@@ -72,8 +72,8 @@ public class InvoiceV4Test {
     PredictResponse<InvoiceV4> response = getPrediction("complete");
     Document<InvoiceV4> doc = response.getDocument();
     assertStringEqualsFile(
-        doc.toString(),
-        getV1ResourcePathString("products/invoices/response_v4/summary_full.rst")
+      doc.toString(),
+      getV1ResourcePathString("products/invoices/response_v4/summary_full.rst")
     );
   }
 

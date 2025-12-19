@@ -53,41 +53,24 @@ public class BankCheckV1Document extends Prediction {
 
   @Override
   public boolean isEmpty() {
-    return (
-      this.date == null
+    return (this.date == null
       && this.amount == null
       && (this.payees == null || this.payees.isEmpty())
       && this.routingNumber == null
       && this.accountNumber == null
-      && this.checkNumber == null
-      );
+      && this.checkNumber == null);
   }
 
   @Override
   public String toString() {
     StringBuilder outStr = new StringBuilder();
-    outStr.append(
-        String.format(":Check Issue Date: %s%n", this.getDate())
-    );
-    outStr.append(
-        String.format(":Amount: %s%n", this.getAmount())
-    );
-    String payees = SummaryHelper.arrayToString(
-        this.getPayees(),
-        "%n         "
-    );
-    outStr.append(
-        String.format(":Payees: %s%n", payees)
-    );
-    outStr.append(
-        String.format(":Routing Number: %s%n", this.getRoutingNumber())
-    );
-    outStr.append(
-        String.format(":Account Number: %s%n", this.getAccountNumber())
-    );
-    outStr.append(
-        String.format(":Check Number: %s%n", this.getCheckNumber())
-    );
+    outStr.append(String.format(":Check Issue Date: %s%n", this.getDate()));
+    outStr.append(String.format(":Amount: %s%n", this.getAmount()));
+    String payees = SummaryHelper.arrayToString(this.getPayees(), "%n         ");
+    outStr.append(String.format(":Payees: %s%n", payees));
+    outStr.append(String.format(":Routing Number: %s%n", this.getRoutingNumber()));
+    outStr.append(String.format(":Account Number: %s%n", this.getAccountNumber()));
+    outStr.append(String.format(":Check Number: %s%n", this.getCheckNumber()));
     return SummaryHelper.cleanSummary(outStr.toString());
   }
 }

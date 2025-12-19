@@ -72,8 +72,7 @@ public class IdCardV1Document extends Prediction {
 
   @Override
   public boolean isEmpty() {
-    return (
-      this.idNumber == null
+    return (this.idNumber == null
       && (this.givenNames == null || this.givenNames.isEmpty())
       && this.surname == null
       && this.birthDate == null
@@ -82,47 +81,23 @@ public class IdCardV1Document extends Prediction {
       && this.authority == null
       && this.gender == null
       && this.mrz1 == null
-      && this.mrz2 == null
-      );
+      && this.mrz2 == null);
   }
 
   @Override
   public String toString() {
     StringBuilder outStr = new StringBuilder();
-    outStr.append(
-        String.format(":Identity Number: %s%n", this.getIdNumber())
-    );
-    String givenNames = SummaryHelper.arrayToString(
-        this.getGivenNames(),
-        "%n                "
-    );
-    outStr.append(
-        String.format(":Given Name(s): %s%n", givenNames)
-    );
-    outStr.append(
-        String.format(":Surname: %s%n", this.getSurname())
-    );
-    outStr.append(
-        String.format(":Date of Birth: %s%n", this.getBirthDate())
-    );
-    outStr.append(
-        String.format(":Place of Birth: %s%n", this.getBirthPlace())
-    );
-    outStr.append(
-        String.format(":Expiry Date: %s%n", this.getExpiryDate())
-    );
-    outStr.append(
-        String.format(":Issuing Authority: %s%n", this.getAuthority())
-    );
-    outStr.append(
-        String.format(":Gender: %s%n", this.getGender())
-    );
-    outStr.append(
-        String.format(":MRZ Line 1: %s%n", this.getMrz1())
-    );
-    outStr.append(
-        String.format(":MRZ Line 2: %s%n", this.getMrz2())
-    );
+    outStr.append(String.format(":Identity Number: %s%n", this.getIdNumber()));
+    String givenNames = SummaryHelper.arrayToString(this.getGivenNames(), "%n                ");
+    outStr.append(String.format(":Given Name(s): %s%n", givenNames));
+    outStr.append(String.format(":Surname: %s%n", this.getSurname()));
+    outStr.append(String.format(":Date of Birth: %s%n", this.getBirthDate()));
+    outStr.append(String.format(":Place of Birth: %s%n", this.getBirthPlace()));
+    outStr.append(String.format(":Expiry Date: %s%n", this.getExpiryDate()));
+    outStr.append(String.format(":Issuing Authority: %s%n", this.getAuthority()));
+    outStr.append(String.format(":Gender: %s%n", this.getGender()));
+    outStr.append(String.format(":MRZ Line 1: %s%n", this.getMrz1()));
+    outStr.append(String.format(":MRZ Line 2: %s%n", this.getMrz2()));
     return SummaryHelper.cleanSummary(outStr.toString());
   }
 }

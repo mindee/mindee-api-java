@@ -76,8 +76,7 @@ public class BusinessCardV1Document extends Prediction {
 
   @Override
   public boolean isEmpty() {
-    return (
-      this.firstname == null
+    return (this.firstname == null
       && this.lastname == null
       && this.jobTitle == null
       && this.company == null
@@ -87,50 +86,24 @@ public class BusinessCardV1Document extends Prediction {
       && this.faxNumber == null
       && this.address == null
       && this.website == null
-      && (this.socialMedia == null || this.socialMedia.isEmpty())
-      );
+      && (this.socialMedia == null || this.socialMedia.isEmpty()));
   }
 
   @Override
   public String toString() {
     StringBuilder outStr = new StringBuilder();
-    outStr.append(
-        String.format(":Firstname: %s%n", this.getFirstname())
-    );
-    outStr.append(
-        String.format(":Lastname: %s%n", this.getLastname())
-    );
-    outStr.append(
-        String.format(":Job Title: %s%n", this.getJobTitle())
-    );
-    outStr.append(
-        String.format(":Company: %s%n", this.getCompany())
-    );
-    outStr.append(
-        String.format(":Email: %s%n", this.getEmail())
-    );
-    outStr.append(
-        String.format(":Phone Number: %s%n", this.getPhoneNumber())
-    );
-    outStr.append(
-        String.format(":Mobile Number: %s%n", this.getMobileNumber())
-    );
-    outStr.append(
-        String.format(":Fax Number: %s%n", this.getFaxNumber())
-    );
-    outStr.append(
-        String.format(":Address: %s%n", this.getAddress())
-    );
-    outStr.append(
-        String.format(":Website: %s%n", this.getWebsite())
-    );
-    String socialMedia = SummaryHelper.arrayToString(
-        this.getSocialMedia(),
-        "%n               "
-    );
-    outStr.append(
-        String.format(":Social Media: %s%n", socialMedia)
-    );
+    outStr.append(String.format(":Firstname: %s%n", this.getFirstname()));
+    outStr.append(String.format(":Lastname: %s%n", this.getLastname()));
+    outStr.append(String.format(":Job Title: %s%n", this.getJobTitle()));
+    outStr.append(String.format(":Company: %s%n", this.getCompany()));
+    outStr.append(String.format(":Email: %s%n", this.getEmail()));
+    outStr.append(String.format(":Phone Number: %s%n", this.getPhoneNumber()));
+    outStr.append(String.format(":Mobile Number: %s%n", this.getMobileNumber()));
+    outStr.append(String.format(":Fax Number: %s%n", this.getFaxNumber()));
+    outStr.append(String.format(":Address: %s%n", this.getAddress()));
+    outStr.append(String.format(":Website: %s%n", this.getWebsite()));
+    String socialMedia = SummaryHelper.arrayToString(this.getSocialMedia(), "%n               ");
+    outStr.append(String.format(":Social Media: %s%n", socialMedia));
     return SummaryHelper.cleanSummary(outStr.toString());
   }
 }

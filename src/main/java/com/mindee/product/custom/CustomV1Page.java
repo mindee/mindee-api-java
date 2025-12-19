@@ -8,7 +8,6 @@ import java.util.TreeMap;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
-
 /**
  * Page data for custom documents, API version 1.x.
  */

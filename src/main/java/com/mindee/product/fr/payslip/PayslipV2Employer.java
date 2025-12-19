@@ -52,15 +52,13 @@ public class PayslipV2Employer extends BaseField {
   String urssafNumber;
 
   public boolean isEmpty() {
-    return (
-        (address == null || address.isEmpty())
-        && (companyId == null || companyId.isEmpty())
-        && (companySite == null || companySite.isEmpty())
-        && (nafCode == null || nafCode.isEmpty())
-        && (name == null || name.isEmpty())
-        && (phoneNumber == null || phoneNumber.isEmpty())
-        && (urssafNumber == null || urssafNumber.isEmpty())
-      );
+    return ((address == null || address.isEmpty())
+      && (companyId == null || companyId.isEmpty())
+      && (companySite == null || companySite.isEmpty())
+      && (nafCode == null || nafCode.isEmpty())
+      && (name == null || name.isEmpty())
+      && (phoneNumber == null || phoneNumber.isEmpty())
+      && (urssafNumber == null || urssafNumber.isEmpty()));
   }
 
   /**
@@ -69,12 +67,12 @@ public class PayslipV2Employer extends BaseField {
   public String toFieldList() {
     Map<String, String> printable = this.printableValues();
     return String.format("  :Address: %s%n", printable.get("address"))
-        + String.format("  :Company ID: %s%n", printable.get("companyId"))
-        + String.format("  :Company Site: %s%n", printable.get("companySite"))
-        + String.format("  :NAF Code: %s%n", printable.get("nafCode"))
-        + String.format("  :Name: %s%n", printable.get("name"))
-        + String.format("  :Phone Number: %s%n", printable.get("phoneNumber"))
-        + String.format("  :URSSAF Number: %s%n", printable.get("urssafNumber"));
+      + String.format("  :Company ID: %s%n", printable.get("companyId"))
+      + String.format("  :Company Site: %s%n", printable.get("companySite"))
+      + String.format("  :NAF Code: %s%n", printable.get("nafCode"))
+      + String.format("  :Name: %s%n", printable.get("name"))
+      + String.format("  :Phone Number: %s%n", printable.get("phoneNumber"))
+      + String.format("  :URSSAF Number: %s%n", printable.get("urssafNumber"));
   }
 
   @Override

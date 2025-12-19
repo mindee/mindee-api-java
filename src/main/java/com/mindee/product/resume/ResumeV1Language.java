@@ -28,10 +28,7 @@ public class ResumeV1Language extends BaseField implements LineItemField {
   String level;
 
   public boolean isEmpty() {
-    return (
-        (language == null || language.isEmpty())
-        && (level == null || level.isEmpty())
-      );
+    return ((language == null || language.isEmpty()) && (level == null || level.isEmpty()));
   }
 
   private Map<String, String> tablePrintableValues() {

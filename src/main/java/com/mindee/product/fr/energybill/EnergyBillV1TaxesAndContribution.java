@@ -48,14 +48,12 @@ public class EnergyBillV1TaxesAndContribution extends BaseField implements LineI
   Double unitPrice;
 
   public boolean isEmpty() {
-    return (
-        (description == null || description.isEmpty())
-        && (endDate == null || endDate.isEmpty())
-        && (startDate == null || startDate.isEmpty())
-        && taxRate == null
-        && total == null
-        && unitPrice == null
-      );
+    return ((description == null || description.isEmpty())
+      && (endDate == null || endDate.isEmpty())
+      && (startDate == null || startDate.isEmpty())
+      && taxRate == null
+      && total == null
+      && unitPrice == null);
   }
 
   private Map<String, String> tablePrintableValues() {
@@ -64,18 +62,9 @@ public class EnergyBillV1TaxesAndContribution extends BaseField implements LineI
     printable.put("description", SummaryHelper.formatForDisplay(this.description, 36));
     printable.put("endDate", SummaryHelper.formatForDisplay(this.endDate, 10));
     printable.put("startDate", SummaryHelper.formatForDisplay(this.startDate, null));
-    printable.put(
-        "taxRate",
-        SummaryHelper.formatAmount(this.taxRate)
-    );
-    printable.put(
-        "total",
-        SummaryHelper.formatAmount(this.total)
-    );
-    printable.put(
-        "unitPrice",
-        SummaryHelper.formatAmount(this.unitPrice)
-    );
+    printable.put("taxRate", SummaryHelper.formatAmount(this.taxRate));
+    printable.put("total", SummaryHelper.formatAmount(this.total));
+    printable.put("unitPrice", SummaryHelper.formatAmount(this.unitPrice));
     return printable;
   }
 
@@ -109,18 +98,9 @@ public class EnergyBillV1TaxesAndContribution extends BaseField implements LineI
     printable.put("description", SummaryHelper.formatForDisplay(this.description, null));
     printable.put("endDate", SummaryHelper.formatForDisplay(this.endDate, null));
     printable.put("startDate", SummaryHelper.formatForDisplay(this.startDate, null));
-    printable.put(
-        "taxRate",
-        SummaryHelper.formatAmount(this.taxRate)
-    );
-    printable.put(
-        "total",
-        SummaryHelper.formatAmount(this.total)
-    );
-    printable.put(
-        "unitPrice",
-        SummaryHelper.formatAmount(this.unitPrice)
-    );
+    printable.put("taxRate", SummaryHelper.formatAmount(this.taxRate));
+    printable.put("total", SummaryHelper.formatAmount(this.total));
+    printable.put("unitPrice", SummaryHelper.formatAmount(this.unitPrice));
     return printable;
   }
 }

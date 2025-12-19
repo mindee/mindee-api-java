@@ -26,21 +26,14 @@ public class MultiReceiptsDetectorV1Document extends Prediction {
 
   @Override
   public boolean isEmpty() {
-    return (
-      (this.receipts == null || this.receipts.isEmpty())
-      );
+    return ((this.receipts == null || this.receipts.isEmpty()));
   }
 
   @Override
   public String toString() {
     StringBuilder outStr = new StringBuilder();
-    String receipts = SummaryHelper.arrayToString(
-        this.getReceipts(),
-        "%n                   "
-    );
-    outStr.append(
-        String.format(":List of Receipts: %s%n", receipts)
-    );
+    String receipts = SummaryHelper.arrayToString(this.getReceipts(), "%n                   ");
+    outStr.append(String.format(":List of Receipts: %s%n", receipts));
     return SummaryHelper.cleanSummary(outStr.toString());
   }
 }

@@ -58,16 +58,14 @@ public class UsMailV3RecipientAddress extends BaseField implements LineItemField
   String unit;
 
   public boolean isEmpty() {
-    return (
-        (city == null || city.isEmpty())
-        && (complete == null || complete.isEmpty())
-        && isAddressChange == null
-        && (postalCode == null || postalCode.isEmpty())
-        && (privateMailboxNumber == null || privateMailboxNumber.isEmpty())
-        && (state == null || state.isEmpty())
-        && (street == null || street.isEmpty())
-        && (unit == null || unit.isEmpty())
-      );
+    return ((city == null || city.isEmpty())
+      && (complete == null || complete.isEmpty())
+      && isAddressChange == null
+      && (postalCode == null || postalCode.isEmpty())
+      && (privateMailboxNumber == null || privateMailboxNumber.isEmpty())
+      && (state == null || state.isEmpty())
+      && (street == null || street.isEmpty())
+      && (unit == null || unit.isEmpty()));
   }
 
   private Map<String, String> tablePrintableValues() {
@@ -77,7 +75,8 @@ public class UsMailV3RecipientAddress extends BaseField implements LineItemField
     printable.put("complete", SummaryHelper.formatForDisplay(this.complete, 35));
     printable.put("isAddressChange", SummaryHelper.formatForDisplay(this.isAddressChange, null));
     printable.put("postalCode", SummaryHelper.formatForDisplay(this.postalCode, null));
-    printable.put("privateMailboxNumber", SummaryHelper.formatForDisplay(this.privateMailboxNumber, null));
+    printable
+      .put("privateMailboxNumber", SummaryHelper.formatForDisplay(this.privateMailboxNumber, null));
     printable.put("state", SummaryHelper.formatForDisplay(this.state, null));
     printable.put("street", SummaryHelper.formatForDisplay(this.street, 25));
     printable.put("unit", SummaryHelper.formatForDisplay(this.unit, 15));
@@ -119,7 +118,8 @@ public class UsMailV3RecipientAddress extends BaseField implements LineItemField
     printable.put("complete", SummaryHelper.formatForDisplay(this.complete, null));
     printable.put("isAddressChange", SummaryHelper.formatForDisplay(this.isAddressChange, null));
     printable.put("postalCode", SummaryHelper.formatForDisplay(this.postalCode, null));
-    printable.put("privateMailboxNumber", SummaryHelper.formatForDisplay(this.privateMailboxNumber, null));
+    printable
+      .put("privateMailboxNumber", SummaryHelper.formatForDisplay(this.privateMailboxNumber, null));
     printable.put("state", SummaryHelper.formatForDisplay(this.state, null));
     printable.put("street", SummaryHelper.formatForDisplay(this.street, null));
     printable.put("unit", SummaryHelper.formatForDisplay(this.unit, null));

@@ -9,7 +9,7 @@ import lombok.EqualsAndHashCode;
  * Represent a `predict` response from Mindee API.
  *
  * @param <T> Set the prediction model used to parse the document. The response object will be
- *            instantiated based on this parameter.
+ * instantiated based on this parameter.
  */
 @Data
 @EqualsAndHashCode(callSuper = true)

@@ -77,8 +77,7 @@ public class BillOfLadingV1Document extends Prediction {
 
   @Override
   public boolean isEmpty() {
-    return (
-      this.billOfLadingNumber == null
+    return (this.billOfLadingNumber == null
       && this.shipper == null
       && this.consignee == null
       && this.notifyParty == null
@@ -88,61 +87,40 @@ public class BillOfLadingV1Document extends Prediction {
       && this.portOfDischarge == null
       && this.placeOfDelivery == null
       && this.dateOfIssue == null
-      && this.departureDate == null
-      );
+      && this.departureDate == null);
   }
 
   @Override
   public String toString() {
     StringBuilder outStr = new StringBuilder();
-    outStr.append(
-        String.format(":Bill of Lading Number: %s%n", this.getBillOfLadingNumber())
-    );
-    outStr.append(
-        String.format(":Shipper:%n%s", this.getShipper().toFieldList())
-    );
-    outStr.append(
-        String.format(":Consignee:%n%s", this.getConsignee().toFieldList())
-    );
-    outStr.append(
-        String.format(":Notify Party:%n%s", this.getNotifyParty().toFieldList())
-    );
-    outStr.append(
-        String.format(":Carrier:%n%s", this.getCarrier().toFieldList())
-    );
+    outStr.append(String.format(":Bill of Lading Number: %s%n", this.getBillOfLadingNumber()));
+    outStr.append(String.format(":Shipper:%n%s", this.getShipper().toFieldList()));
+    outStr.append(String.format(":Consignee:%n%s", this.getConsignee().toFieldList()));
+    outStr.append(String.format(":Notify Party:%n%s", this.getNotifyParty().toFieldList()));
+    outStr.append(String.format(":Carrier:%n%s", this.getCarrier().toFieldList()));
     String carrierItemsSummary = "";
     if (!this.getCarrierItems().isEmpty()) {
-      int[] carrierItemsColSizes = new int[]{38, 14, 13, 18, 10, 13};
-      carrierItemsSummary =
-        String.format("%n%s%n  ", SummaryHelper.lineSeparator(carrierItemsColSizes, "-"))
-          + "| Description                          "
-          + "| Gross Weight "
-          + "| Measurement "
-          + "| Measurement Unit "
-          + "| Quantity "
-          + "| Weight Unit "
-          + String.format("|%n%s%n  ", SummaryHelper.lineSeparator(carrierItemsColSizes, "="));
-      carrierItemsSummary += SummaryHelper.arrayToString(this.getCarrierItems(), carrierItemsColSizes);
-      carrierItemsSummary += String.format("%n%s", SummaryHelper.lineSeparator(carrierItemsColSizes, "-"));
+      int[] carrierItemsColSizes = new int[] { 38, 14, 13, 18, 10, 13 };
+      carrierItemsSummary = String
+        .format("%n%s%n  ", SummaryHelper.lineSeparator(carrierItemsColSizes, "-"))
+        + "| Description                          "
+        + "| Gross Weight "
+        + "| Measurement "
+        + "| Measurement Unit "
+        + "| Quantity "
+        + "| Weight Unit "
+        + String.format("|%n%s%n  ", SummaryHelper.lineSeparator(carrierItemsColSizes, "="));
+      carrierItemsSummary += SummaryHelper
+        .arrayToString(this.getCarrierItems(), carrierItemsColSizes);
+      carrierItemsSummary += String
+        .format("%n%s", SummaryHelper.lineSeparator(carrierItemsColSizes, "-"));
     }
-    outStr.append(
-        String.format(":Items: %s%n", carrierItemsSummary)
-    );
-    outStr.append(
-        String.format(":Port of Loading: %s%n", this.getPortOfLoading())
-    );
-    outStr.append(
-        String.format(":Port of Discharge: %s%n", this.getPortOfDischarge())
-    );
-    outStr.append(
-        String.format(":Place of Delivery: %s%n", this.getPlaceOfDelivery())
-    );
-    outStr.append(
-        String.format(":Date of issue: %s%n", this.getDateOfIssue())
-    );
-    outStr.append(
-        String.format(":Departure Date: %s%n", this.getDepartureDate())
-    );
+    outStr.append(String.format(":Items: %s%n", carrierItemsSummary));
+    outStr.append(String.format(":Port of Loading: %s%n", this.getPortOfLoading()));
+    outStr.append(String.format(":Port of Discharge: %s%n", this.getPortOfDischarge()));
+    outStr.append(String.format(":Place of Delivery: %s%n", this.getPlaceOfDelivery()));
+    outStr.append(String.format(":Date of issue: %s%n", this.getDateOfIssue()));
+    outStr.append(String.format(":Departure Date: %s%n", this.getDepartureDate()));
     return SummaryHelper.cleanSummary(outStr.toString());
   }
 }

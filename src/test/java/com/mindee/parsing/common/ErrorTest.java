@@ -15,15 +15,15 @@ public class ErrorTest {
     ObjectMapper objectMapper = new ObjectMapper();
     objectMapper.findAndRegisterModules();
 
-    Error error = objectMapper.readValue(
+    Error error = objectMapper
+      .readValue(
         getV1ResourcePath("errors/with_object_response_in_detail.json").toFile(),
-      Error.class);
+        Error.class
+      );
 
     Assertions.assertNotNull(error);
     Assertions.assertNotNull(error.getDetails());
-    Assertions.assertEquals(
-      "{\"document\":[\"error message\"]}",
-      error.getDetails().toString());
+    Assertions.assertEquals("{\"document\":[\"error message\"]}", error.getDetails().toString());
   }
 
   @Test
@@ -32,9 +32,11 @@ public class ErrorTest {
     ObjectMapper objectMapper = new ObjectMapper();
     objectMapper.findAndRegisterModules();
 
-    Error error = objectMapper.readValue(
+    Error error = objectMapper
+      .readValue(
         getV1ResourcePath("errors/with_string_response_in_detail.json").toFile(),
-      Error.class);
+        Error.class
+      );
 
     Assertions.assertNotNull(error);
     Assertions.assertNotNull(error.getDetails());

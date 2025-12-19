@@ -42,8 +42,7 @@ public class Document<DocT extends Inference> {
 
   @Override
   public String toString() {
-    return
-      String.format("########%n")
+    return String.format("########%n")
       + String.format("Document%n")
       + String.format("########%n")
       + String.format(":Mindee ID: %s%n", id)

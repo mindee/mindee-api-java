@@ -31,25 +31,17 @@ public class BankCheckV1Page extends BankCheckV1Document {
 
   @Override
   public boolean isEmpty() {
-    return (
-      this.checkPosition == null
-      && (this.signaturesPositions == null || this.signaturesPositions.isEmpty())
-      );
+    return (this.checkPosition == null
+      && (this.signaturesPositions == null || this.signaturesPositions.isEmpty()));
   }
 
   @Override
   public String toString() {
     StringBuilder outStr = new StringBuilder();
-    outStr.append(
-        String.format(":Check Position: %s%n", this.getCheckPosition())
-    );
-    String signaturesPositions = SummaryHelper.arrayToString(
-        this.getSignaturesPositions(),
-        "%n                      "
-    );
-    outStr.append(
-        String.format(":Signature Positions: %s%n", signaturesPositions)
-    );
+    outStr.append(String.format(":Check Position: %s%n", this.getCheckPosition()));
+    String signaturesPositions = SummaryHelper
+      .arrayToString(this.getSignaturesPositions(), "%n                      ");
+    outStr.append(String.format(":Signature Positions: %s%n", signaturesPositions));
     outStr.append(super.toString());
     return SummaryHelper.cleanSummary(outStr.toString());
   }

@@ -64,14 +64,17 @@ public class InputSourceUtils {
     } else {
       throw new MindeeException("File name must include a valid extension.");
     }
-    return new String[] {name, extension};
+    return new String[] { name, extension };
   }
 
   /**
    * Returns true if the file is a PDF.
    */
   public static boolean isPdf(byte[] fileBytes) {
-    try (PDDocument document = Loader.loadPDF(new RandomAccessReadBuffer(new ByteArrayInputStream(fileBytes)))) {
+    try (
+        PDDocument document = Loader
+          .loadPDF(new RandomAccessReadBuffer(new ByteArrayInputStream(fileBytes)))
+    ) {
       return true;
     } catch (IOException e) {
       return false;
@@ -96,7 +99,8 @@ public class InputSourceUtils {
    */
   public static boolean hasSourceText(byte[] fileBytes) {
     try {
-      PDDocument document = Loader.loadPDF(new RandomAccessReadBuffer(new ByteArrayInputStream(fileBytes)));
+      PDDocument document = Loader
+        .loadPDF(new RandomAccessReadBuffer(new ByteArrayInputStream(fileBytes)));
       PDFTextStripper stripper = new PDFTextStripper();
 
       for (int i = 0; i < document.getNumberOfPages(); i++) {

@@ -25,20 +25,15 @@ public final class CompanyRegistrationField extends BaseField implements LineIte
   private final String type;
 
   public CompanyRegistrationField(
-      @JsonProperty("type")
-      String type,
-      @JsonProperty("value")
-      String value
+      @JsonProperty("type") String type,
+      @JsonProperty("value") String value
   ) {
     this.type = type;
     this.value = value;
   }
 
   public boolean isEmpty() {
-    return (
-        (value == null || value.isEmpty())
-        && (type == null || type.isEmpty())
-      );
+    return ((value == null || value.isEmpty()) && (type == null || type.isEmpty()));
   }
 
   /**
