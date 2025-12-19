@@ -20,4 +20,4 @@ jobs:
           cache: "maven"
 
       - name: Check Code Style
-        run: mvn --update-snapshots --no-transfer-progress spotless:check
+        run: mvn --update-snapshots --no-transfer-progress spotless:check pmd:check

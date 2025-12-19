@@ -83,4 +83,9 @@ public class Polygon {
     }
     return true;
   }
+
+  @Override
+  public int hashCode() {
+    return coordinates.hashCode();
+  }
 }
