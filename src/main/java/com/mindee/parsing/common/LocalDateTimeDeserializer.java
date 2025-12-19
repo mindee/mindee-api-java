@@ -12,27 +12,33 @@ import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.TemporalAccessor;
 
 /**
- * Deserializer for LocalDateTime
+ * Deserializer for LocalDateTime.
  */
 public class LocalDateTimeDeserializer extends JsonDeserializer<LocalDateTime> {
+
+  /**
+   * Deserialize a LocalDateTime from a JSON string.
+   */
   @Override
   public LocalDateTime deserialize(
       JsonParser jsonParser,
-      DeserializationContext deserializationContext) throws IOException {
+      DeserializationContext deserializationContext
+  ) throws IOException {
     DateTimeFormatter formatter = new DateTimeFormatterBuilder()
-        .parseCaseInsensitive()
-        .append(DateTimeFormatter.ISO_LOCAL_DATE)
-        .appendLiteral('T')
-        .append(DateTimeFormatter.ISO_LOCAL_TIME)
-        .optionalStart()
-        .appendOffsetId()
-        .toFormatter();
+      .parseCaseInsensitive()
+      .append(DateTimeFormatter.ISO_LOCAL_DATE)
+      .appendLiteral('T')
+      .append(DateTimeFormatter.ISO_LOCAL_TIME)
+      .optionalStart()
+      .appendOffsetId()
+      .toFormatter();
     String dateString = jsonParser.getValueAsString();
-    TemporalAccessor temporalAccessor = formatter.parseBest(dateString, ZonedDateTime::from,
-        LocalDateTime::from);
+    TemporalAccessor temporalAccessor = formatter
+      .parseBest(dateString, ZonedDateTime::from, LocalDateTime::from);
     if (temporalAccessor instanceof ZonedDateTime) {
-      return ((ZonedDateTime) temporalAccessor).withZoneSameInstant(ZoneOffset.UTC)
-          .toLocalDateTime();
+      return ((ZonedDateTime) temporalAccessor)
+        .withZoneSameInstant(ZoneOffset.UTC)
+        .toLocalDateTime();
     } else {
       return ((LocalDateTime) temporalAccessor);
     }

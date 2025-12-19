@@ -26,6 +26,9 @@ public class URLInputSource {
   private String localFilename;
   private final String token;
 
+  /**
+   * Private constructor.
+   */
   URLInputSource(Builder builder) {
     this.url = builder.url;
     this.username = builder.username;
@@ -35,6 +38,8 @@ public class URLInputSource {
   }
 
   /**
+   * Creates a new builder for an URLInputSource.
+   *
    * @param url URL to fetch the file from.
    * @return An instance of {@link URLInputSource}.
    */
@@ -72,8 +77,9 @@ public class URLInputSource {
     connection.setInstanceFollowRedirects(true);
 
     if (username != null && password != null) {
-      String encodedCredentials =
-          Base64.getEncoder().encodeToString((username + ":" + password).getBytes());
+      String encodedCredentials = Base64
+        .getEncoder()
+        .encodeToString((username + ":" + password).getBytes());
       connection.setRequestProperty("Authorization", "Basic " + encodedCredentials);
     }
     if (token != null) {
@@ -85,7 +91,8 @@ public class URLInputSource {
 
   private HttpURLConnection handleRedirects(HttpURLConnection connection) throws IOException {
     int status = connection.getResponseCode();
-    if (status == HttpURLConnection.HTTP_MOVED_TEMP
+    if (
+      status == HttpURLConnection.HTTP_MOVED_TEMP
         || status == HttpURLConnection.HTTP_MOVED_PERM
         || status == HttpURLConnection.HTTP_SEE_OTHER
         || status == 307
@@ -95,7 +102,7 @@ public class URLInputSource {
       connection.disconnect();
 
       HttpURLConnection newConnection = createConnection(newUrl);
-      return handleRedirects(newConnection);  // Recursive call to handle multiple redirects
+      return handleRedirects(newConnection); // Recursive call to handle multiple redirects
     }
     return connection;
   }
@@ -106,8 +113,10 @@ public class URLInputSource {
     Path tempFile = Files.createTempFile(prefix, ".tmp");
     localFilename = tempFile.toString();
 
-    try (InputStream inputStream = in;
-         OutputStream outputStream = Files.newOutputStream(tempFile)) {
+    try (
+        InputStream inputStream = in;
+        OutputStream outputStream = Files.newOutputStream(tempFile)
+    ) {
       byte[] buffer = new byte[4096];
       int bytesRead;
       while ((bytesRead = inputStream.read(buffer)) != -1) {
@@ -115,7 +124,6 @@ public class URLInputSource {
       }
     }
   }
-
 
   private void saveFile(InputStream in, String filepath) throws IOException {
     File outputFile = new File(filepath);
@@ -142,7 +150,7 @@ public class URLInputSource {
 
   private String generateDefaultFilename() {
     return "mindee_temp_"
-        + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"));
+      + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"));
   }
 
   /**
@@ -188,6 +196,8 @@ public class URLInputSource {
     private String token;
 
     /**
+     * Default constructor.
+     *
      * @param url Remote URL resource.
      */
     public Builder(String url) {
@@ -195,6 +205,8 @@ public class URLInputSource {
     }
 
     /**
+     * Builder method to set the token for remote access.
+     *
      * @param token Token for remote access requiring an authentication Token.
      * @return An instance of the builder.
      */
@@ -204,6 +216,8 @@ public class URLInputSource {
     }
 
     /**
+     * Builder method to set the username and password for remote authentication.
+     *
      * @param username Username for remote authentication.
      * @param password Password for remote authentication.
      * @return An instance of the builder.
@@ -215,6 +229,8 @@ public class URLInputSource {
     }
 
     /**
+     * Builder method to set the local filename for the downloaded file.
+     *
      * @param filename Filename to give to the file.
      * @return An instance of the builder.
      */
@@ -223,8 +239,9 @@ public class URLInputSource {
       return this;
     }
 
-
     /**
+     * Build the {@link URLInputSource} object.
+     *
      * @return A valid {@link URLInputSource} object.
      */
     public URLInputSource build() {

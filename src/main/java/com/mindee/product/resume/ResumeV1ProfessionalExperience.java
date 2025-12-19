@@ -63,17 +63,15 @@ public class ResumeV1ProfessionalExperience extends BaseField implements LineIte
   String startYear;
 
   public boolean isEmpty() {
-    return (
-        (contractType == null || contractType.isEmpty())
-        && (department == null || department.isEmpty())
-        && (description == null || description.isEmpty())
-        && (employer == null || employer.isEmpty())
-        && (endMonth == null || endMonth.isEmpty())
-        && (endYear == null || endYear.isEmpty())
-        && (role == null || role.isEmpty())
-        && (startMonth == null || startMonth.isEmpty())
-        && (startYear == null || startYear.isEmpty())
-      );
+    return ((contractType == null || contractType.isEmpty())
+      && (department == null || department.isEmpty())
+      && (description == null || description.isEmpty())
+      && (employer == null || employer.isEmpty())
+      && (endMonth == null || endMonth.isEmpty())
+      && (endYear == null || endYear.isEmpty())
+      && (role == null || role.isEmpty())
+      && (startMonth == null || startMonth.isEmpty())
+      && (startYear == null || startYear.isEmpty()));
   }
 
   private Map<String, String> tablePrintableValues() {

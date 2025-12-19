@@ -11,6 +11,5 @@ import lombok.Getter;
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
 @EndpointInfo(endpointName = "us_mail", version = "3")
-public class UsMailV3
-    extends Inference<UsMailV3Document, UsMailV3Document> {
+public class UsMailV3 extends Inference<UsMailV3Document, UsMailV3Document> {
 }

@@ -19,7 +19,9 @@ public class MvisionV1 {
 
   @Override
   public String toString() {
-    return this.getPages().stream()
+    return this
+      .getPages()
+      .stream()
       .map(OcrPage::toString)
       .collect(Collectors.joining(String.format("%n")));
   }

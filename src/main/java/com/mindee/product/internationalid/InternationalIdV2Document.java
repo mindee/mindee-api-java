@@ -108,8 +108,7 @@ public class InternationalIdV2Document extends Prediction {
 
   @Override
   public boolean isEmpty() {
-    return (
-      this.documentType == null
+    return (this.documentType == null
       && this.documentNumber == null
       && (this.surnames == null || this.surnames.isEmpty())
       && (this.givenNames == null || this.givenNames.isEmpty())
@@ -125,72 +124,31 @@ public class InternationalIdV2Document extends Prediction {
       && this.address == null
       && this.mrzLine1 == null
       && this.mrzLine2 == null
-      && this.mrzLine3 == null
-      );
+      && this.mrzLine3 == null);
   }
 
   @Override
   public String toString() {
     StringBuilder outStr = new StringBuilder();
-    outStr.append(
-        String.format(":Document Type: %s%n", this.getDocumentType())
-    );
-    outStr.append(
-        String.format(":Document Number: %s%n", this.getDocumentNumber())
-    );
-    String surnames = SummaryHelper.arrayToString(
-        this.getSurnames(),
-        "%n           "
-    );
-    outStr.append(
-        String.format(":Surnames: %s%n", surnames)
-    );
-    String givenNames = SummaryHelper.arrayToString(
-        this.getGivenNames(),
-        "%n              "
-    );
-    outStr.append(
-        String.format(":Given Names: %s%n", givenNames)
-    );
-    outStr.append(
-        String.format(":Sex: %s%n", this.getSex())
-    );
-    outStr.append(
-        String.format(":Birth Date: %s%n", this.getBirthDate())
-    );
-    outStr.append(
-        String.format(":Birth Place: %s%n", this.getBirthPlace())
-    );
-    outStr.append(
-        String.format(":Nationality: %s%n", this.getNationality())
-    );
-    outStr.append(
-        String.format(":Personal Number: %s%n", this.getPersonalNumber())
-    );
-    outStr.append(
-        String.format(":Country of Issue: %s%n", this.getCountryOfIssue())
-    );
-    outStr.append(
-        String.format(":State of Issue: %s%n", this.getStateOfIssue())
-    );
-    outStr.append(
-        String.format(":Issue Date: %s%n", this.getIssueDate())
-    );
-    outStr.append(
-        String.format(":Expiration Date: %s%n", this.getExpiryDate())
-    );
-    outStr.append(
-        String.format(":Address: %s%n", this.getAddress())
-    );
-    outStr.append(
-        String.format(":MRZ Line 1: %s%n", this.getMrzLine1())
-    );
-    outStr.append(
-        String.format(":MRZ Line 2: %s%n", this.getMrzLine2())
-    );
-    outStr.append(
-        String.format(":MRZ Line 3: %s%n", this.getMrzLine3())
-    );
+    outStr.append(String.format(":Document Type: %s%n", this.getDocumentType()));
+    outStr.append(String.format(":Document Number: %s%n", this.getDocumentNumber()));
+    String surnames = SummaryHelper.arrayToString(this.getSurnames(), "%n           ");
+    outStr.append(String.format(":Surnames: %s%n", surnames));
+    String givenNames = SummaryHelper.arrayToString(this.getGivenNames(), "%n              ");
+    outStr.append(String.format(":Given Names: %s%n", givenNames));
+    outStr.append(String.format(":Sex: %s%n", this.getSex()));
+    outStr.append(String.format(":Birth Date: %s%n", this.getBirthDate()));
+    outStr.append(String.format(":Birth Place: %s%n", this.getBirthPlace()));
+    outStr.append(String.format(":Nationality: %s%n", this.getNationality()));
+    outStr.append(String.format(":Personal Number: %s%n", this.getPersonalNumber()));
+    outStr.append(String.format(":Country of Issue: %s%n", this.getCountryOfIssue()));
+    outStr.append(String.format(":State of Issue: %s%n", this.getStateOfIssue()));
+    outStr.append(String.format(":Issue Date: %s%n", this.getIssueDate()));
+    outStr.append(String.format(":Expiration Date: %s%n", this.getExpiryDate()));
+    outStr.append(String.format(":Address: %s%n", this.getAddress()));
+    outStr.append(String.format(":MRZ Line 1: %s%n", this.getMrzLine1()));
+    outStr.append(String.format(":MRZ Line 2: %s%n", this.getMrzLine2()));
+    outStr.append(String.format(":MRZ Line 3: %s%n", this.getMrzLine3()));
     return SummaryHelper.cleanSummary(outStr.toString());
   }
 }

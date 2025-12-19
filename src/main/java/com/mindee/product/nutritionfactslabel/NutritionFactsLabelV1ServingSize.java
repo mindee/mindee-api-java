@@ -27,10 +27,7 @@ public class NutritionFactsLabelV1ServingSize extends BaseField {
   String unit;
 
   public boolean isEmpty() {
-    return (
-        amount == null
-        && (unit == null || unit.isEmpty())
-      );
+    return (amount == null && (unit == null || unit.isEmpty()));
   }
 
   /**
@@ -39,7 +36,7 @@ public class NutritionFactsLabelV1ServingSize extends BaseField {
   public String toFieldList() {
     Map<String, String> printable = this.printableValues();
     return String.format("  :Amount: %s%n", printable.get("amount"))
-        + String.format("  :Unit: %s%n", printable.get("unit"));
+      + String.format("  :Unit: %s%n", printable.get("unit"));
   }
 
   @Override
@@ -52,10 +49,7 @@ public class NutritionFactsLabelV1ServingSize extends BaseField {
   private Map<String, String> printableValues() {
     Map<String, String> printable = new HashMap<>();
 
-    printable.put(
-        "amount",
-        SummaryHelper.formatAmount(this.amount)
-    );
+    printable.put("amount", SummaryHelper.formatAmount(this.amount));
     printable.put("unit", SummaryHelper.formatForDisplay(this.unit, null));
     return printable;
   }

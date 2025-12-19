@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
-
 /**
  * Information from Mindee about the api request.
  */
@@ -43,12 +42,11 @@ public class ApiRequest {
   private String url;
 
   public String toString() {
-    return
-      String.format("###########%n")
-        + String.format("API Request%n")
-        + String.format("###########%n")
-        + String.format(":Status: %s%n", this.status)
-        + String.format(":Status Code: %s%n", this.statusCode)
-        + String.format(":Error: %s%n", this.error);
+    return String.format("###########%n")
+      + String.format("API Request%n")
+      + String.format("###########%n")
+      + String.format(":Status: %s%n", this.status)
+      + String.format(":Status Code: %s%n", this.statusCode)
+      + String.format(":Error: %s%n", this.error);
   }
 }

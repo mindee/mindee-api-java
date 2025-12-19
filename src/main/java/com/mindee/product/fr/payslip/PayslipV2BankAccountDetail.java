@@ -32,11 +32,9 @@ public class PayslipV2BankAccountDetail extends BaseField {
   String swift;
 
   public boolean isEmpty() {
-    return (
-        (bankName == null || bankName.isEmpty())
-        && (iban == null || iban.isEmpty())
-        && (swift == null || swift.isEmpty())
-      );
+    return ((bankName == null || bankName.isEmpty())
+      && (iban == null || iban.isEmpty())
+      && (swift == null || swift.isEmpty()));
   }
 
   /**
@@ -45,8 +43,8 @@ public class PayslipV2BankAccountDetail extends BaseField {
   public String toFieldList() {
     Map<String, String> printable = this.printableValues();
     return String.format("  :Bank Name: %s%n", printable.get("bankName"))
-        + String.format("  :IBAN: %s%n", printable.get("iban"))
-        + String.format("  :SWIFT: %s%n", printable.get("swift"));
+      + String.format("  :IBAN: %s%n", printable.get("iban"))
+      + String.format("  :SWIFT: %s%n", printable.get("swift"));
   }
 
   @Override

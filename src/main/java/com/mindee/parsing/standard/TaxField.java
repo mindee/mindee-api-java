@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.Map;
 import lombok.Getter;
 
-
 /**
  * Represent a tax line.
  */
@@ -36,14 +35,10 @@ public class TaxField extends BaseField implements LineItemField {
   private final Double base;
 
   public TaxField(
-      @JsonProperty("value")
-      Double value,
-      @JsonProperty("code")
-      String code,
-      @JsonProperty("rate")
-      Double rate,
-      @JsonProperty("base")
-      Double base
+      @JsonProperty("value") Double value,
+      @JsonProperty("code") String code,
+      @JsonProperty("rate") Double rate,
+      @JsonProperty("base") Double base
   ) {
     this.value = value;
     this.code = code;
@@ -52,12 +47,7 @@ public class TaxField extends BaseField implements LineItemField {
   }
 
   public boolean isEmpty() {
-    return (
-        value == null
-        && (code == null || code.isEmpty())
-        && rate == null
-        && base == null
-      );
+    return (value == null && (code == null || code.isEmpty()) && rate == null && base == null);
   }
 
   /**

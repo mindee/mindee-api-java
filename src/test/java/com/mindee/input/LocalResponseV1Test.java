@@ -1,14 +1,13 @@
 package com.mindee.input;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import static com.mindee.TestingUtilities.getV1ResourcePath;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-
-import static com.mindee.TestingUtilities.getV1ResourcePath;
-
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class LocalResponseV1Test {
   /**
@@ -30,9 +29,10 @@ public class LocalResponseV1Test {
   void loadDocument_withFile_mustReturnValidLocalResponse() throws IOException {
     LocalResponse localResponse = new LocalResponse(new File(this.filePath.toString()));
     Assertions.assertNotNull(localResponse.getFile());
-    Assertions.assertFalse(localResponse.isValidHmacSignature(
-        this.secretKey, "invalid signature is invalid")
-    );
+    Assertions
+      .assertFalse(
+        localResponse.isValidHmacSignature(this.secretKey, "invalid signature is invalid")
+      );
     Assertions.assertEquals(this.signature, localResponse.getHmacSignature(this.secretKey));
     Assertions.assertTrue(localResponse.isValidHmacSignature(this.secretKey, this.signature));
   }
@@ -41,20 +41,20 @@ public class LocalResponseV1Test {
   void loadDocument_withString_mustReturnValidLocalResponse() {
     LocalResponse localResponse = new LocalResponse("{'some': 'json', 'with': 'data'}");
     Assertions.assertNotNull(localResponse.getFile());
-    Assertions.assertFalse(localResponse.isValidHmacSignature(
-        this.secretKey, "invalid signature is invalid")
-    );
+    Assertions
+      .assertFalse(
+        localResponse.isValidHmacSignature(this.secretKey, "invalid signature is invalid")
+      );
   }
 
   @Test
   void loadDocument_withInputStream_mustReturnValidLocalResponse() throws IOException {
-    LocalResponse localResponse = new LocalResponse(
-        Files.newInputStream(this.filePath)
-    );
+    LocalResponse localResponse = new LocalResponse(Files.newInputStream(this.filePath));
     Assertions.assertNotNull(localResponse.getFile());
-    Assertions.assertFalse(localResponse.isValidHmacSignature(
-        this.secretKey, "invalid signature is invalid")
-    );
+    Assertions
+      .assertFalse(
+        localResponse.isValidHmacSignature(this.secretKey, "invalid signature is invalid")
+      );
     Assertions.assertEquals(this.signature, localResponse.getHmacSignature(this.secretKey));
     Assertions.assertTrue(localResponse.isValidHmacSignature(this.secretKey, this.signature));
   }

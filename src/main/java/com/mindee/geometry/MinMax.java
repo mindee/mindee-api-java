@@ -1,4 +1,5 @@
 package com.mindee.geometry;
+
 import lombok.Getter;
 
 /** Minimum and maximum values. */

@@ -58,41 +58,27 @@ public class EnergyBillV1EnergyUsage extends BaseField implements LineItemField 
   Double unitPrice;
 
   public boolean isEmpty() {
-    return (
-        consumption == null
-        && (description == null || description.isEmpty())
-        && (endDate == null || endDate.isEmpty())
-        && (startDate == null || startDate.isEmpty())
-        && taxRate == null
-        && total == null
-        && (unit == null || unit.isEmpty())
-        && unitPrice == null
-      );
+    return (consumption == null
+      && (description == null || description.isEmpty())
+      && (endDate == null || endDate.isEmpty())
+      && (startDate == null || startDate.isEmpty())
+      && taxRate == null
+      && total == null
+      && (unit == null || unit.isEmpty())
+      && unitPrice == null);
   }
 
   private Map<String, String> tablePrintableValues() {
     Map<String, String> printable = new HashMap<>();
 
-    printable.put(
-        "consumption",
-        SummaryHelper.formatAmount(this.consumption)
-    );
+    printable.put("consumption", SummaryHelper.formatAmount(this.consumption));
     printable.put("description", SummaryHelper.formatForDisplay(this.description, 36));
     printable.put("endDate", SummaryHelper.formatForDisplay(this.endDate, 10));
     printable.put("startDate", SummaryHelper.formatForDisplay(this.startDate, null));
-    printable.put(
-        "taxRate",
-        SummaryHelper.formatAmount(this.taxRate)
-    );
-    printable.put(
-        "total",
-        SummaryHelper.formatAmount(this.total)
-    );
+    printable.put("taxRate", SummaryHelper.formatAmount(this.taxRate));
+    printable.put("total", SummaryHelper.formatAmount(this.total));
     printable.put("unit", SummaryHelper.formatForDisplay(this.unit, null));
-    printable.put(
-        "unitPrice",
-        SummaryHelper.formatAmount(this.unitPrice)
-    );
+    printable.put("unitPrice", SummaryHelper.formatAmount(this.unitPrice));
     return printable;
   }
 
@@ -127,26 +113,14 @@ public class EnergyBillV1EnergyUsage extends BaseField implements LineItemField 
   private Map<String, String> printableValues() {
     Map<String, String> printable = new HashMap<>();
 
-    printable.put(
-        "consumption",
-        SummaryHelper.formatAmount(this.consumption)
-    );
+    printable.put("consumption", SummaryHelper.formatAmount(this.consumption));
     printable.put("description", SummaryHelper.formatForDisplay(this.description, null));
     printable.put("endDate", SummaryHelper.formatForDisplay(this.endDate, null));
     printable.put("startDate", SummaryHelper.formatForDisplay(this.startDate, null));
-    printable.put(
-        "taxRate",
-        SummaryHelper.formatAmount(this.taxRate)
-    );
-    printable.put(
-        "total",
-        SummaryHelper.formatAmount(this.total)
-    );
+    printable.put("taxRate", SummaryHelper.formatAmount(this.taxRate));
+    printable.put("total", SummaryHelper.formatAmount(this.total));
     printable.put("unit", SummaryHelper.formatForDisplay(this.unit, null));
-    printable.put(
-        "unitPrice",
-        SummaryHelper.formatAmount(this.unitPrice)
-    );
+    printable.put("unitPrice", SummaryHelper.formatAmount(this.unitPrice));
     return printable;
   }
 }

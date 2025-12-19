@@ -8,13 +8,13 @@ import com.mindee.geometry.Point;
 import com.mindee.geometry.Polygon;
 import com.mindee.input.LocalResponse;
 import com.mindee.parsing.v2.field.DynamicField;
+import com.mindee.parsing.v2.field.DynamicField.FieldType;
 import com.mindee.parsing.v2.field.FieldConfidence;
 import com.mindee.parsing.v2.field.FieldLocation;
 import com.mindee.parsing.v2.field.InferenceFields;
-import com.mindee.parsing.v2.field.SimpleField;
 import com.mindee.parsing.v2.field.ListField;
 import com.mindee.parsing.v2.field.ObjectField;
-import com.mindee.parsing.v2.field.DynamicField.FieldType;
+import com.mindee.parsing.v2.field.SimpleField;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -31,7 +31,6 @@ class InferenceTest {
     LocalResponse localResponse = new LocalResponse(getV2ResourcePath(filePath));
     return localResponse.deserializeResponse(InferenceResponse.class);
   }
-
 
   @Nested
   @DisplayName("Inference on blank file")
@@ -95,7 +94,11 @@ class InferenceTest {
       InferenceResponse response = loadInference("products/financial_document/complete.json");
       Inference inference = response.getInference();
       assertNotNull(inference, "Inference must not be null");
-      assertEquals("12345678-1234-1234-1234-123456789abc", inference.getId(), "Inference ID mismatch");
+      assertEquals(
+        "12345678-1234-1234-1234-123456789abc",
+        inference.getId(),
+        "Inference ID mismatch"
+      );
 
       InferenceModel model = inference.getModel();
       assertNotNull(model, "Model must not be null");
@@ -180,8 +183,10 @@ class InferenceTest {
       assertNotNull(items.get(0).getObjectField());
 
       ObjectField firstItem = items.get(0).getObjectField();
-      SimpleField deepSimple = firstItem.getFields()
-          .get("sub_object_object_sub_object_list_simple").getSimpleField();
+      SimpleField deepSimple = firstItem
+        .getFields()
+        .get("sub_object_object_sub_object_list_simple")
+        .getSimpleField();
       assertEquals("value_9", deepSimple.getValue());
     }
   }
@@ -307,8 +312,8 @@ class InferenceTest {
       assertEquals(2, dynamicItems.size());
       ObjectField firstDynamicItem = dynamicItems.get(0).getObjectField();
       assertEquals(
-          FieldConfidence.Low,
-          firstDynamicItem.getFields().get("subfield_1").getSimpleField().getConfidence()
+        FieldConfidence.Low,
+        firstDynamicItem.getFields().get("subfield_1").getSimpleField().getConfidence()
       );
       for (DynamicField item : dynamicItems) {
         ObjectField itemField = item.getObjectField();
@@ -321,8 +326,8 @@ class InferenceTest {
       assertEquals(2, objectItems.size());
       ObjectField firstObjectItem = objectItems.get(0);
       assertEquals(
-          FieldConfidence.Low,
-          firstObjectItem.getSimpleFields().get("subfield_1").getConfidence()
+        FieldConfidence.Low,
+        firstObjectItem.getSimpleFields().get("subfield_1").getConfidence()
       );
       for (ObjectField itemField : objectItems) {
         assertNotNull(itemField);
@@ -332,9 +337,9 @@ class InferenceTest {
         SimpleField itemSubfield1 = itemSubFields.getSimpleField("subfield_1");
         assertInstanceOf(String.class, itemSubfield1.getValue());
         for (Map.Entry<String, SimpleField> entry : itemFields.entrySet()) {
-            String fieldName = entry.getKey();
-            SimpleField subfield = entry.getValue();
-            testObjectSubFieldSimpleString(fieldName, subfield);
+          String fieldName = entry.getKey();
+          SimpleField subfield = entry.getValue();
+          testObjectSubFieldSimpleString(fieldName, subfield);
         }
       }
 
@@ -385,30 +390,30 @@ class InferenceTest {
     InferenceFields fields = inference.getResult().getFields();
 
     assertEquals(
-        fields.get("field_simple_bool").getSimpleField(),
-        fields.get("field_simple_bool").getField(SimpleField.class)
+      fields.get("field_simple_bool").getSimpleField(),
+      fields.get("field_simple_bool").getField(SimpleField.class)
     );
     assertEquals(
-        fields.get("field_simple_bool").getSimpleField(),
-        fields.getSimpleField("field_simple_bool")
-    );
-
-    assertEquals(
-        fields.get("field_simple_list").getListField(),
-        fields.get("field_simple_list").getField(ListField.class)
-    );
-    assertEquals(
-        fields.get("field_simple_list").getListField(),
-        fields.getListField("field_simple_list")
+      fields.get("field_simple_bool").getSimpleField(),
+      fields.getSimpleField("field_simple_bool")
     );
 
     assertEquals(
-        fields.get("field_object").getObjectField(),
-        fields.get("field_object").getField(ObjectField.class)
+      fields.get("field_simple_list").getListField(),
+      fields.get("field_simple_list").getField(ListField.class)
     );
     assertEquals(
-        fields.get("field_object").getObjectField(),
-        fields.getObjectField("field_object")
+      fields.get("field_simple_list").getListField(),
+      fields.getListField("field_simple_list")
+    );
+
+    assertEquals(
+      fields.get("field_object").getObjectField(),
+      fields.get("field_object").getField(ObjectField.class)
+    );
+    assertEquals(
+      fields.get("field_object").getObjectField(),
+      fields.getObjectField("field_object")
     );
   }
 
@@ -549,10 +554,7 @@ class InferenceTest {
       Inference inference = resp.getInference();
       assertNotNull(inference);
       InferenceFields fields = inference.getResult().getFields();
-      assertEquals(
-          "a test value",
-          fields.get("test_replace").getSimpleField().getStringValue()
-      );
+      assertEquals("a test value", fields.get("test_replace").getSimpleField().getStringValue());
 
       assertTrue(inference.getActiveOptions().getDataSchema().getReplace());
     }

@@ -32,14 +32,10 @@ public class PaymentDetailsField extends BaseField {
   private final String swift;
 
   public PaymentDetailsField(
-      @JsonProperty("account_number")
-      String accountNumber,
-      @JsonProperty("iban")
-      String iban,
-      @JsonProperty("routing_number")
-      String routingNumber,
-      @JsonProperty("swift")
-      String swift
+      @JsonProperty("account_number") String accountNumber,
+      @JsonProperty("iban") String iban,
+      @JsonProperty("routing_number") String routingNumber,
+      @JsonProperty("swift") String swift
   ) {
     this.accountNumber = accountNumber;
     this.iban = iban;
@@ -48,12 +44,10 @@ public class PaymentDetailsField extends BaseField {
   }
 
   public boolean isEmpty() {
-    return (
-        (accountNumber == null || accountNumber.isEmpty())
-        && (iban == null || iban.isEmpty())
-        && (routingNumber == null || routingNumber.isEmpty())
-        && (swift == null || swift.isEmpty())
-      );
+    return ((accountNumber == null || accountNumber.isEmpty())
+      && (iban == null || iban.isEmpty())
+      && (routingNumber == null || routingNumber.isEmpty())
+      && (swift == null || swift.isEmpty()));
   }
 
   @Override

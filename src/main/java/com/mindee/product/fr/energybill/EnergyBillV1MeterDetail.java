@@ -32,11 +32,9 @@ public class EnergyBillV1MeterDetail extends BaseField {
   String unit;
 
   public boolean isEmpty() {
-    return (
-        (meterNumber == null || meterNumber.isEmpty())
-        && (meterType == null || meterType.isEmpty())
-        && (unit == null || unit.isEmpty())
-      );
+    return ((meterNumber == null || meterNumber.isEmpty())
+      && (meterType == null || meterType.isEmpty())
+      && (unit == null || unit.isEmpty()));
   }
 
   /**
@@ -45,8 +43,8 @@ public class EnergyBillV1MeterDetail extends BaseField {
   public String toFieldList() {
     Map<String, String> printable = this.printableValues();
     return String.format("  :Meter Number: %s%n", printable.get("meterNumber"))
-        + String.format("  :Meter Type: %s%n", printable.get("meterType"))
-        + String.format("  :Unit of Power: %s%n", printable.get("unit"));
+      + String.format("  :Meter Type: %s%n", printable.get("meterType"))
+      + String.format("  :Unit of Power: %s%n", printable.get("unit"));
   }
 
   @Override

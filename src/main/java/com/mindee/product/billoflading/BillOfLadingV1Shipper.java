@@ -21,7 +21,7 @@ public class BillOfLadingV1Shipper extends BaseField {
   @JsonProperty("address")
   String address;
   /**
-   * The  email of the shipper.
+   * The email of the shipper.
    */
   @JsonProperty("email")
   String email;
@@ -37,12 +37,10 @@ public class BillOfLadingV1Shipper extends BaseField {
   String phone;
 
   public boolean isEmpty() {
-    return (
-        (address == null || address.isEmpty())
-        && (email == null || email.isEmpty())
-        && (name == null || name.isEmpty())
-        && (phone == null || phone.isEmpty())
-      );
+    return ((address == null || address.isEmpty())
+      && (email == null || email.isEmpty())
+      && (name == null || name.isEmpty())
+      && (phone == null || phone.isEmpty()));
   }
 
   /**
@@ -51,9 +49,9 @@ public class BillOfLadingV1Shipper extends BaseField {
   public String toFieldList() {
     Map<String, String> printable = this.printableValues();
     return String.format("  :Address: %s%n", printable.get("address"))
-        + String.format("  :Email: %s%n", printable.get("email"))
-        + String.format("  :Name: %s%n", printable.get("name"))
-        + String.format("  :Phone: %s%n", printable.get("phone"));
+      + String.format("  :Email: %s%n", printable.get("email"))
+      + String.format("  :Name: %s%n", printable.get("name"))
+      + String.format("  :Phone: %s%n", printable.get("phone"));
   }
 
   @Override

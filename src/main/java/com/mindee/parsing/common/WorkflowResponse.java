@@ -23,5 +23,6 @@ public class WorkflowResponse<DocT extends Inference> extends ApiResponse {
   /**
    * Default product is GeneratedV1.
    */
-  public static class Default extends WorkflowResponse<GeneratedV1> {}
+  public static class Default extends WorkflowResponse<GeneratedV1> {
+  }
 }

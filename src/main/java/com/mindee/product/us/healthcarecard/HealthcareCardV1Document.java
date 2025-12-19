@@ -92,8 +92,7 @@ public class HealthcareCardV1Document extends Prediction {
 
   @Override
   public boolean isEmpty() {
-    return (
-      this.companyName == null
+    return (this.companyName == null
       && this.planName == null
       && this.memberName == null
       && this.memberId == null
@@ -106,70 +105,37 @@ public class HealthcareCardV1Document extends Prediction {
       && this.rxGrp == null
       && this.rxPcn == null
       && (this.copays == null || this.copays.isEmpty())
-      && this.enrollmentDate == null
-      );
+      && this.enrollmentDate == null);
   }
 
   @Override
   public String toString() {
     StringBuilder outStr = new StringBuilder();
-    outStr.append(
-        String.format(":Company Name: %s%n", this.getCompanyName())
-    );
-    outStr.append(
-        String.format(":Plan Name: %s%n", this.getPlanName())
-    );
-    outStr.append(
-        String.format(":Member Name: %s%n", this.getMemberName())
-    );
-    outStr.append(
-        String.format(":Member ID: %s%n", this.getMemberId())
-    );
-    outStr.append(
-        String.format(":Issuer 80840: %s%n", this.getIssuer80840())
-    );
-    String dependents = SummaryHelper.arrayToString(
-        this.getDependents(),
-        "%n             "
-    );
-    outStr.append(
-        String.format(":Dependents: %s%n", dependents)
-    );
-    outStr.append(
-        String.format(":Group Number: %s%n", this.getGroupNumber())
-    );
-    outStr.append(
-        String.format(":Payer ID: %s%n", this.getPayerId())
-    );
-    outStr.append(
-        String.format(":RX BIN: %s%n", this.getRxBin())
-    );
-    outStr.append(
-        String.format(":RX ID: %s%n", this.getRxId())
-    );
-    outStr.append(
-        String.format(":RX GRP: %s%n", this.getRxGrp())
-    );
-    outStr.append(
-        String.format(":RX PCN: %s%n", this.getRxPcn())
-    );
+    outStr.append(String.format(":Company Name: %s%n", this.getCompanyName()));
+    outStr.append(String.format(":Plan Name: %s%n", this.getPlanName()));
+    outStr.append(String.format(":Member Name: %s%n", this.getMemberName()));
+    outStr.append(String.format(":Member ID: %s%n", this.getMemberId()));
+    outStr.append(String.format(":Issuer 80840: %s%n", this.getIssuer80840()));
+    String dependents = SummaryHelper.arrayToString(this.getDependents(), "%n             ");
+    outStr.append(String.format(":Dependents: %s%n", dependents));
+    outStr.append(String.format(":Group Number: %s%n", this.getGroupNumber()));
+    outStr.append(String.format(":Payer ID: %s%n", this.getPayerId()));
+    outStr.append(String.format(":RX BIN: %s%n", this.getRxBin()));
+    outStr.append(String.format(":RX ID: %s%n", this.getRxId()));
+    outStr.append(String.format(":RX GRP: %s%n", this.getRxGrp()));
+    outStr.append(String.format(":RX PCN: %s%n", this.getRxPcn()));
     String copaysSummary = "";
     if (!this.getCopays().isEmpty()) {
-      int[] copaysColSizes = new int[]{14, 22};
-      copaysSummary =
-        String.format("%n%s%n  ", SummaryHelper.lineSeparator(copaysColSizes, "-"))
-          + "| Service Fees "
-          + "| Service Name         "
-          + String.format("|%n%s%n  ", SummaryHelper.lineSeparator(copaysColSizes, "="));
+      int[] copaysColSizes = new int[] { 14, 22 };
+      copaysSummary = String.format("%n%s%n  ", SummaryHelper.lineSeparator(copaysColSizes, "-"))
+        + "| Service Fees "
+        + "| Service Name         "
+        + String.format("|%n%s%n  ", SummaryHelper.lineSeparator(copaysColSizes, "="));
       copaysSummary += SummaryHelper.arrayToString(this.getCopays(), copaysColSizes);
       copaysSummary += String.format("%n%s", SummaryHelper.lineSeparator(copaysColSizes, "-"));
     }
-    outStr.append(
-        String.format(":Copays: %s%n", copaysSummary)
-    );
-    outStr.append(
-        String.format(":Enrollment Date: %s%n", this.getEnrollmentDate())
-    );
+    outStr.append(String.format(":Copays: %s%n", copaysSummary));
+    outStr.append(String.format(":Enrollment Date: %s%n", this.getEnrollmentDate()));
     return SummaryHelper.cleanSummary(outStr.toString());
   }
 }

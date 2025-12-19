@@ -25,6 +25,7 @@ public class ImageExtractor {
 
   /**
    * Init from a path.
+   * 
    * @param filePath Path to the file.
    * @throws IOException Throws if the file can't be accessed.
    */
@@ -34,6 +35,7 @@ public class ImageExtractor {
 
   /**
    * Init from a {@link LocalInputSource}.
+   * 
    * @param source The local source.
    * @throws IOException Throws if the file can't be accessed.
    */
@@ -57,6 +59,8 @@ public class ImageExtractor {
   }
 
   /**
+   * Get the number of pages in the file.
+   *
    * @return The number of pages in the file.
    */
   public int getPageCount() {
@@ -65,6 +69,7 @@ public class ImageExtractor {
 
   /**
    * Extract multiple images on a given page from a list of fields having position data.
+   * 
    * @param <FieldT> Type of field (needs to support positioning data).
    * @param fields List of Fields to extract.
    * @param pageIndex The page index to extract, begins at 0.
@@ -79,6 +84,7 @@ public class ImageExtractor {
 
   /**
    * Extract multiple images on a given page from a list of fields having position data.
+   * 
    * @param <FieldT> Type of field (needs to support positioning data).
    * @param fields List of Fields to extract.
    * @param pageIndex The page index to extract, begins at 0.
@@ -106,12 +112,13 @@ public class ImageExtractor {
       String outputName
   ) {
     String[] splitName = InputSourceUtils.splitNameStrict(outputName);
-    String filename = String.format("%s_page-%3s.%s", splitName[0], pageIndex + 1, splitName[1])
-        .replace(" ", "0");
+    String filename = String
+      .format("%s_page-%3s.%s", splitName[0], pageIndex + 1, splitName[1])
+      .replace(" ", "0");
 
     List<ExtractedImage> extractedImages = new ArrayList<>();
     for (int i = 0; i < fields.size(); i++) {
-      ExtractedImage extractedImage = extractImage(fields.get(i), pageIndex, i+1, filename);
+      ExtractedImage extractedImage = extractImage(fields.get(i), pageIndex, i + 1, filename);
       if (extractedImage != null) {
         extractedImages.add(extractedImage);
       }
@@ -121,12 +128,14 @@ public class ImageExtractor {
 
   /**
    * Extract a single image from a field having position data.
+   * 
    * @param <FieldT> Type of field (needs to support positioning data).
    * @param field The field to extract.
    * @param index The index to use for naming the extracted image.
    * @param filename Name of the file.
    * @param pageIndex The page index to extract, begins at 0.
-   * @return The {@link ExtractedImage}, or <code>null</code> if the field does not have valid position data.
+   * @return The {@link ExtractedImage}, or <code>null</code> if the field does not have valid
+   * position data.
    */
   public <FieldT extends PositionData> ExtractedImage extractImage(
       FieldT field,
@@ -142,21 +151,27 @@ public class ImageExtractor {
     }
     Bbox bbox = BboxUtils.generate(boundingBox);
     String fieldFilename = splitName[0]
-        + String.format("_%3s", index).replace(" ", "0")
-        + "."
-        + saveFormat;
+      + String.format("_%3s", index).replace(" ", "0")
+      + "."
+      + saveFormat;
     return new ExtractedImage(extractImage(bbox, pageIndex), fieldFilename, saveFormat);
   }
 
   /**
    * Extract a single image from a field having position data.
+   * 
    * @param <FieldT> Type of field (needs to support positioning data).
    * @param field The field to extract.
    * @param index The index to use for naming the extracted image.
    * @param pageIndex The page index to extract, begins at 0.
-   * @return The {@link ExtractedImage}, or <code>null</code> if the field does not have valid position data.
+   * @return The {@link ExtractedImage}, or <code>null</code> if the field does not have valid
+   * position data.
    */
-  public <FieldT extends PositionData> ExtractedImage extractImage(FieldT field, int pageIndex, int index) {
+  public <FieldT extends PositionData> ExtractedImage extractImage(
+      FieldT field,
+      int pageIndex,
+      int index
+  ) {
     return extractImage(field, pageIndex, index, this.filename);
   }
 

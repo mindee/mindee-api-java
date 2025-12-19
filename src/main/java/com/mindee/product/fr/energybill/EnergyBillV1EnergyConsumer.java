@@ -27,10 +27,7 @@ public class EnergyBillV1EnergyConsumer extends BaseField {
   String name;
 
   public boolean isEmpty() {
-    return (
-        (address == null || address.isEmpty())
-        && (name == null || name.isEmpty())
-      );
+    return ((address == null || address.isEmpty()) && (name == null || name.isEmpty()));
   }
 
   /**
@@ -39,7 +36,7 @@ public class EnergyBillV1EnergyConsumer extends BaseField {
   public String toFieldList() {
     Map<String, String> printable = this.printableValues();
     return String.format("  :Address: %s%n", printable.get("address"))
-        + String.format("  :Name: %s%n", printable.get("name"));
+      + String.format("  :Name: %s%n", printable.get("name"));
   }
 
   @Override

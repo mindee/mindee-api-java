@@ -47,54 +47,42 @@ public class UsMailV3Document extends Prediction {
 
   @Override
   public boolean isEmpty() {
-    return (
-      this.senderName == null
+    return (this.senderName == null
       && this.senderAddress == null
       && (this.recipientNames == null || this.recipientNames.isEmpty())
       && (this.recipientAddresses == null || this.recipientAddresses.isEmpty())
-      && this.isReturnToSender == null
-      );
+      && this.isReturnToSender == null);
   }
 
   @Override
   public String toString() {
     StringBuilder outStr = new StringBuilder();
-    outStr.append(
-        String.format(":Sender Name: %s%n", this.getSenderName())
-    );
-    outStr.append(
-        String.format(":Sender Address:%n%s", this.getSenderAddress().toFieldList())
-    );
-    String recipientNames = SummaryHelper.arrayToString(
-        this.getRecipientNames(),
-        "%n                  "
-    );
-    outStr.append(
-        String.format(":Recipient Names: %s%n", recipientNames)
-    );
+    outStr.append(String.format(":Sender Name: %s%n", this.getSenderName()));
+    outStr.append(String.format(":Sender Address:%n%s", this.getSenderAddress().toFieldList()));
+    String recipientNames = SummaryHelper
+      .arrayToString(this.getRecipientNames(), "%n                  ");
+    outStr.append(String.format(":Recipient Names: %s%n", recipientNames));
     String recipientAddressesSummary = "";
     if (!this.getRecipientAddresses().isEmpty()) {
-      int[] recipientAddressesColSizes = new int[]{17, 37, 19, 13, 24, 7, 27, 17};
-      recipientAddressesSummary =
-        String.format("%n%s%n  ", SummaryHelper.lineSeparator(recipientAddressesColSizes, "-"))
-          + "| City            "
-          + "| Complete Address                    "
-          + "| Is Address Change "
-          + "| Postal Code "
-          + "| Private Mailbox Number "
-          + "| State "
-          + "| Street                    "
-          + "| Unit            "
-          + String.format("|%n%s%n  ", SummaryHelper.lineSeparator(recipientAddressesColSizes, "="));
-      recipientAddressesSummary += SummaryHelper.arrayToString(this.getRecipientAddresses(), recipientAddressesColSizes);
-      recipientAddressesSummary += String.format("%n%s", SummaryHelper.lineSeparator(recipientAddressesColSizes, "-"));
+      int[] recipientAddressesColSizes = new int[] { 17, 37, 19, 13, 24, 7, 27, 17 };
+      recipientAddressesSummary = String
+        .format("%n%s%n  ", SummaryHelper.lineSeparator(recipientAddressesColSizes, "-"))
+        + "| City            "
+        + "| Complete Address                    "
+        + "| Is Address Change "
+        + "| Postal Code "
+        + "| Private Mailbox Number "
+        + "| State "
+        + "| Street                    "
+        + "| Unit            "
+        + String.format("|%n%s%n  ", SummaryHelper.lineSeparator(recipientAddressesColSizes, "="));
+      recipientAddressesSummary += SummaryHelper
+        .arrayToString(this.getRecipientAddresses(), recipientAddressesColSizes);
+      recipientAddressesSummary += String
+        .format("%n%s", SummaryHelper.lineSeparator(recipientAddressesColSizes, "-"));
     }
-    outStr.append(
-        String.format(":Recipient Addresses: %s%n", recipientAddressesSummary)
-    );
-    outStr.append(
-        String.format(":Return to Sender: %s%n", this.getIsReturnToSender())
-    );
+    outStr.append(String.format(":Recipient Addresses: %s%n", recipientAddressesSummary));
+    outStr.append(String.format(":Return to Sender: %s%n", this.getIsReturnToSender()));
     return SummaryHelper.cleanSummary(outStr.toString());
   }
 }

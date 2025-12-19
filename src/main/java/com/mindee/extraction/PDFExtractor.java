@@ -55,8 +55,14 @@ public class PDFExtractor {
       BufferedImage bufferedImage = byteArrayToBufferedImage(source.getFile());
       PDImageXObject pdImage = LosslessFactory.createFromImage(document, bufferedImage);
       try (PDPageContentStream contentStream = new PDPageContentStream(document, page)) {
-        contentStream.drawImage(pdImage, 100, 600, (float) pdImage.getWidth() / 2,
-            (float) pdImage.getHeight() / 2);
+        contentStream
+          .drawImage(
+            pdImage,
+            100,
+            600,
+            (float) pdImage.getWidth() / 2,
+            (float) pdImage.getHeight() / 2
+          );
       }
       this.sourcePdf = document;
 
@@ -64,7 +70,9 @@ public class PDFExtractor {
   }
 
   /**
-   * @return The number of pages in the file.
+   * Get the number of pages in the PDF file.
+   *
+   * @return The number of pages in the PDF file.
    */
   public int getPageCount() {
     return sourcePdf.getNumberOfPages();
@@ -90,8 +98,9 @@ public class PDFExtractor {
    * @return A list of extracted files.
    * @throws IOException Throws if the file can't be accessed.
    */
-  public List<ExtractedPDF> extractSubDocuments(List<List<Integer>> pageIndexes)
-      throws IOException {
+  public List<ExtractedPDF> extractSubDocuments(
+      List<List<Integer>> pageIndexes
+  ) throws IOException {
     List<ExtractedPDF> extractedPDFs = new ArrayList<>();
 
     for (List<Integer> pageIndexElement : pageIndexes) {
@@ -99,14 +108,21 @@ public class PDFExtractor {
         throw new MindeeException("Empty indexes not allowed for extraction.");
       }
       String[] splitName = InputSourceUtils.splitNameStrict(filename);
-      String fieldFilename =
-          splitName[0] + String.format("_%3s", pageIndexElement.get(0) + 1).replace(" ", "0")
-          + "-"
-          + String.format("%3s", pageIndexElement.get(pageIndexElement.size() - 1) + 1)
-            .replace(" ", "0") + "." + splitName[1];
-      extractedPDFs.add(
-        new ExtractedPDF(Loader.loadPDF(mergePdfPages(this.sourcePdf, pageIndexElement, false)),
-          fieldFilename));
+      String fieldFilename = splitName[0]
+        + String.format("_%3s", pageIndexElement.get(0) + 1).replace(" ", "0")
+        + "-"
+        + String
+          .format("%3s", pageIndexElement.get(pageIndexElement.size() - 1) + 1)
+          .replace(" ", "0")
+        + "."
+        + splitName[1];
+      extractedPDFs
+        .add(
+          new ExtractedPDF(
+            Loader.loadPDF(mergePdfPages(this.sourcePdf, pageIndexElement, false)),
+            fieldFilename
+          )
+        );
     }
     return extractedPDFs;
   }
@@ -122,9 +138,10 @@ public class PDFExtractor {
       List<InvoiceSplitterV1InvoicePageGroup> pageIndexes
   ) throws IOException {
 
-    List<List<Integer>> indexes =
-        pageIndexes.stream().map(InvoiceSplitterV1InvoicePageGroup::getPageIndexes)
-        .collect(Collectors.toList());
+    List<List<Integer>> indexes = pageIndexes
+      .stream()
+      .map(InvoiceSplitterV1InvoicePageGroup::getPageIndexes)
+      .collect(Collectors.toList());
 
     return extractSubDocuments(indexes);
   }

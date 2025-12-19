@@ -17,7 +17,8 @@ import javax.imageio.ImageWriter;
  */
 public final class ImageCompressor {
   public static BufferedImage resize(
-      BufferedImage inputImage, Integer newWidth,
+      BufferedImage inputImage,
+      Integer newWidth,
       Integer newHeight
   ) {
     Image scaledImage = inputImage.getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
@@ -30,21 +31,25 @@ public final class ImageCompressor {
     return outImage;
   }
 
-
   public static byte[] compressImage(
-      byte[] imageData, Integer quality, Integer maxWidth,
+      byte[] imageData,
+      Integer quality,
+      Integer maxWidth,
       Integer maxHeight
   ) throws IOException {
 
     ByteArrayInputStream bis = new ByteArrayInputStream(imageData);
     BufferedImage original = ImageIO.read(bis);
-    ImageUtils.Dimensions dimensions =
-        ImageUtils.calculateNewDimensions(original, maxWidth, maxHeight);
+    ImageUtils.Dimensions dimensions = ImageUtils
+      .calculateNewDimensions(original, maxWidth, maxHeight);
     return compressImage(original, quality, dimensions.width, dimensions.height);
   }
 
-  public static byte[] compressImage(byte[] imageData, Integer quality, Integer finalWidth)
-      throws IOException {
+  public static byte[] compressImage(
+      byte[] imageData,
+      Integer quality,
+      Integer finalWidth
+  ) throws IOException {
     return compressImage(imageData, quality, finalWidth, null);
   }
 
@@ -74,7 +79,10 @@ public final class ImageCompressor {
       return original;
     }
     BufferedImage newImage = new BufferedImage(
-        original.getWidth(), original.getHeight(), BufferedImage.TYPE_INT_RGB);
+      original.getWidth(),
+      original.getHeight(),
+      BufferedImage.TYPE_INT_RGB
+    );
     Graphics2D g = newImage.createGraphics();
     g.drawImage(original, 0, 0, null);
     g.dispose();
@@ -82,10 +90,10 @@ public final class ImageCompressor {
   }
 
   public static byte[] encodeToJpegByteArray(
-      BufferedImage image, float quality
+      BufferedImage image,
+      float quality
   ) throws IOException {
     ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-
 
     Iterator<ImageWriter> writers = ImageIO.getImageWritersByFormatName("jpg");
     ImageWriter writer = writers.next();

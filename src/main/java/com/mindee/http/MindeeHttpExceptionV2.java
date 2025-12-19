@@ -13,7 +13,7 @@ public class MindeeHttpExceptionV2 extends MindeeException {
   /** Error details. */
   private final String detail;
 
-  public MindeeHttpExceptionV2(int status,  String detail) {
+  public MindeeHttpExceptionV2(int status, String detail) {
     super(detail);
     this.status = status;
     this.detail = detail;

@@ -11,6 +11,5 @@ import lombok.Getter;
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
 @EndpointInfo(endpointName = "payslip_fra", version = "3")
-public class PayslipV3
-    extends Inference<PayslipV3Document, PayslipV3Document> {
+public class PayslipV3 extends Inference<PayslipV3Document, PayslipV3Document> {
 }

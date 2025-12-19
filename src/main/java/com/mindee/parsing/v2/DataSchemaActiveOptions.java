@@ -28,9 +28,9 @@ public class DataSchemaActiveOptions {
   public String toString() {
     StringJoiner joiner = new StringJoiner("\n");
     return joiner
-        .add("Data Schema")
-        .add("-----------")
-        .add(":Replace: " + formatForDisplay(replace, 5))
-        .toString();
+      .add("Data Schema")
+      .add("-----------")
+      .add(":Replace: " + formatForDisplay(replace, 5))
+      .toString();
   }
 }

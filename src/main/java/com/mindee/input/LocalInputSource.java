@@ -57,6 +57,7 @@ public final class LocalInputSource {
 
   /**
    * Get the number of pages in the document.
+   * 
    * @return the number of pages in the current file.
    * @throws IOException If an I/O error occurs during the PDF operation.
    */
@@ -76,9 +77,7 @@ public final class LocalInputSource {
   public void applyPageOptions(PageOptions pageOptions) throws IOException {
     if (pageOptions != null && this.isPdf()) {
       PdfOperation pdfOperation = new PdfBoxApi();
-      this.file = pdfOperation.split(
-          new SplitQuery(this.file, pageOptions)
-      ).getFile();
+      this.file = pdfOperation.split(new SplitQuery(this.file, pageOptions)).getFile();
     }
   }
 
@@ -91,8 +90,11 @@ public final class LocalInputSource {
   }
 
   public void compress(
-      Integer quality, Integer maxWidth, Integer maxHeight,
-      Boolean forceSourceText, Boolean disableSourceText
+      Integer quality,
+      Integer maxWidth,
+      Integer maxHeight,
+      Boolean forceSourceText,
+      Boolean disableSourceText
   ) throws IOException {
     if (isPdf()) {
       this.file = PdfCompressor.compressPdf(this.file, quality, forceSourceText, disableSourceText);
@@ -102,7 +104,9 @@ public final class LocalInputSource {
   }
 
   public void compress(
-      Integer quality, Integer maxWidth, Integer maxHeight,
+      Integer quality,
+      Integer maxWidth,
+      Integer maxHeight,
       Boolean forceSourceText
   ) throws IOException {
     this.compress(quality, maxWidth, maxHeight, forceSourceText, true);

@@ -56,41 +56,25 @@ public class DeliveryNoteV1Document extends Prediction {
 
   @Override
   public boolean isEmpty() {
-    return (
-      this.deliveryDate == null
+    return (this.deliveryDate == null
       && this.deliveryNumber == null
       && this.supplierName == null
       && this.supplierAddress == null
       && this.customerName == null
       && this.customerAddress == null
-      && this.totalAmount == null
-      );
+      && this.totalAmount == null);
   }
 
   @Override
   public String toString() {
     StringBuilder outStr = new StringBuilder();
-    outStr.append(
-        String.format(":Delivery Date: %s%n", this.getDeliveryDate())
-    );
-    outStr.append(
-        String.format(":Delivery Number: %s%n", this.getDeliveryNumber())
-    );
-    outStr.append(
-        String.format(":Supplier Name: %s%n", this.getSupplierName())
-    );
-    outStr.append(
-        String.format(":Supplier Address: %s%n", this.getSupplierAddress())
-    );
-    outStr.append(
-        String.format(":Customer Name: %s%n", this.getCustomerName())
-    );
-    outStr.append(
-        String.format(":Customer Address: %s%n", this.getCustomerAddress())
-    );
-    outStr.append(
-        String.format(":Total Amount: %s%n", this.getTotalAmount())
-    );
+    outStr.append(String.format(":Delivery Date: %s%n", this.getDeliveryDate()));
+    outStr.append(String.format(":Delivery Number: %s%n", this.getDeliveryNumber()));
+    outStr.append(String.format(":Supplier Name: %s%n", this.getSupplierName()));
+    outStr.append(String.format(":Supplier Address: %s%n", this.getSupplierAddress()));
+    outStr.append(String.format(":Customer Name: %s%n", this.getCustomerName()));
+    outStr.append(String.format(":Customer Address: %s%n", this.getCustomerAddress()));
+    outStr.append(String.format(":Total Amount: %s%n", this.getTotalAmount()));
     return SummaryHelper.cleanSummary(outStr.toString());
   }
 }

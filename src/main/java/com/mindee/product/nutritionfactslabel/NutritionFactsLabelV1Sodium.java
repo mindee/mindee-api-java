@@ -37,12 +37,10 @@ public class NutritionFactsLabelV1Sodium extends BaseField {
   String unit;
 
   public boolean isEmpty() {
-    return (
-        dailyValue == null
-        && per100G == null
-        && perServing == null
-        && (unit == null || unit.isEmpty())
-      );
+    return (dailyValue == null
+      && per100G == null
+      && perServing == null
+      && (unit == null || unit.isEmpty()));
   }
 
   /**
@@ -51,9 +49,9 @@ public class NutritionFactsLabelV1Sodium extends BaseField {
   public String toFieldList() {
     Map<String, String> printable = this.printableValues();
     return String.format("  :Daily Value: %s%n", printable.get("dailyValue"))
-        + String.format("  :Per 100g: %s%n", printable.get("per100G"))
-        + String.format("  :Per Serving: %s%n", printable.get("perServing"))
-        + String.format("  :Unit: %s%n", printable.get("unit"));
+      + String.format("  :Per 100g: %s%n", printable.get("per100G"))
+      + String.format("  :Per Serving: %s%n", printable.get("perServing"))
+      + String.format("  :Unit: %s%n", printable.get("unit"));
   }
 
   @Override
@@ -68,18 +66,9 @@ public class NutritionFactsLabelV1Sodium extends BaseField {
   private Map<String, String> printableValues() {
     Map<String, String> printable = new HashMap<>();
 
-    printable.put(
-        "dailyValue",
-        SummaryHelper.formatAmount(this.dailyValue)
-    );
-    printable.put(
-        "per100G",
-        SummaryHelper.formatAmount(this.per100G)
-    );
-    printable.put(
-        "perServing",
-        SummaryHelper.formatAmount(this.perServing)
-    );
+    printable.put("dailyValue", SummaryHelper.formatAmount(this.dailyValue));
+    printable.put("per100G", SummaryHelper.formatAmount(this.per100G));
+    printable.put("perServing", SummaryHelper.formatAmount(this.perServing));
     printable.put("unit", SummaryHelper.formatForDisplay(this.unit, null));
     return printable;
   }

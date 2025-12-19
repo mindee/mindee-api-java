@@ -1,5 +1,7 @@
 package com.mindee.pdf;
 
+import static com.mindee.TestingUtilities.getResourcePath;
+
 import com.mindee.input.LocalInputSource;
 import java.io.File;
 import java.io.IOException;
@@ -10,15 +12,11 @@ import java.nio.file.StandardCopyOption;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
-
 import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
-import static com.mindee.TestingUtilities.getResourcePath;
-
 
 public class PDFUtilsTest {
 
@@ -39,8 +37,7 @@ public class PDFUtilsTest {
   }
 
   @Test
-  public void givenADocumentAndListOfPages_whenMerged_thenReturnsCorrectDocument()
-      throws IOException {
+  public void givenADocumentAndListOfPages_whenMerged_thenReturnsCorrectDocument() throws IOException {
     Path original = Paths.get("src/test/resources/file_types/pdf/multipage.pdf");
     Path copied = Paths.get("src/test/resources/output/fileToTest.pdf");
     Files.copy(original, copied, StandardCopyOption.REPLACE_EXISTING);
@@ -77,24 +74,32 @@ public class PDFUtilsTest {
 
   @Test
   public void shouldConvertAllPagesToJpg() throws IOException {
-    List<PdfPageImage> pdfPageImages = PDFUtils.pdfToImages(
-      "src/test/resources/file_types/pdf/multipage_cut-2.pdf"
-    );
+    List<PdfPageImage> pdfPageImages = PDFUtils
+      .pdfToImages("src/test/resources/file_types/pdf/multipage_cut-2.pdf");
     for (PdfPageImage pdfPageImage : pdfPageImages) {
       Assertions.assertNotNull(pdfPageImage.getImage());
-      Assertions.assertEquals(pdfPageImage.asInputSource().getFilename(), pdfPageImage.getFilename());
+      Assertions
+        .assertEquals(pdfPageImage.asInputSource().getFilename(), pdfPageImage.getFilename());
       pdfPageImage.writeToFile("src/test/resources/output/");
-      Assertions.assertTrue(Files.exists(Paths.get("src/test/resources/output/" + pdfPageImage.getFilename())));
+      Assertions
+        .assertTrue(
+          Files.exists(Paths.get("src/test/resources/output/" + pdfPageImage.getFilename()))
+        );
     }
   }
 
   @Test
   public void shouldConvertSinglePageToJpg() throws IOException {
-    LocalInputSource source = new LocalInputSource("src/test/resources/file_types/pdf/multipage.pdf");
+    LocalInputSource source = new LocalInputSource(
+      "src/test/resources/file_types/pdf/multipage.pdf"
+    );
     PdfPageImage pdfPageImage = PDFUtils.pdfPageToImage(source, 3);
     Assertions.assertNotNull(pdfPageImage.getImage());
     Assertions.assertEquals(pdfPageImage.asInputSource().getFilename(), pdfPageImage.getFilename());
     pdfPageImage.writeToFile("src/test/resources/output/");
-    Assertions.assertTrue(Files.exists(Paths.get("src/test/resources/output/" + pdfPageImage.getFilename())));
+    Assertions
+      .assertTrue(
+        Files.exists(Paths.get("src/test/resources/output/" + pdfPageImage.getFilename()))
+      );
   }
 }

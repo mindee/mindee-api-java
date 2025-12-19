@@ -36,7 +36,7 @@ public class GeneratedV1PredictionDeserializer extends StdDeserializer<Generated
     ObjectNode rootNode = jsonParser.getCodec().readTree(jsonParser);
     Map<String, GeneratedFeature> features = new HashMap<>();
 
-    for (Iterator<Map.Entry<String, JsonNode>> subNode = rootNode.fields(); subNode.hasNext(); ) {
+    for (Iterator<Map.Entry<String, JsonNode>> subNode = rootNode.fields(); subNode.hasNext();) {
       Map.Entry<String, JsonNode> featureNode = subNode.next();
       String featureName = featureNode.getKey();
 
@@ -45,17 +45,15 @@ public class GeneratedV1PredictionDeserializer extends StdDeserializer<Generated
       if (featureNode.getValue().isArray()) {
         feature = new GeneratedFeature(true);
         for (JsonNode item : featureNode.getValue()) {
-          GeneratedObject value = mapper
-              .readerFor(new TypeReference<GeneratedObject>() {})
-              .readValue(item);
+          GeneratedObject value = mapper.readerFor(new TypeReference<GeneratedObject>() {
+          }).readValue(item);
           feature.add(value);
         }
         features.put(featureName, feature);
       } else {
         feature = new GeneratedFeature(false);
-        GeneratedObject value = mapper
-            .readerFor(new TypeReference<GeneratedObject>() {})
-            .readValue(featureNode.getValue());
+        GeneratedObject value = mapper.readerFor(new TypeReference<GeneratedObject>() {
+        }).readValue(featureNode.getValue());
         feature.add(value);
       }
       features.put(featureName, feature);

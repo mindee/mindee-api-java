@@ -11,6 +11,5 @@ import lombok.Getter;
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
 @EndpointInfo(endpointName = "energy_bill_fra", version = "1")
-public class EnergyBillV1
-    extends Inference<EnergyBillV1Document, EnergyBillV1Document> {
+public class EnergyBillV1 extends Inference<EnergyBillV1Document, EnergyBillV1Document> {
 }

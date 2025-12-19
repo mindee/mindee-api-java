@@ -60,73 +60,61 @@ public class PayslipV3Document extends Prediction {
 
   @Override
   public boolean isEmpty() {
-    return (
-      this.payPeriod == null
+    return (this.payPeriod == null
       && this.employee == null
       && this.employer == null
       && this.bankAccountDetails == null
       && this.employment == null
       && (this.salaryDetails == null || this.salaryDetails.isEmpty())
       && this.payDetail == null
-      && (this.paidTimeOff == null || this.paidTimeOff.isEmpty())
-      );
+      && (this.paidTimeOff == null || this.paidTimeOff.isEmpty()));
   }
 
   @Override
   public String toString() {
     StringBuilder outStr = new StringBuilder();
-    outStr.append(
-        String.format(":Pay Period:%n%s", this.getPayPeriod().toFieldList())
-    );
-    outStr.append(
-        String.format(":Employee:%n%s", this.getEmployee().toFieldList())
-    );
-    outStr.append(
-        String.format(":Employer:%n%s", this.getEmployer().toFieldList())
-    );
-    outStr.append(
+    outStr.append(String.format(":Pay Period:%n%s", this.getPayPeriod().toFieldList()));
+    outStr.append(String.format(":Employee:%n%s", this.getEmployee().toFieldList()));
+    outStr.append(String.format(":Employer:%n%s", this.getEmployer().toFieldList()));
+    outStr
+      .append(
         String.format(":Bank Account Details:%n%s", this.getBankAccountDetails().toFieldList())
-    );
-    outStr.append(
-        String.format(":Employment:%n%s", this.getEmployment().toFieldList())
-    );
+      );
+    outStr.append(String.format(":Employment:%n%s", this.getEmployment().toFieldList()));
     String salaryDetailsSummary = "";
     if (!this.getSalaryDetails().isEmpty()) {
-      int[] salaryDetailsColSizes = new int[]{14, 11, 38, 8, 11};
-      salaryDetailsSummary =
-        String.format("%n%s%n  ", SummaryHelper.lineSeparator(salaryDetailsColSizes, "-"))
-          + "| Amount       "
-          + "| Base      "
-          + "| Description                          "
-          + "| Number "
-          + "| Rate      "
-          + String.format("|%n%s%n  ", SummaryHelper.lineSeparator(salaryDetailsColSizes, "="));
-      salaryDetailsSummary += SummaryHelper.arrayToString(this.getSalaryDetails(), salaryDetailsColSizes);
-      salaryDetailsSummary += String.format("%n%s", SummaryHelper.lineSeparator(salaryDetailsColSizes, "-"));
+      int[] salaryDetailsColSizes = new int[] { 14, 11, 38, 8, 11 };
+      salaryDetailsSummary = String
+        .format("%n%s%n  ", SummaryHelper.lineSeparator(salaryDetailsColSizes, "-"))
+        + "| Amount       "
+        + "| Base      "
+        + "| Description                          "
+        + "| Number "
+        + "| Rate      "
+        + String.format("|%n%s%n  ", SummaryHelper.lineSeparator(salaryDetailsColSizes, "="));
+      salaryDetailsSummary += SummaryHelper
+        .arrayToString(this.getSalaryDetails(), salaryDetailsColSizes);
+      salaryDetailsSummary += String
+        .format("%n%s", SummaryHelper.lineSeparator(salaryDetailsColSizes, "-"));
     }
-    outStr.append(
-        String.format(":Salary Details: %s%n", salaryDetailsSummary)
-    );
-    outStr.append(
-        String.format(":Pay Detail:%n%s", this.getPayDetail().toFieldList())
-    );
+    outStr.append(String.format(":Salary Details: %s%n", salaryDetailsSummary));
+    outStr.append(String.format(":Pay Detail:%n%s", this.getPayDetail().toFieldList()));
     String paidTimeOffSummary = "";
     if (!this.getPaidTimeOff().isEmpty()) {
-      int[] paidTimeOffColSizes = new int[]{11, 8, 13, 11, 11};
-      paidTimeOffSummary =
-        String.format("%n%s%n  ", SummaryHelper.lineSeparator(paidTimeOffColSizes, "-"))
-          + "| Accrued   "
-          + "| Period "
-          + "| Type        "
-          + "| Remaining "
-          + "| Used      "
-          + String.format("|%n%s%n  ", SummaryHelper.lineSeparator(paidTimeOffColSizes, "="));
+      int[] paidTimeOffColSizes = new int[] { 11, 8, 13, 11, 11 };
+      paidTimeOffSummary = String
+        .format("%n%s%n  ", SummaryHelper.lineSeparator(paidTimeOffColSizes, "-"))
+        + "| Accrued   "
+        + "| Period "
+        + "| Type        "
+        + "| Remaining "
+        + "| Used      "
+        + String.format("|%n%s%n  ", SummaryHelper.lineSeparator(paidTimeOffColSizes, "="));
       paidTimeOffSummary += SummaryHelper.arrayToString(this.getPaidTimeOff(), paidTimeOffColSizes);
-      paidTimeOffSummary += String.format("%n%s", SummaryHelper.lineSeparator(paidTimeOffColSizes, "-"));
+      paidTimeOffSummary += String
+        .format("%n%s", SummaryHelper.lineSeparator(paidTimeOffColSizes, "-"));
     }
-    outStr.append(
-        String.format(":Paid Time Off: %s%n", paidTimeOffSummary)
-    );
+    outStr.append(String.format(":Paid Time Off: %s%n", paidTimeOffSummary));
     return SummaryHelper.cleanSummary(outStr.toString());
   }
 }

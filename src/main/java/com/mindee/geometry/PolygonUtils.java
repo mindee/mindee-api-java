@@ -17,9 +17,10 @@ public final class PolygonUtils {
    * Create a Polygon from a list of a list of floats.
    */
   public static Polygon getFrom(List<List<Double>> polygon) {
-    List<Point> coordinates = polygon.stream()
-        .map(coordinate -> new Point(coordinate.get(0), coordinate.get(1)))
-        .collect(Collectors.toList());
+    List<Point> coordinates = polygon
+      .stream()
+      .map(coordinate -> new Point(coordinate.get(0), coordinate.get(1)))
+      .collect(Collectors.toList());
     return new Polygon(coordinates);
   }
 
@@ -29,12 +30,8 @@ public final class PolygonUtils {
   public static Point getCentroid(List<Point> vertices) {
     int verticesSum = vertices.size();
 
-    double xSum = vertices.stream()
-        .map(Point::getX)
-        .mapToDouble(Double::doubleValue).sum();
-    double ySum = vertices.stream()
-        .map(Point::getY)
-        .mapToDouble(Double::doubleValue).sum();
+    double xSum = vertices.stream().map(Point::getX).mapToDouble(Double::doubleValue).sum();
+    double ySum = vertices.stream().map(Point::getY).mapToDouble(Double::doubleValue).sum();
     return new Point(xSum / verticesSum, ySum / verticesSum);
   }
 
@@ -94,58 +91,70 @@ public final class PolygonUtils {
   }
 
   public static Double getMinYCoordinate(Polygon polygon) {
-    OptionalDouble min = polygon.getCoordinates().stream()
-        .map(Point::getY)
-        .mapToDouble(Double::doubleValue).min();
+    OptionalDouble min = polygon
+      .getCoordinates()
+      .stream()
+      .map(Point::getY)
+      .mapToDouble(Double::doubleValue)
+      .min();
 
     if (min.isPresent()) {
       return min.getAsDouble();
     }
 
     throw new IllegalStateException(
-        "The min Y could not be found "
+      "The min Y could not be found "
         + "because it seems that there is no coordinates in the current polygon."
     );
   }
 
   public static Double getMaxYCoordinate(Polygon polygon) {
-    OptionalDouble max = polygon.getCoordinates().stream()
-        .map(Point::getY)
-        .mapToDouble(Double::doubleValue).max();
+    OptionalDouble max = polygon
+      .getCoordinates()
+      .stream()
+      .map(Point::getY)
+      .mapToDouble(Double::doubleValue)
+      .max();
     if (max.isPresent()) {
       return max.getAsDouble();
     }
 
     throw new IllegalStateException(
-        "The max Y could not be found "
+      "The max Y could not be found "
         + "because it seems that there is no coordinates in the current polygon."
     );
   }
 
   public static Double getMinXCoordinate(Polygon polygon) {
-    OptionalDouble min = polygon.getCoordinates().stream()
-        .map(Point::getX)
-        .mapToDouble(Double::doubleValue).min();
+    OptionalDouble min = polygon
+      .getCoordinates()
+      .stream()
+      .map(Point::getX)
+      .mapToDouble(Double::doubleValue)
+      .min();
     if (min.isPresent()) {
       return min.getAsDouble();
     }
 
     throw new IllegalStateException(
-        "The min X could not be found "
+      "The min X could not be found "
         + "because it seems that there is no coordinates in the current polygon."
     );
   }
 
   public static Double getMaxXCoordinate(Polygon polygon) {
-    OptionalDouble max = polygon.getCoordinates().stream()
-        .map(Point::getX)
-        .mapToDouble(Double::doubleValue).max();
+    OptionalDouble max = polygon
+      .getCoordinates()
+      .stream()
+      .map(Point::getX)
+      .mapToDouble(Double::doubleValue)
+      .max();
     if (max.isPresent()) {
       return max.getAsDouble();
     }
 
     throw new IllegalStateException(
-        "The max X could not be found "
+      "The max X could not be found "
         + "because it seems that there is no coordinates in the current polygon."
     );
   }
@@ -165,47 +174,78 @@ public final class PolygonUtils {
       target = base;
     }
 
-    Double maxx = Math.max(
-        target.getCoordinates().stream()
+    Double maxx = Math
+      .max(
+        target
+          .getCoordinates()
+          .stream()
           .map(Point::getX)
-          .max(Double::compareTo).orElse(Double.MIN_VALUE),
-        base.getCoordinates().stream()
+          .max(Double::compareTo)
+          .orElse(Double.MIN_VALUE),
+        base
+          .getCoordinates()
+          .stream()
           .map(Point::getX)
-          .max(Double::compareTo).orElse(Double.MIN_VALUE));
+          .max(Double::compareTo)
+          .orElse(Double.MIN_VALUE)
+      );
 
-    Double minx = Math.min(
-        target.getCoordinates().stream()
+    Double minx = Math
+      .min(
+        target
+          .getCoordinates()
+          .stream()
           .map(Point::getX)
-          .min(Double::compareTo).orElse(Double.MAX_VALUE),
-        base.getCoordinates().stream()
+          .min(Double::compareTo)
+          .orElse(Double.MAX_VALUE),
+        base
+          .getCoordinates()
+          .stream()
           .map(Point::getX)
-          .min(Double::compareTo).orElse(Double.MAX_VALUE));
+          .min(Double::compareTo)
+          .orElse(Double.MAX_VALUE)
+      );
 
-    Double maxy = Math.max(
-        target.getCoordinates().stream()
+    Double maxy = Math
+      .max(
+        target
+          .getCoordinates()
+          .stream()
           .map(Point::getY)
-          .max(Double::compareTo).orElse(Double.MIN_VALUE),
-        base.getCoordinates().stream()
+          .max(Double::compareTo)
+          .orElse(Double.MIN_VALUE),
+        base
+          .getCoordinates()
+          .stream()
           .map(Point::getY)
-          .max(Double::compareTo).orElse(Double.MIN_VALUE)
-    );
+          .max(Double::compareTo)
+          .orElse(Double.MIN_VALUE)
+      );
 
-    Double miny = Math.min(
-        target.getCoordinates().stream()
+    Double miny = Math
+      .min(
+        target
+          .getCoordinates()
+          .stream()
           .map(Point::getY)
-          .min(Double::compareTo).orElse(Double.MAX_VALUE),
-        base.getCoordinates().stream()
+          .min(Double::compareTo)
+          .orElse(Double.MAX_VALUE),
+        base
+          .getCoordinates()
+          .stream()
           .map(Point::getY)
-          .min(Double::compareTo).orElse(Double.MAX_VALUE)
-    );
+          .min(Double::compareTo)
+          .orElse(Double.MAX_VALUE)
+      );
 
     return new Polygon(
-      Arrays.asList(
-        new Point(minx, miny),
-        new Point(maxx, miny),
-        new Point(maxx, maxy),
-        new Point(minx, maxy)
-      )
+      Arrays
+        .asList(
+          new Point(minx, miny),
+          new Point(maxx, miny),
+          new Point(maxx, maxy),
+          new Point(minx, maxy)
+        )
     );
   }
 }

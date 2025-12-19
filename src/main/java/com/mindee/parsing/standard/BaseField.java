@@ -24,7 +24,7 @@ public abstract class BaseField implements PositionData {
   @JsonIgnore
   private final Polygon boundingBox;
   /**
-   * Define the coordinates of the zone in the page where the values has been found.
+   * Define the coordinates of the zone in the page where the value has been found.
    */
   @JsonProperty("polygon")
   @JsonDeserialize(using = PolygonDeserializer.class)
@@ -41,14 +41,13 @@ public abstract class BaseField implements PositionData {
   @JsonProperty("page_id")
   private Integer pageId;
 
+  /**
+   * JSON constructor.
+   */
   protected BaseField(
-      @JsonProperty("confidence")
-      Double confidence,
-      @JsonProperty("polygon")
-      @JsonDeserialize(using = PolygonDeserializer.class)
-      Polygon polygon,
-      @JsonProperty("page_id")
-      Integer pageId
+      @JsonProperty("confidence") Double confidence,
+      @JsonProperty("polygon") @JsonDeserialize(using = PolygonDeserializer.class) Polygon polygon,
+      @JsonProperty("page_id") Integer pageId
   ) {
     this.confidence = confidence;
     this.polygon = polygon;
@@ -60,6 +59,9 @@ public abstract class BaseField implements PositionData {
     }
   }
 
+  /**
+   * Default constructor.
+   */
   protected BaseField() {
     if (polygon != null) {
       this.boundingBox = BoundingBoxUtils.createBoundingBoxFrom(this.polygon);
@@ -69,6 +71,8 @@ public abstract class BaseField implements PositionData {
   }
 
   /**
+   * Whether the field is empty or not.
+   *
    * @return true if the field is empty, false otherwise.
    */
   public abstract boolean isEmpty();

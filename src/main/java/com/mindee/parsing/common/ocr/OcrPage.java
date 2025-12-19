@@ -28,23 +28,18 @@ public class OcrPage {
     this.allWords = allWords;
 
     // make sure words are sorted from top to bottom
-    this.allWords.sort(
-        (word1, word2) -> PolygonUtils.CompareOnY(word1.getPolygon(), word2.getPolygon())
-    );
+    this.allWords
+      .sort((word1, word2) -> PolygonUtils.CompareOnY(word1.getPolygon(), word2.getPolygon()));
   }
 
   /**
    * Determine if two words are on the same line.
    */
   private boolean areWordsOnSameLine(Word currentWord, Word nextWord) {
-    boolean currentInNext = PolygonUtils.isPointInPolygonY(
-        currentWord.getPolygon().getCentroid(),
-        nextWord.getPolygon()
-    );
-    boolean nextInCurrent = PolygonUtils.isPointInPolygonY(
-        nextWord.getPolygon().getCentroid(),
-        currentWord.getPolygon()
-    );
+    boolean currentInNext = PolygonUtils
+      .isPointInPolygonY(currentWord.getPolygon().getCentroid(), nextWord.getPolygon());
+    boolean nextInCurrent = PolygonUtils
+      .isPointInPolygonY(nextWord.getPolygon().getCentroid(), currentWord.getPolygon());
     // We need to check both to eliminate any issues due to word order.
     return currentInNext || nextInCurrent;
   }
@@ -79,7 +74,8 @@ public class OcrPage {
       }
       current = null;
       if (!line.isEmpty()) {
-        line.sort((word1, word2) -> PolygonUtils.CompareOnX(word1.getPolygon(), word2.getPolygon()));
+        line
+          .sort((word1, word2) -> PolygonUtils.CompareOnX(word1.getPolygon(), word2.getPolygon()));
         lines.add(line);
       }
     }
@@ -97,8 +93,10 @@ public class OcrPage {
   }
 
   public String toString() {
-    return this.getAllLines().stream()
-        .map(words -> words.stream().map(Word::getText).collect(Collectors.joining(" ")))
-        .collect(Collectors.joining(String.format("%n")));
+    return this
+      .getAllLines()
+      .stream()
+      .map(words -> words.stream().map(Word::getText).collect(Collectors.joining(" ")))
+      .collect(Collectors.joining(String.format("%n")));
   }
 }

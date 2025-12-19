@@ -1,16 +1,14 @@
 package com.mindee.input;
 
-import com.mindee.parsing.v2.InferenceResponse;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import static com.mindee.TestingUtilities.getV2ResourcePath;
 
+import com.mindee.parsing.v2.InferenceResponse;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-
-import static com.mindee.TestingUtilities.getV2ResourcePath;
-
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class LocalResponseV2Test {
   /**
@@ -30,9 +28,10 @@ public class LocalResponseV2Test {
 
   protected void assertLocalResponse(LocalResponse localResponse) {
     Assertions.assertNotNull(localResponse.getFile());
-    Assertions.assertFalse(localResponse.isValidHmacSignature(
-        this.secretKey, "invalid signature is invalid")
-    );
+    Assertions
+      .assertFalse(
+        localResponse.isValidHmacSignature(this.secretKey, "invalid signature is invalid")
+      );
     Assertions.assertEquals(this.signature, localResponse.getHmacSignature(this.secretKey));
     Assertions.assertTrue(localResponse.isValidHmacSignature(this.secretKey, this.signature));
     InferenceResponse response = localResponse.deserializeResponse(InferenceResponse.class);
@@ -50,16 +49,15 @@ public class LocalResponseV2Test {
   void loadDocument_withString_mustReturnValidLocalResponse() {
     LocalResponse localResponse = new LocalResponse("{'some': 'json', 'with': 'data'}");
     Assertions.assertNotNull(localResponse.getFile());
-    Assertions.assertFalse(localResponse.isValidHmacSignature(
-        this.secretKey, "invalid signature is invalid")
-    );
+    Assertions
+      .assertFalse(
+        localResponse.isValidHmacSignature(this.secretKey, "invalid signature is invalid")
+      );
   }
 
   @Test
   void loadDocument_withInputStream_mustReturnValidLocalResponse() throws IOException {
-    LocalResponse localResponse = new LocalResponse(
-        Files.newInputStream(this.filePath)
-    );
+    LocalResponse localResponse = new LocalResponse(Files.newInputStream(this.filePath));
     assertLocalResponse(localResponse);
   }
 }

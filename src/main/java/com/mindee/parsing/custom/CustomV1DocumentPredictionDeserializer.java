@@ -38,14 +38,14 @@ public class CustomV1DocumentPredictionDeserializer extends StdDeserializer<Cust
     Map<String, ClassificationField> classificationFields = new HashMap<>();
     Map<String, ListField> fields = new HashMap<>();
 
-    for (Iterator<Map.Entry<String, JsonNode>> subNode = node.fields(); subNode.hasNext(); ) {
+    for (Iterator<Map.Entry<String, JsonNode>> subNode = node.fields(); subNode.hasNext();) {
 
       Map.Entry<String, JsonNode> pageNode = subNode.next();
 
       if (pageNode.getValue().has("value")) {
-        classificationFields.put(pageNode.getKey(),
-            mapper.readerFor(new TypeReference<ClassificationField>() {})
-                .readValue(pageNode.getValue()));
+        classificationFields
+          .put(pageNode.getKey(), mapper.readerFor(new TypeReference<ClassificationField>() {
+          }).readValue(pageNode.getValue()));
       } else {
         fields.put(pageNode.getKey(), mapper.readerFor(new TypeReference<ListField>() {
         }).readValue(pageNode.getValue()));

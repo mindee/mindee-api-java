@@ -1,12 +1,11 @@
 package com.mindee.parsing.common;
 
+import static com.mindee.TestingUtilities.getV1ResourcePath;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import java.io.File;
-import java.io.IOException;
-
-import static com.mindee.TestingUtilities.getV1ResourcePath;
 
 public class ErrorTest {
 
@@ -16,15 +15,15 @@ public class ErrorTest {
     ObjectMapper objectMapper = new ObjectMapper();
     objectMapper.findAndRegisterModules();
 
-    Error error = objectMapper.readValue(
+    Error error = objectMapper
+      .readValue(
         getV1ResourcePath("errors/with_object_response_in_detail.json").toFile(),
-      Error.class);
+        Error.class
+      );
 
     Assertions.assertNotNull(error);
     Assertions.assertNotNull(error.getDetails());
-    Assertions.assertEquals(
-      "{\"document\":[\"error message\"]}",
-      error.getDetails().toString());
+    Assertions.assertEquals("{\"document\":[\"error message\"]}", error.getDetails().toString());
   }
 
   @Test
@@ -33,9 +32,11 @@ public class ErrorTest {
     ObjectMapper objectMapper = new ObjectMapper();
     objectMapper.findAndRegisterModules();
 
-    Error error = objectMapper.readValue(
+    Error error = objectMapper
+      .readValue(
         getV1ResourcePath("errors/with_string_response_in_detail.json").toFile(),
-      Error.class);
+        Error.class
+      );
 
     Assertions.assertNotNull(error);
     Assertions.assertNotNull(error.getDetails());

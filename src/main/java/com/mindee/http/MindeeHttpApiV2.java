@@ -45,19 +45,12 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
    */
   private final HttpClientBuilder httpClientBuilder;
 
-
   public MindeeHttpApiV2(MindeeSettingsV2 mindeeSettings) {
-    this(
-        mindeeSettings,
-        null
-    );
+    this(mindeeSettings, null);
   }
 
   @Builder
-  private MindeeHttpApiV2(
-      MindeeSettingsV2 mindeeSettings,
-      HttpClientBuilder httpClientBuilder
-  ) {
+  private MindeeHttpApiV2(MindeeSettingsV2 mindeeSettings, HttpClientBuilder httpClientBuilder) {
     this.mindeeSettings = mindeeSettings;
 
     if (httpClientBuilder != null) {
@@ -71,7 +64,7 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
    * Enqueues a doc with the POST method.
    *
    * @param inputSource Input source to send.
-   * @param options     Options to send the file along with.
+   * @param options Options to send the file along with.
    * @return A job response.
    */
   @Override
@@ -84,22 +77,22 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
 
     MultipartEntityBuilder builder = MultipartEntityBuilder.create();
     builder.setMode(HttpMultipartMode.EXTENDED);
-    builder.addBinaryBody(
+    builder
+      .addBinaryBody(
         "file",
         inputSource.getFile(),
         ContentType.DEFAULT_BINARY,
         inputSource.getFilename()
-    );
+      );
     post.setEntity(buildHttpBody(builder, options));
     return executeEnqueue(post);
   }
-
 
   /**
    * Enqueues a doc with the POST method.
    *
    * @param inputSource Input source to send.
-   * @param options     Options to send the file along with.
+   * @param options Options to send the file along with.
    * @return A job response.
    */
   @Override
@@ -112,47 +105,41 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
 
     MultipartEntityBuilder builder = MultipartEntityBuilder.create();
     builder.setMode(HttpMultipartMode.EXTENDED);
-    builder.addTextBody(
-        "url",
-        inputSource.getUrl()
-    );
+    builder.addTextBody("url", inputSource.getUrl());
     post.setEntity(buildHttpBody(builder, options));
     return executeEnqueue(post);
   }
 
   /**
    * Executes an enqueue action, common to URL & local inputs.
+   * 
    * @param post HTTP Post object.
    * @return a valid job response.
    */
   private JobResponse executeEnqueue(HttpPost post) {
     mapper.findAndRegisterModules();
     try (CloseableHttpClient httpClient = httpClientBuilder.build()) {
-      return httpClient.execute(
-          post, response -> {
-            HttpEntity responseEntity = response.getEntity();
-            int statusCode = response.getCode();
-            if (isInvalidStatusCode(statusCode)) {
-              throw getHttpError(response);
-            }
-            try {
-              String raw = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
+      return httpClient.execute(post, response -> {
+        HttpEntity responseEntity = response.getEntity();
+        int statusCode = response.getCode();
+        if (isInvalidStatusCode(statusCode)) {
+          throw getHttpError(response);
+        }
+        try {
+          String raw = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
 
-              return deserializeOrThrow(raw, JobResponse.class, response.getCode());
-            } finally {
-              EntityUtils.consumeQuietly(responseEntity);
-            }
-          }
-      );
+          return deserializeOrThrow(raw, JobResponse.class, response.getCode());
+        } finally {
+          EntityUtils.consumeQuietly(responseEntity);
+        }
+      });
     } catch (IOException err) {
       throw new MindeeException(err.getMessage(), err);
     }
   }
 
   @Override
-  public JobResponse reqGetJob(
-      String jobId
-  ) {
+  public JobResponse reqGetJob(String jobId) {
 
     String url = this.mindeeSettings.getBaseUrl() + "/jobs/" + jobId;
     HttpGet get = new HttpGet(url);
@@ -161,30 +148,25 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
       get.setHeader(HttpHeaders.AUTHORIZATION, this.mindeeSettings.getApiKey().get());
     }
     get.setHeader(HttpHeaders.USER_AGENT, getUserAgent());
-    RequestConfig noRedirect =
-        RequestConfig.custom()
-            .setRedirectsEnabled(false)
-            .build();
+    RequestConfig noRedirect = RequestConfig.custom().setRedirectsEnabled(false).build();
     get.setConfig(noRedirect);
 
     mapper.findAndRegisterModules();
     try (CloseableHttpClient httpClient = httpClientBuilder.build()) {
-      return httpClient.execute(
-          get, response -> {
-            HttpEntity responseEntity = response.getEntity();
-            int statusCode = response.getCode();
-            if (isInvalidStatusCode(statusCode)) {
-              throw getHttpError(response);
-            }
-            try {
-              String raw = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
+      return httpClient.execute(get, response -> {
+        HttpEntity responseEntity = response.getEntity();
+        int statusCode = response.getCode();
+        if (isInvalidStatusCode(statusCode)) {
+          throw getHttpError(response);
+        }
+        try {
+          String raw = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
 
-              return deserializeOrThrow(raw, JobResponse.class, response.getCode());
-            } finally {
-              EntityUtils.consumeQuietly(responseEntity);
-            }
-          }
-      );
+          return deserializeOrThrow(raw, JobResponse.class, response.getCode());
+        } finally {
+          EntityUtils.consumeQuietly(responseEntity);
+        }
+      });
     } catch (IOException err) {
       throw new MindeeException(err.getMessage(), err);
     }
@@ -203,24 +185,21 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
 
     mapper.findAndRegisterModules();
 
-    try (CloseableHttpClient httpClient = httpClientBuilder
-        .build()) {
+    try (CloseableHttpClient httpClient = httpClientBuilder.build()) {
 
-      return httpClient.execute(
-          get,
-          response -> {
-            HttpEntity entity = response.getEntity();
-            int status = response.getCode();
-            try {
-              if (isInvalidStatusCode(status)) {
-                throw getHttpError(response);
-              }
-              String raw = EntityUtils.toString(entity, StandardCharsets.UTF_8);
-              return deserializeOrThrow(raw, InferenceResponse.class, status);
-            } finally {
-              EntityUtils.consumeQuietly(entity);
-            }
-          });
+      return httpClient.execute(get, response -> {
+        HttpEntity entity = response.getEntity();
+        int status = response.getCode();
+        try {
+          if (isInvalidStatusCode(status)) {
+            throw getHttpError(response);
+          }
+          String raw = EntityUtils.toString(entity, StandardCharsets.UTF_8);
+          return deserializeOrThrow(raw, InferenceResponse.class, status);
+        } finally {
+          EntityUtils.consumeQuietly(entity);
+        }
+      });
     } catch (IOException err) {
       throw new MindeeException(err.getMessage(), err);
     }
@@ -245,11 +224,7 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
     }
   }
 
-
-  private HttpEntity buildHttpBody(
-      MultipartEntityBuilder builder,
-      InferenceParameters params
-  ) {
+  private HttpEntity buildHttpBody(MultipartEntityBuilder builder, InferenceParameters params) {
     builder.addTextBody("model_id", params.getModelId());
     if (params.getRag() != null) {
       builder.addTextBody("rag", params.getRag().toString().toLowerCase());
@@ -278,11 +253,7 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
     return builder.build();
   }
 
-
-  private HttpPost buildHttpPost(
-      String url,
-      InferenceParameters params
-  ) {
+  private HttpPost buildHttpPost(String url, InferenceParameters params) {
     HttpPost post;
     try {
       URIBuilder uriBuilder = new URIBuilder(url);
@@ -301,9 +272,11 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
     return post;
   }
 
-
   private <R extends CommonResponse> R deserializeOrThrow(
-      String body, Class<R> clazz, int httpStatus) throws MindeeHttpExceptionV2 {
+      String body,
+      Class<R> clazz,
+      int httpStatus
+  ) throws MindeeHttpExceptionV2 {
 
     if (httpStatus >= 200 && httpStatus < 400) {
       try {
@@ -311,7 +284,9 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
         model.setRawResponse(body);
         return model;
       } catch (Exception exception) {
-        throw new MindeeException("Couldn't deserialize server response:\n" + exception.getMessage());
+        throw new MindeeException(
+          "Couldn't deserialize server response:\n" + exception.getMessage()
+        );
       }
     }
 

@@ -11,6 +11,5 @@ import lombok.Getter;
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
 @EndpointInfo(endpointName = "resume", version = "1")
-public class ResumeV1
-    extends Inference<ResumeV1Document, ResumeV1Document> {
+public class ResumeV1 extends Inference<ResumeV1Document, ResumeV1Document> {
 }

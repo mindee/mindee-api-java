@@ -40,8 +40,7 @@ public final class InferenceResult {
   @Override
   public String toString() {
     StringJoiner joiner = new StringJoiner("\n");
-    joiner.add("Fields")
-          .add("======");
+    joiner.add("Fields").add("======");
     joiner.add(fields.toString());
 
     return joiner.toString();

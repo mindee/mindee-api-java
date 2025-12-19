@@ -1,6 +1,5 @@
 package com.mindee.geometry;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import lombok.Getter;
@@ -35,12 +34,13 @@ public final class Bbox {
    * Get the Bbox as a Polygon.
    */
   public Polygon getAsPolygon() {
-    List<Point> points = Arrays.asList(
+    List<Point> points = Arrays
+      .asList(
         new Point(this.minX, this.minY),
         new Point(this.maxX, this.minY),
         new Point(this.maxX, this.maxY),
         new Point(this.minX, this.maxY)
-    );
+      );
     return new Polygon(points);
   }
 }

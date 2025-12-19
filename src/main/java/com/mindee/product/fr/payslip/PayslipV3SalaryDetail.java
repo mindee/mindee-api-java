@@ -43,35 +43,21 @@ public class PayslipV3SalaryDetail extends BaseField implements LineItemField {
   Double rate;
 
   public boolean isEmpty() {
-    return (
-        amount == null
-        && base == null
-        && (description == null || description.isEmpty())
-        && number == null
-        && rate == null
-      );
+    return (amount == null
+      && base == null
+      && (description == null || description.isEmpty())
+      && number == null
+      && rate == null);
   }
 
   private Map<String, String> tablePrintableValues() {
     Map<String, String> printable = new HashMap<>();
 
-    printable.put(
-        "amount",
-        SummaryHelper.formatAmount(this.amount)
-    );
-    printable.put(
-        "base",
-        SummaryHelper.formatAmount(this.base)
-    );
+    printable.put("amount", SummaryHelper.formatAmount(this.amount));
+    printable.put("base", SummaryHelper.formatAmount(this.base));
     printable.put("description", SummaryHelper.formatForDisplay(this.description, 36));
-    printable.put(
-        "number",
-        SummaryHelper.formatAmount(this.number)
-    );
-    printable.put(
-        "rate",
-        SummaryHelper.formatAmount(this.rate)
-    );
+    printable.put("number", SummaryHelper.formatAmount(this.number));
+    printable.put("rate", SummaryHelper.formatAmount(this.rate));
     return printable;
   }
 
@@ -100,23 +86,11 @@ public class PayslipV3SalaryDetail extends BaseField implements LineItemField {
   private Map<String, String> printableValues() {
     Map<String, String> printable = new HashMap<>();
 
-    printable.put(
-        "amount",
-        SummaryHelper.formatAmount(this.amount)
-    );
-    printable.put(
-        "base",
-        SummaryHelper.formatAmount(this.base)
-    );
+    printable.put("amount", SummaryHelper.formatAmount(this.amount));
+    printable.put("base", SummaryHelper.formatAmount(this.base));
     printable.put("description", SummaryHelper.formatForDisplay(this.description, null));
-    printable.put(
-        "number",
-        SummaryHelper.formatAmount(this.number)
-    );
-    printable.put(
-        "rate",
-        SummaryHelper.formatAmount(this.rate)
-    );
+    printable.put("number", SummaryHelper.formatAmount(this.number));
+    printable.put("rate", SummaryHelper.formatAmount(this.rate));
     return printable;
   }
 }

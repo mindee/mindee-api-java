@@ -34,7 +34,7 @@ public class RequestParameters {
     } else {
       this.predictOptions = predictOptions;
     }
-    if (workflowOptions == null){
+    if (workflowOptions == null) {
       this.workflowOptions = WorkflowOptions.builder().build();
     } else {
       this.workflowOptions = workflowOptions;

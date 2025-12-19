@@ -34,25 +34,15 @@ public class BankAccountDetailsV1Document extends Prediction {
 
   @Override
   public boolean isEmpty() {
-    return (
-      this.iban == null
-      && this.accountHolderName == null
-      && this.swift == null
-      );
+    return (this.iban == null && this.accountHolderName == null && this.swift == null);
   }
 
   @Override
   public String toString() {
     StringBuilder outStr = new StringBuilder();
-    outStr.append(
-        String.format(":IBAN: %s%n", this.getIban())
-    );
-    outStr.append(
-        String.format(":Account Holder's Name: %s%n", this.getAccountHolderName())
-    );
-    outStr.append(
-        String.format(":SWIFT Code: %s%n", this.getSwift())
-    );
+    outStr.append(String.format(":IBAN: %s%n", this.getIban()));
+    outStr.append(String.format(":Account Holder's Name: %s%n", this.getAccountHolderName()));
+    outStr.append(String.format(":SWIFT Code: %s%n", this.getSwift()));
     return SummaryHelper.cleanSummary(outStr.toString());
   }
 }

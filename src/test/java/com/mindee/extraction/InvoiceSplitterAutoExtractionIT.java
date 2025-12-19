@@ -33,20 +33,22 @@ public class InvoiceSplitterAutoExtractionIT {
     );
   }
 
-  protected Document<InvoiceSplitterV1> getInvoiceSplitterPrediction() throws
-    IOException, MindeeException, InterruptedException {
-    AsyncPredictResponse<InvoiceSplitterV1> response =
-      client.enqueueAndParse(InvoiceSplitterV1.class, invoiceSplitterInputSource);
+  protected Document<InvoiceSplitterV1> getInvoiceSplitterPrediction() throws IOException, MindeeException, InterruptedException {
+    AsyncPredictResponse<InvoiceSplitterV1> response = client
+      .enqueueAndParse(InvoiceSplitterV1.class, invoiceSplitterInputSource);
     return response.getDocumentObj();
   }
 
-  protected PredictResponse<InvoiceV4> getInvoicePrediction(LocalInputSource invoicePDF) throws
-    IOException, MindeeException {
+  protected PredictResponse<InvoiceV4> getInvoicePrediction(
+      LocalInputSource invoicePDF
+  ) throws IOException, MindeeException {
     return client.parse(InvoiceV4.class, invoicePDF);
   }
 
-  protected String prepareInvoiceReturn(Path rstFilePath, Document<InvoiceV4> invoicePrediction)
-    throws IOException {
+  protected String prepareInvoiceReturn(
+      Path rstFilePath,
+      Document<InvoiceV4> invoicePrediction
+  ) throws IOException {
     List<String> rstRefLines = Files.readAllLines(rstFilePath);
     String parsingVersion = invoicePrediction.getInference().getProduct().getVersion();
     String parsingId = invoicePrediction.getId();
@@ -65,41 +67,37 @@ public class InvoiceSplitterAutoExtractionIT {
 
     PDFExtractor extractor = new PDFExtractor(invoiceSplitterInputSource);
     Assertions.assertEquals(2, extractor.getPageCount());
-    List<ExtractedPDF> extractedPDFsStrict =
-      extractor.extractInvoices(inference.getPrediction().getInvoicePageGroups(), false);
+    List<ExtractedPDF> extractedPDFsStrict = extractor
+      .extractInvoices(inference.getPrediction().getInvoicePageGroups(), false);
     Assertions.assertEquals(2, extractedPDFsStrict.size());
     Assertions.assertEquals("default_sample_001-001.pdf", extractedPDFsStrict.get(0).getFilename());
     Assertions.assertEquals("default_sample_002-002.pdf", extractedPDFsStrict.get(1).getFilename());
 
     PredictResponse<InvoiceV4> invoice0 = getInvoicePrediction(
-        extractedPDFsStrict.get(0).asInputSource()
+      extractedPDFsStrict.get(0).asInputSource()
     );
     String testStringRSTInvoice0 = prepareInvoiceReturn(
-        getV1ResourcePath("products/invoices/response_v4/summary_full_invoice_p1.rst"),
+      getV1ResourcePath("products/invoices/response_v4/summary_full_invoice_p1.rst"),
       invoice0.getDocument()
     );
     double invoice0Ratio = levenshteinRatio(
-        testStringRSTInvoice0,
-        String.join(
-            String.format("%n"),
-            invoice0.getDocument().toString().split(System.lineSeparator())
-        )
+      testStringRSTInvoice0,
+      String
+        .join(String.format("%n"), invoice0.getDocument().toString().split(System.lineSeparator()))
     );
     Assertions.assertTrue(invoice0Ratio > 0.90);
 
     PredictResponse<InvoiceV4> invoice1 = getInvoicePrediction(
-        extractedPDFsStrict.get(1).asInputSource()
+      extractedPDFsStrict.get(1).asInputSource()
     );
     String testStringRSTInvoice1 = prepareInvoiceReturn(
-        getV1ResourcePath("products/invoices/response_v4/summary_full_invoice_p2.rst"),
+      getV1ResourcePath("products/invoices/response_v4/summary_full_invoice_p2.rst"),
       invoice1.getDocument()
     );
     double invoice1Ratio = levenshteinRatio(
-        testStringRSTInvoice1,
-        String.join(
-            String.format("%n"),
-            invoice1.getDocument().toString().split(System.lineSeparator())
-        )
+      testStringRSTInvoice1,
+      String
+        .join(String.format("%n"), invoice1.getDocument().toString().split(System.lineSeparator()))
     );
     Assertions.assertTrue(invoice1Ratio > 0.90);
   }

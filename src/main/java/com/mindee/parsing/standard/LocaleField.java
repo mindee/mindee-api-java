@@ -1,6 +1,5 @@
 package com.mindee.parsing.standard;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
@@ -33,14 +32,10 @@ public class LocaleField extends BaseField {
   private final String currency;
 
   public LocaleField(
-      @JsonProperty("value")
-      String value,
-      @JsonProperty("language")
-      String language,
-      @JsonProperty("country")
-      String country,
-      @JsonProperty("currency")
-      String currency
+      @JsonProperty("value") String value,
+      @JsonProperty("language") String language,
+      @JsonProperty("country") String country,
+      @JsonProperty("currency") String currency
   ) {
     this.value = value;
     this.language = language;
@@ -53,12 +48,10 @@ public class LocaleField extends BaseField {
   }
 
   public boolean isEmpty() {
-    return (
-        (this.value == null || this.value.isEmpty())
-        && (this.country == null || this.country.isEmpty())
-        && (this.language == null || this.language.isEmpty())
-        && (this.currency == null || this.currency.isEmpty())
-      );
+    return ((this.value == null || this.value.isEmpty())
+      && (this.country == null || this.country.isEmpty())
+      && (this.language == null || this.language.isEmpty())
+      && (this.currency == null || this.currency.isEmpty()));
   }
 
   @Override

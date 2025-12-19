@@ -8,7 +8,6 @@ import com.mindee.geometry.PolygonDeserializer;
 import com.mindee.parsing.SummaryHelper;
 import lombok.Getter;
 
-
 /**
  * Represent a date.
  */
@@ -23,15 +22,10 @@ public class BooleanField extends BaseField {
   private Boolean value;
 
   public BooleanField(
-      @JsonProperty("value")
-      Boolean value,
-      @JsonProperty("confidence")
-      Double confidence,
-      @JsonProperty("polygon")
-      @JsonDeserialize(using = PolygonDeserializer.class)
-      Polygon polygon,
-      @JsonProperty("page_id")
-      Integer pageId
+      @JsonProperty("value") Boolean value,
+      @JsonProperty("confidence") Double confidence,
+      @JsonProperty("polygon") @JsonDeserialize(using = PolygonDeserializer.class) Polygon polygon,
+      @JsonProperty("page_id") Integer pageId
   ) {
     super(confidence, polygon, pageId);
     this.value = value;

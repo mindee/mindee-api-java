@@ -28,10 +28,7 @@ public class ResumeV1SocialNetworksUrl extends BaseField implements LineItemFiel
   String url;
 
   public boolean isEmpty() {
-    return (
-        (name == null || name.isEmpty())
-        && (url == null || url.isEmpty())
-      );
+    return ((name == null || name.isEmpty()) && (url == null || url.isEmpty()));
   }
 
   private Map<String, String> tablePrintableValues() {

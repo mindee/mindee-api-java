@@ -41,33 +41,19 @@ public final class AddressField extends StringField {
   private final String country;
 
   public AddressField(
-      @JsonProperty("value")
-      String value,
-      @JsonProperty("raw_value")
-      String rawValue,
-      @JsonProperty("street_number")
-      String streetNumber,
-      @JsonProperty("street_name")
-      String streetName,
-      @JsonProperty("po_box")
-      String poBox,
-      @JsonProperty("address_complement")
-      String addressComplement,
-      @JsonProperty("city")
-      String city,
-      @JsonProperty("postal_code")
-      String postalCode,
-      @JsonProperty("state")
-      String state,
-      @JsonProperty("country")
-      String country,
-      @JsonProperty("confidence")
-      Double confidence,
-      @JsonProperty("polygon")
-      @JsonDeserialize(using = PolygonDeserializer.class)
-      Polygon polygon,
-      @JsonProperty("page_id")
-      Integer pageId
+      @JsonProperty("value") String value,
+      @JsonProperty("raw_value") String rawValue,
+      @JsonProperty("street_number") String streetNumber,
+      @JsonProperty("street_name") String streetName,
+      @JsonProperty("po_box") String poBox,
+      @JsonProperty("address_complement") String addressComplement,
+      @JsonProperty("city") String city,
+      @JsonProperty("postal_code") String postalCode,
+      @JsonProperty("state") String state,
+      @JsonProperty("country") String country,
+      @JsonProperty("confidence") Double confidence,
+      @JsonProperty("polygon") @JsonDeserialize(using = PolygonDeserializer.class) Polygon polygon,
+      @JsonProperty("page_id") Integer pageId
   ) {
     super(value, rawValue, confidence, polygon, pageId);
     this.rawValue = rawValue;
@@ -84,13 +70,7 @@ public final class AddressField extends StringField {
   /**
    * Address field constructor only containing the value.
    */
-  public AddressField(
-      String value,
-      Double confidence,
-      Polygon polygon
-  ) {
-    this(value, null, null, null, null,
-        null, null, null, null, null,
-        confidence, polygon, null);
+  public AddressField(String value, Double confidence, Polygon polygon) {
+    this(value, null, null, null, null, null, null, null, null, null, confidence, polygon, null);
   }
 }

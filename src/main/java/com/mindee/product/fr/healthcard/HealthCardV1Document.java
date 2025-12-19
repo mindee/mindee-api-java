@@ -42,33 +42,20 @@ public class HealthCardV1Document extends Prediction {
 
   @Override
   public boolean isEmpty() {
-    return (
-      (this.givenNames == null || this.givenNames.isEmpty())
+    return ((this.givenNames == null || this.givenNames.isEmpty())
       && this.surname == null
       && this.socialSecurity == null
-      && this.issuanceDate == null
-      );
+      && this.issuanceDate == null);
   }
 
   @Override
   public String toString() {
     StringBuilder outStr = new StringBuilder();
-    String givenNames = SummaryHelper.arrayToString(
-        this.getGivenNames(),
-        "%n                "
-    );
-    outStr.append(
-        String.format(":Given Name(s): %s%n", givenNames)
-    );
-    outStr.append(
-        String.format(":Surname: %s%n", this.getSurname())
-    );
-    outStr.append(
-        String.format(":Social Security Number: %s%n", this.getSocialSecurity())
-    );
-    outStr.append(
-        String.format(":Issuance Date: %s%n", this.getIssuanceDate())
-    );
+    String givenNames = SummaryHelper.arrayToString(this.getGivenNames(), "%n                ");
+    outStr.append(String.format(":Given Name(s): %s%n", givenNames));
+    outStr.append(String.format(":Surname: %s%n", this.getSurname()));
+    outStr.append(String.format(":Social Security Number: %s%n", this.getSocialSecurity()));
+    outStr.append(String.format(":Issuance Date: %s%n", this.getIssuanceDate()));
     return SummaryHelper.cleanSummary(outStr.toString());
   }
 }

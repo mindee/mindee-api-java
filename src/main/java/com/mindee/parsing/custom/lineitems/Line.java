@@ -11,7 +11,6 @@ import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
 
-
 /**
  * Represent a single line.
  */
@@ -23,10 +22,7 @@ public class Line {
   @Setter
   private Bbox bbox;
 
-  public Line(
-      Integer rowNumber,
-      Map<String, StringField> fields
-  ) {
+  public Line(Integer rowNumber, Map<String, StringField> fields) {
     this.rowNumber = rowNumber;
     this.fields = fields;
     this.heightTolerance = 0.0;
@@ -38,39 +34,39 @@ public class Line {
     this.heightTolerance = heightTolerance;
   }
 
-  public void addField(
-      String name,
-      ListFieldValue fieldValue
-  ) {
+  public void addField(String name, ListFieldValue fieldValue) {
     if (fields.containsKey(name)) {
       StringField existingField = fields.get(name);
 
-      Polygon mergedPolygon = PolygonUtils.combine(
+      Polygon mergedPolygon = PolygonUtils
+        .combine(
           BoundingBoxUtils.createBoundingBoxFrom(existingField.getPolygon()),
           BoundingBoxUtils.createBoundingBoxFrom(fieldValue.getPolygon())
-      );
+        );
 
       String content = existingField.getValue() == null
           ? fieldValue.getContent()
           : String.join(" ", existingField.getValue(), fieldValue.getContent());
 
-      fields.replace(
+      fields
+        .replace(
           name,
           new StringField(
             content,
             existingField.getConfidence() * fieldValue.getConfidence(),
             mergedPolygon
           )
-      );
+        );
     } else {
-      fields.put(
+      fields
+        .put(
           name,
           new StringField(
             fieldValue.getContent(),
             fieldValue.getConfidence(),
             fieldValue.getPolygon()
           )
-      );
+        );
     }
   }
 }

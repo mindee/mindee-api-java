@@ -20,10 +20,11 @@ import org.apache.pdfbox.rendering.PDFRenderer;
  */
 public class PdfCompressor {
   public static byte[] compressPdf(
-      byte[] pdfData, Integer imageQuality,
-      Boolean forceSourceTextCompression, Boolean disableSourceText
-  )
-      throws IOException {
+      byte[] pdfData,
+      Integer imageQuality,
+      Boolean forceSourceTextCompression,
+      Boolean disableSourceText
+  ) throws IOException {
     if (!isPdf(pdfData)) {
       return pdfData;
     }
@@ -35,12 +36,13 @@ public class PdfCompressor {
       disableSourceText = true;
     }
     if (!forceSourceTextCompression && hasSourceText(pdfData)) {
-      System.out.println(
-          "MINDEE WARNING: Found text inside of the provided PDF file. Compression operation aborted.");
+      System.out
+        .println(
+          "MINDEE WARNING: Found text inside of the provided PDF file. Compression operation aborted."
+        );
       return pdfData;
     }
-    try (PDDocument inputDoc = Loader.loadPDF(pdfData);
-         PDDocument outputDoc = new PDDocument()) {
+    try (PDDocument inputDoc = Loader.loadPDF(pdfData); PDDocument outputDoc = new PDDocument()) {
 
       PDFRenderer pdfRenderer = new PDFRenderer(inputDoc);
 
@@ -48,9 +50,14 @@ public class PdfCompressor {
         PDPage originalPage = inputDoc.getPage(pageIndex);
         PDRectangle originalPageSize = originalPage.getMediaBox();
 
-        processPage(inputDoc, pageIndex, outputDoc,
-            pdfRenderer.renderImageWithDPI(pageIndex, 72 * (imageQuality / 100f), ImageType.ARGB),
-            (imageQuality / 100f), originalPageSize, disableSourceText
+        processPage(
+          inputDoc,
+          pageIndex,
+          outputDoc,
+          pdfRenderer.renderImageWithDPI(pageIndex, 72 * (imageQuality / 100f), ImageType.ARGB),
+          (imageQuality / 100f),
+          originalPageSize,
+          disableSourceText
         );
       }
 
@@ -61,7 +68,8 @@ public class PdfCompressor {
   }
 
   public static byte[] compressPdf(
-      byte[] pdfData, Integer imageQuality,
+      byte[] pdfData,
+      Integer imageQuality,
       Boolean forceSourceTextCompression
   ) throws IOException {
     return compressPdf(pdfData, imageQuality, forceSourceTextCompression, true);
@@ -76,12 +84,14 @@ public class PdfCompressor {
   }
 
   private static void processPage(
-      PDDocument originalDocument, Integer pageIndex,
-      PDDocument outputDoc, BufferedImage image,
+      PDDocument originalDocument,
+      Integer pageIndex,
+      PDDocument outputDoc,
+      BufferedImage image,
       Float imageQuality,
-      PDRectangle originalPageSize, Boolean disableSourceText
-  )
-      throws IOException {
+      PDRectangle originalPageSize,
+      Boolean disableSourceText
+  ) throws IOException {
     PDPage newPage = new PDPage(originalPageSize);
     outputDoc.addPage(newPage);
 

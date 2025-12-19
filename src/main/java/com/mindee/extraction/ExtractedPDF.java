@@ -1,6 +1,5 @@
 package com.mindee.extraction;
 
-import com.mindee.MindeeException;
 import com.mindee.input.LocalInputSource;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -19,6 +18,8 @@ public class ExtractedPDF {
   private final String filename;
 
   /**
+   * Default constructor.
+   *
    * @param pdf PDF wrapper object.
    * @param filename Name of the extracted file.
    */

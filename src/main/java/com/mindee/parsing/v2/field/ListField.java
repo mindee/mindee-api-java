@@ -30,7 +30,8 @@ public final class ListField extends BaseField {
    * Retrieves the {@code items} as {@code SimpleField} objects.
    *
    * @return a list of {@code SimpleField} objects
-   * @throws IllegalStateException if any dynamic field in the list is not of type {@code SIMPLE_FIELD}
+   * @throws IllegalStateException if any dynamic field in the list is not of type
+   * {@code SIMPLE_FIELD}
    */
   public List<SimpleField> getSimpleItems() throws IllegalStateException {
     List<SimpleField> simpleItems = new ArrayList<>();
@@ -46,7 +47,8 @@ public final class ListField extends BaseField {
    * Retrieves the {@code items} as {@code ObjectField} objects.
    *
    * @return a list of {@code ObjectField} objects
-   * @throws IllegalStateException if any dynamic field in the list is not of type {@code OBJECT_FIELD}
+   * @throws IllegalStateException if any dynamic field in the list is not of type
+   * {@code OBJECT_FIELD}
    */
   public List<ObjectField> getObjectItems() throws IllegalStateException {
     List<ObjectField> objectItems = new ArrayList<>();

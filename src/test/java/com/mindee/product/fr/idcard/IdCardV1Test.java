@@ -1,18 +1,18 @@
 package com.mindee.product.fr.idcard;
 
+import static com.mindee.TestingUtilities.assertStringEqualsFile;
+import static com.mindee.TestingUtilities.getV1ResourcePathString;
+
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mindee.parsing.common.Document;
 import com.mindee.parsing.common.Page;
 import com.mindee.parsing.common.PredictResponse;
 import com.mindee.parsing.standard.ClassificationField;
-import static com.mindee.TestingUtilities.assertStringEqualsFile;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.io.IOException;
-
-import static com.mindee.TestingUtilities.getV1ResourcePathString;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests for IdCardV1.
@@ -23,14 +23,14 @@ public class IdCardV1Test {
     ObjectMapper objectMapper = new ObjectMapper();
     objectMapper.findAndRegisterModules();
 
-    JavaType type = objectMapper.getTypeFactory().constructParametricType(
-      PredictResponse.class,
-      IdCardV1.class
-    );
-    return objectMapper.readValue(
-      new File(getV1ResourcePathString("products/idcard_fr/response_v1/" + name + ".json")),
-      type
-    );
+    JavaType type = objectMapper
+      .getTypeFactory()
+      .constructParametricType(PredictResponse.class, IdCardV1.class);
+    return objectMapper
+      .readValue(
+        new File(getV1ResourcePathString("products/idcard_fr/response_v1/" + name + ".json")),
+        type
+      );
   }
 
   @Test
@@ -47,7 +47,12 @@ public class IdCardV1Test {
     Assertions.assertNull(docPrediction.getGender().getValue());
     Assertions.assertNull(docPrediction.getMrz1().getValue());
     Assertions.assertNull(docPrediction.getMrz2().getValue());
-    IdCardV1Page pagePrediction = response.getDocument().getInference().getPages().get(0).getPrediction();
+    IdCardV1Page pagePrediction = response
+      .getDocument()
+      .getInference()
+      .getPages()
+      .get(0)
+      .getPrediction();
     Assertions.assertInstanceOf(ClassificationField.class, pagePrediction.getDocumentSide());
   }
 
@@ -56,8 +61,8 @@ public class IdCardV1Test {
     PredictResponse<IdCardV1> response = getPrediction("complete");
     Document<IdCardV1> doc = response.getDocument();
     assertStringEqualsFile(
-        doc.toString(),
-        getV1ResourcePathString("products/idcard_fr/response_v1/summary_full.rst")
+      doc.toString(),
+      getV1ResourcePathString("products/idcard_fr/response_v1/summary_full.rst")
     );
   }
 
@@ -66,8 +71,8 @@ public class IdCardV1Test {
     PredictResponse<IdCardV1> response = getPrediction("complete");
     Page<IdCardV1Page> page = response.getDocument().getInference().getPages().get(0);
     assertStringEqualsFile(
-        page.toString(),
-        getV1ResourcePathString("products/idcard_fr/response_v1/summary_page0.rst")
+      page.toString(),
+      getV1ResourcePathString("products/idcard_fr/response_v1/summary_page0.rst")
     );
   }
 }

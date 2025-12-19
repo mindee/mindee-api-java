@@ -42,13 +42,11 @@ public class PayslipV3PayPeriod extends BaseField {
   String year;
 
   public boolean isEmpty() {
-    return (
-        (endDate == null || endDate.isEmpty())
-        && (month == null || month.isEmpty())
-        && (paymentDate == null || paymentDate.isEmpty())
-        && (startDate == null || startDate.isEmpty())
-        && (year == null || year.isEmpty())
-      );
+    return ((endDate == null || endDate.isEmpty())
+      && (month == null || month.isEmpty())
+      && (paymentDate == null || paymentDate.isEmpty())
+      && (startDate == null || startDate.isEmpty())
+      && (year == null || year.isEmpty()));
   }
 
   /**
@@ -57,10 +55,10 @@ public class PayslipV3PayPeriod extends BaseField {
   public String toFieldList() {
     Map<String, String> printable = this.printableValues();
     return String.format("  :End Date: %s%n", printable.get("endDate"))
-        + String.format("  :Month: %s%n", printable.get("month"))
-        + String.format("  :Payment Date: %s%n", printable.get("paymentDate"))
-        + String.format("  :Start Date: %s%n", printable.get("startDate"))
-        + String.format("  :Year: %s%n", printable.get("year"));
+      + String.format("  :Month: %s%n", printable.get("month"))
+      + String.format("  :Payment Date: %s%n", printable.get("paymentDate"))
+      + String.format("  :Start Date: %s%n", printable.get("startDate"))
+      + String.format("  :Year: %s%n", printable.get("year"));
   }
 
   @Override

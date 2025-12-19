@@ -11,7 +11,7 @@ public interface PdfOperation {
    * Split a PDF file.
    *
    * @param splitQuery Options to perform the query.
-   * @return The split pdf.
+   * @return The split PDF.
    */
   SplitPdf split(SplitQuery splitQuery) throws IOException;
 }

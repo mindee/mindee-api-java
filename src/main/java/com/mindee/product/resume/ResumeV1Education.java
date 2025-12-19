@@ -53,15 +53,13 @@ public class ResumeV1Education extends BaseField implements LineItemField {
   String startYear;
 
   public boolean isEmpty() {
-    return (
-        (degreeDomain == null || degreeDomain.isEmpty())
-        && (degreeType == null || degreeType.isEmpty())
-        && (endMonth == null || endMonth.isEmpty())
-        && (endYear == null || endYear.isEmpty())
-        && (school == null || school.isEmpty())
-        && (startMonth == null || startMonth.isEmpty())
-        && (startYear == null || startYear.isEmpty())
-      );
+    return ((degreeDomain == null || degreeDomain.isEmpty())
+      && (degreeType == null || degreeType.isEmpty())
+      && (endMonth == null || endMonth.isEmpty())
+      && (endYear == null || endYear.isEmpty())
+      && (school == null || school.isEmpty())
+      && (startMonth == null || startMonth.isEmpty())
+      && (startYear == null || startYear.isEmpty()));
   }
 
   private Map<String, String> tablePrintableValues() {

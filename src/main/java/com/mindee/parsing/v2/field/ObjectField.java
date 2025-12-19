@@ -29,7 +29,7 @@ public class ObjectField extends BaseField {
    * {@code SimpleField} objects, keyed by their field names.
    *
    * @return a {@link LinkedHashMap} containing the field names as keys and their corresponding
-   *         {@code SimpleField} instances as values
+   * {@code SimpleField} instances as values
    * @throws IllegalStateException if any field is not of type {@code SIMPLE_FIELD}
    */
   public LinkedHashMap<String, SimpleField> getSimpleFields() throws IllegalStateException {

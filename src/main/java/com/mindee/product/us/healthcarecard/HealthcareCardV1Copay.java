@@ -28,19 +28,13 @@ public class HealthcareCardV1Copay extends BaseField implements LineItemField {
   String serviceName;
 
   public boolean isEmpty() {
-    return (
-        serviceFees == null
-        && (serviceName == null || serviceName.isEmpty())
-      );
+    return (serviceFees == null && (serviceName == null || serviceName.isEmpty()));
   }
 
   private Map<String, String> tablePrintableValues() {
     Map<String, String> printable = new HashMap<>();
 
-    printable.put(
-        "serviceFees",
-        SummaryHelper.formatAmount(this.serviceFees)
-    );
+    printable.put("serviceFees", SummaryHelper.formatAmount(this.serviceFees));
     printable.put("serviceName", SummaryHelper.formatForDisplay(this.serviceName, 20));
     return printable;
   }
@@ -64,10 +58,7 @@ public class HealthcareCardV1Copay extends BaseField implements LineItemField {
   private Map<String, String> printableValues() {
     Map<String, String> printable = new HashMap<>();
 
-    printable.put(
-        "serviceFees",
-        SummaryHelper.formatAmount(this.serviceFees)
-    );
+    printable.put("serviceFees", SummaryHelper.formatAmount(this.serviceFees));
     printable.put("serviceName", SummaryHelper.formatForDisplay(this.serviceName, null));
     return printable;
   }

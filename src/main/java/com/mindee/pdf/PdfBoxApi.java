@@ -37,9 +37,10 @@ public final class PdfBoxApi implements PdfOperation {
 
         List<Integer> pageRange = getPageRanges(splitQuery.getPageOptions(), totalOriginalPages);
 
-        pageRange.stream()
-            .filter(i -> i < totalOriginalPages)
-            .forEach(i -> splitDocument.addPage(originalDocument.getPage(i)));
+        pageRange
+          .stream()
+          .filter(i -> i < totalOriginalPages)
+          .forEach(i -> splitDocument.addPage(originalDocument.getPage(i)));
 
         try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
           splitDocument.save(outputStream);
@@ -52,12 +53,13 @@ public final class PdfBoxApi implements PdfOperation {
 
   private List<Integer> getPageRanges(PageOptions pageOptions, Integer numberOfPages) {
 
-    Set<Integer> pages = Optional.ofNullable(pageOptions.getPageIndexes())
-        .map(Collection::stream)
-        .orElseGet(Stream::empty)
-        .filter(x -> x > (numberOfPages) * (-1) && x <= (numberOfPages - 1))
-        .map(x -> (numberOfPages + x) % numberOfPages)
-        .collect(Collectors.toSet());
+    Set<Integer> pages = Optional
+      .ofNullable(pageOptions.getPageIndexes())
+      .map(Collection::stream)
+      .orElseGet(Stream::empty)
+      .filter(x -> x > (numberOfPages) * (-1) && x <= (numberOfPages - 1))
+      .map(x -> (numberOfPages + x) % numberOfPages)
+      .collect(Collectors.toSet());
     List<Integer> allPages = IntStream.range(0, numberOfPages).boxed().collect(Collectors.toList());
 
     switch (pageOptions.getOperation()) {

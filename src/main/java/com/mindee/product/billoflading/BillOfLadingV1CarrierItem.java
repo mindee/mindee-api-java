@@ -48,33 +48,22 @@ public class BillOfLadingV1CarrierItem extends BaseField implements LineItemFiel
   String weightUnit;
 
   public boolean isEmpty() {
-    return (
-        (description == null || description.isEmpty())
-        && grossWeight == null
-        && measurement == null
-        && (measurementUnit == null || measurementUnit.isEmpty())
-        && quantity == null
-        && (weightUnit == null || weightUnit.isEmpty())
-      );
+    return ((description == null || description.isEmpty())
+      && grossWeight == null
+      && measurement == null
+      && (measurementUnit == null || measurementUnit.isEmpty())
+      && quantity == null
+      && (weightUnit == null || weightUnit.isEmpty()));
   }
 
   private Map<String, String> tablePrintableValues() {
     Map<String, String> printable = new HashMap<>();
 
     printable.put("description", SummaryHelper.formatForDisplay(this.description, 36));
-    printable.put(
-        "grossWeight",
-        SummaryHelper.formatAmount(this.grossWeight)
-    );
-    printable.put(
-        "measurement",
-        SummaryHelper.formatAmount(this.measurement)
-    );
+    printable.put("grossWeight", SummaryHelper.formatAmount(this.grossWeight));
+    printable.put("measurement", SummaryHelper.formatAmount(this.measurement));
     printable.put("measurementUnit", SummaryHelper.formatForDisplay(this.measurementUnit, null));
-    printable.put(
-        "quantity",
-        SummaryHelper.formatAmount(this.quantity)
-    );
+    printable.put("quantity", SummaryHelper.formatAmount(this.quantity));
     printable.put("weightUnit", SummaryHelper.formatForDisplay(this.weightUnit, null));
     return printable;
   }
@@ -107,19 +96,10 @@ public class BillOfLadingV1CarrierItem extends BaseField implements LineItemFiel
     Map<String, String> printable = new HashMap<>();
 
     printable.put("description", SummaryHelper.formatForDisplay(this.description, null));
-    printable.put(
-        "grossWeight",
-        SummaryHelper.formatAmount(this.grossWeight)
-    );
-    printable.put(
-        "measurement",
-        SummaryHelper.formatAmount(this.measurement)
-    );
+    printable.put("grossWeight", SummaryHelper.formatAmount(this.grossWeight));
+    printable.put("measurement", SummaryHelper.formatAmount(this.measurement));
     printable.put("measurementUnit", SummaryHelper.formatForDisplay(this.measurementUnit, null));
-    printable.put(
-        "quantity",
-        SummaryHelper.formatAmount(this.quantity)
-    );
+    printable.put("quantity", SummaryHelper.formatAmount(this.quantity));
     printable.put("weightUnit", SummaryHelper.formatForDisplay(this.weightUnit, null));
     return printable;
   }

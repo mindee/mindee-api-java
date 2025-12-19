@@ -31,7 +31,9 @@ public class PolygonDeserializer extends StdDeserializer<Polygon> {
   ) throws IOException {
     ArrayNode node = jsonParser.getCodec().readTree(jsonParser);
 
-    List<List<Double>> polygonList = mapper.readerFor(new TypeReference<List<List<Double>>>() {}).readValue(node);
+    TypeReference<List<List<Double>>> typeRef = new TypeReference<List<List<Double>>>() {
+    };
+    List<List<Double>> polygonList = mapper.readerFor(typeRef).readValue(node);
 
     return PolygonUtils.getFrom(polygonList);
   }

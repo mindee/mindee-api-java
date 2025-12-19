@@ -91,8 +91,7 @@ public class NutritionFactsLabelV1Document extends Prediction {
 
   @Override
   public boolean isEmpty() {
-    return (
-      this.servingPerBox == null
+    return (this.servingPerBox == null
       && this.servingSize == null
       && this.calories == null
       && this.totalFat == null
@@ -105,69 +104,42 @@ public class NutritionFactsLabelV1Document extends Prediction {
       && this.addedSugars == null
       && this.protein == null
       && this.sodium == null
-      && (this.nutrients == null || this.nutrients.isEmpty())
-      );
+      && (this.nutrients == null || this.nutrients.isEmpty()));
   }
 
   @Override
   public String toString() {
     StringBuilder outStr = new StringBuilder();
-    outStr.append(
-        String.format(":Serving per Box: %s%n", this.getServingPerBox())
-    );
-    outStr.append(
-        String.format(":Serving Size:%n%s", this.getServingSize().toFieldList())
-    );
-    outStr.append(
-        String.format(":Calories:%n%s", this.getCalories().toFieldList())
-    );
-    outStr.append(
-        String.format(":Total Fat:%n%s", this.getTotalFat().toFieldList())
-    );
-    outStr.append(
-        String.format(":Saturated Fat:%n%s", this.getSaturatedFat().toFieldList())
-    );
-    outStr.append(
-        String.format(":Trans Fat:%n%s", this.getTransFat().toFieldList())
-    );
-    outStr.append(
-        String.format(":Cholesterol:%n%s", this.getCholesterol().toFieldList())
-    );
-    outStr.append(
-        String.format(":Total Carbohydrate:%n%s", this.getTotalCarbohydrate().toFieldList())
-    );
-    outStr.append(
-        String.format(":Dietary Fiber:%n%s", this.getDietaryFiber().toFieldList())
-    );
-    outStr.append(
-        String.format(":Total Sugars:%n%s", this.getTotalSugars().toFieldList())
-    );
-    outStr.append(
-        String.format(":Added Sugars:%n%s", this.getAddedSugars().toFieldList())
-    );
-    outStr.append(
-        String.format(":Protein:%n%s", this.getProtein().toFieldList())
-    );
-    outStr.append(
-        String.format(":sodium:%n%s", this.getSodium().toFieldList())
-    );
+    outStr.append(String.format(":Serving per Box: %s%n", this.getServingPerBox()));
+    outStr.append(String.format(":Serving Size:%n%s", this.getServingSize().toFieldList()));
+    outStr.append(String.format(":Calories:%n%s", this.getCalories().toFieldList()));
+    outStr.append(String.format(":Total Fat:%n%s", this.getTotalFat().toFieldList()));
+    outStr.append(String.format(":Saturated Fat:%n%s", this.getSaturatedFat().toFieldList()));
+    outStr.append(String.format(":Trans Fat:%n%s", this.getTransFat().toFieldList()));
+    outStr.append(String.format(":Cholesterol:%n%s", this.getCholesterol().toFieldList()));
+    outStr
+      .append(String.format(":Total Carbohydrate:%n%s", this.getTotalCarbohydrate().toFieldList()));
+    outStr.append(String.format(":Dietary Fiber:%n%s", this.getDietaryFiber().toFieldList()));
+    outStr.append(String.format(":Total Sugars:%n%s", this.getTotalSugars().toFieldList()));
+    outStr.append(String.format(":Added Sugars:%n%s", this.getAddedSugars().toFieldList()));
+    outStr.append(String.format(":Protein:%n%s", this.getProtein().toFieldList()));
+    outStr.append(String.format(":sodium:%n%s", this.getSodium().toFieldList()));
     String nutrientsSummary = "";
     if (!this.getNutrients().isEmpty()) {
-      int[] nutrientsColSizes = new int[]{13, 22, 10, 13, 6};
-      nutrientsSummary =
-        String.format("%n%s%n  ", SummaryHelper.lineSeparator(nutrientsColSizes, "-"))
-          + "| Daily Value "
-          + "| Name                 "
-          + "| Per 100g "
-          + "| Per Serving "
-          + "| Unit "
-          + String.format("|%n%s%n  ", SummaryHelper.lineSeparator(nutrientsColSizes, "="));
+      int[] nutrientsColSizes = new int[] { 13, 22, 10, 13, 6 };
+      nutrientsSummary = String
+        .format("%n%s%n  ", SummaryHelper.lineSeparator(nutrientsColSizes, "-"))
+        + "| Daily Value "
+        + "| Name                 "
+        + "| Per 100g "
+        + "| Per Serving "
+        + "| Unit "
+        + String.format("|%n%s%n  ", SummaryHelper.lineSeparator(nutrientsColSizes, "="));
       nutrientsSummary += SummaryHelper.arrayToString(this.getNutrients(), nutrientsColSizes);
-      nutrientsSummary += String.format("%n%s", SummaryHelper.lineSeparator(nutrientsColSizes, "-"));
+      nutrientsSummary += String
+        .format("%n%s", SummaryHelper.lineSeparator(nutrientsColSizes, "-"));
     }
-    outStr.append(
-        String.format(":nutrients: %s%n", nutrientsSummary)
-    );
+    outStr.append(String.format(":nutrients: %s%n", nutrientsSummary));
     return SummaryHelper.cleanSummary(outStr.toString());
   }
 }

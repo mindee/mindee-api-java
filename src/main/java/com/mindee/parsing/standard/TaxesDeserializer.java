@@ -29,9 +29,8 @@ public class TaxesDeserializer extends StdDeserializer<Taxes> {
     Taxes taxes = new Taxes();
     ArrayNode arrayNode = jsonParser.getCodec().readTree(jsonParser);
     for (JsonNode item : arrayNode) {
-      TaxField line = mapper
-          .readerFor(new TypeReference<TaxField>() {})
-          .readValue(item);
+      TaxField line = mapper.readerFor(new TypeReference<TaxField>() {
+      }).readValue(item);
       taxes.add(line);
     }
     return taxes;

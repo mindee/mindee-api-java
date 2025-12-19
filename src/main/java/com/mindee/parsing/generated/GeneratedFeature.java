@@ -11,20 +11,20 @@ import lombok.Getter;
 
 /**
  * <p>
- *   A generic feature which can represent any OTS Mindee return prediction.
+ * A generic feature which can represent any OTS Mindee return prediction.
  * </p>
  * <p>
- *   The Mindee API can return either lists or objects.
- *   Here we represent all features as a list, to simplify any code that interacts with this class.
+ * The Mindee API can return either lists or objects.
+ * Here we represent all features as a list, to simplify any code that interacts with this class.
  * </p>
  * <p>
- *   If you want, you can "cast" the raw hashmap into one of the standard Mindee fields:
+ * If you want, you can "cast" the raw hashmap into one of the standard Mindee fields:
  * </p>
  * <ul>
- *   <li>StringField - asStringField()</li>
- *   <li>AmountField - asAmountField()</li>
- *   <li>DateField - asDateField()</li>
- *   <li>ClassificationField - asClassificationField()</li>
+ * <li>StringField - asStringField()</li>
+ * <li>AmountField - asAmountField()</li>
+ * <li>DateField - asDateField()</li>
+ * <li>ClassificationField - asClassificationField()</li>
  * </ul>
  * This will not work for any feature which is a list in the Mindee return.
  *
@@ -35,6 +35,7 @@ public class GeneratedFeature extends ArrayList<GeneratedObject> {
 
   /**
    * Whether the original feature is a list.
+   * 
    * @param isList Whether the feature is a list.
    */
   public GeneratedFeature(boolean isList) {
@@ -44,6 +45,7 @@ public class GeneratedFeature extends ArrayList<GeneratedObject> {
   /**
    * Represent the feature as a standard {@link StringField}.
    * Only works for non-list features.
+   * 
    * @return An instance of a {@link StringField}.
    */
   public StringField asStringField() {
@@ -54,6 +56,8 @@ public class GeneratedFeature extends ArrayList<GeneratedObject> {
   }
 
   /**
+   * Represent the feature as a standard {@link BooleanField}.
+   * 
    * @return An instance of a {@link BooleanField}.
    */
   public BooleanField asBooleanField() {
@@ -66,6 +70,7 @@ public class GeneratedFeature extends ArrayList<GeneratedObject> {
   /**
    * Represent the feature as a standard {@link AmountField}.
    * Only works for non-list features.
+   * 
    * @return An instance of a {@link AmountField}.
    */
   public AmountField asAmountField() {
@@ -78,6 +83,7 @@ public class GeneratedFeature extends ArrayList<GeneratedObject> {
   /**
    * Represent the feature as a standard {@link DateField}.
    * Only works for non-list features.
+   * 
    * @return An instance of a {@link DateField}.
    */
   public DateField asDateField() {
@@ -90,6 +96,7 @@ public class GeneratedFeature extends ArrayList<GeneratedObject> {
   /**
    * Represent the feature as a standard {@link ClassificationField}.
    * Only works for non-list features.
+   * 
    * @return An instance of a {@link ClassificationField}.
    */
   public ClassificationField asClassificationField() {

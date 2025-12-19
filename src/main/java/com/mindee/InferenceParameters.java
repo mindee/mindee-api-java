@@ -36,7 +36,8 @@ public final class InferenceParameters {
    */
   private final String alias;
   /**
-   * Webhook IDs to call after all processing is finished. If empty, no webhooks will be used.
+   * Webhook IDs to call after all processing is finished.
+   * If empty, no webhooks will be used.
    */
   private final String[] webhookIds;
   /**
@@ -44,7 +45,8 @@ public final class InferenceParameters {
    */
   private final AsyncPollingOptions pollingOptions;
   /**
-   * Additional text context used by the model during inference. Not recommended, for specific use only.
+   * Additional text context used by the model during inference.
+   * Not recommended, for specific use only.
    */
   private final String textContext;
   /**
@@ -73,7 +75,7 @@ public final class InferenceParameters {
     private Boolean polygon = null;
     private Boolean confidence = null;
     private String alias;
-    private String[] webhookIds = new String[]{};
+    private String[] webhookIds = new String[] {};
     private String textContext;
     private String dataSchema;
     private AsyncPollingOptions pollingOptions = AsyncPollingOptions.builder().build();
@@ -142,16 +144,16 @@ public final class InferenceParameters {
     /** Build an immutable {@link InferenceParameters} instance. */
     public InferenceParameters build() {
       return new InferenceParameters(
-          modelId,
-          rag,
-          rawText,
-          polygon,
-          confidence,
-          alias,
-          webhookIds,
-          pollingOptions,
-          textContext,
-          dataSchema
+        modelId,
+        rag,
+        rawText,
+        polygon,
+        confidence,
+        alias,
+        webhookIds,
+        pollingOptions,
+        textContext,
+        dataSchema
       );
     }
   }

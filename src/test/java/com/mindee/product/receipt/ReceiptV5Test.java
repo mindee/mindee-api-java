@@ -1,17 +1,17 @@
 package com.mindee.product.receipt;
 
+import static com.mindee.TestingUtilities.assertStringEqualsFile;
+import static com.mindee.TestingUtilities.getV1ResourcePathString;
+
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mindee.parsing.common.Document;
 import com.mindee.parsing.common.PredictResponse;
 import com.mindee.parsing.standard.ClassificationField;
-import static com.mindee.TestingUtilities.assertStringEqualsFile;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.io.IOException;
-
-import static com.mindee.TestingUtilities.getV1ResourcePathString;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests for ReceiptV5.
@@ -22,14 +22,16 @@ public class ReceiptV5Test {
     ObjectMapper objectMapper = new ObjectMapper();
     objectMapper.findAndRegisterModules();
 
-    JavaType type = objectMapper.getTypeFactory().constructParametricType(
-      PredictResponse.class,
-      ReceiptV5.class
-    );
-    return objectMapper.readValue(
-      new File(getV1ResourcePathString("products/expense_receipts/response_v5/" + name + ".json")),
-      type
-    );
+    JavaType type = objectMapper
+      .getTypeFactory()
+      .constructParametricType(PredictResponse.class, ReceiptV5.class);
+    return objectMapper
+      .readValue(
+        new File(
+          getV1ResourcePathString("products/expense_receipts/response_v5/" + name + ".json")
+        ),
+        type
+      );
   }
 
   @Test
@@ -60,8 +62,8 @@ public class ReceiptV5Test {
     PredictResponse<ReceiptV5> response = getPrediction("complete");
     Document<ReceiptV5> doc = response.getDocument();
     assertStringEqualsFile(
-        doc.toString(),
-        getV1ResourcePathString("products/expense_receipts/response_v5/summary_full.rst")
+      doc.toString(),
+      getV1ResourcePathString("products/expense_receipts/response_v5/summary_full.rst")
     );
   }
 

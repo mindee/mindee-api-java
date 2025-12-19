@@ -29,17 +29,17 @@ public class LocalResponse {
 
   /**
    * Load from an {@link InputStream}.
+   * 
    * @param input will be decoded as UTF-8.
    */
   public LocalResponse(InputStream input) {
-    this.file = this.getBytes(
-        new BufferedReader(new InputStreamReader(input, StandardCharsets.UTF_8))
-            .lines()
-    );
+    this.file = this
+      .getBytes(new BufferedReader(new InputStreamReader(input, StandardCharsets.UTF_8)).lines());
   }
 
   /**
    * Load from a {@link String}.
+   * 
    * @param input will be decoded as UTF-8.
    */
   public LocalResponse(String input) {
@@ -48,22 +48,20 @@ public class LocalResponse {
 
   /**
    * Load from a {@link File}.
+   * 
    * @param input will be decoded as UTF-8.
    */
   public LocalResponse(File input) throws IOException {
-    this.file = this.getBytes(
-        Files.lines(input.toPath(), StandardCharsets.UTF_8)
-    );
+    this.file = this.getBytes(Files.lines(input.toPath(), StandardCharsets.UTF_8));
   }
 
   /**
    * Load from a {@link Path}.
+   * 
    * @param input will be decoded as UTF-8.
    */
   public LocalResponse(Path input) throws IOException {
-    this.file = this.getBytes(
-        Files.lines(input, StandardCharsets.UTF_8)
-    );
+    this.file = this.getBytes(Files.lines(input, StandardCharsets.UTF_8));
   }
 
   private byte[] getBytes(Stream<String> stream) {
@@ -72,14 +70,15 @@ public class LocalResponse {
 
   /**
    * Get the HMAC signature of the payload.
+   * 
    * @param secretKey Your secret key from the Mindee platform.
    * @return The generated HMAC signature.
    */
   public String getHmacSignature(String secretKey) {
     String algorithm = "HmacSHA256";
     SecretKeySpec secretKeySpec = new SecretKeySpec(
-        secretKey.getBytes(StandardCharsets.UTF_8),
-        algorithm
+      secretKey.getBytes(StandardCharsets.UTF_8),
+      algorithm
     );
     Mac mac;
     try {
@@ -98,6 +97,7 @@ public class LocalResponse {
 
   /**
    * Verify that the payload's signature matches the one received from the server.
+   * 
    * @param secretKey Your secret key from the Mindee platform.
    * @param signature The signature from the "X-Mindee-Hmac-Signature" HTTP header.
    * @return true if the signatures match.
@@ -106,13 +106,12 @@ public class LocalResponse {
     return signature.equals(getHmacSignature(secretKey));
   }
 
-
   /**
    * Deserialize this local JSON payload into a specific {@link CommonResponse}
    * subtype: {@code InferenceResponse}, {@code JobResponse}.
    *
    * @param responseClass the concrete class to instantiate
-   * @param <T>           generic {@link CommonResponse}
+   * @param <T> generic {@link CommonResponse}
    * @return Either a {@code InferenceResponse} or {@code JobResponse} instance.
    * @throws MindeeException if the payload cannot be deserialized into the requested type
    */

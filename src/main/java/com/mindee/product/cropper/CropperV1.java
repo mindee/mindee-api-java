@@ -11,6 +11,5 @@ import lombok.Getter;
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
 @EndpointInfo(endpointName = "cropper", version = "1")
-public class CropperV1
-    extends Inference<CropperV1Page, CropperV1Document> {
+public class CropperV1 extends Inference<CropperV1Page, CropperV1Document> {
 }

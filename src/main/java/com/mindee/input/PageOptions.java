@@ -28,6 +28,8 @@ public class PageOptions {
   Integer onMinPages;
 
   /**
+   * Default constructor.
+   * 
    * @deprecated Use the Builder pattern instead.
    */
   @Deprecated
@@ -36,13 +38,12 @@ public class PageOptions {
   }
 
   /**
+   * Constructor with operation.
+   * 
    * @deprecated Use the Builder pattern instead.
    */
   @Deprecated
-  public PageOptions(
-      List<Integer> pages,
-      PageOptionsOperation operation
-  ) {
+  public PageOptions(List<Integer> pages, PageOptionsOperation operation) {
     this(pages, operation, 0);
   }
 
@@ -78,6 +79,7 @@ public class PageOptions {
       this.operation = operation;
       return this;
     }
+
     public Builder onMinPages(Integer onMinPages) {
       this.onMinPages = onMinPages;
       return this;

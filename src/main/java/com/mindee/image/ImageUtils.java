@@ -33,10 +33,12 @@ public class ImageUtils {
       return new Dimensions(original.getWidth(), original.getHeight());
     }
 
-    double widthRatio =
-        maxWidth != null ? (double) maxWidth / original.getWidth() : Double.POSITIVE_INFINITY;
-    double heightRatio =
-        maxHeight != null ? (double) maxHeight / original.getHeight() : Double.POSITIVE_INFINITY;
+    double widthRatio = maxWidth != null
+        ? (double) maxWidth / original.getWidth()
+        : Double.POSITIVE_INFINITY;
+    double heightRatio = maxHeight != null
+        ? (double) maxHeight / original.getHeight()
+        : Double.POSITIVE_INFINITY;
 
     double scaleFactor = Math.min(widthRatio, heightRatio);
 

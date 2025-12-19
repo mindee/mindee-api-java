@@ -35,16 +35,18 @@ public final class SummaryHelper {
    * Given a list of fields, return a string.
    */
   public static <T> String arrayToString(List<T> list, String delimiter) {
-    return list.stream()
-      .map(T::toString)
-      .collect(Collectors.joining(String.format(delimiter)));
+    return list.stream().map(T::toString).collect(Collectors.joining(String.format(delimiter)));
   }
 
-  public static <T extends LineItemField> String arrayToString(List<T> lineItems, int[] columnSizes) {
-    return lineItems.stream()
+  public static <T extends LineItemField> String arrayToString(
+      List<T> lineItems,
+      int[] columnSizes
+  ) {
+    return lineItems
+      .stream()
       .map(T::toTableLine)
-      .collect(Collectors.joining(
-        String.format("%n%s%n  ", SummaryHelper.lineSeparator(columnSizes, "-")))
+      .collect(
+        Collectors.joining(String.format("%n%s%n  ", SummaryHelper.lineSeparator(columnSizes, "-")))
       );
   }
 
@@ -55,10 +57,7 @@ public final class SummaryHelper {
     if (inputValue == null || inputValue.isEmpty()) {
       return "";
     }
-    String outputValue = inputValue
-        .replace("\n", "\\n")
-        .replace("\t", "\\t")
-        .replace("\r", "\\r");
+    String outputValue = inputValue.replace("\n", "\\n").replace("\t", "\\t").replace("\r", "\\r");
     if (maxColSize == null || outputValue.length() <= maxColSize) {
       return outputValue;
     } else {
