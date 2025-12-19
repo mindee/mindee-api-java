@@ -71,14 +71,12 @@ public class InputSourceUtils {
    * Returns true if the file is a PDF.
    */
   public static boolean isPdf(byte[] fileBytes) {
-    try (
-        PDDocument document = Loader
-          .loadPDF(new RandomAccessReadBuffer(new ByteArrayInputStream(fileBytes)))
-    ) {
-      return true;
+    try {
+      Loader.loadPDF(new RandomAccessReadBuffer(new ByteArrayInputStream(fileBytes)));
     } catch (IOException e) {
       return false;
     }
+    return true;
   }
 
   /**

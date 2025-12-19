@@ -30,4 +30,9 @@ public class Point {
     Point point = (Point) object;
     return this.x.equals(point.x) && this.y.equals(point.y);
   }
+
+  @Override
+  public int hashCode() {
+    return x.hashCode() + y.hashCode();
+  }
 }

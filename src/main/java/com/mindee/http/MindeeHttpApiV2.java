@@ -73,7 +73,7 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
       InferenceParameters options
   ) {
     String url = this.mindeeSettings.getBaseUrl() + "/inferences/enqueue";
-    HttpPost post = buildHttpPost(url, options);
+    HttpPost post = buildHttpPost(url);
 
     MultipartEntityBuilder builder = MultipartEntityBuilder.create();
     builder.setMode(HttpMultipartMode.EXTENDED);
@@ -101,7 +101,7 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
       InferenceParameters options
   ) {
     String url = this.mindeeSettings.getBaseUrl() + "/inferences/enqueue";
-    HttpPost post = buildHttpPost(url, options);
+    HttpPost post = buildHttpPost(url);
 
     MultipartEntityBuilder builder = MultipartEntityBuilder.create();
     builder.setMode(HttpMultipartMode.EXTENDED);
@@ -112,7 +112,7 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
 
   /**
    * Executes an enqueue action, common to URL & local inputs.
-   * 
+   *
    * @param post HTTP Post object.
    * @return a valid job response.
    */
@@ -253,7 +253,7 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
     return builder.build();
   }
 
-  private HttpPost buildHttpPost(String url, InferenceParameters params) {
+  private HttpPost buildHttpPost(String url) {
     HttpPost post;
     try {
       URIBuilder uriBuilder = new URIBuilder(url);
