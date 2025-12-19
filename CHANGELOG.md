@@ -1,5 +1,15 @@
 # Mindee Java Client Library Changelog
 
+## v4.40.0 - 2025-12-19
+### Changes
+* :sparkles: add basic data-schema replace to v2
+* :arrow_up: security, bump dependency versions
+* :sparkles: add big decimal support to v2 fields
+* :technologist: automatically check for common coding problems
+### Fixes
+* :technologist: minor fixes for common coding problems
+
+
 ## v4.39.0 - 2025-12-02
 ### Changes
 * :sparkles: add support text context return option
