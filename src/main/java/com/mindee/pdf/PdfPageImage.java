@@ -51,6 +51,7 @@ public class PdfPageImage {
   }
 
   /**
+   * Generate a filename for the image.
    * @return An auto-generated filename String.
    */
   public String getFilename() {

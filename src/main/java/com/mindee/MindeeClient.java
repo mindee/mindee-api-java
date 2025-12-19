@@ -416,6 +416,7 @@ public class MindeeClient {
   }
 
   /**
+   * Validate async polling options.
    * @param pollingOptions Options for async call parameters
    * @throws MindeeException Throws if settings aren't set properly.
    */

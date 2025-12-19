@@ -36,6 +36,7 @@ public class CommandLineInterfaceProducts {
   private final ProductProcessor processor;
 
   /**
+   * Default constructor.
    * @param processor Processor instance to render the products.
    */
   public CommandLineInterfaceProducts(ProductProcessor processor) {

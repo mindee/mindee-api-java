@@ -54,6 +54,7 @@ public class GeneratedFeature extends ArrayList<GeneratedObject> {
   }
 
   /**
+   * Represent the feature as a standard {@link BooleanField}.
    * @return An instance of a {@link BooleanField}.
    */
   public BooleanField asBooleanField() {

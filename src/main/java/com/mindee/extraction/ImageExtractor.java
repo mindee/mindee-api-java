@@ -57,6 +57,8 @@ public class ImageExtractor {
   }
 
   /**
+   * Get the number of pages in the file.
+   *
    * @return The number of pages in the file.
    */
   public int getPageCount() {

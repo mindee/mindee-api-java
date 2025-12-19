@@ -19,6 +19,8 @@ public class ExtractedPDF {
   private final String filename;
 
   /**
+   * Default constructor.
+   *
    * @param pdf PDF wrapper object.
    * @param filename Name of the extracted file.
    */

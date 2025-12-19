@@ -22,8 +22,9 @@ public class BankCheckV1Page extends BankCheckV1Document {
    */
   @JsonProperty("check_position")
   protected PositionField checkPosition;
+
   /**
-   * List of signature positions
+   * List of signature positions.
    */
   @JsonProperty("signatures_positions")
   protected List<PositionField> signaturesPositions = new ArrayList<>();

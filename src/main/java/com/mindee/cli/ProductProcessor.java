@@ -16,6 +16,7 @@ import picocli.CommandLine;
 )
 public interface ProductProcessor {
   /**
+   * Process a product synchronously.
    * @param productClass Product class to be processed for synchronous products.
    * @param file Input file.
    * @param <T> Type of the product.
@@ -25,6 +26,7 @@ public interface ProductProcessor {
   <T extends Inference<?, ?>> String standardProductOutput(Class<T> productClass, File file) throws IOException;
 
   /**
+   * Process a product asynchronously.
    * @param productClass Product class to be processed for asynchronous products.
    * @param file Input file.
    * @param <T> Type of the product.

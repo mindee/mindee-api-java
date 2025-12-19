@@ -28,6 +28,7 @@ public class PageOptions {
   Integer onMinPages;
 
   /**
+   * Default constructor.
    * @deprecated Use the Builder pattern instead.
    */
   @Deprecated
@@ -36,6 +37,7 @@ public class PageOptions {
   }
 
   /**
+   * Constructor with operation.
    * @deprecated Use the Builder pattern instead.
    */
   @Deprecated

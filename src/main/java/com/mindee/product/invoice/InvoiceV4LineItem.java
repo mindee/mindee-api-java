@@ -27,7 +27,7 @@ public class InvoiceV4LineItem extends BaseField implements LineItemField {
   @JsonProperty("product_code")
   String productCode;
   /**
-   * The item quantity
+   * The item quantity.
    */
   @JsonProperty("quantity")
   Double quantity;

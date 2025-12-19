@@ -12,9 +12,13 @@ import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.TemporalAccessor;
 
 /**
- * Deserializer for LocalDateTime
+ * Deserializer for LocalDateTime.
  */
 public class LocalDateTimeDeserializer extends JsonDeserializer<LocalDateTime> {
+
+  /**
+   * Deserialize a LocalDateTime from a JSON string.
+   */
   @Override
   public LocalDateTime deserialize(
       JsonParser jsonParser,

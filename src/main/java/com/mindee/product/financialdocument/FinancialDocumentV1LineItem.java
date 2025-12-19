@@ -27,7 +27,7 @@ public class FinancialDocumentV1LineItem extends BaseField implements LineItemFi
   @JsonProperty("product_code")
   String productCode;
   /**
-   * The item quantity
+   * The item quantity.
    */
   @JsonProperty("quantity")
   Double quantity;

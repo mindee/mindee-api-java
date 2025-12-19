@@ -60,12 +60,12 @@ public class PassportV1Document extends Prediction {
   @JsonProperty("issuance_date")
   protected DateField issuanceDate;
   /**
-   * Machine Readable Zone, first line
+   * Machine Readable Zone, first line.
    */
   @JsonProperty("mrz1")
   protected StringField mrz1;
   /**
-   * Machine Readable Zone, second line
+   * Machine Readable Zone, second line.
    */
   @JsonProperty("mrz2")
   protected StringField mrz2;

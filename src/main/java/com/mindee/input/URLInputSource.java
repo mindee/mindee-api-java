@@ -26,6 +26,9 @@ public class URLInputSource {
   private String localFilename;
   private final String token;
 
+  /**
+   * Private constructor.
+   */
   URLInputSource(Builder builder) {
     this.url = builder.url;
     this.username = builder.username;
@@ -35,6 +38,7 @@ public class URLInputSource {
   }
 
   /**
+   * Creates a new builder for an URLInputSource.
    * @param url URL to fetch the file from.
    * @return An instance of {@link URLInputSource}.
    */
@@ -188,6 +192,8 @@ public class URLInputSource {
     private String token;
 
     /**
+     * Default constructor.
+     *
      * @param url Remote URL resource.
      */
     public Builder(String url) {
@@ -195,6 +201,8 @@ public class URLInputSource {
     }
 
     /**
+     * Builder method to set the token for remote access.
+     *
      * @param token Token for remote access requiring an authentication Token.
      * @return An instance of the builder.
      */
@@ -204,6 +212,8 @@ public class URLInputSource {
     }
 
     /**
+     * Builder method to set the username and password for remote authentication.
+     *
      * @param username Username for remote authentication.
      * @param password Password for remote authentication.
      * @return An instance of the builder.
@@ -215,6 +225,8 @@ public class URLInputSource {
     }
 
     /**
+     * Builder method to set the local filename for the downloaded file.
+     *
      * @param filename Filename to give to the file.
      * @return An instance of the builder.
      */
@@ -225,6 +237,8 @@ public class URLInputSource {
 
 
     /**
+     * Build the {@link URLInputSource} object.
+     *
      * @return A valid {@link URLInputSource} object.
      */
     public URLInputSource build() {

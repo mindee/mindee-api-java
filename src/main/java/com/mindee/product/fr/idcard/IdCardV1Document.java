@@ -55,12 +55,12 @@ public class IdCardV1Document extends Prediction {
   @JsonProperty("id_number")
   protected StringField idNumber;
   /**
-   * Machine Readable Zone, first line
+   * Machine Readable Zone, first line.
    */
   @JsonProperty("mrz1")
   protected StringField mrz1;
   /**
-   * Machine Readable Zone, second line
+   * Machine Readable Zone, second line.
    */
   @JsonProperty("mrz2")
   protected StringField mrz2;

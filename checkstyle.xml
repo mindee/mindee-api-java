@@ -326,6 +326,7 @@
     <module name="SummaryJavadoc">
       <property name="forbiddenSummaryFragments"
                value="^@return the *|^This method returns |^A [{]@code [a-zA-Z0-9]+[}]( is a )"/>
+      <property name="severity" value="error"/>
     </module>
     <module name="JavadocParagraph"/>
     <module name="RequireEmptyLineBeforeBlockTagGroup"/>

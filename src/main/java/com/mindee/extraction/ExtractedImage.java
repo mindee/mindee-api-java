@@ -20,6 +20,7 @@ public class ExtractedImage {
   private final String saveFormat;
 
   /**
+   * Default constructor.
    * @param image Buffered image object.
    * @param filename Name of the extracted image.
    * @param saveFormat Format to save the image as, defaults to PNG.

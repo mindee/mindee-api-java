@@ -64,7 +64,9 @@ public class PDFExtractor {
   }
 
   /**
-   * @return The number of pages in the file.
+   * Get the number of pages in the PDF file.
+   *
+   * @return The number of pages in the PDF file.
    */
   public int getPageCount() {
     return sourcePdf.getNumberOfPages();

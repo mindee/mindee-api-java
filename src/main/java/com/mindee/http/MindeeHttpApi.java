@@ -50,7 +50,7 @@ public final class MindeeHttpApi extends MindeeApi {
   private final MindeeSettings mindeeSettings;
   /**
    * The HttpClientBuilder used to create HttpClient objects used to make api calls over http.
-   * Defaults to HttpClientBuilder.create().useSystemProperties()
+   * Defaults to HttpClientBuilder.create().useSystemProperties().
    */
   private final HttpClientBuilder httpClientBuilder;
   /**
@@ -145,7 +145,7 @@ public final class MindeeHttpApi extends MindeeApi {
   }
 
   /**
-   * GET job status and document for an enqueued job
+   * GET job status and document for an enqueued job.
    */
   public <DocT extends Inference> AsyncPredictResponse<DocT> documentQueueGet(
       Class<DocT> documentClass,

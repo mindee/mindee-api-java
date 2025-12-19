@@ -175,7 +175,7 @@ public class FinancialDocumentV1Document extends Prediction {
   @JsonProperty("time")
   protected StringField time;
   /**
-   * The total amount of tip and gratuity
+   * The total amount of tip and gratuity.
    */
   @JsonProperty("tip")
   protected AmountField tip;

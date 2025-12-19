@@ -12,6 +12,7 @@ public class LineItems {
   private List<Line> rows;
 
   /**
+   * Default constructor.
    * @param rows
    */
   public LineItems(List<Line> rows) {
