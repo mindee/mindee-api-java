@@ -42,6 +42,24 @@ public class ObjectField extends BaseField {
     return simpleFields;
   }
 
+  /**
+   * Retrieves all subfields from the {@code fields} map as a {@link LinkedHashMap} of
+   * {@code ListField} objects, keyed by their field names.
+   * 
+   * @return a {@link LinkedHashMap} containing the field names as keys and their corresponding
+   * {@code ListField} instances as values
+   * @throws IllegalStateException if any field is not of type {@code LIST_FIELD}
+   */
+  public LinkedHashMap<String, ListField> getListFields() throws IllegalStateException {
+    LinkedHashMap<String, ListField> listFields = new LinkedHashMap<>();
+    if (fields != null) {
+      for (String fieldName : fields.keySet()) {
+        listFields.put(fieldName, fields.getListField(fieldName));
+      }
+    }
+    return listFields;
+  }
+
   @Override
   public String toString() {
     return "\n" + (fields != null ? fields.toString(1) : "");

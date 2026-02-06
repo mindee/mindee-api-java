@@ -19,7 +19,7 @@ public class LocalResponseV2Test {
   /**
    * Real signature using fake secret key.
    */
-  String signature = "1df388c992d87897fe61dfc56c444c58fc3c7369c31e2b5fd20d867695e93e85";
+  String signature = "f390d9f7f57ac04f47b6309d8a40236b0182610804fc20e91b1f6028aaca07a7";
 
   /**
    * File which the signature applies to.

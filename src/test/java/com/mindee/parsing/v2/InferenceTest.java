@@ -174,6 +174,7 @@ class InferenceTest {
       InferenceFields lvl1 = fieldObject.getFields();
       assertNotNull(lvl1.get("sub_object_list").getListField());
       assertNotNull(lvl1.get("sub_object_object").getObjectField());
+      assertEquals(3, lvl1.get("sub_object_object").getObjectField().getListFields().size());
 
       ObjectField subObjectObject = lvl1.get("sub_object_object").getObjectField();
       InferenceFields lvl2 = subObjectObject.getFields();
