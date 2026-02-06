@@ -45,16 +45,18 @@ public class ObjectField extends BaseField {
   /**
    * Retrieves all subfields from the {@code fields} map as a {@link LinkedHashMap} of
    * {@code ListField} objects, keyed by their field names.
-   * 
+   *
    * @return a {@link LinkedHashMap} containing the field names as keys and their corresponding
-   * {@code ListField} instances as values
-   * @throws IllegalStateException if any field is not of type {@code LIST_FIELD}
+   * {@code ListField} instances as values (only includes fields that are list fields)
    */
-  public LinkedHashMap<String, ListField> getListFields() throws IllegalStateException {
+  public LinkedHashMap<String, ListField> getListFields() {
     LinkedHashMap<String, ListField> listFields = new LinkedHashMap<>();
     if (fields != null) {
       for (String fieldName : fields.keySet()) {
-        listFields.put(fieldName, fields.getListField(fieldName));
+        DynamicField field = fields.get(fieldName);
+        if (field != null && field.getType() == DynamicField.FieldType.LIST_FIELD) {
+          listFields.put(fieldName, field.getListField());
+        }
       }
     }
     return listFields;
