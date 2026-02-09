@@ -66,10 +66,11 @@ public class ObjectField extends BaseField {
    * Retrieves a single sub-field from the {@code fields} map as a {@link SimpleField}.
    *
    * @param fieldKey the name/key of the field to retrieve
-   * @return the corresponding {@link SimpleField}, or {@code null} if {@code fields} is {@code null}
-   *         or if no field exists for {@code fieldKey} (depending on {@code fields}' behavior)
+   * @return the corresponding {@link SimpleField}, or {@code null} if {@code fields} is
+   * {@code null}
+   * or if no field exists for {@code fieldKey} (depending on {@code fields}' behavior)
    * @throws IllegalStateException if the referenced field exists but is not of type
-   *         {@code SIMPLE_FIELD}
+   * {@code SIMPLE_FIELD}
    */
   public SimpleField getSimpleField(String fieldKey) throws IllegalStateException {
     if (fields == null) {
@@ -82,10 +83,11 @@ public class ObjectField extends BaseField {
    * Retrieves a list sub-field from the {@code fields} map as a {@link SimpleField}.
    *
    * @param fieldKey the name/key of the field to retrieve
-   * @return the corresponding {@link SimpleField}, or {@code null} if {@code fields} is {@code null}
-   *         or if no field exists for {@code fieldKey} (depending on {@code fields}' behavior)
+   * @return the corresponding {@link SimpleField}, or {@code null} if {@code fields} is
+   * {@code null}
+   * or if no field exists for {@code fieldKey} (depending on {@code fields}' behavior)
    * @throws IllegalStateException if the referenced field exists but is not of type
-   *         {@code SIMPLE_FIELD}
+   * {@code SIMPLE_FIELD}
    */
   public ListField getListField(String fieldKey) {
     if (fields == null) {
@@ -93,7 +95,6 @@ public class ObjectField extends BaseField {
     }
     return fields.getListField(fieldKey);
   }
-
 
   @Override
   public String toString() {

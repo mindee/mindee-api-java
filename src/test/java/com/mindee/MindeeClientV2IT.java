@@ -142,7 +142,9 @@ class MindeeClientV2IT {
       .builder(modelId)
       .rag(false)
       .alias("java-integration-test_data-schema-replace")
-      .dataSchema(readFileAsString(getV2ResourcePath("products/extraction/data_schema_replace_param.json")))
+      .dataSchema(
+        readFileAsString(getV2ResourcePath("products/extraction/data_schema_replace_param.json"))
+      )
       .build();
 
     InferenceResponse response = mindeeClient.enqueueAndGetInference(source, params);
