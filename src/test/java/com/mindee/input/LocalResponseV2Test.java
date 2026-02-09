@@ -19,12 +19,12 @@ public class LocalResponseV2Test {
   /**
    * Real signature using fake secret key.
    */
-  String signature = "f390d9f7f57ac04f47b6309d8a40236b0182610804fc20e91b1f6028aaca07a7";
+  String signature = "e51bdf80f1a08ed44ee161100fc30a25cb35b4ede671b0a575dc9064a3f5dbf1";
 
   /**
    * File which the signature applies to.
    */
-  Path filePath = getV2ResourcePath("inference/standard_field_types.json");
+  Path filePath = getV2ResourcePath("products/extraction/standard_field_types.json");
 
   protected void assertLocalResponse(LocalResponse localResponse) {
     Assertions.assertNotNull(localResponse.getFile());

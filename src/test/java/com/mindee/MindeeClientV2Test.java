@@ -1,10 +1,5 @@
 package com.mindee;
 
-import static com.mindee.TestingUtilities.getResourcePath;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.*;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mindee.http.MindeeApiV2;
@@ -12,12 +7,22 @@ import com.mindee.input.LocalInputSource;
 import com.mindee.input.LocalResponse;
 import com.mindee.parsing.v2.InferenceResponse;
 import com.mindee.parsing.v2.JobResponse;
-import java.io.IOException;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+
+import java.io.IOException;
+
+import static com.mindee.TestingUtilities.getResourcePath;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.atMostOnce;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @DisplayName("MindeeV2 – Client and API Tests")
 class MindeeClientV2Test {
@@ -87,7 +92,11 @@ class MindeeClientV2Test {
       MindeeApiV2 predictable = Mockito.mock(MindeeApiV2.class);
 
       String json = FileUtils
-        .readFileToString(getResourcePath("v2/products/financial_document/complete.json").toFile());
+          .readFileToString(
+              getResourcePath(
+                  "v2/products/extraction/financial_document/complete.json"
+              ).toFile()
+          );
 
       ObjectMapper mapper = new ObjectMapper();
       mapper.findAndRegisterModules();
@@ -129,7 +138,7 @@ class MindeeClientV2Test {
     @DisplayName("parses local JSON and exposes correct field values")
     void inference_loadsLocally() throws IOException {
       LocalResponse localResponse = new LocalResponse(
-        getResourcePath("v2/products/financial_document/complete.json")
+          getResourcePath("v2/products/extraction/financial_document/complete.json")
       );
       InferenceResponse loaded = localResponse.deserializeResponse(InferenceResponse.class);
 
