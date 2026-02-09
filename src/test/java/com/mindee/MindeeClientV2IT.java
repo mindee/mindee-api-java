@@ -87,7 +87,7 @@ class MindeeClientV2IT {
   @DisplayName("Filled, single-page image – enqueue & parse must succeed")
   void parseFile_filledSinglePage_mustSucceed() throws IOException, InterruptedException {
     LocalInputSource source = new LocalInputSource(
-      getV2ResourcePath("products/financial_document/default_sample.jpg")
+      getV2ResourcePath("products/extraction/financial_document/default_sample.jpg")
     );
 
     InferenceParameters params = InferenceParameters
@@ -135,14 +135,16 @@ class MindeeClientV2IT {
   @DisplayName("Data Schema Replace – enqueue & parse must succeed")
   void parseFile_dataSchemaReplace_mustSucceed() throws IOException, InterruptedException {
     LocalInputSource source = new LocalInputSource(
-      getV2ResourcePath("products/financial_document/default_sample.jpg")
+      getV2ResourcePath("products/extraction/financial_document/default_sample.jpg")
     );
 
     InferenceParameters params = InferenceParameters
       .builder(modelId)
       .rag(false)
       .alias("java-integration-test_data-schema-replace")
-      .dataSchema(readFileAsString(getV2ResourcePath("inference/data_schema_replace_param.json")))
+      .dataSchema(
+        readFileAsString(getV2ResourcePath("products/extraction/data_schema_replace_param.json"))
+      )
       .build();
 
     InferenceResponse response = mindeeClient.enqueueAndGetInference(source, params);

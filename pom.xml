@@ -134,6 +134,20 @@
         </configuration>
       </plugin>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>${org.apache.maven.surfire.version}</version>
+        <configuration>
+          <includes>
+            <include>**/*Test.java</include>
+          </includes>
+          <argLine>
+            ${surefire.addOpens}
+            -Djunit.jupiter.extensions.autodetection.enabled=true
+          </argLine>
+        </configuration>
+      </plugin>
+      <plugin>
         <groupId>org.sonatype.central</groupId>
         <artifactId>central-publishing-maven-plugin</artifactId>
         <version>0.8.0</version>
@@ -148,6 +162,22 @@
   </build>
 
   <profiles>
+    <profile>
+      <id>jdk-9-plus</id>
+      <activation>
+        <jdk>[9,)</jdk>
+      </activation>
+      <properties>
+        <surefire.addOpens>
+          --add-opens java.base/java.lang=ALL-UNNAMED
+          --add-opens java.base/java.util=ALL-UNNAMED
+          --add-opens java.base/java.net=ALL-UNNAMED
+          --add-opens java.base/sun.net.www.protocol.https=ALL-UNNAMED
+          --add-opens java.base/java.io=ALL-UNNAMED
+          --add-opens java.base/java.lang.reflect=ALL-UNNAMED
+        </surefire.addOpens>
+      </properties>
+    </profile>
     <profile>
       <id>release</id>
       <build>
@@ -177,16 +207,6 @@
                 </goals>
               </execution>
             </executions>
-          </plugin>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-surefire-plugin</artifactId>
-            <version>${org.apache.maven.surfire.version}</version>
-            <configuration>
-              <includes>
-                <include>**/*Test.java</include>
-              </includes>
-            </configuration>
           </plugin>
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
@@ -362,6 +382,18 @@
       <version>${org.mockito.inline.version}</version>
     </dependency>
     <dependency>
+      <groupId>net.bytebuddy</groupId>
+      <artifactId>byte-buddy</artifactId>
+      <version>1.15.11</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>net.bytebuddy</groupId>
+      <artifactId>byte-buddy-agent</artifactId>
+      <version>1.15.11</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
       <groupId>com.github.tomakehurst</groupId>
       <artifactId>wiremock-jre8</artifactId>
       <version>${wiremock.version}</version>
@@ -412,12 +444,13 @@
     <org.junit.platform.version>1.8.2</org.junit.platform.version>
     <org.hamcrest.version>2.2</org.hamcrest.version>
     <org.mapstruct.version>1.5.3.Final</org.mapstruct.version>
-    <org.mockito.inline.version>4.6.1</org.mockito.inline.version>
-    <org.mockito.junit.jupiter.version>4.5.1</org.mockito.junit.jupiter.version>
+    <org.mockito.inline.version>4.11.0</org.mockito.inline.version>
+    <org.mockito.junit.jupiter.version>4.11.0</org.mockito.junit.jupiter.version>
     <org.projectlombok.lombok-mapstruct-binding.version>0.2.0</org.projectlombok.lombok-mapstruct-binding.version>
     <org.projectlombok.version>1.18.32</org.projectlombok.version>
     <org.slf4j.version>2.0.17</org.slf4j.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <surefire.addOpens></surefire.addOpens>
     <wiremock.version>2.35.2</wiremock.version>
   </properties>
 
