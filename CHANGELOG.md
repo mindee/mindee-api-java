@@ -1,5 +1,10 @@
 # Mindee Java Client Library Changelog
 
+## v4.41.0 - 2026-02-09
+### Changes
+* :sparkles: add easy accessor for list in object field
+
+
 ## v4.40.0 - 2025-12-19
 ### Changes
 * :sparkles: add basic data-schema replace to v2
