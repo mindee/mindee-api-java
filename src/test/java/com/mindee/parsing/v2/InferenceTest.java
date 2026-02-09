@@ -1,9 +1,5 @@
 package com.mindee.parsing.v2;
 
-import static com.mindee.TestingUtilities.getV2ResourcePath;
-import static com.mindee.TestingUtilities.readFileAsString;
-import static org.junit.jupiter.api.Assertions.*;
-
 import com.mindee.geometry.Point;
 import com.mindee.geometry.Polygon;
 import com.mindee.input.LocalResponse;
@@ -15,15 +11,26 @@ import com.mindee.parsing.v2.field.InferenceFields;
 import com.mindee.parsing.v2.field.ListField;
 import com.mindee.parsing.v2.field.ObjectField;
 import com.mindee.parsing.v2.field.SimpleField;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
+
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
+
+import static com.mindee.TestingUtilities.getV2ResourcePath;
+import static com.mindee.TestingUtilities.readFileAsString;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DisplayName("MindeeV2 - Inference Tests")
 class InferenceTest {
@@ -175,6 +182,8 @@ class InferenceTest {
       assertNotNull(lvl1.get("sub_object_list").getListField());
       assertNotNull(lvl1.get("sub_object_object").getObjectField());
       assertEquals(1, lvl1.get("sub_object_object").getObjectField().getListFields().size());
+      assertEquals(1, lvl1.get("sub_object_object").getObjectField().getListField("sub_object_object_sub_object_list").getItems().size());
+      assertEquals("value_6", lvl1.get("sub_object_object").getObjectField().getSimpleField("sub_object_object_sub_object_simple").getStringValue());
 
       ObjectField subObjectObject = lvl1.get("sub_object_object").getObjectField();
       InferenceFields lvl2 = subObjectObject.getFields();
