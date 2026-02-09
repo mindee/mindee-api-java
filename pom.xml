@@ -142,12 +142,7 @@
             <include>**/*Test.java</include>
           </includes>
           <argLine>
-            --add-opens java.base/java.lang=ALL-UNNAMED
-            --add-opens java.base/java.util=ALL-UNNAMED
-            --add-opens java.base/java.net=ALL-UNNAMED
-            --add-opens java.base/sun.net.www.protocol.https=ALL-UNNAMED
-            --add-opens java.base/java.io=ALL-UNNAMED
-            --add-opens java.base/java.lang.reflect=ALL-UNNAMED
+            ${surefire.addOpens}
             -Djunit.jupiter.extensions.autodetection.enabled=true
           </argLine>
         </configuration>
@@ -167,6 +162,22 @@
   </build>
 
   <profiles>
+    <profile>
+      <id>jdk-9-plus</id>
+      <activation>
+        <jdk>[9,)</jdk>
+      </activation>
+      <properties>
+        <surefire.addOpens>
+          --add-opens java.base/java.lang=ALL-UNNAMED
+          --add-opens java.base/java.util=ALL-UNNAMED
+          --add-opens java.base/java.net=ALL-UNNAMED
+          --add-opens java.base/sun.net.www.protocol.https=ALL-UNNAMED
+          --add-opens java.base/java.io=ALL-UNNAMED
+          --add-opens java.base/java.lang.reflect=ALL-UNNAMED
+        </surefire.addOpens>
+      </properties>
+    </profile>
     <profile>
       <id>release</id>
       <build>
@@ -439,6 +450,7 @@
     <org.projectlombok.version>1.18.32</org.projectlombok.version>
     <org.slf4j.version>2.0.17</org.slf4j.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <surefire.addOpens></surefire.addOpens>
     <wiremock.version>2.35.2</wiremock.version>
   </properties>
 
