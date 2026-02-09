@@ -11,6 +11,7 @@ jobs:
     strategy:
       matrix:
         java-version:
+          - "21"
           - "11"
           - "8"
         distribution:
