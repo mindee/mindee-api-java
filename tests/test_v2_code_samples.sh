@@ -18,8 +18,6 @@ do
   sed "s/MY_API_KEY/${MINDEE_V2_API_KEY}/" "${f}" > $OUTPUT_FILE
   sed -i "s/\/path\/to\/the\/file.ext/src\/test\/resources\/file_types\/pdf\/blank_1.pdf/" $OUTPUT_FILE
 
-  cat "${f}" > $OUTPUT_FILE
-
   if echo "${f}" | grep -q "v2_classification.txt"
   then
     sed -i "s/MY_MODEL_ID/${MINDEE_V2_SE_TESTS_CLASSIFICATION_MODEL_ID}/" $OUTPUT_FILE
@@ -46,7 +44,7 @@ do
   fi
 
   sleep 0.5  # avoid too many request errors
-    javac -cp ./target/dependency/*:./target/* "${OUTPUT_FILE}"
-  java -cp  .:./target/dependency/*:./target/* SimpleMindeeClient
+  javac -cp ./target/dependency/*:./target/* "${OUTPUT_FILE}"
+  java -cp  .:./target/dependency/*:./target/* SimpleMindeeClientV2
 
 done

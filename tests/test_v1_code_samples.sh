@@ -45,5 +45,5 @@ do
 
   sleep 0.5  # avoid too many request errors
   javac -cp ./target/dependency/*:./target/* "${OUTPUT_FILE}"
-  java -cp  .:./target/dependency/*:./target/* SimpleMindeeClient
+  java -cp  .:./target/dependency/*:./target/* SimpleMindeeClientV1
 done
