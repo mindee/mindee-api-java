@@ -5,7 +5,7 @@ import com.mindee.product.internationalid.InternationalIdV2;
 import java.io.File;
 import java.io.IOException;
 
-public class SimpleMindeeClient {
+public class SimpleMindeeClientV1 {
 
   public static void main(String[] args) throws IOException, InterruptedException {
     String apiKey = "my-api-key";
