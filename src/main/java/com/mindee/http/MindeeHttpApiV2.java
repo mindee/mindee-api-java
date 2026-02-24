@@ -72,7 +72,7 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
       LocalInputSource inputSource,
       InferenceParameters options
   ) {
-    String url = this.mindeeSettings.getBaseUrl() + "/inferences/enqueue";
+    String url = this.mindeeSettings.getBaseUrl() + "/products/extraction/enqueue";
     HttpPost post = buildHttpPost(url);
 
     MultipartEntityBuilder builder = MultipartEntityBuilder.create();
@@ -100,7 +100,7 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
       URLInputSource inputSource,
       InferenceParameters options
   ) {
-    String url = this.mindeeSettings.getBaseUrl() + "/inferences/enqueue";
+    String url = this.mindeeSettings.getBaseUrl() + "/products/extraction/enqueue";
     HttpPost post = buildHttpPost(url);
 
     MultipartEntityBuilder builder = MultipartEntityBuilder.create();
@@ -175,7 +175,7 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
   @Override
   public InferenceResponse reqGetInference(String inferenceId) {
 
-    String url = this.mindeeSettings.getBaseUrl() + "/inferences/" + inferenceId;
+    String url = this.mindeeSettings.getBaseUrl() + "/products/extraction/results/" + inferenceId;
     HttpGet get = new HttpGet(url);
 
     if (this.mindeeSettings.getApiKey().isPresent()) {
