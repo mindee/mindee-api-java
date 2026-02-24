@@ -5,7 +5,7 @@ import com.mindee.product.generated.GeneratedV1;
 import com.mindee.http.MindeeHttpException;
 import java.io.IOException;
 
-public class SimpleMindeeClient {
+public class SimpleMindeeClientV1 {
 
   public static void main(String[] args) throws IOException {
     String apiKey = "my-api-key";
