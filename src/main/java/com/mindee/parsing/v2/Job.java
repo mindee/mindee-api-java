@@ -12,7 +12,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 /**
- * Defines an enqueued Job.
+ * Information on the processing of a file sent to the Mindee API.
  */
 
 @Getter
@@ -22,11 +22,18 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public final class Job {
   /**
-   * Date and time the job was created at.
+   * Date and time of the Job creation.
    */
   @JsonProperty("created_at")
   @JsonDeserialize(using = LocalDateTimeDeserializer.class)
   private LocalDateTime createdAt;
+
+  /**
+   * Date and time of the Job completion. Filled once processing is finished.
+   */
+  @JsonProperty("completed_at")
+  @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+  private LocalDateTime completedAt;
 
   /**
    * ID of the job.

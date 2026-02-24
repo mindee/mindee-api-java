@@ -19,8 +19,8 @@ public class JobTest {
   }
 
   @Nested
-  @DisplayName("When the Job is OK")
-  class OkTest {
+  @DisplayName("When the Job is processing")
+  class ProcessingTest {
     @Test
     @DisplayName("properties must be valid")
     void whenProcessing_mustHaveValidProperties() throws IOException {
@@ -28,6 +28,26 @@ public class JobTest {
       Job job = response.getJob();
       assertNotNull(job);
       assertEquals("Processing", job.getStatus());
+      assertNotNull(job.getCreatedAt());
+      assertNull(job.getCompletedAt());
+      assertNull(job.getResultUrl());
+      assertNull(job.getError());
+    }
+  }
+
+  @Nested
+  @DisplayName("When the Job is processed")
+  class ProcessedTest {
+    @Test
+    @DisplayName("properties must be valid")
+    void whenProcessing_mustHaveValidProperties() throws IOException {
+      JobResponse response = loadJob("job/ok_processed_webhooks_ok.json");
+      Job job = response.getJob();
+      assertNotNull(job);
+      assertEquals("Processed", job.getStatus());
+      assertNotNull(job.getCreatedAt());
+      assertNotNull(job.getCompletedAt());
+      assertNotNull(job.getResultUrl());
       assertNull(job.getError());
     }
   }
@@ -41,6 +61,9 @@ public class JobTest {
       JobResponse response = loadJob("job/fail_422.json");
       Job job = response.getJob();
       assertNotNull(job);
+      assertNotNull(job.getCreatedAt());
+      assertNotNull(job.getCompletedAt());
+      assertNull(job.getResultUrl());
       ErrorResponse jobError = job.getError();
       assertNotNull(jobError);
       assertEquals(422, jobError.getStatus());

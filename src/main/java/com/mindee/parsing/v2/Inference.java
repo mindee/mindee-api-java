@@ -24,6 +24,12 @@ public class Inference {
   private String id;
 
   /**
+   * Job the inference belongs to.
+   */
+  @JsonProperty("job")
+  private InferenceJob job;
+
+  /**
    * Model info.
    */
   @JsonProperty("model")
@@ -53,6 +59,8 @@ public class Inference {
     joiner
       .add("Inference")
       .add("#########")
+      .add(job.toString())
+      .add("")
       .add(model.toString())
       .add("")
       .add(file.toString())

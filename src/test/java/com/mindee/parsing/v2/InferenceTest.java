@@ -107,6 +107,9 @@ class InferenceTest {
       assertNotNull(inference);
       assertEquals("12345678-1234-1234-1234-123456789abc", inference.getId());
 
+      InferenceJob job = inference.getJob();
+      assertEquals("12345678-1234-1234-1234-jobid1234567", job.getId());
+
       InferenceModel model = inference.getModel();
       assertNotNull(model, "Model must not be null");
       assertEquals("12345678-1234-1234-1234-123456789abc", model.getId());
