@@ -1,5 +1,11 @@
 # Mindee Java Client Library Changelog
 
+## v4.42.0 - 2026-02-24
+### Changes
+* :sparkles: add job information to inference
+* :recycle: update extraction routes
+
+
 ## v4.41.0 - 2026-02-09
 ### Changes
 * :sparkles: add easy accessor for list in object field
