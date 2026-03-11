@@ -8,6 +8,7 @@ import com.mindee.input.URLInputSource;
 import com.mindee.parsing.v2.ErrorResponse;
 import com.mindee.parsing.v2.InferenceResponse;
 import com.mindee.parsing.v2.JobResponse;
+import com.mindee.v2.clientOptions.BaseParameters;
 import java.io.IOException;
 
 /**
@@ -36,7 +37,7 @@ public class MindeeClientV2 {
    */
   public JobResponse enqueueInference(
       LocalInputSource inputSource,
-      InferenceParameters params
+      BaseParameters params
   ) throws IOException {
     return mindeeApi.reqPostInferenceEnqueue(inputSource, params);
   }
@@ -46,7 +47,7 @@ public class MindeeClientV2 {
    */
   public JobResponse enqueueInference(
       URLInputSource inputSource,
-      InferenceParameters params
+      BaseParameters params
   ) throws IOException {
     return mindeeApi.reqPostInferenceEnqueue(inputSource, params);
   }
@@ -75,7 +76,7 @@ public class MindeeClientV2 {
 
   /**
    * Send a local file to an async queue, poll, and parse when complete.
-   * 
+   *
    * @param inputSource The input source to send.
    * @param options The options to send along with the file.
    * @return an instance of {@link InferenceResponse}.
@@ -84,7 +85,7 @@ public class MindeeClientV2 {
    */
   public InferenceResponse enqueueAndGetInference(
       LocalInputSource inputSource,
-      InferenceParameters options
+      BaseParameters options
   ) throws IOException, InterruptedException {
     validatePollingOptions(options.getPollingOptions());
     JobResponse job = enqueueInference(inputSource, options);
@@ -93,7 +94,7 @@ public class MindeeClientV2 {
 
   /**
    * Send a local file to an async queue, poll, and parse when complete.
-   * 
+   *
    * @param inputSource The input source to send.
    * @param options The options to send along with the file.
    * @return an instance of {@link InferenceResponse}.
@@ -102,7 +103,7 @@ public class MindeeClientV2 {
    */
   public InferenceResponse enqueueAndGetInference(
       URLInputSource inputSource,
-      InferenceParameters options
+      BaseParameters options
   ) throws IOException, InterruptedException {
     validatePollingOptions(options.getPollingOptions());
     JobResponse job = enqueueInference(inputSource, options);
@@ -111,14 +112,14 @@ public class MindeeClientV2 {
 
   /**
    * Common logic for polling an asynchronous job for local & url files.
-   * 
+   *
    * @param initialJob The initial job response.
    * @return an instance of {@link InferenceResponse}.
    * @throws InterruptedException Throws if interrupted.
    */
   private InferenceResponse pollAndFetch(
       JobResponse initialJob,
-      InferenceParameters options
+      BaseParameters options
   ) throws InterruptedException {
     Thread.sleep((long) (options.getPollingOptions().getInitialDelaySec() * 1000));
 

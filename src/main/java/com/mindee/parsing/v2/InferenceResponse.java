@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 
 /**
- * Represents an asynchronous inference response (V2).
+ * Response for an extraction inference.
  */
 @Getter
 public class InferenceResponse extends CommonResponse {

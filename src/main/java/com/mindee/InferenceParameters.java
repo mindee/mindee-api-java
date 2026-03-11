@@ -1,19 +1,17 @@
 package com.mindee;
 
+import com.mindee.v2.clientOptions.BaseParameters;
 import java.util.Objects;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import org.apache.hc.client5.http.entity.mime.MultipartEntityBuilder;
 
 /**
  * Options to pass when calling methods using the API V2.
  */
 @Getter
-@Data
-public final class InferenceParameters {
-  /**
-   * Model ID to use for the inference (required).
-   */
-  private final String modelId;
+@EqualsAndHashCode(callSuper = true)
+public final class InferenceParameters extends BaseParameters {
   /**
    * Enhance extraction accuracy with Retrieval-Augmented Generation.
    */
@@ -32,19 +30,6 @@ public final class InferenceParameters {
    */
   private final Boolean confidence;
   /**
-   * Optional alias for the file.
-   */
-  private final String alias;
-  /**
-   * Webhook IDs to call after all processing is finished.
-   * If empty, no webhooks will be used.
-   */
-  private final String[] webhookIds;
-  /**
-   * Polling options. Set only if having timeout issues.
-   */
-  private final AsyncPollingOptions pollingOptions;
-  /**
    * Additional text context used by the model during inference.
    * Not recommended, for specific use only.
    */
@@ -53,6 +38,50 @@ public final class InferenceParameters {
    * Dynamic changes to the data schema of the model for this inference.
    */
   private final String dataSchema;
+
+  private InferenceParameters(
+      String modelId,
+      String alias,
+      String[] webhookIds,
+      AsyncPollingOptions pollingOptions,
+      Boolean rag,
+      Boolean rawText,
+      Boolean polygon,
+      Boolean confidence,
+      String textContext,
+      String dataSchema
+  ) {
+    super(modelId, alias, webhookIds, pollingOptions);
+    this.rag = rag;
+    this.rawText = rawText;
+    this.polygon = polygon;
+    this.confidence = confidence;
+    this.textContext = textContext;
+    this.dataSchema = dataSchema;
+  }
+
+  public MultipartEntityBuilder buildHttpBody(MultipartEntityBuilder builder) {
+    builder = super.buildHttpBody(builder);
+    if (this.getRag() != null) {
+      builder.addTextBody("rag", this.getRag().toString().toLowerCase());
+    }
+    if (this.getRawText() != null) {
+      builder.addTextBody("raw_text", this.getRawText().toString().toLowerCase());
+    }
+    if (this.getPolygon() != null) {
+      builder.addTextBody("polygon", this.getPolygon().toString().toLowerCase());
+    }
+    if (this.getConfidence() != null) {
+      builder.addTextBody("confidence", this.getConfidence().toString().toLowerCase());
+    }
+    if (this.getTextContext() != null) {
+      builder.addTextBody("text_context", this.getTextContext());
+    }
+    if (this.getDataSchema() != null) {
+      builder.addTextBody("data_schema", this.getDataSchema());
+    }
+    return builder;
+  }
 
   /**
    * Create a new builder.
@@ -145,13 +174,13 @@ public final class InferenceParameters {
     public InferenceParameters build() {
       return new InferenceParameters(
         modelId,
+        alias,
+        webhookIds,
+        pollingOptions,
         rag,
         rawText,
         polygon,
         confidence,
-        alias,
-        webhookIds,
-        pollingOptions,
         textContext,
         dataSchema
       );
