@@ -2,7 +2,9 @@ package com.mindee.parsing;
 
 import com.mindee.parsing.standard.LineItemField;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 /**
@@ -21,7 +23,7 @@ public final class SummaryHelper {
     if (amountValue == null) {
       return "";
     }
-    DecimalFormat df = new DecimalFormat("0.00###");
+    DecimalFormat df = new DecimalFormat("0.00###", new DecimalFormatSymbols(Locale.US));
     df.setMinimumFractionDigits(2);
     df.setMaximumFractionDigits(5);
     return df.format(amountValue);
