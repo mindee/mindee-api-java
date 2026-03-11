@@ -1,5 +1,7 @@
 package com.mindee.parsing.v2.field;
 
+import static com.mindee.parsing.SummaryHelper.formatForDisplay;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -76,7 +78,7 @@ public final class SimpleField extends BaseField {
     if (value == null)
       return "";
     if (value.getClass().equals(Boolean.class)) {
-      return ((Boolean) value) ? "True" : "False";
+      return formatForDisplay((Boolean) value, 5);
     }
     return value.toString();
   }

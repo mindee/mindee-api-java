@@ -10,7 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 /**
- * Generic result for any off-the-shelf Mindee V2 model.
+ * The inference result for an extraction request.
  */
 @Getter
 @EqualsAndHashCode
@@ -26,13 +26,13 @@ public final class InferenceResult {
   private InferenceFields fields;
 
   /**
-   * Raw text extracted from all pages in the document.
+   * If 'rawText' was activated, contains the extracted text of the document.
    */
   @JsonProperty("raw_text")
   private RawText rawText;
 
   /**
-   * RAG metadata.
+   * If 'rag' was activated, contains metadata about the RAG operation.
    */
   @JsonProperty("rag")
   private RagMetadata rag;

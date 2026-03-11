@@ -1,7 +1,6 @@
 package com.mindee.http;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mindee.InferenceParameters;
 import com.mindee.MindeeException;
 import com.mindee.MindeeSettingsV2;
 import com.mindee.input.LocalInputSource;
@@ -10,6 +9,7 @@ import com.mindee.parsing.v2.CommonResponse;
 import com.mindee.parsing.v2.ErrorResponse;
 import com.mindee.parsing.v2.InferenceResponse;
 import com.mindee.parsing.v2.JobResponse;
+import com.mindee.v2.clientOptions.BaseParameters;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
@@ -68,10 +68,7 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
    * @return A job response.
    */
   @Override
-  public JobResponse reqPostInferenceEnqueue(
-      LocalInputSource inputSource,
-      InferenceParameters options
-  ) {
+  public JobResponse reqPostInferenceEnqueue(LocalInputSource inputSource, BaseParameters options) {
     String url = this.mindeeSettings.getBaseUrl() + "/products/extraction/enqueue";
     HttpPost post = buildHttpPost(url);
 
@@ -84,7 +81,7 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
         ContentType.DEFAULT_BINARY,
         inputSource.getFilename()
       );
-    post.setEntity(buildHttpBody(builder, options));
+    post.setEntity(options.buildHttpBody(builder).build());
     return executeEnqueue(post);
   }
 
@@ -96,17 +93,14 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
    * @return A job response.
    */
   @Override
-  public JobResponse reqPostInferenceEnqueue(
-      URLInputSource inputSource,
-      InferenceParameters options
-  ) {
+  public JobResponse reqPostInferenceEnqueue(URLInputSource inputSource, BaseParameters options) {
     String url = this.mindeeSettings.getBaseUrl() + "/products/extraction/enqueue";
     HttpPost post = buildHttpPost(url);
 
     MultipartEntityBuilder builder = MultipartEntityBuilder.create();
     builder.setMode(HttpMultipartMode.EXTENDED);
     builder.addTextBody("url", inputSource.getUrl());
-    post.setEntity(buildHttpBody(builder, options));
+    post.setEntity(options.buildHttpBody(builder).build());
     return executeEnqueue(post);
   }
 
@@ -222,35 +216,6 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
     } catch (Exception e) {
       return new MindeeHttpExceptionV2(response.getCode(), "Unknown error");
     }
-  }
-
-  private HttpEntity buildHttpBody(MultipartEntityBuilder builder, InferenceParameters params) {
-    builder.addTextBody("model_id", params.getModelId());
-    if (params.getRag() != null) {
-      builder.addTextBody("rag", params.getRag().toString().toLowerCase());
-    }
-    if (params.getRawText() != null) {
-      builder.addTextBody("raw_text", params.getRawText().toString().toLowerCase());
-    }
-    if (params.getPolygon() != null) {
-      builder.addTextBody("polygon", params.getPolygon().toString().toLowerCase());
-    }
-    if (params.getConfidence() != null) {
-      builder.addTextBody("confidence", params.getConfidence().toString().toLowerCase());
-    }
-    if (params.getAlias() != null) {
-      builder.addTextBody("alias", params.getAlias());
-    }
-    if (params.getWebhookIds().length > 0) {
-      builder.addTextBody("webhook_ids", String.join(",", params.getWebhookIds()));
-    }
-    if (params.getTextContext() != null) {
-      builder.addTextBody("text_context", params.getTextContext());
-    }
-    if (params.getDataSchema() != null) {
-      builder.addTextBody("data_schema", params.getDataSchema());
-    }
-    return builder.build();
   }
 
   private HttpPost buildHttpPost(String url) {
