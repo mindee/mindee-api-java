@@ -64,7 +64,7 @@ public abstract class BaseInference<TResult> {
   @Override
   public String toString() {
     StringJoiner joiner = new StringJoiner("\n");
-    joiner.add(toStringBase()).add("").add(result.toString());
+    joiner.add(toStringBase()).add(result.toString());
     return joiner.toString().trim() + "\n";
   }
 }

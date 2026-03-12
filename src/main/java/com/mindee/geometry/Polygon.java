@@ -57,11 +57,29 @@ public class Polygon {
     return coordinates.isEmpty();
   }
 
+  /**
+   * Default string representation.
+   */
   public String toString() {
     if (!isEmpty()) {
       return String.format("Polygon with %s points.", getCoordinates().size());
     }
     return "";
+  }
+
+  /**
+   * String representation with precise coordinates.
+   */
+  public String toStringPrecise() {
+    StringBuilder builder = new StringBuilder("(");
+    for (int i = 0; i < coordinates.size(); i++) {
+      if (i > 0) {
+        builder.append(", ");
+      }
+      builder.append(coordinates.get(i));
+    }
+    builder.append(")");
+    return builder.toString();
   }
 
   @Override

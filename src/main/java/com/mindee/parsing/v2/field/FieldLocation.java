@@ -32,4 +32,9 @@ public class FieldLocation {
    */
   @JsonProperty("page")
   private int page;
+
+  @Override
+  public String toString() {
+    return polygon.toStringPrecise() + " on page " + page;
+  }
 }
