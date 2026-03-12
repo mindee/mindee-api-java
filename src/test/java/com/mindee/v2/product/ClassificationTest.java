@@ -19,7 +19,7 @@ public class ClassificationTest {
   }
 
   @Nested
-  @DisplayName("Classification with single value")
+  @DisplayName("Result with single value")
   class SinglePredictionTest {
     @Test
     @DisplayName("all properties must be valid")
