@@ -1,7 +1,8 @@
-package com.mindee.v2.product.classification;
+package com.mindee.v2.product.ocr;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.ArrayList;
 import java.util.StringJoiner;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -9,26 +10,27 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 /**
- * Result of the document classifier inference.
+ * Result of the OCR utility inference.
  */
 @Getter
 @EqualsAndHashCode
 @JsonIgnoreProperties(ignoreUnknown = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public final class ClassificationResult {
+public final class OcrResult {
   /**
-   * Classification of the document type from the source file.
+   * List of OCR results for each page in the document.
    */
-  @JsonProperty("classification")
-  private ClassificationClassifier classification;
+  @JsonProperty("pages")
+  private ArrayList<OcrPage> pages;
 
   @Override
   public String toString() {
     StringJoiner joiner = new StringJoiner("\n");
-    joiner.add("Classification\n==============");
-    joiner.add(classification.toString());
-
+    joiner.add("Pages\n======");
+    for (OcrPage page : pages) {
+      joiner.add(page.toString());
+    }
     return joiner.toString();
   }
 }
