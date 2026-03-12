@@ -15,23 +15,17 @@ import lombok.NoArgsConstructor;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class Inference extends BaseInference {
+public class Inference extends BaseInference<InferenceResult> {
   /**
    * Active options for the inference.
    */
   @JsonProperty("active_options")
   private InferenceActiveOptions activeOptions;
 
-  /**
-   * Model result values.
-   */
-  @JsonProperty("result")
-  private InferenceResult result;
-
   @Override
   public String toString() {
     StringJoiner joiner = new StringJoiner("\n");
-    joiner.add(activeOptions.toString()).add("").add(result != null ? result.toString() : "");
-    return super.toString() + "\n" + joiner.toString().trim() + "\n";
+    joiner.add(toStringBase()).add(activeOptions.toString()).add("").add(result.toString());
+    return joiner.toString().trim() + "\n";
   }
 }

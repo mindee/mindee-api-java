@@ -39,6 +39,10 @@ public class TestingUtilities {
     Assertions.assertEquals(expectedSummary, actualSummary);
   }
 
+  public static void assertStringEqualsFile(String expected, Path filePath) throws IOException {
+    assertStringEqualsFile(expected, filePath.toString());
+  }
+
   /**
    * Retrieves the version from an RST prediction output.
    *

@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public abstract class BaseInference {
+public abstract class BaseInference<TResult> {
   /**
    * Inference ID.
    */
@@ -42,8 +42,13 @@ public abstract class BaseInference {
   @JsonProperty("file")
   protected InferenceFile file;
 
-  @Override
-  public String toString() {
+  /**
+   * Result of the inference.
+   */
+  @JsonProperty("result")
+  protected TResult result;
+
+  protected String toStringBase() {
     StringJoiner joiner = new StringJoiner("\n");
     joiner
       .add("Inference")
@@ -53,6 +58,13 @@ public abstract class BaseInference {
       .add(model.toString())
       .add("")
       .add(file.toString());
+    return joiner.toString().trim() + "\n";
+  }
+
+  @Override
+  public String toString() {
+    StringJoiner joiner = new StringJoiner("\n");
+    joiner.add(toStringBase()).add("").add(result.toString());
     return joiner.toString().trim() + "\n";
   }
 }
