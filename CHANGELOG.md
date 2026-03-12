@@ -1,5 +1,12 @@
 # Mindee Java Client Library Changelog
 
+## v4.42.1 - 2026-03-12
+### Changes
+* :coffin: remove unused PayslipV2 product
+### Fixes
+* :bug: decimal indicator should always be a period
+
+
 ## v4.42.0 - 2026-02-24
 ### Changes
 * :sparkles: add job information to inference
