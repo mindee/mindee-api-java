@@ -51,7 +51,7 @@ public final class InferenceParameters extends BaseParameters {
       String textContext,
       String dataSchema
   ) {
-    super(modelId, alias, webhookIds, pollingOptions);
+    super(modelId, alias, webhookIds, pollingOptions, "extraction");
     this.rag = rag;
     this.rawText = rawText;
     this.polygon = polygon;

@@ -2,8 +2,8 @@ package com.mindee.http;
 
 import com.mindee.input.LocalInputSource;
 import com.mindee.input.URLInputSource;
+import com.mindee.parsing.v2.CommonResponse;
 import com.mindee.parsing.v2.ErrorResponse;
-import com.mindee.parsing.v2.InferenceResponse;
 import com.mindee.parsing.v2.JobResponse;
 import com.mindee.v2.clientOptions.BaseParameters;
 import java.io.IOException;
@@ -18,7 +18,7 @@ public abstract class MindeeApiV2 extends MindeeApiCommon {
    * @param inputSource Local input source from URL.
    * @param options parameters.
    */
-  public abstract JobResponse reqPostInferenceEnqueue(
+  public abstract JobResponse reqPostEnqueue(
       LocalInputSource inputSource,
       BaseParameters options
   ) throws IOException;
@@ -29,7 +29,7 @@ public abstract class MindeeApiV2 extends MindeeApiCommon {
    * @param inputSource Remote input source from URL.
    * @param options parameters.
    */
-  public abstract JobResponse reqPostInferenceEnqueue(
+  public abstract JobResponse reqPostEnqueue(
       URLInputSource inputSource,
       BaseParameters options
   ) throws IOException;
@@ -46,7 +46,10 @@ public abstract class MindeeApiV2 extends MindeeApiCommon {
    *
    * @param inferenceId ID of the inference to poll.
    */
-  abstract public InferenceResponse reqGetInference(String inferenceId);
+  abstract public <TResponse extends CommonResponse> TResponse reqGetResult(
+      Class<TResponse> responseClass,
+      String inferenceId
+  );
 
   /**
    * Creates an "unknown error" response from an HTTP status code.

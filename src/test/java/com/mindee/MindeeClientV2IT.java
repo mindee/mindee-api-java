@@ -53,7 +53,8 @@ class MindeeClientV2IT {
       )
       .build();
 
-    InferenceResponse response = mindeeClient.enqueueAndGetInference(source, params);
+    InferenceResponse response = mindeeClient
+      .enqueueAndGetResult(InferenceResponse.class, source, params);
     assertNotNull(response);
     Inference inference = response.getInference();
     assertNotNull(inference);
@@ -147,7 +148,8 @@ class MindeeClientV2IT {
       )
       .build();
 
-    InferenceResponse response = mindeeClient.enqueueAndGetInference(source, params);
+    InferenceResponse response = mindeeClient
+      .enqueueAndGetResult(InferenceResponse.class, source, params);
     assertNotNull(response);
     Inference inference = response.getInference();
     assertNotNull(inference);

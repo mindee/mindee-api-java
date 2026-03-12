@@ -23,6 +23,10 @@ public abstract class BaseParameters {
    * Polling options. Set only if having timeout issues.
    */
   protected final AsyncPollingOptions pollingOptions;
+  /**
+   * Slug of the product type.
+   */
+  private final String slug;
 
   public MultipartEntityBuilder buildHttpBody(MultipartEntityBuilder builder) {
     builder.addTextBody("model_id", this.getModelId());

@@ -3,8 +3,7 @@ package com.mindee;
 import static com.mindee.TestingUtilities.getResourcePath;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.atMostOnce;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -39,10 +38,8 @@ class MindeeClientV2Test {
     @DisplayName("sends exactly one HTTP call and yields a non-null response")
     void enqueue_post_async() throws IOException {
       MindeeApiV2 predictable = Mockito.mock(MindeeApiV2.class);
-      when(
-        predictable
-          .reqPostInferenceEnqueue(any(LocalInputSource.class), any(InferenceParameters.class))
-      ).thenReturn(new JobResponse());
+      when(predictable.reqPostEnqueue(any(LocalInputSource.class), any(InferenceParameters.class)))
+        .thenReturn(new JobResponse());
 
       MindeeClientV2 mindeeClient = makeClientWithMockedApi(predictable);
 
@@ -55,7 +52,7 @@ class MindeeClientV2Test {
 
       assertNotNull(response, "enqueue() must return a response");
       verify(predictable, atMostOnce())
-        .reqPostInferenceEnqueue(any(LocalInputSource.class), any(InferenceParameters.class));
+        .reqPostEnqueue(any(LocalInputSource.class), any(InferenceParameters.class));
     }
   }
 
@@ -100,7 +97,8 @@ class MindeeClientV2Test {
 
       InferenceResponse processing = mapper.readValue(json, InferenceResponse.class);
 
-      when(predictable.reqGetInference(anyString())).thenReturn(processing);
+      when(predictable.reqGetResult(eq(InferenceResponse.class), anyString()))
+        .thenReturn(processing);
 
       MindeeClientV2 mindeeClient = makeClientWithMockedApi(predictable);
 
@@ -123,7 +121,7 @@ class MindeeClientV2Test {
           .getValue(),
         "Result must deserialize fields properly."
       );
-      verify(predictable, atMostOnce()).reqGetInference(anyString());
+      verify(predictable, atMostOnce()).reqGetResult(eq(InferenceResponse.class), anyString());
     }
   }
 
