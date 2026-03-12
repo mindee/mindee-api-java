@@ -1,4 +1,4 @@
-package com.mindee.v2.product.ocr;
+package com.mindee.v2.product.split;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -10,25 +10,25 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 /**
- * Result of the OCR utility inference.
+ * Result of the document splitter inference.
  */
 @Getter
 @EqualsAndHashCode
 @JsonIgnoreProperties(ignoreUnknown = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public final class OcrResult {
+public final class SplitResult {
   /**
-   * List of OCR results for each page in the document.
+   * List of documents identified within a multi-document source file.
    */
-  @JsonProperty("pages")
-  private ArrayList<OcrPage> pages;
+  @JsonProperty("splits")
+  private ArrayList<SplitRange> splits;
 
   @Override
   public String toString() {
     StringJoiner joiner = new StringJoiner("\n");
-    joiner.add("Pages\n======");
-    for (OcrPage item : pages) {
+    joiner.add("Splits\n======");
+    for (SplitRange item : splits) {
       joiner.add(item.toString());
     }
     return joiner.toString();
