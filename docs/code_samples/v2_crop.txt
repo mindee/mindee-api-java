@@ -1,0 +1,44 @@
+import com.mindee.MindeeClientV2;
+import com.mindee.input.LocalInputSource;
+import com.mindee.v2.product.crop.CropResponse;
+import com.mindee.v2.product.crop.CropResult;
+import com.mindee.v2.product.crop.params.CropParameters;
+import java.io.File;
+import java.io.IOException;
+
+public class SimpleMindeeClientV2 {
+
+  public static void main(String[] args)
+      throws IOException, InterruptedException
+  {
+    String apiKey = "MY_API_KEY";
+    String filePath = "/path/to/the/file.ext";
+    String modelId = "MY_MODEL_ID";
+
+    // Init a new client
+    MindeeClientV2 mindeeClient = new MindeeClientV2(apiKey);
+
+    // Set inference parameters
+    // Note: modelId is mandatory.
+    CropParameters cropParams = CropParameters
+        // ID of the model, required.
+        .builder(modelId)
+        .build();
+
+    // Load a file from disk
+    LocalInputSource inputSource = new LocalInputSource(filePath);
+
+    // Send for processing
+    CropResponse response = mindeeClient.enqueueAndGetResult(
+        CropResponse.class,
+        inputSource,
+        cropParams
+    );
+
+    // Print a summary of the response
+    System.out.println(response.getInference().toString());
+
+    // Access the crop results
+    CropResult result = response.getInference().getResult();
+  }
+}

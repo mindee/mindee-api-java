@@ -1,0 +1,46 @@
+import com.mindee.MindeeClientV2;
+import com.mindee.input.LocalInputSource;
+import com.mindee.v2.product.classification.ClassificationClassifier;
+import com.mindee.v2.product.classification.ClassificationResponse;
+import com.mindee.v2.product.classification.ClassificationResult;
+import com.mindee.v2.product.classification.params.ClassificationParameters;
+import java.io.File;
+import java.io.IOException;
+
+public class SimpleMindeeClientV2 {
+
+  public static void main(String[] args)
+      throws IOException, InterruptedException
+  {
+    String apiKey = "MY_API_KEY";
+    String filePath = "/path/to/the/file.ext";
+    String modelId = "MY_MODEL_ID";
+
+    // Init a new client
+    MindeeClientV2 mindeeClient = new MindeeClientV2(apiKey);
+
+    // Set inference parameters
+    // Note: modelId is mandatory.
+    ClassificationParameters classificationParams = ClassificationParameters
+        // ID of the model, required.
+        .builder(modelId)
+        .build();
+
+    // Load a file from disk
+    LocalInputSource inputSource = new LocalInputSource(filePath);
+
+    // Send for processing
+    ClassificationResponse response = mindeeClient.enqueueAndGetResult(
+        ClassificationResponse.class,
+        inputSource,
+        classificationParams
+    );
+
+    // Print a summary of the response
+    System.out.println(response.getInference().toString());
+
+    // Access the classification result
+    ClassificationResult result = response.getInference().getResult();
+    ClassificationClassifier classification = result.getClassification();
+  }
+}

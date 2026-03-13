@@ -7,9 +7,9 @@ import com.mindee.input.LocalInputSource;
 import com.mindee.input.URLInputSource;
 import com.mindee.parsing.v2.CommonResponse;
 import com.mindee.parsing.v2.ErrorResponse;
-import com.mindee.parsing.v2.InferenceResponse;
 import com.mindee.parsing.v2.JobResponse;
 import com.mindee.v2.clientOptions.BaseParameters;
+import com.mindee.v2.http.ProductInfo;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
@@ -68,8 +68,10 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
    * @return A job response.
    */
   @Override
-  public JobResponse reqPostInferenceEnqueue(LocalInputSource inputSource, BaseParameters options) {
-    String url = this.mindeeSettings.getBaseUrl() + "/products/extraction/enqueue";
+  public JobResponse reqPostEnqueue(LocalInputSource inputSource, BaseParameters options) {
+    ProductInfo productInfo = getParamsProductInfo(options.getClass());
+    String url = String
+      .format("%s/products/%s/enqueue", this.mindeeSettings.getBaseUrl(), productInfo.slug());
     HttpPost post = buildHttpPost(url);
 
     MultipartEntityBuilder builder = MultipartEntityBuilder.create();
@@ -93,8 +95,10 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
    * @return A job response.
    */
   @Override
-  public JobResponse reqPostInferenceEnqueue(URLInputSource inputSource, BaseParameters options) {
-    String url = this.mindeeSettings.getBaseUrl() + "/products/extraction/enqueue";
+  public JobResponse reqPostEnqueue(URLInputSource inputSource, BaseParameters options) {
+    ProductInfo productInfo = getParamsProductInfo(options.getClass());
+    String url = String
+      .format("%s/products/%s/enqueue", this.mindeeSettings.getBaseUrl(), productInfo.slug());
     HttpPost post = buildHttpPost(url);
 
     MultipartEntityBuilder builder = MultipartEntityBuilder.create();
@@ -167,9 +171,18 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
   }
 
   @Override
-  public InferenceResponse reqGetInference(String inferenceId) {
-
-    String url = this.mindeeSettings.getBaseUrl() + "/products/extraction/results/" + inferenceId;
+  public <TResponse extends CommonResponse> TResponse reqGetResult(
+      Class<TResponse> responseClass,
+      String inferenceId
+  ) {
+    ProductInfo productInfo = getResponseProductInfo(responseClass);
+    String url = String
+      .format(
+        "%s/products/%s/results/%s",
+        this.mindeeSettings.getBaseUrl(),
+        productInfo.slug(),
+        inferenceId
+      );
     HttpGet get = new HttpGet(url);
 
     if (this.mindeeSettings.getApiKey().isPresent()) {
@@ -189,7 +202,7 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
             throw getHttpError(response);
           }
           String raw = EntityUtils.toString(entity, StandardCharsets.UTF_8);
-          return deserializeOrThrow(raw, InferenceResponse.class, status);
+          return deserializeOrThrow(raw, responseClass, status);
         } finally {
           EntityUtils.consumeQuietly(entity);
         }
