@@ -142,7 +142,7 @@ public class MindeeClientV2 {
       LocalInputSource inputSource,
       BaseParameters params
   ) throws IOException, InterruptedException {
-    validatePollingOptions(params.getPollingOptions());
+    params.validatePollingOptions();
     JobResponse job = enqueue(inputSource, params);
     return pollAndFetch(responseClass, job, params);
   }
@@ -161,7 +161,7 @@ public class MindeeClientV2 {
       URLInputSource inputSource,
       BaseParameters params
   ) throws IOException, InterruptedException {
-    validatePollingOptions(params.getPollingOptions());
+    params.validatePollingOptions();
     JobResponse job = enqueue(inputSource, params);
     return pollAndFetch(responseClass, job, params);
   }
@@ -209,17 +209,5 @@ public class MindeeClientV2 {
         ? new MindeeSettingsV2()
         : new MindeeSettingsV2(apiKey);
     return MindeeHttpApiV2.builder().mindeeSettings(settings).build();
-  }
-
-  private static void validatePollingOptions(AsyncPollingOptions p) {
-    if (p.getInitialDelaySec() < 1) {
-      throw new IllegalArgumentException("Initial delay must be ≥ 1 s");
-    }
-    if (p.getIntervalSec() < 1) {
-      throw new IllegalArgumentException("Interval must be ≥ 1 s");
-    }
-    if (p.getMaxRetries() < 2) {
-      throw new IllegalArgumentException("Max retries must be ≥ 2");
-    }
   }
 }

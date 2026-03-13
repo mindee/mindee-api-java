@@ -9,6 +9,7 @@ import com.mindee.parsing.v2.CommonResponse;
 import com.mindee.parsing.v2.ErrorResponse;
 import com.mindee.parsing.v2.JobResponse;
 import com.mindee.v2.clientOptions.BaseParameters;
+import com.mindee.v2.http.ProductInfo;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
@@ -68,8 +69,9 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
    */
   @Override
   public JobResponse reqPostEnqueue(LocalInputSource inputSource, BaseParameters options) {
+    ProductInfo productInfo = getParamsProductInfo(options.getClass());
     String url = String
-      .format("%s/products/%s/enqueue", this.mindeeSettings.getBaseUrl(), options.getSlug());
+      .format("%s/products/%s/enqueue", this.mindeeSettings.getBaseUrl(), productInfo.slug());
     HttpPost post = buildHttpPost(url);
 
     MultipartEntityBuilder builder = MultipartEntityBuilder.create();
@@ -94,8 +96,9 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
    */
   @Override
   public JobResponse reqPostEnqueue(URLInputSource inputSource, BaseParameters options) {
+    ProductInfo productInfo = getParamsProductInfo(options.getClass());
     String url = String
-      .format("%s/products/%s/enqueue", this.mindeeSettings.getBaseUrl(), options.getSlug());
+      .format("%s/products/%s/enqueue", this.mindeeSettings.getBaseUrl(), productInfo.slug());
     HttpPost post = buildHttpPost(url);
 
     MultipartEntityBuilder builder = MultipartEntityBuilder.create();
@@ -172,8 +175,14 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
       Class<TResponse> responseClass,
       String inferenceId
   ) {
-
-    String url = this.mindeeSettings.getBaseUrl() + "/products/extraction/results/" + inferenceId;
+    ProductInfo productInfo = getResponseProductInfo(responseClass);
+    String url = String
+      .format(
+        "%s/products/%s/results/%s",
+        this.mindeeSettings.getBaseUrl(),
+        productInfo.slug(),
+        inferenceId
+      );
     HttpGet get = new HttpGet(url);
 
     if (this.mindeeSettings.getApiKey().isPresent()) {

@@ -30,7 +30,7 @@ class MindeeClientV2IT {
   @BeforeAll
   void setUp() {
     String apiKey = System.getenv("MINDEE_V2_API_KEY");
-    modelId = System.getenv("MINDEE_V2_FINDOC_MODEL_ID");
+    modelId = System.getenv("MINDEE_V2_SE_TESTS_FINDOC_MODEL_ID");
     mindeeClient = new MindeeClientV2(apiKey);
   }
 
@@ -212,7 +212,7 @@ class MindeeClientV2IT {
   }
 
   @Test
-  @DisplayName("URL input source - A url param should not raise errors.")
+  @DisplayName("URL input source - A URL param should not raise errors.")
   void urlInputSource_mustNotRaiseErrors() throws IOException, InterruptedException {
     URLInputSource urlSource = URLInputSource
       .builder(System.getenv("MINDEE_V2_SE_TESTS_BLANK_PDF_URL"))

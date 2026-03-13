@@ -1,7 +1,7 @@
 package com.mindee;
 
 import com.mindee.v2.clientOptions.BaseParameters;
-import java.util.Objects;
+import com.mindee.v2.http.ProductInfo;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import org.apache.hc.client5.http.entity.mime.MultipartEntityBuilder;
@@ -11,6 +11,7 @@ import org.apache.hc.client5.http.entity.mime.MultipartEntityBuilder;
  */
 @Getter
 @EqualsAndHashCode(callSuper = true)
+@ProductInfo(slug = "extraction")
 public final class InferenceParameters extends BaseParameters {
   /**
    * Enhance extraction accuracy with Retrieval-Augmented Generation.
@@ -51,7 +52,7 @@ public final class InferenceParameters extends BaseParameters {
       String textContext,
       String dataSchema
   ) {
-    super(modelId, alias, webhookIds, pollingOptions, "extraction");
+    super(modelId, alias, webhookIds, pollingOptions);
     this.rag = rag;
     this.rawText = rawText;
     this.polygon = polygon;
@@ -96,21 +97,16 @@ public final class InferenceParameters extends BaseParameters {
   /**
    * Fluent builder for {@link InferenceParameters}.
    */
-  public static final class Builder {
-
-    private final String modelId;
+  public static final class Builder extends BaseParameters.BaseBuilder<Builder> {
     private Boolean rag = null;
     private Boolean rawText = null;
     private Boolean polygon = null;
     private Boolean confidence = null;
-    private String alias;
-    private String[] webhookIds = new String[] {};
     private String textContext;
     private String dataSchema;
-    private AsyncPollingOptions pollingOptions = AsyncPollingOptions.builder().build();
 
-    private Builder(String modelId) {
-      this.modelId = Objects.requireNonNull(modelId, "modelId must not be null");
+    Builder(String modelId) {
+      super(modelId);
     }
 
     /** Enhance extraction accuracy with Retrieval-Augmented Generation. */
@@ -140,18 +136,6 @@ public final class InferenceParameters extends BaseParameters {
       return this;
     }
 
-    /** Set an alias for the uploaded document. */
-    public Builder alias(String alias) {
-      this.alias = alias;
-      return this;
-    }
-
-    /** Provide IDs of webhooks to forward the API response to. */
-    public Builder webhookIds(String[] webhookIds) {
-      this.webhookIds = webhookIds;
-      return this;
-    }
-
     /** Provide additional text context used by the model during inference. */
     public Builder textContext(String textContext) {
       this.textContext = textContext;
@@ -161,12 +145,6 @@ public final class InferenceParameters extends BaseParameters {
     /** Provide additional text context used by the model during inference. */
     public Builder dataSchema(String dataSchema) {
       this.dataSchema = dataSchema;
-      return this;
-    }
-
-    /** Set polling options. */
-    public Builder pollingOptions(AsyncPollingOptions pollingOptions) {
-      this.pollingOptions = pollingOptions;
       return this;
     }
 

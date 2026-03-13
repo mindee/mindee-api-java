@@ -1,11 +1,13 @@
 package com.mindee.http;
 
+import com.mindee.MindeeException;
 import com.mindee.input.LocalInputSource;
 import com.mindee.input.URLInputSource;
 import com.mindee.parsing.v2.CommonResponse;
 import com.mindee.parsing.v2.ErrorResponse;
 import com.mindee.parsing.v2.JobResponse;
 import com.mindee.v2.clientOptions.BaseParameters;
+import com.mindee.v2.http.ProductInfo;
 import java.io.IOException;
 
 /**
@@ -62,5 +64,25 @@ public abstract class MindeeApiV2 extends MindeeApiCommon {
       statusCode + "-000",
       null
     );
+  }
+
+  protected ProductInfo getResponseProductInfo(Class<? extends CommonResponse> responseClass) {
+    ProductInfo productInfo = responseClass.getAnnotation(ProductInfo.class);
+    if (productInfo == null) {
+      throw new MindeeException(
+        "The class " + responseClass.getSimpleName() + " is not annotated with @ProductInfo"
+      );
+    }
+    return productInfo;
+  }
+
+  protected ProductInfo getParamsProductInfo(Class<? extends BaseParameters> responseClass) {
+    ProductInfo productInfo = responseClass.getAnnotation(ProductInfo.class);
+    if (productInfo == null) {
+      throw new MindeeException(
+        "The class " + responseClass.getSimpleName() + " is not annotated with @ProductInfo"
+      );
+    }
+    return productInfo;
   }
 }
