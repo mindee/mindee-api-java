@@ -49,7 +49,7 @@ public class SplitTest {
       assertEquals(3, splits.size());
 
       SplitRange split1 = splits.get(0);
-      assertEquals("invoice", split1.getDocumentType());
+      assertEquals("passport", split1.getDocumentType());
       assertEquals(0, split1.getPageRange().get(0));
 
       SplitRange split2 = splits.get(1);
@@ -57,7 +57,7 @@ public class SplitTest {
       assertEquals(1, split2.getPageRange().get(0));
 
       SplitRange split3 = splits.get(2);
-      assertEquals("invoice", split3.getDocumentType());
+      assertEquals("receipt", split3.getDocumentType());
       assertEquals(4, split3.getPageRange().get(0));
     }
   }

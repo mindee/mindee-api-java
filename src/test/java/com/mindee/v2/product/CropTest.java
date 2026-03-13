@@ -68,7 +68,7 @@ public class CropTest {
       assertEquals(0, crop1.getLocation().getPage());
 
       CropItem crop2 = crops.get(1);
-      assertEquals("invoice", crop2.getObjectType());
+      assertEquals("receipt", crop2.getObjectType());
       assertNotNull(crop2.getLocation().getPolygon());
       assertEquals(0, crop2.getLocation().getPage());
     }

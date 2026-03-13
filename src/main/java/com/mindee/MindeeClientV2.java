@@ -48,7 +48,7 @@ public class MindeeClientV2 {
    */
   public JobResponse enqueueInference(
       URLInputSource inputSource,
-      BaseParameters params
+      InferenceParameters params
   ) throws IOException {
     return enqueue(inputSource, params);
   }
