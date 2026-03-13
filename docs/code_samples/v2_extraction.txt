@@ -2,6 +2,7 @@ import com.mindee.MindeeClientV2;
 import com.mindee.InferenceParameters;
 import com.mindee.input.LocalInputSource;
 import com.mindee.parsing.v2.InferenceResponse;
+import com.mindee.parsing.v2.InferenceResult;
 import java.io.IOException;
 
 public class SimpleMindeeClientV2 {
@@ -48,5 +49,8 @@ public class SimpleMindeeClientV2 {
 
     // Print a summary of the response
     System.out.println(response.getInference().toString());
+
+    // Access the result fields
+    InferenceResult result = response.getInference().getResult();
   }
 }
