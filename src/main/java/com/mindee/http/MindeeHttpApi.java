@@ -3,6 +3,7 @@ package com.mindee.http;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.mindee.MindeeException;
 import com.mindee.MindeeSettings;
 import com.mindee.parsing.common.ApiResponse;
@@ -40,7 +41,9 @@ import org.apache.hc.core5.net.URIBuilder;
  */
 public final class MindeeHttpApi extends MindeeApi {
 
-  private static final ObjectMapper mapper = new ObjectMapper();
+  private static final ObjectMapper mapper = JsonMapper.builder()
+      .findAndAddModules()
+      .build();
   private final Function<Endpoint, String> buildProductPredicBasetUrl = this::buildProductPredictBaseUrl;
   private final Function<String, String> buildWorkflowPredictBaseUrl = this::buildWorkflowPredictBaseUrl;
   private final Function<String, String> buildWorkflowExecutionBaseUrl = this::buildWorkflowExecutionUrl;
@@ -146,8 +149,6 @@ public final class MindeeHttpApi extends MindeeApi {
     String endpointUrl = documentUrlFromEndpoint.apply(endpoint).concat(jobId);
     HttpGet get = new HttpGet(endpointUrl);
 
-    // required to register jackson date module format to deserialize
-    mapper.findAndRegisterModules();
     JavaType parametricType = mapper
       .getTypeFactory()
       .constructParametricType(AsyncPredictResponse.class, documentClass);
@@ -198,8 +199,6 @@ public final class MindeeHttpApi extends MindeeApi {
     String url = urlFromEndpoint.apply(endpoint);
     HttpPost post = buildHttpPost(url, requestParameters);
 
-    // required to register jackson date module format to deserialize
-    mapper.findAndRegisterModules();
     JavaType parametricType = mapper
       .getTypeFactory()
       .constructParametricType(PredictResponse.class, documentClass);
@@ -240,8 +239,6 @@ public final class MindeeHttpApi extends MindeeApi {
     }
     HttpPost post = buildHttpPost(url, requestParameters);
 
-    // required to register jackson date module format to deserialize
-    mapper.findAndRegisterModules();
     JavaType parametricType = mapper
       .getTypeFactory()
       .constructParametricType(AsyncPredictResponse.class, documentClass);
@@ -277,8 +274,6 @@ public final class MindeeHttpApi extends MindeeApi {
     String url = workflowUrlFromId.apply(workflowId);
     HttpPost post = buildHttpPost(url, requestParameters);
 
-    // required to register jackson date module format to deserialize
-    mapper.findAndRegisterModules();
     JavaType parametricType = mapper
       .getTypeFactory()
       .constructParametricType(WorkflowResponse.class, documentClass);
