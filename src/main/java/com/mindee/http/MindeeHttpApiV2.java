@@ -1,6 +1,7 @@
 package com.mindee.http;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.mindee.MindeeException;
 import com.mindee.MindeeSettingsV2;
 import com.mindee.input.LocalInputSource;
@@ -33,7 +34,7 @@ import org.apache.hc.core5.net.URIBuilder;
  */
 public final class MindeeHttpApiV2 extends MindeeApiV2 {
 
-  private static final ObjectMapper mapper = new ObjectMapper();
+  private static final ObjectMapper mapper = JsonMapper.builder().findAndAddModules().build();
 
   /**
    * The MindeeSetting needed to make the api call.
@@ -115,7 +116,6 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
    * @return a valid job response.
    */
   private JobResponse executeEnqueue(HttpPost post) {
-    mapper.findAndRegisterModules();
     try (CloseableHttpClient httpClient = httpClientBuilder.build()) {
       return httpClient.execute(post, response -> {
         HttpEntity responseEntity = response.getEntity();
@@ -149,7 +149,6 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
     RequestConfig noRedirect = RequestConfig.custom().setRedirectsEnabled(false).build();
     get.setConfig(noRedirect);
 
-    mapper.findAndRegisterModules();
     try (CloseableHttpClient httpClient = httpClientBuilder.build()) {
       return httpClient.execute(get, response -> {
         HttpEntity responseEntity = response.getEntity();
@@ -189,8 +188,6 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
       get.setHeader(HttpHeaders.AUTHORIZATION, this.mindeeSettings.getApiKey().get());
     }
     get.setHeader(HttpHeaders.USER_AGENT, getUserAgent());
-
-    mapper.findAndRegisterModules();
 
     try (CloseableHttpClient httpClient = httpClientBuilder.build()) {
 
