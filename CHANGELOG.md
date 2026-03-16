@@ -1,5 +1,10 @@
 # Mindee Java Client Library Changelog
 
+## v4.43.0 - 2026-03-16
+### Changes
+* :sparkles: Add support for `Classification`, `Crop`, `OCR` and `Split` utilities.
+
+
 ## v4.42.1 - 2026-03-12
 ### Changes
 * :coffin: remove unused PayslipV2 product
