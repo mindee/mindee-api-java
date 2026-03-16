@@ -43,4 +43,13 @@ com.mindee.product.us.bankcheck
 com.mindee.product.us.healthcarecard
 com.mindee.product.us.usmail
 com.mindee.v2.clientOptions
+com.mindee.v2.http
 com.mindee.v2.parsing
+com.mindee.v2.product.classification
+com.mindee.v2.product.classification.params
+com.mindee.v2.product.crop
+com.mindee.v2.product.crop.params
+com.mindee.v2.product.ocr
+com.mindee.v2.product.ocr.params
+com.mindee.v2.product.split
+com.mindee.v2.product.split.params
