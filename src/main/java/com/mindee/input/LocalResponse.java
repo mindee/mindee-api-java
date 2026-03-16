@@ -26,6 +26,7 @@ import org.apache.commons.codec.binary.Hex;
 @Getter
 public class LocalResponse {
   private final byte[] file;
+  private static final ObjectMapper mapper = new ObjectMapper();
 
   /**
    * Load from an {@link InputStream}.
