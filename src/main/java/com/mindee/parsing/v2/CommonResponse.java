@@ -16,8 +16,4 @@ public abstract class CommonResponse {
    * This is not formatted in any way by the library and may contain newline and tab characters.
    */
   private String rawResponse;
-
-  public void setRawResponse(String contents) {
-    rawResponse = contents;
-  }
 }

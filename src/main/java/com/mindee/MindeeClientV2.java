@@ -5,6 +5,7 @@ import com.mindee.http.MindeeHttpApiV2;
 import com.mindee.http.MindeeHttpExceptionV2;
 import com.mindee.input.LocalInputSource;
 import com.mindee.input.URLInputSource;
+import com.mindee.parsing.v2.CommonResponse;
 import com.mindee.parsing.v2.ErrorResponse;
 import com.mindee.parsing.v2.InferenceResponse;
 import com.mindee.parsing.v2.JobResponse;
@@ -33,23 +34,46 @@ public class MindeeClientV2 {
   }
 
   /**
-   * Enqueue a document in the asynchronous queue.
+   * @deprecated use `enqueue` instead.
    */
   public JobResponse enqueueInference(
       LocalInputSource inputSource,
-      BaseParameters params
+      InferenceParameters params
   ) throws IOException {
-    return mindeeApi.reqPostInferenceEnqueue(inputSource, params);
+    return enqueue(inputSource, params);
+  }
+
+  /**
+   * @deprecated use `enqueue` instead.
+   */
+  public JobResponse enqueueInference(
+      URLInputSource inputSource,
+      InferenceParameters params
+  ) throws IOException {
+    return enqueue(inputSource, params);
   }
 
   /**
    * Enqueue a document in the asynchronous queue.
+   *
+   * @param inputSource The local input source to send.
+   * @param params The parameters to send along with the file.
    */
-  public JobResponse enqueueInference(
-      URLInputSource inputSource,
+  public JobResponse enqueue(
+      LocalInputSource inputSource,
       BaseParameters params
   ) throws IOException {
-    return mindeeApi.reqPostInferenceEnqueue(inputSource, params);
+    return mindeeApi.reqPostEnqueue(inputSource, params);
+  }
+
+  /**
+   * Enqueue a document in the asynchronous queue.
+   *
+   * @param inputSource The URL input source to send.
+   * @param params The parameters to send along with the file.
+   */
+  public JobResponse enqueue(URLInputSource inputSource, BaseParameters params) throws IOException {
+    return mindeeApi.reqPostEnqueue(inputSource, params);
   }
 
   /**
@@ -64,50 +88,82 @@ public class MindeeClientV2 {
   }
 
   /**
+   * @deprecated use `getResult` instead.
+   */
+  public InferenceResponse getInference(String inferenceId) {
+    return getResult(InferenceResponse.class, inferenceId);
+  }
+
+  /**
    * Get the result of an inference that was previously enqueued.
    * The inference will only be available after it has finished processing.
    */
-  public InferenceResponse getInference(String inferenceId) {
+  public <TResponse extends CommonResponse> TResponse getResult(
+      Class<TResponse> responseClass,
+      String inferenceId
+  ) {
     if (inferenceId == null || inferenceId.trim().isEmpty()) {
       throw new IllegalArgumentException("inferenceId must not be null or blank.");
     }
-    return mindeeApi.reqGetInference(inferenceId);
+    return mindeeApi.reqGetResult(responseClass, inferenceId);
   }
 
   /**
-   * Send a local file to an async queue, poll, and parse when complete.
-   *
-   * @param inputSource The input source to send.
-   * @param options The options to send along with the file.
-   * @return an instance of {@link InferenceResponse}.
-   * @throws IOException Throws if the file can't be accessed.
-   * @throws InterruptedException Throws if the thread is interrupted.
+   * @deprecated use `enqueueAndGetResult` instead.
    */
   public InferenceResponse enqueueAndGetInference(
       LocalInputSource inputSource,
-      BaseParameters options
+      InferenceParameters options
   ) throws IOException, InterruptedException {
-    validatePollingOptions(options.getPollingOptions());
-    JobResponse job = enqueueInference(inputSource, options);
-    return pollAndFetch(job, options);
+    return enqueueAndGetResult(InferenceResponse.class, inputSource, options);
+  }
+
+  /**
+   * @deprecated use `enqueueAndGetResult` instead.
+   */
+  public InferenceResponse enqueueAndGetInference(
+      URLInputSource inputSource,
+      InferenceParameters options
+  ) throws IOException, InterruptedException {
+    return enqueueAndGetResult(InferenceResponse.class, inputSource, options);
   }
 
   /**
    * Send a local file to an async queue, poll, and parse when complete.
    *
-   * @param inputSource The input source to send.
-   * @param options The options to send along with the file.
+   * @param inputSource The local input source to send.
+   * @param params The parameters to send along with the file.
    * @return an instance of {@link InferenceResponse}.
    * @throws IOException Throws if the file can't be accessed.
    * @throws InterruptedException Throws if the thread is interrupted.
    */
-  public InferenceResponse enqueueAndGetInference(
-      URLInputSource inputSource,
-      BaseParameters options
+  public <TResponse extends CommonResponse> TResponse enqueueAndGetResult(
+      Class<TResponse> responseClass,
+      LocalInputSource inputSource,
+      BaseParameters params
   ) throws IOException, InterruptedException {
-    validatePollingOptions(options.getPollingOptions());
-    JobResponse job = enqueueInference(inputSource, options);
-    return pollAndFetch(job, options);
+    params.validatePollingOptions();
+    JobResponse job = enqueue(inputSource, params);
+    return pollAndFetch(responseClass, job, params);
+  }
+
+  /**
+   * Send a remote file to an async queue, poll, and parse when complete.
+   *
+   * @param inputSource The URL input source to send.
+   * @param params The parameters to send along with the file.
+   * @return an instance of {@link InferenceResponse}.
+   * @throws IOException Throws if the file can't be accessed.
+   * @throws InterruptedException Throws if the thread is interrupted.
+   */
+  public <TResponse extends CommonResponse> TResponse enqueueAndGetResult(
+      Class<TResponse> responseClass,
+      URLInputSource inputSource,
+      BaseParameters params
+  ) throws IOException, InterruptedException {
+    params.validatePollingOptions();
+    JobResponse job = enqueue(inputSource, params);
+    return pollAndFetch(responseClass, job, params);
   }
 
   /**
@@ -117,7 +173,8 @@ public class MindeeClientV2 {
    * @return an instance of {@link InferenceResponse}.
    * @throws InterruptedException Throws if interrupted.
    */
-  private InferenceResponse pollAndFetch(
+  private <TResponse extends CommonResponse> TResponse pollAndFetch(
+      Class<TResponse> responseClass,
       JobResponse initialJob,
       BaseParameters options
   ) throws InterruptedException {
@@ -135,7 +192,7 @@ public class MindeeClientV2 {
         attempts = max;
       }
       if (resp.getJob().getStatus().equals("Processed")) {
-        return getInference(resp.getJob().getId());
+        return getResult(responseClass, resp.getJob().getId());
       }
       attempts++;
     }
@@ -152,17 +209,5 @@ public class MindeeClientV2 {
         ? new MindeeSettingsV2()
         : new MindeeSettingsV2(apiKey);
     return MindeeHttpApiV2.builder().mindeeSettings(settings).build();
-  }
-
-  private static void validatePollingOptions(AsyncPollingOptions p) {
-    if (p.getInitialDelaySec() < 1) {
-      throw new IllegalArgumentException("Initial delay must be ≥ 1 s");
-    }
-    if (p.getIntervalSec() < 1) {
-      throw new IllegalArgumentException("Interval must be ≥ 1 s");
-    }
-    if (p.getMaxRetries() < 2) {
-      throw new IllegalArgumentException("Max retries must be ≥ 2");
-    }
   }
 }

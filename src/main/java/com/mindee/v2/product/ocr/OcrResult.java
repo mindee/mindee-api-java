@@ -1,31 +1,36 @@
-package com.mindee.parsing.v2;
+package com.mindee.v2.product.ocr;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.mindee.v2.parsing.BaseInference;
+import java.util.ArrayList;
 import java.util.StringJoiner;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 /**
- * Inference object for the V2 API.
+ * Result of the OCR utility inference.
  */
 @Getter
+@EqualsAndHashCode
 @JsonIgnoreProperties(ignoreUnknown = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class Inference extends BaseInference<InferenceResult> {
+public final class OcrResult {
   /**
-   * Active options for the inference.
+   * List of OCR results for each page in the document.
    */
-  @JsonProperty("active_options")
-  private InferenceActiveOptions activeOptions;
+  @JsonProperty("pages")
+  private ArrayList<OcrPage> pages;
 
   @Override
   public String toString() {
     StringJoiner joiner = new StringJoiner("\n");
-    joiner.add(toStringBase()).add(activeOptions.toString()).add("").add(result.toString());
-    return joiner.toString().trim() + "\n";
+    joiner.add("Pages\n======");
+    for (OcrPage item : pages) {
+      joiner.add(item.toString());
+    }
+    return joiner.toString();
   }
 }
