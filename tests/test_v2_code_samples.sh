@@ -44,7 +44,7 @@ do
   fi
 
   sleep 0.5  # avoid too many request errors
-  javac -proc:full -cp ./target/dependency/*:./target/* "${OUTPUT_FILE}"
+  javac -Xlint:-options -cp ./target/dependency/*:./target/* "${OUTPUT_FILE}"
   java -cp  .:./target/dependency/*:./target/* SimpleMindeeClientV2
 
 done
