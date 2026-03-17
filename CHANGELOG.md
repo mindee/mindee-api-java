@@ -1,5 +1,10 @@
 # Mindee Java Client Library Changelog
 
+## v4.43.1 - 2026-03-17
+### Fixes
+* :bug: use new style, static object mapper to avoid recreating multiple times
+
+
 ## v4.43.0 - 2026-03-16
 ### Changes
 * :sparkles: Add support for `Classification`, `Crop`, `OCR` and `Split` utilities.
