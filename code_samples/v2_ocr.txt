@@ -3,7 +3,6 @@ import com.mindee.input.LocalInputSource;
 import com.mindee.v2.product.ocr.OcrResponse;
 import com.mindee.v2.product.ocr.OcrResult;
 import com.mindee.v2.product.ocr.params.OcrParameters;
-import java.io.File;
 import java.io.IOException;
 
 public class SimpleMindeeClientV2 {
@@ -19,7 +18,6 @@ public class SimpleMindeeClientV2 {
     MindeeClientV2 mindeeClient = new MindeeClientV2(apiKey);
 
     // Set inference parameters
-    // Note: modelId is mandatory.
     OcrParameters ocrParams = OcrParameters
         // ID of the model, required.
         .builder(modelId)
@@ -28,7 +26,7 @@ public class SimpleMindeeClientV2 {
     // Load a file from disk
     LocalInputSource inputSource = new LocalInputSource(filePath);
 
-    // Send for processing
+    // Send for processing using polling
     OcrResponse response = mindeeClient.enqueueAndGetResult(
         OcrResponse.class,
         inputSource,
