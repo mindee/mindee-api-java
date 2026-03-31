@@ -17,7 +17,6 @@ import com.mindee.parsing.common.WorkflowResponse;
 import com.mindee.pdf.PdfBoxApi;
 import com.mindee.pdf.PdfOperation;
 import com.mindee.pdf.SplitQuery;
-import com.mindee.product.custom.CustomV1;
 import com.mindee.product.generated.GeneratedV1;
 import java.io.IOException;
 import java.net.URL;
@@ -61,7 +60,7 @@ public class MindeeClient {
 
   /**
    * Create a MindeeClient.
-   * 
+   *
    * @param pdfOperation The PdfOperation implementation to be used by the created MindeeClient.
    * @param mindeeApi The MindeeApi implementation to be used by the created MindeeClient.
    */
@@ -82,7 +81,7 @@ public class MindeeClient {
 
   /**
    * Parse a document from an async queue.
-   * 
+   *
    * @param <T> Type of inference.
    * @param type Type of inference;
    * @param jobId ID of the job.
@@ -94,7 +93,7 @@ public class MindeeClient {
 
   /**
    * Send a local file to an async queue.
-   * 
+   *
    * @param <T> Type of inference.
    * @param type Type of inference.
    * @param localInputSource A local input source file.
@@ -118,7 +117,7 @@ public class MindeeClient {
 
   /**
    * Retrieves the file after applying page operations to it.
-   * 
+   *
    * @param localInputSource Local input source to apply operations to.
    * @param pageOptions Options to apply.
    * @return A byte array of the file after applying page operations.
@@ -141,7 +140,7 @@ public class MindeeClient {
 
   /**
    * Send a local file to an async queue.
-   * 
+   *
    * @param <T> Type of inference.
    * @param type Type of inference.
    * @param localInputSource A local input source file.
@@ -169,7 +168,7 @@ public class MindeeClient {
 
   /**
    * Send a local file to an async queue.
-   * 
+   *
    * @param <T> Type of inference.
    * @param type Type of inference.
    * @param localInputSource A local input source file.
@@ -195,7 +194,7 @@ public class MindeeClient {
 
   /**
    * Send a remote file to an async queue.
-   * 
+   *
    * @param <T> Type of inference.
    * @param type Type of inference.
    * @param sourceUrl A URL to a remote file.
@@ -212,7 +211,7 @@ public class MindeeClient {
 
   /**
    * Send a remote file to an async queue.
-   * 
+   *
    * @param <T> Type of inference.
    * @param type Type of inference.
    * @param sourceUrl A URL to a remote file.
@@ -249,7 +248,7 @@ public class MindeeClient {
 
   /**
    * Send a local file to an async queue, poll, and parse when complete.
-   * 
+   *
    * @param <T> Type of inference.
    * @param type Type of inference.
    * @param localInputSource A local input source file.
@@ -275,7 +274,7 @@ public class MindeeClient {
 
   /**
    * Send a local file to an async queue, poll, and parse when complete.
-   * 
+   *
    * @param <T> Type of inference.
    * @param type Type of inference.
    * @param localInputSource A local input source file.
@@ -303,7 +302,7 @@ public class MindeeClient {
 
   /**
    * Send a local file to an async queue, poll, and parse when complete.
-   * 
+   *
    * @param <T> Type of inference.
    * @param type Type of inference.
    * @param localInputSource A local input source file.
@@ -335,7 +334,7 @@ public class MindeeClient {
 
   /**
    * Send a local file to an async queue, poll, and parse when complete.
-   * 
+   *
    * @param <T> Type of inference.
    * @param type Type of inference.
    * @param localInputSource A local input source file.
@@ -365,7 +364,7 @@ public class MindeeClient {
 
   /**
    * Send a local file to an async queue, poll, and parse when complete.
-   * 
+   *
    * @param <T> Type of inference.
    * @param type Type of inference.
    * @param localInputSource A local input source file.
@@ -393,7 +392,7 @@ public class MindeeClient {
 
   /**
    * Send a remote file to an async queue, poll, and parse when complete.
-   * 
+   *
    * @param <T> Type of inference.
    * @param type Type of inference.
    * @param sourceUrl A URL to a remote file.
@@ -411,7 +410,7 @@ public class MindeeClient {
 
   /**
    * Validate async polling options.
-   * 
+   *
    * @param pollingOptions Options for async call parameters
    * @throws MindeeException Throws if settings aren't set properly.
    */
@@ -484,7 +483,7 @@ public class MindeeClient {
 
   /**
    * Send a local file to a workflow execution.
-   * 
+   *
    * @param workflowId ID of the workflow to send the document to.
    * @param localInputSource A local input source file.
    * @param workflowOptions Options for the workflow execution.
@@ -511,7 +510,7 @@ public class MindeeClient {
 
   /**
    * Send a local file to a workflow execution.
-   * 
+   *
    * @param workflowId ID of the workflow to send the document to.
    * @param localInputSource A local input source file.
    * @return A workflow response.
@@ -536,7 +535,7 @@ public class MindeeClient {
 
   /**
    * Send a local file to a Standard prediction API and parse the results.
-   * 
+   *
    * @param <T> Type of inference.
    * @param type Type of inference.
    * @param localInputSource A local input source file.
@@ -560,7 +559,7 @@ public class MindeeClient {
 
   /**
    * Send a local file to a Standard prediction API and parse the results.
-   * 
+   *
    * @param <T> Type of inference.
    * @param type Type of inference.
    * @param localInputSource A local input source file.
@@ -586,7 +585,7 @@ public class MindeeClient {
 
   /**
    * Send a local file to a Standard prediction API and parse the results.
-   * 
+   *
    * @param <T> Type of inference.
    * @param type Type of inference.
    * @param localInputSource A local input source file.
@@ -612,7 +611,7 @@ public class MindeeClient {
 
   /**
    * Send a local file to a Standard prediction API and parse the results.
-   * 
+   *
    * @param <T> Type of inference.
    * @param type Type of inference.
    * @param localInputSource A local input source file.
@@ -640,7 +639,7 @@ public class MindeeClient {
 
   /**
    * Send a remote file to a Standard prediction API and parse the results.
-   * 
+   *
    * @param <T> Type of inference.
    * @param type Type of inference.
    * @param urlInputSource A URL to a remote file.
@@ -657,7 +656,7 @@ public class MindeeClient {
 
   /**
    * Send a remote file to a Standard prediction API and parse the results.
-   * 
+   *
    * @param <T> Type of inference.
    * @param type Type of inference.
    * @param urlInputSource A URL to a remote file.
@@ -693,78 +692,8 @@ public class MindeeClient {
   }
 
   /**
-   * Send a local file to a Custom prediction API and parse the results.
-   * 
-   * @param localInputSource A local input source file.
-   * @param endpoint Custom endpoint to send the document to.
-   * @return an instance of {@link PredictResponse}.
-   * @throws IOException Throws if the file can't be accessed.
-   */
-  public PredictResponse<CustomV1> parse(
-      LocalInputSource localInputSource,
-      Endpoint endpoint
-  ) throws IOException {
-    return this.parse(localInputSource.getFile(), localInputSource.getFilename(), endpoint, null);
-  }
-
-  /**
-   * Send a local file to a Custom prediction API and parse the results.
-   * 
-   * @param localInputSource A local input source file.
-   * @param endpoint Custom endpoint to send the document to.
-   * @param pageOptions Page options for PDF documents.
-   * @return an instance of {@link PredictResponse}.
-   * @throws IOException Throws if the file can't be accessed.
-   */
-  public PredictResponse<CustomV1> parse(
-      LocalInputSource localInputSource,
-      Endpoint endpoint,
-      PageOptions pageOptions
-  ) throws IOException {
-    return this
-      .parse(
-        getSplitFile(localInputSource, pageOptions),
-        localInputSource.getFilename(),
-        endpoint,
-        null
-      );
-  }
-
-  /**
-   * Send a remote file to a Custom prediction API and parse the results.
-   * 
-   * @param documentUrl A URL to a remote file.
-   * @param endpoint Custom endpoint to send the document to.
-   * @return an instance of {@link PredictResponse}.
-   * @throws IOException Throws if the file can't be accessed.
-   */
-  public PredictResponse<CustomV1> parse(URL documentUrl, Endpoint endpoint) throws IOException {
-    InputSourceUtils.validateUrl(documentUrl);
-    return this.parse(null, null, endpoint, documentUrl);
-  }
-
-  private PredictResponse<CustomV1> parse(
-      byte[] file,
-      String filename,
-      Endpoint endpoint,
-      URL urlInputSource
-  ) throws IOException {
-    return this.mindeeApi
-      .predictPost(
-        CustomV1.class,
-        endpoint,
-        RequestParameters
-          .builder()
-          .file(file)
-          .fileName(filename)
-          .urlInputSource(urlInputSource)
-          .build()
-      );
-  }
-
-  /**
    * Send a local file to a Generated prediction async API queue.
-   * 
+   *
    * @param <T> Type of inference.
    * @param type Type of inference.
    * @param localInputSource A local input source file.
@@ -790,7 +719,7 @@ public class MindeeClient {
 
   /**
    * Send a local file to a Generated prediction async API queue.
-   * 
+   *
    * @param <T> Type of inference.
    * @param type Type of inference.
    * @param localInputSource A local input source file.
@@ -820,7 +749,7 @@ public class MindeeClient {
 
   /**
    * Send a remote file to a Generated prediction async API queue.
-   * 
+   *
    * @param <T> Type of inference.
    * @param type Type of inference.
    * @param endpoint Custom endpoint to send the document to.
@@ -839,7 +768,7 @@ public class MindeeClient {
 
   /**
    * Send a remote file to a Generated prediction async API queue.
-   * 
+   *
    * @param <T> Type of inference.
    * @param type Type of inference.
    * @param sourceUrl A URL to a remote file.
@@ -860,7 +789,7 @@ public class MindeeClient {
 
   /**
    * Send a local file to a Generated prediction API async queue, poll, and parse when complete.
-   * 
+   *
    * @param <T> Type of inference.
    * @param type Type of inference.
    * @param localInputSource A local input source file.
@@ -888,7 +817,7 @@ public class MindeeClient {
 
   /**
    * Send a local file to a Generated prediction API async queue, poll, and parse when complete.
-   * 
+   *
    * @param <T> Type of inference.
    * @param type Type of inference.
    * @param localInputSource A local input source file.
@@ -918,7 +847,7 @@ public class MindeeClient {
 
   /**
    * Send a local file to a Generated prediction API async queue, poll, and parse when complete.
-   * 
+   *
    * @param <T> Type of inference.
    * @param type Type of inference.
    * @param localInputSource A local input source file.
@@ -952,7 +881,7 @@ public class MindeeClient {
 
   /**
    * Send a remote file to a Generated prediction API async queue, poll, and parse when complete.
-   * 
+   *
    * @param <T> Type of inference.
    * @param type Type of inference.
    * @param endpoint Custom endpoint to send the document to.
@@ -972,7 +901,7 @@ public class MindeeClient {
 
   /**
    * Send a local file to a Generated prediction API and parse the results.
-   * 
+   *
    * @param <T> Type of inference.
    * @param type Type of inference.
    * @param localInputSource A local input source file.
@@ -998,7 +927,7 @@ public class MindeeClient {
 
   /**
    * Send a local file to a Generated prediction API and parse the results.
-   * 
+   *
    * @param <T> Type of inference.
    * @param type Type of inference.
    * @param localInputSource A local input source file.
@@ -1026,7 +955,7 @@ public class MindeeClient {
 
   /**
    * Send a local file to a Generated prediction API and parse the results.
-   * 
+   *
    * @param <T> Type of inference.
    * @param type Type of inference.
    * @param localInputSource A local input source file.
@@ -1054,7 +983,7 @@ public class MindeeClient {
 
   /**
    * Send a local file to a Standard prediction API and parse the results.
-   * 
+   *
    * @param <T> Type of inference.
    * @param type Type of inference.
    * @param localInputSource A local input source file.
@@ -1084,7 +1013,7 @@ public class MindeeClient {
 
   /**
    * Send a remote file to a Generated prediction API and parse the results.
-   * 
+   *
    * @param <T> Type of inference.
    * @param type Type of inference.
    * @param endpoint Custom endpoint to send the document to.
@@ -1103,7 +1032,7 @@ public class MindeeClient {
 
   /**
    * Send a remote file to a Generated prediction API and parse the results.
-   * 
+   *
    * @param <T> Type of inference.
    * @param type Type of inference.
    * @param documentUrl A URL to a remote file.
@@ -1124,7 +1053,7 @@ public class MindeeClient {
 
   /**
    * Parse a document from a Generated prediction API async queue.
-   * 
+   *
    * @param <T> Type of inference.
    * @param type Type of inference.
    * @param endpoint Custom endpoint to send the document to.
@@ -1143,7 +1072,7 @@ public class MindeeClient {
    * Load a local prediction.
    * Typically used when wanting to load from a webhook callback.
    * However, any kind of Mindee response may be loaded.
-   * 
+   *
    * @param <T> Type of inference.
    * @param type Type of inference.
    * @param localResponse A loaded local response.
