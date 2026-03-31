@@ -17,7 +17,6 @@ import com.mindee.parsing.common.Job;
 import com.mindee.parsing.common.PredictResponse;
 import com.mindee.pdf.PdfOperation;
 import com.mindee.pdf.SplitPdf;
-import com.mindee.product.custom.CustomV1;
 import com.mindee.product.generated.GeneratedV1;
 import com.mindee.product.internationalid.InternationalIdV2;
 import com.mindee.product.invoice.InvoiceV4;
@@ -48,56 +47,6 @@ class MindeeClientTest {
     mindeeApi = Mockito.mock(MindeeApi.class);
     pdfOperation = Mockito.mock(PdfOperation.class);
     client = new MindeeClient(pdfOperation, mindeeApi);
-  }
-
-  @Test
-  void givenAClientForCustom_withFile_parse_thenShouldCallMindeeApi() throws IOException {
-
-    PredictResponse predictResponse = new PredictResponse();
-    predictResponse.setDocument(new Document<>());
-    predictResponse.setApiRequest(null);
-    Mockito
-      .when(mindeeApi.predictPost(Mockito.any(), Mockito.any(), Mockito.any()))
-      .thenReturn(predictResponse);
-
-    PredictResponse<CustomV1> document = client
-      .parse(
-        new LocalInputSource(getResourcePath("file_types/pdf/blank_1.pdf")),
-        new Endpoint("", "", "")
-      );
-
-    Assertions.assertNotNull(document);
-    Mockito
-      .verify(mindeeApi, Mockito.times(1))
-      .predictPost(Mockito.any(), Mockito.any(), Mockito.any());
-  }
-
-  @Test
-  void givenAClientForCustomAndPageOptions_parse_thenShouldOperateCutOnPagesAndCallTheHttpClientCorrectly() throws IOException {
-
-    List<Integer> pageNumberToKeep = new ArrayList<>();
-    pageNumberToKeep.add(1);
-
-    PredictResponse predictResponse = new PredictResponse();
-    predictResponse.setDocument(new Document<>());
-    predictResponse.setApiRequest(null);
-    Mockito
-      .when(mindeeApi.predictPost(Mockito.any(), Mockito.any(), Mockito.any()))
-      .thenReturn(predictResponse);
-    Mockito.when(pdfOperation.split(Mockito.any())).thenReturn(new SplitPdf(new byte[0], 0));
-
-    PredictResponse<CustomV1> document = client
-      .parse(
-        new LocalInputSource(getResourcePath("file_types/pdf/multipage.pdf")),
-        new Endpoint("", "", ""),
-        new PageOptions(pageNumberToKeep, PageOptionsOperation.KEEP_ONLY, 0)
-      );
-
-    Assertions.assertNotNull(document);
-    Mockito
-      .verify(mindeeApi, Mockito.times(1))
-      .predictPost(Mockito.any(), Mockito.any(), Mockito.any());
-    Mockito.verify(pdfOperation, Mockito.times(1)).split(Mockito.any());
   }
 
   @Test
@@ -219,38 +168,6 @@ class MindeeClientTest {
       );
     Assertions.assertEquals(InvoiceV4.class, classArgumentCaptor.getValue());
     Assertions.assertEquals(docUrl, requestParametersArgumentCaptor.getValue().getFileUrl());
-    Assertions.assertNull(requestParametersArgumentCaptor.getValue().getFile());
-    Assertions.assertNull(requestParametersArgumentCaptor.getValue().getFileName());
-  }
-
-  @Test
-  void givenACustomDocumentUrl_whenParsed_shouldCallApiWithCorrectParams() throws IOException {
-
-    ArgumentCaptor<Class> classArgumentCaptor = ArgumentCaptor.forClass(Class.class);
-    ArgumentCaptor<Endpoint> endpointArgumentCaptor = ArgumentCaptor.forClass(Endpoint.class);
-    ArgumentCaptor<RequestParameters> requestParametersArgumentCaptor = ArgumentCaptor
-      .forClass(RequestParameters.class);
-
-    URL docUrl = new URL("https://this.document.does.not.exist");
-    Endpoint endpoint = new Endpoint("dsddw", "dcsdcd", "dsfdd");
-    PredictResponse predictResponse = new PredictResponse();
-    predictResponse.setDocument(new Document<>());
-    predictResponse.setApiRequest(null);
-    Mockito
-      .when(mindeeApi.predictPost(Mockito.any(), Mockito.any(), Mockito.any()))
-      .thenReturn(predictResponse);
-    PredictResponse<CustomV1> document = client.parse(docUrl, endpoint);
-
-    Mockito
-      .verify(mindeeApi, Mockito.times(1))
-      .predictPost(
-        classArgumentCaptor.capture(),
-        endpointArgumentCaptor.capture(),
-        requestParametersArgumentCaptor.capture()
-      );
-    Assertions.assertEquals(CustomV1.class, classArgumentCaptor.getValue());
-    Assertions.assertEquals(docUrl, requestParametersArgumentCaptor.getValue().getFileUrl());
-    Assertions.assertEquals(endpoint, endpointArgumentCaptor.getValue());
     Assertions.assertNull(requestParametersArgumentCaptor.getValue().getFile());
     Assertions.assertNull(requestParametersArgumentCaptor.getValue().getFileName());
   }
