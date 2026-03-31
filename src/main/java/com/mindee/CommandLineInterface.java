@@ -10,7 +10,6 @@ import com.mindee.parsing.common.AsyncPredictResponse;
 import com.mindee.parsing.common.Inference;
 import com.mindee.parsing.common.PredictResponse;
 import com.mindee.parsing.common.ocr.Ocr;
-import com.mindee.product.custom.CustomV1;
 import com.mindee.product.generated.GeneratedV1;
 import java.io.File;
 import java.io.IOException;
@@ -147,41 +146,6 @@ public class CommandLineInterface implements ProductProcessor {
       method.invoke(products, file);
       return 0;
     }
-  }
-
-  @Command(
-      name = "custom",
-      description = "Invokes a Custom API (API Builder only, use 'generated' for regular custom APIs)"
-  )
-  void customMethod(
-      @Option(
-          names = { "-a", "--account" },
-          scope = ScopeType.LOCAL,
-          required = true,
-          paramLabel = "accountName",
-          description = "The name of the account"
-      ) String accountName,
-      @Option(
-          names = { "-e", "--endpointName" },
-          scope = ScopeType.LOCAL,
-          required = true,
-          paramLabel = "endpointName",
-          description = "The name of the endpoint"
-      ) String endpointName,
-      @Parameters(index = "0", scope = ScopeType.LOCAL, paramLabel = "<path>") File file
-  ) throws IOException {
-
-    MindeeClient mindeeClient = new MindeeClient(apiKey);
-
-    PredictResponse<CustomV1> document;
-    Endpoint endpoint = new Endpoint(endpointName, accountName, "1");
-
-    if (cutDoc) {
-      document = mindeeClient.parse(new LocalInputSource(file), endpoint, getDefaultPageOptions());
-    } else {
-      document = mindeeClient.parse(new LocalInputSource(file), endpoint);
-    }
-    System.out.println(document.toString());
   }
 
   @Command(name = "generated", description = "Invokes a Generated API")
