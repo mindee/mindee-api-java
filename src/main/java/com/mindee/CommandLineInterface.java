@@ -1,16 +1,17 @@
 package com.mindee;
 
-import com.mindee.cli.CommandLineInterfaceProducts;
-import com.mindee.cli.ProductProcessor;
-import com.mindee.http.Endpoint;
 import com.mindee.input.LocalInputSource;
 import com.mindee.input.PageOptions;
 import com.mindee.input.PageOptionsOperation;
-import com.mindee.parsing.common.AsyncPredictResponse;
-import com.mindee.parsing.common.Inference;
-import com.mindee.parsing.common.PredictResponse;
-import com.mindee.parsing.common.ocr.Ocr;
-import com.mindee.product.generated.GeneratedV1;
+import com.mindee.v1.cli.CommandLineInterfaceProducts;
+import com.mindee.v1.cli.ProductProcessor;
+import com.mindee.v1.clientOptions.PredictOptions;
+import com.mindee.v1.http.Endpoint;
+import com.mindee.v1.parsing.common.AsyncPredictResponse;
+import com.mindee.v1.parsing.common.Inference;
+import com.mindee.v1.parsing.common.PredictResponse;
+import com.mindee.v1.parsing.common.ocr.Ocr;
+import com.mindee.v1.product.generated.GeneratedV1;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;

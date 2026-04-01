@@ -5,7 +5,7 @@ import static com.mindee.pdf.PDFUtils.mergePdfPages;
 import com.mindee.MindeeException;
 import com.mindee.input.InputSourceUtils;
 import com.mindee.input.LocalInputSource;
-import com.mindee.product.invoicesplitter.InvoiceSplitterV1InvoicePageGroup;
+import com.mindee.v1.product.invoicesplitter.InvoiceSplitterV1InvoicePageGroup;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;

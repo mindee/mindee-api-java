@@ -1,15 +1,16 @@
 package com.mindee;
 
-import com.mindee.http.MindeeApiV2;
-import com.mindee.http.MindeeHttpApiV2;
-import com.mindee.http.MindeeHttpExceptionV2;
 import com.mindee.input.LocalInputSource;
 import com.mindee.input.URLInputSource;
-import com.mindee.parsing.v2.CommonResponse;
-import com.mindee.parsing.v2.ErrorResponse;
-import com.mindee.parsing.v2.InferenceResponse;
-import com.mindee.parsing.v2.JobResponse;
 import com.mindee.v2.clientOptions.BaseParameters;
+import com.mindee.v2.http.MindeeApiV2;
+import com.mindee.v2.http.MindeeHttpApiV2;
+import com.mindee.v2.http.MindeeHttpException;
+import com.mindee.v2.parsing.CommonResponse;
+import com.mindee.v2.parsing.ErrorResponse;
+import com.mindee.v2.parsing.JobResponse;
+import com.mindee.v2.product.extraction.ExtractionResponse;
+import com.mindee.v2.product.extraction.params.ExtractionParameters;
 import java.io.IOException;
 
 /**
@@ -38,7 +39,7 @@ public class MindeeClientV2 {
    */
   public JobResponse enqueueInference(
       LocalInputSource inputSource,
-      InferenceParameters params
+      ExtractionParameters params
   ) throws IOException {
     return enqueue(inputSource, params);
   }
@@ -48,7 +49,7 @@ public class MindeeClientV2 {
    */
   public JobResponse enqueueInference(
       URLInputSource inputSource,
-      InferenceParameters params
+      ExtractionParameters params
   ) throws IOException {
     return enqueue(inputSource, params);
   }
@@ -90,8 +91,8 @@ public class MindeeClientV2 {
   /**
    * @deprecated use `getResult` instead.
    */
-  public InferenceResponse getInference(String inferenceId) {
-    return getResult(InferenceResponse.class, inferenceId);
+  public ExtractionResponse getInference(String inferenceId) {
+    return getResult(ExtractionResponse.class, inferenceId);
   }
 
   /**
@@ -111,21 +112,21 @@ public class MindeeClientV2 {
   /**
    * @deprecated use `enqueueAndGetResult` instead.
    */
-  public InferenceResponse enqueueAndGetInference(
+  public ExtractionResponse enqueueAndGetInference(
       LocalInputSource inputSource,
-      InferenceParameters options
+      ExtractionParameters options
   ) throws IOException, InterruptedException {
-    return enqueueAndGetResult(InferenceResponse.class, inputSource, options);
+    return enqueueAndGetResult(ExtractionResponse.class, inputSource, options);
   }
 
   /**
    * @deprecated use `enqueueAndGetResult` instead.
    */
-  public InferenceResponse enqueueAndGetInference(
+  public ExtractionResponse enqueueAndGetInference(
       URLInputSource inputSource,
-      InferenceParameters options
+      ExtractionParameters options
   ) throws IOException, InterruptedException {
-    return enqueueAndGetResult(InferenceResponse.class, inputSource, options);
+    return enqueueAndGetResult(ExtractionResponse.class, inputSource, options);
   }
 
   /**
@@ -133,7 +134,7 @@ public class MindeeClientV2 {
    *
    * @param inputSource The local input source to send.
    * @param params The parameters to send along with the file.
-   * @return an instance of {@link InferenceResponse}.
+   * @return an instance of {@link ExtractionResponse}.
    * @throws IOException Throws if the file can't be accessed.
    * @throws InterruptedException Throws if the thread is interrupted.
    */
@@ -152,7 +153,7 @@ public class MindeeClientV2 {
    *
    * @param inputSource The URL input source to send.
    * @param params The parameters to send along with the file.
-   * @return an instance of {@link InferenceResponse}.
+   * @return an instance of {@link ExtractionResponse}.
    * @throws IOException Throws if the file can't be accessed.
    * @throws InterruptedException Throws if the thread is interrupted.
    */
@@ -170,7 +171,7 @@ public class MindeeClientV2 {
    * Common logic for polling an asynchronous job for local & url files.
    *
    * @param initialJob The initial job response.
-   * @return an instance of {@link InferenceResponse}.
+   * @return an instance of {@link ExtractionResponse}.
    * @throws InterruptedException Throws if interrupted.
    */
   private <TResponse extends CommonResponse> TResponse pollAndFetch(
@@ -199,7 +200,7 @@ public class MindeeClientV2 {
 
     ErrorResponse error = resp.getJob().getError();
     if (error != null) {
-      throw new MindeeHttpExceptionV2(error.getStatus(), error.getDetail());
+      throw new MindeeHttpException(error.getStatus(), error.getDetail());
     }
     throw new RuntimeException("Max retries exceeded (" + max + ").");
   }

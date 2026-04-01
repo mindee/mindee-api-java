@@ -2,7 +2,7 @@ package com.mindee.input;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mindee.MindeeException;
-import com.mindee.parsing.v2.CommonResponse;
+import com.mindee.v2.parsing.CommonResponse;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -30,7 +30,7 @@ public class LocalResponse {
 
   /**
    * Load from an {@link InputStream}.
-   * 
+   *
    * @param input will be decoded as UTF-8.
    */
   public LocalResponse(InputStream input) {
@@ -40,7 +40,7 @@ public class LocalResponse {
 
   /**
    * Load from a {@link String}.
-   * 
+   *
    * @param input will be decoded as UTF-8.
    */
   public LocalResponse(String input) {
@@ -49,7 +49,7 @@ public class LocalResponse {
 
   /**
    * Load from a {@link File}.
-   * 
+   *
    * @param input will be decoded as UTF-8.
    */
   public LocalResponse(File input) throws IOException {
@@ -58,7 +58,7 @@ public class LocalResponse {
 
   /**
    * Load from a {@link Path}.
-   * 
+   *
    * @param input will be decoded as UTF-8.
    */
   public LocalResponse(Path input) throws IOException {
@@ -71,7 +71,7 @@ public class LocalResponse {
 
   /**
    * Get the HMAC signature of the payload.
-   * 
+   *
    * @param secretKey Your secret key from the Mindee platform.
    * @return The generated HMAC signature.
    */
@@ -98,7 +98,7 @@ public class LocalResponse {
 
   /**
    * Verify that the payload's signature matches the one received from the server.
-   * 
+   *
    * @param secretKey Your secret key from the Mindee platform.
    * @param signature The signature from the "X-Mindee-Hmac-Signature" HTTP header.
    * @return true if the signatures match.

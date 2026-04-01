@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import com.mindee.AsyncPollingOptions;
 import com.mindee.MindeeClientV2;
 import com.mindee.input.LocalInputSource;
-import com.mindee.parsing.v2.InferenceFile;
+import com.mindee.v2.parsing.inference.InferenceFile;
 import com.mindee.v2.product.split.SplitInference;
 import com.mindee.v2.product.split.SplitResponse;
 import com.mindee.v2.product.split.SplitResult;
