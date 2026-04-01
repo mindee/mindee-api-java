@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.mindee.AsyncPollingOptions;
 import com.mindee.MindeeClientV2;
 import com.mindee.input.LocalInputSource;
-import com.mindee.parsing.v2.InferenceFile;
+import com.mindee.v2.parsing.inference.InferenceFile;
 import com.mindee.v2.product.crop.CropInference;
 import com.mindee.v2.product.crop.CropResponse;
 import com.mindee.v2.product.crop.CropResult;

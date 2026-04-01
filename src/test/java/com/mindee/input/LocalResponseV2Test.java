@@ -2,7 +2,7 @@ package com.mindee.input;
 
 import static com.mindee.TestingUtilities.getV2ResourcePath;
 
-import com.mindee.parsing.v2.InferenceResponse;
+import com.mindee.v2.product.extraction.ExtractionResponse;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -34,7 +34,7 @@ public class LocalResponseV2Test {
       );
     Assertions.assertEquals(this.signature, localResponse.getHmacSignature(this.secretKey));
     Assertions.assertTrue(localResponse.isValidHmacSignature(this.secretKey, this.signature));
-    InferenceResponse response = localResponse.deserializeResponse(InferenceResponse.class);
+    ExtractionResponse response = localResponse.deserializeResponse(ExtractionResponse.class);
     Assertions.assertNotNull(response);
     Assertions.assertNotNull(response.getInference());
   }

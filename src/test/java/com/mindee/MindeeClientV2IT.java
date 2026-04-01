@@ -5,17 +5,18 @@ import static com.mindee.TestingUtilities.getV2ResourcePath;
 import static com.mindee.TestingUtilities.readFileAsString;
 import static org.junit.jupiter.api.Assertions.*;
 
-import com.mindee.http.MindeeHttpExceptionV2;
 import com.mindee.input.LocalInputSource;
 import com.mindee.input.URLInputSource;
-import com.mindee.parsing.v2.Inference;
-import com.mindee.parsing.v2.InferenceActiveOptions;
-import com.mindee.parsing.v2.InferenceFile;
-import com.mindee.parsing.v2.InferenceResponse;
-import com.mindee.parsing.v2.InferenceResult;
-import com.mindee.parsing.v2.RawText;
-import com.mindee.parsing.v2.field.InferenceFields;
-import com.mindee.parsing.v2.field.SimpleField;
+import com.mindee.v2.http.MindeeHttpException;
+import com.mindee.v2.parsing.inference.InferenceActiveOptions;
+import com.mindee.v2.parsing.inference.InferenceFile;
+import com.mindee.v2.parsing.inference.RawText;
+import com.mindee.v2.parsing.inference.field.InferenceFields;
+import com.mindee.v2.parsing.inference.field.SimpleField;
+import com.mindee.v2.product.extraction.ExtractionInference;
+import com.mindee.v2.product.extraction.ExtractionResponse;
+import com.mindee.v2.product.extraction.ExtractionResult;
+import com.mindee.v2.product.extraction.params.ExtractionParameters;
 import java.io.IOException;
 import org.junit.jupiter.api.*;
 
@@ -40,7 +41,7 @@ class MindeeClientV2IT {
     LocalInputSource source = new LocalInputSource(
       getResourcePath("file_types/pdf/multipage_cut-2.pdf")
     );
-    InferenceParameters params = InferenceParameters
+    ExtractionParameters params = ExtractionParameters
       .builder(modelId)
       .rag(false)
       .rawText(true)
@@ -53,10 +54,10 @@ class MindeeClientV2IT {
       )
       .build();
 
-    InferenceResponse response = mindeeClient
-      .enqueueAndGetResult(InferenceResponse.class, source, params);
+    ExtractionResponse response = mindeeClient
+      .enqueueAndGetResult(ExtractionResponse.class, source, params);
     assertNotNull(response);
-    Inference inference = response.getInference();
+    ExtractionInference inference = response.getInference();
     assertNotNull(inference);
 
     InferenceFile file = inference.getFile();
@@ -74,7 +75,7 @@ class MindeeClientV2IT {
     assertFalse(activeOptions.getPolygon());
     assertFalse(activeOptions.getConfidence());
 
-    InferenceResult result = inference.getResult();
+    ExtractionResult result = inference.getResult();
     assertNotNull(result);
 
     RawText rawText = result.getRawText();
@@ -91,16 +92,16 @@ class MindeeClientV2IT {
       getV2ResourcePath("products/extraction/financial_document/default_sample.jpg")
     );
 
-    InferenceParameters params = InferenceParameters
+    ExtractionParameters params = ExtractionParameters
       .builder(modelId)
       .rag(false)
       .alias("java-integration-test_single-page")
       .textContext("this is an invoice")
       .build();
 
-    InferenceResponse response = mindeeClient.enqueueAndGetInference(source, params);
+    ExtractionResponse response = mindeeClient.enqueueAndGetInference(source, params);
     assertNotNull(response);
-    Inference inference = response.getInference();
+    ExtractionInference inference = response.getInference();
     assertNotNull(inference);
 
     InferenceFile file = inference.getFile();
@@ -118,7 +119,7 @@ class MindeeClientV2IT {
     assertFalse(activeOptions.getPolygon());
     assertFalse(activeOptions.getConfidence());
 
-    InferenceResult result = inference.getResult();
+    ExtractionResult result = inference.getResult();
     assertNotNull(result);
 
     RawText rawText = result.getRawText();
@@ -139,7 +140,7 @@ class MindeeClientV2IT {
       getV2ResourcePath("products/extraction/financial_document/default_sample.jpg")
     );
 
-    InferenceParameters params = InferenceParameters
+    ExtractionParameters params = ExtractionParameters
       .builder(modelId)
       .rag(false)
       .alias("java-integration-test_data-schema-replace")
@@ -148,13 +149,13 @@ class MindeeClientV2IT {
       )
       .build();
 
-    InferenceResponse response = mindeeClient
-      .enqueueAndGetResult(InferenceResponse.class, source, params);
+    ExtractionResponse response = mindeeClient
+      .enqueueAndGetResult(ExtractionResponse.class, source, params);
     assertNotNull(response);
-    Inference inference = response.getInference();
+    ExtractionInference inference = response.getInference();
     assertNotNull(inference);
 
-    InferenceResult result = inference.getResult();
+    ExtractionResult result = inference.getResult();
     assertNotNull(result);
 
     RawText rawText = result.getRawText();
@@ -172,13 +173,13 @@ class MindeeClientV2IT {
   @DisplayName("Invalid model ID – enqueue must raise 422")
   void invalidModel_mustThrowError() throws IOException {
     LocalInputSource source = new LocalInputSource(getResourcePath("file_types/pdf/blank_1.pdf"));
-    InferenceParameters params = InferenceParameters
+    ExtractionParameters params = ExtractionParameters
       .builder("INVALID_MODEL_ID")
       .textContext("this is invalid")
       .build();
 
-    MindeeHttpExceptionV2 ex = assertThrows(
-      MindeeHttpExceptionV2.class,
+    MindeeHttpException ex = assertThrows(
+      MindeeHttpException.class,
       () -> mindeeClient.enqueueInference(source, params)
     );
     assertEquals(422, ex.getStatus());
@@ -188,13 +189,13 @@ class MindeeClientV2IT {
   @DisplayName("Invalid webhook ID – enqueue must raise 422")
   void invalidWebhook_mustThrowError() throws IOException {
     LocalInputSource source = new LocalInputSource(getResourcePath("file_types/pdf/blank_1.pdf"));
-    InferenceParameters params = InferenceParameters
+    ExtractionParameters params = ExtractionParameters
       .builder(modelId)
       .webhookIds(new String[] { "INVALID_WEBHOOK_ID" })
       .build();
 
-    MindeeHttpExceptionV2 ex = assertThrows(
-      MindeeHttpExceptionV2.class,
+    MindeeHttpException ex = assertThrows(
+      MindeeHttpException.class,
       () -> mindeeClient.enqueueInference(source, params)
     );
     assertEquals(422, ex.getStatus());
@@ -203,8 +204,8 @@ class MindeeClientV2IT {
   @Test
   @DisplayName("Invalid job ID – parseQueued must raise an error")
   void invalidJob_mustThrowError() {
-    MindeeHttpExceptionV2 ex = assertThrows(
-      MindeeHttpExceptionV2.class,
+    MindeeHttpException ex = assertThrows(
+      MindeeHttpException.class,
       () -> mindeeClient.getInference("INVALID_JOB_ID")
     );
     assertEquals(422, ex.getStatus());
@@ -218,9 +219,9 @@ class MindeeClientV2IT {
       .builder(System.getenv("MINDEE_V2_SE_TESTS_BLANK_PDF_URL"))
       .build();
 
-    InferenceParameters options = InferenceParameters.builder(modelId).build();
+    ExtractionParameters options = ExtractionParameters.builder(modelId).build();
 
-    InferenceResponse response = mindeeClient.enqueueAndGetInference(urlSource, options);
+    ExtractionResponse response = mindeeClient.enqueueAndGetInference(urlSource, options);
 
     assertNotNull(response);
     assertNotNull(response.getInference());

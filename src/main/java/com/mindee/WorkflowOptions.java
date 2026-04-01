@@ -1,6 +1,6 @@
 package com.mindee;
 
-import com.mindee.parsing.common.ExecutionPriority;
+import com.mindee.v1.parsing.common.ExecutionPriority;
 import lombok.Builder;
 import lombok.Value;
 

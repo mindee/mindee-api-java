@@ -2,7 +2,7 @@ import com.mindee.MindeeClient;
 import com.mindee.input.LocalInputSource;
 import com.mindee.parsing.common.AsyncPredictResponse;
 import com.mindee.product.generated.GeneratedV1;
-import com.mindee.http.Endpoint;
+import com.mindee.v1.http.Endpoint;
 import java.io.File;
 import java.io.IOException;
 

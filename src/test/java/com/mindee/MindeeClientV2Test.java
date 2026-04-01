@@ -10,11 +10,12 @@ import static org.mockito.Mockito.when;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mindee.http.MindeeApiV2;
 import com.mindee.input.LocalInputSource;
 import com.mindee.input.LocalResponse;
-import com.mindee.parsing.v2.InferenceResponse;
-import com.mindee.parsing.v2.JobResponse;
+import com.mindee.v2.http.MindeeApiV2;
+import com.mindee.v2.parsing.JobResponse;
+import com.mindee.v2.product.extraction.ExtractionResponse;
+import com.mindee.v2.product.extraction.params.ExtractionParameters;
 import java.io.IOException;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.DisplayName;
@@ -38,7 +39,7 @@ class MindeeClientV2Test {
     @DisplayName("sends exactly one HTTP call and yields a non-null response")
     void enqueue_post_async() throws IOException {
       MindeeApiV2 predictable = Mockito.mock(MindeeApiV2.class);
-      when(predictable.reqPostEnqueue(any(LocalInputSource.class), any(InferenceParameters.class)))
+      when(predictable.reqPostEnqueue(any(LocalInputSource.class), any(ExtractionParameters.class)))
         .thenReturn(new JobResponse());
 
       MindeeClientV2 mindeeClient = makeClientWithMockedApi(predictable);
@@ -47,12 +48,12 @@ class MindeeClientV2Test {
       JobResponse response = mindeeClient
         .enqueueInference(
           input,
-          InferenceParameters.builder("dummy-model-id").textContext("test text context").build()
+          ExtractionParameters.builder("dummy-model-id").textContext("test text context").build()
         );
 
       assertNotNull(response, "enqueue() must return a response");
       verify(predictable, atMostOnce())
-        .reqPostEnqueue(any(LocalInputSource.class), any(InferenceParameters.class));
+        .reqPostEnqueue(any(LocalInputSource.class), any(ExtractionParameters.class));
     }
   }
 
@@ -81,7 +82,7 @@ class MindeeClientV2Test {
 
   @Nested
   @DisplayName("getInference()")
-  class GetInference {
+  class GetExtractionInference {
     @Test
     @DisplayName("hits the HTTP endpoint once and returns a non-null response")
     void document_getInference_async() throws IOException {
@@ -95,14 +96,14 @@ class MindeeClientV2Test {
       ObjectMapper mapper = new ObjectMapper();
       mapper.findAndRegisterModules();
 
-      InferenceResponse processing = mapper.readValue(json, InferenceResponse.class);
+      ExtractionResponse processing = mapper.readValue(json, ExtractionResponse.class);
 
-      when(predictable.reqGetResult(eq(InferenceResponse.class), anyString()))
+      when(predictable.reqGetResult(eq(ExtractionResponse.class), anyString()))
         .thenReturn(processing);
 
       MindeeClientV2 mindeeClient = makeClientWithMockedApi(predictable);
 
-      InferenceResponse response = mindeeClient
+      ExtractionResponse response = mindeeClient
         .getInference("12345678-1234-1234-1234-123456789abc");
       assertNotNull(response, "getInference() must return a response");
       assertEquals(
@@ -121,7 +122,7 @@ class MindeeClientV2Test {
           .getValue(),
         "Result must deserialize fields properly."
       );
-      verify(predictable, atMostOnce()).reqGetResult(eq(InferenceResponse.class), anyString());
+      verify(predictable, atMostOnce()).reqGetResult(eq(ExtractionResponse.class), anyString());
     }
   }
 
@@ -135,7 +136,7 @@ class MindeeClientV2Test {
       LocalResponse localResponse = new LocalResponse(
         getResourcePath("v2/products/extraction/financial_document/complete.json")
       );
-      InferenceResponse loaded = localResponse.deserializeResponse(InferenceResponse.class);
+      ExtractionResponse loaded = localResponse.deserializeResponse(ExtractionResponse.class);
 
       assertNotNull(loaded, "Loaded InferenceResponse must not be null");
       assertEquals(

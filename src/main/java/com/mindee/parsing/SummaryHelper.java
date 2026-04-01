@@ -1,6 +1,5 @@
 package com.mindee.parsing;
 
-import com.mindee.parsing.standard.LineItemField;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.List;
@@ -10,8 +9,8 @@ import java.util.stream.Collectors;
 /**
  * Various static methods to help generate the prediction summaries.
  */
-public final class SummaryHelper {
-  private SummaryHelper() {
+public class SummaryHelper {
+  protected SummaryHelper() {
     throw new IllegalStateException("Utility class");
   }
 
@@ -38,18 +37,6 @@ public final class SummaryHelper {
    */
   public static <T> String arrayToString(List<T> list, String delimiter) {
     return list.stream().map(T::toString).collect(Collectors.joining(String.format(delimiter)));
-  }
-
-  public static <T extends LineItemField> String arrayToString(
-      List<T> lineItems,
-      int[] columnSizes
-  ) {
-    return lineItems
-      .stream()
-      .map(T::toTableLine)
-      .collect(
-        Collectors.joining(String.format("%n%s%n  ", SummaryHelper.lineSeparator(columnSizes, "-")))
-      );
   }
 
   /**
