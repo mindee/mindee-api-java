@@ -21,15 +21,14 @@ jobs:
     strategy:
       matrix:
         java-version:
-          - "21"
-          - "17"
+          - "25"
           - "11"
           - "8"
         distribution:
           - "temurin"
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           submodules: recursive
       - name: Set up JDK ${{ matrix.java-version }}
