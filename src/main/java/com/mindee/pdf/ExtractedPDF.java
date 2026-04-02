@@ -1,4 +1,4 @@
-package com.mindee.extraction;
+package com.mindee.pdf;
 
 import com.mindee.input.LocalInputSource;
 import java.io.ByteArrayOutputStream;

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.mindee.geometry.Polygon;
 import com.mindee.geometry.PolygonDeserializer;
+import com.mindee.geometry.PositionDataField;
 import lombok.Getter;
 
 /**
@@ -12,7 +13,7 @@ import lombok.Getter;
  */
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class PositionField implements PositionData {
+public class PositionField implements PositionDataField {
 
   /**
    * Straight rectangle.

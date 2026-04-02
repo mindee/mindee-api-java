@@ -1,7 +1,6 @@
 package com.mindee.v1.parsing.generated;
 
 import com.mindee.geometry.Polygon;
-import com.mindee.geometry.PolygonUtils;
 import com.mindee.v1.parsing.standard.AmountField;
 import com.mindee.v1.parsing.standard.BooleanField;
 import com.mindee.v1.parsing.standard.ClassificationField;
@@ -126,7 +125,7 @@ public class GeneratedObject extends HashMap<String, Object> {
         }
       }
     }
-    return PolygonUtils.getFrom((List<List<Double>>) rawPolygon);
+    return new Polygon((List<List<Double>>) rawPolygon);
   }
 
   /**

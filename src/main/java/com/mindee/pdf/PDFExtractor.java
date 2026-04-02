@@ -1,4 +1,4 @@
-package com.mindee.extraction;
+package com.mindee.pdf;
 
 import static com.mindee.pdf.PDFUtils.mergePdfPages;
 

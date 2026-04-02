@@ -2,11 +2,11 @@ import com.mindee.MindeeClient;
 import com.mindee.input.LocalInputSource;
 import com.mindee.extraction.ExtractedImage;
 import com.mindee.extraction.ImageExtractor;
-import com.mindee.parsing.common.PredictResponse;
-import com.mindee.parsing.common.Page;
-import com.mindee.product.multireceiptsdetector.MultiReceiptsDetectorV1;
-import com.mindee.product.multireceiptsdetector.MultiReceiptsDetectorV1Document;
-import com.mindee.product.receipt.ReceiptV5;
+import com.mindee.v1.parsing.common.PredictResponse;
+import com.mindee.v1.parsing.common.Page;
+import com.mindee.v1.product.multireceiptsdetector.MultiReceiptsDetectorV1;
+import com.mindee.v1.product.multireceiptsdetector.MultiReceiptsDetectorV1Document;
+import com.mindee.v1.product.receipt.ReceiptV5;
 
 import java.io.File;
 import java.io.IOException;

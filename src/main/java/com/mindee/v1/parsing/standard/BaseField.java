@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.mindee.geometry.BoundingBoxUtils;
 import com.mindee.geometry.Polygon;
 import com.mindee.geometry.PolygonDeserializer;
+import com.mindee.geometry.PositionDataField;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
@@ -16,7 +17,7 @@ import lombok.Getter;
 @Getter
 @EqualsAndHashCode
 @JsonIgnoreProperties(ignoreUnknown = true)
-public abstract class BaseField implements PositionData {
+public abstract class BaseField implements PositionDataField {
 
   /**
    * The bounding box equivalent of the polygon.

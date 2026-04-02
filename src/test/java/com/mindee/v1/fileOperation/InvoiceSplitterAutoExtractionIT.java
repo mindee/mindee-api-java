@@ -1,4 +1,4 @@
-package com.mindee.extraction;
+package com.mindee.v1.fileOperation;
 
 import static com.mindee.TestingUtilities.getV1ResourcePath;
 import static com.mindee.TestingUtilities.levenshteinRatio;
@@ -7,6 +7,8 @@ import com.mindee.MindeeClient;
 import com.mindee.MindeeException;
 import com.mindee.TestingUtilities;
 import com.mindee.input.LocalInputSource;
+import com.mindee.pdf.ExtractedPDF;
+import com.mindee.pdf.PDFExtractor;
 import com.mindee.v1.parsing.common.AsyncPredictResponse;
 import com.mindee.v1.parsing.common.Document;
 import com.mindee.v1.parsing.common.PredictResponse;

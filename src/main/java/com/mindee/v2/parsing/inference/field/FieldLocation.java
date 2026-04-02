@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.mindee.geometry.Polygon;
 import com.mindee.geometry.PolygonDeserializer;
+import com.mindee.geometry.PositionDataField;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -18,7 +19,7 @@ import lombok.NoArgsConstructor;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class FieldLocation {
+public class FieldLocation implements PositionDataField {
 
   /**
    * Free polygon made up of points.

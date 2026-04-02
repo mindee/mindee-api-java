@@ -1,4 +1,4 @@
-package com.mindee.extraction;
+package com.mindee.image;
 
 import static com.mindee.TestingUtilities.getResourcePath;
 import static com.mindee.TestingUtilities.getV1ResourcePath;

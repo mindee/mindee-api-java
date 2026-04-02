@@ -1,13 +1,12 @@
-package com.mindee.extraction;
+package com.mindee.image;
 
 import com.mindee.geometry.Bbox;
-import com.mindee.geometry.BboxUtils;
 import com.mindee.geometry.Polygon;
+import com.mindee.geometry.PositionDataField;
 import com.mindee.input.InputSourceUtils;
 import com.mindee.input.LocalInputSource;
 import com.mindee.pdf.PDFUtils;
 import com.mindee.pdf.PdfPageImage;
-import com.mindee.v1.parsing.standard.PositionData;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -75,7 +74,7 @@ public class ImageExtractor {
    * @param pageIndex The page index to extract, begins at 0.
    * @return A list of {@link ExtractedImage}.
    */
-  public <FieldT extends PositionData> List<ExtractedImage> extractImagesFromPage(
+  public <FieldT extends PositionDataField> List<ExtractedImage> extractImagesFromPage(
       List<FieldT> fields,
       int pageIndex
   ) {
@@ -91,7 +90,7 @@ public class ImageExtractor {
    * @param outputName The base output filename, must have an image extension.
    * @return A list of {@link ExtractedImage}.
    */
-  public <FieldT extends PositionData> List<ExtractedImage> extractImagesFromPage(
+  public <FieldT extends PositionDataField> List<ExtractedImage> extractImagesFromPage(
       List<FieldT> fields,
       int pageIndex,
       String outputName
@@ -106,7 +105,7 @@ public class ImageExtractor {
     return extractFromPage(fields, pageIndex, filename);
   }
 
-  private <FieldT extends PositionData> List<ExtractedImage> extractFromPage(
+  private <FieldT extends PositionDataField> List<ExtractedImage> extractFromPage(
       List<FieldT> fields,
       int pageIndex,
       String outputName
@@ -137,7 +136,7 @@ public class ImageExtractor {
    * @return The {@link ExtractedImage}, or <code>null</code> if the field does not have valid
    * position data.
    */
-  public <FieldT extends PositionData> ExtractedImage extractImage(
+  public <FieldT extends PositionDataField> ExtractedImage extractImage(
       FieldT field,
       int pageIndex,
       int index,
@@ -145,16 +144,19 @@ public class ImageExtractor {
   ) {
     String[] splitName = InputSourceUtils.splitNameStrict(filename);
     String saveFormat = splitName[1].toLowerCase();
-    Polygon boundingBox = field.getBoundingBox();
-    if (boundingBox == null) {
+    Polygon polygon = field.getPolygon();
+    if (polygon == null) {
       return null;
     }
-    Bbox bbox = BboxUtils.generate(boundingBox);
     String fieldFilename = splitName[0]
       + String.format("_%3s", index).replace(" ", "0")
       + "."
       + saveFormat;
-    return new ExtractedImage(extractImage(bbox, pageIndex), fieldFilename, saveFormat);
+    return new ExtractedImage(
+      extractImage(polygon.getAsBbox(), pageIndex),
+      fieldFilename,
+      saveFormat
+    );
   }
 
   /**
@@ -167,7 +169,7 @@ public class ImageExtractor {
    * @return The {@link ExtractedImage}, or <code>null</code> if the field does not have valid
    * position data.
    */
-  public <FieldT extends PositionData> ExtractedImage extractImage(
+  public <FieldT extends PositionDataField> ExtractedImage extractImage(
       FieldT field,
       int pageIndex,
       int index

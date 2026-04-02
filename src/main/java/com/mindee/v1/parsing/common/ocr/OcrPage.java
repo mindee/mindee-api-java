@@ -28,8 +28,7 @@ public class OcrPage {
     this.allWords = allWords;
 
     // make sure words are sorted from top to bottom
-    this.allWords
-      .sort((word1, word2) -> PolygonUtils.CompareOnY(word1.getPolygon(), word2.getPolygon()));
+    this.allWords.sort((word1, word2) -> word1.getPolygon().compareOnY(word2.getPolygon()));
   }
 
   /**
@@ -74,8 +73,7 @@ public class OcrPage {
       }
       current = null;
       if (!line.isEmpty()) {
-        line
-          .sort((word1, word2) -> PolygonUtils.CompareOnX(word1.getPolygon(), word2.getPolygon()));
+        line.sort((word1, word2) -> word1.getPolygon().compareOnX(word2.getPolygon()));
         lines.add(line);
       }
     }

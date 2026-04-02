@@ -2,8 +2,9 @@ package com.mindee.geometry;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
-import lombok.Builder;
+import java.util.stream.Collectors;
 import lombok.Getter;
 
 /**
@@ -17,7 +18,19 @@ public class Polygon {
    */
   private List<Point> coordinates = new ArrayList<>();
 
-  @Builder
+  /**
+   * Create a Polygon from a list of a list of floats.
+   */
+  public Polygon(Collection<List<Double>> coordinates) {
+    this.coordinates = coordinates
+      .stream()
+      .map(coordinate -> new Point(coordinate.get(0), coordinate.get(1)))
+      .collect(Collectors.toList());
+  }
+
+  /**
+   * Create a Polygon from a list of Points.
+   */
   public Polygon(List<Point> coordinates) {
     this.coordinates = coordinates;
   }
@@ -80,6 +93,37 @@ public class Polygon {
     }
     builder.append(")");
     return builder.toString();
+  }
+
+  /**
+   * Compare two polygons based on their Y coordinates.
+   * Useful for sorting lists.
+   */
+  public int compareOnY(Polygon polygon2) {
+    double sort = this.getMinMaxY().getMin() - polygon2.getMinMaxY().getMin();
+    if (sort == 0) {
+      return 0;
+    }
+    return sort < 0 ? -1 : 1;
+  }
+
+  /**
+   * Compare two polygons based on their X coordinates.
+   * Useful for sorting lists.
+   */
+  public int compareOnX(Polygon polygon2) {
+    double sort = this.getMinMaxX().getMin() - polygon2.getMinMaxX().getMin();
+    if (sort == 0) {
+      return 0;
+    }
+    return sort < 0 ? -1 : 1;
+  }
+
+  /**
+   * Merge the coordinates of the two polygons.
+   */
+  public Polygon combine(Polygon target) {
+    return PolygonUtils.combine(this, target);
   }
 
   @Override
