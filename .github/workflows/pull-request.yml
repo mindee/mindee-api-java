@@ -16,7 +16,7 @@ jobs:
     secrets: inherit
   codeql:
     uses: ./.github/workflows/_codeql.yml
-    needs: build
+    needs: static_analysis
     permissions:
       contents: read
       actions: read

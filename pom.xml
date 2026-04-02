@@ -447,7 +447,7 @@
     <org.mockito.inline.version>4.11.0</org.mockito.inline.version>
     <org.mockito.junit.jupiter.version>4.11.0</org.mockito.junit.jupiter.version>
     <org.projectlombok.lombok-mapstruct-binding.version>0.2.0</org.projectlombok.lombok-mapstruct-binding.version>
-    <org.projectlombok.version>1.18.32</org.projectlombok.version>
+    <org.projectlombok.version>1.18.38</org.projectlombok.version>
     <org.slf4j.version>2.0.17</org.slf4j.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <surefire.addOpens></surefire.addOpens>

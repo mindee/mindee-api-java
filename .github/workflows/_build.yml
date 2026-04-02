@@ -12,13 +12,14 @@ jobs:
       matrix:
         java-version:
           - "21"
+          - "17"
           - "11"
           - "8"
         distribution:
           - "temurin"
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           submodules: recursive
 
