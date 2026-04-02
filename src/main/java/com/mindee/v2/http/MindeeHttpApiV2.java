@@ -3,9 +3,9 @@ package com.mindee.v2.http;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.mindee.MindeeException;
-import com.mindee.MindeeSettingsV2;
 import com.mindee.input.LocalInputSource;
 import com.mindee.input.URLInputSource;
+import com.mindee.v2.MindeeSettings;
 import com.mindee.v2.clientOptions.BaseParameters;
 import com.mindee.v2.parsing.CommonResponse;
 import com.mindee.v2.parsing.ErrorResponse;
@@ -38,19 +38,19 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
   /**
    * The MindeeSetting needed to make the api call.
    */
-  private final MindeeSettingsV2 mindeeSettings;
+  private final MindeeSettings mindeeSettings;
   /**
    * The HttpClientBuilder used to create HttpClient objects used to make api calls over http.
    * Defaults to HttpClientBuilder.create().useSystemProperties()
    */
   private final HttpClientBuilder httpClientBuilder;
 
-  public MindeeHttpApiV2(MindeeSettingsV2 mindeeSettings) {
+  public MindeeHttpApiV2(MindeeSettings mindeeSettings) {
     this(mindeeSettings, null);
   }
 
   @Builder
-  private MindeeHttpApiV2(MindeeSettingsV2 mindeeSettings, HttpClientBuilder httpClientBuilder) {
+  private MindeeHttpApiV2(MindeeSettings mindeeSettings, HttpClientBuilder httpClientBuilder) {
     this.mindeeSettings = mindeeSettings;
 
     if (httpClientBuilder != null) {

@@ -1,4 +1,4 @@
-package com.mindee;
+package com.mindee.v1;
 
 import java.util.Optional;
 import lombok.Getter;

@@ -13,7 +13,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
-import com.mindee.MindeeSettings;
+import com.mindee.v1.MindeeSettings;
 import com.mindee.v1.clientOptions.PredictOptions;
 import com.mindee.v1.http.Endpoint;
 import com.mindee.v1.http.MindeeHttpApi;

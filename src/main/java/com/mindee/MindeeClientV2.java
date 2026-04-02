@@ -2,6 +2,7 @@ package com.mindee;
 
 import com.mindee.input.LocalInputSource;
 import com.mindee.input.URLInputSource;
+import com.mindee.v2.MindeeSettings;
 import com.mindee.v2.clientOptions.BaseParameters;
 import com.mindee.v2.http.MindeeApiV2;
 import com.mindee.v2.http.MindeeHttpApiV2;
@@ -206,9 +207,9 @@ public class MindeeClientV2 {
   }
 
   private static MindeeApiV2 createDefaultApiV2(String apiKey) {
-    MindeeSettingsV2 settings = apiKey == null || apiKey.trim().isEmpty()
-        ? new MindeeSettingsV2()
-        : new MindeeSettingsV2(apiKey);
+    MindeeSettings settings = apiKey == null || apiKey.trim().isEmpty()
+        ? new MindeeSettings()
+        : new MindeeSettings(apiKey);
     return MindeeHttpApiV2.builder().mindeeSettings(settings).build();
   }
 }

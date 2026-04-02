@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.mindee.MindeeException;
-import com.mindee.MindeeSettings;
+import com.mindee.v1.MindeeSettings;
 import com.mindee.v1.parsing.common.ApiResponse;
 import com.mindee.v1.parsing.common.AsyncPredictResponse;
 import com.mindee.v1.parsing.common.ErrorDetails;
