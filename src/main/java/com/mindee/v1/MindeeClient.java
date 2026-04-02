@@ -1,7 +1,9 @@
-package com.mindee;
+package com.mindee.v1;
 
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mindee.AsyncPollingOptions;
+import com.mindee.MindeeException;
 import com.mindee.input.InputSourceUtils;
 import com.mindee.input.LocalInputSource;
 import com.mindee.input.LocalResponse;
@@ -9,7 +11,6 @@ import com.mindee.input.PageOptions;
 import com.mindee.pdf.PdfBoxApi;
 import com.mindee.pdf.PdfOperation;
 import com.mindee.pdf.SplitQuery;
-import com.mindee.v1.MindeeSettings;
 import com.mindee.v1.clientOptions.PredictOptions;
 import com.mindee.v1.clientOptions.WorkflowOptions;
 import com.mindee.v1.http.Endpoint;

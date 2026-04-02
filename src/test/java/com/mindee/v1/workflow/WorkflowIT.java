@@ -2,8 +2,8 @@ package com.mindee.v1.workflow;
 
 import static com.mindee.TestingUtilities.getV1ResourcePath;
 
-import com.mindee.MindeeClient;
 import com.mindee.input.LocalInputSource;
+import com.mindee.v1.MindeeClient;
 import com.mindee.v1.clientOptions.PredictOptions;
 import com.mindee.v1.clientOptions.WorkflowOptions;
 import com.mindee.v1.parsing.common.AsyncPredictResponse;

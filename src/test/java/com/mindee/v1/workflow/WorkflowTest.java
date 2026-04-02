@@ -5,9 +5,9 @@ import static com.mindee.TestingUtilities.getV1ResourcePath;
 import static org.mockito.Mockito.when;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mindee.MindeeClient;
 import com.mindee.input.LocalInputSource;
 import com.mindee.pdf.PdfOperation;
+import com.mindee.v1.MindeeClient;
 import com.mindee.v1.http.MindeeApi;
 import com.mindee.v1.parsing.common.Execution;
 import com.mindee.v1.parsing.common.WorkflowResponse;

@@ -1,7 +1,7 @@
-import com.mindee.MindeeClient;
 import com.mindee.input.LocalInputSource;
 import com.mindee.extraction.ExtractedImage;
 import com.mindee.extraction.ImageExtractor;
+import com.mindee.v1.MindeeClient;
 import com.mindee.v1.parsing.common.PredictResponse;
 import com.mindee.v1.parsing.common.Page;
 import com.mindee.v1.product.multireceiptsdetector.MultiReceiptsDetectorV1;

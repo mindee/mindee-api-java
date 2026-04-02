@@ -1,7 +1,7 @@
-import com.mindee.MindeeClient;
 import com.mindee.input.LocalInputSource;
 import com.mindee.extraction.ExtractedPDF;
 import com.mindee.extraction.PDFExtractor;
+import com.mindee.v1.MindeeClient;
 import com.mindee.v1.parsing.common.AsyncPredictResponse;
 import com.mindee.v1.product.invoice.InvoiceV4;
 import com.mindee.v1.product.invoicesplitter.InvoiceSplitterV1;

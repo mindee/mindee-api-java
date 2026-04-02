@@ -1,5 +1,5 @@
-import com.mindee.MindeeClient;
 import com.mindee.input.LocalInputSource;
+import com.mindee.v1.MindeeClient;
 import com.mindee.v1.parsing.common.AsyncPredictResponse;
 import com.mindee.v1.product.financialdocument.FinancialDocumentV1;
 import java.io.File;

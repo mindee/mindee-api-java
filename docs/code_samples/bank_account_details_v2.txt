@@ -1,5 +1,5 @@
-import com.mindee.MindeeClient;
 import com.mindee.input.LocalInputSource;
+import com.mindee.v1.MindeeClient;
 import com.mindee.v1.parsing.common.PredictResponse;
 import com.mindee.v1.product.fr.bankaccountdetails.BankAccountDetailsV2;
 import java.io.File;

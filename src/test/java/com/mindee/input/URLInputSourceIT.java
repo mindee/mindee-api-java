@@ -3,7 +3,7 @@ package com.mindee.input;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.mindee.MindeeClient;
+import com.mindee.v1.MindeeClient;
 import com.mindee.v1.parsing.common.PredictResponse;
 import com.mindee.v1.product.invoice.InvoiceV4;
 import java.io.IOException;

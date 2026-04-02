@@ -1,4 +1,4 @@
-package com.mindee;
+package com.mindee.v2;
 
 import static com.mindee.TestingUtilities.getResourcePath;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -24,12 +24,12 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 @DisplayName("MindeeV2 – Client and API Tests")
-class MindeeClientV2Test {
+class MindeeClientTest {
   /**
    * Creates a fully mocked MindeeClientV2.
    */
-  private static MindeeClientV2 makeClientWithMockedApi(MindeeApiV2 mockedApi) {
-    return new MindeeClientV2(mockedApi);
+  private static MindeeClient makeClientWithMockedApi(MindeeApiV2 mockedApi) {
+    return new MindeeClient(mockedApi);
   }
 
   @Nested
@@ -42,7 +42,7 @@ class MindeeClientV2Test {
       when(predictable.reqPostEnqueue(any(LocalInputSource.class), any(ExtractionParameters.class)))
         .thenReturn(new JobResponse());
 
-      MindeeClientV2 mindeeClient = makeClientWithMockedApi(predictable);
+      MindeeClient mindeeClient = makeClientWithMockedApi(predictable);
 
       LocalInputSource input = new LocalInputSource(getResourcePath("file_types/pdf/blank_1.pdf"));
       JobResponse response = mindeeClient
@@ -72,7 +72,7 @@ class MindeeClientV2Test {
 
       when(predictable.reqGetJob(anyString())).thenReturn(processing);
 
-      MindeeClientV2 mindeeClient = makeClientWithMockedApi(predictable);
+      MindeeClient mindeeClient = makeClientWithMockedApi(predictable);
 
       JobResponse response = mindeeClient.getJob("dummy-id");
       assertNotNull(response, "getJob() must return a response");
@@ -101,7 +101,7 @@ class MindeeClientV2Test {
       when(predictable.reqGetResult(eq(ExtractionResponse.class), anyString()))
         .thenReturn(processing);
 
-      MindeeClientV2 mindeeClient = makeClientWithMockedApi(predictable);
+      MindeeClient mindeeClient = makeClientWithMockedApi(predictable);
 
       ExtractionResponse response = mindeeClient
         .getInference("12345678-1234-1234-1234-123456789abc");

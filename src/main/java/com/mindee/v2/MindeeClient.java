@@ -1,8 +1,7 @@
-package com.mindee;
+package com.mindee.v2;
 
 import com.mindee.input.LocalInputSource;
 import com.mindee.input.URLInputSource;
-import com.mindee.v2.MindeeSettings;
 import com.mindee.v2.clientOptions.BaseParameters;
 import com.mindee.v2.http.MindeeApiV2;
 import com.mindee.v2.http.MindeeHttpApiV2;
@@ -17,21 +16,21 @@ import java.io.IOException;
 /**
  * Entry point for the Mindee **V2** API features.
  */
-public class MindeeClientV2 {
+public class MindeeClient {
   private final MindeeApiV2 mindeeApi;
 
   /** Uses an API key read from the environment variables. */
-  public MindeeClientV2() {
+  public MindeeClient() {
     this(createDefaultApiV2(""));
   }
 
   /** Uses the supplied API key. */
-  public MindeeClientV2(String apiKey) {
+  public MindeeClient(String apiKey) {
     this(createDefaultApiV2(apiKey));
   }
 
   /** Inject both a PDF implementation and an HTTP implementation. */
-  public MindeeClientV2(MindeeApiV2 mindeeApi) {
+  public MindeeClient(MindeeApiV2 mindeeApi) {
     this.mindeeApi = mindeeApi;
   }
 

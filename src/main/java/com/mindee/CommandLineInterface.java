@@ -3,6 +3,7 @@ package com.mindee;
 import com.mindee.input.LocalInputSource;
 import com.mindee.input.PageOptions;
 import com.mindee.input.PageOptionsOperation;
+import com.mindee.v1.MindeeClient;
 import com.mindee.v1.cli.CommandLineInterfaceProducts;
 import com.mindee.v1.cli.ProductProcessor;
 import com.mindee.v1.clientOptions.PredictOptions;

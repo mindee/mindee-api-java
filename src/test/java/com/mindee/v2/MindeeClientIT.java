@@ -1,10 +1,11 @@
-package com.mindee;
+package com.mindee.v2;
 
 import static com.mindee.TestingUtilities.getResourcePath;
 import static com.mindee.TestingUtilities.getV2ResourcePath;
 import static com.mindee.TestingUtilities.readFileAsString;
 import static org.junit.jupiter.api.Assertions.*;
 
+import com.mindee.AsyncPollingOptions;
 import com.mindee.input.LocalInputSource;
 import com.mindee.input.URLInputSource;
 import com.mindee.v2.http.MindeeHttpException;
@@ -23,16 +24,16 @@ import org.junit.jupiter.api.*;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @Tag("integration")
 @DisplayName("MindeeV2 – Integration Tests")
-class MindeeClientV2IT {
+class MindeeClientIT {
 
-  private MindeeClientV2 mindeeClient;
+  private MindeeClient mindeeClient;
   private String modelId;
 
   @BeforeAll
   void setUp() {
     String apiKey = System.getenv("MINDEE_V2_API_KEY");
     modelId = System.getenv("MINDEE_V2_SE_TESTS_FINDOC_MODEL_ID");
-    mindeeClient = new MindeeClientV2(apiKey);
+    mindeeClient = new MindeeClient(apiKey);
   }
 
   @Test

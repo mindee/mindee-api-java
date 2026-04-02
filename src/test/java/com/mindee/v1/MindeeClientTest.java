@@ -1,4 +1,4 @@
-package com.mindee;
+package com.mindee.v1;
 
 import static com.mindee.TestingUtilities.assertStringEqualsFile;
 import static com.mindee.TestingUtilities.getResourcePath;
