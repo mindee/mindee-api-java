@@ -35,6 +35,6 @@ public class PolygonDeserializer extends StdDeserializer<Polygon> {
     };
     List<List<Double>> polygonList = mapper.readerFor(typeRef).readValue(node);
 
-    return PolygonUtils.getFrom(polygonList);
+    return new Polygon(polygonList);
   }
 }

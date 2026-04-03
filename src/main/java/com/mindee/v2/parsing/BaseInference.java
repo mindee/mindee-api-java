@@ -2,7 +2,9 @@ package com.mindee.v2.parsing;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.mindee.parsing.v2.*;
+import com.mindee.v2.parsing.inference.InferenceFile;
+import com.mindee.v2.parsing.inference.InferenceJob;
+import com.mindee.v2.parsing.inference.InferenceModel;
 import java.util.StringJoiner;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;

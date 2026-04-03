@@ -9,56 +9,36 @@ import org.junit.jupiter.api.Test;
 public class PolygonUtilsTest {
   @Test
   public void givenAValidPolygonMustGetTheValidCentroid() {
-    // given
-    Polygon polygonWichIsNotRectangle = PolygonSample.getPolygonAsRectangle();
-
-    // then
-    Point centroid = polygonWichIsNotRectangle.getCentroid();
-
+    Polygon nonRectangularPolygon = PolygonSample.getPolygonAsRectangle();
+    Point centroid = nonRectangularPolygon.getCentroid();
     Assertions.assertEquals(new Point(0.149, 0.538), centroid);
   }
 
   @Test
   public void givenAValidPolygonMustGetTheMaxX() {
-    // given
-    Polygon polygonWichIsNotRectangle = PolygonSample.getPolygonAsRectangle();
-
-    // then
-    Double maxX = PolygonUtils.getMaxXCoordinate(polygonWichIsNotRectangle);
-
+    Polygon nonRectangularPolygon = PolygonSample.getPolygonAsRectangle();
+    Double maxX = nonRectangularPolygon.getMinMaxX().getMax();
     Assertions.assertEquals(0.175, maxX);
   }
 
   @Test
   public void givenAValidPolygonMustGetTheMinX() {
-    // given
-    Polygon polygonWichIsNotRectangle = PolygonSample.getPolygonAsRectangle();
-
-    // then
-    Double minX = PolygonUtils.getMinXCoordinate(polygonWichIsNotRectangle);
-
+    Polygon nonRectangularPolygon = PolygonSample.getPolygonAsRectangle();
+    Double minX = nonRectangularPolygon.getMinMaxX().getMin();
     Assertions.assertEquals(0.123, minX);
   }
 
   @Test
   public void givenAValidPolygonMustGetTheMaxY() {
-    // given
-    Polygon polygonWichIsNotRectangle = PolygonSample.getPolygonAsRectangle();
-
-    // then
-    Double maxY = PolygonUtils.getMaxYCoordinate(polygonWichIsNotRectangle);
-
+    Polygon nonRectangularPolygon = PolygonSample.getPolygonAsRectangle();
+    Double maxY = nonRectangularPolygon.getMinMaxY().getMax();
     Assertions.assertEquals(0.546, maxY);
   }
 
   @Test
   public void givenAValidPolygonMustGetTheMinY() {
-    // given
-    Polygon polygonWichIsNotRectangle = PolygonSample.getPolygonAsRectangle();
-
-    // then
-    Double minY = PolygonUtils.getMinYCoordinate(polygonWichIsNotRectangle);
-
+    Polygon nonRectangularPolygon = PolygonSample.getPolygonAsRectangle();
+    Double minY = nonRectangularPolygon.getMinMaxY().getMin();
     Assertions.assertEquals(0.53, minY);
   }
 
@@ -86,12 +66,12 @@ public class PolygonUtilsTest {
     );
 
     // then
-    Polygon mergedPolygon = PolygonUtils.combine(polygon1, polygon2);
+    Polygon mergedPolygon = polygon1.combine(polygon2);
 
-    Assertions.assertEquals(0.442, PolygonUtils.getMinYCoordinate(mergedPolygon));
-    Assertions.assertEquals(0.081, PolygonUtils.getMinXCoordinate(mergedPolygon));
-    Assertions.assertEquals(0.451, PolygonUtils.getMaxYCoordinate(mergedPolygon));
-    Assertions.assertEquals(0.26, PolygonUtils.getMaxXCoordinate(mergedPolygon));
+    Assertions.assertEquals(0.081, mergedPolygon.getMinMaxX().getMin());
+    Assertions.assertEquals(0.26, mergedPolygon.getMinMaxX().getMax());
+    Assertions.assertEquals(0.442, mergedPolygon.getMinMaxY().getMin());
+    Assertions.assertEquals(0.451, mergedPolygon.getMinMaxY().getMax());
   }
 
   @Test
@@ -99,12 +79,10 @@ public class PolygonUtilsTest {
     assertThrows(IllegalStateException.class, () -> {
       Polygon polygon = PolygonUtils.combine(null, null);
     });
-
   }
 
   @Test
   public void combineWith1PolygonAndANullPolygonMustGetNull() {
-    // given
     Polygon polygon1 = new Polygon(
       Arrays
         .asList(
@@ -115,15 +93,12 @@ public class PolygonUtilsTest {
         )
     );
 
-    Polygon polygon2 = null;
+    Polygon mergedPolygon = polygon1.combine(null);
 
-    // then
-    Polygon mergedPolygon = PolygonUtils.combine(polygon1, polygon2);
-
-    Assertions.assertEquals(0.442, PolygonUtils.getMinYCoordinate(mergedPolygon));
-    Assertions.assertEquals(0.081, PolygonUtils.getMinXCoordinate(mergedPolygon));
-    Assertions.assertEquals(0.451, PolygonUtils.getMaxYCoordinate(mergedPolygon));
-    Assertions.assertEquals(0.15, PolygonUtils.getMaxXCoordinate(mergedPolygon));
+    Assertions.assertEquals(0.081, mergedPolygon.getMinMaxX().getMin());
+    Assertions.assertEquals(0.15, mergedPolygon.getMinMaxX().getMax());
+    Assertions.assertEquals(0.442, mergedPolygon.getMinMaxY().getMin());
+    Assertions.assertEquals(0.451, mergedPolygon.getMinMaxY().getMax());
   }
 
 }

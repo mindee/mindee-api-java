@@ -2,7 +2,7 @@ package com.mindee.v2.product.split;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.mindee.parsing.v2.InferenceResponse;
+import com.mindee.v2.product.extraction.ExtractionResponse;
 import java.util.ArrayList;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -35,5 +35,5 @@ public class SplitRange {
    * The extraction response associated with the split.
    */
   @JsonProperty("extraction_response")
-  private InferenceResponse extractionResponse;
+  private ExtractionResponse extractionResponse;
 }

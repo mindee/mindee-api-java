@@ -3,25 +3,14 @@ package com.mindee.geometry;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.OptionalDouble;
 import java.util.stream.Collectors;
 
 /**
  * Methods for working with Polygons.
+ * Used internally, use at your own risk.
  */
 public final class PolygonUtils {
   private PolygonUtils() {
-  }
-
-  /**
-   * Create a Polygon from a list of a list of floats.
-   */
-  public static Polygon getFrom(List<List<Double>> polygon) {
-    List<Point> coordinates = polygon
-      .stream()
-      .map(coordinate -> new Point(coordinate.get(0), coordinate.get(1)))
-      .collect(Collectors.toList());
-    return new Polygon(coordinates);
   }
 
   /**
@@ -33,30 +22,6 @@ public final class PolygonUtils {
     double xSum = vertices.stream().map(Point::getX).mapToDouble(Double::doubleValue).sum();
     double ySum = vertices.stream().map(Point::getY).mapToDouble(Double::doubleValue).sum();
     return new Point(xSum / verticesSum, ySum / verticesSum);
-  }
-
-  /**
-   * Compare two polygons based on their Y coordinates.
-   * Useful for sorting lists.
-   */
-  public static int CompareOnY(Polygon polygon1, Polygon polygon2) {
-    double sort = getMinYCoordinate(polygon1) - getMinYCoordinate(polygon2);
-    if (sort == 0) {
-      return 0;
-    }
-    return sort < 0 ? -1 : 1;
-  }
-
-  /**
-   * Compare two polygons based on their X coordinates.
-   * Useful for sorting lists.
-   */
-  public static int CompareOnX(Polygon polygon1, Polygon polygon2) {
-    double sort = getMinXCoordinate(polygon1) - getMinXCoordinate(polygon2);
-    if (sort == 0) {
-      return 0;
-    }
-    return sort < 0 ? -1 : 1;
   }
 
   /**
@@ -88,75 +53,6 @@ public final class PolygonUtils {
   public static boolean isPointInPolygonY(Point centroid, Polygon polygon) {
     MinMax yCoords = getMinMaxY(polygon.getCoordinates());
     return isPointInY(centroid, yCoords.getMin(), yCoords.getMax());
-  }
-
-  public static Double getMinYCoordinate(Polygon polygon) {
-    OptionalDouble min = polygon
-      .getCoordinates()
-      .stream()
-      .map(Point::getY)
-      .mapToDouble(Double::doubleValue)
-      .min();
-
-    if (min.isPresent()) {
-      return min.getAsDouble();
-    }
-
-    throw new IllegalStateException(
-      "The min Y could not be found "
-        + "because it seems that there is no coordinates in the current polygon."
-    );
-  }
-
-  public static Double getMaxYCoordinate(Polygon polygon) {
-    OptionalDouble max = polygon
-      .getCoordinates()
-      .stream()
-      .map(Point::getY)
-      .mapToDouble(Double::doubleValue)
-      .max();
-    if (max.isPresent()) {
-      return max.getAsDouble();
-    }
-
-    throw new IllegalStateException(
-      "The max Y could not be found "
-        + "because it seems that there is no coordinates in the current polygon."
-    );
-  }
-
-  public static Double getMinXCoordinate(Polygon polygon) {
-    OptionalDouble min = polygon
-      .getCoordinates()
-      .stream()
-      .map(Point::getX)
-      .mapToDouble(Double::doubleValue)
-      .min();
-    if (min.isPresent()) {
-      return min.getAsDouble();
-    }
-
-    throw new IllegalStateException(
-      "The min X could not be found "
-        + "because it seems that there is no coordinates in the current polygon."
-    );
-  }
-
-  public static Double getMaxXCoordinate(Polygon polygon) {
-    OptionalDouble max = polygon
-      .getCoordinates()
-      .stream()
-      .map(Point::getX)
-      .mapToDouble(Double::doubleValue)
-      .max();
-    if (max.isPresent()) {
-      return max.getAsDouble();
-    }
-
-    throw new IllegalStateException(
-      "The max X could not be found "
-        + "because it seems that there is no coordinates in the current polygon."
-    );
   }
 
   /**

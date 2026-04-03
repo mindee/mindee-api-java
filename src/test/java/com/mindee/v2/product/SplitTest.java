@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import com.mindee.input.LocalResponse;
-import com.mindee.parsing.v2.InferenceResponse;
+import com.mindee.v2.product.extraction.ExtractionResponse;
 import com.mindee.v2.product.split.SplitRange;
 import com.mindee.v2.product.split.SplitResponse;
 import java.io.IOException;
@@ -75,7 +75,7 @@ public class SplitTest {
       SplitRange split0 = splits.get(0);
       assertEquals("invoice", split0.getDocumentType());
       assertEquals(0, split0.getPageRange().get(0));
-      InferenceResponse extractionResponse0 = split0.getExtractionResponse();
+      ExtractionResponse extractionResponse0 = split0.getExtractionResponse();
       assertNotNull(extractionResponse0);
       assertEquals(
         "05 05 44 44 90",
@@ -90,7 +90,7 @@ public class SplitTest {
       SplitRange split1 = splits.get(1);
       assertEquals("invoice", split1.getDocumentType());
       assertEquals(1, split1.getPageRange().get(0));
-      InferenceResponse extractionResponse1 = split1.getExtractionResponse();
+      ExtractionResponse extractionResponse1 = split1.getExtractionResponse();
       assertNotNull(extractionResponse1);
       assertEquals(
         "416-555-1212",

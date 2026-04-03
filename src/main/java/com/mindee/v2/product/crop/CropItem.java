@@ -2,8 +2,8 @@ package com.mindee.v2.product.crop;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.mindee.parsing.v2.InferenceResponse;
-import com.mindee.parsing.v2.field.FieldLocation;
+import com.mindee.v2.parsing.inference.field.FieldLocation;
+import com.mindee.v2.product.extraction.ExtractionResponse;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -34,7 +34,7 @@ public class CropItem {
    * The extraction response associated with the crop.
    */
   @JsonProperty("extraction_response")
-  private InferenceResponse extractionResponse;
+  private ExtractionResponse extractionResponse;
 
   @Override
   public String toString() {
