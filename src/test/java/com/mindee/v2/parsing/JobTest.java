@@ -1,0 +1,76 @@
+package com.mindee.v2.parsing;
+
+import static com.mindee.TestingUtilities.getV2ResourcePath;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
+import com.mindee.input.LocalResponse;
+import java.io.IOException;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
+
+@DisplayName("MindeeV2 - Job Tests")
+public class JobTest {
+  private JobResponse loadJob(String filePath) throws IOException {
+    LocalResponse localResponse = new LocalResponse(getV2ResourcePath(filePath));
+    return localResponse.deserializeResponse(JobResponse.class);
+  }
+
+  @Nested
+  @DisplayName("When the Job is processing")
+  class ProcessingTest {
+    @Test
+    @DisplayName("properties must be valid")
+    void whenProcessing_mustHaveValidProperties() throws IOException {
+      JobResponse response = loadJob("job/ok_processing.json");
+      Job job = response.getJob();
+      assertNotNull(job);
+      assertEquals("Processing", job.getStatus());
+      assertNotNull(job.getCreatedAt());
+      assertNull(job.getCompletedAt());
+      assertNull(job.getResultUrl());
+      assertNull(job.getError());
+    }
+  }
+
+  @Nested
+  @DisplayName("When the Job is processed")
+  class ProcessedTest {
+    @Test
+    @DisplayName("properties must be valid")
+    void whenProcessing_mustHaveValidProperties() throws IOException {
+      JobResponse response = loadJob("job/ok_processed_webhooks_ok.json");
+      Job job = response.getJob();
+      assertNotNull(job);
+      assertEquals("Processed", job.getStatus());
+      assertNotNull(job.getCreatedAt());
+      assertNotNull(job.getCompletedAt());
+      assertNotNull(job.getResultUrl());
+      assertNull(job.getError());
+    }
+  }
+
+  @Nested
+  @DisplayName("When the Job fails")
+  class FailTest {
+    @Test
+    @DisplayName("HTTP 422 properties must be valid")
+    void when422_mustHaveValidProperties() throws IOException {
+      JobResponse response = loadJob("job/fail_422.json");
+      Job job = response.getJob();
+      assertNotNull(job);
+      assertNotNull(job.getCreatedAt());
+      assertNotNull(job.getCompletedAt());
+      assertNull(job.getResultUrl());
+      ErrorResponse jobError = job.getError();
+      assertNotNull(jobError);
+      assertEquals(422, jobError.getStatus());
+      assertEquals("Invalid fields in form", jobError.getTitle());
+      assertEquals("422-001", jobError.getCode());
+      assertEquals("One or more fields failed validation.", jobError.getDetail());
+      assertEquals(1, jobError.getErrors().size());
+    }
+  }
+}

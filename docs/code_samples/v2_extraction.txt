@@ -1,8 +1,8 @@
-import com.mindee.MindeeClientV2;
-import com.mindee.InferenceParameters;
 import com.mindee.input.LocalInputSource;
-import com.mindee.parsing.v2.InferenceResponse;
-import com.mindee.parsing.v2.field.InferenceFields;
+import com.mindee.v2.MindeeClient;
+import com.mindee.v2.product.extraction.params.ExtractionParameters;
+import com.mindee.v2.product.extraction.ExtractionResponse;
+import com.mindee.v2.parsing.inference.field.InferenceFields;
 import java.io.IOException;
 
 public class SimpleMindeeClientV2 {
@@ -15,10 +15,10 @@ public class SimpleMindeeClientV2 {
     String modelId = "MY_MODEL_ID";
 
     // Init a new client
-    MindeeClientV2 mindeeClient = new MindeeClientV2(apiKey);
+    MindeeClient mindeeClient = new MindeeClient(apiKey);
 
     // Set inference parameters
-    InferenceParameters extractionParams = InferenceParameters
+    ExtractionParameters extractionParams = ExtractionParameters
         // ID of the model, required.
         .builder(modelId)
 
@@ -40,8 +40,8 @@ public class SimpleMindeeClientV2 {
     LocalInputSource inputSource = new LocalInputSource(filePath);
 
     // Send for processing using polling
-    InferenceResponse response = mindeeClient.enqueueAndGetResult(
-        InferenceResponse.class,
+    ExtractionResponse response = mindeeClient.enqueueAndGetResult(
+        ExtractionResponse.class,
         inputSource,
         extractionParams
     );

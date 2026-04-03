@@ -2,7 +2,7 @@ package com.mindee.v2.product.crop;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.mindee.parsing.v2.field.FieldLocation;
+import com.mindee.v2.parsing.inference.field.FieldLocation;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

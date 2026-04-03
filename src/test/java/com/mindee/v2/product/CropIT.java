@@ -4,9 +4,9 @@ import static com.mindee.TestingUtilities.getResourcePath;
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.mindee.AsyncPollingOptions;
-import com.mindee.MindeeClientV2;
 import com.mindee.input.LocalInputSource;
-import com.mindee.parsing.v2.InferenceFile;
+import com.mindee.v2.MindeeClient;
+import com.mindee.v2.parsing.inference.InferenceFile;
 import com.mindee.v2.product.crop.CropInference;
 import com.mindee.v2.product.crop.CropResponse;
 import com.mindee.v2.product.crop.CropResult;
@@ -23,14 +23,14 @@ import org.junit.jupiter.api.TestInstance;
 @DisplayName("MindeeV2 –Integration Tests - Crop")
 class CropIT {
 
-  private MindeeClientV2 mindeeClient;
+  private MindeeClient mindeeClient;
   private String modelId;
 
   @BeforeAll
   void setUp() {
     String apiKey = System.getenv("MINDEE_V2_API_KEY");
     modelId = System.getenv("MINDEE_V2_SE_TESTS_CROP_MODEL_ID");
-    mindeeClient = new MindeeClientV2(apiKey);
+    mindeeClient = new MindeeClient(apiKey);
   }
 
   @Test
