@@ -290,8 +290,8 @@
     </dependency>
     <dependency>
       <artifactId>jackson-databind</artifactId>
-      <groupId>com.fasterxml.jackson.core</groupId>
-      <version>${com.fasterxml.jackson.version}</version>
+      <groupId>tools.jackson.core</groupId>
+      <version>${tools.jackson.core.databind.version}</version>
     </dependency>
     <dependency>
       <artifactId>jackson-datatype-jsr310</artifactId>
@@ -366,20 +366,7 @@
       <artifactId>junit-pioneer</artifactId>
       <groupId>org.junit-pioneer</groupId>
       <scope>test</scope>
-      <!-- version 2.0 is not compatible with java 8 -->
       <version>${org.junit.pioneer.version}</version>
-    </dependency>
-    <dependency>
-      <artifactId>mockito-junit-jupiter</artifactId>
-      <groupId>org.mockito</groupId>
-      <scope>test</scope>
-      <version>${org.mockito.junit.jupiter.version}</version>
-    </dependency>
-    <dependency>
-      <artifactId>mockito-inline</artifactId>
-      <groupId>org.mockito</groupId>
-      <scope>test</scope>
-      <version>${org.mockito.inline.version}</version>
     </dependency>
     <dependency>
       <groupId>net.bytebuddy</groupId>
@@ -418,8 +405,8 @@
     <!-- MINDEE VERSION GOES HERE -->
     <revision>5.0.0-alpha1</revision>
 
-    <com.fasterxml.jackson.version>2.15.4</com.fasterxml.jackson.version>
-    <com.fasterxml.jackson.datatype.version>2.15.4</com.fasterxml.jackson.datatype.version>
+    <tools.jackson.core.databind.version>3.1.1</tools.jackson.core.databind.version>
+    <com.fasterxml.jackson.datatype.version>2.21.2</com.fasterxml.jackson.datatype.version>
     <com.squareup.okhttp3.version>4.12.0</com.squareup.okhttp3.version>
     <info.picocli.version>4.7.6</info.picocli.version>
     <maven.compiler.source>11</maven.compiler.source>
@@ -441,11 +428,9 @@
     <org.apache.pdfbox.version>3.0.5</org.apache.pdfbox.version>
     <org.junit.jupiter.version>5.8.2</org.junit.jupiter.version>
     <org.junit.pioneer.version>1.9.1</org.junit.pioneer.version>
-    <org.junit.platform.version>1.8.2</org.junit.platform.version>
+    <org.junit.platform.version>1.9.2</org.junit.platform.version>
     <org.hamcrest.version>2.2</org.hamcrest.version>
     <org.mapstruct.version>1.5.3.Final</org.mapstruct.version>
-    <org.mockito.inline.version>4.11.0</org.mockito.inline.version>
-    <org.mockito.junit.jupiter.version>4.11.0</org.mockito.junit.jupiter.version>
     <org.projectlombok.lombok-mapstruct-binding.version>0.2.0</org.projectlombok.lombok-mapstruct-binding.version>
     <org.projectlombok.version>1.18.38</org.projectlombok.version>
     <org.slf4j.version>2.0.17</org.slf4j.version>
