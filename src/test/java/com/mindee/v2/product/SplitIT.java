@@ -6,9 +6,9 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.mindee.AsyncPollingOptions;
-import com.mindee.MindeeClientV2;
 import com.mindee.input.LocalInputSource;
-import com.mindee.parsing.v2.InferenceFile;
+import com.mindee.v2.MindeeClient;
+import com.mindee.v2.parsing.inference.InferenceFile;
 import com.mindee.v2.product.split.SplitInference;
 import com.mindee.v2.product.split.SplitResponse;
 import com.mindee.v2.product.split.SplitResult;
@@ -25,14 +25,14 @@ import org.junit.jupiter.api.TestInstance;
 @DisplayName("MindeeV2 –Integration Tests - Split")
 class SplitIT {
 
-  private MindeeClientV2 mindeeClient;
+  private MindeeClient mindeeClient;
   private String modelId;
 
   @BeforeAll
   void setUp() {
     String apiKey = System.getenv("MINDEE_V2_API_KEY");
     modelId = System.getenv("MINDEE_V2_SE_TESTS_SPLIT_MODEL_ID");
-    mindeeClient = new MindeeClientV2(apiKey);
+    mindeeClient = new MindeeClient(apiKey);
   }
 
   @Test

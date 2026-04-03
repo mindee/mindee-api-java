@@ -6,9 +6,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import com.mindee.input.LocalResponse;
-import com.mindee.parsing.v2.InferenceResponse;
 import com.mindee.v2.product.crop.CropItem;
 import com.mindee.v2.product.crop.CropResponse;
+import com.mindee.v2.product.extraction.ExtractionResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import org.junit.jupiter.api.DisplayName;
@@ -97,7 +97,7 @@ public class CropTest {
       assertEquals("receipt", crop0.getObjectType());
       assertNotNull(crop0.getLocation().getPolygon());
       assertEquals(0, crop0.getLocation().getPage());
-      InferenceResponse extractionResponse0 = crop0.getExtractionResponse();
+      ExtractionResponse extractionResponse0 = crop0.getExtractionResponse();
       assertNotNull(extractionResponse0);
       assertEquals(
         "CHEZ ALAIN MIAM MIAM",
@@ -113,7 +113,7 @@ public class CropTest {
       assertEquals("receipt", crop1.getObjectType());
       assertNotNull(crop1.getLocation().getPolygon());
       assertEquals(0, crop1.getLocation().getPage());
-      InferenceResponse extractionResponse1 = crop1.getExtractionResponse();
+      ExtractionResponse extractionResponse1 = crop1.getExtractionResponse();
       assertNotNull(extractionResponse1);
       assertEquals(
         "La cerise sur la pizza",

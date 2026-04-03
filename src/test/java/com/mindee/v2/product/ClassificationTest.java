@@ -6,8 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 import com.mindee.input.LocalResponse;
-import com.mindee.parsing.v2.InferenceResponse;
 import com.mindee.v2.product.classification.ClassificationResponse;
+import com.mindee.v2.product.extraction.ExtractionResponse;
 import java.io.IOException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -46,7 +46,7 @@ public class ClassificationTest {
         "invoice",
         response.getInference().getResult().getClassification().getDocumentType()
       );
-      InferenceResponse extractionResponse = response
+      ExtractionResponse extractionResponse = response
         .getInference()
         .getResult()
         .getClassification()
