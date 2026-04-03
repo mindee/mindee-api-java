@@ -394,8 +394,8 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>com.github.tomakehurst</groupId>
-      <artifactId>wiremock-jre8</artifactId>
+      <groupId>org.wiremock</groupId>
+      <artifactId>wiremock</artifactId>
       <version>${wiremock.version}</version>
       <scope>test</scope>
     </dependency>
@@ -429,7 +429,7 @@
     <commons-codec.version>1.20.0</commons-codec.version>
     <org.apache.maven.clean.version>3.1.0</org.apache.maven.clean.version>
     <org.apache.maven.compiler.version>3.12.1</org.apache.maven.compiler.version>
-    <org.apache.maven.failsafe.version>3.3.1</org.apache.maven.failsafe.version>
+    <org.apache.maven.failsafe.version>3.5.5</org.apache.maven.failsafe.version>
     <org.apache.maven.gpg.version>1.5</org.apache.maven.gpg.version>
     <org.apache.maven.install.version>2.5.2</org.apache.maven.install.version>
     <org.apache.maven.javadoc.version>3.2.0</org.apache.maven.javadoc.version>
@@ -450,8 +450,7 @@
     <org.projectlombok.version>1.18.38</org.projectlombok.version>
     <org.slf4j.version>2.0.17</org.slf4j.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <surefire.addOpens></surefire.addOpens>
-    <wiremock.version>2.35.2</wiremock.version>
+    <wiremock.version>3.13.2</wiremock.version>
   </properties>
 
 </project>
