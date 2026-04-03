@@ -90,8 +90,8 @@
                 <version>${org.projectlombok.lombok-mapstruct-binding.version}</version>
               </path>
             </annotationProcessorPaths>
-            <source>1.8</source>
-            <target>1.8</target>
+            <source>11</source>
+            <target>11</target>
           </configuration>
         </plugin>
           <plugin>
@@ -102,7 +102,7 @@
               <linkXRef>false</linkXRef>
               <printFailingErrors>true</printFailingErrors>
               <failurePriority>3</failurePriority>
-              <targetJdk>1.8</targetJdk>
+              <targetJdk>11</targetJdk>
             </configuration>
           </plugin>
         <plugin>
@@ -129,8 +129,8 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
-          <source>8</source>
-          <target>8</target>
+          <source>11</source>
+          <target>11</target>
         </configuration>
       </plugin>
       <plugin>
@@ -422,8 +422,8 @@
     <com.fasterxml.jackson.datatype.version>2.15.4</com.fasterxml.jackson.datatype.version>
     <com.squareup.okhttp3.version>4.12.0</com.squareup.okhttp3.version>
     <info.picocli.version>4.7.6</info.picocli.version>
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
+    <maven.compiler.source>11</maven.compiler.source>
+    <maven.compiler.target>11</maven.compiler.target>
     <org.apache.commons.math3.version>3.6.1</org.apache.commons.math3.version>
     <org.apache.httpcomponents.client5.httpclient5.version>5.4.4</org.apache.httpcomponents.client5.httpclient5.version>
     <commons-codec.version>1.20.0</commons-codec.version>
