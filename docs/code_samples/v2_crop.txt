@@ -1,5 +1,5 @@
-import com.mindee.MindeeClientV2;
 import com.mindee.input.LocalInputSource;
+import com.mindee.v2.MindeeClient;
 import com.mindee.v2.product.crop.CropResponse;
 import com.mindee.v2.product.crop.CropResult;
 import com.mindee.v2.product.crop.params.CropParameters;
@@ -15,7 +15,7 @@ public class SimpleMindeeClientV2 {
     String modelId = "MY_MODEL_ID";
 
     // Init a new client
-    MindeeClientV2 mindeeClient = new MindeeClientV2(apiKey);
+    MindeeClient mindeeClient = new MindeeClient(apiKey);
 
     // Set inference parameters
     CropParameters cropParams = CropParameters

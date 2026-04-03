@@ -1,10 +1,10 @@
-import com.mindee.MindeeClient;
 import com.mindee.input.LocalInputSource;
 import com.mindee.extraction.ExtractedPDF;
 import com.mindee.extraction.PDFExtractor;
-import com.mindee.parsing.common.AsyncPredictResponse;
-import com.mindee.product.invoice.InvoiceV4;
-import com.mindee.product.invoicesplitter.InvoiceSplitterV1;
+import com.mindee.v1.MindeeClient;
+import com.mindee.v1.parsing.common.AsyncPredictResponse;
+import com.mindee.v1.product.invoice.InvoiceV4;
+import com.mindee.v1.product.invoicesplitter.InvoiceSplitterV1;
 
 import java.io.File;
 import java.io.IOException;
