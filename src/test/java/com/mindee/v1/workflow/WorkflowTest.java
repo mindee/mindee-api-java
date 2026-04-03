@@ -8,7 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mindee.input.LocalInputSource;
 import com.mindee.pdf.PdfOperation;
 import com.mindee.v1.MindeeClient;
-import com.mindee.v1.http.MindeeApi;
+import com.mindee.v1.http.MindeeApiV1;
 import com.mindee.v1.parsing.common.Execution;
 import com.mindee.v1.parsing.common.WorkflowResponse;
 import com.mindee.v1.product.generated.GeneratedV1;
@@ -27,14 +27,14 @@ public class WorkflowTest {
   MindeeClient client;
   @Mock
   MindeeClient mockedClient;
-  MindeeApi mindeeApi;
+  MindeeApiV1 mindeeApi;
   PdfOperation pdfOperation;
 
   private ObjectMapper objectMapper;
 
   @BeforeEach
   public void setUp() {
-    mindeeApi = Mockito.mock(MindeeApi.class);
+    mindeeApi = Mockito.mock(MindeeApiV1.class);
     pdfOperation = Mockito.mock(PdfOperation.class);
     client = new MindeeClient(pdfOperation, mindeeApi);
 

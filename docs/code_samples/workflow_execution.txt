@@ -2,7 +2,7 @@ import com.mindee.input.LocalInputSource;
 import com.mindee.v1.MindeeClient;
 import com.mindee.v1.parsing.common.WorkflowResponse;
 import com.mindee.v1.product.generated.GeneratedV1;
-import com.mindee.v1.http.MindeeHttpException;
+import com.mindee.v1.http.MindeeHttpExceptionV1;
 import java.io.IOException;
 
 public class SimpleMindeeClientV1 {

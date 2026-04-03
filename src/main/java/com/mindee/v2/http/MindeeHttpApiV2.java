@@ -208,7 +208,7 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
     }
   }
 
-  private MindeeHttpException getHttpError(ClassicHttpResponse response) {
+  private MindeeHttpExceptionV2 getHttpError(ClassicHttpResponse response) {
     String rawBody;
     try {
       rawBody = response.getEntity() == null
@@ -220,10 +220,10 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
       if (err.getDetail() == null) {
         err = makeUnknownError(response.getCode());
       }
-      return new MindeeHttpException(err.getStatus(), err.getDetail());
+      return new MindeeHttpExceptionV2(err.getStatus(), err.getDetail());
 
     } catch (Exception e) {
-      return new MindeeHttpException(response.getCode(), "Unknown error");
+      return new MindeeHttpExceptionV2(response.getCode(), "Unknown error");
     }
   }
 
@@ -250,7 +250,7 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
       String body,
       Class<R> clazz,
       int httpStatus
-  ) throws MindeeHttpException {
+  ) throws MindeeHttpExceptionV2 {
 
     if (httpStatus >= 200 && httpStatus < 400) {
       try {
@@ -273,6 +273,6 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
     } catch (Exception ignored) {
       err = makeUnknownError(httpStatus);
     }
-    throw new MindeeHttpException(err.getStatus(), err.getDetail());
+    throw new MindeeHttpExceptionV2(err.getStatus(), err.getDetail());
   }
 }

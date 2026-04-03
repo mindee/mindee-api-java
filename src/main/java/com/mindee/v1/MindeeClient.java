@@ -14,8 +14,8 @@ import com.mindee.pdf.SplitQuery;
 import com.mindee.v1.clientOptions.PredictOptions;
 import com.mindee.v1.clientOptions.WorkflowOptions;
 import com.mindee.v1.http.Endpoint;
-import com.mindee.v1.http.MindeeApi;
-import com.mindee.v1.http.MindeeHttpApi;
+import com.mindee.v1.http.MindeeApiV1;
+import com.mindee.v1.http.MindeeHttpApiV1;
 import com.mindee.v1.http.RequestParameters;
 import com.mindee.v1.parsing.common.AsyncPredictResponse;
 import com.mindee.v1.parsing.common.Inference;
@@ -31,7 +31,7 @@ import java.net.URL;
 public class MindeeClient {
 
   protected PdfOperation pdfOperation;
-  private final MindeeApi mindeeApi;
+  private final MindeeApiV1 mindeeApi;
 
   /**
    * Create a default MindeeClient.
@@ -57,7 +57,7 @@ public class MindeeClient {
    *
    * @param mindeeApi The MindeeApi implementation to be used by the created MindeeClient.
    */
-  public MindeeClient(MindeeApi mindeeApi) {
+  public MindeeClient(MindeeApiV1 mindeeApi) {
     this.pdfOperation = new PdfBoxApi();
     this.mindeeApi = mindeeApi;
   }
@@ -68,19 +68,19 @@ public class MindeeClient {
    * @param pdfOperation The PdfOperation implementation to be used by the created MindeeClient.
    * @param mindeeApi The MindeeApi implementation to be used by the created MindeeClient.
    */
-  public MindeeClient(PdfOperation pdfOperation, MindeeApi mindeeApi) {
+  public MindeeClient(PdfOperation pdfOperation, MindeeApiV1 mindeeApi) {
     this.pdfOperation = pdfOperation;
     this.mindeeApi = mindeeApi;
   }
 
-  private static MindeeApi createDefaultApi(String apiKey) {
+  private static MindeeApiV1 createDefaultApi(String apiKey) {
     MindeeSettings mindeeSettings;
     if (apiKey != null && !apiKey.trim().isEmpty()) {
       mindeeSettings = new MindeeSettings(apiKey);
     } else {
       mindeeSettings = new MindeeSettings();
     }
-    return MindeeHttpApi.builder().mindeeSettings(mindeeSettings).build();
+    return MindeeHttpApiV1.builder().mindeeSettings(mindeeSettings).build();
   }
 
   /**

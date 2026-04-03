@@ -39,7 +39,7 @@ import org.apache.hc.core5.net.URIBuilder;
 /**
  * HTTP Client class.
  */
-public final class MindeeHttpApi extends MindeeApi {
+public final class MindeeHttpApiV1 extends MindeeApiV1 {
 
   private static final ObjectMapper mapper = JsonMapper.builder().findAndAddModules().build();
   private final Function<Endpoint, String> buildProductPredicBasetUrl = this::buildProductPredictBaseUrl;
@@ -80,12 +80,12 @@ public final class MindeeHttpApi extends MindeeApi {
    */
   private final Function<String, String> workflowUrlFromId;
 
-  public MindeeHttpApi(MindeeSettings mindeeSettings) {
+  public MindeeHttpApiV1(MindeeSettings mindeeSettings) {
     this(mindeeSettings, null, null, null, null, null, null);
   }
 
   @Builder
-  private MindeeHttpApi(
+  private MindeeHttpApiV1(
       MindeeSettings mindeeSettings,
       HttpClientBuilder httpClientBuilder,
       Function<Endpoint, String> urlFromEndpoint,
@@ -171,7 +171,7 @@ public final class MindeeHttpApi extends MindeeApi {
             && mappedResponse.getJob().getError() != null
             && mappedResponse.getJob().getError().getCode() != null
         ) {
-          throw new MindeeHttpException(
+          throw new MindeeHttpExceptionV1(
             500,
             mappedResponse.getJob().getError().getMessage(),
             mappedResponse.getJob().getError().getDetails().toString(),
@@ -295,7 +295,7 @@ public final class MindeeHttpApi extends MindeeApi {
     }
   }
 
-  private <ResponseT extends ApiResponse> MindeeHttpException getHttpError(
+  private <ResponseT extends ApiResponse> MindeeHttpExceptionV1 getHttpError(
       JavaType parametricType,
       ClassicHttpResponse response
   ) {
@@ -310,7 +310,7 @@ public final class MindeeHttpApi extends MindeeApi {
       message += "Could not read server response, check details.";
       errorCode = "";
       details = err.getMessage();
-      return new MindeeHttpException(statusCode, message, details, errorCode);
+      return new MindeeHttpExceptionV1(statusCode, message, details, errorCode);
     }
     try {
       ResponseT predictResponse = mapper.readValue(rawResponse, parametricType);
@@ -327,7 +327,7 @@ public final class MindeeHttpApi extends MindeeApi {
       details = rawResponse;
       errorCode = "";
     }
-    return new MindeeHttpException(statusCode, message, details, errorCode);
+    return new MindeeHttpExceptionV1(statusCode, message, details, errorCode);
   }
 
   private String buildProductPredictBaseUrl(Endpoint endpoint) {

@@ -5,7 +5,7 @@ import com.mindee.input.URLInputSource;
 import com.mindee.v2.clientOptions.BaseParameters;
 import com.mindee.v2.http.MindeeApiV2;
 import com.mindee.v2.http.MindeeHttpApiV2;
-import com.mindee.v2.http.MindeeHttpException;
+import com.mindee.v2.http.MindeeHttpExceptionV2;
 import com.mindee.v2.parsing.CommonResponse;
 import com.mindee.v2.parsing.ErrorResponse;
 import com.mindee.v2.parsing.JobResponse;
@@ -200,7 +200,7 @@ public class MindeeClient {
 
     ErrorResponse error = resp.getJob().getError();
     if (error != null) {
-      throw new MindeeHttpException(error.getStatus(), error.getDetail());
+      throw new MindeeHttpExceptionV2(error.getStatus(), error.getDetail());
     }
     throw new RuntimeException("Max retries exceeded (" + max + ").");
   }

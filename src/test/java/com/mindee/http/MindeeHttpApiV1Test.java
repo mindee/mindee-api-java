@@ -16,8 +16,8 @@ import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.mindee.v1.MindeeSettings;
 import com.mindee.v1.clientOptions.PredictOptions;
 import com.mindee.v1.http.Endpoint;
-import com.mindee.v1.http.MindeeHttpApi;
-import com.mindee.v1.http.MindeeHttpException;
+import com.mindee.v1.http.MindeeHttpApiV1;
+import com.mindee.v1.http.MindeeHttpExceptionV1;
 import com.mindee.v1.http.RequestParameters;
 import com.mindee.v1.parsing.common.AsyncPredictResponse;
 import com.mindee.v1.parsing.common.Document;
@@ -46,7 +46,7 @@ import org.junit.Before;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class MindeeHttpApiTest {
+public class MindeeHttpApiV1Test {
 
   MockWebServer mockWebServer = new MockWebServer();
   private static final ObjectMapper objectMapper = new ObjectMapper();
@@ -61,7 +61,7 @@ public class MindeeHttpApiTest {
     mockWebServer.shutdown();
   }
 
-  private MindeeHttpApi getClientForResponse(Path filePath, int statusCode) throws IOException {
+  private MindeeHttpApiV1 getClientForResponse(Path filePath, int statusCode) throws IOException {
     String url = String.format("http://localhost:%s", mockWebServer.getPort());
     mockWebServer
       .enqueue(
@@ -71,20 +71,23 @@ public class MindeeHttpApiTest {
       );
     HttpClientBuilder httpClientBuilder = HttpClients.custom().disableAutomaticRetries();
 
-    return MindeeHttpApi
+    return MindeeHttpApiV1
       .builder()
       .mindeeSettings(new MindeeSettings("abc", url))
       .httpClientBuilder(httpClientBuilder)
       .build();
   }
 
-  private MindeeHttpApi getClientForResponse(String filePath, int statusCode) throws IOException {
+  private MindeeHttpApiV1 getClientForResponse(String filePath, int statusCode) throws IOException {
     return getClientForResponse(getV1ResourcePath(filePath), statusCode);
   }
 
   @Test
   void givenAResponseFromTheEndpoint_whenDeserialized_mustHaveValidSummary() throws IOException {
-    MindeeHttpApi client = getClientForResponse("products/invoices/response_v4/complete.json", 200);
+    MindeeHttpApiV1 client = getClientForResponse(
+      "products/invoices/response_v4/complete.json",
+      200
+    );
 
     Path filePath = getV1ResourcePath("products/invoices/invoice.pdf");
 
@@ -114,7 +117,10 @@ public class MindeeHttpApiTest {
 
   @Test
   void givenParseParametersWithFile_whenParsed_shouldBuildRequestCorrectly() throws IOException, InterruptedException {
-    MindeeHttpApi client = getClientForResponse("products/invoices/response_v4/complete.json", 200);
+    MindeeHttpApiV1 client = getClientForResponse(
+      "products/invoices/response_v4/complete.json",
+      200
+    );
     Path filePath = getV1ResourcePath("products/invoices/invoice.pdf");
     byte[] fileBytes = Files.readAllBytes(filePath);
     Document<InvoiceV4> document = client
@@ -141,7 +147,10 @@ public class MindeeHttpApiTest {
 
   @Test
   void givenPredictOptions_whenParsed_shouldBuildRequestCorrectly() throws IOException, InterruptedException {
-    MindeeHttpApi client = getClientForResponse("products/invoices/response_v4/complete.json", 200);
+    MindeeHttpApiV1 client = getClientForResponse(
+      "products/invoices/response_v4/complete.json",
+      200
+    );
     Path filePath = getV1ResourcePath("products/invoices/invoice.pdf");
     byte[] fileBytes = Files.readAllBytes(filePath);
     PredictOptions predictOptions = PredictOptions.builder().cropper(true).allWords(true).build();
@@ -173,7 +182,10 @@ public class MindeeHttpApiTest {
 
   @Test
   void givenParseParametersWithFileUrl_whenParsed_shouldBuildRequestCorrectly() throws IOException, InterruptedException {
-    MindeeHttpApi client = getClientForResponse("products/invoices/response_v4/complete.json", 200);
+    MindeeHttpApiV1 client = getClientForResponse(
+      "products/invoices/response_v4/complete.json",
+      200
+    );
 
     Document<InvoiceV4> document = client
       .predictPost(
@@ -220,7 +232,7 @@ public class MindeeHttpApiTest {
 
     HttpClientBuilder httpClientBuilder = HttpClients.custom().disableAutomaticRetries();
 
-    MindeeHttpApi client = MindeeHttpApi
+    MindeeHttpApiV1 client = MindeeHttpApiV1
       .builder()
       .mindeeSettings(new MindeeSettings("abc", url))
       .httpClientBuilder(httpClientBuilder)
@@ -276,7 +288,7 @@ public class MindeeHttpApiTest {
       .setRoutePlanner(routePlanner)
       .disableAutomaticRetries();
 
-    MindeeHttpApi client = MindeeHttpApi
+    MindeeHttpApiV1 client = MindeeHttpApiV1
       .builder()
       .mindeeSettings(new MindeeSettings("abc", url))
       .httpClientBuilder(httpClientBuilder)
@@ -315,7 +327,7 @@ public class MindeeHttpApiTest {
   @Test
   void givenAnAsncResponse_whenDeserialized_mustHaveValidJob() throws IOException, InterruptedException {
     Path path = getV1ResourcePath("async/post_success.json");
-    MindeeHttpApi client = getClientForResponse(path, 200);
+    MindeeHttpApiV1 client = getClientForResponse(path, 200);
 
     File file = new File(getV1ResourcePathString("products/invoices/invoice.pdf"));
     AsyncPredictResponse<InvoiceV4> response = client
@@ -346,7 +358,7 @@ public class MindeeHttpApiTest {
   @Test
   void givenAResponseFromTheJobEndpoint_whenDeserialized_mustHaveValidJobAndDocument() throws IOException, InterruptedException {
     Path path = getV1ResourcePath("async/get_completed.json");
-    MindeeHttpApi client = getClientForResponse(path, 200);
+    MindeeHttpApiV1 client = getClientForResponse(path, 200);
 
     AsyncPredictResponse<InvoiceSplitterV1> response = client
       .documentQueueGet(
@@ -374,7 +386,7 @@ public class MindeeHttpApiTest {
 
   @Test
   void givenError401_noToken_mustThrowMindeeHttpException() throws IOException {
-    MindeeHttpApi client = getClientForResponse("errors/error_401_no_token.json", 401);
+    MindeeHttpApiV1 client = getClientForResponse("errors/error_401_no_token.json", 401);
 
     File file = new File(getV1ResourcePathString("products/invoices/invoice.pdf"));
     byte[] fileInBytes = Files.readAllBytes(file.toPath());
@@ -384,9 +396,9 @@ public class MindeeHttpApiTest {
       .fileName(file.getName())
       .build();
 
-    MindeeHttpException httpError = Assertions
+    MindeeHttpExceptionV1 httpError = Assertions
       .assertThrows(
-        MindeeHttpException.class,
+        MindeeHttpExceptionV1.class,
         () -> client.predictPost(InvoiceV4.class, new Endpoint(InvoiceV4.class), parseParameter)
       );
     Assertions.assertEquals(401, httpError.getStatusCode());
@@ -396,7 +408,7 @@ public class MindeeHttpApiTest {
 
   @Test
   void givenError429_mustThrowMindeeHttpException() throws IOException {
-    MindeeHttpApi client = getClientForResponse("errors/error_429_too_many_requests.json", 429);
+    MindeeHttpApiV1 client = getClientForResponse("errors/error_429_too_many_requests.json", 429);
 
     File file = new File(getV1ResourcePathString("products/invoices/invoice.pdf"));
     byte[] fileInBytes = Files.readAllBytes(file.toPath());
@@ -406,9 +418,9 @@ public class MindeeHttpApiTest {
       .fileName(file.getName())
       .build();
 
-    MindeeHttpException httpError = Assertions
+    MindeeHttpExceptionV1 httpError = Assertions
       .assertThrows(
-        MindeeHttpException.class,
+        MindeeHttpExceptionV1.class,
         () -> client.predictPost(InvoiceV4.class, new Endpoint(InvoiceV4.class), parseParameter)
       );
     Assertions.assertEquals(429, httpError.getStatusCode());
@@ -419,7 +431,7 @@ public class MindeeHttpApiTest {
 
   @Test
   void givenError_inHtml_mustThrowMindeeHttpException() throws IOException {
-    MindeeHttpApi client = getClientForResponse("errors/error_50x.html", 413);
+    MindeeHttpApiV1 client = getClientForResponse("errors/error_50x.html", 413);
 
     Path filePath = getV1ResourcePath("products/invoices/invoice.pdf");
     byte[] fileBytes = Files.readAllBytes(filePath);
@@ -429,9 +441,9 @@ public class MindeeHttpApiTest {
       .fileName(filePath.getFileName().toString())
       .build();
 
-    MindeeHttpException httpError = Assertions
+    MindeeHttpExceptionV1 httpError = Assertions
       .assertThrows(
-        MindeeHttpException.class,
+        MindeeHttpExceptionV1.class,
         () -> client.predictPost(InvoiceV4.class, new Endpoint(InvoiceV4.class), parseParameter)
       );
     Assertions.assertEquals(413, httpError.getStatusCode());
@@ -446,7 +458,7 @@ public class MindeeHttpApiTest {
 
   @Test
   void givenError400_noDetails_mustThrowMindeeHttpException() throws IOException {
-    MindeeHttpApi client = getClientForResponse("errors/error_400_no_details.json", 400);
+    MindeeHttpApiV1 client = getClientForResponse("errors/error_400_no_details.json", 400);
 
     Path filePath = getV1ResourcePath("products/invoices/invoice.pdf");
     byte[] fileBytes = Files.readAllBytes(filePath);
@@ -456,9 +468,9 @@ public class MindeeHttpApiTest {
       .fileName(filePath.getFileName().toString())
       .build();
 
-    MindeeHttpException httpError = Assertions
+    MindeeHttpExceptionV1 httpError = Assertions
       .assertThrows(
-        MindeeHttpException.class,
+        MindeeHttpExceptionV1.class,
         () -> client.predictPost(InvoiceV4.class, new Endpoint(InvoiceV4.class), parseParameter)
       );
     Assertions.assertEquals(400, httpError.getStatusCode());

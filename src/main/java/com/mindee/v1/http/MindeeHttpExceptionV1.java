@@ -7,7 +7,7 @@ import lombok.Getter;
  * Represent a Mindee exception.
  */
 @Getter
-public class MindeeHttpException extends MindeeException {
+public class MindeeHttpExceptionV1 extends MindeeException {
   /** Standard HTTP status code. */
   private final int statusCode;
   /** Error details. */
@@ -15,7 +15,7 @@ public class MindeeHttpException extends MindeeException {
   /** Error code (not HTTP code). */
   private final String code;
 
-  public MindeeHttpException(int statusCode, String message, String details, String code) {
+  public MindeeHttpExceptionV1(int statusCode, String message, String details, String code) {
     super(message);
     this.statusCode = statusCode;
     this.details = details;

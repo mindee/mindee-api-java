@@ -12,7 +12,7 @@ import com.mindee.pdf.PdfOperation;
 import com.mindee.pdf.SplitPdf;
 import com.mindee.v1.clientOptions.PredictOptions;
 import com.mindee.v1.http.Endpoint;
-import com.mindee.v1.http.MindeeApi;
+import com.mindee.v1.http.MindeeApiV1;
 import com.mindee.v1.http.RequestParameters;
 import com.mindee.v1.parsing.common.AsyncPredictResponse;
 import com.mindee.v1.parsing.common.Document;
@@ -40,12 +40,12 @@ import org.mockito.junit.jupiter.MockitoExtension;
 class MindeeClientTest {
 
   MindeeClient client;
-  MindeeApi mindeeApi;
+  MindeeApiV1 mindeeApi;
   PdfOperation pdfOperation;
 
   @BeforeEach
   public void setUp() {
-    mindeeApi = Mockito.mock(MindeeApi.class);
+    mindeeApi = Mockito.mock(MindeeApiV1.class);
     pdfOperation = Mockito.mock(PdfOperation.class);
     client = new MindeeClient(pdfOperation, mindeeApi);
   }

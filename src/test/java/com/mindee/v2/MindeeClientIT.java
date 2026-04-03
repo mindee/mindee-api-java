@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.mindee.AsyncPollingOptions;
 import com.mindee.input.LocalInputSource;
 import com.mindee.input.URLInputSource;
-import com.mindee.v2.http.MindeeHttpException;
+import com.mindee.v2.http.MindeeHttpExceptionV2;
 import com.mindee.v2.parsing.inference.InferenceActiveOptions;
 import com.mindee.v2.parsing.inference.InferenceFile;
 import com.mindee.v2.parsing.inference.RawText;
@@ -179,8 +179,8 @@ class MindeeClientIT {
       .textContext("this is invalid")
       .build();
 
-    MindeeHttpException ex = assertThrows(
-      MindeeHttpException.class,
+    MindeeHttpExceptionV2 ex = assertThrows(
+      MindeeHttpExceptionV2.class,
       () -> mindeeClient.enqueueInference(source, params)
     );
     assertEquals(422, ex.getStatus());
@@ -195,8 +195,8 @@ class MindeeClientIT {
       .webhookIds(new String[] { "INVALID_WEBHOOK_ID" })
       .build();
 
-    MindeeHttpException ex = assertThrows(
-      MindeeHttpException.class,
+    MindeeHttpExceptionV2 ex = assertThrows(
+      MindeeHttpExceptionV2.class,
       () -> mindeeClient.enqueueInference(source, params)
     );
     assertEquals(422, ex.getStatus());
@@ -205,8 +205,8 @@ class MindeeClientIT {
   @Test
   @DisplayName("Invalid job ID – parseQueued must raise an error")
   void invalidJob_mustThrowError() {
-    MindeeHttpException ex = assertThrows(
-      MindeeHttpException.class,
+    MindeeHttpExceptionV2 ex = assertThrows(
+      MindeeHttpExceptionV2.class,
       () -> mindeeClient.getInference("INVALID_JOB_ID")
     );
     assertEquals(422, ex.getStatus());

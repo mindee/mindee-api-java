@@ -10,7 +10,7 @@ import java.io.IOException;
 /**
  * Defines required methods for an API.
  */
-public abstract class MindeeApi extends MindeeApiCommon {
+public abstract class MindeeApiV1 extends MindeeApiCommon {
 
   /**
    * Get a document from the predict queue.
