@@ -8,10 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import com.mindee.AsyncPollingOptions;
 import com.mindee.input.LocalInputSource;
 import com.mindee.v2.MindeeClient;
-import com.mindee.v2.parsing.inference.InferenceFile;
-import com.mindee.v2.product.split.SplitInference;
 import com.mindee.v2.product.split.SplitResponse;
-import com.mindee.v2.product.split.SplitResult;
 import com.mindee.v2.product.split.params.SplitParameters;
 import java.io.IOException;
 import org.junit.jupiter.api.BeforeAll;
@@ -30,7 +27,7 @@ class SplitIT {
 
   @BeforeAll
   void setUp() {
-    String apiKey = System.getenv("MINDEE_V2_API_KEY");
+    var apiKey = System.getenv("MINDEE_V2_API_KEY");
     modelId = System.getenv("MINDEE_V2_SE_TESTS_SPLIT_MODEL_ID");
     mindeeClient = new MindeeClient(apiKey);
   }
@@ -38,10 +35,8 @@ class SplitIT {
   @Test
   @DisplayName("Empty, multi-page PDF – enqueue & parse must succeed")
   void parseFile_emptyMultiPage_mustSucceed() throws IOException, InterruptedException {
-    LocalInputSource source = new LocalInputSource(
-      getResourcePath("file_types/pdf/multipage_cut-2.pdf")
-    );
-    SplitParameters params = SplitParameters
+    var source = new LocalInputSource(getResourcePath("file_types/pdf/multipage_cut-2.pdf"));
+    var params = SplitParameters
       .builder(modelId)
       .alias("java_integration-test_split_multipage")
       .pollingOptions(
@@ -49,12 +44,13 @@ class SplitIT {
       )
       .build();
 
-    SplitResponse response = mindeeClient.enqueueAndGetResult(SplitResponse.class, source, params);
+    var response = mindeeClient.enqueueAndGetResult(SplitResponse.class, source, params);
     assertNotNull(response);
-    SplitInference inference = response.getInference();
+
+    var inference = response.getInference();
     assertNotNull(inference);
 
-    InferenceFile file = inference.getFile();
+    var file = inference.getFile();
     assertNotNull(file);
     assertEquals("multipage_cut-2.pdf", file.getName());
     assertEquals(2, file.getPageCount());
@@ -62,7 +58,7 @@ class SplitIT {
     assertNotNull(inference.getModel());
     assertEquals(modelId, inference.getModel().getId());
 
-    SplitResult result = inference.getResult();
+    var result = inference.getResult();
     assertNotNull(result);
     assertTrue(result.getSplits().isEmpty());
   }

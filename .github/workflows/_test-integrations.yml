@@ -23,9 +23,8 @@ jobs:
     strategy:
       matrix:
         java-version:
-          - "21"
+          - "25"
           - "11"
-          - "8"
         distribution:
           - "temurin"
 

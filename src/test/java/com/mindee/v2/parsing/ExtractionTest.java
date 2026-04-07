@@ -1,7 +1,6 @@
 package com.mindee.v2.parsing;
 
 import static com.mindee.TestingUtilities.getV2ResourcePath;
-import static com.mindee.TestingUtilities.readFileAsString;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
@@ -32,6 +31,7 @@ import com.mindee.v2.product.extraction.ExtractionInference;
 import com.mindee.v2.product.extraction.ExtractionResponse;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -44,7 +44,7 @@ import org.junit.jupiter.api.Test;
 class ExtractionTest {
 
   private ExtractionResponse loadResponse(String filePath) throws IOException {
-    LocalResponse localResponse = new LocalResponse(getV2ResourcePath(filePath));
+    var localResponse = new LocalResponse(getV2ResourcePath(filePath));
     return localResponse.deserializeResponse(ExtractionResponse.class);
   }
 
@@ -55,10 +55,8 @@ class ExtractionTest {
     @Test
     @DisplayName("all properties must be valid")
     void asyncPredict_whenEmpty_mustHaveValidProperties() throws IOException {
-      ExtractionResponse response = loadResponse(
-        "products/extraction/financial_document/blank.json"
-      );
-      InferenceFields fields = response.getInference().getResult().getFields();
+      var response = loadResponse("products/extraction/financial_document/blank.json");
+      var fields = response.getInference().getResult().getFields();
 
       assertEquals(21, fields.size(), "Expected 21 fields");
 
@@ -109,9 +107,7 @@ class ExtractionTest {
     @Test
     @DisplayName("every exposed property must be valid and consistent")
     void asyncPredict_whenComplete_mustExposeAllProperties() throws IOException {
-      ExtractionResponse response = loadResponse(
-        "products/extraction/financial_document/complete.json"
-      );
+      var response = loadResponse("products/extraction/financial_document/complete.json");
       ExtractionInference inference = response.getInference();
       assertNotNull(inference);
       assertEquals("12345678-1234-1234-1234-123456789abc", inference.getId());
@@ -130,7 +126,7 @@ class ExtractionTest {
       assertEquals("image/jpeg", file.getMimeType());
       assertNull(file.getAlias());
 
-      InferenceFields fields = inference.getResult().getFields();
+      var fields = inference.getResult().getFields();
       assertEquals(21, fields.size());
 
       SimpleField date = fields.get("date").getSimpleField();
@@ -188,7 +184,7 @@ class ExtractionTest {
       ExtractionInference inf = resp.getInference();
       assertNotNull(inf);
 
-      InferenceFields root = inf.getResult().getFields();
+      var root = inf.getResult().getFields();
       assertNotNull(root.get("field_simple").getSimpleField());
       assertNotNull(root.get("field_object").getObjectField());
 
@@ -250,20 +246,20 @@ class ExtractionTest {
     @Test
     @DisplayName("simple fields must be recognised")
     void standardFieldTypes_mustExposeSimpleFieldValues() throws IOException {
-      ExtractionResponse response = loadResponse("products/extraction/standard_field_types.json");
+      var response = loadResponse("products/extraction/standard_field_types.json");
       ExtractionInference inference = response.getInference();
       assertNotNull(inference);
 
-      InferenceFields fields = inference.getResult().getFields();
+      var fields = inference.getResult().getFields();
 
       assertNotNull(fields.get("field_simple_string").getSimpleField());
 
-      SimpleField fieldSimpleString = fields.getSimpleField("field_simple_string");
+      var fieldSimpleString = fields.getSimpleField("field_simple_string");
       testSimpleFieldString(fieldSimpleString);
       assertEquals(FieldConfidence.Certain, fieldSimpleString.getConfidence());
       assertEquals(1, fieldSimpleString.getLocations().size());
 
-      SimpleField fieldSimpleFloat = fields.get("field_simple_float").getSimpleField();
+      var fieldSimpleFloat = fields.get("field_simple_float").getSimpleField();
       assertNotNull(fieldSimpleFloat);
       assertInstanceOf(Double.class, fieldSimpleFloat.getValue());
       assertEquals(fieldSimpleFloat.getValue(), fieldSimpleFloat.getDoubleValue());
@@ -271,14 +267,14 @@ class ExtractionTest {
       assertThrows(ClassCastException.class, fieldSimpleFloat::getBooleanValue);
       assertEquals(FieldConfidence.High, fieldSimpleFloat.getConfidence());
 
-      SimpleField fieldSimpleInt = fields.get("field_simple_int").getSimpleField();
+      var fieldSimpleInt = fields.get("field_simple_int").getSimpleField();
       assertNotNull(fieldSimpleInt);
       assertInstanceOf(Double.class, fieldSimpleInt.getValue());
       assertEquals(fieldSimpleInt.getValue(), fieldSimpleInt.getDoubleValue());
       assertEquals(FieldConfidence.Medium, fieldSimpleInt.getConfidence());
       assertThrows(ClassCastException.class, fieldSimpleInt::getStringValue);
 
-      SimpleField fieldSimpleZero = fields.get("field_simple_zero").getSimpleField();
+      var fieldSimpleZero = fields.get("field_simple_zero").getSimpleField();
       assertNotNull(fieldSimpleZero);
       assertEquals(FieldConfidence.Low, fieldSimpleZero.getConfidence());
       assertInstanceOf(Double.class, fieldSimpleZero.getValue());
@@ -287,7 +283,7 @@ class ExtractionTest {
       assertThrows(ClassCastException.class, fieldSimpleZero::getStringValue);
       assertThrows(ClassCastException.class, fieldSimpleZero::getBooleanValue);
 
-      SimpleField fieldSimpleBool = fields.get("field_simple_bool").getSimpleField();
+      var fieldSimpleBool = fields.get("field_simple_bool").getSimpleField();
       assertNotNull(fieldSimpleBool);
       assertInstanceOf(Boolean.class, fieldSimpleBool.getValue());
       assertEquals(fieldSimpleBool.getValue(), fieldSimpleBool.getBooleanValue());
@@ -295,7 +291,7 @@ class ExtractionTest {
       assertThrows(ClassCastException.class, fieldSimpleBool::getDoubleValue);
       assertThrows(ClassCastException.class, fieldSimpleBool::getBigDecimalValue);
 
-      SimpleField fieldSimpleNull = fields.get("field_simple_null").getSimpleField();
+      var fieldSimpleNull = fields.get("field_simple_null").getSimpleField();
       assertNotNull(fieldSimpleNull);
       assertNull(fieldSimpleNull.getValue());
       assertNull(fieldSimpleNull.getStringValue());
@@ -307,13 +303,13 @@ class ExtractionTest {
     @Test
     @DisplayName("simple list fields must be recognised")
     void standardFieldTypes_mustExposeSimpleListFieldValues() throws IOException {
-      ExtractionResponse response = loadResponse("products/extraction/standard_field_types.json");
-      ExtractionInference inference = response.getInference();
+      var response = loadResponse("products/extraction/standard_field_types.json");
+      var inference = response.getInference();
       assertNotNull(inference);
 
-      InferenceFields fields = inference.getResult().getFields();
+      var fields = inference.getResult().getFields();
 
-      ListField listField = fields.get("field_simple_list").getListField();
+      var listField = fields.get("field_simple_list").getListField();
       assertNotNull(listField);
 
       // Low level (dynamic) access
@@ -350,11 +346,11 @@ class ExtractionTest {
     @Test
     @DisplayName("object list fields must be recognised")
     void standardFieldTypes_mustExposeObjectListFieldValues() throws IOException {
-      ExtractionResponse response = loadResponse("products/extraction/standard_field_types.json");
-      ExtractionInference inference = response.getInference();
+      var response = loadResponse("products/extraction/standard_field_types.json");
+      var inference = response.getInference();
       assertNotNull(inference);
 
-      InferenceFields fields = inference.getResult().getFields();
+      var fields = inference.getResult().getFields();
 
       ListField listField = fields.get("field_object_list").getListField();
       assertNotNull(listField);
@@ -400,11 +396,11 @@ class ExtractionTest {
     @Test
     @DisplayName("simple / object / list variants must be recognised")
     void standardFieldTypes_mustExposeObjectFieldValues() throws IOException {
-      ExtractionResponse response = loadResponse("products/extraction/standard_field_types.json");
-      ExtractionInference inference = response.getInference();
+      var response = loadResponse("products/extraction/standard_field_types.json");
+      var inference = response.getInference();
       assertNotNull(inference);
 
-      InferenceFields fields = inference.getResult().getFields();
+      var fields = inference.getResult().getFields();
 
       ObjectField fieldObject = fields.get("field_object").getObjectField();
       assertNotNull(fieldObject);
@@ -435,10 +431,10 @@ class ExtractionTest {
   @Test
   @DisplayName("allow getting fields using generics")
   void standardFieldTypes_getWithGenerics() throws IOException {
-    ExtractionResponse response = loadResponse("products/extraction/standard_field_types.json");
-    ExtractionInference inference = response.getInference();
+    var response = loadResponse("products/extraction/standard_field_types.json");
+    var inference = response.getInference();
     assertNotNull(inference);
-    InferenceFields fields = inference.getResult().getFields();
+    var fields = inference.getResult().getFields();
 
     assertEquals(
       fields.get("field_simple_bool").getSimpleField(),
@@ -471,11 +467,11 @@ class ExtractionTest {
   @Test
   @DisplayName("confidence and locations must be usable")
   void standardFieldTypes_confidenceAndLocations() throws IOException {
-    ExtractionResponse response = loadResponse("products/extraction/standard_field_types.json");
-    ExtractionInference inference = response.getInference();
+    var response = loadResponse("products/extraction/standard_field_types.json");
+    var inference = response.getInference();
     assertNotNull(inference);
 
-    InferenceFields fields = inference.getResult().getFields();
+    var fields = inference.getResult().getFields();
 
     SimpleField fieldSimpleString = fields.get("field_simple_string").getField(SimpleField.class);
     FieldConfidence confidence = fieldSimpleString.getConfidence();
@@ -511,8 +507,8 @@ class ExtractionTest {
     @Test
     @DisplayName("raw texts option must be parsed and exposed")
     void rawTexts_mustBeAccessible() throws IOException {
-      ExtractionResponse response = loadResponse("products/extraction/raw_texts.json");
-      ExtractionInference inference = response.getInference();
+      var response = loadResponse("products/extraction/raw_texts.json");
+      var inference = response.getInference();
       assertNotNull(inference);
 
       InferenceActiveOptions activeOptions = inference.getActiveOptions();
@@ -546,8 +542,8 @@ class ExtractionTest {
     @Test
     @DisplayName("RAG metadata when matched")
     void rag_mustBeFilled_whenMatched() throws IOException {
-      ExtractionResponse response = loadResponse("products/extraction/rag_matched.json");
-      ExtractionInference inference = response.getInference();
+      var response = loadResponse("products/extraction/rag_matched.json");
+      var inference = response.getInference();
       assertNotNull(inference);
 
       RagMetadata rag = inference.getResult().getRag();
@@ -558,8 +554,8 @@ class ExtractionTest {
     @Test
     @DisplayName("RAG metadata when not matched")
     void rag_mustBeNull_whenNotMatched() throws IOException {
-      ExtractionResponse response = loadResponse("products/extraction/rag_not_matched.json");
-      ExtractionInference inference = response.getInference();
+      var response = loadResponse("products/extraction/rag_not_matched.json");
+      var inference = response.getInference();
       assertNotNull(inference);
 
       RagMetadata rag = inference.getResult().getRag();
@@ -574,10 +570,9 @@ class ExtractionTest {
     @Test
     @DisplayName("rst display must be parsed and exposed")
     void rstDisplay_mustBeAccessible() throws IOException {
-      ExtractionResponse resp = loadResponse("products/extraction/standard_field_types.json");
-      String rstRef = readFileAsString(
-        getV2ResourcePath("products/extraction/standard_field_types.rst")
-      );
+      var resp = loadResponse("products/extraction/standard_field_types.json");
+      String rstRef = Files
+        .readString(getV2ResourcePath("products/extraction/standard_field_types.rst"));
       ExtractionInference inference = resp.getInference();
       assertNotNull(inference);
       assertEquals(rstRef, resp.getInference().toString());
@@ -590,7 +585,7 @@ class ExtractionTest {
     @Test
     @DisplayName("should be present and true when enabled")
     void textContext_mustBePresentAndTrue() throws IOException {
-      ExtractionResponse resp = loadResponse("products/extraction/text_context_enabled.json");
+      var resp = loadResponse("products/extraction/text_context_enabled.json");
       ExtractionInference inference = resp.getInference();
       assertNotNull(inference);
       assertTrue(inference.getActiveOptions().getTextContext());
@@ -603,10 +598,10 @@ class ExtractionTest {
     @Test
     @DisplayName("should be present and true when enabled")
     void textContext_mustBePresentAndTrue() throws IOException {
-      ExtractionResponse resp = loadResponse("products/extraction/data_schema_replace.json");
+      var resp = loadResponse("products/extraction/data_schema_replace.json");
       ExtractionInference inference = resp.getInference();
       assertNotNull(inference);
-      InferenceFields fields = inference.getResult().getFields();
+      var fields = inference.getResult().getFields();
       assertEquals("a test value", fields.get("test_replace").getSimpleField().getStringValue());
 
       assertTrue(inference.getActiveOptions().getDataSchema().getReplace());

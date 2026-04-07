@@ -10,7 +10,6 @@ import com.mindee.v2.parsing.CommonResponse;
 import com.mindee.v2.parsing.ErrorResponse;
 import com.mindee.v2.parsing.JobResponse;
 import com.mindee.v2.product.extraction.ExtractionResponse;
-import com.mindee.v2.product.extraction.params.ExtractionParameters;
 import java.io.IOException;
 
 /**
@@ -32,26 +31,6 @@ public class MindeeClient {
   /** Inject both a PDF implementation and an HTTP implementation. */
   public MindeeClient(MindeeApiV2 mindeeApi) {
     this.mindeeApi = mindeeApi;
-  }
-
-  /**
-   * @deprecated use `enqueue` instead.
-   */
-  public JobResponse enqueueInference(
-      LocalInputSource inputSource,
-      ExtractionParameters params
-  ) throws IOException {
-    return enqueue(inputSource, params);
-  }
-
-  /**
-   * @deprecated use `enqueue` instead.
-   */
-  public JobResponse enqueueInference(
-      URLInputSource inputSource,
-      ExtractionParameters params
-  ) throws IOException {
-    return enqueue(inputSource, params);
   }
 
   /**
@@ -89,13 +68,6 @@ public class MindeeClient {
   }
 
   /**
-   * @deprecated use `getResult` instead.
-   */
-  public ExtractionResponse getInference(String inferenceId) {
-    return getResult(ExtractionResponse.class, inferenceId);
-  }
-
-  /**
    * Get the result of an inference that was previously enqueued.
    * The inference will only be available after it has finished processing.
    */
@@ -107,26 +79,6 @@ public class MindeeClient {
       throw new IllegalArgumentException("inferenceId must not be null or blank.");
     }
     return mindeeApi.reqGetResult(responseClass, inferenceId);
-  }
-
-  /**
-   * @deprecated use `enqueueAndGetResult` instead.
-   */
-  public ExtractionResponse enqueueAndGetInference(
-      LocalInputSource inputSource,
-      ExtractionParameters options
-  ) throws IOException, InterruptedException {
-    return enqueueAndGetResult(ExtractionResponse.class, inputSource, options);
-  }
-
-  /**
-   * @deprecated use `enqueueAndGetResult` instead.
-   */
-  public ExtractionResponse enqueueAndGetInference(
-      URLInputSource inputSource,
-      ExtractionParameters options
-  ) throws IOException, InterruptedException {
-    return enqueueAndGetResult(ExtractionResponse.class, inputSource, options);
   }
 
   /**
