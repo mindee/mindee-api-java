@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-import com.mindee.input.LocalResponse;
+import com.mindee.v2.parsing.LocalResponse;
 import com.mindee.v2.product.classification.ClassificationResponse;
 import com.mindee.v2.product.extraction.ExtractionResponse;
 import java.io.IOException;
