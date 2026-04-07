@@ -5,10 +5,10 @@ import static com.mindee.TestingUtilities.getResourcePath;
 import static com.mindee.TestingUtilities.getV1ResourcePathString;
 
 import com.mindee.input.LocalInputSource;
-import com.mindee.input.LocalResponse;
 import com.mindee.input.PageOptions;
 import com.mindee.input.PageOptionsOperation;
 import com.mindee.v1.clientOptions.PredictOptions;
+import com.mindee.v1.input.LocalResponse;
 import com.mindee.v1.parsing.common.AsyncPredictResponse;
 import com.mindee.v1.parsing.common.Document;
 import com.mindee.v1.parsing.common.Job;

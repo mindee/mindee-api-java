@@ -1,4 +1,4 @@
-package com.mindee.v2.parsing;
+package com.mindee.v2.product;
 
 import static com.mindee.TestingUtilities.getV2ResourcePath;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.mindee.geometry.Point;
 import com.mindee.geometry.Polygon;
-import com.mindee.input.LocalResponse;
+import com.mindee.v2.input.LocalResponse;
 import com.mindee.v2.parsing.inference.InferenceActiveOptions;
 import com.mindee.v2.parsing.inference.InferenceFile;
 import com.mindee.v2.parsing.inference.InferenceJob;

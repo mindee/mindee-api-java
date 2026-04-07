@@ -1,7 +1,8 @@
-package com.mindee.input;
+package com.mindee.v1.input;
 
 import static com.mindee.TestingUtilities.getV1ResourcePath;
 
+import com.mindee.v1.product.internationalid.InternationalIdV2;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -9,25 +10,25 @@ import java.nio.file.Path;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class LocalResponseV1Test {
+public class LocalResponseTest {
   /**
    * Fake secret key.
    */
   String secretKey = "ogNjY44MhvKPGTtVsI8zG82JqWQa68woYQH";
 
   /**
-   * Real signature using fake secret key.
+   * Real signature using a fake secret key.
    */
   String signature = "5ed1673e34421217a5dbfcad905ee62261a3dd66c442f3edd19302072bbf70d0";
 
   /**
-   * File which the signature applies to.
+   * File that the signature applies to.
    */
   Path filePath = getV1ResourcePath("async/get_completed_empty.json");
 
   @Test
   void loadDocument_withFile_mustReturnValidLocalResponse() throws IOException {
-    LocalResponse localResponse = new LocalResponse(new File(this.filePath.toString()));
+    var localResponse = new LocalResponse(new File(this.filePath.toString()));
     Assertions.assertNotNull(localResponse.getFile());
     Assertions
       .assertFalse(
@@ -35,11 +36,15 @@ public class LocalResponseV1Test {
       );
     Assertions.assertEquals(this.signature, localResponse.getHmacSignature(this.secretKey));
     Assertions.assertTrue(localResponse.isValidHmacSignature(this.secretKey, this.signature));
+
+    var response = localResponse.deserializeAsyncResponse(InternationalIdV2.class);
+    Assertions.assertNotNull(response);
+    Assertions.assertNotNull(response.getDocumentObj());
   }
 
   @Test
   void loadDocument_withString_mustReturnValidLocalResponse() {
-    LocalResponse localResponse = new LocalResponse("{'some': 'json', 'with': 'data'}");
+    var localResponse = new LocalResponse("{'some': 'json', 'with': 'data'}");
     Assertions.assertNotNull(localResponse.getFile());
     Assertions
       .assertFalse(
@@ -49,7 +54,7 @@ public class LocalResponseV1Test {
 
   @Test
   void loadDocument_withInputStream_mustReturnValidLocalResponse() throws IOException {
-    LocalResponse localResponse = new LocalResponse(Files.newInputStream(this.filePath));
+    var localResponse = new LocalResponse(Files.newInputStream(this.filePath));
     Assertions.assertNotNull(localResponse.getFile());
     Assertions
       .assertFalse(
@@ -57,5 +62,9 @@ public class LocalResponseV1Test {
       );
     Assertions.assertEquals(this.signature, localResponse.getHmacSignature(this.secretKey));
     Assertions.assertTrue(localResponse.isValidHmacSignature(this.secretKey, this.signature));
+
+    var response = localResponse.deserializeAsyncResponse(InternationalIdV2.class);
+    Assertions.assertNotNull(response);
+    Assertions.assertNotNull(response.getDocumentObj());
   }
 }

@@ -1,8 +1,5 @@
 package com.mindee.input;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mindee.MindeeException;
-import com.mindee.v2.parsing.CommonResponse;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -24,9 +21,8 @@ import org.apache.commons.codec.binary.Hex;
  * A Mindee response saved locally.
  */
 @Getter
-public class LocalResponse {
-  private final byte[] file;
-  private static final ObjectMapper mapper = new ObjectMapper();
+public abstract class LocalResponse {
+  protected final byte[] file;
 
   /**
    * Load from an {@link InputStream}.
@@ -105,25 +101,5 @@ public class LocalResponse {
    */
   public boolean isValidHmacSignature(String secretKey, String signature) {
     return signature.equals(getHmacSignature(secretKey));
-  }
-
-  /**
-   * Deserialize this local JSON payload into a specific {@link CommonResponse}
-   * subtype: {@code InferenceResponse}, {@code JobResponse}.
-   *
-   * @param responseClass the concrete class to instantiate
-   * @param <T> generic {@link CommonResponse}
-   * @return Either a {@code InferenceResponse} or {@code JobResponse} instance.
-   * @throws MindeeException if the payload cannot be deserialized into the requested type
-   */
-  public <T extends CommonResponse> T deserializeResponse(Class<T> responseClass) {
-    ObjectMapper mapper = new ObjectMapper();
-    try {
-      T response = mapper.readValue(this.file, responseClass);
-      response.setRawResponse(new String(this.file, StandardCharsets.UTF_8));
-      return response;
-    } catch (Exception ex) {
-      throw new MindeeException("Invalid class specified for deserialization.", ex);
-    }
   }
 }
