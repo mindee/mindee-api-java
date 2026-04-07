@@ -1,4 +1,4 @@
-package com.mindee.http;
+package com.mindee.v1.http;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static com.github.tomakehurst.wiremock.client.WireMock.containing;
@@ -15,10 +15,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.mindee.v1.MindeeSettings;
 import com.mindee.v1.clientOptions.PredictOptions;
-import com.mindee.v1.http.Endpoint;
-import com.mindee.v1.http.MindeeHttpApiV1;
-import com.mindee.v1.http.MindeeHttpExceptionV1;
-import com.mindee.v1.http.RequestParameters;
 import com.mindee.v1.parsing.common.AsyncPredictResponse;
 import com.mindee.v1.parsing.common.Document;
 import com.mindee.v1.parsing.common.PredictResponse;
