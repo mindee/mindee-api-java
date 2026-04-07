@@ -1,12 +1,9 @@
 package com.mindee.v1;
 
-import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mindee.AsyncPollingOptions;
 import com.mindee.MindeeException;
 import com.mindee.input.InputSourceUtils;
 import com.mindee.input.LocalInputSource;
-import com.mindee.input.LocalResponse;
 import com.mindee.input.PageOptions;
 import com.mindee.pdf.PdfBoxApi;
 import com.mindee.pdf.PdfOperation;
@@ -1071,28 +1068,4 @@ public class MindeeClient {
   ) {
     return this.mindeeApi.documentQueueGet(type, endpoint, jobId);
   }
-
-  /**
-   * Load a local prediction.
-   * Typically used when wanting to load from a webhook callback.
-   * However, any kind of Mindee response may be loaded.
-   *
-   * @param <T> Type of inference.
-   * @param type Type of inference.
-   * @param localResponse A loaded local response.
-   * @return an instance of {@link AsyncPredictResponse}.
-   * @throws IOException Throws if the file can't be accessed.
-   */
-  public <T extends Inference> AsyncPredictResponse<T> loadPrediction(
-      Class<T> type,
-      LocalResponse localResponse
-  ) throws IOException {
-    ObjectMapper objectMapper = new ObjectMapper();
-    objectMapper.findAndRegisterModules();
-    JavaType parametricType = objectMapper
-      .getTypeFactory()
-      .constructParametricType(AsyncPredictResponse.class, type);
-    return objectMapper.readValue(localResponse.getFile(), parametricType);
-  }
-
 }
