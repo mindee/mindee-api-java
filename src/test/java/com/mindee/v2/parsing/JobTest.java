@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 @DisplayName("MindeeV2 - Job Tests")
 public class JobTest {
   private JobResponse loadJob(String filePath) throws IOException {
-    LocalResponse localResponse = new LocalResponse(getV2ResourcePath(filePath));
+    var localResponse = new LocalResponse(getV2ResourcePath(filePath));
     return localResponse.deserializeResponse(JobResponse.class);
   }
 
@@ -24,8 +24,8 @@ public class JobTest {
     @Test
     @DisplayName("properties must be valid")
     void whenProcessing_mustHaveValidProperties() throws IOException {
-      JobResponse response = loadJob("job/ok_processing.json");
-      Job job = response.getJob();
+      var response = loadJob("job/ok_processing.json");
+      var job = response.getJob();
       assertNotNull(job);
       assertEquals("Processing", job.getStatus());
       assertNotNull(job.getCreatedAt());
@@ -41,8 +41,8 @@ public class JobTest {
     @Test
     @DisplayName("properties must be valid")
     void whenProcessing_mustHaveValidProperties() throws IOException {
-      JobResponse response = loadJob("job/ok_processed_webhooks_ok.json");
-      Job job = response.getJob();
+      var response = loadJob("job/ok_processed_webhooks_ok.json");
+      var job = response.getJob();
       assertNotNull(job);
       assertEquals("Processed", job.getStatus());
       assertNotNull(job.getCreatedAt());
@@ -58,8 +58,8 @@ public class JobTest {
     @Test
     @DisplayName("HTTP 422 properties must be valid")
     void when422_mustHaveValidProperties() throws IOException {
-      JobResponse response = loadJob("job/fail_422.json");
-      Job job = response.getJob();
+      var response = loadJob("job/fail_422.json");
+      var job = response.getJob();
       assertNotNull(job);
       assertNotNull(job.getCreatedAt());
       assertNotNull(job.getCompletedAt());

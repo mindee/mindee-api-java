@@ -9,7 +9,6 @@ import com.mindee.v2.product.extraction.ExtractionResponse;
 import com.mindee.v2.product.split.SplitRange;
 import com.mindee.v2.product.split.SplitResponse;
 import java.io.IOException;
-import java.util.ArrayList;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -17,7 +16,7 @@ import org.junit.jupiter.api.Test;
 @DisplayName("MindeeV2 - Split Model Tests")
 public class SplitTest {
   private SplitResponse loadResponse(String filePath) throws IOException {
-    LocalResponse localResponse = new LocalResponse(getV2ResourcePath(filePath));
+    var localResponse = new LocalResponse(getV2ResourcePath(filePath));
     return localResponse.deserializeResponse(SplitResponse.class);
   }
 
@@ -27,10 +26,10 @@ public class SplitTest {
     @Test
     @DisplayName("split properties must be valid")
     void mustHaveValidProperties() throws IOException {
-      SplitResponse response = loadResponse("products/split/split_single.json");
+      var response = loadResponse("products/split/split_single.json");
       assertNotNull(response.getInference());
 
-      ArrayList<SplitRange> splits = response.getInference().getResult().getSplits();
+      var splits = response.getInference().getResult().getSplits();
       assertEquals(1, splits.size());
       SplitRange split0 = splits.get(0);
       assertEquals("receipt", split0.getDocumentType());
@@ -44,10 +43,10 @@ public class SplitTest {
     @Test
     @DisplayName("split properties must be valid")
     void mustHaveValidProperties() throws IOException {
-      SplitResponse response = loadResponse("products/split/split_multiple.json");
+      var response = loadResponse("products/split/split_multiple.json");
       assertNotNull(response.getInference());
 
-      ArrayList<SplitRange> splits = response.getInference().getResult().getSplits();
+      var splits = response.getInference().getResult().getSplits();
       assertEquals(3, splits.size());
 
       SplitRange split0 = splits.get(0);
@@ -69,7 +68,7 @@ public class SplitTest {
       SplitResponse response = loadResponse("products/split/default_sample_extraction.json");
       assertNotNull(response.getInference());
 
-      ArrayList<SplitRange> splits = response.getInference().getResult().getSplits();
+      var splits = response.getInference().getResult().getSplits();
       assertEquals(2, splits.size());
 
       SplitRange split0 = splits.get(0);
