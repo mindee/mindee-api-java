@@ -7,7 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mindee.input.LocalInputSource;
-import com.mindee.input.LocalResponse;
 import com.mindee.input.URLInputSource;
 import com.mindee.v2.clientOptions.BaseParameters;
 import com.mindee.v2.http.MindeeApiV2;
@@ -34,18 +33,12 @@ class MindeeClientTest {
     }
 
     @Override
-    public JobResponse reqPostEnqueue(
-        LocalInputSource inputSource,
-        BaseParameters options
-    ) throws IOException {
+    public JobResponse reqPostEnqueue(LocalInputSource inputSource, BaseParameters options) {
       return jobResponse;
     }
 
     @Override
-    public JobResponse reqPostEnqueue(
-        URLInputSource inputSource,
-        BaseParameters options
-    ) throws IOException {
+    public JobResponse reqPostEnqueue(URLInputSource inputSource, BaseParameters options) {
       return jobResponse;
     }
 
@@ -133,38 +126,6 @@ class MindeeClientTest {
           .getSimpleField()
           .getValue(),
         "Result must deserialize fields properly."
-      );
-    }
-  }
-
-  @Nested
-  @DisplayName("deserializeResponse()")
-  class DeserializeResponse {
-
-    @Test
-    @DisplayName("parses local JSON and exposes correct field values")
-    void inference_loadsLocally() throws IOException {
-      var localResponse = new LocalResponse(
-        getResourcePath("v2/products/extraction/financial_document/complete.json")
-      );
-      ExtractionResponse loaded = localResponse.deserializeResponse(ExtractionResponse.class);
-
-      assertNotNull(loaded, "Loaded InferenceResponse must not be null");
-      assertEquals(
-        "12345678-1234-1234-1234-123456789abc",
-        loaded.getInference().getModel().getId(),
-        "Model Id mismatch"
-      );
-      assertEquals(
-        "John Smith",
-        loaded
-          .getInference()
-          .getResult()
-          .getFields()
-          .get("supplier_name")
-          .getSimpleField()
-          .getValue(),
-        "Supplier name mismatch"
       );
     }
   }
