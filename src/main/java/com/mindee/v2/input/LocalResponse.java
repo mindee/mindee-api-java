@@ -2,6 +2,7 @@ package com.mindee.v2.input;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mindee.MindeeException;
+import com.mindee.input.BaseLocalResponse;
 import com.mindee.v2.parsing.CommonResponse;
 import java.io.File;
 import java.io.IOException;
@@ -12,7 +13,7 @@ import java.nio.file.Path;
 /**
  * A Mindee response saved locally.
  */
-public class LocalResponse extends com.mindee.input.LocalResponse {
+public class LocalResponse extends BaseLocalResponse {
 
   public LocalResponse(InputStream input) {
     super(input);
@@ -40,13 +41,13 @@ public class LocalResponse extends com.mindee.input.LocalResponse {
    * @throws MindeeException if the payload cannot be deserialized into the requested type
    */
   public <T extends CommonResponse> T deserializeResponse(Class<T> responseClass) {
-    var mapper = new ObjectMapper();
+    var mapper = new ObjectMapper().findAndRegisterModules();
     try {
       var response = mapper.readValue(this.file, responseClass);
       response.setRawResponse(new String(this.file, StandardCharsets.UTF_8));
       return response;
-    } catch (Exception ex) {
-      throw new MindeeException("Invalid class specified for deserialization.", ex);
+    } catch (Exception e) {
+      throw new MindeeException("Invalid JSON payload.", e);
     }
   }
 }

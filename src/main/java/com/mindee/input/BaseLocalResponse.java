@@ -21,7 +21,7 @@ import org.apache.commons.codec.binary.Hex;
  * A Mindee response saved locally.
  */
 @Getter
-public abstract class LocalResponse {
+public abstract class BaseLocalResponse {
   protected final byte[] file;
 
   /**
@@ -29,7 +29,7 @@ public abstract class LocalResponse {
    *
    * @param input will be decoded as UTF-8.
    */
-  public LocalResponse(InputStream input) {
+  public BaseLocalResponse(InputStream input) {
     this.file = this
       .getBytes(new BufferedReader(new InputStreamReader(input, StandardCharsets.UTF_8)).lines());
   }
@@ -39,7 +39,10 @@ public abstract class LocalResponse {
    *
    * @param input will be decoded as UTF-8.
    */
-  public LocalResponse(String input) {
+  public BaseLocalResponse(String input) {
+    if (input == null || input.isEmpty()) {
+      throw new IllegalArgumentException("Input string cannot be empty or null.");
+    }
     this.file = input.getBytes(StandardCharsets.UTF_8);
   }
 
@@ -48,7 +51,7 @@ public abstract class LocalResponse {
    *
    * @param input will be decoded as UTF-8.
    */
-  public LocalResponse(File input) throws IOException {
+  public BaseLocalResponse(File input) throws IOException {
     this.file = this.getBytes(Files.lines(input.toPath(), StandardCharsets.UTF_8));
   }
 
@@ -57,7 +60,7 @@ public abstract class LocalResponse {
    *
    * @param input will be decoded as UTF-8.
    */
-  public LocalResponse(Path input) throws IOException {
+  public BaseLocalResponse(Path input) throws IOException {
     this.file = this.getBytes(Files.lines(input, StandardCharsets.UTF_8));
   }
 

@@ -1,21 +1,16 @@
 package com.mindee.v1;
 
-import static com.mindee.TestingUtilities.assertStringEqualsFile;
 import static com.mindee.TestingUtilities.getResourcePath;
-import static com.mindee.TestingUtilities.getV1ResourcePathString;
 
 import com.mindee.input.LocalInputSource;
 import com.mindee.input.PageOptions;
 import com.mindee.input.PageOptionsOperation;
 import com.mindee.v1.clientOptions.PredictOptions;
-import com.mindee.v1.input.LocalResponse;
 import com.mindee.v1.parsing.common.AsyncPredictResponse;
 import com.mindee.v1.parsing.common.Document;
 import com.mindee.v1.parsing.common.Job;
 import com.mindee.v1.parsing.common.PredictResponse;
-import com.mindee.v1.product.internationalid.InternationalIdV2;
 import com.mindee.v1.product.invoice.InvoiceV4;
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
@@ -155,31 +150,5 @@ class MindeeClientTest {
     var jobId = mindeeClient.enqueue(InvoiceV4.class, new URL("https://fake.pdf")).getJob().getId();
 
     Assertions.assertEquals("someid", jobId);
-  }
-
-  @Test
-  void givenJsonInput_whenSync_shouldDeserializeCorrectly() throws IOException {
-    File file = new File(getV1ResourcePathString("products/invoices/response_v4/complete.json"));
-    LocalResponse localResponse = new LocalResponse(file);
-    AsyncPredictResponse<InvoiceV4> predictResponse = new MindeeClient()
-      .loadPrediction(InvoiceV4.class, localResponse);
-    assertStringEqualsFile(
-      predictResponse.getDocumentObj().toString(),
-      getV1ResourcePathString("/products/invoices/response_v4/summary_full.rst")
-    );
-  }
-
-  @Test
-  void givenJsonInput_whenAsync_shouldDeserializeCorrectly() throws IOException {
-    File file = new File(
-      getV1ResourcePathString("products/international_id/response_v2/complete.json")
-    );
-    LocalResponse localResponse = new LocalResponse(file);
-    AsyncPredictResponse<InternationalIdV2> predictResponse = new MindeeClient()
-      .loadPrediction(InternationalIdV2.class, localResponse);
-    assertStringEqualsFile(
-      predictResponse.getDocumentObj().toString(),
-      getV1ResourcePathString("products/international_id/response_v2/summary_full.rst")
-    );
   }
 }

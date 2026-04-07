@@ -1,8 +1,12 @@
 package com.mindee.v1.input;
 
+import static com.mindee.TestingUtilities.assertStringEqualsFile;
 import static com.mindee.TestingUtilities.getV1ResourcePath;
+import static com.mindee.TestingUtilities.getV1ResourcePathString;
 
+import com.mindee.MindeeException;
 import com.mindee.v1.product.internationalid.InternationalIdV2;
+import com.mindee.v1.product.invoice.InvoiceV4;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -36,10 +40,6 @@ public class LocalResponseTest {
       );
     Assertions.assertEquals(this.signature, localResponse.getHmacSignature(this.secretKey));
     Assertions.assertTrue(localResponse.isValidHmacSignature(this.secretKey, this.signature));
-
-    var response = localResponse.deserializeAsyncResponse(InternationalIdV2.class);
-    Assertions.assertNotNull(response);
-    Assertions.assertNotNull(response.getDocumentObj());
   }
 
   @Test
@@ -62,9 +62,40 @@ public class LocalResponseTest {
       );
     Assertions.assertEquals(this.signature, localResponse.getHmacSignature(this.secretKey));
     Assertions.assertTrue(localResponse.isValidHmacSignature(this.secretKey, this.signature));
+  }
 
+  @Test
+  void givenJsonInput_whenSync_shouldDeserializeCorrectly() throws IOException {
+    var localResponse = new LocalResponse(
+      getV1ResourcePath("products/invoices/response_v4/complete.json")
+    );
+    var response = localResponse.deserializeSyncResponse(InvoiceV4.class);
+    assertStringEqualsFile(
+      response.getDocument().toString(),
+      getV1ResourcePath("/products/invoices/response_v4/summary_full.rst")
+    );
+  }
+
+  @Test
+  void givenJsonInput_whenAsync_shouldDeserializeCorrectly() throws IOException {
+    var localResponse = new LocalResponse(
+      getV1ResourcePath("products/international_id/response_v2/complete.json")
+    );
     var response = localResponse.deserializeAsyncResponse(InternationalIdV2.class);
-    Assertions.assertNotNull(response);
-    Assertions.assertNotNull(response.getDocumentObj());
+    assertStringEqualsFile(
+      response.getDocumentObj().toString(),
+      getV1ResourcePathString("products/international_id/response_v2/summary_full.rst")
+    );
+  }
+
+  @Test
+  void givenInvalidJsonInput_shouldThrow() {
+    var localResponse = new LocalResponse("{invalid json");
+    var err = Assertions
+      .assertThrows(
+        MindeeException.class,
+        () -> localResponse.deserializeSyncResponse(InvoiceV4.class)
+      );
+    Assertions.assertEquals("Invalid JSON payload.", err.getMessage());
   }
 }
