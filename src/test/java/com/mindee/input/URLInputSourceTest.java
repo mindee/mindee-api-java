@@ -1,7 +1,6 @@
 package com.mindee.input;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,6 +10,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import lombok.Setter;
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Test;
 
 public class URLInputSourceTest {
 
@@ -31,7 +31,7 @@ public class URLInputSourceTest {
   void fetchFile_shouldSaveFileLocally() throws IOException {
     urlInputSource.fetchFile();
 
-    File savedFile = new File(urlInputSource.getLocalFilename());
+    var savedFile = new File(urlInputSource.getLocalFilename());
     assertTrue(savedFile.exists(), "The file should be saved locally");
 
     Files.deleteIfExists(savedFile.toPath());
@@ -47,7 +47,7 @@ public class URLInputSourceTest {
 
   @Test
   void fetchFile_shouldHandleRedirects() throws IOException {
-    urlInputSource.setMockResponseCode(HttpURLConnection.HTTP_MOVED_TEMP);
+    urlInputSource.setMockResponseCode(HttpURLConnection.HTTP_OK);
     urlInputSource.setMockRedirectUrl("https://example.com/redirectedfile.pdf");
 
     urlInputSource.setMockResponseCode(HttpURLConnection.HTTP_OK);
@@ -84,7 +84,7 @@ public class URLInputSourceTest {
     urlInputSource.cleanup();
   }
 
-  class TestableURLInputSource extends URLInputSource {
+  static class TestableURLInputSource extends URLInputSource {
 
     @Setter
     private int mockResponseCode = HttpURLConnection.HTTP_OK;
@@ -98,23 +98,51 @@ public class URLInputSourceTest {
 
     @Override
     protected HttpURLConnection createConnection(String urlString) throws IOException {
-      HttpURLConnection mockConnection = mock(HttpURLConnection.class);
+      java.net.URL url = new java.net.URL(urlString);
+      boolean wasRedirected = isRedirected;
 
-      when(mockConnection.getResponseCode()).thenReturn(mockResponseCode);
-
-      Path path = Paths.get("src/test/resources/file_types/pdf/multipage.pdf");
-      if (isRedirected) {
-        when(mockConnection.getHeaderField("Location")).thenReturn(null);
-        when(mockConnection.getInputStream()).thenReturn(Files.newInputStream(path));
-      } else {
-        when(mockConnection.getHeaderField("Location")).thenReturn(mockRedirectUrl);
-        when(mockConnection.getResponseCode()).thenReturn(HttpURLConnection.HTTP_MOVED_TEMP);
+      if (!isRedirected && mockRedirectUrl != null) {
         isRedirected = true;
-        return mockConnection;
       }
 
-      when(mockConnection.getInputStream()).thenReturn(Files.newInputStream(path));
-      return mockConnection;
+      return new HttpURLConnection(url) {
+        @Override
+        public void disconnect() {
+        }
+
+        @Override
+        public boolean usingProxy() {
+          return false;
+        }
+
+        @Override
+        public void connect() {
+        }
+
+        @Override
+        public int getResponseCode() {
+          if (mockRedirectUrl != null && !wasRedirected) {
+            return HttpURLConnection.HTTP_MOVED_TEMP;
+          }
+          return mockResponseCode;
+        }
+
+        @Override
+        public String getHeaderField(String name) {
+          if ("Location".equalsIgnoreCase(name)) {
+            if (mockRedirectUrl != null && !wasRedirected) {
+              return mockRedirectUrl;
+            }
+          }
+          return null;
+        }
+
+        @Override
+        public java.io.InputStream getInputStream() throws IOException {
+          Path path = Paths.get("src/test/resources/file_types/pdf/multipage.pdf");
+          return Files.newInputStream(path);
+        }
+      };
     }
   }
 }

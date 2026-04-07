@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test;
 @DisplayName("MindeeV2 - Classification Model Tests")
 public class ClassificationTest {
   private ClassificationResponse loadResponse(String filePath) throws IOException {
-    LocalResponse localResponse = new LocalResponse(getV2ResourcePath(filePath));
+    var localResponse = new LocalResponse(getV2ResourcePath(filePath));
     return localResponse.deserializeResponse(ClassificationResponse.class);
   }
 

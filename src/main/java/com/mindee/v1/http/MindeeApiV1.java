@@ -39,6 +39,9 @@ public abstract class MindeeApiV1 extends MindeeApiCommon {
       RequestParameters requestParameters
   ) throws IOException;
 
+  /**
+   * Execute a workflow.
+   */
   public abstract <DocT extends Inference> WorkflowResponse<DocT> executeWorkflowPost(
       Class<DocT> documentClass,
       String workflowId,

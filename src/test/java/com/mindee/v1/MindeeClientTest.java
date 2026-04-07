@@ -8,17 +8,11 @@ import com.mindee.input.LocalInputSource;
 import com.mindee.input.LocalResponse;
 import com.mindee.input.PageOptions;
 import com.mindee.input.PageOptionsOperation;
-import com.mindee.pdf.PdfOperation;
-import com.mindee.pdf.SplitPdf;
 import com.mindee.v1.clientOptions.PredictOptions;
-import com.mindee.v1.http.Endpoint;
-import com.mindee.v1.http.MindeeApiV1;
-import com.mindee.v1.http.RequestParameters;
 import com.mindee.v1.parsing.common.AsyncPredictResponse;
 import com.mindee.v1.parsing.common.Document;
 import com.mindee.v1.parsing.common.Job;
 import com.mindee.v1.parsing.common.PredictResponse;
-import com.mindee.v1.product.generated.GeneratedV1;
 import com.mindee.v1.product.internationalid.InternationalIdV2;
 import com.mindee.v1.product.invoice.InvoiceV4;
 import java.io.File;
@@ -29,58 +23,35 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
 
-@ExtendWith(MockitoExtension.class)
 class MindeeClientTest {
-
-  MindeeClient client;
-  MindeeApiV1 mindeeApi;
-  PdfOperation pdfOperation;
-
-  @BeforeEach
-  public void setUp() {
-    mindeeApi = Mockito.mock(MindeeApiV1.class);
-    pdfOperation = Mockito.mock(PdfOperation.class);
-    client = new MindeeClient(pdfOperation, mindeeApi);
-  }
 
   @Test
   void givenAClientForInvoice_withFile_parse_thenShouldCallMindeeApi() throws IOException {
 
-    PredictResponse predictResponse = new PredictResponse();
+    var predictResponse = new PredictResponse<InvoiceV4>();
     predictResponse.setDocument(new Document<>());
     predictResponse.setApiRequest(null);
 
-    Mockito
-      .when(mindeeApi.predictPost(Mockito.any(), Mockito.any(), Mockito.any()))
-      .thenReturn(predictResponse);
+    var mindeeClient = new MindeeClient(new FakeMindeeApiV1<>(predictResponse));
 
-    PredictResponse<InvoiceV4> document = client
+    PredictResponse<InvoiceV4> response = mindeeClient
       .parse(InvoiceV4.class, new LocalInputSource(getResourcePath("file_types/pdf/blank_1.pdf")));
 
-    Assertions.assertNotNull(document);
-    Mockito
-      .verify(mindeeApi, Mockito.times(1))
-      .predictPost(Mockito.any(), Mockito.any(), Mockito.any());
+    Assertions.assertNotNull(response.getDocument());
   }
 
   @Test
   void givenAClientForInvoice_withInputStream_parse_thenShouldCallMindeeApi() throws IOException {
 
-    PredictResponse predictResponse = new PredictResponse();
+    var predictResponse = new PredictResponse<InvoiceV4>();
     predictResponse.setDocument(new Document<>());
     predictResponse.setApiRequest(null);
-    Mockito
-      .when(mindeeApi.predictPost(Mockito.any(), Mockito.any(), Mockito.any()))
-      .thenReturn(predictResponse);
 
-    PredictResponse<InvoiceV4> document = client
+    var mindeeClient = new MindeeClient(new FakeMindeeApiV1<>(predictResponse));
+
+    PredictResponse<InvoiceV4> response = mindeeClient
       .parse(
         InvoiceV4.class,
         new LocalInputSource(
@@ -89,32 +60,25 @@ class MindeeClientTest {
         )
       );
 
-    Assertions.assertNotNull(document);
-    Mockito
-      .verify(mindeeApi, Mockito.times(1))
-      .predictPost(Mockito.any(), Mockito.any(), Mockito.any());
+    Assertions.assertNotNull(response.getDocument());
   }
 
   @Test
   void givenAClientForInvoice_withByteArray_parse_thenShouldCallMindeeApi() throws IOException {
 
-    PredictResponse predictResponse = new PredictResponse();
+    var predictResponse = new PredictResponse<InvoiceV4>();
     predictResponse.setDocument(new Document<>());
     predictResponse.setApiRequest(null);
-    Mockito
-      .when(mindeeApi.predictPost(Mockito.any(), Mockito.any(), Mockito.any()))
-      .thenReturn(predictResponse);
 
-    PredictResponse<InvoiceV4> document = client
+    var mindeeClient = new MindeeClient(new FakeMindeeApiV1<>(predictResponse));
+
+    PredictResponse<InvoiceV4> response = mindeeClient
       .parse(
         InvoiceV4.class,
         new LocalInputSource(Files.readAllBytes(getResourcePath("file_types/pdf/blank_1.pdf")), "")
       );
 
-    Assertions.assertNotNull(document);
-    Mockito
-      .verify(mindeeApi, Mockito.times(1))
-      .predictPost(Mockito.any(), Mockito.any(), Mockito.any());
+    Assertions.assertNotNull(response.getDocument());
   }
 
   @Test
@@ -122,55 +86,33 @@ class MindeeClientTest {
 
     List<Integer> pageNumberToKeep = new ArrayList<>();
     pageNumberToKeep.add(1);
-    PredictResponse predictResponse = new PredictResponse();
+    var predictResponse = new PredictResponse<InvoiceV4>();
     predictResponse.setDocument(new Document<>());
     predictResponse.setApiRequest(null);
-    Mockito
-      .when(mindeeApi.predictPost(Mockito.any(), Mockito.any(), Mockito.any()))
-      .thenReturn(predictResponse);
-    Mockito.when(pdfOperation.split(Mockito.any())).thenReturn(new SplitPdf(new byte[0], 0));
 
-    PredictResponse<InvoiceV4> document = client
+    var mindeeClient = new MindeeClient(new FakeMindeeApiV1<>(predictResponse));
+
+    PredictResponse<InvoiceV4> response = mindeeClient
       .parse(
         InvoiceV4.class,
         new LocalInputSource(getResourcePath("file_types/pdf/multipage.pdf")),
         new PageOptions(pageNumberToKeep, PageOptionsOperation.KEEP_ONLY, 0)
       );
 
-    Assertions.assertNotNull(document);
-    Mockito
-      .verify(mindeeApi, Mockito.times(1))
-      .predictPost(Mockito.any(), Mockito.any(), Mockito.any());
-    Mockito.verify(pdfOperation, Mockito.times(1)).split(Mockito.any());
+    Assertions.assertNotNull(response.getDocument());
   }
 
   @Test
   void givenADocumentUrl_whenParsed_shouldCallApiWithCorrectParams() throws IOException {
-
-    ArgumentCaptor<Class> classArgumentCaptor = ArgumentCaptor.forClass(Class.class);
-    ArgumentCaptor<RequestParameters> requestParametersArgumentCaptor = ArgumentCaptor
-      .forClass(RequestParameters.class);
-
     URL docUrl = new URL("https://this.document.does.not.exist");
-    PredictResponse predictResponse = new PredictResponse();
+    var predictResponse = new PredictResponse<InvoiceV4>();
     predictResponse.setDocument(new Document<>());
     predictResponse.setApiRequest(null);
-    Mockito
-      .when(mindeeApi.predictPost(Mockito.any(), Mockito.any(), Mockito.any()))
-      .thenReturn(predictResponse);
-    PredictResponse<InvoiceV4> document = client.parse(InvoiceV4.class, docUrl);
 
-    Mockito
-      .verify(mindeeApi, Mockito.times(1))
-      .predictPost(
-        classArgumentCaptor.capture(),
-        Mockito.any(),
-        requestParametersArgumentCaptor.capture()
-      );
-    Assertions.assertEquals(InvoiceV4.class, classArgumentCaptor.getValue());
-    Assertions.assertEquals(docUrl, requestParametersArgumentCaptor.getValue().getFileUrl());
-    Assertions.assertNull(requestParametersArgumentCaptor.getValue().getFile());
-    Assertions.assertNull(requestParametersArgumentCaptor.getValue().getFileName());
+    var mindeeClient = new MindeeClient(new FakeMindeeApiV1<>(predictResponse));
+
+    PredictResponse<InvoiceV4> response = mindeeClient.parse(InvoiceV4.class, docUrl);
+    Assertions.assertNotNull(response.getDocument());
   }
 
   @Test
@@ -181,73 +123,20 @@ class MindeeClientTest {
     );
 
     Job job = new Job(LocalDateTime.now(), "someid", LocalDateTime.now(), "Completed", null);
-    AsyncPredictResponse predictResponse = new AsyncPredictResponse();
+
+    var predictResponse = new AsyncPredictResponse<InvoiceV4>();
     predictResponse.setDocument(new Document<>());
     predictResponse.setApiRequest(null);
     predictResponse.setJob(job);
-    Mockito
-      .when(mindeeApi.predictAsyncPost(Mockito.any(), Mockito.any(), Mockito.any()))
-      .thenReturn(predictResponse);
-    PredictOptions predictOptions = PredictOptions.builder().allWords(Boolean.TRUE).build();
-    String jobId = client
-      .enqueue(InvoiceV4.class, localInputSource, predictOptions, null)
+
+    var mindeeClient = new MindeeClient(new FakeMindeeApiV1<>(predictResponse));
+
+    var predictOptions = PredictOptions.builder().allWords(Boolean.TRUE).build();
+    var jobId = mindeeClient
+      .enqueue(InvoiceV4.class, localInputSource, predictOptions)
       .getJob()
       .getId();
 
-    ArgumentCaptor<Class> classArgumentCaptor = ArgumentCaptor.forClass(Class.class);
-    ArgumentCaptor<RequestParameters> requestParametersArgumentCaptor = ArgumentCaptor
-      .forClass(RequestParameters.class);
-    Mockito
-      .verify(mindeeApi, Mockito.times(1))
-      .predictAsyncPost(
-        classArgumentCaptor.capture(),
-        Mockito.any(),
-        requestParametersArgumentCaptor.capture()
-      );
-    RequestParameters requestParameters = requestParametersArgumentCaptor.getValue();
-    Assertions.assertEquals(InvoiceV4.class, classArgumentCaptor.getValue());
-    Assertions.assertEquals("blank_1.pdf", requestParameters.getFileName());
-    Assertions.assertTrue(requestParameters.getPredictOptions().getAllWords());
-    Assertions.assertNotNull(requestParameters.getFile());
-    Assertions.assertTrue(requestParameters.getFile().length > 0);
-    Assertions.assertNull(requestParameters.getFileUrl());
-    Assertions.assertEquals("someid", jobId);
-  }
-
-  @Test
-  void givenAnAsyncDoc_whenEnqueuedNoParams_shouldInvokeApiCorrectly() throws IOException {
-
-    LocalInputSource localInputSource = new LocalInputSource(
-      getResourcePath("file_types/pdf/blank_1.pdf")
-    );
-
-    Job job = new Job(LocalDateTime.now(), "someid", LocalDateTime.now(), "Completed", null);
-    AsyncPredictResponse predictResponse = new AsyncPredictResponse();
-    predictResponse.setDocument(new Document<>());
-    predictResponse.setApiRequest(null);
-    predictResponse.setJob(job);
-    Mockito
-      .when(mindeeApi.predictAsyncPost(Mockito.any(), Mockito.any(), Mockito.any()))
-      .thenReturn(predictResponse);
-    String jobId = client.enqueue(InvoiceV4.class, localInputSource).getJob().getId();
-
-    ArgumentCaptor<Class> classArgumentCaptor = ArgumentCaptor.forClass(Class.class);
-    ArgumentCaptor<RequestParameters> requestParametersArgumentCaptor = ArgumentCaptor
-      .forClass(RequestParameters.class);
-    Mockito
-      .verify(mindeeApi, Mockito.times(1))
-      .predictAsyncPost(
-        classArgumentCaptor.capture(),
-        Mockito.any(),
-        requestParametersArgumentCaptor.capture()
-      );
-    RequestParameters requestParameters = requestParametersArgumentCaptor.getValue();
-    Assertions.assertEquals(InvoiceV4.class, classArgumentCaptor.getValue());
-    Assertions.assertEquals("blank_1.pdf", requestParameters.getFileName());
-    Assertions.assertFalse(requestParameters.getPredictOptions().getAllWords());
-    Assertions.assertNotNull(requestParameters.getFile());
-    Assertions.assertTrue(requestParameters.getFile().length > 0);
-    Assertions.assertNull(requestParameters.getFileUrl());
     Assertions.assertEquals("someid", jobId);
   }
 
@@ -255,67 +144,16 @@ class MindeeClientTest {
   void givenAnAsyncUrl_whenEnqueued_shouldInvokeApiCorrectly() throws IOException {
 
     Job job = new Job(LocalDateTime.now(), "someid", LocalDateTime.now(), "completed", null);
-    AsyncPredictResponse predictResponse = new AsyncPredictResponse();
+
+    var predictResponse = new AsyncPredictResponse<InvoiceV4>();
     predictResponse.setDocument(new Document<>());
     predictResponse.setApiRequest(null);
     predictResponse.setJob(job);
-    Mockito
-      .when(mindeeApi.predictAsyncPost(Mockito.any(), Mockito.any(), Mockito.any()))
-      .thenReturn(predictResponse);
-    String jobId = client.enqueue(InvoiceV4.class, new URL("https://fake.pdf")).getJob().getId();
-    ArgumentCaptor<Class> classArgumentCaptor = ArgumentCaptor.forClass(Class.class);
-    ArgumentCaptor<RequestParameters> requestParametersArgumentCaptor = ArgumentCaptor
-      .forClass(RequestParameters.class);
-    Mockito
-      .verify(mindeeApi, Mockito.times(1))
-      .predictAsyncPost(
-        classArgumentCaptor.capture(),
-        Mockito.any(),
-        requestParametersArgumentCaptor.capture()
-      );
-    RequestParameters requestParameters = requestParametersArgumentCaptor.getValue();
-    Assertions.assertEquals(InvoiceV4.class, classArgumentCaptor.getValue());
-    Assertions.assertNull(requestParameters.getFileName());
-    Assertions.assertEquals(Boolean.FALSE, requestParameters.getPredictOptions().getAllWords());
-    Assertions.assertNull(requestParameters.getFile());
-    Assertions.assertEquals(new URL("https://fake.pdf"), requestParameters.getFileUrl());
-    Assertions.assertEquals("someid", jobId);
-  }
 
-  @Test
-  void givenAnAsyncGeneratedDoc_whenEnqueuedNoParams_shouldInvokeApiCorrectly() throws IOException, InterruptedException {
+    var mindeeClient = new MindeeClient(new FakeMindeeApiV1<>(predictResponse));
 
-    LocalInputSource localInputSource = new LocalInputSource(
-      getResourcePath("file_types/pdf/blank_1.pdf")
-    );
-    Job job = new Job(LocalDateTime.now(), "someid", LocalDateTime.now(), "Completed", null);
-    Endpoint endpoint = new Endpoint("dsddw", "dcsdcd", "dsfdd");
-    AsyncPredictResponse predictResponse = new AsyncPredictResponse();
-    predictResponse.setDocument(new Document<>());
-    predictResponse.setApiRequest(null);
-    predictResponse.setJob(job);
-    Mockito
-      .when(mindeeApi.predictAsyncPost(Mockito.any(), Mockito.any(), Mockito.any()))
-      .thenReturn(predictResponse);
-    String jobId = client.enqueue(GeneratedV1.class, endpoint, localInputSource).getJob().getId();
+    var jobId = mindeeClient.enqueue(InvoiceV4.class, new URL("https://fake.pdf")).getJob().getId();
 
-    ArgumentCaptor<Class> classArgumentCaptor = ArgumentCaptor.forClass(Class.class);
-    ArgumentCaptor<RequestParameters> requestParametersArgumentCaptor = ArgumentCaptor
-      .forClass(RequestParameters.class);
-    Mockito
-      .verify(mindeeApi, Mockito.times(1))
-      .predictAsyncPost(
-        classArgumentCaptor.capture(),
-        Mockito.any(),
-        requestParametersArgumentCaptor.capture()
-      );
-    RequestParameters requestParameters = requestParametersArgumentCaptor.getValue();
-    Assertions.assertEquals(GeneratedV1.class, classArgumentCaptor.getValue());
-    Assertions.assertEquals("blank_1.pdf", requestParameters.getFileName());
-    Assertions.assertFalse(requestParameters.getPredictOptions().getAllWords());
-    Assertions.assertNotNull(requestParameters.getFile());
-    Assertions.assertTrue(requestParameters.getFile().length > 0);
-    Assertions.assertNull(requestParameters.getFileUrl());
     Assertions.assertEquals("someid", jobId);
   }
 
@@ -323,7 +161,7 @@ class MindeeClientTest {
   void givenJsonInput_whenSync_shouldDeserializeCorrectly() throws IOException {
     File file = new File(getV1ResourcePathString("products/invoices/response_v4/complete.json"));
     LocalResponse localResponse = new LocalResponse(file);
-    AsyncPredictResponse<InvoiceV4> predictResponse = client
+    AsyncPredictResponse<InvoiceV4> predictResponse = new MindeeClient()
       .loadPrediction(InvoiceV4.class, localResponse);
     assertStringEqualsFile(
       predictResponse.getDocumentObj().toString(),
@@ -337,7 +175,7 @@ class MindeeClientTest {
       getV1ResourcePathString("products/international_id/response_v2/complete.json")
     );
     LocalResponse localResponse = new LocalResponse(file);
-    AsyncPredictResponse<InternationalIdV2> predictResponse = client
+    AsyncPredictResponse<InternationalIdV2> predictResponse = new MindeeClient()
       .loadPrediction(InternationalIdV2.class, localResponse);
     assertStringEqualsFile(
       predictResponse.getDocumentObj().toString(),

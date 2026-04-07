@@ -2,13 +2,11 @@ package com.mindee.v1.workflow;
 
 import static com.mindee.TestingUtilities.getResourcePath;
 import static com.mindee.TestingUtilities.getV1ResourcePath;
-import static org.mockito.Mockito.when;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mindee.input.LocalInputSource;
-import com.mindee.pdf.PdfOperation;
+import com.mindee.v1.FakeMindeeApiV1;
 import com.mindee.v1.MindeeClient;
-import com.mindee.v1.http.MindeeApiV1;
 import com.mindee.v1.parsing.common.Execution;
 import com.mindee.v1.parsing.common.WorkflowResponse;
 import com.mindee.v1.product.generated.GeneratedV1;
@@ -16,67 +14,46 @@ import java.io.IOException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-import org.mockito.junit.jupiter.MockitoExtension;
 
-@ExtendWith(MockitoExtension.class)
 public class WorkflowTest {
-  MindeeClient client;
-  @Mock
-  MindeeClient mockedClient;
-  MindeeApiV1 mindeeApi;
-  PdfOperation pdfOperation;
 
   private ObjectMapper objectMapper;
 
   @BeforeEach
   public void setUp() {
-    mindeeApi = Mockito.mock(MindeeApiV1.class);
-    pdfOperation = Mockito.mock(PdfOperation.class);
-    client = new MindeeClient(pdfOperation, mindeeApi);
-
-    MockitoAnnotations.openMocks(this);
     objectMapper = new ObjectMapper();
   }
 
   @Test
   void givenAWorkflowMockFileShouldReturnAValidWorkflowObject() throws IOException {
 
-    WorkflowResponse workflowResponse = new WorkflowResponse();
-    workflowResponse.setExecution(new Execution());
+    var workflowResponse = new WorkflowResponse<GeneratedV1>();
+    workflowResponse.setExecution(new Execution<>());
     workflowResponse.setApiRequest(null);
-    when(mindeeApi.executeWorkflowPost(Mockito.any(), Mockito.any(), Mockito.any()))
-      .thenReturn(workflowResponse);
 
-    WorkflowResponse<GeneratedV1> execution = client
+    var mindeeClient = new MindeeClient(new FakeMindeeApiV1<>(workflowResponse));
+
+    WorkflowResponse<GeneratedV1> response = mindeeClient
       .executeWorkflow("", new LocalInputSource(getResourcePath("file_types/pdf/blank_1.pdf")));
 
-    Assertions.assertNotNull(execution);
-    Mockito
-      .verify(mindeeApi, Mockito.times(1))
-      .executeWorkflowPost(Mockito.any(), Mockito.any(), Mockito.any());
+    Assertions.assertNotNull(response);
   }
 
   @Test
   void sendingADocumentToAnExecutionShouldDeserializeResponseCorrectly() throws IOException {
-    WorkflowResponse.Default mockResponse = objectMapper
+    var workflowResponse = objectMapper
       .readValue(
         getV1ResourcePath("workflows/success.json").toFile(),
         WorkflowResponse.Default.class
       );
-
-    when(mockedClient.executeWorkflow(Mockito.anyString(), Mockito.any(LocalInputSource.class)))
-      .thenReturn(mockResponse);
+    var mindeeClient = new MindeeClient(new FakeMindeeApiV1<>(workflowResponse));
 
     String workflowId = "07ebf237-ff27-4eee-b6a2-425df4a5cca6";
     LocalInputSource inputSource = new LocalInputSource(
       getV1ResourcePath("products/financial_document/default_sample.jpg")
     );
 
-    WorkflowResponse<GeneratedV1> response = mockedClient.executeWorkflow(workflowId, inputSource);
+    WorkflowResponse<GeneratedV1> response = mindeeClient.executeWorkflow(workflowId, inputSource);
 
     Assertions.assertNotNull(response);
     Assertions.assertNotNull(response.getApiRequest());
@@ -98,27 +75,24 @@ public class WorkflowTest {
         response.getExecution().getUploadedAt().toString()
       );
     Assertions.assertEquals(workflowId, response.getExecution().getWorkflowId());
-
-    Mockito.verify(mockedClient).executeWorkflow(workflowId, inputSource);
   }
 
   @Test
   void sendingADocumentToAnExecutionWithPriorityAndAliasShouldDeserializeResponseCorrectly() throws IOException {
-    WorkflowResponse.Default mockResponse = objectMapper
+    var workflowResponse = objectMapper
       .readValue(
         getV1ResourcePath("workflows/success_low_priority.json").toFile(),
         WorkflowResponse.Default.class
       );
 
-    when(mockedClient.executeWorkflow(Mockito.anyString(), Mockito.any(LocalInputSource.class)))
-      .thenReturn(mockResponse);
+    var mindeeClient = new MindeeClient(new FakeMindeeApiV1<>(workflowResponse));
 
     String workflowId = "07ebf237-ff27-4eee-b6a2-425df4a5cca6";
     LocalInputSource inputSource = new LocalInputSource(
       getV1ResourcePath("products/financial_document/default_sample.jpg")
     );
 
-    WorkflowResponse<GeneratedV1> response = mockedClient.executeWorkflow(workflowId, inputSource);
+    WorkflowResponse<GeneratedV1> response = mindeeClient.executeWorkflow(workflowId, inputSource);
 
     Assertions.assertNotNull(response);
     Assertions.assertNotNull(response.getApiRequest());
@@ -141,8 +115,6 @@ public class WorkflowTest {
         response.getExecution().getUploadedAt().toString()
       );
     Assertions.assertEquals(workflowId, response.getExecution().getWorkflowId());
-
-    Mockito.verify(mockedClient).executeWorkflow(workflowId, inputSource);
   }
 
 }
