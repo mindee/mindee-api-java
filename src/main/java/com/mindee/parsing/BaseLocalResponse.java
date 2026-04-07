@@ -1,4 +1,4 @@
-package com.mindee.input;
+package com.mindee.parsing;
 
 import java.io.BufferedReader;
 import java.io.File;

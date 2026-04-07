@@ -2,6 +2,7 @@ package com.mindee.v2.input;
 
 import static com.mindee.TestingUtilities.getV2ResourcePath;
 
+import com.mindee.v2.parsing.LocalResponse;
 import com.mindee.v2.product.extraction.ExtractionResponse;
 import java.io.File;
 import java.io.IOException;

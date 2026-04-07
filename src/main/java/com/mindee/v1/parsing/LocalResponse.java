@@ -1,9 +1,9 @@
-package com.mindee.v1.input;
+package com.mindee.v1.parsing;
 
 import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mindee.MindeeException;
-import com.mindee.input.BaseLocalResponse;
+import com.mindee.parsing.BaseLocalResponse;
 import com.mindee.v1.parsing.common.AsyncPredictResponse;
 import com.mindee.v1.parsing.common.Inference;
 import com.mindee.v1.parsing.common.PredictResponse;

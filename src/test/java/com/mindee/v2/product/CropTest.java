@@ -5,7 +5,7 @@ import static com.mindee.TestingUtilities.getV2ResourcePath;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import com.mindee.v2.input.LocalResponse;
+import com.mindee.v2.parsing.LocalResponse;
 import com.mindee.v2.product.crop.CropResponse;
 import java.io.IOException;
 import org.junit.jupiter.api.DisplayName;

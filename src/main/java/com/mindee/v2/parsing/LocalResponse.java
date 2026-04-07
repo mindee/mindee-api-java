@@ -1,9 +1,8 @@
-package com.mindee.v2.input;
+package com.mindee.v2.parsing;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mindee.MindeeException;
-import com.mindee.input.BaseLocalResponse;
-import com.mindee.v2.parsing.CommonResponse;
+import com.mindee.parsing.BaseLocalResponse;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
