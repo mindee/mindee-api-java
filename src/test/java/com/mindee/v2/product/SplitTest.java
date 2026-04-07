@@ -4,7 +4,7 @@ import static com.mindee.TestingUtilities.getV2ResourcePath;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import com.mindee.input.LocalResponse;
+import com.mindee.v2.parsing.LocalResponse;
 import com.mindee.v2.product.extraction.ExtractionResponse;
 import com.mindee.v2.product.split.SplitRange;
 import com.mindee.v2.product.split.SplitResponse;
