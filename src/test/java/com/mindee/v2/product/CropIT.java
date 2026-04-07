@@ -6,10 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.mindee.AsyncPollingOptions;
 import com.mindee.input.LocalInputSource;
 import com.mindee.v2.MindeeClient;
-import com.mindee.v2.parsing.inference.InferenceFile;
-import com.mindee.v2.product.crop.CropInference;
 import com.mindee.v2.product.crop.CropResponse;
-import com.mindee.v2.product.crop.CropResult;
 import com.mindee.v2.product.crop.params.CropParameters;
 import java.io.IOException;
 import org.junit.jupiter.api.BeforeAll;
@@ -28,7 +25,7 @@ class CropIT {
 
   @BeforeAll
   void setUp() {
-    String apiKey = System.getenv("MINDEE_V2_API_KEY");
+    var apiKey = System.getenv("MINDEE_V2_API_KEY");
     modelId = System.getenv("MINDEE_V2_SE_TESTS_CROP_MODEL_ID");
     mindeeClient = new MindeeClient(apiKey);
   }
@@ -36,9 +33,7 @@ class CropIT {
   @Test
   @DisplayName("Empty, multi-page PDF – enqueue & parse must succeed")
   void parseFile_emptyMultiPage_mustSucceed() throws IOException, InterruptedException {
-    LocalInputSource source = new LocalInputSource(
-      getResourcePath("file_types/pdf/multipage_cut-2.pdf")
-    );
+    var source = new LocalInputSource(getResourcePath("file_types/pdf/multipage_cut-2.pdf"));
     CropParameters params = CropParameters
       .builder(modelId)
       .alias("java_integration-test_crop_multipage")
@@ -49,10 +44,11 @@ class CropIT {
 
     CropResponse response = mindeeClient.enqueueAndGetResult(CropResponse.class, source, params);
     assertNotNull(response);
-    CropInference inference = response.getInference();
+
+    var inference = response.getInference();
     assertNotNull(inference);
 
-    InferenceFile file = inference.getFile();
+    var file = inference.getFile();
     assertNotNull(file);
     assertEquals("multipage_cut-2.pdf", file.getName());
     assertEquals(2, file.getPageCount());
@@ -60,7 +56,7 @@ class CropIT {
     assertNotNull(inference.getModel());
     assertEquals(modelId, inference.getModel().getId());
 
-    CropResult result = inference.getResult();
+    var result = inference.getResult();
     assertNotNull(result);
     assertEquals(1, result.getCrops().size());
     assertEquals("other", result.getCrops().get(0).getObjectType());

@@ -90,8 +90,8 @@
                 <version>${org.projectlombok.lombok-mapstruct-binding.version}</version>
               </path>
             </annotationProcessorPaths>
-            <source>1.8</source>
-            <target>1.8</target>
+            <source>11</source>
+            <target>11</target>
           </configuration>
         </plugin>
           <plugin>
@@ -102,7 +102,7 @@
               <linkXRef>false</linkXRef>
               <printFailingErrors>true</printFailingErrors>
               <failurePriority>3</failurePriority>
-              <targetJdk>1.8</targetJdk>
+              <targetJdk>11</targetJdk>
             </configuration>
           </plugin>
         <plugin>
@@ -129,8 +129,8 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
-          <source>8</source>
-          <target>8</target>
+          <source>11</source>
+          <target>11</target>
         </configuration>
       </plugin>
       <plugin>
@@ -290,8 +290,8 @@
     </dependency>
     <dependency>
       <artifactId>jackson-databind</artifactId>
-      <groupId>com.fasterxml.jackson.core</groupId>
-      <version>${com.fasterxml.jackson.version}</version>
+      <groupId>tools.jackson.core</groupId>
+      <version>${tools.jackson.core.databind.version}</version>
     </dependency>
     <dependency>
       <artifactId>jackson-datatype-jsr310</artifactId>
@@ -366,20 +366,7 @@
       <artifactId>junit-pioneer</artifactId>
       <groupId>org.junit-pioneer</groupId>
       <scope>test</scope>
-      <!-- version 2.0 is not compatible with java 8 -->
       <version>${org.junit.pioneer.version}</version>
-    </dependency>
-    <dependency>
-      <artifactId>mockito-junit-jupiter</artifactId>
-      <groupId>org.mockito</groupId>
-      <scope>test</scope>
-      <version>${org.mockito.junit.jupiter.version}</version>
-    </dependency>
-    <dependency>
-      <artifactId>mockito-inline</artifactId>
-      <groupId>org.mockito</groupId>
-      <scope>test</scope>
-      <version>${org.mockito.inline.version}</version>
     </dependency>
     <dependency>
       <groupId>net.bytebuddy</groupId>
@@ -394,8 +381,8 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>com.github.tomakehurst</groupId>
-      <artifactId>wiremock-jre8</artifactId>
+      <groupId>org.wiremock</groupId>
+      <artifactId>wiremock</artifactId>
       <version>${wiremock.version}</version>
       <scope>test</scope>
     </dependency>
@@ -418,18 +405,18 @@
     <!-- MINDEE VERSION GOES HERE -->
     <revision>5.0.0-alpha1</revision>
 
-    <com.fasterxml.jackson.version>2.15.4</com.fasterxml.jackson.version>
-    <com.fasterxml.jackson.datatype.version>2.15.4</com.fasterxml.jackson.datatype.version>
+    <tools.jackson.core.databind.version>3.1.1</tools.jackson.core.databind.version>
+    <com.fasterxml.jackson.datatype.version>2.21.2</com.fasterxml.jackson.datatype.version>
     <com.squareup.okhttp3.version>4.12.0</com.squareup.okhttp3.version>
     <info.picocli.version>4.7.6</info.picocli.version>
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
+    <maven.compiler.source>11</maven.compiler.source>
+    <maven.compiler.target>11</maven.compiler.target>
     <org.apache.commons.math3.version>3.6.1</org.apache.commons.math3.version>
     <org.apache.httpcomponents.client5.httpclient5.version>5.4.4</org.apache.httpcomponents.client5.httpclient5.version>
     <commons-codec.version>1.20.0</commons-codec.version>
     <org.apache.maven.clean.version>3.1.0</org.apache.maven.clean.version>
     <org.apache.maven.compiler.version>3.12.1</org.apache.maven.compiler.version>
-    <org.apache.maven.failsafe.version>3.3.1</org.apache.maven.failsafe.version>
+    <org.apache.maven.failsafe.version>3.5.5</org.apache.maven.failsafe.version>
     <org.apache.maven.gpg.version>1.5</org.apache.maven.gpg.version>
     <org.apache.maven.install.version>2.5.2</org.apache.maven.install.version>
     <org.apache.maven.javadoc.version>3.2.0</org.apache.maven.javadoc.version>
@@ -441,17 +428,14 @@
     <org.apache.pdfbox.version>3.0.5</org.apache.pdfbox.version>
     <org.junit.jupiter.version>5.8.2</org.junit.jupiter.version>
     <org.junit.pioneer.version>1.9.1</org.junit.pioneer.version>
-    <org.junit.platform.version>1.8.2</org.junit.platform.version>
+    <org.junit.platform.version>1.9.2</org.junit.platform.version>
     <org.hamcrest.version>2.2</org.hamcrest.version>
     <org.mapstruct.version>1.5.3.Final</org.mapstruct.version>
-    <org.mockito.inline.version>4.11.0</org.mockito.inline.version>
-    <org.mockito.junit.jupiter.version>4.11.0</org.mockito.junit.jupiter.version>
     <org.projectlombok.lombok-mapstruct-binding.version>0.2.0</org.projectlombok.lombok-mapstruct-binding.version>
     <org.projectlombok.version>1.18.38</org.projectlombok.version>
     <org.slf4j.version>2.0.17</org.slf4j.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <surefire.addOpens></surefire.addOpens>
-    <wiremock.version>2.35.2</wiremock.version>
+    <wiremock.version>3.13.2</wiremock.version>
   </properties>
 
 </project>
