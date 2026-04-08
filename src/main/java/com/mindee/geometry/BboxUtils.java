@@ -1,8 +1,6 @@
 package com.mindee.geometry;
 
-import java.util.DoubleSummaryStatistics;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Methods for working with BBoxes.
@@ -20,17 +18,8 @@ public final class BboxUtils {
       return null;
     }
 
-    DoubleSummaryStatistics statsX = polygon
-      .getCoordinates()
-      .stream()
-      .mapToDouble(Point::getX)
-      .summaryStatistics();
-
-    DoubleSummaryStatistics statsY = polygon
-      .getCoordinates()
-      .stream()
-      .mapToDouble(Point::getY)
-      .summaryStatistics();
+    var statsX = polygon.getCoordinates().stream().mapToDouble(Point::getX).summaryStatistics();
+    var statsY = polygon.getCoordinates().stream().mapToDouble(Point::getY).summaryStatistics();
 
     return new Bbox(statsX.getMin(), statsX.getMax(), statsY.getMin(), statsY.getMax());
   }
@@ -44,13 +33,7 @@ public final class BboxUtils {
       return null;
     }
 
-    Optional<Polygon> mergedPolygon = polygons.stream().reduce(PolygonUtils::combine);
-
-    if (!mergedPolygon.isPresent()) {
-      return null;
-    }
-
-    return generate(mergedPolygon.get());
+    return polygons.stream().reduce(PolygonUtils::combine).map(BboxUtils::generate).orElse(null);
   }
 
   /**
@@ -62,10 +45,10 @@ public final class BboxUtils {
     }
 
     return new Bbox(
-      bboxes.stream().map(Bbox::getMinX).min(Double::compare).get(),
-      bboxes.stream().map(Bbox::getMaxX).max(Double::compare).get(),
-      bboxes.stream().map(Bbox::getMinY).min(Double::compare).get(),
-      bboxes.stream().map(Bbox::getMaxY).max(Double::compare).get()
+      bboxes.stream().mapToDouble(Bbox::getMinX).min().getAsDouble(),
+      bboxes.stream().mapToDouble(Bbox::getMaxX).max().getAsDouble(),
+      bboxes.stream().mapToDouble(Bbox::getMinY).min().getAsDouble(),
+      bboxes.stream().mapToDouble(Bbox::getMaxY).max().getAsDouble()
     );
   }
 

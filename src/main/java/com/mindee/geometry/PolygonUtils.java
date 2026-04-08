@@ -1,7 +1,5 @@
 package com.mindee.geometry;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,8 +17,8 @@ public final class PolygonUtils {
   public static Point getCentroid(List<Point> vertices) {
     int verticesSum = vertices.size();
 
-    double xSum = vertices.stream().map(Point::getX).mapToDouble(Double::doubleValue).sum();
-    double ySum = vertices.stream().map(Point::getY).mapToDouble(Double::doubleValue).sum();
+    double xSum = vertices.stream().mapToDouble(Point::getX).sum();
+    double ySum = vertices.stream().mapToDouble(Point::getY).sum();
     return new Point(xSum / verticesSum, ySum / verticesSum);
   }
 
@@ -28,16 +26,16 @@ public final class PolygonUtils {
    * Get the maximum and minimum Y coordinates in a given list of Points.
    */
   public static MinMax getMinMaxY(List<Point> vertices) {
-    List<Double> points = vertices.stream().map(Point::getY).collect(Collectors.toList());
-    return new MinMax(Collections.min(points), Collections.max(points));
+    var stats = vertices.stream().mapToDouble(Point::getY).summaryStatistics();
+    return new MinMax(stats.getMin(), stats.getMax());
   }
 
   /**
    * Get the maximum and minimum X coordinates in a given list of Points.
    */
   public static MinMax getMinMaxX(List<Point> vertices) {
-    List<Double> points = vertices.stream().map(Point::getX).collect(Collectors.toList());
-    return new MinMax(Collections.min(points), Collections.max(points));
+    var stats = vertices.stream().mapToDouble(Point::getX).summaryStatistics();
+    return new MinMax(stats.getMin(), stats.getMax());
   }
 
   /**
@@ -70,77 +68,20 @@ public final class PolygonUtils {
       target = base;
     }
 
-    Double maxx = Math
-      .max(
-        target
-          .getCoordinates()
-          .stream()
-          .map(Point::getX)
-          .max(Double::compareTo)
-          .orElse(Double.MIN_VALUE),
-        base
-          .getCoordinates()
-          .stream()
-          .map(Point::getX)
-          .max(Double::compareTo)
-          .orElse(Double.MIN_VALUE)
-      );
+    var combinedCoords = java.util.stream.Stream
+      .concat(base.getCoordinates().stream(), target.getCoordinates().stream())
+      .collect(Collectors.toList());
 
-    Double minx = Math
-      .min(
-        target
-          .getCoordinates()
-          .stream()
-          .map(Point::getX)
-          .min(Double::compareTo)
-          .orElse(Double.MAX_VALUE),
-        base
-          .getCoordinates()
-          .stream()
-          .map(Point::getX)
-          .min(Double::compareTo)
-          .orElse(Double.MAX_VALUE)
-      );
-
-    Double maxy = Math
-      .max(
-        target
-          .getCoordinates()
-          .stream()
-          .map(Point::getY)
-          .max(Double::compareTo)
-          .orElse(Double.MIN_VALUE),
-        base
-          .getCoordinates()
-          .stream()
-          .map(Point::getY)
-          .max(Double::compareTo)
-          .orElse(Double.MIN_VALUE)
-      );
-
-    Double miny = Math
-      .min(
-        target
-          .getCoordinates()
-          .stream()
-          .map(Point::getY)
-          .min(Double::compareTo)
-          .orElse(Double.MAX_VALUE),
-        base
-          .getCoordinates()
-          .stream()
-          .map(Point::getY)
-          .min(Double::compareTo)
-          .orElse(Double.MAX_VALUE)
-      );
+    var xStats = combinedCoords.stream().mapToDouble(Point::getX).summaryStatistics();
+    var yStats = combinedCoords.stream().mapToDouble(Point::getY).summaryStatistics();
 
     return new Polygon(
-      Arrays
-        .asList(
-          new Point(minx, miny),
-          new Point(maxx, miny),
-          new Point(maxx, maxy),
-          new Point(minx, maxy)
+      List
+        .of(
+          new Point(xStats.getMin(), yStats.getMin()),
+          new Point(xStats.getMax(), yStats.getMin()),
+          new Point(xStats.getMax(), yStats.getMax()),
+          new Point(xStats.getMin(), yStats.getMax())
         )
     );
   }

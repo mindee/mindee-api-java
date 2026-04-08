@@ -7,22 +7,16 @@ class BoundingBoxUtilsTest {
 
   @Test
   public void bboxFromARectanglePolygonMustHaveALimitedNumberOfCoordinates() {
-    // given
     Polygon polygonAsRectangle = PolygonSample.getPolygonAsRectangle();
-
-    // then
-    Polygon boundingBox = BoundingBoxUtils.createBoundingBoxFrom(polygonAsRectangle);
+    Polygon boundingBox = polygonAsRectangle.getBoundingBox();
 
     Assertions.assertEquals(4, boundingBox.getCoordinates().size());
   }
 
   @Test
   public void fromARectanglePolygonMustGetAValidBbox() {
-    // given
     Polygon polygonAsRectangle = PolygonSample.getPolygonAsRectangle();
-
-    // then
-    Polygon boundingBox = BoundingBoxUtils.createBoundingBoxFrom(polygonAsRectangle);
+    Polygon boundingBox = polygonAsRectangle.getBoundingBox();
 
     Assertions
       .assertTrue(boundingBox.getCoordinates().stream().anyMatch(c -> c.getX().equals(0.123)));
@@ -37,11 +31,8 @@ class BoundingBoxUtilsTest {
 
   @Test
   public void fromPolygonMustGetAValidBbox() {
-    // given
     Polygon polygonWichIsNotRectangle = PolygonSample.getPolygonWichIsNotRectangle();
-
-    // then
-    Polygon boundingBox = BoundingBoxUtils.createBoundingBoxFrom(polygonWichIsNotRectangle);
+    Polygon boundingBox = polygonWichIsNotRectangle.getBoundingBox();
 
     Assertions
       .assertTrue(boundingBox.getCoordinates().stream().anyMatch(c -> c.getX().equals(0.205)));

@@ -3,7 +3,6 @@ package com.mindee.image;
 import com.mindee.input.LocalInputSource;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -40,9 +39,7 @@ public class ExtractedImage {
    * @throws IOException Throws if the file can't be accessed.
    */
   public void writeToFile(String outputPath) throws IOException {
-    Path imagePath = Paths.get(outputPath, this.filename);
-    File outputfile = imagePath.toFile();
-    ImageIO.write(this.image, this.saveFormat, outputfile);
+    writeToFile(Paths.get(outputPath));
   }
 
   /**
@@ -53,8 +50,8 @@ public class ExtractedImage {
    * @throws IOException Throws if the file can't be accessed.
    */
   public void writeToFile(Path outputPath) throws IOException {
-    Path imagePath = outputPath.resolve(this.filename);
-    File outputfile = imagePath.toFile();
+    var imagePath = outputPath.resolve(this.filename);
+    var outputfile = imagePath.toFile();
     ImageIO.write(this.image, this.saveFormat, outputfile);
   }
 
@@ -65,7 +62,7 @@ public class ExtractedImage {
    * @throws IOException Throws if the file can't be accessed.
    */
   public LocalInputSource asInputSource() throws IOException {
-    ByteArrayOutputStream output = new ByteArrayOutputStream();
+    var output = new ByteArrayOutputStream();
     ImageIO.write(this.image, this.saveFormat, output);
     return new LocalInputSource(output.toByteArray(), this.filename);
   }

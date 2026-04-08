@@ -2,6 +2,7 @@ package com.mindee.http;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import org.apache.hc.core5.http.HttpEntity;
 
 /**
@@ -10,7 +11,7 @@ import org.apache.hc.core5.http.HttpEntity;
 public abstract class MindeeApiCommon {
   /**
    * Retrieves the user agent.
-   * 
+   *
    * @return the user agent.
    */
   protected String getUserAgent() {
@@ -36,7 +37,7 @@ public abstract class MindeeApiCommon {
 
   /**
    * Checks if the status code is out of the 2xx-3xx range.
-   * 
+   *
    * @param statusCode the status code to check.
    * @return {@code true} if the status code is in the 2xx range, false otherwise.
    */
@@ -50,6 +51,6 @@ public abstract class MindeeApiCommon {
     for (int length; (length = responseEntity.getContent().read(buffer)) != -1;) {
       contentRead.write(buffer, 0, length);
     }
-    return contentRead.toString("UTF-8");
+    return contentRead.toString(StandardCharsets.UTF_8);
   }
 }

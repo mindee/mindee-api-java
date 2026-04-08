@@ -72,7 +72,7 @@ public class SummaryHelper {
    * Format an rST table line separator.
    */
   public static String lineSeparator(int[] columnSizes, String str) {
-    StringBuilder outStr = new StringBuilder("  +");
+    var outStr = new StringBuilder("  +");
     for (int size : columnSizes) {
       outStr.append(String.format("%" + size + "s+", "").replace(" ", str));
     }
