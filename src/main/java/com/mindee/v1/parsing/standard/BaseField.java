@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.mindee.geometry.BoundingBoxUtils;
 import com.mindee.geometry.Polygon;
 import com.mindee.geometry.PolygonDeserializer;
 import com.mindee.geometry.PositionDataField;
@@ -54,7 +53,7 @@ public abstract class BaseField implements PositionDataField {
     this.polygon = polygon;
     this.pageId = pageId;
     if (polygon != null) {
-      this.boundingBox = BoundingBoxUtils.createBoundingBoxFrom(this.polygon);
+      this.boundingBox = this.polygon.getBoundingBox();
     } else {
       this.boundingBox = null;
     }
@@ -65,7 +64,7 @@ public abstract class BaseField implements PositionDataField {
    */
   protected BaseField() {
     if (polygon != null) {
-      this.boundingBox = BoundingBoxUtils.createBoundingBoxFrom(this.polygon);
+      this.boundingBox = this.polygon.getBoundingBox();
     } else {
       this.boundingBox = null;
     }

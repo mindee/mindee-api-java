@@ -5,11 +5,11 @@ package com.mindee.input;
  */
 public enum PageOptionsOperation {
   /**
-   * Keep only the specified pages, and remove all others.
+   * Keep only the specified pages, removing all others.
    */
   KEEP_ONLY,
   /**
-   * Remove the specified pages, and keep all others.
+   * Remove the specified pages, keeping all others.
    */
   REMOVE
 }
