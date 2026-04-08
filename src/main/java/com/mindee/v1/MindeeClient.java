@@ -1,6 +1,5 @@
 package com.mindee.v1;
 
-import com.mindee.AsyncPollingOptions;
 import com.mindee.MindeeException;
 import com.mindee.input.InputSourceUtils;
 import com.mindee.input.LocalInputSource;
@@ -8,6 +7,7 @@ import com.mindee.input.PageOptions;
 import com.mindee.pdf.PdfBoxApi;
 import com.mindee.pdf.PdfOperation;
 import com.mindee.pdf.SplitQuery;
+import com.mindee.v1.clientOptions.PollingOptions;
 import com.mindee.v1.clientOptions.PredictOptions;
 import com.mindee.v1.clientOptions.WorkflowOptions;
 import com.mindee.v1.http.Endpoint;
@@ -287,7 +287,7 @@ public class MindeeClient {
   public <T extends Inference> AsyncPredictResponse<T> enqueueAndParse(
       Class<T> type,
       LocalInputSource localInputSource,
-      AsyncPollingOptions pollingOptions
+      PollingOptions pollingOptions
   ) throws IOException, InterruptedException {
     return this
       .enqueueAndParse(
@@ -319,7 +319,7 @@ public class MindeeClient {
       LocalInputSource localInputSource,
       PredictOptions predictOptions,
       PageOptions pageOptions,
-      AsyncPollingOptions pollingOptions
+      PollingOptions pollingOptions
   ) throws IOException, InterruptedException {
     return this
       .enqueueAndParse(
@@ -349,7 +349,7 @@ public class MindeeClient {
       Class<T> type,
       LocalInputSource localInputSource,
       PredictOptions predictOptions,
-      AsyncPollingOptions pollingOptions
+      PollingOptions pollingOptions
   ) throws IOException, InterruptedException {
     return this
       .enqueueAndParse(
@@ -415,7 +415,7 @@ public class MindeeClient {
    * @param pollingOptions Options for async call parameters
    * @throws MindeeException Throws if settings aren't set properly.
    */
-  private void validateAsyncParams(AsyncPollingOptions pollingOptions) {
+  private void validateAsyncParams(PollingOptions pollingOptions) {
     Double minimumInitialDelaySec = 1.0;
     Double minimumIntervalSec = 1.0;
     Integer minimumRetry = 2;
@@ -440,14 +440,14 @@ public class MindeeClient {
   private <T extends Inference> AsyncPredictResponse<T> enqueueAndParse(
       Class<T> type,
       Endpoint endpoint,
-      AsyncPollingOptions pollingOptions,
+      PollingOptions pollingOptions,
       byte[] file,
       String filename,
       PredictOptions predictOptions,
       URL urlInputSource
   ) throws IOException, InterruptedException {
     if (pollingOptions == null) {
-      pollingOptions = AsyncPollingOptions.builder().build();
+      pollingOptions = PollingOptions.builder().build();
     }
     this.validateAsyncParams(pollingOptions);
     final int initialDelaySec = (int) (pollingOptions.getInitialDelaySec() * 1000);
@@ -832,7 +832,7 @@ public class MindeeClient {
       Class<T> type,
       Endpoint endpoint,
       LocalInputSource localInputSource,
-      AsyncPollingOptions pollingOptions
+      PollingOptions pollingOptions
   ) throws IOException, InterruptedException {
     return this
       .enqueueAndParse(
@@ -866,7 +866,7 @@ public class MindeeClient {
       LocalInputSource localInputSource,
       PredictOptions predictOptions,
       PageOptions pageOptions,
-      AsyncPollingOptions pollingOptions
+      PollingOptions pollingOptions
   ) throws IOException, InterruptedException {
     return this
       .enqueueAndParse(

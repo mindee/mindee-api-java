@@ -1,19 +1,13 @@
 package com.mindee.v2.product.crop.params;
 
-import com.mindee.AsyncPollingOptions;
 import com.mindee.v2.clientOptions.BaseParameters;
 import com.mindee.v2.http.ProductInfo;
 
 @ProductInfo(slug = "crop")
 public class CropParameters extends BaseParameters {
 
-  public CropParameters(
-      String modelId,
-      String alias,
-      String[] webhookIds,
-      AsyncPollingOptions pollingOptions
-  ) {
-    super(modelId, alias, webhookIds, pollingOptions);
+  public CropParameters(String modelId, String alias, String[] webhookIds) {
+    super(modelId, alias, webhookIds);
   }
 
   /**
@@ -34,7 +28,7 @@ public class CropParameters extends BaseParameters {
 
     /** Build an immutable {@link CropParameters} instance. */
     public CropParameters build() {
-      return new CropParameters(modelId, alias, webhookIds, pollingOptions);
+      return new CropParameters(modelId, alias, webhookIds);
     }
   }
 }

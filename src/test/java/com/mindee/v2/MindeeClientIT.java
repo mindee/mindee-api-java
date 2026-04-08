@@ -4,9 +4,9 @@ import static com.mindee.TestingUtilities.getResourcePath;
 import static com.mindee.TestingUtilities.getV2ResourcePath;
 import static org.junit.jupiter.api.Assertions.*;
 
-import com.mindee.AsyncPollingOptions;
 import com.mindee.input.LocalInputSource;
 import com.mindee.input.URLInputSource;
+import com.mindee.v2.clientOptions.PollingOptions;
 import com.mindee.v2.http.MindeeHttpExceptionV2;
 import com.mindee.v2.product.extraction.ExtractionInference;
 import com.mindee.v2.product.extraction.ExtractionResponse;
@@ -42,12 +42,17 @@ class MindeeClientIT {
       .confidence(null)
       .alias("java-integration-test_multipage")
       .textContext(null)
-      .pollingOptions(
-        AsyncPollingOptions.builder().initialDelaySec(3.0).intervalSec(1.5).maxRetries(80).build()
-      )
       .build();
 
-    var response = mindeeClient.enqueueAndGetResult(ExtractionResponse.class, source, params);
+    var pollingOptions = PollingOptions
+      .builder()
+      .initialDelaySec(3.0)
+      .intervalSec(1.5)
+      .maxRetries(80)
+      .build();
+
+    var response = mindeeClient
+      .enqueueAndGetResult(ExtractionResponse.class, source, params, pollingOptions);
     assertNotNull(response);
 
     var inference = response.getInference();
