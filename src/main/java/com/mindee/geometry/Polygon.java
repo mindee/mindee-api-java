@@ -43,6 +43,23 @@ public class Polygon {
   }
 
   /**
+   * Get a bounding box that encloses the Polygon.
+   */
+  public Polygon getBoundingBox() {
+    var minMaxX = getMinMaxX();
+    var minMaxY = getMinMaxY();
+    return new Polygon(
+      List
+        .of(
+          new Point(minMaxX.getMin(), minMaxY.getMin()),
+          new Point(minMaxX.getMax(), minMaxY.getMin()),
+          new Point(minMaxX.getMax(), minMaxY.getMax()),
+          new Point(minMaxX.getMin(), minMaxY.getMax())
+        )
+    );
+  }
+
+  /**
    * Get the central coordinates (centroid) of the Polygon.
    */
   public Point getCentroid() {
@@ -84,15 +101,7 @@ public class Polygon {
    * String representation with precise coordinates.
    */
   public String toStringPrecise() {
-    StringBuilder builder = new StringBuilder("(");
-    for (int i = 0; i < coordinates.size(); i++) {
-      if (i > 0) {
-        builder.append(", ");
-      }
-      builder.append(coordinates.get(i));
-    }
-    builder.append(")");
-    return builder.toString();
+    return coordinates.stream().map(Point::toString).collect(Collectors.joining(", ", "(", ")"));
   }
 
   /**

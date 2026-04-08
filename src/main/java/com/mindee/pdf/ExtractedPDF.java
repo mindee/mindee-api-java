@@ -4,7 +4,6 @@ import com.mindee.input.LocalInputSource;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import lombok.Getter;
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -35,8 +34,8 @@ public class ExtractedPDF {
    * @throws IOException Throws if the file can't be accessed.
    */
   public void writeToFile(String outputPath) throws IOException {
-    Path pdfPath = Paths.get(outputPath, this.filename);
-    File outputfile = new File(pdfPath.toString());
+    var pdfPath = Paths.get(outputPath, this.filename);
+    var outputfile = new File(pdfPath.toString());
     this.pdf.save(outputfile);
   }
 
@@ -47,7 +46,7 @@ public class ExtractedPDF {
    * @throws IOException Throws if the file can't be accessed.
    */
   public LocalInputSource asInputSource() throws IOException {
-    ByteArrayOutputStream output = new ByteArrayOutputStream();
+    var output = new ByteArrayOutputStream();
     this.pdf.save(output);
     return new LocalInputSource(output.toByteArray(), this.filename);
   }

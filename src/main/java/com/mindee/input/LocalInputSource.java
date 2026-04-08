@@ -30,7 +30,7 @@ public final class LocalInputSource {
   }
 
   public LocalInputSource(String filePath) throws IOException {
-    File file = new File(filePath);
+    var file = new File(filePath);
     this.file = Files.readAllBytes(file.toPath());
     this.filename = file.getName();
   }
@@ -57,7 +57,7 @@ public final class LocalInputSource {
 
   /**
    * Get the number of pages in the document.
-   * 
+   *
    * @return the number of pages in the current file.
    * @throws IOException If an I/O error occurs during the PDF operation.
    */

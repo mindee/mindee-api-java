@@ -44,7 +44,7 @@ public class ImageExtractor {
 
     if (source.isPdf()) {
       this.saveFormat = "jpg";
-      List<PdfPageImage> pdfPageImages = PDFUtils.pdfToImages(source);
+      var pdfPageImages = PDFUtils.pdfToImages(source);
       for (PdfPageImage pdfPageImage : pdfPageImages) {
         this.pageImages.add(pdfPageImage.getImage());
       }
@@ -52,7 +52,7 @@ public class ImageExtractor {
       String[] splitName = InputSourceUtils.splitNameStrict(this.filename);
       this.saveFormat = splitName[1].toLowerCase();
 
-      ByteArrayInputStream input = new ByteArrayInputStream(source.getFile());
+      var input = new ByteArrayInputStream(source.getFile());
       this.pageImages.add(ImageIO.read(input));
     }
   }
@@ -111,11 +111,11 @@ public class ImageExtractor {
       String outputName
   ) {
     String[] splitName = InputSourceUtils.splitNameStrict(outputName);
-    String filename = String
+    var filename = String
       .format("%s_page-%3s.%s", splitName[0], pageIndex + 1, splitName[1])
       .replace(" ", "0");
 
-    List<ExtractedImage> extractedImages = new ArrayList<>();
+    var extractedImages = new ArrayList<ExtractedImage>();
     for (int i = 0; i < fields.size(); i++) {
       ExtractedImage extractedImage = extractImage(fields.get(i), pageIndex, i + 1, filename);
       if (extractedImage != null) {
@@ -178,7 +178,7 @@ public class ImageExtractor {
   }
 
   private BufferedImage extractImage(Bbox bbox, int pageIndex) {
-    BufferedImage image = this.pageImages.get(pageIndex);
+    var image = this.pageImages.get(pageIndex);
     int width = image.getWidth();
     int height = image.getHeight();
     int minX = (int) Math.round(bbox.getMinX() * width);
