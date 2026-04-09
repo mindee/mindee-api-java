@@ -1,6 +1,5 @@
 package com.mindee.v2.product.extraction.params;
 
-import com.mindee.AsyncPollingOptions;
 import com.mindee.v2.clientOptions.BaseParameters;
 import com.mindee.v2.http.ProductInfo;
 import lombok.EqualsAndHashCode;
@@ -45,7 +44,6 @@ public final class ExtractionParameters extends BaseParameters {
       String modelId,
       String alias,
       String[] webhookIds,
-      AsyncPollingOptions pollingOptions,
       Boolean rag,
       Boolean rawText,
       Boolean polygon,
@@ -53,7 +51,7 @@ public final class ExtractionParameters extends BaseParameters {
       String textContext,
       String dataSchema
   ) {
-    super(modelId, alias, webhookIds, pollingOptions);
+    super(modelId, alias, webhookIds);
     this.rag = rag;
     this.rawText = rawText;
     this.polygon = polygon;
@@ -155,7 +153,6 @@ public final class ExtractionParameters extends BaseParameters {
         modelId,
         alias,
         webhookIds,
-        pollingOptions,
         rag,
         rawText,
         polygon,

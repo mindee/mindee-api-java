@@ -1,19 +1,13 @@
 package com.mindee.v2.product.split.params;
 
-import com.mindee.AsyncPollingOptions;
 import com.mindee.v2.clientOptions.BaseParameters;
 import com.mindee.v2.http.ProductInfo;
 
 @ProductInfo(slug = "split")
 public class SplitParameters extends BaseParameters {
 
-  public SplitParameters(
-      String modelId,
-      String alias,
-      String[] webhookIds,
-      AsyncPollingOptions pollingOptions
-  ) {
-    super(modelId, alias, webhookIds, pollingOptions);
+  public SplitParameters(String modelId, String alias, String[] webhookIds) {
+    super(modelId, alias, webhookIds);
   }
 
   /**
@@ -34,7 +28,7 @@ public class SplitParameters extends BaseParameters {
 
     /** Build an immutable {@link SplitParameters} instance. */
     public SplitParameters build() {
-      return new SplitParameters(modelId, alias, webhookIds, pollingOptions);
+      return new SplitParameters(modelId, alias, webhookIds);
     }
   }
 }

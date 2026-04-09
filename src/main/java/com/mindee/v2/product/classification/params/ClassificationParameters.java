@@ -1,18 +1,12 @@
 package com.mindee.v2.product.classification.params;
 
-import com.mindee.AsyncPollingOptions;
 import com.mindee.v2.clientOptions.BaseParameters;
 import com.mindee.v2.http.ProductInfo;
 
 @ProductInfo(slug = "classification")
 public class ClassificationParameters extends BaseParameters {
-  public ClassificationParameters(
-      String modelId,
-      String alias,
-      String[] webhookIds,
-      AsyncPollingOptions pollingOptions
-  ) {
-    super(modelId, alias, webhookIds, pollingOptions);
+  public ClassificationParameters(String modelId, String alias, String[] webhookIds) {
+    super(modelId, alias, webhookIds);
   }
 
   /**
@@ -33,7 +27,7 @@ public class ClassificationParameters extends BaseParameters {
 
     /** Build an immutable {@link ClassificationParameters} instance. */
     public ClassificationParameters build() {
-      return new ClassificationParameters(modelId, alias, webhookIds, pollingOptions);
+      return new ClassificationParameters(modelId, alias, webhookIds);
     }
   }
 }

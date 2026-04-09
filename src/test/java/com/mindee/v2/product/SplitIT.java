@@ -5,9 +5,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.mindee.AsyncPollingOptions;
 import com.mindee.input.LocalInputSource;
 import com.mindee.v2.MindeeClient;
+import com.mindee.v2.clientOptions.PollingOptions;
 import com.mindee.v2.product.split.SplitResponse;
 import com.mindee.v2.product.split.params.SplitParameters;
 import java.io.IOException;
@@ -39,12 +39,16 @@ class SplitIT {
     var params = SplitParameters
       .builder(modelId)
       .alias("java_integration-test_split_multipage")
-      .pollingOptions(
-        AsyncPollingOptions.builder().initialDelaySec(3.0).intervalSec(1.5).maxRetries(80).build()
-      )
+      .build();
+    var pollingOptions = PollingOptions
+      .builder()
+      .initialDelaySec(3.0)
+      .intervalSec(1.5)
+      .maxRetries(80)
       .build();
 
-    var response = mindeeClient.enqueueAndGetResult(SplitResponse.class, source, params);
+    var response = mindeeClient
+      .enqueueAndGetResult(SplitResponse.class, source, params, pollingOptions);
     assertNotNull(response);
 
     var inference = response.getInference();
