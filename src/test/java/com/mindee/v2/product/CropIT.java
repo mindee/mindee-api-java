@@ -3,9 +3,9 @@ package com.mindee.v2.product;
 import static com.mindee.TestingUtilities.getV2ResourcePath;
 import static org.junit.jupiter.api.Assertions.*;
 
-import com.mindee.AsyncPollingOptions;
 import com.mindee.input.LocalInputSource;
 import com.mindee.v2.MindeeClient;
+import com.mindee.v2.clientOptions.PollingOptions;
 import com.mindee.v2.product.crop.CropResponse;
 import com.mindee.v2.product.crop.params.CropParameters;
 import java.io.IOException;
@@ -34,15 +34,19 @@ class CropIT {
   @DisplayName("Empty, multi-page PDF – enqueue & parse must succeed")
   void parseFile_emptyMultiPage_mustSucceed() throws IOException, InterruptedException {
     var source = new LocalInputSource(getV2ResourcePath("products/crop/multipage_sample.pdf"));
-    CropParameters params = CropParameters
+    var params = CropParameters
       .builder(modelId)
       .alias("java_integration-test_crop_multipage")
-      .pollingOptions(
-        AsyncPollingOptions.builder().initialDelaySec(3.0).intervalSec(1.5).maxRetries(80).build()
-      )
+      .build();
+    var pollingOptions = PollingOptions
+      .builder()
+      .initialDelaySec(3.0)
+      .intervalSec(1.5)
+      .maxRetries(80)
       .build();
 
-    CropResponse response = mindeeClient.enqueueAndGetResult(CropResponse.class, source, params);
+    CropResponse response = mindeeClient
+      .enqueueAndGetResult(CropResponse.class, source, params, pollingOptions);
     assertNotNull(response);
 
     var inference = response.getInference();
