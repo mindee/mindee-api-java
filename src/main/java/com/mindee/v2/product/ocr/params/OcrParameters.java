@@ -1,19 +1,13 @@
 package com.mindee.v2.product.ocr.params;
 
-import com.mindee.AsyncPollingOptions;
 import com.mindee.v2.clientOptions.BaseParameters;
 import com.mindee.v2.http.ProductInfo;
 
 @ProductInfo(slug = "ocr")
 public class OcrParameters extends BaseParameters {
 
-  public OcrParameters(
-      String modelId,
-      String alias,
-      String[] webhookIds,
-      AsyncPollingOptions pollingOptions
-  ) {
-    super(modelId, alias, webhookIds, pollingOptions);
+  public OcrParameters(String modelId, String alias, String[] webhookIds) {
+    super(modelId, alias, webhookIds);
   }
 
   /**
@@ -34,7 +28,7 @@ public class OcrParameters extends BaseParameters {
 
     /** Build an immutable {@link OcrParameters} instance. */
     public OcrParameters build() {
-      return new OcrParameters(modelId, alias, webhookIds, pollingOptions);
+      return new OcrParameters(modelId, alias, webhookIds);
     }
   }
 }
