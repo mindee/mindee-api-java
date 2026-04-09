@@ -14,7 +14,7 @@ import java.util.List;
 
 public class AutoMultiReceiptExtractionExample {
   private static final String API_KEY = "my-api-key";
-  private static final MindeeClient mindeeClient = new MindeeClient(API_KEY);
+  private static final var mindeeClient = new MindeeClient(API_KEY);
 
   public static void main(String[] args) throws IOException, InterruptedException {
     String myFilePath = "/path/to/the/file.ext";
@@ -22,7 +22,7 @@ public class AutoMultiReceiptExtractionExample {
   }
 
   private static void processMultiReceipts(String filePath) throws IOException, InterruptedException {
-    LocalInputSource inputSource = new LocalInputSource(new File(filePath));
+    var inputSource = new LocalInputSource(new File(filePath));
     PredictResponse<MultiReceiptsDetectorV1> resultSplit =
       mindeeClient.parse(MultiReceiptsDetectorV1.class, inputSource);
 

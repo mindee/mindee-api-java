@@ -1,7 +1,6 @@
 package com.mindee.image;
 
 import com.mindee.geometry.Bbox;
-import com.mindee.geometry.Polygon;
 import com.mindee.geometry.PositionDataField;
 import com.mindee.input.InputSourceUtils;
 import com.mindee.input.LocalInputSource;
@@ -144,7 +143,7 @@ public class ImageExtractor {
   ) {
     String[] splitName = InputSourceUtils.splitNameStrict(filename);
     String saveFormat = splitName[1].toLowerCase();
-    Polygon polygon = field.getPolygon();
+    var polygon = field.getPolygon();
     if (polygon == null) {
       return null;
     }
@@ -165,7 +164,7 @@ public class ImageExtractor {
    * @param <FieldT> Type of field (needs to support positioning data).
    * @param field The field to extract.
    * @param index The index to use for naming the extracted image.
-   * @param pageIndex The page index to extract, begins at 0.
+   * @param pageIndex The 0-based page index to extract.
    * @return The {@link ExtractedImage}, or <code>null</code> if the field does not have valid
    * position data.
    */

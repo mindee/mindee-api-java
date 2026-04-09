@@ -183,7 +183,7 @@ public class CommandLineInterface implements ProductProcessor {
       @Parameters(index = "0", scope = ScopeType.LOCAL, paramLabel = "<path>") File file
   ) throws IOException, InterruptedException {
 
-    MindeeClient mindeeClient = new MindeeClient(apiKey);
+    var mindeeClient = new MindeeClient(apiKey);
 
     Endpoint endpoint = new Endpoint(endpointName, accountName, productVersion);
 
@@ -244,8 +244,8 @@ public class CommandLineInterface implements ProductProcessor {
       Class<T> productClass,
       File file
   ) throws IOException {
-    MindeeClient mindeeClient = new MindeeClient(apiKey);
-    LocalInputSource inputSource = new LocalInputSource(file);
+    var mindeeClient = new MindeeClient(apiKey);
+    var inputSource = new LocalInputSource(file);
     PredictResponse<T> response;
     PredictOptions predictOptions = PredictOptions
       .builder()
@@ -281,8 +281,8 @@ public class CommandLineInterface implements ProductProcessor {
       Class<T> productClass,
       File file
   ) throws IOException, InterruptedException {
-    MindeeClient mindeeClient = new MindeeClient(apiKey);
-    LocalInputSource inputSource = new LocalInputSource(file);
+    var mindeeClient = new MindeeClient(apiKey);
+    var inputSource = new LocalInputSource(file);
     AsyncPredictResponse<T> response;
     PredictOptions predictOptions = PredictOptions
       .builder()

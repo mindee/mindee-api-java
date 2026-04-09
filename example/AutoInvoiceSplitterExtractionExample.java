@@ -12,7 +12,7 @@ import java.util.List;
 
 public class AutoInvoiceSplitterExtractionExample {
   private static final String API_KEY = "my-api-key";
-  private static final MindeeClient mindeeClient = new MindeeClient(API_KEY);
+  private static final var mindeeClient = new MindeeClient(API_KEY);
 
   public static void main(String[] args) throws IOException, InterruptedException {
     String filePath = "/path/to/the/file.ext";
@@ -20,7 +20,7 @@ public class AutoInvoiceSplitterExtractionExample {
   }
 
   private static void invoiceSplitterAutoExtraction(String filePath) throws IOException, InterruptedException {
-    LocalInputSource inputSource = new LocalInputSource(new File(filePath));
+    var inputSource = new LocalInputSource(new File(filePath));
 
     if (inputSource.isPdf() && new PDFExtractor(inputSource).getPageCount() > 1) {
       parseMultiPage(inputSource);

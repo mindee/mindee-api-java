@@ -65,7 +65,7 @@ public final class ListField extends BaseField {
     if (items == null || items.isEmpty()) {
       return "\n";
     }
-    StringJoiner joiner = new StringJoiner("\n  * ");
+    var joiner = new StringJoiner("\n  * ");
     joiner.add("");
     for (DynamicField item : items) {
       if (item != null) {
