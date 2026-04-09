@@ -1,11 +1,12 @@
-package com.mindee;
+package com.mindee.v1;
 
+import com.mindee.MindeeException;
 import com.mindee.input.LocalInputSource;
 import com.mindee.input.PageOptions;
 import com.mindee.input.PageOptionsOperation;
-import com.mindee.v1.MindeeClient;
 import com.mindee.v1.cli.CommandLineInterfaceProducts;
 import com.mindee.v1.cli.ProductProcessor;
+import com.mindee.v1.clientOptions.PollingOptions;
 import com.mindee.v1.clientOptions.PredictOptions;
 import com.mindee.v1.http.Endpoint;
 import com.mindee.v1.parsing.common.AsyncPredictResponse;
@@ -205,7 +206,7 @@ public class CommandLineInterface implements ProductProcessor {
             new LocalInputSource(file),
             PredictOptions.builder().build(),
             getDefaultPageOptions(),
-            AsyncPollingOptions.builder().build()
+            PollingOptions.builder().build()
           );
         System.out.println(document.toString());
       } else {

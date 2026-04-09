@@ -1,6 +1,5 @@
 package com.mindee.v2.clientOptions;
 
-import com.mindee.AsyncPollingOptions;
 import java.util.Objects;
 import lombok.Data;
 import org.apache.hc.client5.http.entity.mime.MultipartEntityBuilder;
@@ -20,10 +19,6 @@ public abstract class BaseParameters {
    * If empty, no webhooks will be used.
    */
   protected final String[] webhookIds;
-  /**
-   * Polling options. Set only if having timeout issues.
-   */
-  protected final AsyncPollingOptions pollingOptions;
 
   public MultipartEntityBuilder buildHttpBody(MultipartEntityBuilder builder) {
     builder.addTextBody("model_id", this.getModelId());
@@ -36,23 +31,10 @@ public abstract class BaseParameters {
     return builder;
   }
 
-  public void validatePollingOptions() {
-    if (pollingOptions.getInitialDelaySec() < 1) {
-      throw new IllegalArgumentException("Initial delay must be ≥ 1 s");
-    }
-    if (pollingOptions.getIntervalSec() < 1) {
-      throw new IllegalArgumentException("Interval must be ≥ 1 s");
-    }
-    if (pollingOptions.getMaxRetries() < 2) {
-      throw new IllegalArgumentException("Max retries must be ≥ 2");
-    }
-  }
-
   protected static abstract class BaseBuilder<T extends BaseBuilder<T>> {
     protected final String modelId;
     protected String alias;
     protected String[] webhookIds = new String[] {};
-    protected AsyncPollingOptions pollingOptions = AsyncPollingOptions.builder().build();
 
     @SuppressWarnings("unchecked")
     protected T self() {
@@ -72,12 +54,6 @@ public abstract class BaseParameters {
     /** Provide IDs of webhooks to forward the API response to. */
     public T webhookIds(String[] webhookIds) {
       this.webhookIds = webhookIds;
-      return self();
-    }
-
-    /** Set polling options. */
-    public T pollingOptions(AsyncPollingOptions pollingOptions) {
-      this.pollingOptions = pollingOptions;
       return self();
     }
   }
