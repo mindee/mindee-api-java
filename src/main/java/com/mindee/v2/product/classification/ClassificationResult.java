@@ -25,7 +25,7 @@ public final class ClassificationResult {
 
   @Override
   public String toString() {
-    StringJoiner joiner = new StringJoiner("\n");
+    var joiner = new StringJoiner("\n");
     joiner.add("Classification\n==============");
     joiner.add(classification.toString());
 

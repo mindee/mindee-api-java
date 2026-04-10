@@ -26,7 +26,7 @@ public final class SplitResult {
 
   @Override
   public String toString() {
-    StringJoiner joiner = new StringJoiner("\n");
+    var joiner = new StringJoiner("\n");
     joiner.add("Splits\n======");
     for (SplitRange item : splits) {
       joiner.add(item.toString());

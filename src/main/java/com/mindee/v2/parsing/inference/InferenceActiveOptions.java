@@ -74,7 +74,7 @@ public final class InferenceActiveOptions {
 
   @Override
   public String toString() {
-    StringJoiner joiner = new StringJoiner("\n");
+    var joiner = new StringJoiner("\n");
     return joiner
       .add("Active Options")
       .add("==============")

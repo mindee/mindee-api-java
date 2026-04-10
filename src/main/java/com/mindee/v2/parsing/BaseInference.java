@@ -51,7 +51,7 @@ public abstract class BaseInference<TResult> {
   protected TResult result;
 
   protected String toStringBase() {
-    StringJoiner joiner = new StringJoiner("\n");
+    var joiner = new StringJoiner("\n");
     joiner
       .add("Inference")
       .add("#########")
@@ -65,7 +65,7 @@ public abstract class BaseInference<TResult> {
 
   @Override
   public String toString() {
-    StringJoiner joiner = new StringJoiner("\n");
+    var joiner = new StringJoiner("\n");
     joiner.add(toStringBase()).add(result.toString());
     return joiner.toString().trim() + "\n";
   }

@@ -25,7 +25,7 @@ public class InferenceModel {
   private String id;
 
   public String toString() {
-    StringJoiner joiner = new StringJoiner("\n");
+    var joiner = new StringJoiner("\n");
     return joiner.add("Model").add("=====").add(":ID: " + id).toString();
   }
 }

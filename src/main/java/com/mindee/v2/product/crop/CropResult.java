@@ -26,7 +26,7 @@ public final class CropResult {
 
   @Override
   public String toString() {
-    StringJoiner joiner = new StringJoiner("\n");
+    var joiner = new StringJoiner("\n");
     joiner.add("Crops\n=====");
     for (CropItem item : crops) {
       joiner.add(item.toString());

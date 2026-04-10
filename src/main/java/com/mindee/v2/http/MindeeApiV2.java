@@ -67,7 +67,7 @@ public abstract class MindeeApiV2 extends MindeeApiCommon {
   }
 
   protected ProductInfo getResponseProductInfo(Class<? extends CommonResponse> responseClass) {
-    ProductInfo productInfo = responseClass.getAnnotation(ProductInfo.class);
+    var productInfo = responseClass.getAnnotation(ProductInfo.class);
     if (productInfo == null) {
       throw new MindeeException(
         "The class " + responseClass.getSimpleName() + " is not annotated with @ProductInfo"
@@ -77,7 +77,7 @@ public abstract class MindeeApiV2 extends MindeeApiCommon {
   }
 
   protected ProductInfo getParamsProductInfo(Class<? extends BaseParameters> responseClass) {
-    ProductInfo productInfo = responseClass.getAnnotation(ProductInfo.class);
+    var productInfo = responseClass.getAnnotation(ProductInfo.class);
     if (productInfo == null) {
       throw new MindeeException(
         "The class " + responseClass.getSimpleName() + " is not annotated with @ProductInfo"
