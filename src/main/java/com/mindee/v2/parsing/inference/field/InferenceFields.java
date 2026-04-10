@@ -48,7 +48,7 @@ public final class InferenceFields extends LinkedHashMap<String, DynamicField> {
     if (this.isEmpty()) {
       return "";
     }
-    StringJoiner joiner = new StringJoiner("\n");
+    var joiner = new StringJoiner("\n");
 
     this.forEach((fieldKey, fieldInstance) -> {
       StringBuilder strBuilder = new StringBuilder();

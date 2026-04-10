@@ -26,7 +26,7 @@ public class DataSchemaActiveOptions {
 
   @Override
   public String toString() {
-    StringJoiner joiner = new StringJoiner("\n");
+    var joiner = new StringJoiner("\n");
     return joiner
       .add("Data Schema")
       .add("-----------")

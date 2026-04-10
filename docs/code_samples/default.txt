@@ -13,10 +13,10 @@ public class SimpleMindeeClientV1 {
     String filePath = "/path/to/the/file.ext";
 
     // Init a new client
-    MindeeClient mindeeClient = new MindeeClient(apiKey);
+    var mindeeClient = new MindeeClient(apiKey);
 
     // Load a file from disk
-    LocalInputSource inputSource = new LocalInputSource(new File(filePath));
+    var inputSource = new LocalInputSource(new File(filePath));
 
     // Configure the endpoint
     Endpoint endpoint = new Endpoint(

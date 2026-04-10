@@ -2,7 +2,6 @@ import com.mindee.input.LocalInputSource;
 import com.mindee.v2.MindeeClient;
 import com.mindee.v2.product.extraction.params.ExtractionParameters;
 import com.mindee.v2.product.extraction.ExtractionResponse;
-import com.mindee.v2.parsing.inference.field.InferenceFields;
 import java.io.IOException;
 
 public class SimpleMindeeClientV2 {
@@ -15,10 +14,10 @@ public class SimpleMindeeClientV2 {
     String modelId = "MY_MODEL_ID";
 
     // Init a new client
-    MindeeClient mindeeClient = new MindeeClient(apiKey);
+    var mindeeClient = new MindeeClient(apiKey);
 
     // Set inference parameters
-    ExtractionParameters extractionParams = ExtractionParameters
+    var extractionParams = ExtractionParameters
         // ID of the model, required.
         .builder(modelId)
 
@@ -37,7 +36,7 @@ public class SimpleMindeeClientV2 {
         .build();
 
     // Load a file from disk
-    LocalInputSource inputSource = new LocalInputSource(filePath);
+    var inputSource = new LocalInputSource(filePath);
 
     // Send for processing using polling
     ExtractionResponse response = mindeeClient.enqueueAndGetResult(
@@ -50,6 +49,6 @@ public class SimpleMindeeClientV2 {
     System.out.println(response.getInference().toString());
 
     // Access the result fields
-    InferenceFields fields = response.getInference().getResult().getFields();
+    var fields = response.getInference().getResult().getFields();
   }
 }

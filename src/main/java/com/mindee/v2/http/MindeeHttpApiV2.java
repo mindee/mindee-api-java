@@ -19,11 +19,9 @@ import org.apache.hc.client5.http.classic.methods.HttpPost;
 import org.apache.hc.client5.http.config.RequestConfig;
 import org.apache.hc.client5.http.entity.mime.HttpMultipartMode;
 import org.apache.hc.client5.http.entity.mime.MultipartEntityBuilder;
-import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
 import org.apache.hc.core5.http.ClassicHttpResponse;
 import org.apache.hc.core5.http.ContentType;
-import org.apache.hc.core5.http.HttpEntity;
 import org.apache.hc.core5.http.HttpHeaders;
 import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.apache.hc.core5.net.URIBuilder;
@@ -69,12 +67,12 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
    */
   @Override
   public JobResponse reqPostEnqueue(LocalInputSource inputSource, BaseParameters options) {
-    ProductInfo productInfo = getParamsProductInfo(options.getClass());
-    String url = String
+    var productInfo = getParamsProductInfo(options.getClass());
+    var url = String
       .format("%s/products/%s/enqueue", this.mindeeSettings.getBaseUrl(), productInfo.slug());
-    HttpPost post = buildHttpPost(url);
+    var post = buildHttpPost(url);
 
-    MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+    var builder = MultipartEntityBuilder.create();
     builder.setMode(HttpMultipartMode.EXTENDED);
     builder
       .addBinaryBody(
@@ -96,12 +94,12 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
    */
   @Override
   public JobResponse reqPostEnqueue(URLInputSource inputSource, BaseParameters options) {
-    ProductInfo productInfo = getParamsProductInfo(options.getClass());
-    String url = String
+    var productInfo = getParamsProductInfo(options.getClass());
+    var url = String
       .format("%s/products/%s/enqueue", this.mindeeSettings.getBaseUrl(), productInfo.slug());
-    HttpPost post = buildHttpPost(url);
+    var post = buildHttpPost(url);
 
-    MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+    var builder = MultipartEntityBuilder.create();
     builder.setMode(HttpMultipartMode.EXTENDED);
     builder.addTextBody("url", inputSource.getUrl());
     post.setEntity(options.buildHttpBody(builder).build());
@@ -115,16 +113,15 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
    * @return a valid job response.
    */
   private JobResponse executeEnqueue(HttpPost post) {
-    try (CloseableHttpClient httpClient = httpClientBuilder.build()) {
+    try (var httpClient = httpClientBuilder.build()) {
       return httpClient.execute(post, response -> {
-        HttpEntity responseEntity = response.getEntity();
-        int statusCode = response.getCode();
+        var responseEntity = response.getEntity();
+        var statusCode = response.getCode();
         if (isInvalidStatusCode(statusCode)) {
           throw getHttpError(response);
         }
         try {
-          String raw = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
-
+          var raw = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
           return deserializeOrThrow(raw, JobResponse.class, response.getCode());
         } finally {
           EntityUtils.consumeQuietly(responseEntity);
@@ -138,25 +135,25 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
   @Override
   public JobResponse reqGetJob(String jobId) {
 
-    String url = this.mindeeSettings.getBaseUrl() + "/jobs/" + jobId;
-    HttpGet get = new HttpGet(url);
+    var url = this.mindeeSettings.getBaseUrl() + "/jobs/" + jobId;
+    var get = new HttpGet(url);
 
     if (this.mindeeSettings.getApiKey().isPresent()) {
       get.setHeader(HttpHeaders.AUTHORIZATION, this.mindeeSettings.getApiKey().get());
     }
     get.setHeader(HttpHeaders.USER_AGENT, getUserAgent());
-    RequestConfig noRedirect = RequestConfig.custom().setRedirectsEnabled(false).build();
+    var noRedirect = RequestConfig.custom().setRedirectsEnabled(false).build();
     get.setConfig(noRedirect);
 
-    try (CloseableHttpClient httpClient = httpClientBuilder.build()) {
+    try (var httpClient = httpClientBuilder.build()) {
       return httpClient.execute(get, response -> {
-        HttpEntity responseEntity = response.getEntity();
-        int statusCode = response.getCode();
+        var responseEntity = response.getEntity();
+        var statusCode = response.getCode();
         if (isInvalidStatusCode(statusCode)) {
           throw getHttpError(response);
         }
         try {
-          String raw = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
+          var raw = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
 
           return deserializeOrThrow(raw, JobResponse.class, response.getCode());
         } finally {
@@ -173,31 +170,31 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
       Class<TResponse> responseClass,
       String inferenceId
   ) {
-    ProductInfo productInfo = getResponseProductInfo(responseClass);
-    String url = String
+    var productInfo = getResponseProductInfo(responseClass);
+    var url = String
       .format(
         "%s/products/%s/results/%s",
         this.mindeeSettings.getBaseUrl(),
         productInfo.slug(),
         inferenceId
       );
-    HttpGet get = new HttpGet(url);
+    var get = new HttpGet(url);
 
     if (this.mindeeSettings.getApiKey().isPresent()) {
       get.setHeader(HttpHeaders.AUTHORIZATION, this.mindeeSettings.getApiKey().get());
     }
     get.setHeader(HttpHeaders.USER_AGENT, getUserAgent());
 
-    try (CloseableHttpClient httpClient = httpClientBuilder.build()) {
+    try (var httpClient = httpClientBuilder.build()) {
 
       return httpClient.execute(get, response -> {
-        HttpEntity entity = response.getEntity();
-        int status = response.getCode();
+        var entity = response.getEntity();
+        var status = response.getCode();
         try {
           if (isInvalidStatusCode(status)) {
             throw getHttpError(response);
           }
-          String raw = EntityUtils.toString(entity, StandardCharsets.UTF_8);
+          var raw = EntityUtils.toString(entity, StandardCharsets.UTF_8);
           return deserializeOrThrow(raw, responseClass, status);
         } finally {
           EntityUtils.consumeQuietly(entity);
@@ -215,7 +212,7 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
           ? ""
           : EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
 
-      ErrorResponse err = mapper.readValue(rawBody, ErrorResponse.class);
+      var err = mapper.readValue(rawBody, ErrorResponse.class);
 
       if (err.getDetail() == null) {
         err = makeUnknownError(response.getCode());
@@ -230,7 +227,7 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
   private HttpPost buildHttpPost(String url) {
     HttpPost post;
     try {
-      URIBuilder uriBuilder = new URIBuilder(url);
+      var uriBuilder = new URIBuilder(url);
       post = new HttpPost(uriBuilder.build());
     }
     // This exception will never happen because we are providing the URL internally.
@@ -254,7 +251,7 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
 
     if (httpStatus >= 200 && httpStatus < 400) {
       try {
-        R model = mapper.readerFor(clazz).readValue(body);
+        var model = mapper.readerFor(clazz).<R>readValue(body);
         model.setRawResponse(body);
         return model;
       } catch (Exception exception) {
