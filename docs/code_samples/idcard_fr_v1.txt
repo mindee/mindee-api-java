@@ -12,10 +12,10 @@ public class SimpleMindeeClientV1 {
     String filePath = "/path/to/the/file.ext";
 
     // Init a new client
-    MindeeClient mindeeClient = new MindeeClient(apiKey);
+    var mindeeClient = new MindeeClient(apiKey);
 
     // Load a file from disk
-    LocalInputSource inputSource = new LocalInputSource(filePath);
+    var inputSource = new LocalInputSource(filePath);
 
     // Parse the file
     PredictResponse<IdCardV1> response = mindeeClient.parse(

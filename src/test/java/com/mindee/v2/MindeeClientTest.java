@@ -86,7 +86,7 @@ class MindeeClientTest {
 
       JobResponse processing = mapper.readValue(json, JobResponse.class);
 
-      MindeeClient mindeeClient = new MindeeClient(new FakeMindeeApiV2(processing, null));
+      var mindeeClient = new MindeeClient(new FakeMindeeApiV2(processing, null));
 
       JobResponse response = mindeeClient.getJob("dummy-id");
       assertNotNull(response, "getJob() must return a response");
@@ -106,7 +106,7 @@ class MindeeClientTest {
       mapper.findAndRegisterModules();
 
       ExtractionResponse processing = mapper.readValue(json, ExtractionResponse.class);
-      MindeeClient mindeeClient = new MindeeClient(new FakeMindeeApiV2(null, processing));
+      var mindeeClient = new MindeeClient(new FakeMindeeApiV2(null, processing));
 
       ExtractionResponse response = mindeeClient
         .getResult(ExtractionResponse.class, "12345678-1234-1234-1234-123456789abc");

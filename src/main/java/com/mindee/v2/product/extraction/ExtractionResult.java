@@ -41,7 +41,7 @@ public final class ExtractionResult {
 
   @Override
   public String toString() {
-    StringJoiner joiner = new StringJoiner("\n");
+    var joiner = new StringJoiner("\n");
     joiner.add("Fields").add("======");
     joiner.add(fields.toString());
 

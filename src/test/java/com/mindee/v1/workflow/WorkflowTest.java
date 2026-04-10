@@ -49,7 +49,7 @@ public class WorkflowTest {
     var mindeeClient = new MindeeClient(new FakeMindeeApiV1<>(workflowResponse));
 
     String workflowId = "07ebf237-ff27-4eee-b6a2-425df4a5cca6";
-    LocalInputSource inputSource = new LocalInputSource(
+    var inputSource = new LocalInputSource(
       getV1ResourcePath("products/financial_document/default_sample.jpg")
     );
 
@@ -88,7 +88,7 @@ public class WorkflowTest {
     var mindeeClient = new MindeeClient(new FakeMindeeApiV1<>(workflowResponse));
 
     String workflowId = "07ebf237-ff27-4eee-b6a2-425df4a5cca6";
-    LocalInputSource inputSource = new LocalInputSource(
+    var inputSource = new LocalInputSource(
       getV1ResourcePath("products/financial_document/default_sample.jpg")
     );
 

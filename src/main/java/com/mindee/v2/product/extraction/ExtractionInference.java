@@ -25,7 +25,7 @@ public class ExtractionInference extends BaseInference<ExtractionResult> {
 
   @Override
   public String toString() {
-    StringJoiner joiner = new StringJoiner("\n");
+    var joiner = new StringJoiner("\n");
     joiner.add(toStringBase()).add(activeOptions.toString()).add("").add(result.toString());
     return joiner.toString().trim() + "\n";
   }

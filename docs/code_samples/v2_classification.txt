@@ -1,8 +1,6 @@
 import com.mindee.input.LocalInputSource;
 import com.mindee.v2.MindeeClient;
-import com.mindee.v2.product.classification.ClassificationClassifier;
 import com.mindee.v2.product.classification.ClassificationResponse;
-import com.mindee.v2.product.classification.ClassificationResult;
 import com.mindee.v2.product.classification.params.ClassificationParameters;
 import java.io.IOException;
 
@@ -16,17 +14,17 @@ public class SimpleMindeeClientV2 {
     String modelId = "MY_MODEL_ID";
 
     // Init a new client
-    MindeeClient mindeeClient = new MindeeClient(apiKey);
+    var mindeeClient = new MindeeClient(apiKey);
 
     // Set inference parameters
     // Note: modelId is mandatory.
-    ClassificationParameters classificationParams = ClassificationParameters
+    var classificationParams = ClassificationParameters
         // ID of the model, required.
         .builder(modelId)
         .build();
 
     // Load a file from disk
-    LocalInputSource inputSource = new LocalInputSource(filePath);
+    var inputSource = new LocalInputSource(filePath);
 
     // Send for processing using polling
     ClassificationResponse response = mindeeClient.enqueueAndGetResult(
@@ -39,7 +37,7 @@ public class SimpleMindeeClientV2 {
     System.out.println(response.getInference().toString());
 
     // Access the classification result
-    ClassificationResult result = response.getInference().getResult();
-    ClassificationClassifier classification = result.getClassification();
+    var result = response.getInference().getResult();
+    var classification = result.getClassification();
   }
 }
