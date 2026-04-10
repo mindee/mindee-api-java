@@ -43,7 +43,7 @@ public class InferenceFile {
 
   public String toString() {
 
-    StringJoiner joiner = new StringJoiner("\n");
+    var joiner = new StringJoiner("\n");
     joiner
       .add("File")
       .add("====")

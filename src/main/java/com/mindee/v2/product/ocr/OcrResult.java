@@ -26,7 +26,7 @@ public final class OcrResult {
 
   @Override
   public String toString() {
-    StringJoiner joiner = new StringJoiner("\n");
+    var joiner = new StringJoiner("\n");
     joiner.add("Pages\n======");
     for (OcrPage item : pages) {
       joiner.add(item.toString());

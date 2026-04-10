@@ -25,7 +25,7 @@ public class InferenceJob {
 
   public String toString() {
 
-    StringJoiner joiner = new StringJoiner("\n");
+    var joiner = new StringJoiner("\n");
     joiner.add("Job").add("===").add(":ID: " + id);
     return joiner.toString();
   }

@@ -8,7 +8,6 @@ import java.io.IOException;
 import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
 import javax.imageio.ImageWriteParam;
-import javax.imageio.ImageWriter;
 
 /**
  * Image compression class.
@@ -38,8 +37,7 @@ public final class ImageCompressor {
 
     var bis = new ByteArrayInputStream(imageData);
     var original = ImageIO.read(bis);
-    ImageUtils.Dimensions dimensions = ImageUtils
-      .calculateNewDimensions(original, maxWidth, maxHeight);
+    var dimensions = ImageUtils.calculateNewDimensions(original, maxWidth, maxHeight);
     return compressImage(original, quality, dimensions.width, dimensions.height);
   }
 
@@ -94,7 +92,7 @@ public final class ImageCompressor {
     var outputStream = new ByteArrayOutputStream();
 
     var writers = ImageIO.getImageWritersByFormatName("jpg");
-    ImageWriter writer = writers.next();
+    var writer = writers.next();
 
     var params = writer.getDefaultWriteParam();
     params.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);

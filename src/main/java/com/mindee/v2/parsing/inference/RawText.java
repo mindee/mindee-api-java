@@ -27,7 +27,7 @@ public class RawText {
     if (pages == null || pages.isEmpty()) {
       return "";
     }
-    StringJoiner joiner = new StringJoiner("\n\n");
+    var joiner = new StringJoiner("\n\n");
     for (RawTextPage page : pages) {
       joiner.add(page.toString());
     }
