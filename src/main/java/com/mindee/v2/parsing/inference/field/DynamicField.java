@@ -82,13 +82,13 @@ public class DynamicField {
    */
   public <T extends BaseField> T getField(Class<T> type) throws IllegalArgumentException {
     if (type == SimpleField.class) {
-      return (T) this.getSimpleField();
+      return type.cast(this.getSimpleField());
     }
     if (type == ListField.class) {
-      return (T) this.getListField();
+      return type.cast(this.getListField());
     }
     if (type == ObjectField.class) {
-      return (T) this.getObjectField();
+      return type.cast(this.getObjectField());
     }
     throw new IllegalArgumentException("Cannot cast to " + type.getSimpleName());
   }

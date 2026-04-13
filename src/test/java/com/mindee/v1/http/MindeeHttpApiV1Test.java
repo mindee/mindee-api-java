@@ -8,7 +8,6 @@ import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlMatching;
 import static com.mindee.TestingUtilities.getV1ResourcePath;
 import static com.mindee.TestingUtilities.getV1ResourcePathString;
-import static org.hamcrest.MatcherAssert.assertThat;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -35,7 +34,6 @@ import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
 import org.apache.hc.client5.http.impl.classic.HttpClients;
 import org.apache.hc.client5.http.impl.routing.DefaultProxyRoutePlanner;
 import org.apache.hc.core5.http.HttpHost;
-import org.hamcrest.collection.IsMapContaining;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -213,7 +211,7 @@ public class MindeeHttpApiV1Test {
     Map<String, String> requestMap = objectMapper
       .readValue(recordedRequest.getBody().readUtf8(), new TypeReference<Map<String, String>>() {
       });
-    assertThat(requestMap, IsMapContaining.hasEntry("document", "https://thisfile.does.not.exist"));
+    Assertions.assertEquals("https://thisfile.does.not.exist", requestMap.get("document"));
   }
 
   @Test
