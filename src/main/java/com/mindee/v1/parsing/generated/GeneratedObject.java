@@ -36,7 +36,7 @@ public class GeneratedObject extends HashMap<String, Object> {
    * @return An {@link AmountField} containing a double value.
    */
   public AmountField asAmountField() {
-    Double value;
+    double value;
     Object rawValue = this.get("value");
     if (rawValue instanceof Integer) {
       value = ((Integer) rawValue).doubleValue();
@@ -109,13 +109,13 @@ public class GeneratedObject extends HashMap<String, Object> {
     if (!this.containsKey(key)) {
       return null;
     }
-    Object rawPolygon = this.get(key);
+    var rawPolygon = this.get(key);
     // a valid polygon must have at least 4 points
     if (!(rawPolygon instanceof List && ((List<?>) rawPolygon).size() >= 4)) {
       return null;
     }
     // a valid point must have exactly 2 coordinates
-    for (Object point : (List<?>) rawPolygon) {
+    for (var point : (List<?>) rawPolygon) {
       if (!(point instanceof List) || ((List<?>) point).size() != 2) {
         return null;
       }
@@ -125,7 +125,9 @@ public class GeneratedObject extends HashMap<String, Object> {
         }
       }
     }
-    return new Polygon((List<List<Double>>) rawPolygon);
+    @SuppressWarnings("unchecked")
+    List<List<Double>> points = (List<List<Double>>) rawPolygon;
+    return new Polygon(points);
   }
 
   /**

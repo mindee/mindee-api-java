@@ -90,8 +90,8 @@
                 <version>${org.projectlombok.lombok-mapstruct-binding.version}</version>
               </path>
             </annotationProcessorPaths>
-            <source>11</source>
-            <target>11</target>
+            <source>${compiler.source}</source>
+            <target>${compiler.target}</target>
           </configuration>
         </plugin>
           <plugin>
@@ -102,7 +102,7 @@
               <linkXRef>false</linkXRef>
               <printFailingErrors>true</printFailingErrors>
               <failurePriority>3</failurePriority>
-              <targetJdk>11</targetJdk>
+              <targetJdk>${compiler.target}</targetJdk>
             </configuration>
           </plugin>
         <plugin>
@@ -129,8 +129,8 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
-          <source>${maven.compiler.source}</source>
-          <target>${maven.compiler.target}</target>
+          <source>${compiler.source}</source>
+          <target>${compiler.target}</target>
         </configuration>
       </plugin>
       <plugin>
@@ -341,12 +341,6 @@
       <version>${org.junit.jupiter.version}</version>
     </dependency>
     <dependency>
-      <artifactId>junit-platform-suite</artifactId>
-      <groupId>org.junit.platform</groupId>
-      <scope>test</scope>
-      <version>${org.junit.platform.version}</version>
-    </dependency>
-    <dependency>
       <artifactId>junit-pioneer</artifactId>
       <groupId>org.junit-pioneer</groupId>
       <scope>test</scope>
@@ -393,8 +387,8 @@
     </surefire.addOpens>
 
     <!-- Minimum Java version -->
-    <maven.compiler.source>11</maven.compiler.source>
-    <maven.compiler.target>11</maven.compiler.target>
+    <compiler.source>11</compiler.source>
+    <compiler.target>11</compiler.target>
 
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
@@ -409,7 +403,7 @@
     <org.apache.pdfbox.version>3.0.7</org.apache.pdfbox.version>
     <org.mapstruct.version>1.5.3.Final</org.mapstruct.version>
     <org.projectlombok.lombok-mapstruct-binding.version>0.2.0</org.projectlombok.lombok-mapstruct-binding.version>
-    <org.projectlombok.version>1.18.38</org.projectlombok.version>
+    <org.projectlombok.version>1.18.40</org.projectlombok.version>
     <org.slf4j.version>2.0.17</org.slf4j.version>
 
     <!-- Build/Test dependencies -->
@@ -424,10 +418,10 @@
     <org.apache.maven.project.info.reports.version>3.0.0</org.apache.maven.project.info.reports.version>
     <org.apache.maven.site.version>3.7.1</org.apache.maven.site.version>
     <org.apache.maven.surfire.version>3.5.5</org.apache.maven.surfire.version>
-    <org.junit.jupiter.version>5.8.2</org.junit.jupiter.version>
-    <org.junit.pioneer.version>1.9.1</org.junit.pioneer.version>
-    <org.junit.platform.version>1.9.2</org.junit.platform.version>
     <wiremock.version>3.13.2</wiremock.version>
+    <!-- jupiter version 5.x is the last with JRE 11 support -->
+    <org.junit.jupiter.version>5.11.4</org.junit.jupiter.version>
+    <org.junit.pioneer.version>2.3.0</org.junit.pioneer.version>
   </properties>
 
 </project>

@@ -3,14 +3,11 @@ package com.mindee.v1.parsing.generated;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.mindee.v1.product.generated.GeneratedV1Document;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 
 /**
  * JSON deserializer for generated documents v1.x.
@@ -21,8 +18,6 @@ public class GeneratedV1PredictionDeserializer extends StdDeserializer<Generated
     super(vc);
   }
 
-  private static final ObjectMapper mapper = new ObjectMapper();
-
   public GeneratedV1PredictionDeserializer() {
     this(null);
   }
@@ -32,15 +27,14 @@ public class GeneratedV1PredictionDeserializer extends StdDeserializer<Generated
       JsonParser jsonParser,
       DeserializationContext deserializationContext
   ) throws IOException {
-    ObjectNode rootNode = jsonParser.getCodec().readTree(jsonParser);
-    Map<String, GeneratedFeature> features = new HashMap<>();
+    var mapper = jsonParser.getCodec();
+    ObjectNode rootNode = mapper.readTree(jsonParser);
+    var features = new HashMap<String, GeneratedFeature>();
 
-    for (Iterator<Map.Entry<String, JsonNode>> subNode = rootNode.fields(); subNode.hasNext();) {
-      Map.Entry<String, JsonNode> featureNode = subNode.next();
+    for (var featureNode : rootNode.properties()) {
       String featureName = featureNode.getKey();
 
       GeneratedFeature feature;
-
       if (featureNode.getValue().isArray()) {
         feature = new GeneratedFeature(true);
         for (JsonNode item : featureNode.getValue()) {

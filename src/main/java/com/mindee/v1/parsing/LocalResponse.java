@@ -62,6 +62,7 @@ public class LocalResponse extends BaseLocalResponse {
   public <T extends Inference> AsyncPredictResponse<T> deserializeAsyncResponse(
       Class<T> productClass
   ) throws IOException {
+    @SuppressWarnings("unchecked")
     AsyncPredictResponse<T> response = deserialize(AsyncPredictResponse.class, productClass);
     response.setRawResponse(new String(this.file, StandardCharsets.UTF_8));
     return response;
@@ -78,6 +79,7 @@ public class LocalResponse extends BaseLocalResponse {
   public <T extends Inference> PredictResponse<T> deserializeSyncResponse(
       Class<T> productClass
   ) throws IOException {
+    @SuppressWarnings("unchecked")
     PredictResponse<T> response = deserialize(PredictResponse.class, productClass);
     response.setRawResponse(new String(this.file, StandardCharsets.UTF_8));
     return response;
