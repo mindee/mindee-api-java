@@ -129,8 +129,8 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
-          <source>11</source>
-          <target>11</target>
+          <source>${maven.compiler.source}</source>
+          <target>${maven.compiler.target}</target>
         </configuration>
       </plugin>
       <plugin>
@@ -150,7 +150,7 @@
       <plugin>
         <groupId>org.sonatype.central</groupId>
         <artifactId>central-publishing-maven-plugin</artifactId>
-        <version>0.8.0</version>
+        <version>0.9.0</version>
         <extensions>true</extensions>
         <configuration>
           <publishingServerId>central</publishingServerId>
@@ -162,22 +162,6 @@
   </build>
 
   <profiles>
-    <profile>
-      <id>jdk-9-plus</id>
-      <activation>
-        <jdk>[9,)</jdk>
-      </activation>
-      <properties>
-        <surefire.addOpens>
-          --add-opens java.base/java.lang=ALL-UNNAMED
-          --add-opens java.base/java.util=ALL-UNNAMED
-          --add-opens java.base/java.net=ALL-UNNAMED
-          --add-opens java.base/sun.net.www.protocol.https=ALL-UNNAMED
-          --add-opens java.base/java.io=ALL-UNNAMED
-          --add-opens java.base/java.lang.reflect=ALL-UNNAMED
-        </surefire.addOpens>
-      </properties>
-    </profile>
     <profile>
       <id>release</id>
       <build>
@@ -386,13 +370,6 @@
       <version>${wiremock.version}</version>
       <scope>test</scope>
     </dependency>
-    <!-- https://mvnrepository.com/artifact/org.hamcrest/hamcrest -->
-    <dependency>
-      <groupId>org.hamcrest</groupId>
-      <artifactId>hamcrest</artifactId>
-      <version>${org.hamcrest.version}</version>
-      <scope>test</scope>
-    </dependency>
   </dependencies>
 
   <scm>
@@ -405,16 +382,28 @@
     <!-- MINDEE VERSION GOES HERE -->
     <revision>5.0.0-alpha1</revision>
 
+    <!-- Give special access when running tests -->
+    <surefire.addOpens>
+      --add-opens java.base/java.lang=ALL-UNNAMED
+      --add-opens java.base/java.util=ALL-UNNAMED
+      --add-opens java.base/java.net=ALL-UNNAMED
+      --add-opens java.base/sun.net.www.protocol.https=ALL-UNNAMED
+      --add-opens java.base/java.io=ALL-UNNAMED
+      --add-opens java.base/java.lang.reflect=ALL-UNNAMED
+    </surefire.addOpens>
+
+    <!-- Minimum Java version -->
+    <maven.compiler.source>11</maven.compiler.source>
+    <maven.compiler.target>11</maven.compiler.target>
+
     <tools.jackson.core.databind.version>3.1.1</tools.jackson.core.databind.version>
     <com.fasterxml.jackson.datatype.version>2.21.2</com.fasterxml.jackson.datatype.version>
     <com.squareup.okhttp3.version>4.12.0</com.squareup.okhttp3.version>
-    <info.picocli.version>4.7.6</info.picocli.version>
-    <maven.compiler.source>11</maven.compiler.source>
-    <maven.compiler.target>11</maven.compiler.target>
+    <info.picocli.version>4.7.7</info.picocli.version>
     <org.apache.commons.math3.version>3.6.1</org.apache.commons.math3.version>
     <org.apache.httpcomponents.client5.httpclient5.version>5.4.4</org.apache.httpcomponents.client5.httpclient5.version>
-    <commons-codec.version>1.20.0</commons-codec.version>
-    <org.apache.maven.clean.version>3.1.0</org.apache.maven.clean.version>
+    <commons-codec.version>1.21.0</commons-codec.version>
+    <org.apache.maven.clean.version>3.5.0</org.apache.maven.clean.version>
     <org.apache.maven.compiler.version>3.12.1</org.apache.maven.compiler.version>
     <org.apache.maven.failsafe.version>3.5.5</org.apache.maven.failsafe.version>
     <org.apache.maven.gpg.version>1.5</org.apache.maven.gpg.version>
@@ -424,12 +413,11 @@
     <org.apache.maven.resources.version>3.0.2</org.apache.maven.resources.version>
     <org.apache.maven.project.info.reports.version>3.0.0</org.apache.maven.project.info.reports.version>
     <org.apache.maven.site.version>3.7.1</org.apache.maven.site.version>
-    <org.apache.maven.surfire.version>3.2.5</org.apache.maven.surfire.version>
-    <org.apache.pdfbox.version>3.0.5</org.apache.pdfbox.version>
+    <org.apache.maven.surfire.version>3.5.5</org.apache.maven.surfire.version>
+    <org.apache.pdfbox.version>3.0.7</org.apache.pdfbox.version>
     <org.junit.jupiter.version>5.8.2</org.junit.jupiter.version>
     <org.junit.pioneer.version>1.9.1</org.junit.pioneer.version>
     <org.junit.platform.version>1.9.2</org.junit.platform.version>
-    <org.hamcrest.version>2.2</org.hamcrest.version>
     <org.mapstruct.version>1.5.3.Final</org.mapstruct.version>
     <org.projectlombok.lombok-mapstruct-binding.version>0.2.0</org.projectlombok.lombok-mapstruct-binding.version>
     <org.projectlombok.version>1.18.38</org.projectlombok.version>

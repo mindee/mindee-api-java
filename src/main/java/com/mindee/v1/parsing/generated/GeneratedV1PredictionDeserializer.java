@@ -1,7 +1,6 @@
 package com.mindee.v1.parsing.generated;
 
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -45,15 +44,13 @@ public class GeneratedV1PredictionDeserializer extends StdDeserializer<Generated
       if (featureNode.getValue().isArray()) {
         feature = new GeneratedFeature(true);
         for (JsonNode item : featureNode.getValue()) {
-          GeneratedObject value = mapper.readerFor(new TypeReference<GeneratedObject>() {
-          }).readValue(item);
+          GeneratedObject value = mapper.treeToValue(item, GeneratedObject.class);
           feature.add(value);
         }
         features.put(featureName, feature);
       } else {
         feature = new GeneratedFeature(false);
-        GeneratedObject value = mapper.readerFor(new TypeReference<GeneratedObject>() {
-        }).readValue(featureNode.getValue());
+        GeneratedObject value = mapper.treeToValue(featureNode.getValue(), GeneratedObject.class);
         feature.add(value);
       }
       features.put(featureName, feature);
