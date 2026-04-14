@@ -4,8 +4,8 @@ import com.mindee.MindeeException;
 import com.mindee.input.InputSourceUtils;
 import com.mindee.input.LocalInputSource;
 import com.mindee.input.PageOptions;
-import com.mindee.pdf.PdfBoxApi;
-import com.mindee.pdf.PdfOperation;
+import com.mindee.pdf.PDFBoxApi;
+import com.mindee.pdf.PDFOperation;
 import com.mindee.pdf.SplitQuery;
 import com.mindee.v1.clientOptions.PollingOptions;
 import com.mindee.v1.clientOptions.PredictOptions;
@@ -27,7 +27,7 @@ import java.net.URL;
  */
 public class MindeeClient {
 
-  protected PdfOperation pdfOperation;
+  protected PDFOperation pdfOperation;
   private final MindeeApiV1 mindeeApi;
 
   /**
@@ -35,7 +35,7 @@ public class MindeeClient {
    * You'll need to set the API key in the environment for this approach to work properly.
    */
   public MindeeClient() {
-    this.pdfOperation = new PdfBoxApi();
+    this.pdfOperation = new PDFBoxApi();
     this.mindeeApi = createDefaultApi("");
   }
 
@@ -45,7 +45,7 @@ public class MindeeClient {
    * @param apiKey The api key to use.
    */
   public MindeeClient(String apiKey) {
-    this.pdfOperation = new PdfBoxApi();
+    this.pdfOperation = new PDFBoxApi();
     this.mindeeApi = createDefaultApi(apiKey);
   }
 
@@ -55,7 +55,7 @@ public class MindeeClient {
    * @param mindeeApi The MindeeApi implementation to be used by the created MindeeClient.
    */
   public MindeeClient(MindeeApiV1 mindeeApi) {
-    this.pdfOperation = new PdfBoxApi();
+    this.pdfOperation = new PDFBoxApi();
     this.mindeeApi = mindeeApi;
   }
 
@@ -65,7 +65,7 @@ public class MindeeClient {
    * @param pdfOperation The PdfOperation implementation to be used by the created MindeeClient.
    * @param mindeeApi The MindeeApi implementation to be used by the created MindeeClient.
    */
-  public MindeeClient(PdfOperation pdfOperation, MindeeApiV1 mindeeApi) {
+  public MindeeClient(PDFOperation pdfOperation, MindeeApiV1 mindeeApi) {
     this.pdfOperation = pdfOperation;
     this.mindeeApi = mindeeApi;
   }
