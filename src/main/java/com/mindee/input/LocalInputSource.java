@@ -4,8 +4,6 @@ import com.mindee.image.ImageCompressor;
 import com.mindee.pdf.PDFBoxApi;
 import com.mindee.pdf.PDFCompressor;
 import com.mindee.pdf.PDFOperation;
-import com.mindee.pdf.PDFUtils;
-import com.mindee.pdf.SplitQuery;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -76,7 +74,7 @@ public final class LocalInputSource {
     if (!this.isPdf()) {
       return 1;
     }
-    return PDFUtils.getNumberOfPages(this.file);
+    return getPdfOperation().getNumberOfPages(this.file);
   }
 
   /**
@@ -87,7 +85,7 @@ public final class LocalInputSource {
    */
   public void applyPageOptions(PageOptions pageOptions) throws IOException {
     if (pageOptions != null && this.isPdf()) {
-      this.file = getPdfOperation().split(new SplitQuery(this.file, pageOptions)).getFile();
+      this.file = getPdfOperation().split(this.file, pageOptions).getFile();
     }
   }
 

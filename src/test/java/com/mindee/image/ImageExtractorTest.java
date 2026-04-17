@@ -2,7 +2,6 @@ package com.mindee.image;
 
 import static com.mindee.TestingUtilities.getResourcePath;
 import static com.mindee.TestingUtilities.getV1ResourcePath;
-import static com.mindee.TestingUtilities.getV1ResourcePathString;
 
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -88,7 +87,7 @@ public class ImageExtractorTest {
     BarcodeReaderV1 inference = response.getDocument().getInference();
 
     ImageExtractor extractor = new ImageExtractor(
-      getV1ResourcePathString("products/barcode_reader/default_sample.jpg")
+      new LocalInputSource(getV1ResourcePath("products/barcode_reader/default_sample.jpg"))
     );
     Assertions.assertEquals(1, extractor.getPageCount());
 

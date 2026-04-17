@@ -6,7 +6,6 @@ import com.mindee.input.LocalInputSource;
 import com.mindee.input.PageOptions;
 import com.mindee.pdf.PDFBoxApi;
 import com.mindee.pdf.PDFOperation;
-import com.mindee.pdf.SplitQuery;
 import com.mindee.v1.clientOptions.PollingOptions;
 import com.mindee.v1.clientOptions.PredictOptions;
 import com.mindee.v1.clientOptions.WorkflowOptions;
@@ -132,9 +131,7 @@ public class MindeeClient {
     if (pageOptions == null || !localInputSource.isPdf()) {
       splitFile = localInputSource.getFile();
     } else {
-      splitFile = pdfOperation
-        .split(new SplitQuery(localInputSource.getFile(), pageOptions))
-        .getFile();
+      splitFile = pdfOperation.split(localInputSource.getFile(), pageOptions).getFile();
     }
     return splitFile;
   }
