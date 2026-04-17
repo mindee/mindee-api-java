@@ -36,11 +36,11 @@ public class PdfPageImage {
 
   /**
    * Return the image in a format suitable for sending to MindeeClient for parsing.
-   * 
+   *
    * @return an instance of {@link LocalInputSource}
    */
   public LocalInputSource asInputSource() throws IOException {
-    ByteArrayOutputStream output = new ByteArrayOutputStream();
+    var output = new ByteArrayOutputStream();
     ImageIO.write(this.image, this.saveFormat, output);
     return new LocalInputSource(output.toByteArray(), this.getFilename());
   }
@@ -48,7 +48,7 @@ public class PdfPageImage {
   /**
    * Write the image to a file.
    * Uses the default image format and filename.
-   * 
+   *
    * @param outputPath the output directory (must exist).
    */
   public void writeToFile(String outputPath) throws IOException, MindeeException {
@@ -59,7 +59,7 @@ public class PdfPageImage {
 
   /**
    * Generate a filename for the image.
-   * 
+   *
    * @return An auto-generated filename String.
    */
   public String getFilename() {

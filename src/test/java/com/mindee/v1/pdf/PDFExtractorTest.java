@@ -1,31 +1,22 @@
-package com.mindee.pdf;
+package com.mindee.v1.pdf;
 
 import static com.mindee.TestingUtilities.getV1ResourcePath;
 
-import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mindee.input.LocalInputSource;
+import com.mindee.v1.parsing.LocalResponse;
 import com.mindee.v1.parsing.common.PredictResponse;
 import com.mindee.v1.product.invoicesplitter.InvoiceSplitterV1;
 import java.io.IOException;
-import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class PDFExtractorTest {
 
   protected PredictResponse<InvoiceSplitterV1> getInvoiceSplitterPrediction() throws IOException {
-    ObjectMapper objectMapper = new ObjectMapper();
-    objectMapper.findAndRegisterModules();
-
-    JavaType type = objectMapper
-      .getTypeFactory()
-      .constructParametricType(PredictResponse.class, InvoiceSplitterV1.class);
-    return objectMapper
-      .readValue(
-        getV1ResourcePath("products/invoice_splitter/response_v1/complete.json").toFile(),
-        type
-      );
+    var localResponse = new LocalResponse(
+      getV1ResourcePath("products/invoice_splitter/response_v1/complete.json")
+    );
+    return localResponse.deserializeSyncResponse(InvoiceSplitterV1.class);
   }
 
   @Test
@@ -38,7 +29,7 @@ public class PDFExtractorTest {
 
     PDFExtractor extractor = new PDFExtractor(pdf);
     Assertions.assertEquals(5, extractor.getPageCount());
-    List<ExtractedPDF> extractedPDFSNoStrict = extractor
+    var extractedPDFSNoStrict = extractor
       .extractInvoices(inference.getPrediction().getInvoicePageGroups(), false);
     Assertions.assertEquals(3, extractedPDFSNoStrict.size());
     Assertions.assertEquals("invoice_5p_001-001.pdf", extractedPDFSNoStrict.get(0).getFilename());
@@ -56,7 +47,7 @@ public class PDFExtractorTest {
 
     PDFExtractor extractor = new PDFExtractor(pdf);
     Assertions.assertEquals(5, extractor.getPageCount());
-    List<ExtractedPDF> extractedPDFStrict = extractor
+    var extractedPDFStrict = extractor
       .extractInvoices(inference.getPrediction().getInvoicePageGroups(), true);
     Assertions.assertEquals(2, extractedPDFStrict.size());
     Assertions.assertEquals("invoice_5p_001-001.pdf", extractedPDFStrict.get(0).getFilename());

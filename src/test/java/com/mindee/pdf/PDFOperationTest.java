@@ -12,9 +12,9 @@ import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class PdfOperationTest {
+public class PDFOperationTest {
 
-  private final PdfOperation pdfOperation = new PdfBoxApi();
+  private final PDFOperation pdfOperation = new PDFBoxApi();
 
   @Test
   public void givenADocumentAndPageToKeep_whenSplit_thenReturnsOnlyKeptPage() throws IOException {
@@ -26,7 +26,7 @@ public class PdfOperationTest {
 
     byte[] fileBytes = Files.readAllBytes(getResourcePath("file_types/pdf/multipage.pdf"));
     SplitQuery splitQuery = new SplitQuery(fileBytes, pageOptions);
-    SplitPdf splitPdf = pdfOperation.split(splitQuery);
+    SplitPDF splitPdf = pdfOperation.split(splitQuery);
 
     Assertions.assertNotNull(splitPdf);
     Assertions.assertNotNull(splitPdf.getFile());
@@ -49,7 +49,7 @@ public class PdfOperationTest {
       Files.readAllBytes(getResourcePath("file_types/pdf/multipage.pdf")),
       pageOptions
     );
-    SplitPdf splitPdf = pdfOperation.split(splitQuery);
+    SplitPDF splitPdf = pdfOperation.split(splitQuery);
 
     Assertions.assertNotNull(splitPdf);
     Assertions.assertNotNull(splitPdf.getFile());
@@ -68,7 +68,7 @@ public class PdfOperationTest {
       Files.readAllBytes(getResourcePath("file_types/pdf/multipage.pdf")),
       pageOptions
     );
-    SplitPdf splitPdf = pdfOperation.split(splitQuery);
+    SplitPDF splitPdf = pdfOperation.split(splitQuery);
 
     Assertions.assertNotNull(splitPdf);
     Assertions.assertNotNull(splitPdf.getFile());
@@ -104,7 +104,7 @@ public class PdfOperationTest {
       Files.readAllBytes(getResourcePath("file_types/pdf/multipage_cut-2.pdf")),
       pageOptions
     );
-    SplitPdf splitPdf = pdfOperation.split(splitQuery);
+    SplitPDF splitPdf = pdfOperation.split(splitQuery);
 
     Assertions.assertNotNull(splitPdf);
     Assertions.assertNotNull(splitPdf.getFile());
@@ -123,7 +123,7 @@ public class PdfOperationTest {
       Files.readAllBytes(getResourcePath("file_types/pdf/multipage.pdf")),
       pageOptions
     );
-    SplitPdf splitPdf = pdfOperation.split(splitQuery);
+    SplitPDF splitPdf = pdfOperation.split(splitQuery);
 
     Assertions.assertNotNull(splitPdf);
     Assertions.assertNotNull(splitPdf.getFile());

@@ -5,14 +5,11 @@ import static com.mindee.pdf.PDFUtils.mergePdfPages;
 import com.mindee.MindeeException;
 import com.mindee.input.InputSourceUtils;
 import com.mindee.input.LocalInputSource;
-import com.mindee.v1.product.invoicesplitter.InvoiceSplitterV1InvoicePageGroup;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.stream.Collectors;
 import javax.imageio.ImageIO;
 import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -24,19 +21,9 @@ import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 /**
  * PDF extraction class.
  */
-public class PDFExtractor {
-  private final PDDocument sourcePdf;
-  private final String filename;
-
-  /**
-   * Init from a path.
-   *
-   * @param filePath Path to the file.
-   * @throws IOException Throws if the file can't be accessed.
-   */
-  public PDFExtractor(String filePath) throws IOException {
-    this(new LocalInputSource(filePath));
-  }
+public class BasePDFExtractor {
+  protected final PDDocument sourcePdf;
+  protected final String filename;
 
   /**
    * Init from a {@link LocalInputSource}.
@@ -44,13 +31,13 @@ public class PDFExtractor {
    * @param source The local source.
    * @throws IOException Throws if the file can't be accessed.
    */
-  public PDFExtractor(LocalInputSource source) throws IOException {
+  protected BasePDFExtractor(LocalInputSource source) throws IOException {
     this.filename = source.getFilename();
     if (source.isPdf()) {
       this.sourcePdf = Loader.loadPDF(source.getFile());
     } else {
-      PDDocument document = new PDDocument();
-      PDPage page = new PDPage();
+      var document = new PDDocument();
+      var page = new PDPage();
       document.addPage(page);
       BufferedImage bufferedImage = byteArrayToBufferedImage(source.getFile());
       PDImageXObject pdImage = LosslessFactory.createFromImage(document, bufferedImage);
@@ -65,7 +52,6 @@ public class PDFExtractor {
           );
       }
       this.sourcePdf = document;
-
     }
   }
 
@@ -101,7 +87,7 @@ public class PDFExtractor {
   public List<ExtractedPDF> extractSubDocuments(
       List<List<Integer>> pageIndexes
   ) throws IOException {
-    List<ExtractedPDF> extractedPDFs = new ArrayList<>();
+    var extractedPDFs = new ArrayList<ExtractedPDF>();
 
     for (List<Integer> pageIndexElement : pageIndexes) {
       if (pageIndexElement.isEmpty()) {
@@ -126,65 +112,4 @@ public class PDFExtractor {
     }
     return extractedPDFs;
   }
-
-  /**
-   * Extract invoices from the given page indexes (from an invoice-splitter prediction).
-   *
-   * @param pageIndexes List of page indexes.
-   * @return a list of extracted files.
-   * @throws IOException Throws if the file can't be accessed.
-   */
-  public List<ExtractedPDF> extractInvoices(
-      List<InvoiceSplitterV1InvoicePageGroup> pageIndexes
-  ) throws IOException {
-
-    List<List<Integer>> indexes = pageIndexes
-      .stream()
-      .map(InvoiceSplitterV1InvoicePageGroup::getPageIndexes)
-      .collect(Collectors.toList());
-
-    return extractSubDocuments(indexes);
-  }
-
-  /**
-   * Extract invoices from the given page indexes (from an invoice-splitter prediction).
-   *
-   * @param pageIndexes List of page indexes.
-   * @param strict Whether the extraction should strictly follow the confidence scores or not.
-   * @return a list of extracted files.
-   * @throws IOException Throws if the file can't be accessed.
-   */
-  public List<ExtractedPDF> extractInvoices(
-      List<InvoiceSplitterV1InvoicePageGroup> pageIndexes,
-      boolean strict
-  ) throws IOException {
-    List<List<Integer>> correctPageIndexes = new ArrayList<>();
-    if (!strict) {
-      return extractInvoices(pageIndexes);
-    }
-    Iterator<InvoiceSplitterV1InvoicePageGroup> iterator = pageIndexes.iterator();
-    List<Integer> currentList = new ArrayList<>();
-    Double previousConfidence = null;
-    while (iterator.hasNext()) {
-      InvoiceSplitterV1InvoicePageGroup pageIndex = iterator.next();
-      Double confidence = pageIndex.getConfidence();
-      List<Integer> pageList = pageIndex.getPageIndexes();
-
-      if (confidence == 1.0 && previousConfidence == null) {
-        currentList = new ArrayList<>(pageList);
-      } else if (confidence == 1.0) {
-        correctPageIndexes.add(currentList);
-        currentList = new ArrayList<>(pageList);
-      } else if (confidence == 0.0 && !iterator.hasNext()) {
-        currentList.addAll(pageList);
-        correctPageIndexes.add(currentList);
-      } else {
-        correctPageIndexes.add(currentList);
-        correctPageIndexes.add(pageList);
-      }
-      previousConfidence = confidence;
-    }
-    return extractSubDocuments(correctPageIndexes);
-  }
-
 }
