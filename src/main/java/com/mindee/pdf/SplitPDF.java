@@ -6,7 +6,7 @@ import lombok.Value;
  * The split PDF.
  */
 @Value
-public class SplitPdf {
+public class SplitPDF {
 
   /**
    * The file.

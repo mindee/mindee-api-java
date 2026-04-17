@@ -11,32 +11,30 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.pdmodel.PDDocument;
 
 /**
  * Allows performing various operations on PDFs.
  */
-public final class PdfBoxApi implements PdfOperation {
+public final class PDFBoxApi implements PDFOperation {
 
   @Override
-  public SplitPdf split(SplitQuery splitQuery) throws IOException {
+  public SplitPDF split(SplitQuery splitQuery) throws IOException {
 
     if (!checkPdfOpen(splitQuery.getFile())) {
       throw new MindeeException("This document cannot be open and cannot be split.");
     }
 
-    try (PDDocument originalDocument = Loader.loadPDF(splitQuery.getFile())) {
-      try (PDDocument splitDocument = new PDDocument()) {
+    try (var originalDocument = Loader.loadPDF(splitQuery.getFile())) {
+      try (var splitDocument = new PDDocument()) {
         int totalOriginalPages = countPages(splitQuery.getFile());
 
         if (totalOriginalPages < splitQuery.getPageOptions().getOnMinPages()) {
-          return new SplitPdf(splitQuery.getFile(), totalOriginalPages);
+          return new SplitPDF(splitQuery.getFile(), totalOriginalPages);
         }
 
-        List<Integer> pageRange = getPageRanges(splitQuery.getPageOptions(), totalOriginalPages);
-
+        var pageRange = getPageRanges(splitQuery.getPageOptions(), totalOriginalPages);
         pageRange
           .stream()
           .filter(i -> i < totalOriginalPages)
@@ -45,7 +43,7 @@ public final class PdfBoxApi implements PdfOperation {
         try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
           splitDocument.save(outputStream);
           byte[] splitPdf = outputStream.toByteArray();
-          return new SplitPdf(splitPdf, countPages(splitPdf));
+          return new SplitPDF(splitPdf, countPages(splitPdf));
         }
       }
     }
@@ -55,12 +53,12 @@ public final class PdfBoxApi implements PdfOperation {
 
     Set<Integer> pages = Optional
       .ofNullable(pageOptions.getPageIndexes())
-      .map(Collection::stream)
-      .orElseGet(Stream::empty)
+      .stream()
+      .flatMap(Collection::stream)
       .filter(x -> x > (numberOfPages) * (-1) && x <= (numberOfPages - 1))
       .map(x -> (numberOfPages + x) % numberOfPages)
       .collect(Collectors.toSet());
-    List<Integer> allPages = IntStream.range(0, numberOfPages).boxed().collect(Collectors.toList());
+    var allPages = IntStream.range(0, numberOfPages).boxed().collect(Collectors.toList());
 
     switch (pageOptions.getOperation()) {
       case KEEP_ONLY:
@@ -85,9 +83,6 @@ public final class PdfBoxApi implements PdfOperation {
   }
 
   private int countPages(byte[] documentFile) throws IOException {
-    PDDocument document = Loader.loadPDF(documentFile);
-    int pageCount = document.getNumberOfPages();
-    document.close();
-    return pageCount;
+    return PDFUtils.getNumberOfPages(documentFile);
   }
 }

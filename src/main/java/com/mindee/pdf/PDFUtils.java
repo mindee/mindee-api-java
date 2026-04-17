@@ -69,8 +69,8 @@ public final class PDFUtils {
       List<Integer> pageNumbers,
       boolean closeOriginal
   ) throws IOException {
-    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-    PDDocument newDocument = new PDDocument();
+    var outputStream = new ByteArrayOutputStream();
+    var newDocument = new PDDocument();
     int pageCount = document.getNumberOfPages();
     pageNumbers
       .stream()
@@ -161,7 +161,7 @@ public final class PDFUtils {
    */
   public static List<PdfPageImage> pdfToImages(LocalInputSource source) throws IOException {
     PDDocument document = Loader.loadPDF(source.getFile());
-    PDFRenderer pdfRenderer = new PDFRenderer(document);
+    var pdfRenderer = new PDFRenderer(document);
     List<PdfPageImage> pdfPageImages = new ArrayList<>();
     for (int i = 0; i < document.getNumberOfPages(); i++) {
       BufferedImage imageBuffer = pdfPageToImageBuffer(i, document, pdfRenderer);
@@ -201,7 +201,7 @@ public final class PDFUtils {
   ) throws IOException {
     int index = pageNumber - 1;
     PDDocument document = Loader.loadPDF(source.getFile());
-    PDFRenderer pdfRenderer = new PDFRenderer(document);
+    var pdfRenderer = new PDFRenderer(document);
     BufferedImage imageBuffer = pdfPageToImageBuffer(index, document, pdfRenderer);
     document.close();
     return new PdfPageImage(imageBuffer, index, source.getFilename(), "jpg");
@@ -226,7 +226,7 @@ public final class PDFUtils {
   }
 
   public static byte[] documentToBytes(PDDocument document) throws IOException {
-    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+    var outputStream = new ByteArrayOutputStream();
     document.save(outputStream);
     return outputStream.toByteArray();
   }
