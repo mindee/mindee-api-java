@@ -29,7 +29,7 @@ public class MindeeClient {
     this(createDefaultApiV2(apiKey));
   }
 
-  /** Inject both a PDF implementation and an HTTP implementation. */
+  /** Inject a custom HTTP API implementation. */
   public MindeeClient(MindeeApiV2 mindeeApi) {
     this.mindeeApi = mindeeApi;
   }
