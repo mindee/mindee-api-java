@@ -4,7 +4,7 @@ import static com.mindee.TestingUtilities.getResourcePath;
 import static com.mindee.TestingUtilities.getV1ResourcePath;
 
 import com.mindee.image.ImageCompressor;
-import com.mindee.pdf.PdfCompressor;
+import com.mindee.pdf.PDFCompressor;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -254,10 +254,10 @@ public class FileCompressionTest {
 
     List<byte[]> resizes = Arrays
       .asList(
-        PdfCompressor.compressPdf(pdfResizeInput.getFile()),
-        PdfCompressor.compressPdf(pdfResizeInput.getFile(), 75),
-        PdfCompressor.compressPdf(pdfResizeInput.getFile(), 50),
-        PdfCompressor.compressPdf(pdfResizeInput.getFile(), 10)
+        PDFCompressor.compressPdf(pdfResizeInput.getFile()),
+        PDFCompressor.compressPdf(pdfResizeInput.getFile(), 75),
+        PDFCompressor.compressPdf(pdfResizeInput.getFile(), 50),
+        PDFCompressor.compressPdf(pdfResizeInput.getFile(), 10)
       );
 
     List<Path> outputPaths = Arrays
@@ -323,7 +323,7 @@ public class FileCompressionTest {
   public void testPdfResizeWithTextKeepsText() throws IOException {
     Path inputPath = getResourcePath("file_types/pdf/multipage.pdf");
     LocalInputSource initialWithText = new LocalInputSource(inputPath.toString());
-    byte[] compressedWithText = PdfCompressor
+    byte[] compressedWithText = PDFCompressor
       .compressPdf(initialWithText.getFile(), 100, true, false);
 
     PDDocument originalDoc = Loader.loadPDF(initialWithText.getFile());

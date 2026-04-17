@@ -5,7 +5,7 @@ import java.io.IOException;
 /**
  * Minimum PDF operations.
  */
-public interface PdfOperation {
+public interface PDFOperation {
 
   /**
    * Split a PDF file.
@@ -13,5 +13,5 @@ public interface PdfOperation {
    * @param splitQuery Options to perform the query.
    * @return The split PDF.
    */
-  SplitPdf split(SplitQuery splitQuery) throws IOException;
+  SplitPDF split(SplitQuery splitQuery) throws IOException;
 }

@@ -11,14 +11,13 @@ import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.graphics.image.JPEGFactory;
-import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 import org.apache.pdfbox.rendering.ImageType;
 import org.apache.pdfbox.rendering.PDFRenderer;
 
 /**
  * PDF compression class.
  */
-public class PdfCompressor {
+public class PDFCompressor {
   public static byte[] compressPdf(
       byte[] pdfData,
       Integer imageQuality,
@@ -44,10 +43,10 @@ public class PdfCompressor {
     }
     try (PDDocument inputDoc = Loader.loadPDF(pdfData); PDDocument outputDoc = new PDDocument()) {
 
-      PDFRenderer pdfRenderer = new PDFRenderer(inputDoc);
+      var pdfRenderer = new PDFRenderer(inputDoc);
 
       for (int pageIndex = 0; pageIndex < inputDoc.getNumberOfPages(); pageIndex++) {
-        PDPage originalPage = inputDoc.getPage(pageIndex);
+        var originalPage = inputDoc.getPage(pageIndex);
         PDRectangle originalPageSize = originalPage.getMediaBox();
 
         processPage(
@@ -92,12 +91,12 @@ public class PdfCompressor {
       PDRectangle originalPageSize,
       Boolean disableSourceText
   ) throws IOException {
-    PDPage newPage = new PDPage(originalPageSize);
+    var newPage = new PDPage(originalPageSize);
     outputDoc.addPage(newPage);
 
-    PDImageXObject pdImage = JPEGFactory.createFromImage(outputDoc, image, imageQuality);
+    var pdImage = JPEGFactory.createFromImage(outputDoc, image, imageQuality);
 
-    try (PDPageContentStream contentStream = new PDPageContentStream(outputDoc, newPage)) {
+    try (var contentStream = new PDPageContentStream(outputDoc, newPage)) {
       PDFUtils.addImageToPage(contentStream, pdImage, originalPageSize);
       PDFUtils.extractAndAddText(originalDocument, contentStream, pageIndex, disableSourceText);
     }

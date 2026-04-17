@@ -1,10 +1,10 @@
 package com.mindee.input;
 
 import com.mindee.image.ImageCompressor;
+import com.mindee.pdf.PDFBoxApi;
+import com.mindee.pdf.PDFCompressor;
+import com.mindee.pdf.PDFOperation;
 import com.mindee.pdf.PDFUtils;
-import com.mindee.pdf.PdfBoxApi;
-import com.mindee.pdf.PdfCompressor;
-import com.mindee.pdf.PdfOperation;
 import com.mindee.pdf.SplitQuery;
 import java.io.File;
 import java.io.IOException;
@@ -13,16 +13,20 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Base64;
 import lombok.Getter;
+import lombok.Setter;
 import org.apache.pdfbox.io.IOUtils;
 
 /**
  * A source document for Mindee API operations.
  */
-@Getter
 public final class LocalInputSource {
 
+  @Getter
   private byte[] file;
+  @Getter
   private final String filename;
+  @Setter
+  private PDFOperation pdfOperation;
 
   public LocalInputSource(InputStream file, String filename) throws IOException {
     this.file = IOUtils.toByteArray(file);
@@ -55,6 +59,13 @@ public final class LocalInputSource {
     this.filename = filename;
   }
 
+  public PDFOperation getPdfOperation() {
+    if (this.pdfOperation == null) {
+      this.pdfOperation = new PDFBoxApi();
+    }
+    return this.pdfOperation;
+  }
+
   /**
    * Get the number of pages in the document.
    *
@@ -76,8 +87,7 @@ public final class LocalInputSource {
    */
   public void applyPageOptions(PageOptions pageOptions) throws IOException {
     if (pageOptions != null && this.isPdf()) {
-      PdfOperation pdfOperation = new PdfBoxApi();
-      this.file = pdfOperation.split(new SplitQuery(this.file, pageOptions)).getFile();
+      this.file = getPdfOperation().split(new SplitQuery(this.file, pageOptions)).getFile();
     }
   }
 
@@ -97,7 +107,7 @@ public final class LocalInputSource {
       Boolean disableSourceText
   ) throws IOException {
     if (isPdf()) {
-      this.file = PdfCompressor.compressPdf(this.file, quality, forceSourceText, disableSourceText);
+      this.file = PDFCompressor.compressPdf(this.file, quality, forceSourceText, disableSourceText);
     } else {
       this.file = ImageCompressor.compressImage(this.file, quality, maxWidth, maxHeight);
     }
