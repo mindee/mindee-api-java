@@ -32,7 +32,7 @@ class CropIT {
 
   @Test
   @DisplayName("Empty, multi-page PDF – enqueue & parse must succeed")
-  void parseFile_emptyMultiPage_mustSucceed() throws IOException, InterruptedException {
+  void parseFile_FilledMultiPage_mustSucceed() throws IOException, InterruptedException {
     var source = new LocalInputSource(getV2ResourcePath("products/crop/multipage_sample.pdf"));
     var params = CropParameters
       .builder(modelId)
