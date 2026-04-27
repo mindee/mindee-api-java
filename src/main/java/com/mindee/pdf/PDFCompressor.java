@@ -189,23 +189,4 @@ public class PDFCompressor {
   ) throws IOException {
     contentStream.drawImage(pdImage, 0, 0, pageSize.getWidth(), pageSize.getHeight());
   }
-
-  private static BufferedImage pdfPageToImageBuffer(
-      int index,
-      PDDocument document,
-      PDFRenderer pdfRenderer
-  ) throws IOException {
-    PDRectangle bbox = document.getPage(index).getBBox();
-    float dimension = bbox.getWidth() * bbox.getHeight();
-    int dpi;
-    if (dimension < 200000) {
-      dpi = 300;
-    } else if (dimension < 300000) {
-      dpi = 250;
-    } else {
-      dpi = 200;
-    }
-    return pdfRenderer.renderImageWithDPI(index, dpi, ImageType.RGB);
-  }
-
 }
