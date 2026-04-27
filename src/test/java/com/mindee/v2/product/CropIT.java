@@ -1,6 +1,6 @@
 package com.mindee.v2.product;
 
-import static com.mindee.TestingUtilities.getResourcePath;
+import static com.mindee.TestingUtilities.getV2ResourcePath;
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.mindee.input.LocalInputSource;
@@ -32,8 +32,8 @@ class CropIT {
 
   @Test
   @DisplayName("Empty, multi-page PDF – enqueue & parse must succeed")
-  void parseFile_emptyMultiPage_mustSucceed() throws IOException, InterruptedException {
-    var source = new LocalInputSource(getResourcePath("file_types/pdf/multipage_cut-2.pdf"));
+  void parseFile_FilledMultiPage_mustSucceed() throws IOException, InterruptedException {
+    var source = new LocalInputSource(getV2ResourcePath("products/crop/multipage_sample.pdf"));
     var params = CropParameters
       .builder(modelId)
       .alias("java_integration-test_crop_multipage")
@@ -54,7 +54,7 @@ class CropIT {
 
     var file = inference.getFile();
     assertNotNull(file);
-    assertEquals("multipage_cut-2.pdf", file.getName());
+    assertEquals("multipage_sample.pdf", file.getName());
     assertEquals(2, file.getPageCount());
 
     assertNotNull(inference.getModel());
@@ -62,7 +62,7 @@ class CropIT {
 
     var result = inference.getResult();
     assertNotNull(result);
-    assertEquals(1, result.getCrops().size());
-    assertEquals("other", result.getCrops().get(0).getObjectType());
+    assertEquals(5, result.getCrops().size());
+    assertEquals("receipt", result.getCrops().get(0).getObjectType());
   }
 }
