@@ -1,11 +1,13 @@
 package com.mindee.input;
 
+import com.mindee.MindeeException;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -19,7 +21,7 @@ import lombok.Getter;
  */
 public class URLInputSource {
   @Getter
-  private final String url;
+  private final URL url;
   private final String username;
   private final String password;
   @Getter
@@ -43,20 +45,21 @@ public class URLInputSource {
    * @param url URL to fetch the file from.
    * @return An instance of {@link URLInputSource}.
    */
-  public static Builder builder(String url) {
+  public static Builder builder(String url) throws MalformedURLException {
+    return new Builder(new URL(url));
+  }
+
+  public static Builder builder(URL url) {
     return new Builder(url);
   }
 
-  private HttpURLConnection prepareConnection() throws IOException {
-    HttpURLConnection connection = createConnection(url);
-    connection = handleRedirects(connection);
-
-    int responseCode = connection.getResponseCode();
-    if (responseCode != HttpURLConnection.HTTP_OK) {
-      throw new IOException("Failed to fetch file: " + responseCode);
+  /**
+   * Ensures the URL can be sent to the Mindee server.
+   */
+  public void validateSecure() {
+    if (!"https".equalsIgnoreCase(this.url.getProtocol())) {
+      throw new MindeeException("Only HTTPS source URLs are allowed");
     }
-
-    return connection;
   }
 
   /**
@@ -72,8 +75,20 @@ public class URLInputSource {
     }
   }
 
-  protected HttpURLConnection createConnection(String urlString) throws IOException {
-    HttpURLConnection connection = (HttpURLConnection) new URL(urlString).openConnection();
+  private HttpURLConnection prepareConnection() throws IOException {
+    HttpURLConnection connection = createConnection(url);
+    connection = handleRedirects(connection);
+
+    int responseCode = connection.getResponseCode();
+    if (responseCode != HttpURLConnection.HTTP_OK) {
+      throw new IOException("Failed to fetch file: " + responseCode);
+    }
+
+    return connection;
+  }
+
+  protected HttpURLConnection createConnection(URL url) throws IOException {
+    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
     connection.setInstanceFollowRedirects(true);
 
     if (username != null && password != null) {
@@ -101,7 +116,7 @@ public class URLInputSource {
       String newUrl = connection.getHeaderField("Location");
       connection.disconnect();
 
-      HttpURLConnection newConnection = createConnection(newUrl);
+      HttpURLConnection newConnection = createConnection(new URL(newUrl));
       return handleRedirects(newConnection); // Recursive call to handle multiple redirects
     }
     return connection;
@@ -189,18 +204,27 @@ public class URLInputSource {
    * Builder class for an URLInputSource.
    */
   public static class Builder {
-    private final String url;
+    private final URL url;
     private String username;
     private String password;
     private String localFilename;
     private String token;
 
     /**
-     * Default constructor.
+     * String constructor.
      *
      * @param url Remote URL resource.
      */
-    public Builder(String url) {
+    public Builder(String url) throws MalformedURLException {
+      this.url = new URL(url);
+    }
+
+    /**
+     * URL constructor.
+     *
+     * @param url Remote URL resource.
+     */
+    public Builder(URL url) {
       this.url = url;
     }
 

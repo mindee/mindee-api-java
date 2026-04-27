@@ -113,9 +113,7 @@ class MindeeClientTest {
   @Test
   void givenAnAsyncDoc_whenEnqueued_shouldInvokeApiCorrectly() throws IOException {
 
-    LocalInputSource localInputSource = new LocalInputSource(
-      getResourcePath("file_types/pdf/blank_1.pdf")
-    );
+    var localInputSource = new LocalInputSource(getResourcePath("file_types/pdf/blank_1.pdf"));
 
     Job job = new Job(LocalDateTime.now(), "someid", LocalDateTime.now(), "Completed", null);
 
