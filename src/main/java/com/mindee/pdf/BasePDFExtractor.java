@@ -1,17 +1,19 @@
 package com.mindee.pdf;
 
-import static com.mindee.pdf.PDFUtils.mergePdfPages;
-
 import com.mindee.MindeeException;
 import com.mindee.input.InputSourceUtils;
 import com.mindee.input.LocalInputSource;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.imageio.ImageIO;
 import org.apache.pdfbox.Loader;
+import org.apache.pdfbox.cos.COSDictionary;
+import org.apache.pdfbox.cos.COSName;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
@@ -111,5 +113,65 @@ public class BasePDFExtractor {
         );
     }
     return extractedPDFs;
+  }
+
+  private static PDPage clonePage(PDPage page) {
+
+    COSDictionary pageDict = page.getCOSObject();
+    COSDictionary newPageDict = new COSDictionary(pageDict);
+
+    newPageDict.removeItem(COSName.ANNOTS);
+
+    return new PDPage(newPageDict);
+  }
+
+  private static byte[] createPdfFromExistingPdf(
+      PDDocument document,
+      List<Integer> pageNumbers,
+      boolean closeOriginal
+  ) throws IOException {
+    var outputStream = new ByteArrayOutputStream();
+    var newDocument = new PDDocument();
+    int pageCount = document.getNumberOfPages();
+    pageNumbers
+      .stream()
+      .filter(i -> i < pageCount)
+      .forEach(i -> newDocument.addPage(clonePage(document.getPage(i))));
+
+    newDocument.save(outputStream);
+    newDocument.close();
+    if (closeOriginal) {
+      document.close();
+    }
+
+    byte[] output = outputStream.toByteArray();
+    outputStream.close();
+    return output;
+  }
+
+  /**
+   * Merge specified PDF pages together.
+   *
+   * @param file The PDF file.
+   * @param pageNumbers Lit of page numbers to merge together.
+   */
+  public static byte[] mergePdfPages(File file, List<Integer> pageNumbers) throws IOException {
+    PDDocument document = Loader.loadPDF(file);
+    return createPdfFromExistingPdf(document, pageNumbers, true);
+  }
+
+  public static byte[] mergePdfPages(
+      PDDocument document,
+      List<Integer> pageNumbers
+  ) throws IOException {
+    return mergePdfPages(document, pageNumbers, true);
+  }
+
+  public static byte[] mergePdfPages(
+      PDDocument document,
+      List<Integer> pageNumbers,
+      boolean closeOriginal
+  ) throws IOException {
+    return createPdfFromExistingPdf(document, pageNumbers, closeOriginal);
   }
 }
