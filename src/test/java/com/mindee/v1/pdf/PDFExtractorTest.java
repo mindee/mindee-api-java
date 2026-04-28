@@ -28,7 +28,6 @@ public class PDFExtractorTest {
     InvoiceSplitterV1 inference = response.getDocument().getInference();
 
     PDFExtractor extractor = new PDFExtractor(pdf);
-    Assertions.assertEquals(5, extractor.getPageCount());
     var extractedPDFSNoStrict = extractor
       .extractInvoices(inference.getPrediction().getInvoicePageGroups(), false);
     Assertions.assertEquals(3, extractedPDFSNoStrict.size());
@@ -39,14 +38,13 @@ public class PDFExtractorTest {
 
   @Test
   public void givenAPDF_shouldExtractInvoicesStrict() throws IOException {
-    LocalInputSource pdf = new LocalInputSource(
+    var inputSource = new LocalInputSource(
       getV1ResourcePath("products/invoice_splitter/invoice_5p.pdf")
     );
     PredictResponse<InvoiceSplitterV1> response = getInvoiceSplitterPrediction();
     InvoiceSplitterV1 inference = response.getDocument().getInference();
 
-    PDFExtractor extractor = new PDFExtractor(pdf);
-    Assertions.assertEquals(5, extractor.getPageCount());
+    PDFExtractor extractor = new PDFExtractor(inputSource);
     var extractedPDFStrict = extractor
       .extractInvoices(inference.getPrediction().getInvoicePageGroups(), true);
     Assertions.assertEquals(2, extractedPDFStrict.size());

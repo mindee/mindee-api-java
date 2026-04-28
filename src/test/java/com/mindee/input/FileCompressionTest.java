@@ -254,10 +254,10 @@ public class FileCompressionTest {
     var compressor = new PDFCompressor();
     List<byte[]> resizes = Arrays
       .asList(
-        compressor.compressPdf(pdfResizeInput.getFile()),
-        compressor.compressPdf(pdfResizeInput.getFile(), 75),
-        compressor.compressPdf(pdfResizeInput.getFile(), 50),
-        compressor.compressPdf(pdfResizeInput.getFile(), 10)
+        compressor.compressPDF(pdfResizeInput.getFile()),
+        compressor.compressPDF(pdfResizeInput.getFile(), 75),
+        compressor.compressPDF(pdfResizeInput.getFile(), 50),
+        compressor.compressPDF(pdfResizeInput.getFile(), 10)
       );
 
     List<Path> outputPaths = Arrays

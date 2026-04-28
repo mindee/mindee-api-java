@@ -29,7 +29,7 @@ public class ImageExtractor {
     this.filename = source.getFilename();
     this.pageImages = new ArrayList<>();
 
-    if (source.isPdf()) {
+    if (source.isPDF()) {
       this.saveFormat = "jpg";
       var pdfPageImages = pdfToImages(source.getFile(), this.filename);
       for (PdfPageImage pdfPageImage : pdfPageImages) {

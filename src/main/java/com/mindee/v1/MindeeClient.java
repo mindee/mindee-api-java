@@ -4,8 +4,8 @@ import com.mindee.MindeeException;
 import com.mindee.input.LocalInputSource;
 import com.mindee.input.PageOptions;
 import com.mindee.input.URLInputSource;
-import com.mindee.pdf.PDFInputSource;
-import com.mindee.pdf.PDFInputSourcer;
+import com.mindee.pdf.PDFInputOperation;
+import com.mindee.pdf.PDFInputOperator;
 import com.mindee.v1.clientOptions.PollingOptions;
 import com.mindee.v1.clientOptions.PredictOptions;
 import com.mindee.v1.clientOptions.WorkflowOptions;
@@ -26,7 +26,7 @@ import java.net.URL;
  */
 public class MindeeClient {
 
-  protected PDFInputSource pdfOperation;
+  protected PDFInputOperation pdfOperation;
   private final MindeeApiV1 mindeeApi;
 
   /**
@@ -34,7 +34,7 @@ public class MindeeClient {
    * You'll need to set the API key in the environment for this approach to work properly.
    */
   public MindeeClient() {
-    this.pdfOperation = new PDFInputSourcer();
+    this.pdfOperation = new PDFInputOperator();
     this.mindeeApi = createDefaultApi("");
   }
 
@@ -44,7 +44,7 @@ public class MindeeClient {
    * @param apiKey The api key to use.
    */
   public MindeeClient(String apiKey) {
-    this.pdfOperation = new PDFInputSourcer();
+    this.pdfOperation = new PDFInputOperator();
     this.mindeeApi = createDefaultApi(apiKey);
   }
 
@@ -54,7 +54,7 @@ public class MindeeClient {
    * @param mindeeApi The MindeeApi implementation to be used by the created MindeeClient.
    */
   public MindeeClient(MindeeApiV1 mindeeApi) {
-    this.pdfOperation = new PDFInputSourcer();
+    this.pdfOperation = new PDFInputOperator();
     this.mindeeApi = mindeeApi;
   }
 
@@ -64,7 +64,7 @@ public class MindeeClient {
    * @param pdfOperation The PdfOperation implementation to be used by the created MindeeClient.
    * @param mindeeApi The MindeeApi implementation to be used by the created MindeeClient.
    */
-  public MindeeClient(PDFInputSource pdfOperation, MindeeApiV1 mindeeApi) {
+  public MindeeClient(PDFInputOperation pdfOperation, MindeeApiV1 mindeeApi) {
     this.pdfOperation = pdfOperation;
     this.mindeeApi = mindeeApi;
   }

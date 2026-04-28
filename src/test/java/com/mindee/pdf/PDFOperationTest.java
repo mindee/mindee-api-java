@@ -19,40 +19,7 @@ import org.junit.jupiter.api.Test;
 
 public class PDFOperationTest {
 
-  private final PDFInputSource pdfOperation = new PDFInputSourcer();
-
-//  @Test
-//  public void shouldConvertSinglePageToJpg() throws IOException {
-//    LocalInputSource source = new LocalInputSource(
-//      "src/test/resources/file_types/pdf/multipage.pdf"
-//    );
-//    PdfPageImage pdfPageImage = pdfOperation.pdfPageToImage(source, 3);
-//    Assertions.assertNotNull(pdfPageImage.getImage());
-//    Assertions.assertEquals(pdfPageImage.asInputSource().getFilename(), pdfPageImage.getFilename());
-//    pdfPageImage.writeToFile("src/test/resources/output/");
-//    Assertions
-//      .assertTrue(
-//        Files.exists(Paths.get("src/test/resources/output/" + pdfPageImage.getFilename()))
-//      );
-//  }
-
-//  @Test
-//  public void shouldConvertAllPagesToJpg() throws IOException {
-//    LocalInputSource source = new LocalInputSource(
-//      "src/test/resources/file_types/pdf/multipage.pdf"
-//    );
-//    List<PdfPageImage> pdfPageImages = pdfOperation.pdfToImages(source);
-//    for (PdfPageImage pdfPageImage : pdfPageImages) {
-//      Assertions.assertNotNull(pdfPageImage.getImage());
-//      Assertions
-//        .assertEquals(pdfPageImage.asInputSource().getFilename(), pdfPageImage.getFilename());
-//      pdfPageImage.writeToFile("src/test/resources/output/");
-//      Assertions
-//        .assertTrue(
-//          Files.exists(Paths.get("src/test/resources/output/" + pdfPageImage.getFilename()))
-//        );
-//    }
-//  }
+  private final PDFInputOperation pdfOperation = new PDFInputOperator();
 
   @Test
   public void givenADocument_whenPageCounted_thenReturnsCorrectPageCount() throws IOException {
@@ -66,7 +33,7 @@ public class PDFOperationTest {
     document.close();
     File file = getResourcePath("output/test.pdf").toFile();
     LocalInputSource source = new LocalInputSource(file);
-    Assertions.assertEquals(random, pdfOperation.getNumberOfPages(source));
+    Assertions.assertEquals(random, source.getPageCount());
     file.delete();
   }
 
@@ -123,7 +90,7 @@ public class PDFOperationTest {
   }
 
   @Test
-  public void givenADocumentOtherThantAPdf_whenSplit_mustFail() throws IOException {
+  public void givenADocumentOtherThantAPdf_whenSplit_mustFail() {
 
     PageOptions pageOptions = new PageOptions.Builder()
       .pageIndexes(new Integer[] { 1, 2, 3 })

@@ -3,26 +3,26 @@ package com.mindee.pdf;
 import java.io.IOException;
 
 public interface PDFCompression {
-  byte[] compressPdf(
-      byte[] pdfData,
+  byte[] compressPDF(
+      byte[] fileBytes,
       Integer imageQuality,
       Boolean forceSourceTextCompression,
       Boolean disableSourceText
   ) throws IOException;
 
-  default byte[] compressPdf(
-      byte[] pdfData,
+  default byte[] compressPDF(
+      byte[] fileBytes,
       Integer imageQuality,
       Boolean forceSourceTextCompression
   ) throws IOException {
-    return compressPdf(pdfData, imageQuality, forceSourceTextCompression, true);
+    return compressPDF(fileBytes, imageQuality, forceSourceTextCompression, true);
   }
 
-  default byte[] compressPdf(byte[] pdfData, Integer imageQuality) throws IOException {
-    return compressPdf(pdfData, imageQuality, false, true);
+  default byte[] compressPDF(byte[] fileBytes, Integer imageQuality) throws IOException {
+    return compressPDF(fileBytes, imageQuality, false, true);
   }
 
-  default byte[] compressPdf(byte[] pdfData) throws IOException {
-    return compressPdf(pdfData, 85, false, true);
+  default byte[] compressPDF(byte[] fileBytes) throws IOException {
+    return compressPDF(fileBytes, 85, false, true);
   }
 }

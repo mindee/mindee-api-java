@@ -3,8 +3,8 @@ package com.mindee.input;
 import com.mindee.image.ImageCompressor;
 import com.mindee.pdf.PDFCompression;
 import com.mindee.pdf.PDFCompressor;
-import com.mindee.pdf.PDFInputSource;
-import com.mindee.pdf.PDFInputSourcer;
+import com.mindee.pdf.PDFInputOperation;
+import com.mindee.pdf.PDFInputOperator;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,16 +18,18 @@ import org.apache.pdfbox.io.IOUtils;
 /**
  * A source document for Mindee API operations.
  */
-public final class LocalInputSource {
+public class LocalInputSource {
 
   @Getter
   private byte[] file;
   @Getter
   private final String filename;
   @Setter
-  private PDFInputSource pdfOperation;
+  private PDFInputOperation pdfInputOperator;
   @Setter
-  private PDFCompressor pdfCompressor;
+  private PDFCompression pdfCompressor;
+  // Store here to avoid recalculating every time.
+  private Boolean isPDF;
 
   public LocalInputSource(InputStream file, String filename) throws IOException {
     this.file = IOUtils.toByteArray(file);
@@ -60,14 +62,14 @@ public final class LocalInputSource {
     this.filename = filename;
   }
 
-  public PDFInputSource getPdfOperation() {
-    if (this.pdfOperation == null) {
-      this.pdfOperation = new PDFInputSourcer();
+  private PDFInputOperation getPdfInputOperator() {
+    if (this.pdfInputOperator == null) {
+      this.pdfInputOperator = new PDFInputOperator();
     }
-    return this.pdfOperation;
+    return this.pdfInputOperator;
   }
 
-  public PDFCompression getPdfCompressor() {
+  private PDFCompression getPdfCompressor() {
     if (this.pdfCompressor == null) {
       this.pdfCompressor = new PDFCompressor();
     }
@@ -81,10 +83,10 @@ public final class LocalInputSource {
    * @throws IOException If an I/O error occurs during the PDF operation.
    */
   public int getPageCount() throws IOException {
-    if (!this.isPdf()) {
+    if (!this.isPDF()) {
       return 1;
     }
-    return getPdfOperation().getNumberOfPages(this.file);
+    return getPdfInputOperator().getPageCount(this.file);
   }
 
   /**
@@ -94,17 +96,19 @@ public final class LocalInputSource {
    * @throws IOException If an I/O error occurs during the PDF operation.
    */
   public void applyPageOptions(PageOptions pageOptions) throws IOException {
-    if (pageOptions != null && this.isPdf()) {
-      this.file = getPdfOperation().split(this.file, pageOptions).getFile();
+    if (pageOptions != null && this.isPDF()) {
+      this.file = getPdfInputOperator().split(this.file, pageOptions).getFile();
     }
   }
 
-  public boolean isPdf() {
-    return getPdfOperation().isPdf(this.file);
-  }
-
-  public boolean hasSourceText() {
-    return getPdfOperation().hasSourceText(this.file);
+  /**
+   * Returns true if the file is a PDF.
+   */
+  public boolean isPDF() {
+    if (this.isPDF == null) {
+      this.isPDF = getPdfInputOperator().isPDF(this.file);
+    }
+    return this.isPDF;
   }
 
   public LocalInputSource compress(
@@ -114,9 +118,9 @@ public final class LocalInputSource {
       Boolean forceSourceText,
       Boolean disableSourceText
   ) throws IOException {
-    if (isPdf()) {
+    if (isPDF()) {
       this.file = getPdfCompressor()
-        .compressPdf(this.file, quality, forceSourceText, disableSourceText);
+        .compressPDF(this.file, quality, forceSourceText, disableSourceText);
     } else {
       this.file = ImageCompressor.compressImage(this.file, quality, maxWidth, maxHeight);
     }

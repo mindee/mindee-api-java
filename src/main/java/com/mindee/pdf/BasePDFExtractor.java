@@ -6,7 +6,6 @@ import com.mindee.input.LocalInputSource;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,16 +16,13 @@ import org.apache.pdfbox.cos.COSName;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
-import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.graphics.image.LosslessFactory;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
-import org.apache.pdfbox.rendering.ImageType;
-import org.apache.pdfbox.rendering.PDFRenderer;
 
 /**
  * PDF extraction class.
  */
-public class PDFExtractorBase implements PDFExtraction {
+public class BasePDFExtractor {
   protected final PDDocument sourcePdf;
   protected final String filename;
 
@@ -36,9 +32,9 @@ public class PDFExtractorBase implements PDFExtraction {
    * @param source The local source.
    * @throws IOException Throws if the file can't be accessed.
    */
-  public PDFExtractorBase(LocalInputSource source) throws IOException {
+  public BasePDFExtractor(LocalInputSource source) throws IOException {
     this.filename = source.getFilename();
-    if (source.isPdf()) {
+    if (source.isPDF()) {
       this.sourcePdf = Loader.loadPDF(source.getFile());
     } else {
       var document = new PDDocument();
@@ -58,60 +54,6 @@ public class PDFExtractorBase implements PDFExtraction {
       }
       this.sourcePdf = document;
     }
-  }
-
-//  @Override
-//  public PdfPageImage pdfPageToImage(
-//      byte[] fileBytes,
-//      String filename,
-//      int pageNumber
-//  ) throws IOException {
-//    int index = pageNumber - 1;
-//    PDDocument document = Loader.loadPDF(fileBytes);
-//    var pdfRenderer = new PDFRenderer(document);
-//    BufferedImage imageBuffer = pdfPageToImageBuffer(index, document, pdfRenderer);
-//    document.close();
-//    return new PdfPageImage(imageBuffer, index, filename, "jpg");
-//  }
-//
-//  @Override
-//  public List<PdfPageImage> pdfToImages(byte[] fileBytes, String filename) throws IOException {
-//    PDDocument document = Loader.loadPDF(fileBytes);
-//    var pdfRenderer = new PDFRenderer(document);
-//    List<PdfPageImage> pdfPageImages = new ArrayList<>();
-//    for (int i = 0; i < document.getNumberOfPages(); i++) {
-//      var imageBuffer = pdfPageToImageBuffer(i, document, pdfRenderer);
-//      pdfPageImages.add(new PdfPageImage(imageBuffer, i, filename, "jpg"));
-//    }
-//    document.close();
-//    return pdfPageImages;
-//  }
-
-  private BufferedImage pdfPageToImageBuffer(
-      int index,
-      PDDocument document,
-      PDFRenderer pdfRenderer
-  ) throws IOException {
-    PDRectangle bbox = document.getPage(index).getBBox();
-    float dimension = bbox.getWidth() * bbox.getHeight();
-    int dpi;
-    if (dimension < 200000) {
-      dpi = 300;
-    } else if (dimension < 300000) {
-      dpi = 250;
-    } else {
-      dpi = 200;
-    }
-    return pdfRenderer.renderImageWithDPI(index, dpi, ImageType.RGB);
-  }
-
-  /**
-   * Get the number of pages in the PDF file.
-   *
-   * @return The number of pages in the PDF file.
-   */
-  public int getPageCount() {
-    return sourcePdf.getNumberOfPages();
   }
 
   /**
@@ -154,10 +96,7 @@ public class PDFExtractorBase implements PDFExtraction {
         + splitName[1];
       extractedPDFs
         .add(
-          new ExtractedPDF(
-            Loader.loadPDF(mergePdfPages(this.sourcePdf, pageIndexElement, false)),
-            fieldFilename
-          )
+          new ExtractedPDF(mergePdfPages(this.sourcePdf, pageIndexElement, false), fieldFilename)
         );
     }
     return extractedPDFs;
@@ -197,24 +136,6 @@ public class PDFExtractorBase implements PDFExtraction {
     return output;
   }
 
-  /**
-   * Merge specified PDF pages together.
-   *
-   * @param file The PDF file.
-   * @param pageNumbers Lit of page numbers to merge together.
-   */
-  @Override
-  public byte[] mergePdfPages(File file, List<Integer> pageNumbers) throws IOException {
-    PDDocument document = Loader.loadPDF(file);
-    return mergePdfPages(document, pageNumbers, true);
-  }
-
-  @Override
-  public byte[] mergePdfPages(PDDocument document, List<Integer> pageNumbers) throws IOException {
-    return mergePdfPages(document, pageNumbers, true);
-  }
-
-  @Override
   public byte[] mergePdfPages(
       PDDocument document,
       List<Integer> pageNumbers,
