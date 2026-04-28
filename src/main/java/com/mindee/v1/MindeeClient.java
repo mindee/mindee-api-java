@@ -1,9 +1,9 @@
 package com.mindee.v1;
 
 import com.mindee.MindeeException;
-import com.mindee.input.InputSourceUtils;
 import com.mindee.input.LocalInputSource;
 import com.mindee.input.PageOptions;
+import com.mindee.input.URLInputSource;
 import com.mindee.pdf.PDFBoxApi;
 import com.mindee.pdf.PDFOperation;
 import com.mindee.v1.clientOptions.PollingOptions;
@@ -203,7 +203,6 @@ public class MindeeClient {
       Class<T> type,
       URL sourceUrl
   ) throws IOException {
-    InputSourceUtils.validateUrl(sourceUrl);
     return this.enqueue(type, new Endpoint(type), null, null, null, sourceUrl);
   }
 
@@ -222,7 +221,6 @@ public class MindeeClient {
       URL sourceUrl,
       PredictOptions predictOptions
   ) throws IOException {
-    InputSourceUtils.validateUrl(sourceUrl);
     return this.enqueue(type, new Endpoint(type), null, null, predictOptions, sourceUrl);
   }
 
@@ -232,8 +230,12 @@ public class MindeeClient {
       byte[] file,
       String filename,
       PredictOptions predictOptions,
-      URL urlInputSource
+      URL url
   ) throws IOException {
+    URLInputSource urlInputSource = null;
+    if (url != null) {
+      urlInputSource = new URLInputSource.Builder(url).build();
+    }
     RequestParameters params = RequestParameters
       .builder()
       .file(file)
@@ -402,7 +404,6 @@ public class MindeeClient {
       Class<T> type,
       URL sourceUrl
   ) throws IOException, InterruptedException {
-    InputSourceUtils.validateUrl(sourceUrl);
     return this.enqueueAndParse(type, new Endpoint(type), null, null, null, null, sourceUrl);
   }
 
@@ -441,11 +442,12 @@ public class MindeeClient {
       byte[] file,
       String filename,
       PredictOptions predictOptions,
-      URL urlInputSource
+      URL url
   ) throws IOException, InterruptedException {
     if (pollingOptions == null) {
       pollingOptions = PollingOptions.builder().build();
     }
+
     this.validateAsyncParams(pollingOptions);
     final int initialDelaySec = (int) (pollingOptions.getInitialDelaySec() * 1000);
     final int intervalSec = (int) (pollingOptions.getIntervalSec() * 1000);
@@ -456,7 +458,7 @@ public class MindeeClient {
       file,
       filename,
       predictOptions,
-      urlInputSource
+      url
     );
 
     String jobId = enqueueResponse.getJob().getId();
@@ -648,7 +650,6 @@ public class MindeeClient {
       Class<T> type,
       URL urlInputSource
   ) throws IOException {
-    InputSourceUtils.validateUrl(urlInputSource);
     return this.parse(type, new Endpoint(type), null, null, null, urlInputSource);
   }
 
@@ -667,7 +668,6 @@ public class MindeeClient {
       URL urlInputSource,
       PredictOptions predictOptions
   ) throws IOException {
-    InputSourceUtils.validateUrl(urlInputSource);
     return this.parse(type, new Endpoint(type), null, null, predictOptions, urlInputSource);
   }
 
@@ -677,8 +677,12 @@ public class MindeeClient {
       byte[] file,
       String filename,
       PredictOptions predictOptions,
-      URL urlInputSource
+      URL url
   ) throws IOException {
+    URLInputSource urlInputSource = null;
+    if (url != null) {
+      urlInputSource = new URLInputSource.Builder(url).build();
+    }
     RequestParameters params = RequestParameters
       .builder()
       .file(file)
@@ -760,7 +764,6 @@ public class MindeeClient {
       Endpoint endpoint,
       URL sourceUrl
   ) throws IOException {
-    InputSourceUtils.validateUrl(sourceUrl);
     return this.enqueue(type, endpoint, null, null, null, sourceUrl);
   }
 
@@ -781,7 +784,6 @@ public class MindeeClient {
       URL sourceUrl,
       PredictOptions predictOptions
   ) throws IOException {
-    InputSourceUtils.validateUrl(sourceUrl);
     return this.enqueue(type, endpoint, null, null, predictOptions, sourceUrl);
   }
 
@@ -893,7 +895,6 @@ public class MindeeClient {
       Endpoint endpoint,
       URL sourceUrl
   ) throws IOException, InterruptedException {
-    InputSourceUtils.validateUrl(sourceUrl);
     return this.enqueueAndParse(type, endpoint, null, null, null, null, sourceUrl);
   }
 
@@ -1024,7 +1025,6 @@ public class MindeeClient {
       Endpoint endpoint,
       URL documentUrl
   ) throws IOException {
-    InputSourceUtils.validateUrl(documentUrl);
     return this.parse(type, endpoint, null, null, null, documentUrl);
   }
 
@@ -1045,7 +1045,6 @@ public class MindeeClient {
       URL documentUrl,
       PredictOptions predictOptions
   ) throws IOException {
-    InputSourceUtils.validateUrl(documentUrl);
     return this.parse(type, endpoint, null, null, predictOptions, documentUrl);
   }
 
