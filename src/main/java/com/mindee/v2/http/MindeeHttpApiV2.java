@@ -101,7 +101,7 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
 
     var builder = MultipartEntityBuilder.create();
     builder.setMode(HttpMultipartMode.EXTENDED);
-    builder.addTextBody("url", inputSource.getUrl());
+    builder.addTextBody("url", inputSource.getUrl().toString());
     post.setEntity(options.buildHttpBody(builder).build());
     return executeEnqueue(post);
   }

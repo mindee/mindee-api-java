@@ -12,6 +12,7 @@ import static com.mindee.TestingUtilities.getV1ResourcePathString;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
+import com.mindee.input.URLInputSource;
 import com.mindee.v1.MindeeSettings;
 import com.mindee.v1.clientOptions.PredictOptions;
 import com.mindee.v1.parsing.common.AsyncPredictResponse;
@@ -21,7 +22,6 @@ import com.mindee.v1.product.invoice.InvoiceV4;
 import com.mindee.v1.product.invoicesplitter.InvoiceSplitterV1;
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
@@ -189,7 +189,7 @@ public class MindeeHttpApiV1Test {
           .builder()
           .file(null)
           .fileName(null)
-          .urlInputSource(new URL("https://thisfile.does.not.exist"))
+          .urlInputSource(new URLInputSource.Builder("https://thisfile.does.not.exist").build())
           .build()
       )
       .getDocument();

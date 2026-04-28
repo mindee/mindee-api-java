@@ -1,5 +1,6 @@
 package com.mindee.v1.http;
 
+import com.mindee.input.URLInputSource;
 import com.mindee.v1.clientOptions.PredictOptions;
 import com.mindee.v1.clientOptions.WorkflowOptions;
 import java.net.URL;
@@ -20,7 +21,7 @@ public class RequestParameters {
 
   @Builder
   private RequestParameters(
-      URL urlInputSource,
+      URLInputSource urlInputSource,
       byte[] file,
       PredictOptions predictOptions,
       WorkflowOptions workflowOptions,
@@ -39,7 +40,12 @@ public class RequestParameters {
     } else {
       this.workflowOptions = workflowOptions;
     }
-    this.fileUrl = urlInputSource;
+    if (urlInputSource != null) {
+      urlInputSource.validateSecure();
+      this.fileUrl = urlInputSource.getUrl();
+    } else {
+      this.fileUrl = null;
+    }
     this.file = file;
     this.fileName = fileName;
   }
