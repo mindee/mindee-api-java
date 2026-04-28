@@ -5,7 +5,7 @@ import com.mindee.geometry.PositionDataField;
 import com.mindee.input.InputSourceUtils;
 import com.mindee.input.LocalInputSource;
 import com.mindee.pdf.PDFBoxApi;
-import com.mindee.pdf.PDFOperation;
+import com.mindee.pdf.ExtractionPDFOperation;
 import com.mindee.pdf.PdfPageImage;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
@@ -22,7 +22,7 @@ public class ImageExtractor {
   private final String filename;
   private final String saveFormat;
 
-  public ImageExtractor(LocalInputSource source, PDFOperation pdfOperation) throws IOException {
+  public ImageExtractor(LocalInputSource source, ExtractionPDFOperation pdfOperation) throws IOException {
     this.filename = source.getFilename();
     this.pageImages = new ArrayList<>();
 

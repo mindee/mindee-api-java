@@ -157,7 +157,7 @@ public class BasePDFExtractor {
    */
   public static byte[] mergePdfPages(File file, List<Integer> pageNumbers) throws IOException {
     PDDocument document = Loader.loadPDF(file);
-    return createPdfFromExistingPdf(document, pageNumbers, true);
+    return mergePdfPages(document, pageNumbers, true);
   }
 
   public static byte[] mergePdfPages(

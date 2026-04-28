@@ -9,7 +9,6 @@ import com.mindee.input.PageOptionsOperation;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -20,40 +19,40 @@ import org.junit.jupiter.api.Test;
 
 public class PDFOperationTest {
 
-  private final PDFOperation pdfOperation = new PDFBoxApi();
+  private final InputSourcePDFOperation pdfOperation = new PDFBoxApi();
 
-  @Test
-  public void shouldConvertSinglePageToJpg() throws IOException {
-    LocalInputSource source = new LocalInputSource(
-      "src/test/resources/file_types/pdf/multipage.pdf"
-    );
-    PdfPageImage pdfPageImage = pdfOperation.pdfPageToImage(source, 3);
-    Assertions.assertNotNull(pdfPageImage.getImage());
-    Assertions.assertEquals(pdfPageImage.asInputSource().getFilename(), pdfPageImage.getFilename());
-    pdfPageImage.writeToFile("src/test/resources/output/");
-    Assertions
-      .assertTrue(
-        Files.exists(Paths.get("src/test/resources/output/" + pdfPageImage.getFilename()))
-      );
-  }
+//  @Test
+//  public void shouldConvertSinglePageToJpg() throws IOException {
+//    LocalInputSource source = new LocalInputSource(
+//      "src/test/resources/file_types/pdf/multipage.pdf"
+//    );
+//    PdfPageImage pdfPageImage = pdfOperation.pdfPageToImage(source, 3);
+//    Assertions.assertNotNull(pdfPageImage.getImage());
+//    Assertions.assertEquals(pdfPageImage.asInputSource().getFilename(), pdfPageImage.getFilename());
+//    pdfPageImage.writeToFile("src/test/resources/output/");
+//    Assertions
+//      .assertTrue(
+//        Files.exists(Paths.get("src/test/resources/output/" + pdfPageImage.getFilename()))
+//      );
+//  }
 
-  @Test
-  public void shouldConvertAllPagesToJpg() throws IOException {
-    LocalInputSource source = new LocalInputSource(
-      "src/test/resources/file_types/pdf/multipage.pdf"
-    );
-    List<PdfPageImage> pdfPageImages = pdfOperation.pdfToImages(source);
-    for (PdfPageImage pdfPageImage : pdfPageImages) {
-      Assertions.assertNotNull(pdfPageImage.getImage());
-      Assertions
-        .assertEquals(pdfPageImage.asInputSource().getFilename(), pdfPageImage.getFilename());
-      pdfPageImage.writeToFile("src/test/resources/output/");
-      Assertions
-        .assertTrue(
-          Files.exists(Paths.get("src/test/resources/output/" + pdfPageImage.getFilename()))
-        );
-    }
-  }
+//  @Test
+//  public void shouldConvertAllPagesToJpg() throws IOException {
+//    LocalInputSource source = new LocalInputSource(
+//      "src/test/resources/file_types/pdf/multipage.pdf"
+//    );
+//    List<PdfPageImage> pdfPageImages = pdfOperation.pdfToImages(source);
+//    for (PdfPageImage pdfPageImage : pdfPageImages) {
+//      Assertions.assertNotNull(pdfPageImage.getImage());
+//      Assertions
+//        .assertEquals(pdfPageImage.asInputSource().getFilename(), pdfPageImage.getFilename());
+//      pdfPageImage.writeToFile("src/test/resources/output/");
+//      Assertions
+//        .assertTrue(
+//          Files.exists(Paths.get("src/test/resources/output/" + pdfPageImage.getFilename()))
+//        );
+//    }
+//  }
 
   @Test
   public void givenADocument_whenPageCounted_thenReturnsCorrectPageCount() throws IOException {

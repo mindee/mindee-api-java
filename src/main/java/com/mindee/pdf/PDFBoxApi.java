@@ -3,6 +3,7 @@ package com.mindee.pdf;
 import com.mindee.MindeeException;
 import com.mindee.input.PageOptions;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -13,15 +14,17 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import org.apache.pdfbox.Loader;
+import org.apache.pdfbox.io.RandomAccessReadBuffer;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.rendering.ImageType;
 import org.apache.pdfbox.rendering.PDFRenderer;
+import org.apache.pdfbox.text.PDFTextStripper;
 
 /**
  * Allows performing various operations on PDFs.
  */
-public final class PDFBoxApi implements PDFOperation {
+public final class PDFBoxApi implements InputSourcePDFOperation {
 
   @Override
   public SplitPDF split(byte[] fileBytes, PageOptions pageOptions) throws IOException {
@@ -61,32 +64,75 @@ public final class PDFBoxApi implements PDFOperation {
     return pageCount;
   }
 
+  /**
+   * Returns true if the file is a PDF.
+   */
   @Override
-  public PdfPageImage pdfPageToImage(
-      byte[] fileBytes,
-      String filename,
-      int pageNumber
-  ) throws IOException {
-    int index = pageNumber - 1;
-    PDDocument document = Loader.loadPDF(fileBytes);
-    var pdfRenderer = new PDFRenderer(document);
-    BufferedImage imageBuffer = pdfPageToImageBuffer(index, document, pdfRenderer);
-    document.close();
-    return new PdfPageImage(imageBuffer, index, filename, "jpg");
+  public boolean isPdf(byte[] fileBytes) {
+    try {
+      Loader.loadPDF(new RandomAccessReadBuffer(new ByteArrayInputStream(fileBytes)));
+    } catch (IOException e) {
+      return false;
+    }
+    return true;
   }
 
+  /**
+   * Returns true if the source PDF has source text inside. Returns false for images.
+   *
+   * @param fileBytes A byte array representing a PDF.
+   * @return True if at least one character exists in one page.
+   * @throws MindeeException if the file could not be read.
+   */
   @Override
-  public List<PdfPageImage> pdfToImages(byte[] fileBytes, String filename) throws IOException {
-    PDDocument document = Loader.loadPDF(fileBytes);
-    var pdfRenderer = new PDFRenderer(document);
-    List<PdfPageImage> pdfPageImages = new ArrayList<>();
-    for (int i = 0; i < document.getNumberOfPages(); i++) {
-      var imageBuffer = pdfPageToImageBuffer(i, document, pdfRenderer);
-      pdfPageImages.add(new PdfPageImage(imageBuffer, i, filename, "jpg"));
+  public boolean hasSourceText(byte[] fileBytes) {
+    try {
+      PDDocument document = Loader
+        .loadPDF(new RandomAccessReadBuffer(new ByteArrayInputStream(fileBytes)));
+      PDFTextStripper stripper = new PDFTextStripper();
+
+      for (int i = 0; i < document.getNumberOfPages(); i++) {
+        stripper.setStartPage(i + 1);
+        stripper.setEndPage(i + 1);
+        String pageText = stripper.getText(document);
+        if (!pageText.trim().isEmpty()) {
+          document.close();
+          return true;
+        }
+      }
+      document.close();
+    } catch (IOException e) {
+      return false;
     }
-    document.close();
-    return pdfPageImages;
+    return false;
   }
+
+//  @Override
+//  public PdfPageImage pdfPageToImage(
+//      byte[] fileBytes,
+//      String filename,
+//      int pageNumber
+//  ) throws IOException {
+//    int index = pageNumber - 1;
+//    PDDocument document = Loader.loadPDF(fileBytes);
+//    var pdfRenderer = new PDFRenderer(document);
+//    BufferedImage imageBuffer = pdfPageToImageBuffer(index, document, pdfRenderer);
+//    document.close();
+//    return new PdfPageImage(imageBuffer, index, filename, "jpg");
+//  }
+
+//  @Override
+//  public List<PdfPageImage> pdfToImages(byte[] fileBytes, String filename) throws IOException {
+//    PDDocument document = Loader.loadPDF(fileBytes);
+//    var pdfRenderer = new PDFRenderer(document);
+//    List<PdfPageImage> pdfPageImages = new ArrayList<>();
+//    for (int i = 0; i < document.getNumberOfPages(); i++) {
+//      var imageBuffer = pdfPageToImageBuffer(i, document, pdfRenderer);
+//      pdfPageImages.add(new PdfPageImage(imageBuffer, i, filename, "jpg"));
+//    }
+//    document.close();
+//    return pdfPageImages;
+//  }
 
   private BufferedImage pdfPageToImageBuffer(
       int index,
@@ -128,10 +174,10 @@ public final class PDFBoxApi implements PDFOperation {
     }
   }
 
-  private boolean checkPdfOpen(byte[] documentFile) {
+  private boolean checkPdfOpen(byte[] fileBytes) {
     boolean opens = false;
     try {
-      Loader.loadPDF(documentFile).close();
+      Loader.loadPDF(fileBytes).close();
       opens = true;
     } catch (IOException e) {
       e.printStackTrace();

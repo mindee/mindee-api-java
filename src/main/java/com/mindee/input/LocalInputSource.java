@@ -1,9 +1,9 @@
 package com.mindee.input;
 
 import com.mindee.image.ImageCompressor;
+import com.mindee.pdf.InputSourcePDFOperation;
 import com.mindee.pdf.PDFBoxApi;
 import com.mindee.pdf.PDFCompressor;
-import com.mindee.pdf.PDFOperation;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,7 +24,7 @@ public final class LocalInputSource {
   @Getter
   private final String filename;
   @Setter
-  private PDFOperation pdfOperation;
+  private InputSourcePDFOperation pdfOperation;
 
   public LocalInputSource(InputStream file, String filename) throws IOException {
     this.file = IOUtils.toByteArray(file);
@@ -57,7 +57,7 @@ public final class LocalInputSource {
     this.filename = filename;
   }
 
-  public PDFOperation getPdfOperation() {
+  public InputSourcePDFOperation getPdfOperation() {
     if (this.pdfOperation == null) {
       this.pdfOperation = new PDFBoxApi();
     }
@@ -90,11 +90,11 @@ public final class LocalInputSource {
   }
 
   public boolean isPdf() {
-    return InputSourceUtils.isPdf(this.file);
+    return getPdfOperation().isPdf(this.file);
   }
 
   public boolean hasSourceText() {
-    return InputSourceUtils.hasSourceText(this.file);
+    return getPdfOperation().hasSourceText(this.file);
   }
 
   public void compress(
