@@ -3,7 +3,6 @@ package com.mindee.input;
 import com.mindee.MindeeException;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.net.URL;
 import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.io.RandomAccessReadBuffer;
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -77,15 +76,6 @@ public class InputSourceUtils {
       return false;
     }
     return true;
-  }
-
-  /**
-   * Ensures the URL can be sent to the Mindee server.
-   */
-  public static void validateUrl(URL inputUrl) {
-    if (!"https".equalsIgnoreCase(inputUrl.getProtocol())) {
-      throw new MindeeException("Only HTTPS source URLs are allowed");
-    }
   }
 
   /**
