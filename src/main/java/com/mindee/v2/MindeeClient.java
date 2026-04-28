@@ -54,6 +54,7 @@ public class MindeeClient {
    * @param params The parameters to send along with the file.
    */
   public JobResponse enqueue(URLInputSource inputSource, BaseParameters params) throws IOException {
+    inputSource.validateSecure();
     return mindeeApi.reqPostEnqueue(inputSource, params);
   }
 
@@ -141,8 +142,12 @@ public class MindeeClient {
       URLInputSource inputSource,
       BaseParameters params
   ) throws IOException, InterruptedException {
-    JobResponse job = enqueue(inputSource, params);
-    return pollAndFetch(responseClass, job, PollingOptions.builder().build());
+    return enqueueAndGetResult(
+      responseClass,
+      inputSource,
+      params,
+      PollingOptions.builder().build()
+    );
   }
 
   /**
@@ -162,6 +167,7 @@ public class MindeeClient {
       BaseParameters params,
       PollingOptions pollingOptions
   ) throws IOException, InterruptedException {
+    inputSource.validateSecure();
     JobResponse job = enqueue(inputSource, params);
     return pollAndFetch(responseClass, job, pollingOptions);
   }

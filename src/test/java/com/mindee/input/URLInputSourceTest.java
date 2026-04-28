@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -18,7 +20,7 @@ public class URLInputSourceTest {
   private TestableURLInputSource urlInputSource;
 
   @BeforeEach
-  public void setUp() {
+  public void setUp() throws MalformedURLException {
     urlInputSource = new TestableURLInputSource(TEST_URL);
   }
 
@@ -92,13 +94,12 @@ public class URLInputSourceTest {
     private String mockRedirectUrl;
     private boolean isRedirected = false;
 
-    public TestableURLInputSource(String url) {
+    public TestableURLInputSource(String url) throws MalformedURLException {
       super(builder(url));
     }
 
     @Override
-    protected HttpURLConnection createConnection(String urlString) throws IOException {
-      java.net.URL url = new java.net.URL(urlString);
+    protected HttpURLConnection createConnection(URL url) {
       boolean wasRedirected = isRedirected;
 
       if (!isRedirected && mockRedirectUrl != null) {
