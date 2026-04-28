@@ -1,8 +1,8 @@
 package com.mindee.v1.pdf;
 
 import com.mindee.input.LocalInputSource;
-import com.mindee.pdf.BasePDFExtractor;
 import com.mindee.pdf.ExtractedPDF;
+import com.mindee.pdf.PDFExtractorBase;
 import com.mindee.v1.product.invoicesplitter.InvoiceSplitterV1InvoicePageGroup;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 /**
  * PDF extraction class.
  */
-public class PDFExtractor extends BasePDFExtractor {
+public class PDFExtractor extends PDFExtractorBase {
 
   /**
    * Init from a {@link LocalInputSource}.

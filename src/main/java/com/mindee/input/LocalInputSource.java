@@ -1,9 +1,10 @@
 package com.mindee.input;
 
 import com.mindee.image.ImageCompressor;
-import com.mindee.pdf.InputSourcePDFOperation;
-import com.mindee.pdf.PDFBoxApi;
+import com.mindee.pdf.PDFCompression;
 import com.mindee.pdf.PDFCompressor;
+import com.mindee.pdf.PDFInputSource;
+import com.mindee.pdf.PDFInputSourcer;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,7 +25,9 @@ public final class LocalInputSource {
   @Getter
   private final String filename;
   @Setter
-  private InputSourcePDFOperation pdfOperation;
+  private PDFInputSource pdfOperation;
+  @Setter
+  private PDFCompressor pdfCompressor;
 
   public LocalInputSource(InputStream file, String filename) throws IOException {
     this.file = IOUtils.toByteArray(file);
@@ -57,11 +60,18 @@ public final class LocalInputSource {
     this.filename = filename;
   }
 
-  public InputSourcePDFOperation getPdfOperation() {
+  public PDFInputSource getPdfOperation() {
     if (this.pdfOperation == null) {
-      this.pdfOperation = new PDFBoxApi();
+      this.pdfOperation = new PDFInputSourcer();
     }
     return this.pdfOperation;
+  }
+
+  public PDFCompression getPdfCompressor() {
+    if (this.pdfCompressor == null) {
+      this.pdfCompressor = new PDFCompressor();
+    }
+    return this.pdfCompressor;
   }
 
   /**
@@ -97,7 +107,7 @@ public final class LocalInputSource {
     return getPdfOperation().hasSourceText(this.file);
   }
 
-  public void compress(
+  public LocalInputSource compress(
       Integer quality,
       Integer maxWidth,
       Integer maxHeight,
@@ -105,34 +115,48 @@ public final class LocalInputSource {
       Boolean disableSourceText
   ) throws IOException {
     if (isPdf()) {
-      this.file = PDFCompressor.compressPdf(this.file, quality, forceSourceText, disableSourceText);
+      this.file = getPdfCompressor()
+        .compressPdf(this.file, quality, forceSourceText, disableSourceText);
     } else {
       this.file = ImageCompressor.compressImage(this.file, quality, maxWidth, maxHeight);
     }
+    return this;
   }
 
-  public void compress(
+  public LocalInputSource compress(
       Integer quality,
       Integer maxWidth,
       Integer maxHeight,
       Boolean forceSourceText
   ) throws IOException {
-    this.compress(quality, maxWidth, maxHeight, forceSourceText, true);
+    return this.compress(quality, maxWidth, maxHeight, forceSourceText, true);
   }
 
-  public void compress(Integer quality, Integer maxWidth, Integer maxHeight) throws IOException {
-    this.compress(quality, maxWidth, maxHeight, false, true);
+  public LocalInputSource compress(
+      int quality,
+      boolean forceSourceText,
+      boolean disableSourceText
+  ) throws IOException {
+    return this.compress(quality, null, null, forceSourceText, disableSourceText);
   }
 
-  public void compress(Integer quality, Integer maxWidth) throws IOException {
-    this.compress(quality, maxWidth, null, false, true);
+  public LocalInputSource compress(
+      Integer quality,
+      Integer maxWidth,
+      Integer maxHeight
+  ) throws IOException {
+    return this.compress(quality, maxWidth, maxHeight, false, true);
   }
 
-  public void compress(Integer quality) throws IOException {
-    this.compress(quality, null, null, false, true);
+  public LocalInputSource compress(Integer quality, Integer maxWidth) throws IOException {
+    return this.compress(quality, maxWidth, null, false, true);
   }
 
-  public void compress() throws IOException {
-    this.compress(85, null, null, false, true);
+  public LocalInputSource compress(Integer quality) throws IOException {
+    return this.compress(quality, null, null, false, true);
+  }
+
+  public LocalInputSource compress() throws IOException {
+    return this.compress(85, null, null, false, true);
   }
 }

@@ -4,8 +4,8 @@ import com.mindee.MindeeException;
 import com.mindee.input.LocalInputSource;
 import com.mindee.input.PageOptions;
 import com.mindee.input.URLInputSource;
-import com.mindee.pdf.PDFBoxApi;
-import com.mindee.pdf.PDFOperation;
+import com.mindee.pdf.PDFInputSource;
+import com.mindee.pdf.PDFInputSourcer;
 import com.mindee.v1.clientOptions.PollingOptions;
 import com.mindee.v1.clientOptions.PredictOptions;
 import com.mindee.v1.clientOptions.WorkflowOptions;
@@ -26,7 +26,7 @@ import java.net.URL;
  */
 public class MindeeClient {
 
-  protected PDFOperation pdfOperation;
+  protected PDFInputSource pdfOperation;
   private final MindeeApiV1 mindeeApi;
 
   /**
@@ -34,7 +34,7 @@ public class MindeeClient {
    * You'll need to set the API key in the environment for this approach to work properly.
    */
   public MindeeClient() {
-    this.pdfOperation = new PDFBoxApi();
+    this.pdfOperation = new PDFInputSourcer();
     this.mindeeApi = createDefaultApi("");
   }
 
@@ -44,7 +44,7 @@ public class MindeeClient {
    * @param apiKey The api key to use.
    */
   public MindeeClient(String apiKey) {
-    this.pdfOperation = new PDFBoxApi();
+    this.pdfOperation = new PDFInputSourcer();
     this.mindeeApi = createDefaultApi(apiKey);
   }
 
@@ -54,7 +54,7 @@ public class MindeeClient {
    * @param mindeeApi The MindeeApi implementation to be used by the created MindeeClient.
    */
   public MindeeClient(MindeeApiV1 mindeeApi) {
-    this.pdfOperation = new PDFBoxApi();
+    this.pdfOperation = new PDFInputSourcer();
     this.mindeeApi = mindeeApi;
   }
 
@@ -64,7 +64,7 @@ public class MindeeClient {
    * @param pdfOperation The PdfOperation implementation to be used by the created MindeeClient.
    * @param mindeeApi The MindeeApi implementation to be used by the created MindeeClient.
    */
-  public MindeeClient(PDFOperation pdfOperation, MindeeApiV1 mindeeApi) {
+  public MindeeClient(PDFInputSource pdfOperation, MindeeApiV1 mindeeApi) {
     this.pdfOperation = pdfOperation;
     this.mindeeApi = mindeeApi;
   }
@@ -127,13 +127,8 @@ public class MindeeClient {
       LocalInputSource localInputSource,
       PageOptions pageOptions
   ) throws IOException {
-    byte[] splitFile;
-    if (pageOptions == null || !localInputSource.isPdf()) {
-      splitFile = localInputSource.getFile();
-    } else {
-      splitFile = pdfOperation.split(localInputSource.getFile(), pageOptions).getFile();
-    }
-    return splitFile;
+    localInputSource.applyPageOptions(pageOptions);
+    return localInputSource.getFile();
   }
 
   /**

@@ -4,8 +4,6 @@ import com.mindee.geometry.Bbox;
 import com.mindee.geometry.PositionDataField;
 import com.mindee.input.InputSourceUtils;
 import com.mindee.input.LocalInputSource;
-import com.mindee.pdf.PDFBoxApi;
-import com.mindee.pdf.ExtractionPDFOperation;
 import com.mindee.pdf.PdfPageImage;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
@@ -13,6 +11,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.imageio.ImageIO;
+import org.apache.pdfbox.Loader;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.common.PDRectangle;
+import org.apache.pdfbox.rendering.ImageType;
+import org.apache.pdfbox.rendering.PDFRenderer;
 
 /**
  * Extract sub-images from an image.
@@ -22,13 +25,13 @@ public class ImageExtractor {
   private final String filename;
   private final String saveFormat;
 
-  public ImageExtractor(LocalInputSource source, ExtractionPDFOperation pdfOperation) throws IOException {
+  public ImageExtractor(LocalInputSource source) throws IOException {
     this.filename = source.getFilename();
     this.pageImages = new ArrayList<>();
 
     if (source.isPdf()) {
       this.saveFormat = "jpg";
-      var pdfPageImages = pdfOperation.pdfToImages(source);
+      var pdfPageImages = pdfToImages(source.getFile(), this.filename);
       for (PdfPageImage pdfPageImage : pdfPageImages) {
         this.pageImages.add(pdfPageImage.getImage());
       }
@@ -41,14 +44,34 @@ public class ImageExtractor {
     }
   }
 
-  /**
-   * Init from a {@link LocalInputSource}.
-   *
-   * @param source The local source.
-   * @throws IOException Throws if the file can't be accessed.
-   */
-  public ImageExtractor(LocalInputSource source) throws IOException {
-    this(source, new PDFBoxApi());
+  public List<PdfPageImage> pdfToImages(byte[] fileBytes, String filename) throws IOException {
+    PDDocument document = Loader.loadPDF(fileBytes);
+    var pdfRenderer = new PDFRenderer(document);
+    List<PdfPageImage> pdfPageImages = new ArrayList<>();
+    for (int i = 0; i < document.getNumberOfPages(); i++) {
+      var imageBuffer = pdfPageToImageBuffer(i, document, pdfRenderer);
+      pdfPageImages.add(new PdfPageImage(imageBuffer, i, filename, "jpg"));
+    }
+    document.close();
+    return pdfPageImages;
+  }
+
+  private BufferedImage pdfPageToImageBuffer(
+      int index,
+      PDDocument document,
+      PDFRenderer pdfRenderer
+  ) throws IOException {
+    PDRectangle bbox = document.getPage(index).getBBox();
+    float dimension = bbox.getWidth() * bbox.getHeight();
+    int dpi;
+    if (dimension < 200000) {
+      dpi = 300;
+    } else if (dimension < 300000) {
+      dpi = 250;
+    } else {
+      dpi = 200;
+    }
+    return pdfRenderer.renderImageWithDPI(index, dpi, ImageType.RGB);
   }
 
   /**

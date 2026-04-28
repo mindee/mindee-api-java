@@ -19,7 +19,7 @@ import org.junit.jupiter.api.Test;
 
 public class PDFOperationTest {
 
-  private final InputSourcePDFOperation pdfOperation = new PDFBoxApi();
+  private final PDFInputSource pdfOperation = new PDFInputSourcer();
 
 //  @Test
 //  public void shouldConvertSinglePageToJpg() throws IOException {

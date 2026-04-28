@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import javax.imageio.ImageIO;
 import org.apache.pdfbox.Loader;
-import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -251,13 +250,14 @@ public class FileCompressionTest {
     Path outputDir = getResourcePath("output");
     Path inputPath = getV1ResourcePath("products/invoice_splitter/default_sample.pdf");
     LocalInputSource pdfResizeInput = new LocalInputSource(inputPath.toString());
-
+    pdfResizeInput.compress();
+    var compressor = new PDFCompressor();
     List<byte[]> resizes = Arrays
       .asList(
-        PDFCompressor.compressPdf(pdfResizeInput.getFile()),
-        PDFCompressor.compressPdf(pdfResizeInput.getFile(), 75),
-        PDFCompressor.compressPdf(pdfResizeInput.getFile(), 50),
-        PDFCompressor.compressPdf(pdfResizeInput.getFile(), 10)
+        compressor.compressPdf(pdfResizeInput.getFile()),
+        compressor.compressPdf(pdfResizeInput.getFile(), 75),
+        compressor.compressPdf(pdfResizeInput.getFile(), 50),
+        compressor.compressPdf(pdfResizeInput.getFile(), 10)
       );
 
     List<Path> outputPaths = Arrays
@@ -323,11 +323,11 @@ public class FileCompressionTest {
   public void testPdfResizeWithTextKeepsText() throws IOException {
     Path inputPath = getResourcePath("file_types/pdf/multipage.pdf");
     LocalInputSource initialWithText = new LocalInputSource(inputPath.toString());
-    byte[] compressedWithText = PDFCompressor
-      .compressPdf(initialWithText.getFile(), 100, true, false);
 
-    PDDocument originalDoc = Loader.loadPDF(initialWithText.getFile());
-    PDDocument compressedDoc = Loader.loadPDF(compressedWithText);
+    var originalDoc = Loader.loadPDF(initialWithText.getFile());
+
+    var compressedWithText = initialWithText.compress(100, true, false).getFile();
+    var compressedDoc = Loader.loadPDF(compressedWithText);
 
     Assertions.assertEquals(originalDoc.getNumberOfPages(), compressedDoc.getNumberOfPages());
     Assertions.assertNotEquals(originalDoc.hashCode(), compressedDoc.hashCode());

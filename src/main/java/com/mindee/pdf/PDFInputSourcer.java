@@ -24,7 +24,7 @@ import org.apache.pdfbox.text.PDFTextStripper;
 /**
  * Allows performing various operations on PDFs.
  */
-public final class PDFBoxApi implements InputSourcePDFOperation {
+public final class PDFInputSourcer implements PDFInputSource {
 
   @Override
   public SplitPDF split(byte[] fileBytes, PageOptions pageOptions) throws IOException {
@@ -106,33 +106,6 @@ public final class PDFBoxApi implements InputSourcePDFOperation {
     }
     return false;
   }
-
-//  @Override
-//  public PdfPageImage pdfPageToImage(
-//      byte[] fileBytes,
-//      String filename,
-//      int pageNumber
-//  ) throws IOException {
-//    int index = pageNumber - 1;
-//    PDDocument document = Loader.loadPDF(fileBytes);
-//    var pdfRenderer = new PDFRenderer(document);
-//    BufferedImage imageBuffer = pdfPageToImageBuffer(index, document, pdfRenderer);
-//    document.close();
-//    return new PdfPageImage(imageBuffer, index, filename, "jpg");
-//  }
-
-//  @Override
-//  public List<PdfPageImage> pdfToImages(byte[] fileBytes, String filename) throws IOException {
-//    PDDocument document = Loader.loadPDF(fileBytes);
-//    var pdfRenderer = new PDFRenderer(document);
-//    List<PdfPageImage> pdfPageImages = new ArrayList<>();
-//    for (int i = 0; i < document.getNumberOfPages(); i++) {
-//      var imageBuffer = pdfPageToImageBuffer(i, document, pdfRenderer);
-//      pdfPageImages.add(new PdfPageImage(imageBuffer, i, filename, "jpg"));
-//    }
-//    document.close();
-//    return pdfPageImages;
-//  }
 
   private BufferedImage pdfPageToImageBuffer(
       int index,

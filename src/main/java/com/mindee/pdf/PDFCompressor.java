@@ -1,8 +1,5 @@
 package com.mindee.pdf;
 
-import static com.mindee.input.InputSourceUtils.hasSourceText;
-import static com.mindee.input.InputSourceUtils.isPdf;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
@@ -26,14 +23,21 @@ import org.apache.pdfbox.text.TextPosition;
 /**
  * PDF compression class.
  */
-public class PDFCompressor {
-  public static byte[] compressPdf(
+public class PDFCompressor implements PDFCompression {
+  PDFInputSourcer pdfInputSourcer;
+
+  public PDFCompressor() {
+    pdfInputSourcer = new PDFInputSourcer();
+  }
+
+  @Override
+  public byte[] compressPdf(
       byte[] pdfData,
       Integer imageQuality,
       Boolean forceSourceTextCompression,
       Boolean disableSourceText
   ) throws IOException {
-    if (!isPdf(pdfData)) {
+    if (!pdfInputSourcer.isPdf(pdfData)) {
       return pdfData;
     }
 
@@ -43,7 +47,7 @@ public class PDFCompressor {
     if (disableSourceText == null) {
       disableSourceText = true;
     }
-    if (!forceSourceTextCompression && hasSourceText(pdfData)) {
+    if (!forceSourceTextCompression && pdfInputSourcer.hasSourceText(pdfData)) {
       System.out
         .println(
           "MINDEE WARNING: Found text inside of the provided PDF file. Compression operation aborted."
@@ -73,22 +77,6 @@ public class PDFCompressor {
       outputDoc.close();
       return docAsBytes;
     }
-  }
-
-  public static byte[] compressPdf(
-      byte[] pdfData,
-      Integer imageQuality,
-      Boolean forceSourceTextCompression
-  ) throws IOException {
-    return compressPdf(pdfData, imageQuality, forceSourceTextCompression, true);
-  }
-
-  public static byte[] compressPdf(byte[] pdfData, Integer imageQuality) throws IOException {
-    return compressPdf(pdfData, imageQuality, false, true);
-  }
-
-  public static byte[] compressPdf(byte[] pdfData) throws IOException {
-    return compressPdf(pdfData, 85, false, true);
   }
 
   private static byte[] documentToBytes(PDDocument document) throws IOException {
