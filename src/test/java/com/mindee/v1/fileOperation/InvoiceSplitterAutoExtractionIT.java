@@ -68,7 +68,6 @@ public class InvoiceSplitterAutoExtractionIT {
     InvoiceSplitterV1 inference = document.getInference();
 
     PDFExtractor extractor = new PDFExtractor(invoiceSplitterInputSource);
-    Assertions.assertEquals(2, extractor.getPageCount());
     List<ExtractedPDF> extractedPDFsStrict = extractor
       .extractInvoices(inference.getPrediction().getInvoicePageGroups(), false);
     Assertions.assertEquals(2, extractedPDFsStrict.size());

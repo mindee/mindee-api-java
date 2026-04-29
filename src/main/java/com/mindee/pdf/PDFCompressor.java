@@ -1,14 +1,14 @@
 package com.mindee.pdf;
 
-import static com.mindee.input.InputSourceUtils.hasSourceText;
-import static com.mindee.input.InputSourceUtils.isPdf;
-
+import com.mindee.MindeeException;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.List;
 import org.apache.pdfbox.Loader;
+import org.apache.pdfbox.io.RandomAccessReadBuffer;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
@@ -26,15 +26,22 @@ import org.apache.pdfbox.text.TextPosition;
 /**
  * PDF compression class.
  */
-public class PDFCompressor {
-  public static byte[] compressPdf(
-      byte[] pdfData,
+public class PDFCompressor implements PDFCompression {
+  private final PDFInputOperator pdfInputOperator;
+
+  public PDFCompressor() {
+    this.pdfInputOperator = new PDFInputOperator();
+  }
+
+  @Override
+  public byte[] compressPDF(
+      byte[] fileBytes,
       Integer imageQuality,
       Boolean forceSourceTextCompression,
       Boolean disableSourceText
   ) throws IOException {
-    if (!isPdf(pdfData)) {
-      return pdfData;
+    if (!pdfInputOperator.isPDF(fileBytes)) {
+      return fileBytes;
     }
 
     if (forceSourceTextCompression == null) {
@@ -43,14 +50,14 @@ public class PDFCompressor {
     if (disableSourceText == null) {
       disableSourceText = true;
     }
-    if (!forceSourceTextCompression && hasSourceText(pdfData)) {
+    if (!forceSourceTextCompression && hasSourceText(fileBytes)) {
       System.out
         .println(
           "MINDEE WARNING: Found text inside of the provided PDF file. Compression operation aborted."
         );
-      return pdfData;
+      return fileBytes;
     }
-    try (PDDocument inputDoc = Loader.loadPDF(pdfData); PDDocument outputDoc = new PDDocument()) {
+    try (var inputDoc = Loader.loadPDF(fileBytes); PDDocument outputDoc = new PDDocument()) {
 
       var pdfRenderer = new PDFRenderer(inputDoc);
 
@@ -75,20 +82,33 @@ public class PDFCompressor {
     }
   }
 
-  public static byte[] compressPdf(
-      byte[] pdfData,
-      Integer imageQuality,
-      Boolean forceSourceTextCompression
-  ) throws IOException {
-    return compressPdf(pdfData, imageQuality, forceSourceTextCompression, true);
-  }
+  /**
+   * Returns true if the source PDF has source text inside. Returns false for images.
+   *
+   * @param fileBytes A byte array representing a PDF.
+   * @return True if at least one character exists in one page.
+   * @throws MindeeException if the file could not be read.
+   */
+  private boolean hasSourceText(byte[] fileBytes) {
+    try {
+      PDDocument document = Loader
+        .loadPDF(new RandomAccessReadBuffer(new ByteArrayInputStream(fileBytes)));
+      var stripper = new PDFTextStripper();
 
-  public static byte[] compressPdf(byte[] pdfData, Integer imageQuality) throws IOException {
-    return compressPdf(pdfData, imageQuality, false, true);
-  }
-
-  public static byte[] compressPdf(byte[] pdfData) throws IOException {
-    return compressPdf(pdfData, 85, false, true);
+      for (int i = 0; i < document.getNumberOfPages(); i++) {
+        stripper.setStartPage(i + 1);
+        stripper.setEndPage(i + 1);
+        String pageText = stripper.getText(document);
+        if (!pageText.trim().isEmpty()) {
+          document.close();
+          return true;
+        }
+      }
+      document.close();
+    } catch (IOException e) {
+      return false;
+    }
+    return false;
   }
 
   private static byte[] documentToBytes(PDDocument document) throws IOException {
@@ -134,9 +154,9 @@ public class PDFCompressor {
           return;
         }
 
-        TextPosition firstPosition = textPositions.get(0);
+        var firstPosition = textPositions.get(0);
         float fontSize = firstPosition.getFontSizeInPt();
-        PDColor color = getGraphicsState().getNonStrokingColor();
+        var color = getGraphicsState().getNonStrokingColor();
         contentStream.beginText();
         contentStream.setFont(firstPosition.getFont(), fontSize);
         contentStream.setNonStrokingColor(convertToAwtColor(color));
