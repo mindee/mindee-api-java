@@ -1,4 +1,4 @@
-package com.mindee.pdf;
+package com.mindee.image;
 
 import com.mindee.MindeeException;
 import com.mindee.input.InputSourceUtils;
@@ -16,13 +16,13 @@ import lombok.Getter;
  * A page in a PDF extracted as an image.
  */
 @Getter
-public class PdfPageImage {
+public class PDFPageImage {
   private final BufferedImage image;
   private final int originalIndex;
   private final String saveFormat;
   private final String originalFilename;
 
-  public PdfPageImage(
+  public PDFPageImage(
       BufferedImage image,
       int originalIndex,
       String originalFilename,

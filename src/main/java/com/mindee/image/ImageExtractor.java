@@ -4,7 +4,6 @@ import com.mindee.geometry.Bbox;
 import com.mindee.geometry.PositionDataField;
 import com.mindee.input.InputSourceUtils;
 import com.mindee.input.LocalInputSource;
-import com.mindee.pdf.PdfPageImage;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -32,7 +31,7 @@ public class ImageExtractor {
     if (source.isPDF()) {
       this.saveFormat = "jpg";
       var pdfPageImages = pdfToImages(source.getFile(), this.filename);
-      for (PdfPageImage pdfPageImage : pdfPageImages) {
+      for (PDFPageImage pdfPageImage : pdfPageImages) {
         this.pageImages.add(pdfPageImage.getImage());
       }
     } else {
@@ -44,13 +43,13 @@ public class ImageExtractor {
     }
   }
 
-  public List<PdfPageImage> pdfToImages(byte[] fileBytes, String filename) throws IOException {
+  public List<PDFPageImage> pdfToImages(byte[] fileBytes, String filename) throws IOException {
     PDDocument document = Loader.loadPDF(fileBytes);
     var pdfRenderer = new PDFRenderer(document);
-    List<PdfPageImage> pdfPageImages = new ArrayList<>();
+    List<PDFPageImage> pdfPageImages = new ArrayList<>();
     for (int i = 0; i < document.getNumberOfPages(); i++) {
       var imageBuffer = pdfPageToImageBuffer(i, document, pdfRenderer);
-      pdfPageImages.add(new PdfPageImage(imageBuffer, i, filename, "jpg"));
+      pdfPageImages.add(new PDFPageImage(imageBuffer, i, filename, "jpg"));
     }
     document.close();
     return pdfPageImages;

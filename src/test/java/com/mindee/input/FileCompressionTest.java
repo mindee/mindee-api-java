@@ -326,8 +326,8 @@ public class FileCompressionTest {
 
     var originalDoc = Loader.loadPDF(initialWithText.getFile());
 
-    var compressedWithText = initialWithText.compress(100, true, false).getFile();
-    var compressedDoc = Loader.loadPDF(compressedWithText);
+    initialWithText.compress(100, true, false);
+    var compressedDoc = Loader.loadPDF(initialWithText.getFile());
 
     Assertions.assertEquals(originalDoc.getNumberOfPages(), compressedDoc.getNumberOfPages());
     Assertions.assertNotEquals(originalDoc.hashCode(), compressedDoc.hashCode());
