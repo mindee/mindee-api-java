@@ -3,6 +3,8 @@ package com.mindee.v2.product.split;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -22,11 +24,18 @@ public class SplitRange {
    * indicates the end page.
    */
   @JsonProperty("page_range")
-  public ArrayList<Integer> pageRange;
+  public List<Integer> pageRange;
 
   /**
    * The document type, as identified on given classification values.
    */
   @JsonProperty("document_type")
   public String documentType;
+
+  /**
+   * Returns a list of distinct page ranges. Useful for extracting pages from a document.
+   */
+  public List<Integer> getPageRangeDistinct() {
+    return new ArrayList<>(new LinkedHashSet<>(this.pageRange));
+  }
 }
