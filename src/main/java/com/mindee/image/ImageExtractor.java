@@ -25,16 +25,18 @@ public class ImageExtractor {
   private final String saveFormat;
 
   public ImageExtractor(LocalInputSource source) throws IOException {
-    this.filename = source.getFilename();
+
     this.pageImages = new ArrayList<>();
 
     if (source.isPDF()) {
       this.saveFormat = "jpg";
-      var pdfPageImages = pdfToImages(source.getFile(), this.filename);
+      var pdfPageImages = pdfToImages(source.getFile(), source.getFilename());
       for (PDFPageImage pdfPageImage : pdfPageImages) {
         this.pageImages.add(pdfPageImage.getImage());
       }
+      this.filename = source.getFilename() + "." + this.saveFormat;
     } else {
+      this.filename = source.getFilename();
       String[] splitName = InputSourceUtils.splitNameStrict(this.filename);
       this.saveFormat = splitName[1].toLowerCase();
 
@@ -43,7 +45,7 @@ public class ImageExtractor {
     }
   }
 
-  public List<PDFPageImage> pdfToImages(byte[] fileBytes, String filename) throws IOException {
+  private List<PDFPageImage> pdfToImages(byte[] fileBytes, String filename) throws IOException {
     PDDocument document = Loader.loadPDF(fileBytes);
     var pdfRenderer = new PDFRenderer(document);
     List<PDFPageImage> pdfPageImages = new ArrayList<>();
@@ -90,7 +92,7 @@ public class ImageExtractor {
    * @param pageIndex The page index to extract, begins at 0.
    * @return A list of {@link ExtractedImage}.
    */
-  public <FieldT extends PositionDataField> List<ExtractedImage> extractImagesFromPage(
+  public <FieldT extends PositionDataField> ExtractedImages extractImagesFromPage(
       List<FieldT> fields,
       int pageIndex
   ) {
@@ -106,7 +108,7 @@ public class ImageExtractor {
    * @param outputName The base output filename, must have an image extension.
    * @return A list of {@link ExtractedImage}.
    */
-  public <FieldT extends PositionDataField> List<ExtractedImage> extractImagesFromPage(
+  public <FieldT extends PositionDataField> ExtractedImages extractImagesFromPage(
       List<FieldT> fields,
       int pageIndex,
       String outputName
@@ -121,7 +123,7 @@ public class ImageExtractor {
     return extractFromPage(fields, pageIndex, filename);
   }
 
-  private <FieldT extends PositionDataField> List<ExtractedImage> extractFromPage(
+  private <FieldT extends PositionDataField> ExtractedImages extractFromPage(
       List<FieldT> fields,
       int pageIndex,
       String outputName
@@ -131,7 +133,7 @@ public class ImageExtractor {
       .format("%s_page-%3s.%s", splitName[0], pageIndex + 1, splitName[1])
       .replace(" ", "0");
 
-    var extractedImages = new ArrayList<ExtractedImage>();
+    var extractedImages = new ExtractedImages();
     for (int i = 0; i < fields.size(); i++) {
       ExtractedImage extractedImage = extractImage(fields.get(i), pageIndex, i + 1, filename);
       if (extractedImage != null) {
@@ -171,7 +173,8 @@ public class ImageExtractor {
     return new ExtractedImage(
       extractImage(polygon.getAsBbox(), pageIndex),
       fieldFilename,
-      saveFormat
+      saveFormat,
+      pageIndex
     );
   }
 
