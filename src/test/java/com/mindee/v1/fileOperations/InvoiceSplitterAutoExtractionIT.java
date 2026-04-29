@@ -1,4 +1,4 @@
-package com.mindee.v1.fileOperation;
+package com.mindee.v1.fileOperations;
 
 import static com.mindee.TestingUtilities.getV1ResourcePath;
 import static com.mindee.TestingUtilities.levenshteinRatio;

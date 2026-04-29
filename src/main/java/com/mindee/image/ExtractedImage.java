@@ -17,6 +17,7 @@ public class ExtractedImage {
   private final BufferedImage image;
   private final String filename;
   private final String saveFormat;
+  private final int pageId;
 
   /**
    * Default constructor.
@@ -25,10 +26,11 @@ public class ExtractedImage {
    * @param filename Name of the extracted image.
    * @param saveFormat Format to save the image as, defaults to PNG.
    */
-  public ExtractedImage(BufferedImage image, String filename, String saveFormat) {
+  public ExtractedImage(BufferedImage image, String filename, String saveFormat, int pageId) {
     this.image = image;
     this.filename = filename;
     this.saveFormat = saveFormat;
+    this.pageId = pageId;
   }
 
   /**
