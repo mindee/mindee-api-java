@@ -1,9 +1,10 @@
 package com.mindee.input;
 
 import com.mindee.image.ImageCompressor;
-import com.mindee.pdf.PDFBoxApi;
+import com.mindee.pdf.PDFCompression;
 import com.mindee.pdf.PDFCompressor;
-import com.mindee.pdf.PDFOperation;
+import com.mindee.pdf.PDFInputOperation;
+import com.mindee.pdf.PDFInputOperator;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,14 +18,18 @@ import org.apache.pdfbox.io.IOUtils;
 /**
  * A source document for Mindee API operations.
  */
-public final class LocalInputSource {
+public class LocalInputSource {
 
   @Getter
   private byte[] file;
   @Getter
   private final String filename;
   @Setter
-  private PDFOperation pdfOperation;
+  private PDFInputOperation pdfInputOperator;
+  @Setter
+  private PDFCompression pdfCompressor;
+  // Store here to avoid recalculating every time.
+  private Boolean isPDF;
 
   public LocalInputSource(InputStream file, String filename) throws IOException {
     this.file = IOUtils.toByteArray(file);
@@ -57,11 +62,18 @@ public final class LocalInputSource {
     this.filename = filename;
   }
 
-  public PDFOperation getPdfOperation() {
-    if (this.pdfOperation == null) {
-      this.pdfOperation = new PDFBoxApi();
+  private PDFInputOperation getPDFInputOperator() {
+    if (this.pdfInputOperator == null) {
+      this.pdfInputOperator = new PDFInputOperator();
     }
-    return this.pdfOperation;
+    return this.pdfInputOperator;
+  }
+
+  private PDFCompression getPDFCompressor() {
+    if (this.pdfCompressor == null) {
+      this.pdfCompressor = new PDFCompressor();
+    }
+    return this.pdfCompressor;
   }
 
   /**
@@ -71,10 +83,10 @@ public final class LocalInputSource {
    * @throws IOException If an I/O error occurs during the PDF operation.
    */
   public int getPageCount() throws IOException {
-    if (!this.isPdf()) {
+    if (!this.isPDF()) {
       return 1;
     }
-    return getPdfOperation().getNumberOfPages(this.file);
+    return getPDFInputOperator().getPageCount(this.file);
   }
 
   /**
@@ -84,35 +96,38 @@ public final class LocalInputSource {
    * @throws IOException If an I/O error occurs during the PDF operation.
    */
   public void applyPageOptions(PageOptions pageOptions) throws IOException {
-    if (pageOptions != null && this.isPdf()) {
-      this.file = getPdfOperation().split(this.file, pageOptions).getFile();
+    if (pageOptions != null && this.isPDF()) {
+      this.file = getPDFInputOperator().split(this.file, pageOptions).getFile();
     }
   }
 
-  public boolean isPdf() {
-    return InputSourceUtils.isPdf(this.file);
-  }
-
-  public boolean hasSourceText() {
-    return InputSourceUtils.hasSourceText(this.file);
+  /**
+   * Returns true if the file is a PDF.
+   */
+  public boolean isPDF() {
+    if (this.isPDF == null) {
+      this.isPDF = getPDFInputOperator().isPDF(this.file);
+    }
+    return this.isPDF;
   }
 
   public void compress(
-      Integer quality,
+      int quality,
       Integer maxWidth,
       Integer maxHeight,
       Boolean forceSourceText,
       Boolean disableSourceText
   ) throws IOException {
-    if (isPdf()) {
-      this.file = PDFCompressor.compressPdf(this.file, quality, forceSourceText, disableSourceText);
+    if (isPDF()) {
+      this.file = getPDFCompressor()
+        .compressPDF(this.file, quality, forceSourceText, disableSourceText);
     } else {
       this.file = ImageCompressor.compressImage(this.file, quality, maxWidth, maxHeight);
     }
   }
 
   public void compress(
-      Integer quality,
+      int quality,
       Integer maxWidth,
       Integer maxHeight,
       Boolean forceSourceText
@@ -120,15 +135,19 @@ public final class LocalInputSource {
     this.compress(quality, maxWidth, maxHeight, forceSourceText, true);
   }
 
-  public void compress(Integer quality, Integer maxWidth, Integer maxHeight) throws IOException {
+  public void compress(
+      int quality,
+      boolean forceSourceText,
+      boolean disableSourceText
+  ) throws IOException {
+    this.compress(quality, null, null, forceSourceText, disableSourceText);
+  }
+
+  public void compress(int quality, Integer maxWidth, Integer maxHeight) throws IOException {
     this.compress(quality, maxWidth, maxHeight, false, true);
   }
 
-  public void compress(Integer quality, Integer maxWidth) throws IOException {
-    this.compress(quality, maxWidth, null, false, true);
-  }
-
-  public void compress(Integer quality) throws IOException {
+  public void compress(int quality) throws IOException {
     this.compress(quality, null, null, false, true);
   }
 
