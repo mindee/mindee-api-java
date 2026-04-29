@@ -16,8 +16,7 @@ public class LocalInputSourceTest {
   void assertMultipagePDF(LocalInputSource inputSource, Path filePath) throws IOException {
     Assertions.assertNotNull(inputSource);
 
-    Assertions.assertTrue(inputSource.isPdf());
-    Assertions.assertTrue(inputSource.hasSourceText());
+    Assertions.assertTrue(inputSource.isPDF());
     Assertions.assertEquals(3, inputSource.getPageCount());
     Assertions.assertEquals("multipage_cut-3.pdf", inputSource.getFilename());
     Assertions.assertArrayEquals(inputSource.getFile(), Files.readAllBytes(filePath));
@@ -64,15 +63,13 @@ public class LocalInputSourceTest {
     String encodedFile = Base64.encodeBase64String(Files.readAllBytes(filePath));
     var localInputSource = new LocalInputSource(encodedFile, "default_sample.pdf");
     Assertions.assertNotNull(localInputSource);
-    Assertions.assertTrue(localInputSource.isPdf());
-    Assertions.assertFalse(localInputSource.hasSourceText());
+    Assertions.assertTrue(localInputSource.isPDF());
   }
 
   void assertImage(LocalInputSource inputSource, Path filePath) throws IOException {
     Assertions.assertNotNull(inputSource);
 
-    Assertions.assertFalse(inputSource.isPdf());
-    Assertions.assertFalse(inputSource.hasSourceText());
+    Assertions.assertFalse(inputSource.isPDF());
     Assertions.assertEquals(1, inputSource.getPageCount());
     Assertions.assertEquals("receipt.jpg", inputSource.getFilename());
     Assertions.assertArrayEquals(inputSource.getFile(), Files.readAllBytes(filePath));

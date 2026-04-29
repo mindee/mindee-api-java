@@ -6,7 +6,6 @@ import com.mindee.input.LocalInputSource;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,9 +32,9 @@ public class BasePDFExtractor {
    * @param source The local source.
    * @throws IOException Throws if the file can't be accessed.
    */
-  protected BasePDFExtractor(LocalInputSource source) throws IOException {
+  public BasePDFExtractor(LocalInputSource source) throws IOException {
     this.filename = source.getFilename();
-    if (source.isPdf()) {
+    if (source.isPDF()) {
       this.sourcePdf = Loader.loadPDF(source.getFile());
     } else {
       var document = new PDDocument();
@@ -55,15 +54,6 @@ public class BasePDFExtractor {
       }
       this.sourcePdf = document;
     }
-  }
-
-  /**
-   * Get the number of pages in the PDF file.
-   *
-   * @return The number of pages in the PDF file.
-   */
-  public int getPageCount() {
-    return sourcePdf.getNumberOfPages();
   }
 
   /**
@@ -106,10 +96,7 @@ public class BasePDFExtractor {
         + splitName[1];
       extractedPDFs
         .add(
-          new ExtractedPDF(
-            Loader.loadPDF(mergePdfPages(this.sourcePdf, pageIndexElement, false)),
-            fieldFilename
-          )
+          new ExtractedPDF(mergePdfPages(this.sourcePdf, pageIndexElement, false), fieldFilename)
         );
     }
     return extractedPDFs;
@@ -149,25 +136,7 @@ public class BasePDFExtractor {
     return output;
   }
 
-  /**
-   * Merge specified PDF pages together.
-   *
-   * @param file The PDF file.
-   * @param pageNumbers Lit of page numbers to merge together.
-   */
-  public static byte[] mergePdfPages(File file, List<Integer> pageNumbers) throws IOException {
-    PDDocument document = Loader.loadPDF(file);
-    return createPdfFromExistingPdf(document, pageNumbers, true);
-  }
-
-  public static byte[] mergePdfPages(
-      PDDocument document,
-      List<Integer> pageNumbers
-  ) throws IOException {
-    return mergePdfPages(document, pageNumbers, true);
-  }
-
-  public static byte[] mergePdfPages(
+  public byte[] mergePdfPages(
       PDDocument document,
       List<Integer> pageNumbers,
       boolean closeOriginal
