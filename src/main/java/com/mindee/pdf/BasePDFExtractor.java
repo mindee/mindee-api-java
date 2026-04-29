@@ -7,7 +7,6 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import javax.imageio.ImageIO;
 import org.apache.pdfbox.Loader;
@@ -63,7 +62,7 @@ public class BasePDFExtractor {
    * @return a valid ImageIO buffer.
    * @throws IOException Throws if the file can't be accessed.
    */
-  public static BufferedImage byteArrayToBufferedImage(byte[] byteArray) throws IOException {
+  private static BufferedImage byteArrayToBufferedImage(byte[] byteArray) throws IOException {
     try (ByteArrayInputStream stream = new ByteArrayInputStream(byteArray)) {
       return ImageIO.read(stream);
     }
@@ -76,10 +75,8 @@ public class BasePDFExtractor {
    * @return A list of extracted files.
    * @throws IOException Throws if the file can't be accessed.
    */
-  public List<ExtractedPDF> extractSubDocuments(
-      List<List<Integer>> pageIndexes
-  ) throws IOException {
-    var extractedPDFs = new ArrayList<ExtractedPDF>();
+  public ExtractedPDFs extractSubDocuments(List<List<Integer>> pageIndexes) throws IOException {
+    var extractedPDFs = new ExtractedPDFs();
 
     for (List<Integer> pageIndexElement : pageIndexes) {
       if (pageIndexElement.isEmpty()) {
@@ -94,10 +91,7 @@ public class BasePDFExtractor {
           .replace(" ", "0")
         + "."
         + splitName[1];
-      extractedPDFs
-        .add(
-          new ExtractedPDF(mergePdfPages(this.sourcePdf, pageIndexElement, false), fieldFilename)
-        );
+      extractedPDFs.add(extractSinglePage(pageIndexElement, fieldFilename, false));
     }
     return extractedPDFs;
   }
@@ -136,11 +130,27 @@ public class BasePDFExtractor {
     return output;
   }
 
-  public byte[] mergePdfPages(
-      PDDocument document,
+  public ExtractedPDF extractSinglePage(
+      List<Integer> pageNumbers,
+      String fieldFilename,
+      boolean closeOriginal
+  ) throws IOException {
+    var pdfBytes = createPdfFromExistingPdf(this.sourcePdf, pageNumbers, closeOriginal);
+    return new ExtractedPDF(pdfBytes, fieldFilename);
+  }
+
+  public ExtractedPDF extractSinglePage(
       List<Integer> pageNumbers,
       boolean closeOriginal
   ) throws IOException {
-    return createPdfFromExistingPdf(document, pageNumbers, closeOriginal);
+    var pdfBytes = createPdfFromExistingPdf(this.sourcePdf, pageNumbers, closeOriginal);
+    String[] splitName = InputSourceUtils.splitNameStrict(filename);
+    String fieldFilename = splitName[0]
+      + String.format("_%3s", pageNumbers.get(0) + 1).replace(" ", "0")
+      + "-"
+      + String.format("%3s", pageNumbers.get(pageNumbers.size() - 1) + 1).replace(" ", "0")
+      + "."
+      + splitName[1];
+    return new ExtractedPDF(pdfBytes, fieldFilename);
   }
 }
