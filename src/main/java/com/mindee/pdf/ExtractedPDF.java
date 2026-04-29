@@ -1,29 +1,27 @@
 package com.mindee.pdf;
 
 import com.mindee.input.LocalInputSource;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Paths;
 import lombok.Getter;
-import org.apache.pdfbox.pdmodel.PDDocument;
 
 /**
  * An extracted sub-PDF.
  */
 @Getter
 public class ExtractedPDF {
-  private final PDDocument pdf;
+  private final byte[] fileBytes;
   private final String filename;
 
   /**
    * Default constructor.
    *
-   * @param pdf PDF wrapper object.
+   * @param fileBytes PDF file as bytes.
    * @param filename Name of the extracted file.
    */
-  public ExtractedPDF(PDDocument pdf, String filename) {
-    this.pdf = pdf;
+  public ExtractedPDF(byte[] fileBytes, String filename) {
+    this.fileBytes = fileBytes;
     this.filename = filename;
   }
 
@@ -35,8 +33,7 @@ public class ExtractedPDF {
    */
   public void writeToFile(String outputPath) throws IOException {
     var pdfPath = Paths.get(outputPath, this.filename);
-    var outputfile = new File(pdfPath.toString());
-    this.pdf.save(outputfile);
+    Files.write(pdfPath, this.fileBytes);
   }
 
   /**
@@ -46,8 +43,6 @@ public class ExtractedPDF {
    * @throws IOException Throws if the file can't be accessed.
    */
   public LocalInputSource asInputSource() throws IOException {
-    var output = new ByteArrayOutputStream();
-    this.pdf.save(output);
-    return new LocalInputSource(output.toByteArray(), this.filename);
+    return new LocalInputSource(this.fileBytes, this.filename);
   }
 }

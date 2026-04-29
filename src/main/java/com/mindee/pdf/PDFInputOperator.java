@@ -2,7 +2,7 @@ package com.mindee.pdf;
 
 import com.mindee.MindeeException;
 import com.mindee.input.PageOptions;
-import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -13,26 +13,24 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import org.apache.pdfbox.Loader;
+import org.apache.pdfbox.io.RandomAccessReadBuffer;
 import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.common.PDRectangle;
-import org.apache.pdfbox.rendering.ImageType;
-import org.apache.pdfbox.rendering.PDFRenderer;
 
 /**
  * Allows performing various operations on PDFs.
  */
-public final class PDFBoxApi implements PDFOperation {
+public final class PDFInputOperator implements PDFInputOperation {
 
   @Override
   public SplitPDF split(byte[] fileBytes, PageOptions pageOptions) throws IOException {
 
-    if (!checkPdfOpen(fileBytes)) {
+    if (!isPDFOpen(fileBytes)) {
       throw new MindeeException("This document cannot be open and cannot be split.");
     }
 
     try (var originalDocument = Loader.loadPDF(fileBytes)) {
       try (var splitDocument = new PDDocument()) {
-        int totalOriginalPages = getNumberOfPages(fileBytes);
+        int totalOriginalPages = getPageCount(fileBytes);
 
         if (totalOriginalPages < pageOptions.getOnMinPages()) {
           return new SplitPDF(fileBytes, totalOriginalPages);
@@ -47,63 +45,31 @@ public final class PDFBoxApi implements PDFOperation {
         try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
           splitDocument.save(outputStream);
           byte[] splitPdf = outputStream.toByteArray();
-          return new SplitPDF(splitPdf, getNumberOfPages(splitPdf));
+          return new SplitPDF(splitPdf, getPageCount(splitPdf));
         }
       }
     }
   }
 
   @Override
-  public int getNumberOfPages(byte[] fileBytes) throws IOException {
+  public int getPageCount(byte[] fileBytes) throws IOException {
     var document = Loader.loadPDF(fileBytes);
     int pageCount = document.getNumberOfPages();
     document.close();
     return pageCount;
   }
 
+  /**
+   * Returns true if the file is a PDF.
+   */
   @Override
-  public PdfPageImage pdfPageToImage(
-      byte[] fileBytes,
-      String filename,
-      int pageNumber
-  ) throws IOException {
-    int index = pageNumber - 1;
-    PDDocument document = Loader.loadPDF(fileBytes);
-    var pdfRenderer = new PDFRenderer(document);
-    BufferedImage imageBuffer = pdfPageToImageBuffer(index, document, pdfRenderer);
-    document.close();
-    return new PdfPageImage(imageBuffer, index, filename, "jpg");
-  }
-
-  @Override
-  public List<PdfPageImage> pdfToImages(byte[] fileBytes, String filename) throws IOException {
-    PDDocument document = Loader.loadPDF(fileBytes);
-    var pdfRenderer = new PDFRenderer(document);
-    List<PdfPageImage> pdfPageImages = new ArrayList<>();
-    for (int i = 0; i < document.getNumberOfPages(); i++) {
-      var imageBuffer = pdfPageToImageBuffer(i, document, pdfRenderer);
-      pdfPageImages.add(new PdfPageImage(imageBuffer, i, filename, "jpg"));
+  public boolean isPDF(byte[] fileBytes) {
+    try {
+      Loader.loadPDF(new RandomAccessReadBuffer(new ByteArrayInputStream(fileBytes)));
+    } catch (IOException e) {
+      return false;
     }
-    document.close();
-    return pdfPageImages;
-  }
-
-  private BufferedImage pdfPageToImageBuffer(
-      int index,
-      PDDocument document,
-      PDFRenderer pdfRenderer
-  ) throws IOException {
-    PDRectangle bbox = document.getPage(index).getBBox();
-    float dimension = bbox.getWidth() * bbox.getHeight();
-    int dpi;
-    if (dimension < 200000) {
-      dpi = 300;
-    } else if (dimension < 300000) {
-      dpi = 250;
-    } else {
-      dpi = 200;
-    }
-    return pdfRenderer.renderImageWithDPI(index, dpi, ImageType.RGB);
+    return true;
   }
 
   private List<Integer> getPageRanges(PageOptions pageOptions, Integer numberOfPages) {
@@ -128,10 +94,10 @@ public final class PDFBoxApi implements PDFOperation {
     }
   }
 
-  private boolean checkPdfOpen(byte[] documentFile) {
+  private boolean isPDFOpen(byte[] fileBytes) {
     boolean opens = false;
     try {
-      Loader.loadPDF(documentFile).close();
+      Loader.loadPDF(fileBytes).close();
       opens = true;
     } catch (IOException e) {
       e.printStackTrace();
