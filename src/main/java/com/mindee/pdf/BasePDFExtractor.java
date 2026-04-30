@@ -55,6 +55,33 @@ public class BasePDFExtractor {
     }
   }
 
+  public ExtractedPDF extractSinglePage(
+      List<Integer> pageNumbers,
+      boolean closeOriginal
+  ) throws IOException {
+    if (pageNumbers.isEmpty()) {
+      throw new MindeeException("Empty indexes not allowed for extraction.");
+    }
+    var pdfBytes = createPdfFromExistingPdf(this.sourcePdf, pageNumbers, closeOriginal);
+    return new ExtractedPDF(pdfBytes, makeFilename(pageNumbers));
+  }
+
+  /**
+   * Given a list of page indexes, extracts the corresponding documents.
+   *
+   * @param pageIndexes List of page indexes.
+   * @return A list of extracted files.
+   * @throws IOException Throws if the file can't be accessed.
+   */
+  public ExtractedPDFs extractSubDocuments(List<List<Integer>> pageIndexes) throws IOException {
+    var extractedPDFs = new ExtractedPDFs();
+
+    for (List<Integer> pageIndexElement : pageIndexes) {
+      extractedPDFs.add(extractSinglePage(pageIndexElement, false));
+    }
+    return extractedPDFs;
+  }
+
   /**
    * Converts an array to a buffered image.
    *
@@ -69,31 +96,16 @@ public class BasePDFExtractor {
   }
 
   /**
-   * Given a list of page indexes, extracts the corresponding documents.
-   *
-   * @param pageIndexes List of page indexes.
-   * @return A list of extracted files.
-   * @throws IOException Throws if the file can't be accessed.
+   * Make a nice filename for the split.
    */
-  public ExtractedPDFs extractSubDocuments(List<List<Integer>> pageIndexes) throws IOException {
-    var extractedPDFs = new ExtractedPDFs();
-
-    for (List<Integer> pageIndexElement : pageIndexes) {
-      if (pageIndexElement.isEmpty()) {
-        throw new MindeeException("Empty indexes not allowed for extraction.");
-      }
-      String[] splitName = InputSourceUtils.splitNameStrict(filename);
-      String fieldFilename = splitName[0]
-        + String.format("_%3s", pageIndexElement.get(0) + 1).replace(" ", "0")
-        + "-"
-        + String
-          .format("%3s", pageIndexElement.get(pageIndexElement.size() - 1) + 1)
-          .replace(" ", "0")
-        + "."
-        + splitName[1];
-      extractedPDFs.add(extractSinglePage(pageIndexElement, fieldFilename, false));
-    }
-    return extractedPDFs;
+  private String makeFilename(List<Integer> pageNumbers) {
+    String[] splitName = InputSourceUtils.splitNameStrict(filename);
+    return splitName[0]
+      + String.format("_%3s", pageNumbers.get(0)).replace(" ", "0")
+      + "-"
+      + String.format("%3s", pageNumbers.get(pageNumbers.size() - 1)).replace(" ", "0")
+      + "."
+      + splitName[1];
   }
 
   private static PDPage clonePage(PDPage page) {
@@ -128,29 +140,5 @@ public class BasePDFExtractor {
     byte[] output = outputStream.toByteArray();
     outputStream.close();
     return output;
-  }
-
-  public ExtractedPDF extractSinglePage(
-      List<Integer> pageNumbers,
-      String fieldFilename,
-      boolean closeOriginal
-  ) throws IOException {
-    var pdfBytes = createPdfFromExistingPdf(this.sourcePdf, pageNumbers, closeOriginal);
-    return new ExtractedPDF(pdfBytes, fieldFilename);
-  }
-
-  public ExtractedPDF extractSinglePage(
-      List<Integer> pageNumbers,
-      boolean closeOriginal
-  ) throws IOException {
-    var pdfBytes = createPdfFromExistingPdf(this.sourcePdf, pageNumbers, closeOriginal);
-    String[] splitName = InputSourceUtils.splitNameStrict(filename);
-    String fieldFilename = splitName[0]
-      + String.format("_%3s", pageNumbers.get(0) + 1).replace(" ", "0")
-      + "-"
-      + String.format("%3s", pageNumbers.get(pageNumbers.size() - 1) + 1).replace(" ", "0")
-      + "."
-      + splitName[1];
-    return new ExtractedPDF(pdfBytes, fieldFilename);
   }
 }
