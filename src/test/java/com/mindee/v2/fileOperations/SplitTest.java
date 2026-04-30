@@ -20,7 +20,7 @@ public class SplitTest {
     var extractedSplit = new Split(inputSample)
       .extractSingle(doc.getInference().getResult().getSplits().get(0));
 
-    assertEquals("default_sample_001-001.pdf", extractedSplit.getFilename());
+    assertEquals("default_sample_000-000.pdf", extractedSplit.getFilename());
     var asInputSource = extractedSplit.asInputSource();
     assertEquals(1, asInputSource.getPageCount());
   }
@@ -38,12 +38,12 @@ public class SplitTest {
     assertEquals(2, extractedSplits.size());
 
     var split0 = extractedSplits.get(0);
-    assertEquals("default_sample_001-001.pdf", split0.getFilename());
+    assertEquals("default_sample_000-000.pdf", split0.getFilename());
     var asInputSource0 = split0.asInputSource();
     assertEquals(1, asInputSource0.getPageCount());
 
     var split1 = extractedSplits.get(1);
-    assertEquals("default_sample_002-002.pdf", split1.getFilename());
+    assertEquals("default_sample_001-001.pdf", split1.getFilename());
     var asInputSource1 = split1.asInputSource();
     assertEquals(1, asInputSource1.getPageCount());
   }
