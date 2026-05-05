@@ -1,5 +1,10 @@
 # Mindee Java Client Library Changelog
 
+## v4.44.0 - 2026-05-05
+### Changes
+* :sparkles: Add chaining for v2 utilities
+
+
 ## v4.43.1 - 2026-03-17
 ### Fixes
 * :bug: use new style, static object mapper to avoid recreating multiple times
