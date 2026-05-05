@@ -1,4 +1,4 @@
-package com.mindee.v1.fileOperations;
+package com.mindee.v1.fileoperations;
 
 import static com.mindee.TestingUtilities.getV1ResourcePath;
 import static com.mindee.TestingUtilities.levenshteinRatio;
@@ -11,7 +11,6 @@ import com.mindee.v1.MindeeClient;
 import com.mindee.v1.parsing.common.AsyncPredictResponse;
 import com.mindee.v1.parsing.common.Document;
 import com.mindee.v1.parsing.common.PredictResponse;
-import com.mindee.v1.pdf.PDFExtractor;
 import com.mindee.v1.product.invoice.InvoiceV4;
 import com.mindee.v1.product.invoicesplitter.InvoiceSplitterV1;
 import java.io.IOException;
@@ -22,7 +21,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-public class InvoiceSplitterAutoExtractionIT {
+public class InvoiceSplitterExtractionIT {
 
   private static MindeeClient client;
   private static LocalInputSource invoiceSplitterInputSource;

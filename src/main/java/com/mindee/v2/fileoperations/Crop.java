@@ -1,4 +1,4 @@
-package com.mindee.v2.fileOperations;
+package com.mindee.v2.fileoperations;
 
 import com.mindee.image.ExtractedImage;
 import com.mindee.image.ExtractedImages;

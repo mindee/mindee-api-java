@@ -1,6 +1,6 @@
 package com.mindee.v2.product.ocr.params;
 
-import com.mindee.v2.clientOptions.BaseParameters;
+import com.mindee.v2.clientoptions.BaseParameters;
 import com.mindee.v2.http.ProductInfo;
 
 @ProductInfo(slug = "ocr")

@@ -1,8 +1,8 @@
 package com.mindee.v1.http;
 
 import com.mindee.input.URLInputSource;
-import com.mindee.v1.clientOptions.PredictOptions;
-import com.mindee.v1.clientOptions.WorkflowOptions;
+import com.mindee.v1.clientoptions.PredictOptions;
+import com.mindee.v1.clientoptions.WorkflowOptions;
 import java.net.URL;
 import lombok.Builder;
 import lombok.Value;

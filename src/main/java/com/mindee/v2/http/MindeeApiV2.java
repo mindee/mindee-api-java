@@ -4,7 +4,7 @@ import com.mindee.MindeeException;
 import com.mindee.http.MindeeApiCommon;
 import com.mindee.input.LocalInputSource;
 import com.mindee.input.URLInputSource;
-import com.mindee.v2.clientOptions.BaseParameters;
+import com.mindee.v2.clientoptions.BaseParameters;
 import com.mindee.v2.parsing.CommonResponse;
 import com.mindee.v2.parsing.ErrorResponse;
 import com.mindee.v2.parsing.JobResponse;

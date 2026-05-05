@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.mindee.input.LocalInputSource;
 import com.mindee.v2.MindeeClient;
-import com.mindee.v2.clientOptions.PollingOptions;
+import com.mindee.v2.clientoptions.PollingOptions;
 import com.mindee.v2.product.split.SplitResponse;
 import com.mindee.v2.product.split.params.SplitParameters;
 import java.io.IOException;

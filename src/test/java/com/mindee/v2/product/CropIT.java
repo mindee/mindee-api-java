@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import com.mindee.input.LocalInputSource;
 import com.mindee.v2.MindeeClient;
-import com.mindee.v2.clientOptions.PollingOptions;
+import com.mindee.v2.clientoptions.PollingOptions;
 import com.mindee.v2.product.crop.CropResponse;
 import com.mindee.v2.product.crop.params.CropParameters;
 import java.io.IOException;

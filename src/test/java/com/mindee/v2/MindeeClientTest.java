@@ -8,7 +8,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mindee.input.LocalInputSource;
 import com.mindee.input.URLInputSource;
-import com.mindee.v2.clientOptions.BaseParameters;
+import com.mindee.v2.clientoptions.BaseParameters;
 import com.mindee.v2.http.MindeeApiV2;
 import com.mindee.v2.parsing.CommonResponse;
 import com.mindee.v2.parsing.JobResponse;
