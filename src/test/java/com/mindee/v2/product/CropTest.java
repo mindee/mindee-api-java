@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import com.mindee.input.LocalResponse;
+import com.mindee.parsing.v2.InferenceResponse;
 import com.mindee.v2.product.crop.CropItem;
 import com.mindee.v2.product.crop.CropResponse;
 import java.io.IOException;
@@ -25,7 +26,7 @@ public class CropTest {
   @DisplayName("Result with single value")
   class SinglePredictionTest {
     @Test
-    @DisplayName("all properties must be valid")
+    @DisplayName("crop properties must be valid")
     void mustHaveValidProperties() throws IOException {
       CropResponse response = loadResponse("products/crop/crop_single.json");
       assertNotNull(response.getInference());
@@ -33,10 +34,10 @@ public class CropTest {
       ArrayList<CropItem> crops = response.getInference().getResult().getCrops();
       assertEquals(1, crops.size());
 
-      CropItem crop1 = crops.get(0);
-      assertEquals("invoice", crop1.getObjectType());
-      assertNotNull(crop1.getLocation().getPolygon());
-      assertEquals(0, crop1.getLocation().getPage());
+      CropItem crop0 = crops.get(0);
+      assertEquals("invoice", crop0.getObjectType());
+      assertNotNull(crop0.getLocation().getPolygon());
+      assertEquals(0, crop0.getLocation().getPage());
     }
 
     @Test
@@ -54,7 +55,7 @@ public class CropTest {
   @DisplayName("Result with multiple values")
   class MultiPredictionTest {
     @Test
-    @DisplayName("all properties must be valid")
+    @DisplayName("crop properties must be valid")
     void mustHaveValidProperties() throws IOException {
       CropResponse response = loadResponse("products/crop/crop_multiple.json");
       assertNotNull(response.getInference());
@@ -62,15 +63,15 @@ public class CropTest {
       ArrayList<CropItem> crops = response.getInference().getResult().getCrops();
       assertEquals(2, crops.size());
 
-      CropItem crop1 = crops.get(0);
-      assertEquals("invoice", crop1.getObjectType());
+      CropItem crop0 = crops.get(0);
+      assertEquals("invoice", crop0.getObjectType());
+      assertNotNull(crop0.getLocation().getPolygon());
+      assertEquals(0, crop0.getLocation().getPage());
+
+      CropItem crop1 = crops.get(1);
+      assertEquals("receipt", crop1.getObjectType());
       assertNotNull(crop1.getLocation().getPolygon());
       assertEquals(0, crop1.getLocation().getPage());
-
-      CropItem crop2 = crops.get(1);
-      assertEquals("receipt", crop2.getObjectType());
-      assertNotNull(crop2.getLocation().getPolygon());
-      assertEquals(0, crop2.getLocation().getPage());
     }
 
     @Test
@@ -80,6 +81,48 @@ public class CropTest {
       assertStringEqualsFile(
         response.getInference().toString(),
         getV2ResourcePath("products/crop/crop_multiple.rst")
+      );
+    }
+
+    @Test
+    @DisplayName("extraction properties must be valid")
+    void extractionMustHaveValidProperties() throws IOException {
+      CropResponse response = loadResponse("products/crop/default_sample_extraction.json");
+      assertNotNull(response.getInference());
+
+      ArrayList<CropItem> crops = response.getInference().getResult().getCrops();
+      assertEquals(2, crops.size());
+
+      CropItem crop0 = crops.get(0);
+      assertEquals("receipt", crop0.getObjectType());
+      assertNotNull(crop0.getLocation().getPolygon());
+      assertEquals(0, crop0.getLocation().getPage());
+      InferenceResponse extractionResponse0 = crop0.getExtractionResponse();
+      assertNotNull(extractionResponse0);
+      assertEquals(
+        "CHEZ ALAIN MIAM MIAM",
+        extractionResponse0
+          .getInference()
+          .getResult()
+          .getFields()
+          .getSimpleField("supplier_name")
+          .getValue()
+      );
+
+      CropItem crop1 = crops.get(1);
+      assertEquals("receipt", crop1.getObjectType());
+      assertNotNull(crop1.getLocation().getPolygon());
+      assertEquals(0, crop1.getLocation().getPage());
+      InferenceResponse extractionResponse1 = crop1.getExtractionResponse();
+      assertNotNull(extractionResponse1);
+      assertEquals(
+        "La cerise sur la pizza",
+        extractionResponse1
+          .getInference()
+          .getResult()
+          .getFields()
+          .getSimpleField("supplier_name")
+          .getValue()
       );
     }
   }
