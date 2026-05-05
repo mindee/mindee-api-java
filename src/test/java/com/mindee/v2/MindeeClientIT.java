@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import com.mindee.input.LocalInputSource;
 import com.mindee.input.URLInputSource;
-import com.mindee.v2.clientOptions.PollingOptions;
+import com.mindee.v2.clientoptions.PollingOptions;
 import com.mindee.v2.http.MindeeHttpExceptionV2;
 import com.mindee.v2.product.extraction.ExtractionInference;
 import com.mindee.v2.product.extraction.ExtractionResponse;

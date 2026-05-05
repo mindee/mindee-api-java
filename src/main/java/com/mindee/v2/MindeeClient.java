@@ -2,8 +2,8 @@ package com.mindee.v2;
 
 import com.mindee.input.LocalInputSource;
 import com.mindee.input.URLInputSource;
-import com.mindee.v2.clientOptions.BaseParameters;
-import com.mindee.v2.clientOptions.PollingOptions;
+import com.mindee.v2.clientoptions.BaseParameters;
+import com.mindee.v2.clientoptions.PollingOptions;
 import com.mindee.v2.http.MindeeApiV2;
 import com.mindee.v2.http.MindeeHttpApiV2;
 import com.mindee.v2.http.MindeeHttpExceptionV2;

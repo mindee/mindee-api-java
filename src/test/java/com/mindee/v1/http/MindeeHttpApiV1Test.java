@@ -14,7 +14,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.mindee.input.URLInputSource;
 import com.mindee.v1.MindeeSettings;
-import com.mindee.v1.clientOptions.PredictOptions;
+import com.mindee.v1.clientoptions.PredictOptions;
 import com.mindee.v1.parsing.common.AsyncPredictResponse;
 import com.mindee.v1.parsing.common.Document;
 import com.mindee.v1.parsing.common.PredictResponse;

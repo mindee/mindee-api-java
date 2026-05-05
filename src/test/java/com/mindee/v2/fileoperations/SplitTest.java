@@ -1,4 +1,4 @@
-package com.mindee.v2.fileOperations;
+package com.mindee.v2.fileoperations;
 
 import static com.mindee.TestingUtilities.getV2ResourcePath;
 import static org.junit.jupiter.api.Assertions.assertEquals;

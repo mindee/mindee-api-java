@@ -1,4 +1,4 @@
-package com.mindee.v1.pdf;
+package com.mindee.v1.fileoperations;
 
 import static com.mindee.TestingUtilities.getV1ResourcePath;
 
@@ -10,7 +10,7 @@ import java.io.IOException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class PDFExtractorTest {
+public class InvoiceSplitterExtractionTest {
 
   protected PredictResponse<InvoiceSplitterV1> getInvoiceSplitterPrediction() throws IOException {
     var localResponse = new LocalResponse(
