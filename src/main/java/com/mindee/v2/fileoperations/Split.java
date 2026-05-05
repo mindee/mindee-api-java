@@ -1,4 +1,4 @@
-package com.mindee.v2.fileOperations;
+package com.mindee.v2.fileoperations;
 
 import com.mindee.input.LocalInputSource;
 import com.mindee.pdf.BasePDFExtractor;

@@ -1,4 +1,4 @@
-package com.mindee.v2.clientOptions;
+package com.mindee.v2.clientoptions;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

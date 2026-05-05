@@ -1,4 +1,4 @@
-package com.mindee.clientOptions;
+package com.mindee.clientoptions;
 
 import lombok.Getter;
 
