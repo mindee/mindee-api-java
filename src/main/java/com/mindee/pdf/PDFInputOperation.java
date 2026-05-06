@@ -3,6 +3,9 @@ package com.mindee.pdf;
 import com.mindee.input.PageOptions;
 import java.io.IOException;
 
+/**
+ * Various operations required for PDF input files.
+ */
 public interface PDFInputOperation {
 
   /**

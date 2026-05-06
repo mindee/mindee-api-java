@@ -10,11 +10,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.imageio.ImageIO;
-import org.apache.pdfbox.Loader;
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.common.PDRectangle;
-import org.apache.pdfbox.rendering.ImageType;
-import org.apache.pdfbox.rendering.PDFRenderer;
 
 /**
  * Extract sub-images from an image.
@@ -30,7 +25,7 @@ public class ImageExtractor {
 
     if (source.isPDF()) {
       this.saveFormat = "jpg";
-      var pdfPageImages = pdfToImages(source.getFile(), source.getFilename());
+      var pdfPageImages = getPDFRasterizer().PDFToImages(source.getFile(), source.getFilename());
       for (PDFPageImage pdfPageImage : pdfPageImages) {
         this.pageImages.add(pdfPageImage.getImage());
       }
@@ -45,34 +40,14 @@ public class ImageExtractor {
     }
   }
 
-  private List<PDFPageImage> pdfToImages(byte[] fileBytes, String filename) throws IOException {
-    PDDocument document = Loader.loadPDF(fileBytes);
-    var pdfRenderer = new PDFRenderer(document);
-    List<PDFPageImage> pdfPageImages = new ArrayList<>();
-    for (int i = 0; i < document.getNumberOfPages(); i++) {
-      var imageBuffer = pdfPageToImageBuffer(i, document, pdfRenderer);
-      pdfPageImages.add(new PDFPageImage(imageBuffer, i, filename, "jpg"));
-    }
-    document.close();
-    return pdfPageImages;
-  }
-
-  private BufferedImage pdfPageToImageBuffer(
-      int index,
-      PDDocument document,
-      PDFRenderer pdfRenderer
-  ) throws IOException {
-    PDRectangle bbox = document.getPage(index).getBBox();
-    float dimension = bbox.getWidth() * bbox.getHeight();
-    int dpi;
-    if (dimension < 200000) {
-      dpi = 300;
-    } else if (dimension < 300000) {
-      dpi = 250;
-    } else {
-      dpi = 200;
-    }
-    return pdfRenderer.renderImageWithDPI(index, dpi, ImageType.RGB);
+  /**
+   * Get the PDF rasterization implementation.
+   * Override this method to provide custom PDF rasterization handling.
+   *
+   * @return The PDF rasterization implementation.
+   */
+  protected PDFRasterization getPDFRasterizer() {
+    return new PDFRasterizer();
   }
 
   /**
