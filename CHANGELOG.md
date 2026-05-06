@@ -1,5 +1,36 @@
 # Mindee Java Client Library Changelog
 
+## v5.0.0-beta1 - 2026-05-06
+### ¡Breaking Changes!
+* :coffin: Remove obsolete/unused products:
+  * :coffin: bank account details
+  * :coffin: bank check
+  * :coffin:  bill of lading
+  * :coffin: business card
+  * :coffin: API Builder (custom)
+  * :coffin: delivery notes
+  * :coffin: energy bill FRA
+  * :coffin: french healthcard
+  * :coffin: nutrition facts
+  * :coffin: payslip FRA
+  * :coffin: resume
+  * :coffin: US healthcare cards
+  * :coffin: US mail
+* :recycle: :boom: rework v1 and v2 namespaces
+  * rework file operations
+  * move settings
+  * rework client
+  * rename api classes
+* :boom: drop support for Java 1.8
+* :recycle: :boom: LocalResponse class should be version-specific
+* :boom: prefer geometry objects over static classes
+* :boom: use 0-based page indexes for split file names
+### Changes
+* :sparkles: add explicit support for Java 25
+* :sparkles: add local Crop and Split for v2
+* :sparkles: allow easier replacing of the PDF library by using interfaces
+
+
 ## v4.44.0 - 2026-05-05
 ### Changes
 * :sparkles: Add chaining for v2 utilities
