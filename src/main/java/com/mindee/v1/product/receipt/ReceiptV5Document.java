@@ -3,7 +3,7 @@ package com.mindee.v1.product.receipt;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.mindee.v1.parsing.SummaryHelper;
+import com.mindee.v1.parsing.SummaryHelperV1;
 import com.mindee.v1.parsing.common.Prediction;
 import com.mindee.v1.parsing.standard.AmountField;
 import com.mindee.v1.parsing.standard.ClassificationField;
@@ -149,7 +149,7 @@ public class ReceiptV5Document extends Prediction {
     outStr.append(String.format(":Tip and Gratuity: %s%n", this.getTip()));
     outStr.append(String.format(":Taxes: %s%n", this.getTaxes()));
     outStr.append(String.format(":Supplier Name: %s%n", this.getSupplierName()));
-    String supplierCompanyRegistrations = SummaryHelper
+    String supplierCompanyRegistrations = SummaryHelperV1
       .arrayToString(this.getSupplierCompanyRegistrations(), "%n                                 ");
     outStr
       .append(String.format(":Supplier Company Registrations: %s%n", supplierCompanyRegistrations));
@@ -160,17 +160,17 @@ public class ReceiptV5Document extends Prediction {
     if (!this.getLineItems().isEmpty()) {
       int[] lineItemsColSizes = new int[] { 38, 10, 14, 12 };
       lineItemsSummary = String
-        .format("%n%s%n  ", SummaryHelper.lineSeparator(lineItemsColSizes, "-"))
+        .format("%n%s%n  ", SummaryHelperV1.lineSeparator(lineItemsColSizes, "-"))
         + "| Description                          "
         + "| Quantity "
         + "| Total Amount "
         + "| Unit Price "
-        + String.format("|%n%s%n  ", SummaryHelper.lineSeparator(lineItemsColSizes, "="));
-      lineItemsSummary += SummaryHelper.arrayToString(this.getLineItems(), lineItemsColSizes);
+        + String.format("|%n%s%n  ", SummaryHelperV1.lineSeparator(lineItemsColSizes, "="));
+      lineItemsSummary += SummaryHelperV1.arrayToString(this.getLineItems(), lineItemsColSizes);
       lineItemsSummary += String
-        .format("%n%s", SummaryHelper.lineSeparator(lineItemsColSizes, "-"));
+        .format("%n%s", SummaryHelperV1.lineSeparator(lineItemsColSizes, "-"));
     }
     outStr.append(String.format(":Line Items: %s%n", lineItemsSummary));
-    return SummaryHelper.cleanSummary(outStr.toString());
+    return SummaryHelperV1.cleanSummary(outStr.toString());
   }
 }

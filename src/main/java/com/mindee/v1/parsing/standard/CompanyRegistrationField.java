@@ -2,7 +2,7 @@ package com.mindee.v1.parsing.standard;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.mindee.v1.parsing.SummaryHelper;
+import com.mindee.v1.parsing.SummaryHelperV1;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.Getter;
@@ -54,8 +54,8 @@ public final class CompanyRegistrationField extends BaseField implements LineIte
 
   private Map<String, String> printableValues() {
     Map<String, String> printable = new HashMap<>();
-    printable.put("type", SummaryHelper.formatForDisplay(this.type, null));
-    printable.put("value", SummaryHelper.formatForDisplay(this.value, null));
+    printable.put("type", SummaryHelperV1.formatForDisplay(this.type, null));
+    printable.put("value", SummaryHelperV1.formatForDisplay(this.value, null));
     return printable;
   }
 }

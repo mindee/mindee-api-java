@@ -2,7 +2,7 @@ package com.mindee.v1.product.receipt;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.mindee.v1.parsing.SummaryHelper;
+import com.mindee.v1.parsing.SummaryHelperV1;
 import com.mindee.v1.parsing.standard.BaseField;
 import com.mindee.v1.parsing.standard.LineItemField;
 import java.util.HashMap;
@@ -47,10 +47,10 @@ public class ReceiptV5LineItem extends BaseField implements LineItemField {
   private Map<String, String> tablePrintableValues() {
     Map<String, String> printable = new HashMap<>();
 
-    printable.put("description", SummaryHelper.formatForDisplay(this.description, 36));
-    printable.put("quantity", SummaryHelper.formatAmount(this.quantity));
-    printable.put("totalAmount", SummaryHelper.formatAmount(this.totalAmount));
-    printable.put("unitPrice", SummaryHelper.formatAmount(this.unitPrice));
+    printable.put("description", SummaryHelperV1.formatForDisplay(this.description, 36));
+    printable.put("quantity", SummaryHelperV1.formatAmount(this.quantity));
+    printable.put("totalAmount", SummaryHelperV1.formatAmount(this.totalAmount));
+    printable.put("unitPrice", SummaryHelperV1.formatAmount(this.unitPrice));
     return printable;
   }
 
@@ -77,10 +77,10 @@ public class ReceiptV5LineItem extends BaseField implements LineItemField {
   private Map<String, String> printableValues() {
     Map<String, String> printable = new HashMap<>();
 
-    printable.put("description", SummaryHelper.formatForDisplay(this.description, null));
-    printable.put("quantity", SummaryHelper.formatAmount(this.quantity));
-    printable.put("totalAmount", SummaryHelper.formatAmount(this.totalAmount));
-    printable.put("unitPrice", SummaryHelper.formatAmount(this.unitPrice));
+    printable.put("description", SummaryHelperV1.formatForDisplay(this.description, null));
+    printable.put("quantity", SummaryHelperV1.formatAmount(this.quantity));
+    printable.put("totalAmount", SummaryHelperV1.formatAmount(this.totalAmount));
+    printable.put("unitPrice", SummaryHelperV1.formatAmount(this.unitPrice));
     return printable;
   }
 }

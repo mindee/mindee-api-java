@@ -2,7 +2,7 @@ package com.mindee.v1.product.fr.idcard;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.mindee.v1.parsing.SummaryHelper;
+import com.mindee.v1.parsing.SummaryHelperV1;
 import com.mindee.v1.parsing.standard.ClassificationField;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -37,6 +37,6 @@ public class IdCardV2Page extends IdCardV2Document {
     outStr.append(String.format(":Document Type: %s%n", this.getDocumentType()));
     outStr.append(String.format(":Document Sides: %s%n", this.getDocumentSide()));
     outStr.append(super.toString());
-    return SummaryHelper.cleanSummary(outStr.toString());
+    return SummaryHelperV1.cleanSummary(outStr.toString());
   }
 }

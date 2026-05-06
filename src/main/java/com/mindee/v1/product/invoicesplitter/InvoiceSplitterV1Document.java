@@ -2,7 +2,7 @@ package com.mindee.v1.product.invoicesplitter;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.mindee.v1.parsing.SummaryHelper;
+import com.mindee.v1.parsing.SummaryHelperV1;
 import com.mindee.v1.parsing.common.Prediction;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,15 +35,15 @@ public class InvoiceSplitterV1Document extends Prediction {
     if (!this.getInvoicePageGroups().isEmpty()) {
       int[] invoicePageGroupsColSizes = new int[] { 74 };
       invoicePageGroupsSummary = String
-        .format("%n%s%n  ", SummaryHelper.lineSeparator(invoicePageGroupsColSizes, "-"))
+        .format("%n%s%n  ", SummaryHelperV1.lineSeparator(invoicePageGroupsColSizes, "-"))
         + "| Page Indexes                                                             "
-        + String.format("|%n%s%n  ", SummaryHelper.lineSeparator(invoicePageGroupsColSizes, "="));
-      invoicePageGroupsSummary += SummaryHelper
+        + String.format("|%n%s%n  ", SummaryHelperV1.lineSeparator(invoicePageGroupsColSizes, "="));
+      invoicePageGroupsSummary += SummaryHelperV1
         .arrayToString(this.getInvoicePageGroups(), invoicePageGroupsColSizes);
       invoicePageGroupsSummary += String
-        .format("%n%s", SummaryHelper.lineSeparator(invoicePageGroupsColSizes, "-"));
+        .format("%n%s", SummaryHelperV1.lineSeparator(invoicePageGroupsColSizes, "-"));
     }
     outStr.append(String.format(":Invoice Page Groups: %s%n", invoicePageGroupsSummary));
-    return SummaryHelper.cleanSummary(outStr.toString());
+    return SummaryHelperV1.cleanSummary(outStr.toString());
   }
 }

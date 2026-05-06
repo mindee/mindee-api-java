@@ -2,7 +2,7 @@ package com.mindee.v1.parsing.common;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.mindee.v1.parsing.SummaryHelper;
+import com.mindee.v1.parsing.SummaryHelperV1;
 import java.util.stream.Collectors;
 import lombok.Getter;
 
@@ -58,7 +58,7 @@ public abstract class Inference<TPagePrediction, TDocumentPrediction extends Pre
         + pages.toString();
     }
     summary += String.format("%n");
-    return SummaryHelper.cleanSummary(summary);
+    return SummaryHelperV1.cleanSummary(summary);
   }
 
   public InferenceExtras getExtras() {

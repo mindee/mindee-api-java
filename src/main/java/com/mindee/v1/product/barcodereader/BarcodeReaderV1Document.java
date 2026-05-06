@@ -2,7 +2,7 @@ package com.mindee.v1.product.barcodereader;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.mindee.v1.parsing.SummaryHelper;
+import com.mindee.v1.parsing.SummaryHelperV1;
 import com.mindee.v1.parsing.common.Prediction;
 import com.mindee.v1.parsing.standard.StringField;
 import java.util.ArrayList;
@@ -38,10 +38,10 @@ public class BarcodeReaderV1Document extends Prediction {
   @Override
   public String toString() {
     StringBuilder outStr = new StringBuilder();
-    String codes1D = SummaryHelper.arrayToString(this.getCodes1D(), "%n              ");
+    String codes1D = SummaryHelperV1.arrayToString(this.getCodes1D(), "%n              ");
     outStr.append(String.format(":Barcodes 1D: %s%n", codes1D));
-    String codes2D = SummaryHelper.arrayToString(this.getCodes2D(), "%n              ");
+    String codes2D = SummaryHelperV1.arrayToString(this.getCodes2D(), "%n              ");
     outStr.append(String.format(":Barcodes 2D: %s%n", codes2D));
-    return SummaryHelper.cleanSummary(outStr.toString());
+    return SummaryHelperV1.cleanSummary(outStr.toString());
   }
 }

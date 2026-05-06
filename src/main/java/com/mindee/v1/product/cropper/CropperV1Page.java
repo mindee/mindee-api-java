@@ -2,7 +2,7 @@ package com.mindee.v1.product.cropper;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.mindee.v1.parsing.SummaryHelper;
+import com.mindee.v1.parsing.SummaryHelperV1;
 import com.mindee.v1.parsing.standard.PositionField;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,9 +31,9 @@ public class CropperV1Page extends CropperV1Document {
   @Override
   public String toString() {
     StringBuilder outStr = new StringBuilder();
-    String cropping = SummaryHelper.arrayToString(this.getCropping(), "%n                   ");
+    String cropping = SummaryHelperV1.arrayToString(this.getCropping(), "%n                   ");
     outStr.append(String.format(":Document Cropper: %s%n", cropping));
     outStr.append(super.toString());
-    return SummaryHelper.cleanSummary(outStr.toString());
+    return SummaryHelperV1.cleanSummary(outStr.toString());
   }
 }

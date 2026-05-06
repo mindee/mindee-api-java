@@ -2,7 +2,7 @@ package com.mindee.v1.parsing.standard;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.mindee.v1.parsing.SummaryHelper;
+import com.mindee.v1.parsing.SummaryHelperV1;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.Getter;
@@ -81,10 +81,10 @@ public class TaxField extends BaseField implements LineItemField {
 
   private Map<String, String> printableValues() {
     Map<String, String> printable = new HashMap<>();
-    printable.put("base", this.base != null ? SummaryHelper.formatAmount(this.base) : "");
+    printable.put("base", this.base != null ? SummaryHelperV1.formatAmount(this.base) : "");
     printable.put("code", this.code != null ? this.code : "");
-    printable.put("rate", this.rate != null ? SummaryHelper.formatAmount(this.rate) : "");
-    printable.put("value", this.value != null ? SummaryHelper.formatAmount(this.value) : "");
+    printable.put("rate", this.rate != null ? SummaryHelperV1.formatAmount(this.rate) : "");
+    printable.put("value", this.value != null ? SummaryHelperV1.formatAmount(this.value) : "");
     return printable;
   }
 }

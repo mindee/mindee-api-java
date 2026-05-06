@@ -2,7 +2,7 @@ package com.mindee.v1.product.driverlicense;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.mindee.v1.parsing.SummaryHelper;
+import com.mindee.v1.parsing.SummaryHelperV1;
 import com.mindee.v1.parsing.common.Prediction;
 import com.mindee.v1.parsing.standard.DateField;
 import com.mindee.v1.parsing.standard.StringField;
@@ -116,6 +116,6 @@ public class DriverLicenseV1Document extends Prediction {
     outStr.append(String.format(":Issuing Authority: %s%n", this.getIssuingAuthority()));
     outStr.append(String.format(":MRZ: %s%n", this.getMrz()));
     outStr.append(String.format(":DD Number: %s%n", this.getDdNumber()));
-    return SummaryHelper.cleanSummary(outStr.toString());
+    return SummaryHelperV1.cleanSummary(outStr.toString());
   }
 }

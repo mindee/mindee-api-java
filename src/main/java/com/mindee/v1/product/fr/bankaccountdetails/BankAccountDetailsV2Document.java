@@ -2,7 +2,7 @@ package com.mindee.v1.product.fr.bankaccountdetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.mindee.v1.parsing.SummaryHelper;
+import com.mindee.v1.parsing.SummaryHelperV1;
 import com.mindee.v1.parsing.common.Prediction;
 import com.mindee.v1.parsing.standard.StringField;
 import lombok.EqualsAndHashCode;
@@ -52,6 +52,6 @@ public class BankAccountDetailsV2Document extends Prediction {
     outStr.append(String.format(":Basic Bank Account Number:%n%s", this.getBban().toFieldList()));
     outStr.append(String.format(":IBAN: %s%n", this.getIban()));
     outStr.append(String.format(":SWIFT Code: %s%n", this.getSwiftCode()));
-    return SummaryHelper.cleanSummary(outStr.toString());
+    return SummaryHelperV1.cleanSummary(outStr.toString());
   }
 }
