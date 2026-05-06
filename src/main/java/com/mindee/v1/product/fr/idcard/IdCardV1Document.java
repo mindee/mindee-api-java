@@ -2,7 +2,7 @@ package com.mindee.v1.product.fr.idcard;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.mindee.v1.parsing.SummaryHelper;
+import com.mindee.v1.parsing.SummaryHelperV1;
 import com.mindee.v1.parsing.common.Prediction;
 import com.mindee.v1.parsing.standard.DateField;
 import com.mindee.v1.parsing.standard.StringField;
@@ -88,7 +88,7 @@ public class IdCardV1Document extends Prediction {
   public String toString() {
     StringBuilder outStr = new StringBuilder();
     outStr.append(String.format(":Identity Number: %s%n", this.getIdNumber()));
-    String givenNames = SummaryHelper.arrayToString(this.getGivenNames(), "%n                ");
+    String givenNames = SummaryHelperV1.arrayToString(this.getGivenNames(), "%n                ");
     outStr.append(String.format(":Given Name(s): %s%n", givenNames));
     outStr.append(String.format(":Surname: %s%n", this.getSurname()));
     outStr.append(String.format(":Date of Birth: %s%n", this.getBirthDate()));
@@ -98,6 +98,6 @@ public class IdCardV1Document extends Prediction {
     outStr.append(String.format(":Gender: %s%n", this.getGender()));
     outStr.append(String.format(":MRZ Line 1: %s%n", this.getMrz1()));
     outStr.append(String.format(":MRZ Line 2: %s%n", this.getMrz2()));
-    return SummaryHelper.cleanSummary(outStr.toString());
+    return SummaryHelperV1.cleanSummary(outStr.toString());
   }
 }

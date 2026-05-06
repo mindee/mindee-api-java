@@ -2,7 +2,7 @@ package com.mindee.v1.product.multireceiptsdetector;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.mindee.v1.parsing.SummaryHelper;
+import com.mindee.v1.parsing.SummaryHelperV1;
 import com.mindee.v1.parsing.common.Prediction;
 import com.mindee.v1.parsing.standard.PositionField;
 import java.util.ArrayList;
@@ -32,8 +32,8 @@ public class MultiReceiptsDetectorV1Document extends Prediction {
   @Override
   public String toString() {
     StringBuilder outStr = new StringBuilder();
-    String receipts = SummaryHelper.arrayToString(this.getReceipts(), "%n                   ");
+    String receipts = SummaryHelperV1.arrayToString(this.getReceipts(), "%n                   ");
     outStr.append(String.format(":List of Receipts: %s%n", receipts));
-    return SummaryHelper.cleanSummary(outStr.toString());
+    return SummaryHelperV1.cleanSummary(outStr.toString());
   }
 }

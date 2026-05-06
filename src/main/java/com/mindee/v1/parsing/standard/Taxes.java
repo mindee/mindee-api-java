@@ -1,6 +1,6 @@
 package com.mindee.v1.parsing.standard;
 
-import com.mindee.v1.parsing.SummaryHelper;
+import com.mindee.v1.parsing.SummaryHelperV1;
 import java.util.ArrayList;
 
 /**
@@ -16,10 +16,10 @@ public class Taxes extends ArrayList<TaxField> {
       return "";
     }
     int[] columnSizes = new int[] { 15, 8, 10, 15 };
-    return String.format("%n%s%n", SummaryHelper.lineSeparator(columnSizes, "-"))
+    return String.format("%n%s%n", SummaryHelperV1.lineSeparator(columnSizes, "-"))
       + "  | Base          | Code   | Rate (%) | Amount        |"
-      + String.format("%n%s%n  ", SummaryHelper.lineSeparator(columnSizes, "="))
-      + SummaryHelper.arrayToString(this, columnSizes)
-      + String.format("%n%s", SummaryHelper.lineSeparator(columnSizes, "-"));
+      + String.format("%n%s%n  ", SummaryHelperV1.lineSeparator(columnSizes, "="))
+      + SummaryHelperV1.arrayToString(this, columnSizes)
+      + String.format("%n%s", SummaryHelperV1.lineSeparator(columnSizes, "-"));
   }
 }

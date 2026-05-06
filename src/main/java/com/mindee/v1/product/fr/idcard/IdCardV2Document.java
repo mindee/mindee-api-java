@@ -2,7 +2,7 @@ package com.mindee.v1.product.fr.idcard;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.mindee.v1.parsing.SummaryHelper;
+import com.mindee.v1.parsing.SummaryHelperV1;
 import com.mindee.v1.parsing.common.Prediction;
 import com.mindee.v1.parsing.standard.DateField;
 import com.mindee.v1.parsing.standard.StringField;
@@ -120,7 +120,7 @@ public class IdCardV2Document extends Prediction {
     outStr.append(String.format(":Nationality: %s%n", this.getNationality()));
     outStr.append(String.format(":Card Access Number: %s%n", this.getCardAccessNumber()));
     outStr.append(String.format(":Document Number: %s%n", this.getDocumentNumber()));
-    String givenNames = SummaryHelper.arrayToString(this.getGivenNames(), "%n                ");
+    String givenNames = SummaryHelperV1.arrayToString(this.getGivenNames(), "%n                ");
     outStr.append(String.format(":Given Name(s): %s%n", givenNames));
     outStr.append(String.format(":Surname: %s%n", this.getSurname()));
     outStr.append(String.format(":Alternate Name: %s%n", this.getAlternateName()));
@@ -133,6 +133,6 @@ public class IdCardV2Document extends Prediction {
     outStr.append(String.format(":Mrz Line 3: %s%n", this.getMrz3()));
     outStr.append(String.format(":Date of Issue: %s%n", this.getIssueDate()));
     outStr.append(String.format(":Issuing Authority: %s%n", this.getAuthority()));
-    return SummaryHelper.cleanSummary(outStr.toString());
+    return SummaryHelperV1.cleanSummary(outStr.toString());
   }
 }

@@ -2,7 +2,7 @@ package com.mindee.v1.product.ind.indianpassport;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.mindee.v1.parsing.SummaryHelper;
+import com.mindee.v1.parsing.SummaryHelperV1;
 import com.mindee.v1.parsing.common.Prediction;
 import com.mindee.v1.parsing.standard.ClassificationField;
 import com.mindee.v1.parsing.standard.DateField;
@@ -191,6 +191,6 @@ public class IndianPassportV1Document extends Prediction {
     outStr.append(String.format(":Address Line 2: %s%n", this.getAddress2()));
     outStr.append(String.format(":Address Line 3: %s%n", this.getAddress3()));
     outStr.append(String.format(":File Number: %s%n", this.getFileNumber()));
-    return SummaryHelper.cleanSummary(outStr.toString());
+    return SummaryHelperV1.cleanSummary(outStr.toString());
   }
 }

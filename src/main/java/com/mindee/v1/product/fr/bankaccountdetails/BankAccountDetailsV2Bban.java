@@ -2,7 +2,7 @@ package com.mindee.v1.product.fr.bankaccountdetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.mindee.v1.parsing.SummaryHelper;
+import com.mindee.v1.parsing.SummaryHelperV1;
 import com.mindee.v1.parsing.standard.BaseField;
 import java.util.HashMap;
 import java.util.Map;
@@ -66,10 +66,10 @@ public class BankAccountDetailsV2Bban extends BaseField {
   private Map<String, String> printableValues() {
     Map<String, String> printable = new HashMap<>();
 
-    printable.put("bbanBankCode", SummaryHelper.formatForDisplay(this.bbanBankCode, null));
-    printable.put("bbanBranchCode", SummaryHelper.formatForDisplay(this.bbanBranchCode, null));
-    printable.put("bbanKey", SummaryHelper.formatForDisplay(this.bbanKey, null));
-    printable.put("bbanNumber", SummaryHelper.formatForDisplay(this.bbanNumber, null));
+    printable.put("bbanBankCode", SummaryHelperV1.formatForDisplay(this.bbanBankCode, null));
+    printable.put("bbanBranchCode", SummaryHelperV1.formatForDisplay(this.bbanBranchCode, null));
+    printable.put("bbanKey", SummaryHelperV1.formatForDisplay(this.bbanKey, null));
+    printable.put("bbanNumber", SummaryHelperV1.formatForDisplay(this.bbanNumber, null));
     return printable;
   }
 }

@@ -12,7 +12,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Base64;
 import lombok.Getter;
-import lombok.Setter;
 import org.apache.pdfbox.io.IOUtils;
 
 /**
@@ -24,9 +23,7 @@ public class LocalInputSource {
   private byte[] file;
   @Getter
   private final String filename;
-  @Setter
   private PDFInputOperation pdfInputOperator;
-  @Setter
   private PDFCompression pdfCompressor;
   // Store here to avoid recalculating every time.
   private Boolean isPDF;
@@ -62,14 +59,26 @@ public class LocalInputSource {
     this.filename = filename;
   }
 
-  private PDFInputOperation getPDFInputOperator() {
+  /**
+   * Get the PDFInputOperation instance.
+   * Override this method to provide custom PDF input operation handling.
+   *
+   * @return PDFInputOperation instance
+   */
+  protected PDFInputOperation getPDFInputOperator() {
     if (this.pdfInputOperator == null) {
       this.pdfInputOperator = new PDFInputOperator();
     }
     return this.pdfInputOperator;
   }
 
-  private PDFCompression getPDFCompressor() {
+  /**
+   * Get the PDFCompression instance.
+   * Override this method to provide custom PDF compression handling.
+   *
+   * @return PDFCompression instance
+   */
+  protected PDFCompression getPDFCompressor() {
     if (this.pdfCompressor == null) {
       this.pdfCompressor = new PDFCompressor();
     }

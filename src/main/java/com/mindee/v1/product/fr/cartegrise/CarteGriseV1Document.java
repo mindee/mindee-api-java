@@ -2,7 +2,7 @@ package com.mindee.v1.product.fr.cartegrise;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.mindee.v1.parsing.SummaryHelper;
+import com.mindee.v1.parsing.SummaryHelperV1;
 import com.mindee.v1.parsing.common.Prediction;
 import com.mindee.v1.parsing.standard.DateField;
 import com.mindee.v1.parsing.standard.StringField;
@@ -312,6 +312,6 @@ public class CarteGriseV1Document extends Prediction {
     outStr.append(String.format(":Owner's Surname: %s%n", this.getOwnerSurname()));
     outStr.append(String.format(":MRZ Line 1: %s%n", this.getMrz1()));
     outStr.append(String.format(":MRZ Line 2: %s%n", this.getMrz2()));
-    return SummaryHelper.cleanSummary(outStr.toString());
+    return SummaryHelperV1.cleanSummary(outStr.toString());
   }
 }

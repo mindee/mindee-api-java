@@ -2,7 +2,7 @@ package com.mindee.v1.product.internationalid;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.mindee.v1.parsing.SummaryHelper;
+import com.mindee.v1.parsing.SummaryHelperV1;
 import com.mindee.v1.parsing.common.Prediction;
 import com.mindee.v1.parsing.standard.ClassificationField;
 import com.mindee.v1.parsing.standard.DateField;
@@ -132,9 +132,9 @@ public class InternationalIdV2Document extends Prediction {
     StringBuilder outStr = new StringBuilder();
     outStr.append(String.format(":Document Type: %s%n", this.getDocumentType()));
     outStr.append(String.format(":Document Number: %s%n", this.getDocumentNumber()));
-    String surnames = SummaryHelper.arrayToString(this.getSurnames(), "%n           ");
+    String surnames = SummaryHelperV1.arrayToString(this.getSurnames(), "%n           ");
     outStr.append(String.format(":Surnames: %s%n", surnames));
-    String givenNames = SummaryHelper.arrayToString(this.getGivenNames(), "%n              ");
+    String givenNames = SummaryHelperV1.arrayToString(this.getGivenNames(), "%n              ");
     outStr.append(String.format(":Given Names: %s%n", givenNames));
     outStr.append(String.format(":Sex: %s%n", this.getSex()));
     outStr.append(String.format(":Birth Date: %s%n", this.getBirthDate()));
@@ -149,6 +149,6 @@ public class InternationalIdV2Document extends Prediction {
     outStr.append(String.format(":MRZ Line 1: %s%n", this.getMrzLine1()));
     outStr.append(String.format(":MRZ Line 2: %s%n", this.getMrzLine2()));
     outStr.append(String.format(":MRZ Line 3: %s%n", this.getMrzLine3()));
-    return SummaryHelper.cleanSummary(outStr.toString());
+    return SummaryHelperV1.cleanSummary(outStr.toString());
   }
 }

@@ -3,7 +3,7 @@ package com.mindee.v1.product.financialdocument;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.mindee.v1.parsing.SummaryHelper;
+import com.mindee.v1.parsing.SummaryHelperV1;
 import com.mindee.v1.parsing.common.Prediction;
 import com.mindee.v1.parsing.standard.AddressField;
 import com.mindee.v1.parsing.standard.AmountField;
@@ -241,7 +241,7 @@ public class FinancialDocumentV1Document extends Prediction {
     outStr.append(String.format(":Purchase Order Number: %s%n", this.getPoNumber()));
     outStr.append(String.format(":Receipt Number: %s%n", this.getReceiptNumber()));
     outStr.append(String.format(":Document Number: %s%n", this.getDocumentNumber()));
-    String referenceNumbers = SummaryHelper
+    String referenceNumbers = SummaryHelperV1
       .arrayToString(this.getReferenceNumbers(), "%n                    ");
     outStr.append(String.format(":Reference Numbers: %s%n", referenceNumbers));
     outStr.append(String.format(":Purchase Date: %s%n", this.getDate()));
@@ -250,11 +250,11 @@ public class FinancialDocumentV1Document extends Prediction {
     outStr.append(String.format(":Total Net: %s%n", this.getTotalNet()));
     outStr.append(String.format(":Total Amount: %s%n", this.getTotalAmount()));
     outStr.append(String.format(":Taxes: %s%n", this.getTaxes()));
-    String supplierPaymentDetails = SummaryHelper
+    String supplierPaymentDetails = SummaryHelperV1
       .arrayToString(this.getSupplierPaymentDetails(), "%n                           ");
     outStr.append(String.format(":Supplier Payment Details: %s%n", supplierPaymentDetails));
     outStr.append(String.format(":Supplier Name: %s%n", this.getSupplierName()));
-    String supplierCompanyRegistrations = SummaryHelper
+    String supplierCompanyRegistrations = SummaryHelperV1
       .arrayToString(this.getSupplierCompanyRegistrations(), "%n                                 ");
     outStr
       .append(String.format(":Supplier Company Registrations: %s%n", supplierCompanyRegistrations));
@@ -263,7 +263,7 @@ public class FinancialDocumentV1Document extends Prediction {
     outStr.append(String.format(":Customer Name: %s%n", this.getCustomerName()));
     outStr.append(String.format(":Supplier Website: %s%n", this.getSupplierWebsite()));
     outStr.append(String.format(":Supplier Email: %s%n", this.getSupplierEmail()));
-    String customerCompanyRegistrations = SummaryHelper
+    String customerCompanyRegistrations = SummaryHelperV1
       .arrayToString(this.getCustomerCompanyRegistrations(), "%n                                 ");
     outStr
       .append(String.format(":Customer Company Registrations: %s%n", customerCompanyRegistrations));
@@ -282,7 +282,7 @@ public class FinancialDocumentV1Document extends Prediction {
     if (!this.getLineItems().isEmpty()) {
       int[] lineItemsColSizes = new int[] { 38, 14, 10, 12, 14, 14, 17, 12 };
       lineItemsSummary = String
-        .format("%n%s%n  ", SummaryHelper.lineSeparator(lineItemsColSizes, "-"))
+        .format("%n%s%n  ", SummaryHelperV1.lineSeparator(lineItemsColSizes, "-"))
         + "| Description                          "
         + "| Product code "
         + "| Quantity "
@@ -291,12 +291,12 @@ public class FinancialDocumentV1Document extends Prediction {
         + "| Total Amount "
         + "| Unit of measure "
         + "| Unit Price "
-        + String.format("|%n%s%n  ", SummaryHelper.lineSeparator(lineItemsColSizes, "="));
-      lineItemsSummary += SummaryHelper.arrayToString(this.getLineItems(), lineItemsColSizes);
+        + String.format("|%n%s%n  ", SummaryHelperV1.lineSeparator(lineItemsColSizes, "="));
+      lineItemsSummary += SummaryHelperV1.arrayToString(this.getLineItems(), lineItemsColSizes);
       lineItemsSummary += String
-        .format("%n%s", SummaryHelper.lineSeparator(lineItemsColSizes, "-"));
+        .format("%n%s", SummaryHelperV1.lineSeparator(lineItemsColSizes, "-"));
     }
     outStr.append(String.format(":Line Items: %s%n", lineItemsSummary));
-    return SummaryHelper.cleanSummary(outStr.toString());
+    return SummaryHelperV1.cleanSummary(outStr.toString());
   }
 }
