@@ -1,7 +1,7 @@
-import com.mindee.MindeeClient;
 import com.mindee.input.LocalInputSource;
-import com.mindee.parsing.common.AsyncPredictResponse;
-import com.mindee.product.invoicesplitter.InvoiceSplitterV1;
+import com.mindee.v1.MindeeClient;
+import com.mindee.v1.parsing.common.AsyncPredictResponse;
+import com.mindee.v1.product.invoicesplitter.InvoiceSplitterV1;
 import java.io.File;
 import java.io.IOException;
 
@@ -12,10 +12,10 @@ public class SimpleMindeeClientV1 {
     String filePath = "/path/to/the/file.ext";
 
     // Init a new client
-    MindeeClient mindeeClient = new MindeeClient(apiKey);
+    var mindeeClient = new MindeeClient(apiKey);
 
     // Load a file from disk
-    LocalInputSource inputSource = new LocalInputSource(new File(filePath));
+    var inputSource = new LocalInputSource(new File(filePath));
 
     // Parse the file asynchronously
     AsyncPredictResponse<InvoiceSplitterV1> response = mindeeClient.enqueueAndParse(
