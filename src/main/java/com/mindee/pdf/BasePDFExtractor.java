@@ -83,6 +83,19 @@ public class BasePDFExtractor {
   }
 
   /**
+   * Make a nice filename for the split.
+   */
+  protected String makeFilename(List<Integer> pageNumbers) {
+    String[] splitName = InputSourceUtils.splitNameStrict(filename);
+    return splitName[0]
+      + String.format("_%3s", pageNumbers.get(0)).replace(" ", "0")
+      + "-"
+      + String.format("%3s", pageNumbers.get(pageNumbers.size() - 1)).replace(" ", "0")
+      + "."
+      + splitName[1];
+  }
+
+  /**
    * Converts an array to a buffered image.
    *
    * @param byteArray Raw byte array.
@@ -93,19 +106,6 @@ public class BasePDFExtractor {
     try (ByteArrayInputStream stream = new ByteArrayInputStream(byteArray)) {
       return ImageIO.read(stream);
     }
-  }
-
-  /**
-   * Make a nice filename for the split.
-   */
-  private String makeFilename(List<Integer> pageNumbers) {
-    String[] splitName = InputSourceUtils.splitNameStrict(filename);
-    return splitName[0]
-      + String.format("_%3s", pageNumbers.get(0)).replace(" ", "0")
-      + "-"
-      + String.format("%3s", pageNumbers.get(pageNumbers.size() - 1)).replace(" ", "0")
-      + "."
-      + splitName[1];
   }
 
   private static PDPage clonePage(PDPage page) {
