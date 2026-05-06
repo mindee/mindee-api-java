@@ -36,7 +36,7 @@ public class PDFCompressor implements PDFCompression {
   @Override
   public byte[] compressPDF(
       byte[] fileBytes,
-      Integer imageQuality,
+      int imageQuality,
       Boolean forceSourceTextCompression,
       Boolean disableSourceText
   ) throws IOException {

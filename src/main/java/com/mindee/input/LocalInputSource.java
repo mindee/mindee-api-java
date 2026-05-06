@@ -61,7 +61,7 @@ public class LocalInputSource {
 
   /**
    * Get the PDFInputOperation instance.
-   * Override this method to provide custom PDF input operation handling.
+   * Override this method to provide custom PDF input handling.
    *
    * @return PDFInputOperation instance
    */
