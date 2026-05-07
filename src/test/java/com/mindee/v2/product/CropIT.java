@@ -17,25 +17,27 @@ import org.junit.jupiter.api.TestInstance;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @Tag("integration")
-@DisplayName("MindeeV2 –Integration Tests - Crop")
+@DisplayName("MindeeV2 – Integration Tests - Crop")
 class CropIT {
 
   private MindeeClient mindeeClient;
-  private String modelId;
+  private String cropModelId;
+  private String cropExtractionModelId;
 
   @BeforeAll
   void setUp() {
     var apiKey = System.getenv("MINDEE_V2_API_KEY");
-    modelId = System.getenv("MINDEE_V2_SE_TESTS_CROP_MODEL_ID");
+    cropModelId = System.getenv("MINDEE_V2_SE_TESTS_CROP_MODEL_ID");
+    cropExtractionModelId = System.getenv("MINDEE_V2_SE_TESTS_CROP_EXTRACTION_MODEL_ID");
     mindeeClient = new MindeeClient(apiKey);
   }
 
   @Test
-  @DisplayName("Empty, multi-page PDF – enqueue & parse must succeed")
-  void parseFile_FilledMultiPage_mustSucceed() throws IOException, InterruptedException {
+  @DisplayName("Filled, multi-page PDF – crop must succeed")
+  void filledMultiPage_cropMustSucceed() throws IOException, InterruptedException {
     var source = new LocalInputSource(getV2ResourcePath("products/crop/multipage_sample.pdf"));
     var params = CropParameters
-      .builder(modelId)
+      .builder(cropModelId)
       .alias("java_integration-test_crop_multipage")
       .build();
     var pollingOptions = PollingOptions
@@ -58,11 +60,64 @@ class CropIT {
     assertEquals(2, file.getPageCount());
 
     assertNotNull(inference.getModel());
-    assertEquals(modelId, inference.getModel().getId());
+    assertEquals(cropModelId, inference.getModel().getId());
 
     var result = inference.getResult();
     assertNotNull(result);
     assertEquals(5, result.getCrops().size());
-    assertEquals("receipt", result.getCrops().get(0).getObjectType());
+    var crop0 = result.getCrops().get(0);
+    assertEquals("receipt", crop0.getObjectType());
+    assertNotNull(crop0.getLocation().getPolygon());
+    assertEquals(0, crop0.getLocation().getPage());
+  }
+
+  @Test
+  @DisplayName("Filled image – crop and extraction must succeed")
+  void filledSinglePage_extractionMustSucceed() throws IOException, InterruptedException {
+    var source = new LocalInputSource(getV2ResourcePath("products/crop/default_sample.jpg"));
+    var params = CropParameters
+      .builder(cropExtractionModelId)
+      .alias("java_integration-test_crop_multipage")
+      .build();
+    var pollingOptions = PollingOptions
+      .builder()
+      .initialDelaySec(5.0)
+      .intervalSec(1.5)
+      .maxRetries(80)
+      .build();
+
+    CropResponse response = mindeeClient
+      .enqueueAndGetResult(CropResponse.class, source, params, pollingOptions);
+    assertNotNull(response);
+
+    var inference = response.getInference();
+    assertNotNull(inference);
+
+    var file = inference.getFile();
+    assertNotNull(file);
+    assertEquals("default_sample.jpg", file.getName());
+    assertEquals(1, file.getPageCount());
+
+    assertNotNull(inference.getModel());
+    assertEquals(cropExtractionModelId, inference.getModel().getId());
+
+    var result = inference.getResult();
+    assertNotNull(result);
+    assertEquals(2, result.getCrops().size());
+    var crop0 = result.getCrops().get(0);
+    assertEquals("receipt", crop0.getObjectType());
+    assertNotNull(crop0.getLocation().getPolygon());
+    assertEquals(0, crop0.getLocation().getPage());
+    var extractionResponse0 = crop0.getExtractionResponse();
+    assertNotNull(extractionResponse0);
+    assertEquals(
+      "CHEZ ALAIN MIAM MIAM",
+      extractionResponse0
+        .getInference()
+        .getResult()
+        .getFields()
+        .getSimpleField("supplier_name")
+        .getValue()
+    );
   }
 }

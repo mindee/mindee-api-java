@@ -19,7 +19,7 @@ import org.junit.jupiter.api.TestInstance;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @Tag("integration")
-@DisplayName("MindeeV2 –Integration Tests - Split")
+@DisplayName("MindeeV2 – Integration Tests - Split")
 class SplitIT {
 
   private MindeeClient mindeeClient;
