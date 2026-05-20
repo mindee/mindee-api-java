@@ -6,8 +6,8 @@ import com.mindee.input.LocalInputSource;
 import com.mindee.input.URLInputSource;
 import com.mindee.v2.clientoptions.BaseParameters;
 import com.mindee.v2.parsing.CommonResponse;
-import com.mindee.v2.parsing.ErrorResponse;
 import com.mindee.v2.parsing.JobResponse;
+import com.mindee.v2.parsing.error.ErrorResponse;
 import java.io.IOException;
 
 /**

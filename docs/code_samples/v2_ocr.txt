@@ -36,6 +36,6 @@ public class SimpleMindeeClientV2 {
     System.out.println(response.getInference().toString());
 
     // Access the result OCR pages
-    var result = response.getInference().getResult();
+    var pages = response.getInference().getResult().getPages();
   }
 }

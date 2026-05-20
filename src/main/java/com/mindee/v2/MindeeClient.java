@@ -8,8 +8,8 @@ import com.mindee.v2.http.MindeeApiV2;
 import com.mindee.v2.http.MindeeHttpApiV2;
 import com.mindee.v2.http.MindeeHttpExceptionV2;
 import com.mindee.v2.parsing.CommonResponse;
-import com.mindee.v2.parsing.ErrorResponse;
 import com.mindee.v2.parsing.JobResponse;
+import com.mindee.v2.parsing.error.ErrorResponse;
 import com.mindee.v2.product.extraction.ExtractionResponse;
 import java.io.IOException;
 

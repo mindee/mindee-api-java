@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.mindee.v1.parsing.common.LocalDateTimeDeserializer;
+import com.mindee.v2.parsing.error.ErrorResponse;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.AllArgsConstructor;
