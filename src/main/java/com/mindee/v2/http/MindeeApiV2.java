@@ -6,8 +6,9 @@ import com.mindee.input.LocalInputSource;
 import com.mindee.input.URLInputSource;
 import com.mindee.v2.clientoptions.BaseParameters;
 import com.mindee.v2.parsing.CommonResponse;
-import com.mindee.v2.parsing.ErrorResponse;
 import com.mindee.v2.parsing.JobResponse;
+import com.mindee.v2.parsing.error.ErrorResponse;
+import com.mindee.v2.parsing.search.SearchResponse;
 import java.io.IOException;
 
 /**
@@ -48,10 +49,18 @@ public abstract class MindeeApiV2 extends MindeeApiCommon {
    *
    * @param inferenceId ID of the inference to poll.
    */
-  abstract public <TResponse extends CommonResponse> TResponse reqGetResult(
+  public abstract <TResponse extends CommonResponse> TResponse reqGetResult(
       Class<TResponse> responseClass,
       String inferenceId
   );
+
+  /**
+   * Retrieves a list of models.
+   *
+   * @param modelName search term for model name
+   * @param modelType search term for model type
+   */
+  public abstract SearchResponse reqGetSearchModels(String modelName, String modelType);
 
   /**
    * Creates an "unknown error" response from an HTTP status code.

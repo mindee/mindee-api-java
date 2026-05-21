@@ -1,4 +1,4 @@
-package com.mindee.v2.parsing;
+package com.mindee.v2.parsing.search;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -8,23 +8,30 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 /**
- * Error item model.
+ * Model webhook info.
  */
 @Getter
 @EqualsAndHashCode
 @JsonIgnoreProperties(ignoreUnknown = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public final class ErrorItem {
+public class ModelWebhook {
   /**
-   * A JSON Pointer to the location of the body property.
+   * ID of the webhook.
    */
-  @JsonProperty("pointer")
-  private String pointer;
+  @JsonProperty("id")
+  private String id;
 
   /**
-   * Explicit information on the issue.
+   * Name of the webhook.
    */
-  @JsonProperty("detail")
-  private String detail;
+  @JsonProperty("name")
+  private String name;
+
+  /**
+   * URL of the webhook.
+   */
+  @JsonProperty("url")
+  private String url;
+
 }

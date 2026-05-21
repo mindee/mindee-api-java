@@ -8,8 +8,9 @@ import com.mindee.v2.http.MindeeApiV2;
 import com.mindee.v2.http.MindeeHttpApiV2;
 import com.mindee.v2.http.MindeeHttpExceptionV2;
 import com.mindee.v2.parsing.CommonResponse;
-import com.mindee.v2.parsing.ErrorResponse;
 import com.mindee.v2.parsing.JobResponse;
+import com.mindee.v2.parsing.error.ErrorResponse;
+import com.mindee.v2.parsing.search.SearchResponse;
 import com.mindee.v2.product.extraction.ExtractionResponse;
 import java.io.IOException;
 
@@ -170,6 +171,36 @@ public class MindeeClient {
     inputSource.validateSecure();
     JobResponse job = enqueue(inputSource, params);
     return pollAndFetch(responseClass, job, pollingOptions);
+  }
+
+  /**
+   * Return all models.
+   *
+   * @return an instance of {@link SearchResponse}
+   */
+  public SearchResponse searchModels() {
+    return searchModels(null, null);
+  }
+
+  /**
+   * Search for models by name.
+   *
+   * @param modelName name of the model to search for
+   * @return an instance of {@link SearchResponse}
+   */
+  public SearchResponse searchModels(String modelName) {
+    return searchModels(modelName, null);
+  }
+
+  /**
+   * Search for models by name and type.
+   *
+   * @param modelName name of the model to search for
+   * @param modelType type of the model to search for
+   * @return an instance of {@link SearchResponse}
+   */
+  public SearchResponse searchModels(String modelName, String modelType) {
+    return mindeeApi.reqGetSearchModels(modelName, modelType);
   }
 
   /**
