@@ -10,8 +10,8 @@ public class SimpleMindeeClientV2 {
       throws IOException, InterruptedException
   {
     String apiKey = "MY_API_KEY";
-    String filePath = "/path/to/the/file.ext";
     String modelId = "MY_MODEL_ID";
+    String filePath = "/path/to/the/file.ext";
 
     // Init a new client
     var mindeeClient = new MindeeClient(apiKey);
@@ -38,6 +38,6 @@ public class SimpleMindeeClientV2 {
 
     // Access the classification result
     var result = response.getInference().getResult();
-    var classification = result.getClassification();
+    String documentType = result.getClassification().getDocumentType();
   }
 }

@@ -36,8 +36,10 @@ com.mindee.v2.clientoptions
 com.mindee.v2.fileoperations
 com.mindee.v2.http
 com.mindee.v2.parsing
+com.mindee.v2.parsing.error
 com.mindee.v2.parsing.inference
 com.mindee.v2.parsing.inference.field
+com.mindee.v2.parsing.search
 com.mindee.v2.product.classification
 com.mindee.v2.product.classification.params
 com.mindee.v2.product.crop
