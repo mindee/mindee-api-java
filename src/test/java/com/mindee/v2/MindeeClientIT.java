@@ -8,6 +8,7 @@ import com.mindee.input.LocalInputSource;
 import com.mindee.input.URLInputSource;
 import com.mindee.v2.clientoptions.PollingOptions;
 import com.mindee.v2.http.MindeeHttpExceptionV2;
+import com.mindee.v2.parsing.search.SearchResponse;
 import com.mindee.v2.product.extraction.ExtractionInference;
 import com.mindee.v2.product.extraction.ExtractionResponse;
 import com.mindee.v2.product.extraction.params.ExtractionParameters;
@@ -223,5 +224,13 @@ class MindeeClientIT {
 
     assertNotNull(response);
     assertNotNull(response.getInference());
+  }
+
+  @Test
+  @DisplayName("Search for models by name")
+  void searchModelsByName_mustSucceed() {
+    SearchResponse response = mindeeClient.searchModels("crop");
+    assertNotNull(response);
+    assertFalse(response.getModels().isEmpty());
   }
 }

@@ -3,6 +3,8 @@
 ## v5.0.0-beta2 - 2026-05-20
 ### ¡Breaking Changes!
 * :recycle: put error parsing in its own package
+### Changes
+* :sparkles: add model search API
 
 
 ## v5.0.0-beta1 - 2026-05-06

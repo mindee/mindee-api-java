@@ -10,12 +10,14 @@ import com.mindee.v2.clientoptions.BaseParameters;
 import com.mindee.v2.parsing.CommonResponse;
 import com.mindee.v2.parsing.JobResponse;
 import com.mindee.v2.parsing.error.ErrorResponse;
+import com.mindee.v2.parsing.search.SearchResponse;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import lombok.Builder;
 import org.apache.hc.client5.http.classic.methods.HttpGet;
 import org.apache.hc.client5.http.classic.methods.HttpPost;
+import org.apache.hc.client5.http.classic.methods.HttpUriRequestBase;
 import org.apache.hc.client5.http.config.RequestConfig;
 import org.apache.hc.client5.http.entity.mime.HttpMultipartMode;
 import org.apache.hc.client5.http.entity.mime.MultipartEntityBuilder;
@@ -82,7 +84,7 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
         inputSource.getFilename()
       );
     post.setEntity(options.buildHttpBody(builder).build());
-    return executeEnqueue(post);
+    return executeAPIRequest(post, JobResponse.class);
   }
 
   /**
@@ -103,33 +105,7 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
     builder.setMode(HttpMultipartMode.EXTENDED);
     builder.addTextBody("url", inputSource.getUrl().toString());
     post.setEntity(options.buildHttpBody(builder).build());
-    return executeEnqueue(post);
-  }
-
-  /**
-   * Executes an enqueue action, common to URL & local inputs.
-   *
-   * @param post HTTP Post object.
-   * @return a valid job response.
-   */
-  private JobResponse executeEnqueue(HttpPost post) {
-    try (var httpClient = httpClientBuilder.build()) {
-      return httpClient.execute(post, response -> {
-        var responseEntity = response.getEntity();
-        var statusCode = response.getCode();
-        if (isInvalidStatusCode(statusCode)) {
-          throw getHttpError(response);
-        }
-        try {
-          var raw = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
-          return deserializeOrThrow(raw, JobResponse.class, response.getCode());
-        } finally {
-          EntityUtils.consumeQuietly(responseEntity);
-        }
-      });
-    } catch (IOException err) {
-      throw new MindeeException(err.getMessage(), err);
-    }
+    return executeAPIRequest(post, JobResponse.class);
   }
 
   @Override
@@ -138,31 +114,10 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
     var url = this.mindeeSettings.getBaseUrl() + "/jobs/" + jobId;
     var get = new HttpGet(url);
 
-    if (this.mindeeSettings.getApiKey().isPresent()) {
-      get.setHeader(HttpHeaders.AUTHORIZATION, this.mindeeSettings.getApiKey().get());
-    }
-    get.setHeader(HttpHeaders.USER_AGENT, getUserAgent());
     var noRedirect = RequestConfig.custom().setRedirectsEnabled(false).build();
     get.setConfig(noRedirect);
 
-    try (var httpClient = httpClientBuilder.build()) {
-      return httpClient.execute(get, response -> {
-        var responseEntity = response.getEntity();
-        var statusCode = response.getCode();
-        if (isInvalidStatusCode(statusCode)) {
-          throw getHttpError(response);
-        }
-        try {
-          var raw = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
-
-          return deserializeOrThrow(raw, JobResponse.class, response.getCode());
-        } finally {
-          EntityUtils.consumeQuietly(responseEntity);
-        }
-      });
-    } catch (IOException err) {
-      throw new MindeeException(err.getMessage(), err);
-    }
+    return this.executeAPIRequest(get, JobResponse.class);
   }
 
   @Override
@@ -179,25 +134,54 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
         inferenceId
       );
     var get = new HttpGet(url);
+    return executeAPIRequest(get, responseClass);
+  }
 
-    if (this.mindeeSettings.getApiKey().isPresent()) {
-      get.setHeader(HttpHeaders.AUTHORIZATION, this.mindeeSettings.getApiKey().get());
+  @Override
+  public SearchResponse reqGetSearchModels(String modelName, String modelType) {
+    URIBuilder url;
+    try {
+      url = new URIBuilder(this.mindeeSettings.getBaseUrl() + "/search/models");
+    } catch (URISyntaxException e) {
+      throw new RuntimeException(e);
     }
-    get.setHeader(HttpHeaders.USER_AGENT, getUserAgent());
+    if (modelName != null) {
+      url.addParameter("name", modelName);
+    }
+    if (modelType != null) {
+      url.addParameter("type", modelType);
+    }
+    var get = new HttpGet(url.toString());
+    return executeAPIRequest(get, SearchResponse.class);
+  }
+
+  /**
+   * Executes an enqueue action, common to URL & local inputs.
+   *
+   * @param apiRequest HTTP request object.
+   * @return a valid job response.
+   */
+  private <TResponse extends CommonResponse> TResponse executeAPIRequest(
+      HttpUriRequestBase apiRequest,
+      Class<TResponse> responseClass
+  ) {
+    if (this.mindeeSettings.getApiKey().isPresent()) {
+      apiRequest.setHeader(HttpHeaders.AUTHORIZATION, this.mindeeSettings.getApiKey().get());
+    }
+    apiRequest.setHeader(HttpHeaders.USER_AGENT, getUserAgent());
 
     try (var httpClient = httpClientBuilder.build()) {
-
-      return httpClient.execute(get, response -> {
-        var entity = response.getEntity();
-        var status = response.getCode();
+      return httpClient.execute(apiRequest, response -> {
+        var responseEntity = response.getEntity();
+        var statusCode = response.getCode();
+        if (isInvalidStatusCode(statusCode)) {
+          throw getHttpError(response);
+        }
         try {
-          if (isInvalidStatusCode(status)) {
-            throw getHttpError(response);
-          }
-          var raw = EntityUtils.toString(entity, StandardCharsets.UTF_8);
-          return deserializeOrThrow(raw, responseClass, status);
+          var raw = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
+          return deserializeOrThrow(raw, responseClass, response.getCode());
         } finally {
-          EntityUtils.consumeQuietly(entity);
+          EntityUtils.consumeQuietly(responseEntity);
         }
       });
     } catch (IOException err) {
@@ -235,11 +219,6 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
     catch (URISyntaxException err) {
       return new HttpPost("invalid URI");
     }
-
-    if (this.mindeeSettings.getApiKey().isPresent()) {
-      post.setHeader(HttpHeaders.AUTHORIZATION, this.mindeeSettings.getApiKey().get());
-    }
-    post.setHeader(HttpHeaders.USER_AGENT, getUserAgent());
     return post;
   }
 

@@ -12,6 +12,7 @@ import com.mindee.v2.clientoptions.BaseParameters;
 import com.mindee.v2.http.MindeeApiV2;
 import com.mindee.v2.parsing.CommonResponse;
 import com.mindee.v2.parsing.JobResponse;
+import com.mindee.v2.parsing.search.SearchResponse;
 import com.mindee.v2.product.extraction.ExtractionResponse;
 import com.mindee.v2.product.extraction.params.ExtractionParameters;
 import java.io.IOException;
@@ -45,6 +46,11 @@ class MindeeClientTest {
     @Override
     public JobResponse reqGetJob(String jobId) {
       return jobResponse;
+    }
+
+    @Override
+    public SearchResponse reqGetSearchModels(String modelName, String modelType) {
+      return new SearchResponse();
     }
 
     @Override
