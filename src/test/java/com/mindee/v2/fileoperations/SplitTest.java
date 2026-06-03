@@ -18,7 +18,7 @@ public class SplitTest {
     var doc = localResponse.deserializeResponse(SplitResponse.class);
 
     var extractedSplit = new Split(inputSample)
-      .extractSingle(doc.getInference().getResult().getSplits().get(0));
+      .extractSingleSplit(doc.getInference().getResult().getSplits().get(0));
 
     assertEquals("default_sample_000-000.pdf", extractedSplit.getFilename());
     var asInputSource = extractedSplit.asInputSource();
@@ -33,7 +33,7 @@ public class SplitTest {
     var doc = localResponse.deserializeResponse(SplitResponse.class);
 
     var extractedSplits = new Split(inputSample)
-      .extractMultiple(doc.getInference().getResult().getSplits());
+      .extractMultipleSplits(doc.getInference().getResult().getSplits());
 
     assertEquals(2, extractedSplits.size());
 

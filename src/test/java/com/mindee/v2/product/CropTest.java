@@ -1,14 +1,18 @@
 package com.mindee.v2.product;
 
 import static com.mindee.TestingUtilities.assertStringEqualsFile;
+import static com.mindee.TestingUtilities.getResourcePath;
 import static com.mindee.TestingUtilities.getV2ResourcePath;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import com.mindee.input.LocalInputSource;
+import com.mindee.v2.fileoperations.Crop;
 import com.mindee.v2.parsing.LocalResponse;
 import com.mindee.v2.product.crop.CropResponse;
 import com.mindee.v2.product.extraction.ExtractionResponse;
 import java.io.IOException;
+import java.nio.file.Files;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -122,6 +126,57 @@ public class CropTest {
           .getSimpleField("supplier_name")
           .getValue()
       );
+    }
+
+    @Test
+    @DisplayName("extract all crops works")
+    void extractMultipleCrops() throws IOException {
+      var inputSource = new LocalInputSource(getV2ResourcePath("products/crop/default_sample.jpg"));
+
+      CropResponse response = loadResponse("products/crop/default_sample_extraction.json");
+      assertNotNull(response.getInference());
+
+      var crops = response.getInference().getResult().getCrops();
+
+      var cropper = new Crop(inputSource);
+      var classExtract = cropper.extractMultipleCrops(crops);
+
+      assertNotNull(classExtract);
+      assertEquals(crops.size(), classExtract.size());
+
+      var methodExtract = response.getInference().getResult().extractFromInputSource(inputSource);
+      assertEquals(classExtract.size(), methodExtract.size());
+
+      var outputPath = getResourcePath("output");
+      classExtract.saveAllToDisk(outputPath.toString());
+
+      assert Files.exists(outputPath.resolve("default_sample_001.jpg"));
+      assert Files.size(outputPath.resolve("default_sample_001.jpg")) >= 1500;
+
+      assert Files.exists(outputPath.resolve("default_sample_002.jpg"));
+      assert Files.size(outputPath.resolve("default_sample_002.jpg")) >= 1500;
+    }
+
+    @Test
+    @DisplayName("extract single crop works")
+    void extractSingleCrop() throws IOException {
+      var inputSource = new LocalInputSource(getV2ResourcePath("products/crop/default_sample.jpg"));
+
+      CropResponse response = loadResponse("products/crop/default_sample_extraction.json");
+      assertNotNull(response.getInference());
+
+      var extractedCrop = response
+        .getInference()
+        .getResult()
+        .getCrops()
+        .get(0)
+        .extractFromInputSource(inputSource);
+
+      var outputPath = getResourcePath("output");
+      extractedCrop.writeToFile(outputPath.resolve("default_sample_999.jpg"));
+
+      assert Files.exists(outputPath.resolve("default_sample_999.jpg"));
+      assert Files.size(outputPath.resolve("default_sample_999.jpg")) >= 1500;
     }
   }
 }

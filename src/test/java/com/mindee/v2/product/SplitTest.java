@@ -1,14 +1,18 @@
 package com.mindee.v2.product;
 
+import static com.mindee.TestingUtilities.getResourcePath;
 import static com.mindee.TestingUtilities.getV2ResourcePath;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import com.mindee.input.LocalInputSource;
+import com.mindee.v2.fileoperations.Split;
 import com.mindee.v2.parsing.LocalResponse;
 import com.mindee.v2.product.extraction.ExtractionResponse;
 import com.mindee.v2.product.split.SplitRange;
 import com.mindee.v2.product.split.SplitResponse;
 import java.io.IOException;
+import java.nio.file.Files;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -100,6 +104,61 @@ public class SplitTest {
           .getSimpleField("supplier_phone_number")
           .getValue()
       );
+    }
+
+    @Test
+    @DisplayName("extract all crops works")
+    void extractMultipleSplits() throws IOException {
+      var inputSource = new LocalInputSource(
+        getV2ResourcePath("products/split/default_sample.pdf")
+      );
+
+      SplitResponse response = loadResponse("products/split/default_sample_extraction.json");
+      assertNotNull(response.getInference());
+
+      var splits = response.getInference().getResult().getSplits();
+
+      var splitter = new Split(inputSource);
+      var classExtract = splitter.extractMultipleSplits(splits);
+
+      assertNotNull(classExtract);
+      assertEquals(splits.size(), classExtract.size());
+
+      var methodExtract = response.getInference().getResult().extractFromInputSource(inputSource);
+      assertEquals(classExtract.size(), methodExtract.size());
+
+      var outputPath = getResourcePath("output");
+      classExtract.saveAllToDisk(outputPath.toString());
+
+      assert Files.exists(outputPath.resolve("default_sample_000-000.pdf"));
+      assert Files.size(outputPath.resolve("default_sample_000-000.pdf")) >= 1500;
+
+      assert Files.exists(outputPath.resolve("default_sample_001-001.pdf"));
+      assert Files.size(outputPath.resolve("default_sample_001-001.pdf")) >= 1500;
+    }
+
+    @Test
+    @DisplayName("extract single crop works")
+    void extractSingleSplit() throws IOException {
+      var inputSource = new LocalInputSource(
+        getV2ResourcePath("products/split/default_sample.pdf")
+      );
+
+      SplitResponse response = loadResponse("products/split/default_sample_extraction.json");
+      assertNotNull(response.getInference());
+
+      var extractedSplit = response
+        .getInference()
+        .getResult()
+        .getSplits()
+        .get(0)
+        .extractFromInputSource(inputSource);
+
+      var outputPath = getResourcePath("output");
+      extractedSplit.writeToFile(outputPath.resolve("default_sample_999.pdf"));
+
+      assert Files.exists(outputPath.resolve("default_sample_999.pdf"));
+      assert Files.size(outputPath.resolve("default_sample_999.pdf")) >= 1500;
     }
   }
 }

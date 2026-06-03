@@ -15,12 +15,12 @@ public class Crop {
     this.imageExtractor = new ImageExtractor(inputSource);
   }
 
-  public ExtractedImage extractSingle(CropItem cropItem) throws IOException {
+  public ExtractedImage extractSingleCrop(CropItem cropItem) throws IOException {
     return this.imageExtractor
       .extractImage(cropItem.getLocation(), cropItem.getLocation().getPage(), 0);
   }
 
-  public ExtractedImages extractMultiple(List<CropItem> cropItems) {
+  public ExtractedImages extractMultipleCrops(List<CropItem> cropItems) {
     var extractedImages = new ExtractedImages();
     for (int i = 0; i < cropItems.size(); i++) {
       var cropItem = cropItems.get(i);

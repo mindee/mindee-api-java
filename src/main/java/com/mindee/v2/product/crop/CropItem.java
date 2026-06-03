@@ -2,8 +2,12 @@ package com.mindee.v2.product.crop;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.mindee.image.ExtractedImage;
+import com.mindee.input.LocalInputSource;
+import com.mindee.v2.fileoperations.Crop;
 import com.mindee.v2.parsing.inference.field.FieldLocation;
 import com.mindee.v2.product.extraction.ExtractionResponse;
+import java.io.IOException;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -39,5 +43,10 @@ public class CropItem {
   @Override
   public String toString() {
     return "* :Location: " + location + "\n  :Object Type: " + objectType;
+  }
+
+  public ExtractedImage extractFromInputSource(LocalInputSource inputSource) throws IOException {
+    var cropper = new Crop(inputSource);
+    return cropper.extractSingleCrop(this);
   }
 }

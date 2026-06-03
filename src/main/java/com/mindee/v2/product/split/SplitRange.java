@@ -2,7 +2,12 @@ package com.mindee.v2.product.split;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.mindee.image.ExtractedImages;
+import com.mindee.input.LocalInputSource;
+import com.mindee.pdf.ExtractedPDF;
+import com.mindee.v2.fileoperations.Split;
 import com.mindee.v2.product.extraction.ExtractionResponse;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -44,5 +49,14 @@ public class SplitRange {
    */
   public List<Integer> getPageRangeDistinct() {
     return new ArrayList<>(new LinkedHashSet<>(this.pageRange));
+  }
+
+  /**
+   * Based on the crop results, extract the documents into individual files as an
+   * {@link ExtractedImages} instance.
+   */
+  public ExtractedPDF extractFromInputSource(LocalInputSource inputSource) throws IOException {
+    var splitter = new Split(inputSource);
+    return splitter.extractSingleSplit(this);
   }
 }
