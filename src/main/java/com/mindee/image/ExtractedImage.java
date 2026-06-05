@@ -4,6 +4,7 @@ import com.mindee.input.LocalInputSource;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import javax.imageio.ImageIO;
@@ -37,7 +38,7 @@ public class ExtractedImage {
    * Write the image to a file.
    * Uses the default image format and filename.
    *
-   * @param outputPath the output directory (must exist).
+   * @param outputPath the output path, it may be a file or a directory.
    * @throws IOException Throws if the file can't be accessed.
    */
   public void writeToFile(String outputPath) throws IOException {
@@ -48,12 +49,14 @@ public class ExtractedImage {
    * Write the image to a file.
    * Uses the default image format and filename.
    *
-   * @param outputPath the output directory (must exist).
+   * @param outputPath the output path, it may be a file or a directory.
    * @throws IOException Throws if the file can't be accessed.
    */
   public void writeToFile(Path outputPath) throws IOException {
-    var imagePath = outputPath.resolve(this.filename);
-    var outputfile = imagePath.toFile();
+    if (Files.isDirectory(outputPath)) {
+      outputPath = outputPath.resolve(this.filename);
+    }
+    var outputfile = outputPath.toFile();
     ImageIO.write(this.image, this.saveFormat, outputfile);
   }
 

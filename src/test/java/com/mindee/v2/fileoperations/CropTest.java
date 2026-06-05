@@ -19,7 +19,7 @@ class CropTest {
     var doc = localResponse.deserializeResponse(CropResponse.class);
 
     var extractedCrop = new Crop(inputSample)
-      .extractSingle(doc.getInference().getResult().getCrops().get(0));
+      .extractSingleCrop(doc.getInference().getResult().getCrops().get(0));
 
     assertEquals(0, extractedCrop.getPageId());
     assertEquals("default_sample_000.jpg", extractedCrop.getFilename());
@@ -35,7 +35,7 @@ class CropTest {
     var doc = localResponse.deserializeResponse(CropResponse.class);
 
     var extractedCrops = new Crop(inputSample)
-      .extractMultiple(doc.getInference().getResult().getCrops());
+      .extractMultipleCrops(doc.getInference().getResult().getCrops());
 
     assertEquals(2, extractedCrops.size());
 
@@ -59,7 +59,7 @@ class CropTest {
     var doc = localResponse.deserializeResponse(CropResponse.class);
 
     var extractedCrops = new Crop(inputSample)
-      .extractMultiple(doc.getInference().getResult().getCrops());
+      .extractMultipleCrops(doc.getInference().getResult().getCrops());
 
     assertEquals(5, extractedCrops.size());
 

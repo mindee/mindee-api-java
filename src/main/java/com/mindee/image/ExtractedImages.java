@@ -10,8 +10,8 @@ public class ExtractedImages extends ArrayList<ExtractedImage> {
   }
 
   public void saveAllToDisk(Path outputPath) throws IOException {
-    for (ExtractedImage image : this) {
-      image.writeToFile(outputPath);
+    for (ExtractedImage extractedImage : this) {
+      extractedImage.writeToFile(outputPath);
     }
   }
 }

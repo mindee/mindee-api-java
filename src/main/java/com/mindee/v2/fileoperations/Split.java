@@ -16,11 +16,11 @@ public class Split {
     this.pdfSplitter = new BasePDFExtractor(inputSource);
   }
 
-  public ExtractedPDF extractSingle(SplitRange splitRange) throws IOException {
+  public ExtractedPDF extractSingleSplit(SplitRange splitRange) throws IOException {
     return this.pdfSplitter.extractSinglePage(splitRange.getPageRangeDistinct(), true);
   }
 
-  public ExtractedPDFs extractMultiple(ArrayList<SplitRange> splitRanges) throws IOException {
+  public ExtractedPDFs extractMultipleSplits(ArrayList<SplitRange> splitRanges) throws IOException {
     return this.pdfSplitter
       .extractSubDocuments(
         splitRanges.stream().map(SplitRange::getPageRangeDistinct).collect(Collectors.toList())

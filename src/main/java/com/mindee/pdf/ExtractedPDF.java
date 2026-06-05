@@ -3,6 +3,7 @@ package com.mindee.pdf;
 import com.mindee.input.LocalInputSource;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import lombok.Getter;
 
@@ -26,14 +27,26 @@ public class ExtractedPDF {
   }
 
   /**
-   * Write the PDF to a file.
+   * Write the extracted PDF to a file.
    *
-   * @param outputPath the output directory (must exist).
+   * @param outputPath the output path, it may be a file or a directory.
+   * @throws IOException Throws if the file can't be accessed.
+   */
+  public void writeToFile(Path outputPath) throws IOException {
+    if (Files.isDirectory(outputPath)) {
+      outputPath = outputPath.resolve(this.filename);
+    }
+    Files.write(outputPath, this.fileBytes);
+  }
+
+  /**
+   * Write the extracted PDF to a file.
+   *
+   * @param outputPath the output path, it may be a file or a directory.
    * @throws IOException Throws if the file can't be accessed.
    */
   public void writeToFile(String outputPath) throws IOException {
-    var pdfPath = Paths.get(outputPath, this.filename);
-    Files.write(pdfPath, this.fileBytes);
+    writeToFile(Paths.get(outputPath));
   }
 
   /**
