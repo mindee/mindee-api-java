@@ -1,5 +1,10 @@
 # Mindee Java Client Library Changelog
 
+## v5.1.0 - 2026-06-09
+### Changes
+* :sparkles: add extracting Split and Crop to file
+
+
 ## v5.0.0 - 2026-05-22
 ### ¡Breaking Changes!
 * :coffin: Remove obsolete/unused products:

@@ -372,7 +372,7 @@
 
   <properties>
     <!-- MINDEE VERSION GOES HERE -->
-    <revision>5.0.0</revision>
+    <revision>5.1.0</revision>
 
     <!-- Give special access when running tests -->
     <surefire.addOpens>
