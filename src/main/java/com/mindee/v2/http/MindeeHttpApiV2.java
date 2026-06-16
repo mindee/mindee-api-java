@@ -149,7 +149,7 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
       url.addParameter("name", modelName);
     }
     if (modelType != null) {
-      url.addParameter("type", modelType);
+      url.addParameter("model_type", modelType);
     }
     var get = new HttpGet(url.toString());
     return executeAPIRequest(get, SearchResponse.class);

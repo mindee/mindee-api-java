@@ -29,3 +29,7 @@ jobs:
     uses: ./.github/workflows/_test-code-samples.yml
     needs: build
     secrets: inherit
+  test_cli:
+    uses: ./.github/workflows/_test-cli.yml
+    needs: build
+    secrets: inherit
