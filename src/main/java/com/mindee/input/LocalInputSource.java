@@ -55,7 +55,7 @@ public class LocalInputSource {
   }
 
   public LocalInputSource(String fileAsBase64, String filename) {
-    this.file = Base64.getDecoder().decode(fileAsBase64.getBytes());
+    this.file = Base64.getMimeDecoder().decode(fileAsBase64.getBytes());
     this.filename = filename;
   }
 
