@@ -4,6 +4,9 @@ on:
   schedule:
   - cron: '33 0 * * *'
 
+permissions:
+  contents: read
+
 jobs:
   codeql:
     uses: mindee/mindee-api-java/.github/workflows/_codeql.yml@main
