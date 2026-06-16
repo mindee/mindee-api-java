@@ -8,9 +8,12 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.stream.Stream;
 import org.apache.commons.codec.binary.Base64;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 public class LocalInputSourceTest {
   void assertMultipagePDF(LocalInputSource inputSource, Path filePath) throws IOException {
@@ -66,42 +69,59 @@ public class LocalInputSourceTest {
     Assertions.assertTrue(localInputSource.isPDF());
   }
 
-  void assertImage(LocalInputSource inputSource, Path filePath) throws IOException {
+  void assertImage(
+      LocalInputSource inputSource,
+      Path filePath,
+      String filename
+  ) throws IOException {
     Assertions.assertNotNull(inputSource);
 
     Assertions.assertFalse(inputSource.isPDF());
     Assertions.assertEquals(1, inputSource.getPageCount());
-    Assertions.assertEquals("receipt.jpg", inputSource.getFilename());
+    Assertions.assertEquals(filename, inputSource.getFilename());
     Assertions.assertArrayEquals(inputSource.getFile(), Files.readAllBytes(filePath));
   }
 
-  @Test
-  void loadImage_withFile_mustReturnAValidLocalInputSource() throws IOException {
-    File file = getResourcePath("file_types/receipt.jpg").toFile();
-    var localInputSource = new LocalInputSource(file);
-    assertImage(localInputSource, file.toPath());
+  private static Stream<String> imageExtensions() {
+    return Stream.of("heic", "heif", "jpg", "jpga", "png", "tif", "tiff", "webp");
   }
 
-  @Test
-  void loadImage_withInputStream_mustReturnAValidLocalInputSource() throws IOException {
-    Path filePath = getResourcePath("file_types/receipt.jpg");
-    var localInputSource = new LocalInputSource(Files.newInputStream(filePath), "receipt.jpg");
-    assertImage(localInputSource, filePath);
+  @ParameterizedTest
+  @MethodSource("imageExtensions")
+  void loadImage_withFile_mustReturnAValidLocalInputSource(String extension) throws IOException {
+    File file = getResourcePath("file_types/receipt." + extension).toFile();
+    var inputSource = new LocalInputSource(file);
+    assertImage(inputSource, file.toPath(), "receipt." + extension);
   }
 
-  @Test
-  void loadImage_withByteArray_mustReturnAValidLocalInputSource() throws IOException {
-    Path filePath = getResourcePath("file_types/receipt.jpg");
-    var localInputSource = new LocalInputSource(Files.readAllBytes(filePath), "receipt.jpg");
-    assertImage(localInputSource, filePath);
+  @ParameterizedTest
+  @MethodSource("imageExtensions")
+  void loadImage_withInputStream_mustReturnAValidLocalInputSource(
+      String extension
+  ) throws IOException {
+    Path filePath = getResourcePath("file_types/receipt." + extension);
+    var inputSource = new LocalInputSource(Files.newInputStream(filePath), "receipt." + extension);
+    assertImage(inputSource, filePath, "receipt." + extension);
+  }
+
+  @ParameterizedTest
+  @MethodSource("imageExtensions")
+  void loadImage_withByteArray_mustReturnAValidLocalInputSource(
+      String extension
+  ) throws IOException {
+    Path filePath = getResourcePath("file_types/receipt." + extension);
+    var inputSource = new LocalInputSource(Files.readAllBytes(filePath), "receipt." + extension);
+    assertImage(inputSource, filePath, "receipt." + extension);
   }
 
   @Test
   void loadImage_withBase64Encoded_mustReturnAValidLocalInputSource() throws IOException {
-    Path filePath = getResourcePath("file_types/receipt.jpg");
-    String encodedFile = Base64.encodeBase64String(Files.readAllBytes(filePath));
-    var localInputSource = new LocalInputSource(encodedFile, "receipt.jpg");
-    assertImage(localInputSource, filePath);
+    Path filePath = getResourcePath("file_types/receipt.txt");
+    String encodedFile = Files.readString(filePath, java.nio.charset.StandardCharsets.UTF_8);
+    var inputSource = new LocalInputSource(encodedFile, "receipt.jpg");
+    Assertions.assertFalse(inputSource.isPDF());
+    Assertions.assertEquals(1, inputSource.getPageCount());
+    Assertions.assertEquals("receipt.jpg", inputSource.getFilename());
   }
 
 }
