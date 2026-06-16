@@ -10,3 +10,6 @@ jobs:
   test_code_samples:
     uses: mindee/mindee-api-java/.github/workflows/_test-code-samples.yml@main
     secrets: inherit
+  test_cli:
+    uses: mindee/mindee-api-java/.github/workflows/_test-cli.yml@main
+    secrets: inherit

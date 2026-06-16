@@ -1,0 +1,49 @@
+name: Test Command Line Interface
+
+on:
+  workflow_call:
+  workflow_dispatch:
+
+env:
+  MINDEE_API_KEY: ${{ secrets.MINDEE_API_KEY_SE_TESTS }}
+  MINDEE_V2_API_KEY: ${{ secrets.MINDEE_V2_SE_TESTS_API_KEY }}
+  MINDEE_V2_SE_TESTS_FINDOC_MODEL_ID: ${{ secrets.MINDEE_V2_SE_TESTS_FINDOC_MODEL_ID }}
+  MINDEE_V2_SE_TESTS_CLASSIFICATION_MODEL_ID: ${{ secrets.MINDEE_V2_SE_TESTS_CLASSIFICATION_MODEL_ID }}
+  MINDEE_V2_SE_TESTS_CROP_MODEL_ID: ${{ secrets.MINDEE_V2_SE_TESTS_CROP_MODEL_ID }}
+  MINDEE_V2_SE_TESTS_SPLIT_MODEL_ID: ${{ secrets.MINDEE_V2_SE_TESTS_SPLIT_MODEL_ID }}
+  MINDEE_V2_SE_TESTS_OCR_MODEL_ID: ${{ secrets.MINDEE_V2_SE_TESTS_OCR_MODEL_ID }}
+
+jobs:
+  test:
+    name: Run CLI tests
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        java-version:
+          - "25"
+          - "11"
+        distribution:
+          - "temurin"
+
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          submodules: recursive
+
+      - name: Set up JDK ${{ matrix.java-version }}
+        uses: actions/setup-java@v5
+        with:
+          java-version: ${{ matrix.java-version }}
+          distribution: ${{ matrix.distribution }}
+          cache: "maven"
+
+      - name: Build JAR
+        run: mvn package -DskipTests --no-transfer-progress
+
+      - name: Test V1 CLI
+        run: ./tests/test_v1_cli.sh ./src/test/resources/file_types/pdf/blank_1.pdf
+
+      - name: Test V2 CLI
+        run: ./tests/test_v2_cli.sh ./src/test/resources/file_types/pdf/blank_1.pdf
