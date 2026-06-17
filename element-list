@@ -32,6 +32,7 @@ com.mindee.v1.product.multireceiptsdetector
 com.mindee.v1.product.passport
 com.mindee.v1.product.receipt
 com.mindee.v2
+com.mindee.v2.cli
 com.mindee.v2.clientoptions
 com.mindee.v2.fileoperations
 com.mindee.v2.http
