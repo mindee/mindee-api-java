@@ -1,5 +1,12 @@
 # Mindee Java Client Library Changelog
 
+## v5.2.0 - 2026-06-17
+### Changes
+* :sparkles: add support for v2 CLI
+### Fixes
+* :bug: base64 input should ignore non-base64 characters
+
+
 ## v5.1.0 - 2026-06-09
 ### Changes
 * :sparkles: add extracting Split and Crop to file
