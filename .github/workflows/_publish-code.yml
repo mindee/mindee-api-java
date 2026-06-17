@@ -4,6 +4,9 @@ on:
   workflow_call:
   workflow_dispatch:
 
+permissions:
+  security-events: write
+
 jobs:
   publish:
     runs-on: ubuntu-latest
@@ -16,7 +19,7 @@ jobs:
       - id: install-secret-key
         name: Install GPG secret key
         run: |
-          echo -e "${{ secrets.OSSRH_GPG_SECRET_KEY }}" | gpg --batch --import
+          printf '%s' "${{ secrets.OSSRH_GPG_SECRET_KEY }}" | gpg --batch --import
           gpg --list-secret-keys --keyid-format LONG
 
       - name: Set up JDK
