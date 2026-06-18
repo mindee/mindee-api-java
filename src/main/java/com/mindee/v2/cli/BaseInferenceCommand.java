@@ -30,9 +30,9 @@ public abstract class BaseInferenceCommand implements Callable<Integer> {
 
   /** Output format for the command. */
   public enum OutputType {
-    Summary,
-    Full,
-    Raw
+    summary,
+    full,
+    raw
   }
 
   @Option(
@@ -41,7 +41,7 @@ public abstract class BaseInferenceCommand implements Callable<Integer> {
         + "- summary: a basic summary (default)\n"
         + "- full: detail extraction results, including options\n"
         + "- raw: full JSON object",
-      defaultValue = "Summary"
+      defaultValue = "summary"
   )
   protected OutputType output;
 
@@ -89,10 +89,10 @@ public abstract class BaseInferenceCommand implements Callable<Integer> {
 
   private void printOutput(CommonResponse response) throws Exception {
     switch (output) {
-      case Full:
+      case full:
         System.out.println(getFullOutput(response));
         break;
-      case Raw:
+      case raw:
         var mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
         var jsonNode = mapper.readTree(response.getRawResponse());
         System.out.println(mapper.writeValueAsString(jsonNode));
