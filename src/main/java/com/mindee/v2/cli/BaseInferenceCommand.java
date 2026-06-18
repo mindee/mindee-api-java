@@ -41,7 +41,7 @@ public abstract class BaseInferenceCommand implements Callable<Integer> {
         + "- summary: a basic summary (default)\n"
         + "- full: detail extraction results, including options\n"
         + "- raw: full JSON object",
-      defaultValue = "Summary"
+      defaultValue = "summary"
   )
   protected OutputType output;
 
