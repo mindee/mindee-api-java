@@ -14,6 +14,8 @@ jobs:
     uses: mindee/mindee-api-java/.github/workflows/_codeql.yml@main
     permissions:
       security-events: write
+      actions: read
+      contents: read
   test_code_samples:
     uses: mindee/mindee-api-java/.github/workflows/_test-code-samples.yml@main
     secrets: inherit
