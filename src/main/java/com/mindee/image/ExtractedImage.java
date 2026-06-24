@@ -19,6 +19,7 @@ public class ExtractedImage {
   private final String filename;
   private final String saveFormat;
   private final int pageId;
+  private final int elementId;
 
   /**
    * Default constructor.
@@ -27,11 +28,18 @@ public class ExtractedImage {
    * @param filename Name of the extracted image.
    * @param saveFormat Format to save the image as, defaults to PNG.
    */
-  public ExtractedImage(BufferedImage image, String filename, String saveFormat, int pageId) {
+  public ExtractedImage(
+      BufferedImage image,
+      String filename,
+      String saveFormat,
+      int pageId,
+      int elementId
+  ) {
     this.image = image;
     this.filename = filename;
     this.saveFormat = saveFormat;
     this.pageId = pageId;
+    this.elementId = elementId;
   }
 
   /**
@@ -53,11 +61,10 @@ public class ExtractedImage {
    * @throws IOException Throws if the file can't be accessed.
    */
   public void writeToFile(Path outputPath) throws IOException {
-    if (Files.isDirectory(outputPath)) {
-      outputPath = outputPath.resolve(this.filename);
+    if (!Files.isDirectory(outputPath)) {
+      throw new IllegalArgumentException("Provided path is not a directory.");
     }
-    var outputfile = outputPath.toFile();
-    ImageIO.write(this.image, this.saveFormat, outputfile);
+    ImageIO.write(this.image, this.saveFormat, outputPath.resolve(this.filename).toFile());
   }
 
   /**

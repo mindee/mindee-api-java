@@ -33,10 +33,11 @@ public class ExtractedPDF {
    * @throws IOException Throws if the file can't be accessed.
    */
   public void writeToFile(Path outputPath) throws IOException {
-    if (Files.isDirectory(outputPath)) {
-      outputPath = outputPath.resolve(this.filename);
+    if (!Files.isDirectory(outputPath)) {
+      throw new IllegalArgumentException("Provided path is not a directory.");
     }
-    Files.write(outputPath, this.fileBytes);
+
+    Files.write(outputPath.resolve(this.filename), this.fileBytes);
   }
 
   /**

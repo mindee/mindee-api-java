@@ -1,10 +1,12 @@
 package com.mindee.v2.product;
 
 import static com.mindee.TestingUtilities.assertStringEqualsFile;
+import static com.mindee.TestingUtilities.deleteRecursively;
 import static com.mindee.TestingUtilities.getResourcePath;
 import static com.mindee.TestingUtilities.getV2ResourcePath;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.mindee.input.LocalInputSource;
 import com.mindee.v2.fileoperations.Crop;
@@ -13,12 +15,22 @@ import com.mindee.v2.product.crop.CropResponse;
 import com.mindee.v2.product.extraction.ExtractionResponse;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("MindeeV2 - Crop Model Tests")
 public class CropTest {
+  private static final Path outputPath = getResourcePath("output/v2/product/crop");
+
+  @BeforeAll
+  public static void setup() throws IOException {
+    deleteRecursively(outputPath);
+    Files.createDirectories(outputPath);
+  }
+
   private CropResponse loadResponse(String filePath) throws IOException {
     var localResponse = new LocalResponse(getV2ResourcePath(filePath));
     return localResponse.deserializeResponse(CropResponse.class);
@@ -147,14 +159,12 @@ public class CropTest {
       var methodExtract = response.getInference().getResult().extractFromInputSource(inputSource);
       assertEquals(classExtract.size(), methodExtract.size());
 
-      var outputPath = getResourcePath("output");
       classExtract.saveAllToDisk(outputPath.toString());
 
-      assert Files.exists(outputPath.resolve("default_sample_001.jpg"));
-      assert Files.size(outputPath.resolve("default_sample_001.jpg")) >= 1500;
-
-      assert Files.exists(outputPath.resolve("default_sample_002.jpg"));
-      assert Files.size(outputPath.resolve("default_sample_002.jpg")) >= 1500;
+      assertTrue(Files.exists(outputPath.resolve("default_sample_page-001-item-001.jpg")));
+      assertTrue(Files.size(outputPath.resolve("default_sample_page-001-item-001.jpg")) >= 1500);
+      assertTrue(Files.exists(outputPath.resolve("default_sample_page-001-item-002.jpg")));
+      assertTrue(Files.size(outputPath.resolve("default_sample_page-001-item-002.jpg")) >= 1500);
     }
 
     @Test
@@ -172,11 +182,10 @@ public class CropTest {
         .get(0)
         .extractFromInputSource(inputSource);
 
-      var outputPath = getResourcePath("output");
-      extractedCrop.writeToFile(outputPath.resolve("default_sample_999.jpg"));
+      extractedCrop.writeToFile(outputPath);
 
-      assert Files.exists(outputPath.resolve("default_sample_999.jpg"));
-      assert Files.size(outputPath.resolve("default_sample_999.jpg")) >= 1500;
+      assertTrue(Files.exists(outputPath.resolve("default_sample_page-001-item-001.jpg")));
+      assertTrue(Files.size(outputPath.resolve("default_sample_page-001-item-001.jpg")) >= 1500);
     }
   }
 }

@@ -88,9 +88,9 @@ public class BasePDFExtractor {
   protected String makeFilename(List<Integer> pageNumbers) {
     String[] splitName = InputSourceUtils.splitNameStrict(filename);
     return splitName[0]
-      + String.format("_%3s", pageNumbers.get(0)).replace(" ", "0")
+      + String.format("_pages-%3s", pageNumbers.get(0) + 1).replace(" ", "0")
       + "-"
-      + String.format("%3s", pageNumbers.get(pageNumbers.size() - 1)).replace(" ", "0")
+      + String.format("%3s", pageNumbers.get(pageNumbers.size() - 1) + 1).replace(" ", "0")
       + "."
       + splitName[1];
   }

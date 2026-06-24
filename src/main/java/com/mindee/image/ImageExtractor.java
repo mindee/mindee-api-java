@@ -22,6 +22,7 @@ public class ImageExtractor {
   public ImageExtractor(LocalInputSource source) throws IOException {
 
     this.pageImages = new ArrayList<>();
+    this.filename = source.getFilename();
 
     if (source.isPDF()) {
       this.saveFormat = "jpg";
@@ -29,12 +30,9 @@ public class ImageExtractor {
       for (PDFPageImage pdfPageImage : pdfPageImages) {
         this.pageImages.add(pdfPageImage.getImage());
       }
-      this.filename = source.getFilename() + "." + this.saveFormat;
     } else {
-      this.filename = source.getFilename();
       String[] splitName = InputSourceUtils.splitNameStrict(this.filename);
       this.saveFormat = splitName[1].toLowerCase();
-
       var input = new ByteArrayInputStream(source.getFile());
       this.pageImages.add(ImageIO.read(input));
     }
@@ -64,53 +62,29 @@ public class ImageExtractor {
    *
    * @param <FieldT> Type of field (needs to support positioning data).
    * @param fields List of Fields to extract.
-   * @param pageIndex The page index to extract, begins at 0.
+   * @param pageId The page index to extract, begins at 0.
    * @return A list of {@link ExtractedImage}.
    */
   public <FieldT extends PositionDataField> ExtractedImages extractImagesFromPage(
       List<FieldT> fields,
-      int pageIndex
+      int pageId
   ) {
-    return extractImagesFromPage(fields, pageIndex, this.filename);
-  }
-
-  /**
-   * Extract multiple images on a given page from a list of fields having position data.
-   *
-   * @param <FieldT> Type of field (needs to support positioning data).
-   * @param fields List of Fields to extract.
-   * @param pageIndex The page index to extract, begins at 0.
-   * @param outputName The base output filename, must have an image extension.
-   * @return A list of {@link ExtractedImage}.
-   */
-  public <FieldT extends PositionDataField> ExtractedImages extractImagesFromPage(
-      List<FieldT> fields,
-      int pageIndex,
-      String outputName
-  ) {
-    String filename;
-    if (this.getPageCount() > 1) {
-      String[] splitName = InputSourceUtils.splitNameStrict(outputName);
-      filename = splitName[0] + "." + this.saveFormat;
-    } else {
-      filename = outputName;
-    }
-    return extractFromPage(fields, pageIndex, filename);
+    return extractFromPage(fields, pageId, this.filename);
   }
 
   private <FieldT extends PositionDataField> ExtractedImages extractFromPage(
       List<FieldT> fields,
-      int pageIndex,
+      int pageId,
       String outputName
   ) {
-    String[] splitName = InputSourceUtils.splitNameStrict(outputName);
-    var filename = String
-      .format("%s_page-%3s.%s", splitName[0], pageIndex + 1, splitName[1])
-      .replace(" ", "0");
-
     var extractedImages = new ExtractedImages();
-    for (int i = 0; i < fields.size(); i++) {
-      ExtractedImage extractedImage = extractImage(fields.get(i), pageIndex, i + 1, filename);
+    for (int elementId = 0; elementId < fields.size(); elementId++) {
+      ExtractedImage extractedImage = extractImage(
+        fields.get(elementId),
+        pageId,
+        elementId,
+        outputName
+      );
       if (extractedImage != null) {
         extractedImages.add(extractedImage);
       }
@@ -123,33 +97,31 @@ public class ImageExtractor {
    *
    * @param <FieldT> Type of field (needs to support positioning data).
    * @param field The field to extract.
-   * @param index The index to use for naming the extracted image.
+   * @param elementId The index to use for naming the extracted image.
    * @param filename Name of the file.
-   * @param pageIndex The page index to extract, begins at 0.
+   * @param pageId The page index to extract, begins at 0.
    * @return The {@link ExtractedImage}, or <code>null</code> if the field does not have valid
    * position data.
    */
   public <FieldT extends PositionDataField> ExtractedImage extractImage(
       FieldT field,
-      int pageIndex,
-      int index,
+      int pageId,
+      int elementId,
       String filename
   ) {
     String[] splitName = InputSourceUtils.splitNameStrict(filename);
-    String saveFormat = splitName[1].toLowerCase();
     var polygon = field.getPolygon();
     if (polygon == null) {
       return null;
     }
-    String fieldFilename = splitName[0]
-      + String.format("_%3s", index).replace(" ", "0")
-      + "."
-      + saveFormat;
     return new ExtractedImage(
-      extractImage(polygon.getAsBbox(), pageIndex),
-      fieldFilename,
-      saveFormat,
-      pageIndex
+      extractImage(polygon.getAsBbox(), pageId),
+      String
+        .format("%s_page-%3s-item-%3s.%s", splitName[0], pageId + 1, elementId + 1, this.saveFormat)
+        .replace(" ", "0"),
+      this.saveFormat,
+      pageId,
+      elementId
     );
   }
 
@@ -158,17 +130,17 @@ public class ImageExtractor {
    *
    * @param <FieldT> Type of field (needs to support positioning data).
    * @param field The field to extract.
-   * @param index The index to use for naming the extracted image.
-   * @param pageIndex The 0-based page index to extract.
+   * @param elementId The index to use for naming the extracted image.
+   * @param pageId The 0-based page index to extract.
    * @return The {@link ExtractedImage}, or <code>null</code> if the field does not have valid
    * position data.
    */
   public <FieldT extends PositionDataField> ExtractedImage extractImage(
       FieldT field,
-      int pageIndex,
-      int index
+      int pageId,
+      int elementId
   ) {
-    return extractImage(field, pageIndex, index, this.filename);
+    return extractImage(field, pageId, elementId, this.filename);
   }
 
   private BufferedImage extractImage(Bbox bbox, int pageIndex) {

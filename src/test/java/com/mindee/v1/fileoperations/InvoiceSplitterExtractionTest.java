@@ -31,9 +31,12 @@ public class InvoiceSplitterExtractionTest {
     var extractedPDFSNoStrict = extractor
       .extractInvoices(inference.getPrediction().getInvoicePageGroups(), false);
     Assertions.assertEquals(3, extractedPDFSNoStrict.size());
-    Assertions.assertEquals("invoice_5p_000-000.pdf", extractedPDFSNoStrict.get(0).getFilename());
-    Assertions.assertEquals("invoice_5p_001-003.pdf", extractedPDFSNoStrict.get(1).getFilename());
-    Assertions.assertEquals("invoice_5p_004-004.pdf", extractedPDFSNoStrict.get(2).getFilename());
+    Assertions
+      .assertEquals("invoice_5p_pages-001-001.pdf", extractedPDFSNoStrict.get(0).getFilename());
+    Assertions
+      .assertEquals("invoice_5p_pages-002-004.pdf", extractedPDFSNoStrict.get(1).getFilename());
+    Assertions
+      .assertEquals("invoice_5p_pages-005-005.pdf", extractedPDFSNoStrict.get(2).getFilename());
   }
 
   @Test
@@ -48,7 +51,9 @@ public class InvoiceSplitterExtractionTest {
     var extractedPDFStrict = extractor
       .extractInvoices(inference.getPrediction().getInvoicePageGroups(), true);
     Assertions.assertEquals(2, extractedPDFStrict.size());
-    Assertions.assertEquals("invoice_5p_000-000.pdf", extractedPDFStrict.get(0).getFilename());
-    Assertions.assertEquals("invoice_5p_001-004.pdf", extractedPDFStrict.get(1).getFilename());
+    Assertions
+      .assertEquals("invoice_5p_pages-001-001.pdf", extractedPDFStrict.get(0).getFilename());
+    Assertions
+      .assertEquals("invoice_5p_pages-002-005.pdf", extractedPDFStrict.get(1).getFilename());
   }
 }
