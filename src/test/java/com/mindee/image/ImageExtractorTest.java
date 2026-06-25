@@ -74,7 +74,9 @@ public class ImageExtractorTest {
         LocalInputSource source = extractedImage.asInputSource();
         Assertions
           .assertEquals(
-            String.format("default_sample_page-001_%3s.jpg", i + 1).replace(" ", "0"),
+            String
+              .format("default_sample_page-%3s-item-%3s.jpg", page.getPageId() + 1, i + 1)
+              .replace(" ", "0"),
             source.getFilename()
           );
       }
@@ -93,28 +95,22 @@ public class ImageExtractorTest {
 
     for (Page<BarcodeReaderV1Document> page : inference.getPages()) {
       List<ExtractedImage> codes1D = extractor
-        .extractImagesFromPage(
-          page.getPrediction().getCodes1D(),
-          page.getPageId(),
-          "barcodes_1D.png"
-        );
+        .extractImagesFromPage(page.getPrediction().getCodes1D(), page.getPageId());
       for (int i = 0; i < codes1D.size(); i++) {
         ExtractedImage extractedImage = codes1D.get(i);
         Assertions.assertNotNull(extractedImage.getImage());
         LocalInputSource source = extractedImage.asInputSource();
         Assertions
           .assertEquals(
-            String.format("barcodes_1D_page-001_%3s.png", i + 1).replace(" ", "0"),
+            String
+              .format("default_sample_page-%3s-item-%3s.jpg", page.getPageId() + 1, i + 1)
+              .replace(" ", "0"),
             source.getFilename()
           );
         extractedImage.writeToFile(getResourcePath("output/"));
       }
       List<ExtractedImage> codes2D = extractor
-        .extractImagesFromPage(
-          page.getPrediction().getCodes2D(),
-          page.getPageId(),
-          "barcodes_2D.png"
-        );
+        .extractImagesFromPage(page.getPrediction().getCodes2D(), page.getPageId());
       for (ExtractedImage extractedImage : codes2D) {
         Assertions.assertNotNull(extractedImage.getImage());
         extractedImage.writeToFile(getResourcePath("output/"));

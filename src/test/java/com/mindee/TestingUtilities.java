@@ -9,6 +9,17 @@ import java.util.Objects;
 import org.junit.jupiter.api.Assertions;
 
 public class TestingUtilities {
+  public static void deleteRecursively(Path path) throws IOException {
+    if (Files.exists(path)) {
+      try (var entries = Files.walk(path)) {
+        entries
+          .sorted(java.util.Comparator.reverseOrder())
+          .map(Path::toFile)
+          .forEach(java.io.File::delete);
+      }
+    }
+  }
+
   public static Path getResourcePath(String filePath) {
     return Paths.get("src/test/resources/" + filePath);
   }

@@ -1,9 +1,11 @@
 package com.mindee.v2.product;
 
+import static com.mindee.TestingUtilities.deleteRecursively;
 import static com.mindee.TestingUtilities.getResourcePath;
 import static com.mindee.TestingUtilities.getV2ResourcePath;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.mindee.input.LocalInputSource;
 import com.mindee.v2.fileoperations.Split;
@@ -13,12 +15,22 @@ import com.mindee.v2.product.split.SplitRange;
 import com.mindee.v2.product.split.SplitResponse;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("MindeeV2 - Split Model Tests")
 public class SplitTest {
+  private static final Path outputPath = getResourcePath("output/v2/product/split");
+
+  @BeforeAll
+  public static void setup() throws IOException {
+    deleteRecursively(outputPath);
+    Files.createDirectories(outputPath);
+  }
+
   private SplitResponse loadResponse(String filePath) throws IOException {
     var localResponse = new LocalResponse(getV2ResourcePath(filePath));
     return localResponse.deserializeResponse(SplitResponse.class);
@@ -127,14 +139,12 @@ public class SplitTest {
       var methodExtract = response.getInference().getResult().extractFromInputSource(inputSource);
       assertEquals(classExtract.size(), methodExtract.size());
 
-      var outputPath = getResourcePath("output");
       classExtract.saveAllToDisk(outputPath.toString());
 
-      assert Files.exists(outputPath.resolve("default_sample_000-000.pdf"));
-      assert Files.size(outputPath.resolve("default_sample_000-000.pdf")) >= 1500;
-
-      assert Files.exists(outputPath.resolve("default_sample_001-001.pdf"));
-      assert Files.size(outputPath.resolve("default_sample_001-001.pdf")) >= 1500;
+      assertTrue(Files.exists(outputPath.resolve("default_sample_pages-001-001.pdf")));
+      assertTrue(Files.size(outputPath.resolve("default_sample_pages-001-001.pdf")) >= 1500);
+      assertTrue(Files.exists(outputPath.resolve("default_sample_pages-002-002.pdf")));
+      assertTrue(Files.size(outputPath.resolve("default_sample_pages-002-002.pdf")) >= 1500);
     }
 
     @Test
@@ -154,11 +164,10 @@ public class SplitTest {
         .get(0)
         .extractFromInputSource(inputSource);
 
-      var outputPath = getResourcePath("output");
-      extractedSplit.writeToFile(outputPath.resolve("default_sample_999.pdf"));
+      extractedSplit.writeToFile(outputPath);
 
-      assert Files.exists(outputPath.resolve("default_sample_999.pdf"));
-      assert Files.size(outputPath.resolve("default_sample_999.pdf")) >= 1500;
+      assertTrue(Files.exists(outputPath.resolve("default_sample_pages-001-001.pdf")));
+      assertTrue(Files.size(outputPath.resolve("default_sample_pages-001-001.pdf")) >= 1500);
     }
   }
 }

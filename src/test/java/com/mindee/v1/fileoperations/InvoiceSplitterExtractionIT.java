@@ -70,8 +70,10 @@ public class InvoiceSplitterExtractionIT {
     List<ExtractedPDF> extractedPDFsStrict = extractor
       .extractInvoices(inference.getPrediction().getInvoicePageGroups(), false);
     Assertions.assertEquals(2, extractedPDFsStrict.size());
-    Assertions.assertEquals("default_sample_000-000.pdf", extractedPDFsStrict.get(0).getFilename());
-    Assertions.assertEquals("default_sample_001-001.pdf", extractedPDFsStrict.get(1).getFilename());
+    Assertions
+      .assertEquals("default_sample_pages-001-001.pdf", extractedPDFsStrict.get(0).getFilename());
+    Assertions
+      .assertEquals("default_sample_pages-002-002.pdf", extractedPDFsStrict.get(1).getFilename());
 
     PredictResponse<InvoiceV4> invoice0 = getInvoicePrediction(
       extractedPDFsStrict.get(0).asInputSource()

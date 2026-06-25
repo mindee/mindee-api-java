@@ -1,5 +1,6 @@
 package com.mindee.v2.fileoperations;
 
+import static com.mindee.TestingUtilities.deleteRecursively;
 import static com.mindee.TestingUtilities.getResourcePath;
 import static com.mindee.TestingUtilities.getV2ResourcePath;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -8,28 +9,23 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import com.mindee.input.LocalInputSource;
 import com.mindee.v2.parsing.LocalResponse;
 import com.mindee.v2.product.crop.CropResponse;
+import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 class CropTest {
-  @Test
-  void singlePageSingleCrop_cropsCorrectly() throws Exception {
-    var inputSample = new LocalInputSource(getV2ResourcePath("products/crop/default_sample.jpg"));
-    var localResponse = new LocalResponse(getV2ResourcePath("products/crop/default_sample.json"));
-    var doc = localResponse.deserializeResponse(CropResponse.class);
+  private static final Path outputPath = getResourcePath("output/v2/file_operations/crop");
 
-    var extractedCrop = new Crop(inputSample)
-      .extractSingleCrop(doc.getInference().getResult().getCrops().get(0));
-
-    assertEquals(0, extractedCrop.getPageId());
-    assertEquals("default_sample_000.jpg", extractedCrop.getFilename());
-
-    assertEquals(1056, extractedCrop.getImage().getWidth());
-    assertEquals(2070, extractedCrop.getImage().getHeight());
+  @BeforeAll
+  public static void setup() throws IOException {
+    deleteRecursively(outputPath);
+    Files.createDirectories(outputPath);
   }
 
   @Test
-  void singlePageMultiCrop_cropsCorrectly() throws Exception {
+  void singlePageCrop_cropsCorrectly() throws Exception {
     var inputSample = new LocalInputSource(getV2ResourcePath("products/crop/default_sample.jpg"));
     var localResponse = new LocalResponse(getV2ResourcePath("products/crop/default_sample.json"));
     var doc = localResponse.deserializeResponse(CropResponse.class);
@@ -39,21 +35,27 @@ class CropTest {
 
     assertEquals(2, extractedCrops.size());
 
+    extractedCrops.saveAllToDisk(outputPath);
+
     var crop0 = extractedCrops.get(0);
     assertEquals(0, crop0.getPageId());
-    assertEquals("default_sample_001.jpg", crop0.getFilename());
-
-    assertEquals(1056, crop0.getImage().getWidth());
+    assertEquals(0, crop0.getElementId());
+    assertEquals("default_sample_page-001-item-001.jpg", crop0.getFilename());
     assertEquals(2070, crop0.getImage().getHeight());
+    assertEquals(1056, crop0.getImage().getWidth());
+    assertTrue(Files.exists(outputPath.resolve("default_sample_page-001-item-001.jpg")));
 
-    var outputPath = getResourcePath("output");
-    extractedCrops.saveAllToDisk(outputPath);
-    assertTrue(Files.exists(outputPath.resolve("default_sample_001.jpg")));
-    assertTrue(Files.exists(outputPath.resolve("default_sample_002.jpg")));
+    var crop1 = extractedCrops.get(1);
+    assertEquals(0, crop1.getPageId());
+    assertEquals(1, crop1.getElementId());
+    assertEquals("default_sample_page-001-item-002.jpg", crop1.getFilename());
+    assertEquals(1868, crop1.getImage().getHeight());
+    assertEquals(1298, crop1.getImage().getWidth());
+    assertTrue(Files.exists(outputPath.resolve("default_sample_page-001-item-002.jpg")));
   }
 
   @Test
-  void multiPageMultiCrop_cropsCorrectly() throws Exception {
+  void multiPageCrop_cropsCorrectly() throws Exception {
     var inputSample = new LocalInputSource(getV2ResourcePath("products/crop/multipage_sample.pdf"));
     var localResponse = new LocalResponse(getV2ResourcePath("products/crop/multipage_sample.json"));
     var doc = localResponse.deserializeResponse(CropResponse.class);
@@ -63,21 +65,21 @@ class CropTest {
 
     assertEquals(5, extractedCrops.size());
 
+    extractedCrops.saveAllToDisk(outputPath);
+
     var crop0 = extractedCrops.get(0);
     assertEquals(0, crop0.getPageId());
-    assertEquals("multipage_sample.pdf_001.jpg", crop0.getFilename());
-    assertEquals(555, crop0.getImage().getWidth());
+    assertEquals("multipage_sample_page-001-item-001.jpg", crop0.getFilename());
     assertEquals(1533, crop0.getImage().getHeight());
+    assertEquals(555, crop0.getImage().getWidth());
+    assertTrue(Files.exists(outputPath.resolve("multipage_sample_page-001-item-002.jpg")));
 
-    var crop3 = extractedCrops.get(3);
-    assertEquals(1, crop3.getPageId());
-    assertEquals("multipage_sample.pdf_004.jpg", crop3.getFilename());
-    assertEquals(562, crop3.getImage().getWidth());
-    assertEquals(974, crop3.getImage().getHeight());
-
-    var outputPath = getResourcePath("output");
-    extractedCrops.saveAllToDisk(outputPath);
-    assertTrue(Files.exists(outputPath.resolve("multipage_sample.pdf_001.jpg")));
-    assertTrue(Files.exists(outputPath.resolve("multipage_sample.pdf_005.jpg")));
+    var crop4 = extractedCrops.get(4);
+    assertEquals(1, crop4.getPageId());
+    assertEquals(1, crop4.getElementId());
+    assertEquals("multipage_sample_page-002-item-002.jpg", crop4.getFilename());
+    assertEquals(1445, crop4.getImage().getHeight());
+    assertEquals(547, crop4.getImage().getWidth());
+    assertTrue(Files.exists(outputPath.resolve("multipage_sample_page-002-item-002.jpg")));
   }
 }
