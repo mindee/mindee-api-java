@@ -55,15 +55,19 @@ public class BasePDFExtractor {
     }
   }
 
-  public ExtractedPDF extractSinglePage(
-      List<Integer> pageNumbers,
+  public ExtractedPDF extractSingleDocument(
+      List<Integer> pageIndexes,
       boolean closeOriginal
   ) throws IOException {
-    if (pageNumbers.isEmpty()) {
+    if (pageIndexes.isEmpty()) {
       throw new MindeeException("Empty indexes not allowed for extraction.");
     }
-    var pdfBytes = createPdfFromExistingPdf(this.sourcePdf, pageNumbers, closeOriginal);
-    return new ExtractedPDF(pdfBytes, makeFilename(pageNumbers));
+    var pdfBytes = createPdfFromExistingPdf(this.sourcePdf, pageIndexes, closeOriginal);
+    return new ExtractedPDF(
+      pdfBytes,
+      makeFilename(pageIndexes),
+      pageIndexes.stream().mapToInt(Integer::intValue).toArray()
+    );
   }
 
   /**
@@ -73,11 +77,13 @@ public class BasePDFExtractor {
    * @return A list of extracted files.
    * @throws IOException Throws if the file can't be accessed.
    */
-  public ExtractedPDFs extractSubDocuments(List<List<Integer>> pageIndexes) throws IOException {
+  public ExtractedPDFs extractMultipleDocuments(
+      List<List<Integer>> pageIndexes
+  ) throws IOException {
     var extractedPDFs = new ExtractedPDFs();
 
     for (List<Integer> pageIndexElement : pageIndexes) {
-      extractedPDFs.add(extractSinglePage(pageIndexElement, false));
+      extractedPDFs.add(extractSingleDocument(pageIndexElement, false));
     }
     return extractedPDFs;
   }

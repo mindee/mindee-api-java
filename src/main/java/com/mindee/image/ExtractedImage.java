@@ -1,5 +1,6 @@
 package com.mindee.image;
 
+import com.mindee.MindeeException;
 import com.mindee.input.LocalInputSource;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
@@ -62,9 +63,13 @@ public class ExtractedImage {
    */
   public void writeToFile(Path outputPath) throws IOException {
     if (!Files.isDirectory(outputPath)) {
-      throw new IllegalArgumentException("Provided path is not a directory.");
+      throw new MindeeException("Provided path is not a directory.");
     }
-    ImageIO.write(this.image, this.saveFormat, outputPath.resolve(this.filename).toFile());
+    try {
+      ImageIO.write(this.image, this.saveFormat, outputPath.resolve(this.filename).toFile());
+    } catch (IOException e) {
+      throw new MindeeException("Could not save file " + this.filename + ".", e);
+    }
   }
 
   /**

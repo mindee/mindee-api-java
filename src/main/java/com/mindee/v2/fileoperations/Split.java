@@ -17,12 +17,12 @@ public class Split {
   }
 
   public ExtractedPDF extractSingleSplit(SplitRange splitRange) throws IOException {
-    return this.pdfSplitter.extractSinglePage(splitRange.getPageRangeDistinct(), true);
+    return this.pdfSplitter.extractSingleDocument(splitRange.getPageRangeDistinct(), true);
   }
 
   public ExtractedPDFs extractMultipleSplits(ArrayList<SplitRange> splitRanges) throws IOException {
     return this.pdfSplitter
-      .extractSubDocuments(
+      .extractMultipleDocuments(
         splitRanges.stream().map(SplitRange::getPageRangeDistinct).collect(Collectors.toList())
       );
   }
