@@ -3,6 +3,7 @@ package com.mindee.v2.fileoperations;
 import static com.mindee.TestingUtilities.deleteRecursively;
 import static com.mindee.TestingUtilities.getResourcePath;
 import static com.mindee.TestingUtilities.getV2ResourcePath;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.mindee.input.LocalInputSource;
@@ -34,8 +35,7 @@ public class SplitTest {
       .extractSingleSplit(doc.getInference().getResult().getSplits().get(0));
 
     assertEquals("default_sample_pages-001-001.pdf", extractedSplit.getFilename());
-    var asInputSource = extractedSplit.asInputSource();
-    assertEquals(1, asInputSource.getPageCount());
+    assertEquals(1, extractedSplit.getPageCount());
 
     extractedSplit.writeToFile(outputPath);
   }
@@ -54,13 +54,13 @@ public class SplitTest {
 
     var split0 = extractedSplits.get(0);
     assertEquals("default_sample_pages-001-001.pdf", split0.getFilename());
-    var asInputSource0 = split0.asInputSource();
-    assertEquals(1, asInputSource0.getPageCount());
+    assertEquals(1, split0.getPageCount());
+    assertArrayEquals(new int[] { 0 }, split0.getPageIndexes());
 
     var split1 = extractedSplits.get(1);
     assertEquals("default_sample_pages-002-002.pdf", split1.getFilename());
-    var asInputSource1 = split1.asInputSource();
-    assertEquals(1, asInputSource1.getPageCount());
+    assertEquals(1, split0.getPageCount());
+    assertArrayEquals(new int[] { 1 }, split1.getPageIndexes());
 
     extractedSplits.saveAllToDisk(outputPath);
   }

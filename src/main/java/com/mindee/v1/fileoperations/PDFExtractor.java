@@ -40,7 +40,7 @@ public class PDFExtractor extends BasePDFExtractor {
       .map(InvoiceSplitterV1InvoicePageGroup::getPageIndexes)
       .collect(Collectors.toList());
 
-    return extractSubDocuments(indexes);
+    return extractMultipleDocuments(indexes);
   }
 
   /**
@@ -81,7 +81,7 @@ public class PDFExtractor extends BasePDFExtractor {
       }
       previousConfidence = confidence;
     }
-    return extractSubDocuments(correctPageIndexes);
+    return extractMultipleDocuments(correctPageIndexes);
   }
 
 }
