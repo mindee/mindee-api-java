@@ -390,7 +390,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
     <!-- Code dependencies -->
-    <tools.jackson.core.databind.version>3.1.1</tools.jackson.core.databind.version>
+    <tools.jackson.core.databind.version>3.1.4</tools.jackson.core.databind.version>
     <com.fasterxml.jackson.datatype.version>2.21.2</com.fasterxml.jackson.datatype.version>
     <com.squareup.okhttp3.version>4.12.0</com.squareup.okhttp3.version>
     <info.picocli.version>4.7.7</info.picocli.version>
