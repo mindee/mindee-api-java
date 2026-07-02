@@ -22,7 +22,7 @@ public class SplitCommand extends BaseInferenceCommand {
       .enqueueAndGetResult(
         SplitResponse.class,
         inputSource,
-        SplitParameters.builder(modelId).alias(alias).build()
+        SplitParameters.builder(modelId).alias(alias).webhookIds(getWebhookIds()).build()
       );
   }
 

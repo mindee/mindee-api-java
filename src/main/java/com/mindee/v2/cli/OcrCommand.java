@@ -22,7 +22,7 @@ public class OcrCommand extends BaseInferenceCommand {
       .enqueueAndGetResult(
         OcrResponse.class,
         inputSource,
-        OcrParameters.builder(modelId).alias(alias).build()
+        OcrParameters.builder(modelId).alias(alias).webhookIds(getWebhookIds()).build()
       );
   }
 

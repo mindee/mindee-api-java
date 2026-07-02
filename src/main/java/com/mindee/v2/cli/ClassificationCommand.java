@@ -26,7 +26,7 @@ public class ClassificationCommand extends BaseInferenceCommand {
       .enqueueAndGetResult(
         ClassificationResponse.class,
         inputSource,
-        ClassificationParameters.builder(modelId).alias(alias).build()
+        ClassificationParameters.builder(modelId).alias(alias).webhookIds(getWebhookIds()).build()
       );
   }
 

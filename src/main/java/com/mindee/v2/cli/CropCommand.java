@@ -22,7 +22,7 @@ public class CropCommand extends BaseInferenceCommand {
       .enqueueAndGetResult(
         CropResponse.class,
         inputSource,
-        CropParameters.builder(modelId).alias(alias).build()
+        CropParameters.builder(modelId).alias(alias).webhookIds(getWebhookIds()).build()
       );
   }
 
