@@ -66,6 +66,7 @@ public class ExtractionCommand extends BaseInferenceCommand {
         ExtractionParameters
           .builder(modelId)
           .alias(alias)
+          .webhookIds(getWebhookIds())
           .rag(rag)
           .rawText(rawText)
           .confidence(confidence)

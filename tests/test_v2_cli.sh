@@ -22,7 +22,7 @@ run_test() {
   model_type="$2"
 
   echo "--- Test $model_type ID: $model_id"
-  SUMMARY_OUTPUT=$(./cli.sh "$model_type" -m "$model_id" "$TEST_FILE")
+  SUMMARY_OUTPUT=$(./cli.sh "$model_type" -m "$model_id" -a "java-sdk-cli-${model_type}" "$TEST_FILE")
   echo "$SUMMARY_OUTPUT"
   echo ""
   echo ""

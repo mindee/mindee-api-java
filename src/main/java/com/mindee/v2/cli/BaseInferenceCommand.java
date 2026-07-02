@@ -6,6 +6,7 @@ import com.mindee.input.LocalInputSource;
 import com.mindee.v2.MindeeClient;
 import com.mindee.v2.parsing.CommonResponse;
 import java.io.File;
+import java.util.List;
 import java.util.concurrent.Callable;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
@@ -28,6 +29,12 @@ public abstract class BaseInferenceCommand implements Callable<Integer> {
   @Option(names = { "-a", "--alias" }, description = "Alias for the file")
   protected String alias;
 
+  @Option(
+      names = { "-w", "--webhook-id" },
+      description = "Specify a webhook by ID. May be used multiple times."
+  )
+  private List<String> webhookIds;
+
   /** Output format for the command. */
   public enum OutputType {
     summary,
@@ -44,6 +51,13 @@ public abstract class BaseInferenceCommand implements Callable<Integer> {
       defaultValue = "summary"
   )
   protected OutputType output;
+
+  /**
+   * @return The properly formatted webhook IDs.
+   */
+  protected String[] getWebhookIds() {
+    return (webhookIds != null ? webhookIds.toArray(new String[0]) : new String[] {});
+  }
 
   /**
    * Executes the inference request and returns the product response.
