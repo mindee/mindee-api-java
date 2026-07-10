@@ -23,6 +23,7 @@ import java.nio.file.Files;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -63,6 +64,14 @@ class MindeeClientTest {
     public <TResponse extends CommonResponse> TResponse reqGetResult(
         Class<TResponse> tResponseClass,
         String inferenceId
+    ) {
+      return (TResponse) resultResponse;
+    }
+
+    @Override
+    public <TResponse extends CommonResponse> TResponse reqGetResultFromUrl(
+        Class<TResponse> tResponseClass,
+        String inferenceUrl
     ) {
       return (TResponse) resultResponse;
     }
@@ -138,6 +147,72 @@ class MindeeClientTest {
           .getSimpleField()
           .getValue(),
         "Result must deserialize fields properly."
+      );
+    }
+  }
+
+  @Nested
+  @DisplayName("getResultFromUrl()")
+  class GetResultFromUrl {
+    @Test
+    @DisplayName("hits the HTTP endpoint once and returns a non-null response")
+    void document_getResultFromUrl_async() throws IOException {
+      String json = Files
+        .readString(getResourcePath("v2/products/extraction/financial_document/complete.json"));
+
+      var mapper = new ObjectMapper();
+      mapper.findAndRegisterModules();
+
+      ExtractionResponse processed = mapper.readValue(json, ExtractionResponse.class);
+
+      AtomicReference<String> capturedUrl = new AtomicReference<>();
+      var api = new FakeMindeeApiV2(null, processed) {
+        @Override
+        public <TResponse extends CommonResponse> TResponse reqGetResultFromUrl(
+            Class<TResponse> tResponseClass,
+            String inferenceUrl
+        ) {
+          capturedUrl.set(inferenceUrl);
+          return (TResponse) processed;
+        }
+      };
+      var mindeeClient = new MindeeClient(api);
+
+      String url = "https://api.mindee.net/v2/inferences/12345678-1234-1234-1234-123456789abc";
+      ExtractionResponse response = mindeeClient.getResultFromUrl(ExtractionResponse.class, url);
+
+      assertNotNull(response, "getResultFromUrl() must return a response");
+      assertEquals(url, capturedUrl.get(), "URL must be forwarded verbatim to the API");
+      assertEquals(21, response.getInference().getResult().getFields().size());
+      assertEquals(
+        "John Smith",
+        response
+          .getInference()
+          .getResult()
+          .getFields()
+          .get("supplier_name")
+          .getSimpleField()
+          .getValue()
+      );
+    }
+
+    @Test
+    @DisplayName("rejects a null URL")
+    void nullUrl_throws() {
+      var client = new MindeeClient(new FakeMindeeApiV2(null, null));
+      assertThrows(
+        IllegalArgumentException.class,
+        () -> client.getResultFromUrl(ExtractionResponse.class, null)
+      );
+    }
+
+    @Test
+    @DisplayName("rejects a blank URL")
+    void blankUrl_throws() {
+      var client = new MindeeClient(new FakeMindeeApiV2(null, null));
+      assertThrows(
+        IllegalArgumentException.class,
+        () -> client.getResultFromUrl(ExtractionResponse.class, "   ")
       );
     }
   }

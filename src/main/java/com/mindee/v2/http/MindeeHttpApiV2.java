@@ -138,6 +138,18 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
   }
 
   @Override
+  public <TResponse extends CommonResponse> TResponse reqGetResultFromUrl(
+      Class<TResponse> responseClass,
+      String inferenceUrl
+  ) {
+    if (inferenceUrl == null || inferenceUrl.trim().isEmpty()) {
+      throw new IllegalArgumentException("inferenceUrl must not be null or blank.");
+    }
+    var get = new HttpGet(inferenceUrl);
+    return executeAPIRequest(get, responseClass);
+  }
+
+  @Override
   public SearchResponse reqGetSearchModels(String modelName, String modelType) {
     URIBuilder url;
     try {

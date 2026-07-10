@@ -87,6 +87,20 @@ public class MindeeClient {
   }
 
   /**
+   * Get the result of an inference from a given URL.
+   * The inference will only be available after it has finished processing.
+   */
+  public <TResponse extends CommonResponse> TResponse getResultFromUrl(
+      Class<TResponse> responseClass,
+      String inferenceUrl
+  ) {
+    if (inferenceUrl == null || inferenceUrl.trim().isEmpty()) {
+      throw new IllegalArgumentException("inferenceUrl must not be null or blank.");
+    }
+    return mindeeApi.reqGetResultFromUrl(responseClass, inferenceUrl);
+  }
+
+  /**
    * Send a local file to an async queue, poll, and parse when complete.
    * Use default polling options.
    *
