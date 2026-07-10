@@ -43,10 +43,18 @@ public final class Job {
   private String id;
 
   /**
-   * Status of the job.
+   * Status of the job as returned by the API (raw string).
    */
   @JsonProperty("status")
-  private JobStatus status;
+  private String status;
+
+  /**
+   * Typed view of {@link #status}. Returns {@link JobStatus#Unknown} for values
+   * the SDK doesn't recognise, or {@code null} if the raw status is {@code null}.
+   */
+  public JobStatus getStatusEnum() {
+    return JobStatus.fromValue(status);
+  }
 
   /**
    * Status of the job.
