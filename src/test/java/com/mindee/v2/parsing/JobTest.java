@@ -27,7 +27,7 @@ public class JobTest {
       var response = loadJob("job/ok_processing.json");
       var job = response.getJob();
       assertNotNull(job);
-      assertEquals("Processing", job.getStatus());
+      assertEquals(JobStatus.Processing, job.getStatus());
       assertNotNull(job.getCreatedAt());
       assertNull(job.getCompletedAt());
       assertNull(job.getResultUrl());
@@ -44,7 +44,7 @@ public class JobTest {
       var response = loadJob("job/ok_processed_webhooks_ok.json");
       var job = response.getJob();
       assertNotNull(job);
-      assertEquals("Processed", job.getStatus());
+      assertEquals(JobStatus.Processed, job.getStatus());
       assertNotNull(job.getCreatedAt());
       assertNotNull(job.getCompletedAt());
       assertNotNull(job.getResultUrl());
