@@ -2,6 +2,7 @@ package com.mindee.input;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import com.mindee.MindeeException;
 import java.io.File;
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -84,6 +85,93 @@ public class URLInputSourceTest {
     assertNotNull(localInputSource, "Should create a LocalInputSource from URLInputSource");
 
     urlInputSource.cleanup();
+  }
+
+  @Nested
+  @DisplayName("validateSecure() – SSRF/loopback checks")
+  class ValidateSecure {
+    @Test
+    void httpsPublicHost_isAccepted() throws MalformedURLException {
+      URLInputSource.builder("https://example.com/file.pdf").build().validateSecure();
+    }
+
+    @Test
+    void httpScheme_isRejected() throws MalformedURLException {
+      var src = URLInputSource.builder("http://example.com/file.pdf").build();
+      MindeeException e = assertThrows(MindeeException.class, src::validateSecure);
+      assertTrue(e.getMessage().contains("HTTPS"));
+    }
+
+    @Test
+    void userInfo_isRejected() throws MalformedURLException {
+      var src = URLInputSource.builder("https://user:pass@example.com/file.pdf").build();
+      MindeeException e = assertThrows(MindeeException.class, src::validateSecure);
+      assertTrue(e.getMessage().contains("credentials"));
+    }
+
+    @Test
+    void loopbackHostname_isRejected() throws MalformedURLException {
+      var src = URLInputSource.builder("https://localhost/file.pdf").build();
+      assertThrows(MindeeException.class, src::validateSecure);
+    }
+
+    @Test
+    void subLocalhostHostname_isRejected() throws MalformedURLException {
+      var src = URLInputSource.builder("https://foo.localhost/file.pdf").build();
+      assertThrows(MindeeException.class, src::validateSecure);
+    }
+
+    @Test
+    void loopbackIpv4_isRejected() throws MalformedURLException {
+      var src = URLInputSource.builder("https://127.0.0.1/file.pdf").build();
+      assertThrows(MindeeException.class, src::validateSecure);
+    }
+
+    @Test
+    void loopbackIpv6_isRejected() throws MalformedURLException {
+      var src = URLInputSource.builder("https://[::1]/file.pdf").build();
+      assertThrows(MindeeException.class, src::validateSecure);
+    }
+
+    @Test
+    void anyLocalIpv4_isRejected() throws MalformedURLException {
+      var src = URLInputSource.builder("https://0.0.0.0/file.pdf").build();
+      assertThrows(MindeeException.class, src::validateSecure);
+    }
+
+    @Test
+    void privateRfc1918_isRejected() throws MalformedURLException {
+      for (String host : new String[] { "10.0.0.1", "172.16.0.1", "192.168.1.1" }) {
+        var src = URLInputSource.builder("https://" + host + "/file.pdf").build();
+        assertThrows(MindeeException.class, src::validateSecure, "expected rejection for " + host);
+      }
+    }
+
+    @Test
+    void linkLocalIpv4_isRejected() throws MalformedURLException {
+      var src = URLInputSource.builder("https://169.254.169.254/file.pdf").build();
+      assertThrows(MindeeException.class, src::validateSecure);
+    }
+
+    @Test
+    void cgnat_isRejected() throws MalformedURLException {
+      var src = URLInputSource.builder("https://100.64.0.1/file.pdf").build();
+      assertThrows(MindeeException.class, src::validateSecure);
+    }
+
+    @Test
+    void uniqueLocalIpv6_isRejected() throws MalformedURLException {
+      var src = URLInputSource.builder("https://[fd00::1]/file.pdf").build();
+      assertThrows(MindeeException.class, src::validateSecure);
+    }
+
+    @Test
+    void unresolvableHost_isRejected() throws MalformedURLException {
+      var src = URLInputSource
+        .builder("https://this-host-should-not-exist.invalid/file.pdf")
+        .build();
+      assertThrows(MindeeException.class, src::validateSecure);
+    }
   }
 
   static class TestableURLInputSource extends URLInputSource {

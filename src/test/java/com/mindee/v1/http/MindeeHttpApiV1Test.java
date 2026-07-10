@@ -189,7 +189,9 @@ public class MindeeHttpApiV1Test {
           .builder()
           .file(null)
           .fileName(null)
-          .urlInputSource(new URLInputSource.Builder("https://thisfile.does.not.exist").build())
+          .urlInputSource(
+            new URLInputSource.Builder("https://example.com/thisfile.does.not.exist").build()
+          )
           .build()
       )
       .getDocument();
@@ -211,7 +213,8 @@ public class MindeeHttpApiV1Test {
     Map<String, String> requestMap = objectMapper
       .readValue(recordedRequest.getBody().readUtf8(), new TypeReference<Map<String, String>>() {
       });
-    Assertions.assertEquals("https://thisfile.does.not.exist", requestMap.get("document"));
+    Assertions
+      .assertEquals("https://example.com/thisfile.does.not.exist", requestMap.get("document"));
   }
 
   @Test

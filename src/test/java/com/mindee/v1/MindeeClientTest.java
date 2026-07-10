@@ -99,7 +99,7 @@ class MindeeClientTest {
 
   @Test
   void givenADocumentUrl_whenParsed_shouldCallApiWithCorrectParams() throws IOException {
-    URL docUrl = new URL("https://this.document.does.not.exist");
+    URL docUrl = new URL("https://example.com/this-document.pdf");
     var predictResponse = new PredictResponse<InvoiceV4>();
     predictResponse.setDocument(new Document<>());
     predictResponse.setApiRequest(null);
@@ -145,7 +145,10 @@ class MindeeClientTest {
 
     var mindeeClient = new MindeeClient(new FakeMindeeApiV1<>(predictResponse));
 
-    var jobId = mindeeClient.enqueue(InvoiceV4.class, new URL("https://fake.pdf")).getJob().getId();
+    var jobId = mindeeClient
+      .enqueue(InvoiceV4.class, new URL("https://example.com/fake.pdf"))
+      .getJob()
+      .getId();
 
     Assertions.assertEquals("someid", jobId);
   }

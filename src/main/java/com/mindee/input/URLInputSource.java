@@ -7,13 +7,18 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
+import java.net.Inet4Address;
+import java.net.Inet6Address;
+import java.net.InetAddress;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Base64;
+import java.util.Locale;
 import lombok.Getter;
 
 /**
@@ -54,12 +59,81 @@ public class URLInputSource {
   }
 
   /**
-   * Ensures the URL can be sent to the Mindee server.
+   * Ensures the URL can be safely sent to the Mindee server.
+   *
+   * <p>
+   * Rejects any URL that could be used for Server-Side Request Forgery (SSRF):
+   * <ul>
+   * <li>non-HTTPS schemes,</li>
+   * <li>embedded userinfo (e.g. {@code https://user:pass@host}),</li>
+   * <li>loopback hostnames ({@code localhost}, {@code *.localhost}),</li>
+   * <li>hosts that resolve to loopback, link-local, site-local (RFC 1918),
+   * any-local ({@code 0.0.0.0}), multicast, IPv6 unique-local
+   * ({@code fc00::/7}) or carrier-grade NAT ({@code 100.64.0.0/10})
+   * addresses.</li>
+   * </ul>
    */
   public void validateSecure() {
     if (!"https".equalsIgnoreCase(this.url.getProtocol())) {
       throw new MindeeException("Only HTTPS source URLs are allowed");
     }
+    String userInfo = this.url.getUserInfo();
+    if (userInfo != null && !userInfo.isEmpty()) {
+      throw new MindeeException("Source URLs must not embed user credentials");
+    }
+    String host = this.url.getHost();
+    if (host == null || host.isEmpty()) {
+      throw new MindeeException("Source URL is missing a host");
+    }
+    String lowerHost = host.toLowerCase(Locale.ROOT);
+    if (
+      "localhost".equals(lowerHost)
+        || lowerHost.endsWith(".localhost")
+        || "ip6-localhost".equals(lowerHost)
+        || "ip6-loopback".equals(lowerHost)
+    ) {
+      throw new MindeeException("Loopback hostnames are not allowed: " + host);
+    }
+
+    InetAddress[] addresses;
+    try {
+      addresses = InetAddress.getAllByName(host);
+    } catch (UnknownHostException e) {
+      throw new MindeeException("Unable to resolve source URL host: " + host, e);
+    }
+    for (InetAddress addr : addresses) {
+      if (isDisallowedAddress(addr)) {
+        throw new MindeeException(
+          "Source URL host resolves to a disallowed address: " + addr.getHostAddress()
+        );
+      }
+    }
+  }
+
+  private static boolean isDisallowedAddress(InetAddress addr) {
+    return addr.isLoopbackAddress()
+      || addr.isLinkLocalAddress()
+      || addr.isSiteLocalAddress()
+      || addr.isAnyLocalAddress()
+      || addr.isMulticastAddress()
+      || isUniqueLocalIpv6(addr)
+      || isCarrierGradeNat(addr);
+  }
+
+  private static boolean isUniqueLocalIpv6(InetAddress addr) {
+    if (!(addr instanceof Inet6Address)) {
+      return false;
+    }
+    byte[] raw = addr.getAddress();
+    return (raw[0] & 0xFE) == 0xFC;
+  }
+
+  private static boolean isCarrierGradeNat(InetAddress addr) {
+    if (!(addr instanceof Inet4Address)) {
+      return false;
+    }
+    byte[] raw = addr.getAddress();
+    return (raw[0] & 0xFF) == 100 && (raw[1] & 0xC0) == 0x40;
   }
 
   /**
