@@ -28,7 +28,7 @@ public final class SimpleFieldDeserializer extends JsonDeserializer<SimpleField>
           value = valueNode.booleanValue();
           break;
         case NUMBER:
-          value = valueNode.doubleValue();
+          value = valueNode.decimalValue();
           break;
         case STRING:
           value = valueNode.textValue();
