@@ -145,8 +145,81 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
     if (inferenceUrl == null || inferenceUrl.trim().isEmpty()) {
       throw new IllegalArgumentException("inferenceUrl must not be null or blank.");
     }
+    validateInferenceUrl(inferenceUrl);
     var get = new HttpGet(inferenceUrl);
     return executeAPIRequest(get, responseClass);
+  }
+
+  /**
+   * Ensures that a caller-supplied inference URL targets the configured Mindee
+   * base URL so the {@code Authorization} header attached by
+   * {@link #executeAPIRequest} cannot leak to third-party hosts.
+   *
+   * <p>
+   * The URL must be an absolute HTTPS URL whose host + port match the
+   * configured base URL, whose path is under the base URL's path, and which
+   * carries no embedded userinfo.
+   */
+  void validateInferenceUrl(String inferenceUrl) {
+    java.net.URI target;
+    java.net.URI base;
+    try {
+      target = new java.net.URI(inferenceUrl);
+      base = new java.net.URI(this.mindeeSettings.getBaseUrl());
+    } catch (java.net.URISyntaxException e) {
+      throw new MindeeException("inferenceUrl is not a valid URI: " + inferenceUrl, e);
+    }
+    if (!target.isAbsolute()) {
+      throw new MindeeException("inferenceUrl must be an absolute URL: " + inferenceUrl);
+    }
+    if (!"https".equalsIgnoreCase(target.getScheme())) {
+      throw new MindeeException("inferenceUrl must use https: " + inferenceUrl);
+    }
+    if (target.getUserInfo() != null && !target.getUserInfo().isEmpty()) {
+      throw new MindeeException("inferenceUrl must not contain userinfo: " + inferenceUrl);
+    }
+    String targetHost = target.getHost();
+    String baseHost = base.getHost();
+    if (targetHost == null || baseHost == null || !targetHost.equalsIgnoreCase(baseHost)) {
+      throw new MindeeException(
+        "inferenceUrl host '"
+          + targetHost
+          + "' does not match Mindee base URL host '"
+          + baseHost
+          + "'"
+      );
+    }
+    int targetPort = target.getPort() == -1 ? defaultPort(target.getScheme()) : target.getPort();
+    int basePort = base.getPort() == -1 ? defaultPort(base.getScheme()) : base.getPort();
+    if (targetPort != basePort) {
+      throw new MindeeException(
+        "inferenceUrl port " + targetPort + " does not match Mindee base URL port " + basePort
+      );
+    }
+    String basePath = base.getPath() == null ? "" : base.getPath();
+    String targetPath = target.getPath() == null ? "" : target.getPath();
+    if (!basePath.isEmpty() && !basePath.equals("/")) {
+      String normalizedBase = basePath.endsWith("/") ? basePath : basePath + "/";
+      if (!targetPath.equals(basePath) && !targetPath.startsWith(normalizedBase)) {
+        throw new MindeeException(
+          "inferenceUrl path '"
+            + targetPath
+            + "' is not under Mindee base URL path '"
+            + basePath
+            + "'"
+        );
+      }
+    }
+  }
+
+  private static int defaultPort(String scheme) {
+    if ("https".equalsIgnoreCase(scheme)) {
+      return 443;
+    }
+    if ("http".equalsIgnoreCase(scheme)) {
+      return 80;
+    }
+    return -1;
   }
 
   @Override

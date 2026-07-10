@@ -272,13 +272,13 @@
     </dependency>
     <dependency>
       <artifactId>jackson-databind</artifactId>
-      <groupId>tools.jackson.core</groupId>
-      <version>${tools.jackson.core.databind.version}</version>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <version>${com.fasterxml.jackson.version}</version>
     </dependency>
     <dependency>
       <artifactId>jackson-datatype-jsr310</artifactId>
       <groupId>com.fasterxml.jackson.datatype</groupId>
-      <version>${com.fasterxml.jackson.datatype.version}</version>
+      <version>${com.fasterxml.jackson.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.httpcomponents.client5</groupId>
@@ -390,8 +390,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
     <!-- Code dependencies -->
-    <tools.jackson.core.databind.version>3.1.4</tools.jackson.core.databind.version>
-    <com.fasterxml.jackson.datatype.version>2.21.2</com.fasterxml.jackson.datatype.version>
+    <com.fasterxml.jackson.version>2.21.2</com.fasterxml.jackson.version>
     <com.squareup.okhttp3.version>4.12.0</com.squareup.okhttp3.version>
     <info.picocli.version>4.7.7</info.picocli.version>
     <org.apache.commons.math3.version>3.6.1</org.apache.commons.math3.version>

@@ -244,10 +244,10 @@ public class MindeeClient {
       interruptibleSleep((long) (currentIntervalSec * 1000), pollingOptions);
       resp = getJob(initialJob.getJob().getId());
 
-      if (resp.getJob().getStatus() == JobStatus.Failed) {
+      if (resp.getJob().getStatusEnum() == JobStatus.Failed) {
         attempts = max;
       }
-      if (resp.getJob().getStatus() == JobStatus.Processed) {
+      if (resp.getJob().getStatusEnum() == JobStatus.Processed) {
         return getResult(responseClass, resp.getJob().getId());
       }
       currentIntervalSec = Math.min(currentIntervalSec * backoffMultiplier, maxIntervalSec);

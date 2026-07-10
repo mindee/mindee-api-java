@@ -43,27 +43,45 @@ public final class SimpleField extends BaseField {
   /**
    * Retrieves the value of the field as a {@link Double}.
    *
-   * Note: the underlying numeric value is stored as a {@link BigDecimal} to preserve full
-   * precision. Prefer {@link #getBigDecimalValue()} when precision matters.
+   * <p>
+   * Accepts any {@link Number} — the wire deserializer stores numeric values as
+   * {@link BigDecimal} to preserve precision, but programmatically-constructed
+   * fields may hold a {@code Double}, {@code Integer}, {@code Long}, etc. Prefer
+   * {@link #getBigDecimalValue()} when precision matters.
    *
    * @return the field value as a Double (may lose precision)
-   * @throws ClassCastException if the value is not numeric
+   * @throws ClassCastException if the value is not a {@link Number}
    */
   public Double getDoubleValue() throws ClassCastException {
     if (value == null) {
       return null;
     }
-    return ((BigDecimal) value).doubleValue();
+    return ((Number) value).doubleValue();
   }
 
   /**
    * Retrieves the value of the field as a {@link BigDecimal}.
    *
+   * <p>
+   * Accepts any {@link Number}. Non-{@code BigDecimal} numbers are converted
+   * via their string representation to preserve as many digits as possible.
+   *
    * @return the field value as a BigDecimal
-   * @throws ClassCastException if the value cannot be cast to a BigDecimal
+   * @throws ClassCastException if the value is not a {@link Number}
    */
   public BigDecimal getBigDecimalValue() throws ClassCastException {
-    return (BigDecimal) value;
+    if (value == null) {
+      return null;
+    }
+    if (value instanceof BigDecimal) {
+      return (BigDecimal) value;
+    }
+    if (value instanceof Number) {
+      return new BigDecimal(value.toString());
+    }
+    throw new ClassCastException(
+      "Value of type " + value.getClass().getName() + " cannot be cast to BigDecimal"
+    );
   }
 
   /**
@@ -83,8 +101,8 @@ public final class SimpleField extends BaseField {
     if (value.getClass().equals(Boolean.class)) {
       return formatForDisplay((Boolean) value, 5);
     }
-    if (value instanceof BigDecimal) {
-      return Double.toString(((BigDecimal) value).doubleValue());
+    if (value instanceof Number) {
+      return Double.toString(((Number) value).doubleValue());
     }
     return value.toString();
   }

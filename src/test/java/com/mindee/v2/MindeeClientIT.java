@@ -251,7 +251,7 @@ class MindeeClientIT {
     for (int i = 0; i < 80 && resultUrl == null; i++) {
       Thread.sleep(1500);
       var poll = mindeeClient.getJob(jobId);
-      if (poll.getJob().getStatus() == com.mindee.v2.parsing.JobStatus.Processed) {
+      if (poll.getJob().getStatusEnum() == com.mindee.v2.parsing.JobStatus.Processed) {
         resultUrl = poll.getJob().getResultUrl();
       }
     }
