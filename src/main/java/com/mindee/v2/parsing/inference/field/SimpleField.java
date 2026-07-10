@@ -43,11 +43,17 @@ public final class SimpleField extends BaseField {
   /**
    * Retrieves the value of the field as a {@link Double}.
    *
-   * @return the field value as a Double
-   * @throws ClassCastException if the value cannot be cast to a Double
+   * Note: the underlying numeric value is stored as a {@link BigDecimal} to preserve full
+   * precision. Prefer {@link #getBigDecimalValue()} when precision matters.
+   *
+   * @return the field value as a Double (may lose precision)
+   * @throws ClassCastException if the value is not numeric
    */
   public Double getDoubleValue() throws ClassCastException {
-    return (Double) value;
+    if (value == null) {
+      return null;
+    }
+    return ((BigDecimal) value).doubleValue();
   }
 
   /**
@@ -57,10 +63,7 @@ public final class SimpleField extends BaseField {
    * @throws ClassCastException if the value cannot be cast to a BigDecimal
    */
   public BigDecimal getBigDecimalValue() throws ClassCastException {
-    if (value == null) {
-      return null;
-    }
-    return BigDecimal.valueOf(getDoubleValue());
+    return (BigDecimal) value;
   }
 
   /**
@@ -79,6 +82,9 @@ public final class SimpleField extends BaseField {
       return "";
     if (value.getClass().equals(Boolean.class)) {
       return formatForDisplay((Boolean) value, 5);
+    }
+    if (value instanceof BigDecimal) {
+      return Double.toString(((BigDecimal) value).doubleValue());
     }
     return value.toString();
   }

@@ -142,9 +142,9 @@ class ExtractionTest {
       assertNotNull(taxItemObj);
       assertEquals(3, taxItemObj.getFields().size());
       SimpleField baseTax = taxItemObj.getFields().get("base").getSimpleField();
-      assertEquals(31.5, baseTax.getValue());
+      assertEquals(new BigDecimal("31.5"), baseTax.getValue());
       assertEquals(31.5, baseTax.getDoubleValue());
-      assertEquals(BigDecimal.valueOf(31.5), baseTax.getBigDecimalValue());
+      assertEquals(new BigDecimal("31.5"), baseTax.getBigDecimalValue());
       assertNotNull(taxes.toString());
 
       // single object
@@ -261,25 +261,27 @@ class ExtractionTest {
 
       var fieldSimpleFloat = fields.get("field_simple_float").getSimpleField();
       assertNotNull(fieldSimpleFloat);
-      assertInstanceOf(Double.class, fieldSimpleFloat.getValue());
-      assertEquals(fieldSimpleFloat.getValue(), fieldSimpleFloat.getDoubleValue());
+      assertInstanceOf(BigDecimal.class, fieldSimpleFloat.getValue());
+      assertEquals(fieldSimpleFloat.getValue(), fieldSimpleFloat.getBigDecimalValue());
+      assertEquals(1.1, fieldSimpleFloat.getDoubleValue());
       assertThrows(ClassCastException.class, fieldSimpleFloat::getStringValue);
       assertThrows(ClassCastException.class, fieldSimpleFloat::getBooleanValue);
       assertEquals(FieldConfidence.High, fieldSimpleFloat.getConfidence());
 
       var fieldSimpleInt = fields.get("field_simple_int").getSimpleField();
       assertNotNull(fieldSimpleInt);
-      assertInstanceOf(Double.class, fieldSimpleInt.getValue());
-      assertEquals(fieldSimpleInt.getValue(), fieldSimpleInt.getDoubleValue());
+      assertInstanceOf(BigDecimal.class, fieldSimpleInt.getValue());
+      assertEquals(fieldSimpleInt.getValue(), fieldSimpleInt.getBigDecimalValue());
+      assertEquals(12.0, fieldSimpleInt.getDoubleValue());
       assertEquals(FieldConfidence.Medium, fieldSimpleInt.getConfidence());
       assertThrows(ClassCastException.class, fieldSimpleInt::getStringValue);
 
       var fieldSimpleZero = fields.get("field_simple_zero").getSimpleField();
       assertNotNull(fieldSimpleZero);
       assertEquals(FieldConfidence.Low, fieldSimpleZero.getConfidence());
-      assertInstanceOf(Double.class, fieldSimpleZero.getValue());
+      assertInstanceOf(BigDecimal.class, fieldSimpleZero.getValue());
       assertEquals(0.0, fieldSimpleZero.getDoubleValue());
-      assertEquals(BigDecimal.valueOf(0.0), fieldSimpleZero.getBigDecimalValue());
+      assertEquals(BigDecimal.ZERO, fieldSimpleZero.getBigDecimalValue());
       assertThrows(ClassCastException.class, fieldSimpleZero::getStringValue);
       assertThrows(ClassCastException.class, fieldSimpleZero::getBooleanValue);
 
