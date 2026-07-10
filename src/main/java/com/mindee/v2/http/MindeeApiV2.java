@@ -55,6 +55,15 @@ public abstract class MindeeApiV2 extends MindeeApiCommon {
   );
 
   /**
+   * Retrieves the inference from a given URL.
+   * The inference will only be available after it has finished processing.
+   */
+  public abstract <TResponse extends CommonResponse> TResponse reqGetResultFromUrl(
+      Class<TResponse> responseClass,
+      String inferenceUrl
+  );
+
+  /**
    * Retrieves a list of models.
    *
    * @param modelName search term for model name

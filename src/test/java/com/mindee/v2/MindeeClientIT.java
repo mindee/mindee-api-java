@@ -233,4 +233,33 @@ class MindeeClientIT {
     assertNotNull(response);
     assertFalse(response.getModels().isEmpty());
   }
+
+  @Test
+  @DisplayName("getResultFromUrl - fetching an inference by its full URL must succeed")
+  void getResultFromUrl_mustSucceed() throws IOException, InterruptedException {
+    var source = new LocalInputSource(getResourcePath("file_types/pdf/blank_1.pdf"));
+    var params = ExtractionParameters
+      .builder(modelId)
+      .alias("java-integration-test_get-result-from-url")
+      .build();
+
+    var enqueueResp = mindeeClient.enqueue(source, params);
+    assertNotNull(enqueueResp);
+    var jobId = enqueueResp.getJob().getId();
+
+    String resultUrl = null;
+    for (int i = 0; i < 80 && resultUrl == null; i++) {
+      Thread.sleep(1500);
+      var poll = mindeeClient.getJob(jobId);
+      if (poll.getJob().getStatus() == com.mindee.v2.parsing.JobStatus.Processed) {
+        resultUrl = poll.getJob().getResultUrl();
+      }
+    }
+    assertNotNull(resultUrl, "Job must expose a result_url once processed");
+
+    var response = mindeeClient.getResultFromUrl(ExtractionResponse.class, resultUrl);
+    assertNotNull(response);
+    assertNotNull(response.getInference());
+    assertNotNull(response.getInference().getId());
+  }
 }
