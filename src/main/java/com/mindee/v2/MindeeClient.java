@@ -9,6 +9,7 @@ import com.mindee.v2.http.MindeeHttpApiV2;
 import com.mindee.v2.http.MindeeHttpExceptionV2;
 import com.mindee.v2.parsing.CommonResponse;
 import com.mindee.v2.parsing.JobResponse;
+import com.mindee.v2.parsing.JobStatus;
 import com.mindee.v2.parsing.error.ErrorResponse;
 import com.mindee.v2.parsing.search.SearchResponse;
 import com.mindee.v2.product.extraction.ExtractionResponse;
@@ -229,10 +230,10 @@ public class MindeeClient {
       interruptibleSleep((long) (currentIntervalSec * 1000), pollingOptions);
       resp = getJob(initialJob.getJob().getId());
 
-      if (resp.getJob().getStatus().equals("Failed")) {
+      if (resp.getJob().getStatus() == JobStatus.Failed) {
         attempts = max;
       }
-      if (resp.getJob().getStatus().equals("Processed")) {
+      if (resp.getJob().getStatus() == JobStatus.Processed) {
         return getResult(responseClass, resp.getJob().getId());
       }
       currentIntervalSec = Math.min(currentIntervalSec * backoffMultiplier, maxIntervalSec);

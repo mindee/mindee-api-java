@@ -46,7 +46,7 @@ public final class Job {
    * Status of the job.
    */
   @JsonProperty("status")
-  private String status;
+  private JobStatus status;
 
   /**
    * Status of the job.
