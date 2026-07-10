@@ -13,6 +13,7 @@ import com.mindee.v2.parsing.error.ErrorResponse;
 import com.mindee.v2.parsing.search.SearchResponse;
 import com.mindee.v2.product.extraction.ExtractionResponse;
 import java.io.IOException;
+import java.util.concurrent.CancellationException;
 
 /**
  * Entry point for the Mindee **V2** API features.
@@ -215,14 +216,17 @@ public class MindeeClient {
       JobResponse initialJob,
       PollingOptions pollingOptions
   ) throws InterruptedException {
-    Thread.sleep((long) (pollingOptions.getInitialDelaySec() * 1000));
+    interruptibleSleep((long) (pollingOptions.getInitialDelaySec() * 1000), pollingOptions);
 
     JobResponse resp = initialJob;
     int attempts = 0;
     int max = pollingOptions.getMaxRetries();
+    double currentIntervalSec = pollingOptions.getIntervalSec();
+    double maxIntervalSec = pollingOptions.getMaxIntervalSec();
+    double backoffMultiplier = pollingOptions.getBackoffMultiplier();
 
     while (attempts < max) {
-      Thread.sleep((long) (pollingOptions.getIntervalSec() * 1000));
+      interruptibleSleep((long) (currentIntervalSec * 1000), pollingOptions);
       resp = getJob(initialJob.getJob().getId());
 
       if (resp.getJob().getStatus().equals("Failed")) {
@@ -231,6 +235,7 @@ public class MindeeClient {
       if (resp.getJob().getStatus().equals("Processed")) {
         return getResult(responseClass, resp.getJob().getId());
       }
+      currentIntervalSec = Math.min(currentIntervalSec * backoffMultiplier, maxIntervalSec);
       attempts++;
     }
 
@@ -239,6 +244,29 @@ public class MindeeClient {
       throw new MindeeHttpExceptionV2(error.getStatus(), error.getDetail());
     }
     throw new RuntimeException("Max retries exceeded (" + max + ").");
+  }
+
+  /**
+   * Sleeps for the requested duration, honouring both thread interruption and the
+   * caller-supplied cancellation token. The cancel token is checked before sleeping
+   * and after each 100 ms tick so long waits stay responsive.
+   */
+  private static void interruptibleSleep(
+      long millis,
+      PollingOptions options
+  ) throws InterruptedException {
+    if (options.getCancelToken().getAsBoolean()) {
+      throw new CancellationException("Polling cancelled");
+    }
+    long remaining = millis;
+    while (remaining > 0) {
+      long chunk = Math.min(remaining, 100L);
+      Thread.sleep(chunk);
+      remaining -= chunk;
+      if (options.getCancelToken().getAsBoolean()) {
+        throw new CancellationException("Polling cancelled");
+      }
+    }
   }
 
   private static MindeeApiV2 createDefaultApiV2(String apiKey) {

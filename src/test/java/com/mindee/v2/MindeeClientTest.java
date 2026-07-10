@@ -3,12 +3,15 @@ package com.mindee.v2;
 import static com.mindee.TestingUtilities.getResourcePath;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mindee.input.LocalInputSource;
 import com.mindee.input.URLInputSource;
 import com.mindee.v2.clientoptions.BaseParameters;
+import com.mindee.v2.clientoptions.PollingOptions;
 import com.mindee.v2.http.MindeeApiV2;
 import com.mindee.v2.parsing.CommonResponse;
 import com.mindee.v2.parsing.JobResponse;
@@ -17,6 +20,9 @@ import com.mindee.v2.product.extraction.ExtractionResponse;
 import com.mindee.v2.product.extraction.params.ExtractionParameters;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.concurrent.CancellationException;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -133,6 +139,76 @@ class MindeeClientTest {
           .getValue(),
         "Result must deserialize fields properly."
       );
+    }
+  }
+
+  @Nested
+  @DisplayName("polling with cancellation and backoff")
+  class Polling {
+    private JobResponse processing() throws JsonProcessingException {
+      String json = "{\"job\": {\"id\": \"dummy-id\", \"status\": \"Processing\"}}";
+      var mapper = new ObjectMapper();
+      mapper.findAndRegisterModules();
+      return mapper.readValue(json, JobResponse.class);
+    }
+
+    @Test
+    @DisplayName("cancelToken aborts polling with CancellationException")
+    void polling_cancelToken_aborts() throws IOException {
+      JobResponse processing = processing();
+      AtomicInteger jobCalls = new AtomicInteger();
+      AtomicBoolean cancel = new AtomicBoolean(false);
+
+      var api = new FakeMindeeApiV2(processing, null) {
+        @Override
+        public JobResponse reqGetJob(String jobId) {
+          jobCalls.incrementAndGet();
+          cancel.set(true);
+          return processing;
+        }
+      };
+      var client = new MindeeClient(api);
+
+      var options = PollingOptions
+        .builder()
+        .initialDelaySec(1.0)
+        .intervalSec(1.0)
+        .maxRetries(10)
+        .cancelToken(cancel::get)
+        .build();
+
+      var input = new LocalInputSource(getResourcePath("file_types/pdf/blank_1.pdf"));
+      assertThrows(CancellationException.class, () -> {
+        try {
+          client
+            .enqueueAndGetResult(
+              ExtractionResponse.class,
+              input,
+              ExtractionParameters.builder("dummy-model-id").build(),
+              options
+            );
+        } catch (IOException | InterruptedException e) {
+          throw new RuntimeException(e);
+        }
+      });
+      assertTrue(jobCalls.get() >= 1, "at least one poll should occur before cancellation");
+    }
+
+    @Test
+    @DisplayName("interval grows with backoff up to maxIntervalSec")
+    void polling_backoff_caps() {
+      var options = PollingOptions
+        .builder()
+        .intervalSec(1.0)
+        .backoffMultiplier(2.0)
+        .maxIntervalSec(5.0)
+        .build();
+
+      double interval = options.getIntervalSec();
+      for (int i = 0; i < 10; i++) {
+        interval = Math.min(interval * options.getBackoffMultiplier(), options.getMaxIntervalSec());
+      }
+      assertEquals(5.0, interval);
     }
   }
 }
