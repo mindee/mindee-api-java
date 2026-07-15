@@ -390,7 +390,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
     <!-- Code dependencies -->
-    <com.fasterxml.jackson.version>2.21.2</com.fasterxml.jackson.version>
+    <com.fasterxml.jackson.version>2.21.4</com.fasterxml.jackson.version>
     <com.squareup.okhttp3.version>4.12.0</com.squareup.okhttp3.version>
     <info.picocli.version>4.7.7</info.picocli.version>
     <org.apache.commons.math3.version>3.6.1</org.apache.commons.math3.version>
