@@ -49,14 +49,6 @@ public final class Job {
   private String status;
 
   /**
-   * Typed view of {@link #status}. Returns {@link JobStatus#Unknown} for values
-   * the SDK doesn't recognise, or {@code null} if the raw status is {@code null}.
-   */
-  public JobStatus getStatusEnum() {
-    return JobStatus.fromValue(status);
-  }
-
-  /**
    * Status of the job.
    */
   @JsonProperty("error")
