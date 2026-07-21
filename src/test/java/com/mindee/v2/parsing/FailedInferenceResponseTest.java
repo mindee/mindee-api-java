@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import com.mindee.v2.parsing.inference.FailedInferenceResponse;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.DisplayName;
