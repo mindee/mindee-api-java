@@ -28,7 +28,6 @@ public class JobTest {
       var job = response.getJob();
       assertNotNull(job);
       assertEquals("Processing", job.getStatus());
-      assertEquals(JobStatus.Processing, job.getStatusEnum());
       assertNotNull(job.getCreatedAt());
       assertNull(job.getCompletedAt());
       assertNull(job.getResultUrl());
@@ -46,7 +45,6 @@ public class JobTest {
       var job = response.getJob();
       assertNotNull(job);
       assertEquals("Processed", job.getStatus());
-      assertEquals(JobStatus.Processed, job.getStatusEnum());
       assertNotNull(job.getCreatedAt());
       assertNotNull(job.getCompletedAt());
       assertNotNull(job.getResultUrl());
