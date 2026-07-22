@@ -1,5 +1,19 @@
 # Mindee Java Client Library Changelog
 
+## v5.3.0 - 2026-07-21
+### Changes
+* :sparkles: add webhook error response
+* :arrow_up: bump dependencies
+* :sparkles: add queue get by URL in client
+* :sparkles: add cancellation token
+* :sparkles: improve precision in numbers in SimpleField
+* :sparkles: allow passing webhooks to the CLI
+### Fixes
+* :bug: fix extractors
+* :bug: fix misc CI issues and cron
+* :recycle: clarify CLI outputs
+
+
 ## v5.2.0 - 2026-06-17
 ### Changes
 * :sparkles: add support for v2 CLI
