@@ -1,10 +1,10 @@
 package com.mindee.v2.product.crop.params;
 
-import com.mindee.v2.clientoptions.BaseParameters;
-import com.mindee.v2.http.ProductInfo;
+import com.mindee.v2.clientoptions.BaseProductParameters;
+import com.mindee.v2.product.ProductAttributes;
 
-@ProductInfo(slug = "crop")
-public class CropParameters extends BaseParameters {
+@ProductAttributes(slug = "crop")
+public class CropParameters extends BaseProductParameters {
 
   public CropParameters(String modelId, String alias, String[] webhookIds) {
     super(modelId, alias, webhookIds);
@@ -20,7 +20,7 @@ public class CropParameters extends BaseParameters {
     return new Builder(modelId);
   }
 
-  public static final class Builder extends BaseParameters.BaseBuilder<Builder> {
+  public static final class Builder extends BaseProductParameters.BaseBuilder<Builder> {
 
     Builder(String modelId) {
       super(modelId);

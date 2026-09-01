@@ -6,10 +6,12 @@ import com.mindee.MindeeException;
 import com.mindee.input.LocalInputSource;
 import com.mindee.input.URLInputSource;
 import com.mindee.v2.MindeeSettings;
-import com.mindee.v2.clientoptions.BaseParameters;
+import com.mindee.v2.clientoptions.BaseProductParameters;
+import com.mindee.v2.clientoptions.BaseSearchParameters;
 import com.mindee.v2.parsing.CommonResponse;
 import com.mindee.v2.parsing.JobResponse;
 import com.mindee.v2.parsing.error.ErrorResponse;
+import com.mindee.v2.parsing.search.BaseSearchResponse;
 import com.mindee.v2.parsing.search.SearchResponse;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -64,12 +66,15 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
    * Enqueues a doc with the POST method.
    *
    * @param inputSource Input source to send.
-   * @param options Options to send the file along with.
+   * @param parameters Options to send the file along with.
    * @return A job response.
    */
   @Override
-  public JobResponse reqPostEnqueue(LocalInputSource inputSource, BaseParameters options) {
-    var productInfo = getParamsProductInfo(options.getClass());
+  public JobResponse reqPostEnqueue(
+      LocalInputSource inputSource,
+      BaseProductParameters parameters
+  ) {
+    var productInfo = getParamsProductAttributes(parameters.getClass());
     var url = String
       .format("%s/products/%s/enqueue", this.mindeeSettings.getBaseUrl(), productInfo.slug());
     var post = buildHttpPost(url);
@@ -83,7 +88,8 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
         ContentType.DEFAULT_BINARY,
         inputSource.getFilename()
       );
-    post.setEntity(options.buildHttpBody(builder).build());
+    parameters.getRequestParameters().forEach(builder::addTextBody);
+    post.setEntity(builder.build());
     return executeAPIRequest(post, JobResponse.class);
   }
 
@@ -95,8 +101,8 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
    * @return A job response.
    */
   @Override
-  public JobResponse reqPostEnqueue(URLInputSource inputSource, BaseParameters options) {
-    var productInfo = getParamsProductInfo(options.getClass());
+  public JobResponse reqPostEnqueue(URLInputSource inputSource, BaseProductParameters options) {
+    var productInfo = getParamsProductAttributes(options.getClass());
     var url = String
       .format("%s/products/%s/enqueue", this.mindeeSettings.getBaseUrl(), productInfo.slug());
     var post = buildHttpPost(url);
@@ -104,12 +110,13 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
     var builder = MultipartEntityBuilder.create();
     builder.setMode(HttpMultipartMode.EXTENDED);
     builder.addTextBody("url", inputSource.getUrl().toString());
-    post.setEntity(options.buildHttpBody(builder).build());
+    options.getRequestParameters().forEach(builder::addTextBody);
+    post.setEntity(builder.build());
     return executeAPIRequest(post, JobResponse.class);
   }
 
   @Override
-  public JobResponse reqGetJob(String jobId) {
+  public JobResponse reqGetJobById(String jobId) {
 
     var url = this.mindeeSettings.getBaseUrl() + "/jobs/" + jobId;
     var get = new HttpGet(url);
@@ -121,7 +128,7 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
   }
 
   @Override
-  public <TResponse extends CommonResponse> TResponse reqGetResult(
+  public <TResponse extends CommonResponse> TResponse reqGetResultById(
       Class<TResponse> responseClass,
       String inferenceId
   ) {
@@ -133,12 +140,11 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
         productInfo.slug(),
         inferenceId
       );
-    var get = new HttpGet(url);
-    return executeAPIRequest(get, responseClass);
+    return reqGetResultByUrl(responseClass, url);
   }
 
   @Override
-  public <TResponse extends CommonResponse> TResponse reqGetResultFromUrl(
+  public <TResponse extends CommonResponse> TResponse reqGetResultByUrl(
       Class<TResponse> responseClass,
       String inferenceUrl
   ) {
@@ -148,6 +154,42 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
     validateInferenceUrl(inferenceUrl);
     var get = new HttpGet(inferenceUrl);
     return executeAPIRequest(get, responseClass);
+  }
+
+  @Override
+  public <TSearchResponse extends BaseSearchResponse> TSearchResponse reqGetSearch(
+      Class<TSearchResponse> responseClass,
+      BaseSearchParameters parameters
+  ) {
+    var productInfo = getResponseProductInfo(responseClass);
+    URIBuilder url;
+    try {
+      url = new URIBuilder(this.mindeeSettings.getBaseUrl() + "/search/" + productInfo.slug());
+    } catch (URISyntaxException e) {
+      throw new RuntimeException(e);
+    }
+    parameters.getRequestParameters().forEach(url::addParameter);
+    var get = new HttpGet(url.toString());
+    return this.executeAPIRequest(get, responseClass);
+  }
+
+  @Override
+  @Deprecated
+  public SearchResponse reqGetSearchModels(String modelName, String modelType) {
+    URIBuilder url;
+    try {
+      url = new URIBuilder(this.mindeeSettings.getBaseUrl() + "/search/models");
+    } catch (URISyntaxException e) {
+      throw new RuntimeException(e);
+    }
+    if (modelName != null) {
+      url.addParameter("name", modelName);
+    }
+    if (modelType != null) {
+      url.addParameter("model_type", modelType);
+    }
+    var get = new HttpGet(url.toString());
+    return executeAPIRequest(get, SearchResponse.class);
   }
 
   /**
@@ -220,24 +262,6 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
       return 80;
     }
     return -1;
-  }
-
-  @Override
-  public SearchResponse reqGetSearchModels(String modelName, String modelType) {
-    URIBuilder url;
-    try {
-      url = new URIBuilder(this.mindeeSettings.getBaseUrl() + "/search/models");
-    } catch (URISyntaxException e) {
-      throw new RuntimeException(e);
-    }
-    if (modelName != null) {
-      url.addParameter("name", modelName);
-    }
-    if (modelType != null) {
-      url.addParameter("model_type", modelType);
-    }
-    var get = new HttpGet(url.toString());
-    return executeAPIRequest(get, SearchResponse.class);
   }
 
   /**

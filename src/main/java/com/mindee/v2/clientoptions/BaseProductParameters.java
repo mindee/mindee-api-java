@@ -1,17 +1,20 @@
 package com.mindee.v2.clientoptions;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import lombok.Data;
-import org.apache.hc.client5.http.entity.mime.MultipartEntityBuilder;
 
 @Data
-public abstract class BaseParameters {
+public abstract class BaseProductParameters {
   /**
-   * Model ID to use for the inference (required).
+   * Model ID to use for the inference. Required.
    */
   protected final String modelId;
   /**
-   * Optional alias for the file.
+   * Optional: a free-form string to tag the request with your own identifier.
+   * For example, an internal document ID, reference number, or database key.
+   * If set, it will be included in the job and result responses.
    */
   protected final String alias;
   /**
@@ -20,15 +23,19 @@ public abstract class BaseParameters {
    */
   protected final String[] webhookIds;
 
-  public MultipartEntityBuilder buildHttpBody(MultipartEntityBuilder builder) {
-    builder.addTextBody("model_id", this.getModelId());
-    if (this.getAlias() != null) {
-      builder.addTextBody("alias", this.getAlias());
+  public Map<String, String> getRequestParameters() {
+    var parameters = new HashMap<String, String>();
+
+    parameters.put("model_id", this.getModelId());
+
+    if (this.getAlias() != null && !this.getAlias().isBlank()) {
+      parameters.put("alias", getAlias());
     }
     if (this.getWebhookIds().length > 0) {
-      builder.addTextBody("webhook_ids", String.join(",", this.getWebhookIds()));
+      parameters.put("webhook_ids", String.join(",", this.getWebhookIds()));
     }
-    return builder;
+
+    return parameters;
   }
 
   protected static abstract class BaseBuilder<T extends BaseBuilder<T>> {
@@ -42,7 +49,8 @@ public abstract class BaseParameters {
     }
 
     protected BaseBuilder(String modelId) {
-      this.modelId = Objects.requireNonNull(modelId, "modelId must not be null");
+      this.modelId = Objects
+        .requireNonNull(modelId, "The model ID is required in product parameters");
     }
 
     /** Set an alias for the uploaded document. */

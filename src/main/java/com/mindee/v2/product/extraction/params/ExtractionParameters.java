@@ -1,18 +1,19 @@
 package com.mindee.v2.product.extraction.params;
 
-import com.mindee.v2.clientoptions.BaseParameters;
-import com.mindee.v2.http.ProductInfo;
+import com.mindee.v2.clientoptions.BaseProductParameters;
+import com.mindee.v2.product.ProductAttributes;
+import java.util.HashMap;
+import java.util.Map;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import org.apache.hc.client5.http.entity.mime.MultipartEntityBuilder;
 
 /**
  * Options to pass when calling methods using the API V2.
  */
 @Getter
 @EqualsAndHashCode(callSuper = true)
-@ProductInfo(slug = "extraction")
-public final class ExtractionParameters extends BaseParameters {
+@ProductAttributes(slug = "extraction")
+public final class ExtractionParameters extends BaseProductParameters {
   /**
    * Enhance extraction accuracy with Retrieval-Augmented Generation.
    */
@@ -60,27 +61,30 @@ public final class ExtractionParameters extends BaseParameters {
     this.dataSchema = dataSchema;
   }
 
-  public MultipartEntityBuilder buildHttpBody(MultipartEntityBuilder builder) {
-    builder = super.buildHttpBody(builder);
+  @Override
+  public Map<String, String> getRequestParameters() {
+    var parameters = new HashMap<>(super.getRequestParameters());
+
     if (this.getRag() != null) {
-      builder.addTextBody("rag", this.getRag().toString().toLowerCase());
+      parameters.put("rag", this.getRag().toString().toLowerCase());
     }
     if (this.getRawText() != null) {
-      builder.addTextBody("raw_text", this.getRawText().toString().toLowerCase());
+      parameters.put("raw_text", this.getRawText().toString().toLowerCase());
     }
     if (this.getPolygon() != null) {
-      builder.addTextBody("polygon", this.getPolygon().toString().toLowerCase());
+      parameters.put("polygon", this.getPolygon().toString().toLowerCase());
     }
     if (this.getConfidence() != null) {
-      builder.addTextBody("confidence", this.getConfidence().toString().toLowerCase());
+      parameters.put("confidence", this.getConfidence().toString().toLowerCase());
     }
     if (this.getTextContext() != null) {
-      builder.addTextBody("text_context", this.getTextContext());
+      parameters.put("text_context", this.getTextContext());
     }
     if (this.getDataSchema() != null) {
-      builder.addTextBody("data_schema", this.getDataSchema());
+      parameters.put("data_schema", this.getDataSchema());
     }
-    return builder;
+
+    return parameters;
   }
 
   /**
@@ -96,7 +100,7 @@ public final class ExtractionParameters extends BaseParameters {
   /**
    * Fluent builder for {@link ExtractionParameters}.
    */
-  public static final class Builder extends BaseParameters.BaseBuilder<Builder> {
+  public static final class Builder extends BaseProductParameters.BaseBuilder<Builder> {
     private Boolean rag = null;
     private Boolean rawText = null;
     private Boolean polygon = null;

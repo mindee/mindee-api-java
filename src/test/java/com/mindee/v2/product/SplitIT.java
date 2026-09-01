@@ -3,7 +3,6 @@ package com.mindee.v2.product;
 import static com.mindee.TestingUtilities.getResourcePath;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.mindee.input.LocalInputSource;
 import com.mindee.v2.MindeeClient;
@@ -22,14 +21,14 @@ import org.junit.jupiter.api.TestInstance;
 @DisplayName("MindeeV2 – Integration Tests - Split")
 class SplitIT {
 
-  private MindeeClient mindeeClient;
+  private MindeeClient client;
   private String modelId;
 
   @BeforeAll
   void setUp() {
     var apiKey = System.getenv("MINDEE_V2_API_KEY");
     modelId = System.getenv("MINDEE_V2_SE_TESTS_SPLIT_MODEL_ID");
-    mindeeClient = new MindeeClient(apiKey);
+    client = new MindeeClient(apiKey);
   }
 
   @Test
@@ -47,8 +46,7 @@ class SplitIT {
       .maxRetries(80)
       .build();
 
-    var response = mindeeClient
-      .enqueueAndGetResult(SplitResponse.class, source, params, pollingOptions);
+    var response = client.enqueueAndGetResult(SplitResponse.class, source, params, pollingOptions);
     assertNotNull(response);
 
     var inference = response.getInference();
@@ -64,6 +62,6 @@ class SplitIT {
 
     var result = inference.getResult();
     assertNotNull(result);
-    assertTrue(result.getSplits().isEmpty());
+    assertEquals(1, result.getSplits().size());
   }
 }

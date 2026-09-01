@@ -2,7 +2,8 @@ package com.mindee.v2;
 
 import com.mindee.input.LocalInputSource;
 import com.mindee.input.URLInputSource;
-import com.mindee.v2.clientoptions.BaseParameters;
+import com.mindee.v2.clientoptions.BaseProductParameters;
+import com.mindee.v2.clientoptions.BaseSearchParameters;
 import com.mindee.v2.clientoptions.PollingOptions;
 import com.mindee.v2.http.MindeeApiV2;
 import com.mindee.v2.http.MindeeHttpApiV2;
@@ -10,6 +11,7 @@ import com.mindee.v2.http.MindeeHttpExceptionV2;
 import com.mindee.v2.parsing.CommonResponse;
 import com.mindee.v2.parsing.JobResponse;
 import com.mindee.v2.parsing.error.ErrorResponse;
+import com.mindee.v2.parsing.search.BaseSearchResponse;
 import com.mindee.v2.parsing.search.SearchResponse;
 import com.mindee.v2.product.extraction.ExtractionResponse;
 import java.io.IOException;
@@ -44,7 +46,7 @@ public class MindeeClient {
    */
   public JobResponse enqueue(
       LocalInputSource inputSource,
-      BaseParameters params
+      BaseProductParameters params
   ) throws IOException {
     return mindeeApi.reqPostEnqueue(inputSource, params);
   }
@@ -55,7 +57,10 @@ public class MindeeClient {
    * @param inputSource The URL input source to send.
    * @param params The parameters to send along with the file.
    */
-  public JobResponse enqueue(URLInputSource inputSource, BaseParameters params) throws IOException {
+  public JobResponse enqueue(
+      URLInputSource inputSource,
+      BaseProductParameters params
+  ) throws IOException {
     inputSource.validateSecure();
     return mindeeApi.reqPostEnqueue(inputSource, params);
   }
@@ -68,7 +73,7 @@ public class MindeeClient {
     if (jobId == null || jobId.trim().isEmpty()) {
       throw new IllegalArgumentException("jobId must not be null or blank.");
     }
-    return mindeeApi.reqGetJob(jobId);
+    return mindeeApi.reqGetJobById(jobId);
   }
 
   /**
@@ -82,7 +87,7 @@ public class MindeeClient {
     if (inferenceId == null || inferenceId.trim().isEmpty()) {
       throw new IllegalArgumentException("inferenceId must not be null or blank.");
     }
-    return mindeeApi.reqGetResult(responseClass, inferenceId);
+    return mindeeApi.reqGetResultById(responseClass, inferenceId);
   }
 
   /**
@@ -96,7 +101,7 @@ public class MindeeClient {
     if (inferenceUrl == null || inferenceUrl.trim().isEmpty()) {
       throw new IllegalArgumentException("inferenceUrl must not be null or blank.");
     }
-    return mindeeApi.reqGetResultFromUrl(responseClass, inferenceUrl);
+    return mindeeApi.reqGetResultByUrl(responseClass, inferenceUrl);
   }
 
   /**
@@ -112,7 +117,7 @@ public class MindeeClient {
   public <TResponse extends CommonResponse> TResponse enqueueAndGetResult(
       Class<TResponse> responseClass,
       LocalInputSource inputSource,
-      BaseParameters params
+      BaseProductParameters params
   ) throws IOException, InterruptedException {
     return enqueueAndGetResult(
       responseClass,
@@ -136,7 +141,7 @@ public class MindeeClient {
   public <TResponse extends CommonResponse> TResponse enqueueAndGetResult(
       Class<TResponse> responseClass,
       LocalInputSource inputSource,
-      BaseParameters params,
+      BaseProductParameters params,
       PollingOptions pollingOptions
   ) throws IOException, InterruptedException {
     JobResponse job = enqueue(inputSource, params);
@@ -156,7 +161,7 @@ public class MindeeClient {
   public <TResponse extends CommonResponse> TResponse enqueueAndGetResult(
       Class<TResponse> responseClass,
       URLInputSource inputSource,
-      BaseParameters params
+      BaseProductParameters params
   ) throws IOException, InterruptedException {
     return enqueueAndGetResult(
       responseClass,
@@ -180,7 +185,7 @@ public class MindeeClient {
   public <TResponse extends CommonResponse> TResponse enqueueAndGetResult(
       Class<TResponse> responseClass,
       URLInputSource inputSource,
-      BaseParameters params,
+      BaseProductParameters params,
       PollingOptions pollingOptions
   ) throws IOException, InterruptedException {
     inputSource.validateSecure();
@@ -189,10 +194,24 @@ public class MindeeClient {
   }
 
   /**
+   * Search for resources matching the given criteria.
+   *
+   * @param searchParameters Search parameters
+   */
+  public <TSearchResponse extends BaseSearchResponse> TSearchResponse search(
+      Class<TSearchResponse> responseClass,
+      BaseSearchParameters searchParameters
+  ) {
+    return mindeeApi.reqGetSearch(responseClass, searchParameters);
+  }
+
+  /**
    * Return all models.
    *
    * @return an instance of {@link SearchResponse}
+   * @deprecated Use {@link #search} instead.
    */
+  @Deprecated
   public SearchResponse searchModels() {
     return searchModels(null, null);
   }
@@ -202,7 +221,9 @@ public class MindeeClient {
    *
    * @param modelName name of the model to search for
    * @return an instance of {@link SearchResponse}
+   * @deprecated Use {@link #search} instead.
    */
+  @Deprecated
   public SearchResponse searchModels(String modelName) {
     return searchModels(modelName, null);
   }
@@ -213,7 +234,9 @@ public class MindeeClient {
    * @param modelName name of the model to search for
    * @param modelType type of the model to search for
    * @return an instance of {@link SearchResponse}
+   * @deprecated Use {@link #search} instead.
    */
+  @Deprecated
   public SearchResponse searchModels(String modelName, String modelType) {
     return mindeeApi.reqGetSearchModels(modelName, modelType);
   }

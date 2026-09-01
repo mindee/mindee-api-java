@@ -3,6 +3,7 @@ package com.mindee.v2.parsing.error;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
+import java.util.StringJoiner;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -50,6 +51,33 @@ public final class ErrorResponse {
   /** For prettier display. */
   @Override
   public String toString() {
-    return "HTTP " + status + " - " + title + " :: " + code + " - " + detail;
+    var joiner = new StringJoiner("\n");
+
+    joiner.add("Error Details");
+    joiner.add("=============");
+
+    joiner.add(":HTTP Status: " + status);
+    joiner.add(":Title: " + title);
+    joiner.add(":Code: " + code);
+    joiner.add(":Detail: " + detail);
+
+    if (errors != null && !errors.isEmpty()) {
+      joiner.add("");
+      joiner.add("Error Items");
+      joiner.add("-----------");
+
+      for (int i = 0; i < errors.size(); i++) {
+        var error = errors.get(i);
+        joiner.add("**Error " + (i + 1) + ":**");
+        joiner.add("  :Pointer: " + error.getPointer());
+        joiner.add("  :Detail: " + error.getDetail());
+
+        if (i < errors.size() - 1) {
+          joiner.add("");
+        }
+      }
+    }
+
+    return joiner.toString();
   }
 }
