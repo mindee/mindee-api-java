@@ -17,7 +17,6 @@ import com.mindee.v2.http.MindeeApiV2;
 import com.mindee.v2.parsing.CommonResponse;
 import com.mindee.v2.parsing.JobResponse;
 import com.mindee.v2.parsing.search.BaseSearchResponse;
-import com.mindee.v2.parsing.search.SearchResponse;
 import com.mindee.v2.product.extraction.ExtractionResponse;
 import com.mindee.v2.product.extraction.params.ExtractionParameters;
 import com.mindee.v2.search.models.ModelSearchResponse;
@@ -67,12 +66,6 @@ class MindeeClientTest {
         BaseSearchParameters parameters
     ) {
       return (TSearchResponse) new ModelSearchResponse();
-    }
-
-    @Override
-    @Deprecated
-    public SearchResponse reqGetSearchModels(String modelName, String modelType) {
-      return new SearchResponse();
     }
 
     @Override

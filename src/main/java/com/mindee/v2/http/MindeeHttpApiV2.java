@@ -12,7 +12,6 @@ import com.mindee.v2.parsing.CommonResponse;
 import com.mindee.v2.parsing.JobResponse;
 import com.mindee.v2.parsing.error.ErrorResponse;
 import com.mindee.v2.parsing.search.BaseSearchResponse;
-import com.mindee.v2.parsing.search.SearchResponse;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
@@ -171,25 +170,6 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
     parameters.getRequestParameters().forEach(url::addParameter);
     var get = new HttpGet(url.toString());
     return this.executeAPIRequest(get, responseClass);
-  }
-
-  @Override
-  @Deprecated
-  public SearchResponse reqGetSearchModels(String modelName, String modelType) {
-    URIBuilder url;
-    try {
-      url = new URIBuilder(this.mindeeSettings.getBaseUrl() + "/search/models");
-    } catch (URISyntaxException e) {
-      throw new RuntimeException(e);
-    }
-    if (modelName != null) {
-      url.addParameter("name", modelName);
-    }
-    if (modelType != null) {
-      url.addParameter("model_type", modelType);
-    }
-    var get = new HttpGet(url.toString());
-    return executeAPIRequest(get, SearchResponse.class);
   }
 
   /**

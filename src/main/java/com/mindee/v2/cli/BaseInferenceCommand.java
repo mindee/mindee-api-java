@@ -1,13 +1,10 @@
 package com.mindee.v2.cli;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.mindee.input.LocalInputSource;
 import com.mindee.v2.MindeeClient;
 import com.mindee.v2.parsing.CommonResponse;
 import java.io.File;
 import java.util.List;
-import java.util.concurrent.Callable;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
@@ -15,16 +12,13 @@ import picocli.CommandLine.Parameters;
  * Abstract base class for V2 inference CLI commands.
  * Handles common options (path, model-id, api-key, alias, output) and output formatting.
  */
-public abstract class BaseInferenceCommand implements Callable<Integer> {
+public abstract class BaseInferenceCommand extends BaseCommand {
 
   @Parameters(index = "0", paramLabel = "<path>", description = "The path of the file to parse")
   protected File file;
 
   @Option(names = { "-m", "--model-id" }, description = "ID of the model to use", required = true)
   protected String modelId;
-
-  @Option(names = { "-k", "--api-key" }, description = "Mindee V2 API key.")
-  protected String apiKey;
 
   @Option(names = { "-a", "--alias" }, description = "Alias for the file")
   protected String alias;
@@ -34,23 +28,6 @@ public abstract class BaseInferenceCommand implements Callable<Integer> {
       description = "Specify a webhook by ID. May be used multiple times."
   )
   private List<String> webhookIds;
-
-  /** Output format for the command. */
-  public enum OutputType {
-    summary,
-    full,
-    raw
-  }
-
-  @Option(
-      names = { "-o", "--output" },
-      description = "Specify how to output the data.\n"
-        + "- summary: a basic summary (default)\n"
-        + "- full: detail extraction results, including options\n"
-        + "- raw: full JSON object",
-      defaultValue = "summary"
-  )
-  protected OutputType output;
 
   /**
    * @return The properly formatted webhook IDs.
@@ -72,48 +49,12 @@ public abstract class BaseInferenceCommand implements Callable<Integer> {
       LocalInputSource inputSource
   ) throws Exception;
 
-  /**
-   * Returns the summary (result-only) string for the given response.
-   * Override in each product command.
-   *
-   * @param response the product response
-   * @return the summary string
-   */
-  protected abstract String getSummary(CommonResponse response);
-
-  /**
-   * Returns the full (inference + options + result) string for the given response.
-   * Defaults to the same as {@link #getSummary}; override for richer output.
-   *
-   * @param response the product response
-   * @return the full output string
-   */
-  protected String getFullOutput(CommonResponse response) {
-    return getSummary(response);
-  }
-
   @Override
   public Integer call() throws Exception {
-    var client = new MindeeClient(apiKey != null ? apiKey : "");
+    var client = new MindeeClient(String.valueOf(apiKey));
     var inputSource = new LocalInputSource(file);
     var response = executeRequest(client, inputSource);
     printOutput(response);
     return 0;
-  }
-
-  private void printOutput(CommonResponse response) throws Exception {
-    switch (output) {
-      case full:
-        System.out.println(getFullOutput(response));
-        break;
-      case raw:
-        var mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
-        var jsonNode = mapper.readTree(response.getRawResponse());
-        System.out.println(mapper.writeValueAsString(jsonNode));
-        break;
-      default:
-        System.out.println(getSummary(response));
-        break;
-    }
   }
 }

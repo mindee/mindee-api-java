@@ -10,7 +10,6 @@ import com.mindee.v2.parsing.CommonResponse;
 import com.mindee.v2.parsing.JobResponse;
 import com.mindee.v2.parsing.error.ErrorResponse;
 import com.mindee.v2.parsing.search.BaseSearchResponse;
-import com.mindee.v2.parsing.search.SearchResponse;
 import com.mindee.v2.product.ProductAttributes;
 import java.io.IOException;
 
@@ -75,15 +74,6 @@ public abstract class MindeeApiV2 extends MindeeApiCommon {
   );
 
   /**
-   * Retrieves a list of models.
-   *
-   * @param modelName search term for model name
-   * @param modelType search term for model type
-   */
-  @Deprecated
-  public abstract SearchResponse reqGetSearchModels(String modelName, String modelType);
-
-  /**
    * Creates an "unknown error" response from an HTTP status code.
    */
   protected ErrorResponse makeUnknownError(int statusCode) {
@@ -102,19 +92,19 @@ public abstract class MindeeApiV2 extends MindeeApiCommon {
     var productInfo = responseClass.getAnnotation(ProductAttributes.class);
     if (productInfo == null) {
       throw new MindeeException(
-        "The class " + responseClass.getSimpleName() + " is not annotated with @ProductInfo"
+        "The class " + responseClass.getSimpleName() + " is not annotated with @ProductAttributes"
       );
     }
     return productInfo;
   }
 
   protected ProductAttributes getParamsProductAttributes(
-      Class<? extends BaseProductParameters> responseClass
+      Class<? extends BaseProductParameters> paramsClass
   ) {
-    var productInfo = responseClass.getAnnotation(ProductAttributes.class);
+    var productInfo = paramsClass.getAnnotation(ProductAttributes.class);
     if (productInfo == null) {
       throw new MindeeException(
-        "The class " + responseClass.getSimpleName() + " is not annotated with @ProductInfo"
+        "The class " + paramsClass.getSimpleName() + " is not annotated with @ProductAttributes"
       );
     }
     return productInfo;

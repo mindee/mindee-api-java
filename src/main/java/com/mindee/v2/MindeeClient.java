@@ -14,6 +14,7 @@ import com.mindee.v2.parsing.error.ErrorResponse;
 import com.mindee.v2.parsing.search.BaseSearchResponse;
 import com.mindee.v2.parsing.search.SearchResponse;
 import com.mindee.v2.product.extraction.ExtractionResponse;
+import com.mindee.v2.search.models.ModelSearchParameters;
 import java.io.IOException;
 import java.util.concurrent.CancellationException;
 
@@ -213,7 +214,7 @@ public class MindeeClient {
    */
   @Deprecated
   public SearchResponse searchModels() {
-    return searchModels(null, null);
+    return search(SearchResponse.class, null);
   }
 
   /**
@@ -225,7 +226,7 @@ public class MindeeClient {
    */
   @Deprecated
   public SearchResponse searchModels(String modelName) {
-    return searchModels(modelName, null);
+    return search(SearchResponse.class, ModelSearchParameters.builder().name(modelName).build());
   }
 
   /**
@@ -238,7 +239,10 @@ public class MindeeClient {
    */
   @Deprecated
   public SearchResponse searchModels(String modelName, String modelType) {
-    return mindeeApi.reqGetSearchModels(modelName, modelType);
+    return search(
+      SearchResponse.class,
+      ModelSearchParameters.builder().name(modelName).modelType(modelType).build()
+    );
   }
 
   /**
