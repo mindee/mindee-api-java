@@ -42,7 +42,6 @@ public class SearchModelsCommand extends BaseCommand {
     var client = new MindeeClient(apiKey);
     var response = client
       .search(
-        ModelSearchResponse.class,
         ModelSearchParameters
           .builder()
           .name(name)

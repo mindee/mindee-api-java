@@ -10,7 +10,9 @@ import com.mindee.v2.parsing.CommonResponse;
 import com.mindee.v2.parsing.JobResponse;
 import com.mindee.v2.parsing.error.ErrorResponse;
 import com.mindee.v2.parsing.search.BaseSearchResponse;
+import com.mindee.v2.parsing.search.SearchResponse;
 import com.mindee.v2.product.ProductAttributes;
+import com.mindee.v2.search.models.ModelSearchParameters;
 import java.io.IOException;
 
 /**
@@ -69,9 +71,11 @@ public abstract class MindeeApiV2 extends MindeeApiCommon {
    * Retrieves a list of resources with the given criteria.
    */
   public abstract <TSearchResponse extends BaseSearchResponse> TSearchResponse reqGetSearch(
-      Class<TSearchResponse> responseClass,
-      BaseSearchParameters parameters
+      BaseSearchParameters<TSearchResponse> parameters
   );
+
+  @Deprecated
+  public abstract SearchResponse reqGetSearch(ModelSearchParameters parameters);
 
   /**
    * Creates an "unknown error" response from an HTTP status code.
@@ -86,7 +90,7 @@ public abstract class MindeeApiV2 extends MindeeApiCommon {
     );
   }
 
-  protected ProductAttributes getResponseProductInfo(
+  protected ProductAttributes getResponseProductAttributes(
       Class<? extends CommonResponse> responseClass
   ) {
     var productInfo = responseClass.getAnnotation(ProductAttributes.class);

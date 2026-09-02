@@ -22,7 +22,7 @@ public class SearchRagDocumentsCommand extends BaseCommand {
 
   @Option(
       names = { "-f", "--filename" },
-      description = "Filter by model name partial match (case insensitive)."
+      description = "Filter by file name partial match (case insensitive)."
   )
   private String filename;
 
@@ -40,13 +40,7 @@ public class SearchRagDocumentsCommand extends BaseCommand {
   public Integer call() throws Exception {
     var client = new MindeeClient(apiKey);
     var response = client
-      .search(
-        RagDocumentSearchResponse.class,
-        RagDocumentSearchParameters
-          .builder(modelId)
-          .filename(filename != null ? filename : null)
-          .build()
-      );
+      .search(RagDocumentSearchParameters.builder(modelId).filename(filename).build());
     printOutput(response);
     return 0;
   }

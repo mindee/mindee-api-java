@@ -11,7 +11,7 @@ import lombok.Getter;
  */
 @Getter
 @EqualsAndHashCode(callSuper = true)
-public class ModelSearchParameters extends BaseSearchParameters {
+public class ModelSearchParameters extends BaseSearchParameters<ModelSearchResponse> {
   /**
    * Case-insensitive search term for the model name
    */
@@ -23,7 +23,7 @@ public class ModelSearchParameters extends BaseSearchParameters {
   private final String modelType;
 
   private ModelSearchParameters(String name, String modelType, Integer page, Integer perPage) {
-    super(page, perPage);
+    super(ModelSearchResponse.class, page, perPage);
     this.name = name;
     this.modelType = modelType;
   }

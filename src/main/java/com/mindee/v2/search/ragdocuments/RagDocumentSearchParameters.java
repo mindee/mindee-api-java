@@ -11,7 +11,7 @@ import lombok.Getter;
  */
 @Getter
 @EqualsAndHashCode(callSuper = true)
-public class RagDocumentSearchParameters extends BaseSearchParameters {
+public class RagDocumentSearchParameters extends BaseSearchParameters<RagDocumentSearchResponse> {
   /**
    * Model identifier to search in.
    */
@@ -28,7 +28,7 @@ public class RagDocumentSearchParameters extends BaseSearchParameters {
       Integer page,
       Integer perPage
   ) {
-    super(page, perPage);
+    super(RagDocumentSearchResponse.class, page, perPage);
     if (modelId == null || modelId.trim().isEmpty()) {
       throw new IllegalArgumentException("ModelId is required in RagDocumentSearchParameters");
     }

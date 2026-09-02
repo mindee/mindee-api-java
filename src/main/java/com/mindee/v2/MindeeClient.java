@@ -16,6 +16,7 @@ import com.mindee.v2.parsing.search.SearchResponse;
 import com.mindee.v2.product.extraction.ExtractionResponse;
 import com.mindee.v2.search.models.ModelSearchParameters;
 import java.io.IOException;
+import java.util.Objects;
 import java.util.concurrent.CancellationException;
 
 /**
@@ -200,10 +201,10 @@ public class MindeeClient {
    * @param searchParameters Search parameters
    */
   public <TSearchResponse extends BaseSearchResponse> TSearchResponse search(
-      Class<TSearchResponse> responseClass,
-      BaseSearchParameters searchParameters
+      BaseSearchParameters<TSearchResponse> searchParameters
   ) {
-    return mindeeApi.reqGetSearch(responseClass, searchParameters);
+    Objects.requireNonNull(searchParameters);
+    return mindeeApi.reqGetSearch(searchParameters);
   }
 
   /**
@@ -214,7 +215,7 @@ public class MindeeClient {
    */
   @Deprecated
   public SearchResponse searchModels() {
-    return search(SearchResponse.class, ModelSearchParameters.builder().build());
+    return mindeeApi.reqGetSearch(ModelSearchParameters.builder().build());
   }
 
   /**
@@ -226,7 +227,7 @@ public class MindeeClient {
    */
   @Deprecated
   public SearchResponse searchModels(String modelName) {
-    return search(SearchResponse.class, ModelSearchParameters.builder().name(modelName).build());
+    return mindeeApi.reqGetSearch(ModelSearchParameters.builder().name(modelName).build());
   }
 
   /**
@@ -239,10 +240,8 @@ public class MindeeClient {
    */
   @Deprecated
   public SearchResponse searchModels(String modelName, String modelType) {
-    return search(
-      SearchResponse.class,
-      ModelSearchParameters.builder().name(modelName).modelType(modelType).build()
-    );
+    return mindeeApi
+      .reqGetSearch(ModelSearchParameters.builder().name(modelName).modelType(modelType).build());
   }
 
   /**

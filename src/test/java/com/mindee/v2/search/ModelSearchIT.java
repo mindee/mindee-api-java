@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.mindee.v2.MindeeClient;
+import com.mindee.v2.parsing.search.SearchResponse;
 import com.mindee.v2.search.models.ModelSearchParameters;
 import com.mindee.v2.search.models.ModelSearchResponse;
 import org.junit.jupiter.api.BeforeAll;
@@ -27,8 +28,7 @@ public class ModelSearchIT {
 
   @Test
   public void ModelSearch_mustHaveResults() throws Exception {
-    ModelSearchResponse response = client
-      .search(ModelSearchResponse.class, ModelSearchParameters.builder().build());
+    ModelSearchResponse response = client.search(ModelSearchParameters.builder().build());
 
     assertNotNull(response);
     assertNotNull(response.getModels());
@@ -41,10 +41,7 @@ public class ModelSearchIT {
   @Test
   public void ModelSearch_mustReturnEmpty() throws Exception {
     ModelSearchResponse response = client
-      .search(
-        ModelSearchResponse.class,
-        ModelSearchParameters.builder().name("je n'existe pas tralala").build()
-      );
+      .search(ModelSearchParameters.builder().name("je n'existe pas tralala").build());
 
     assertNotNull(response);
     assertNotNull(response.getModels());
@@ -57,7 +54,7 @@ public class ModelSearchIT {
   @Test
   @SuppressWarnings("deprecation")
   public void ModelSearch_mustReturnEmptyObsolete() throws Exception {
-    ModelSearchResponse response = client.searchModels("je n'existe pas tralala");
+    SearchResponse response = client.searchModels("je n'existe pas tralala");
 
     assertNotNull(response);
     assertNotNull(response.getModels());

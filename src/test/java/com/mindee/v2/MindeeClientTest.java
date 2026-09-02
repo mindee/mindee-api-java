@@ -17,8 +17,10 @@ import com.mindee.v2.http.MindeeApiV2;
 import com.mindee.v2.parsing.CommonResponse;
 import com.mindee.v2.parsing.JobResponse;
 import com.mindee.v2.parsing.search.BaseSearchResponse;
+import com.mindee.v2.parsing.search.SearchResponse;
 import com.mindee.v2.product.extraction.ExtractionResponse;
 import com.mindee.v2.product.extraction.params.ExtractionParameters;
+import com.mindee.v2.search.models.ModelSearchParameters;
 import com.mindee.v2.search.models.ModelSearchResponse;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -62,10 +64,15 @@ class MindeeClientTest {
 
     @Override
     public <TSearchResponse extends BaseSearchResponse> TSearchResponse reqGetSearch(
-        Class<TSearchResponse> responseClass,
-        BaseSearchParameters parameters
+        BaseSearchParameters<TSearchResponse> parameters
     ) {
       return (TSearchResponse) new ModelSearchResponse();
+    }
+
+    @Override
+    @Deprecated
+    public SearchResponse reqGetSearch(ModelSearchParameters parameters) {
+      return new SearchResponse();
     }
 
     @Override

@@ -12,6 +12,8 @@ import com.mindee.v2.parsing.CommonResponse;
 import com.mindee.v2.parsing.JobResponse;
 import com.mindee.v2.parsing.error.ErrorResponse;
 import com.mindee.v2.parsing.search.BaseSearchResponse;
+import com.mindee.v2.parsing.search.SearchResponse;
+import com.mindee.v2.search.models.ModelSearchParameters;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
@@ -131,7 +133,7 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
       Class<TResponse> responseClass,
       String inferenceId
   ) {
-    var productInfo = getResponseProductInfo(responseClass);
+    var productInfo = getResponseProductAttributes(responseClass);
     var url = String
       .format(
         "%s/products/%s/results/%s",
@@ -157,10 +159,9 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
 
   @Override
   public <TSearchResponse extends BaseSearchResponse> TSearchResponse reqGetSearch(
-      Class<TSearchResponse> responseClass,
-      BaseSearchParameters parameters
+      BaseSearchParameters<TSearchResponse> parameters
   ) {
-    var productInfo = getResponseProductInfo(responseClass);
+    var productInfo = getResponseProductAttributes(parameters.getResponseClass());
     URIBuilder url;
     try {
       url = new URIBuilder(this.mindeeSettings.getBaseUrl() + "/search/" + productInfo.slug());
@@ -169,7 +170,21 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
     }
     parameters.getRequestParameters().forEach(url::addParameter);
     var get = new HttpGet(url.toString());
-    return this.executeAPIRequest(get, responseClass);
+    return this.executeAPIRequest(get, parameters.getResponseClass());
+  }
+
+  @Override
+  @Deprecated
+  public SearchResponse reqGetSearch(ModelSearchParameters parameters) {
+    URIBuilder url;
+    try {
+      url = new URIBuilder(this.mindeeSettings.getBaseUrl() + "/search/models");
+    } catch (URISyntaxException e) {
+      throw new RuntimeException(e);
+    }
+    parameters.getRequestParameters().forEach(url::addParameter);
+    var get = new HttpGet(url.toString());
+    return this.executeAPIRequest(get, SearchResponse.class);
   }
 
   /**

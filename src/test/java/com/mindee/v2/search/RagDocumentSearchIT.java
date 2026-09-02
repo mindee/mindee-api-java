@@ -28,10 +28,7 @@ public class RagDocumentSearchIT {
   @Test
   public void RagDocumentSearch_mustHaveResults() throws Exception {
     RagDocumentSearchResponse response = client
-      .search(
-        RagDocumentSearchResponse.class,
-        RagDocumentSearchParameters.builder(findocModelId).build()
-      );
+      .search(RagDocumentSearchParameters.builder(findocModelId).build());
 
     assertNotNull(response);
     assertNotNull(response.getRagDocuments());
