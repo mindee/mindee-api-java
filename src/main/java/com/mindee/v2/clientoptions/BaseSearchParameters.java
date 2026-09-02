@@ -24,10 +24,16 @@ public abstract class BaseSearchParameters {
   public Map<String, String> getRequestParameters() {
     var parameters = new HashMap<String, String>();
 
-    if (this.getPage() != null && this.getPage() > 0) {
+    if (this.getPage() != null) {
+      if (this.getPage() <= 0) {
+        throw new IllegalArgumentException("page must be greater than 0");
+      }
       parameters.put("page", String.valueOf(getPage()));
     }
-    if (this.getPerPage() != null && this.getPerPage() > 0) {
+    if (this.getPerPage() != null) {
+      if (this.getPerPage() <= 0) {
+        throw new IllegalArgumentException("perPage must be greater than 0");
+      }
       parameters.put("per_page", String.valueOf(getPerPage()));
     }
 

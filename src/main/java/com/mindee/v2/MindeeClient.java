@@ -214,7 +214,7 @@ public class MindeeClient {
    */
   @Deprecated
   public SearchResponse searchModels() {
-    return search(SearchResponse.class, null);
+    return search(SearchResponse.class, ModelSearchParameters.builder().build());
   }
 
   /**
