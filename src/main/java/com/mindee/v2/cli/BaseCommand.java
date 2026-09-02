@@ -7,11 +7,15 @@ import java.util.concurrent.Callable;
 import picocli.CommandLine;
 
 /**
- * Abstract base class for V2 inference CLI commands.
- * Handles common options (path, model-id, api-key, alias, output) and output formatting.
+ * Abstract base class for all V2 CLI commands.
+ * Handles common options and output formatting.
  */
 public abstract class BaseCommand implements Callable<Integer> {
-  @CommandLine.Option(names = { "-k", "--api-key" }, description = "Mindee V2 API key.")
+  @CommandLine.Option(
+      names = { "-k", "--api-key" },
+      description = "Mindee V2 API key.",
+      defaultValue = ""
+  )
   protected String apiKey;
 
   /** Output format for the command. */
@@ -24,8 +28,8 @@ public abstract class BaseCommand implements Callable<Integer> {
   @CommandLine.Option(
       names = { "-o", "--output" },
       description = "Specify how to output the data.\n"
-        + "- summary: a basic summary (default)\n"
-        + "- full: detail extraction results, including options\n"
+        + "- summary: basic formatted response (default)\n"
+        + "- full: complete formatted response\n"
         + "- raw: full JSON object",
       defaultValue = "summary"
   )
@@ -38,7 +42,7 @@ public abstract class BaseCommand implements Callable<Integer> {
    * @param response the response
    * @return the summary string
    */
-  protected abstract String getSummary(CommonResponse response);
+  protected abstract String getSummaryOutput(CommonResponse response);
 
   /**
    * Returns the full string for the given response.
@@ -62,7 +66,7 @@ public abstract class BaseCommand implements Callable<Integer> {
         System.out.println(mapper.writeValueAsString(jsonNode));
         break;
       default:
-        System.out.println(getSummary(response));
+        System.out.println(getSummaryOutput(response));
         break;
     }
   }

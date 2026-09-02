@@ -5,11 +5,11 @@ package com.mindee;
  */
 public class MindeeException extends RuntimeException {
 
-  public MindeeException(String errorMessage, Throwable err) {
-    super(errorMessage, err);
+  public MindeeException(String message, Throwable cause) {
+    super(message, cause);
   }
 
-  public MindeeException(String errorMessage) {
-    super(errorMessage);
+  public MindeeException(String message) {
+    super(message);
   }
 }

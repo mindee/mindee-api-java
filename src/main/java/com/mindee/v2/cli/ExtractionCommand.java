@@ -11,18 +11,14 @@ import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
 /**
- * CLI command for the V2 generic all-purpose extraction utility.
+ * CLI command for the V2 extraction product.
  */
-@Command(
-    name = "extraction",
-    description = "Generic all-purpose extraction.",
-    mixinStandardHelpOptions = true
-)
+@Command(name = "extraction", description = "Extraction product.", mixinStandardHelpOptions = true)
 public class ExtractionCommand extends BaseInferenceCommand {
 
   @Option(
       names = { "-g", "--rag" },
-      description = "Enable RAG context. Only valid for 'extraction' product.",
+      description = "Enable RAG context. False by default.",
       defaultValue = "false"
   )
   private boolean rag;
@@ -77,7 +73,7 @@ public class ExtractionCommand extends BaseInferenceCommand {
   }
 
   @Override
-  protected String getSummary(CommonResponse response) {
+  protected String getSummaryOutput(CommonResponse response) {
     return ((ExtractionResponse) response).getInference().getResult().toString();
   }
 

@@ -74,7 +74,9 @@ public class RagDocumentSearchParameters extends BaseSearchParameters {
      * Case-insensitive substring search on filename.
      */
     public Builder filename(String filename) {
-      this.filename = filename;
+      if (filename != null && !filename.isEmpty()) {
+        this.filename = filename;
+      }
       return this;
     }
 

@@ -285,15 +285,15 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
           ? ""
           : EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
 
-      var err = mapper.readValue(rawBody, ErrorResponse.class);
+      var errorResponse = mapper.readValue(rawBody, ErrorResponse.class);
 
-      if (err.getDetail() == null) {
-        err = makeUnknownError(response.getCode());
+      if (errorResponse.getDetail() == null) {
+        errorResponse = makeUnknownError(response.getCode());
       }
-      return new MindeeHttpExceptionV2(err.getStatus(), err.getDetail());
+      return new MindeeHttpExceptionV2(errorResponse);
 
-    } catch (Exception e) {
-      return new MindeeHttpExceptionV2(response.getCode(), "Unknown error");
+    } catch (Exception exception) {
+      return new MindeeHttpExceptionV2(makeUnknownError(response.getCode()), exception);
     }
   }
 
@@ -329,15 +329,15 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
       }
     }
 
-    ErrorResponse err;
+    ErrorResponse errorResponse;
     try {
-      err = mapper.readValue(body, ErrorResponse.class);
-      if (err.getDetail() == null) {
-        err = makeUnknownError(httpStatus);
+      errorResponse = mapper.readValue(body, ErrorResponse.class);
+      if (errorResponse.getDetail() == null) {
+        errorResponse = makeUnknownError(httpStatus);
       }
     } catch (Exception ignored) {
-      err = makeUnknownError(httpStatus);
+      errorResponse = makeUnknownError(httpStatus);
     }
-    throw new MindeeHttpExceptionV2(err.getStatus(), err.getDetail());
+    throw new MindeeHttpExceptionV2(errorResponse);
   }
 }

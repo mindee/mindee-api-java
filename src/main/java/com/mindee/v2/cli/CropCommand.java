@@ -8,9 +8,9 @@ import com.mindee.v2.product.crop.params.CropParameters;
 import picocli.CommandLine.Command;
 
 /**
- * CLI command for the V2 crop utility.
+ * CLI command for the V2 crop product.
  */
-@Command(name = "crop", description = "Crop utility.", mixinStandardHelpOptions = true)
+@Command(name = "crop", description = "Crop product.", mixinStandardHelpOptions = true)
 public class CropCommand extends BaseInferenceCommand {
 
   @Override
@@ -27,7 +27,7 @@ public class CropCommand extends BaseInferenceCommand {
   }
 
   @Override
-  protected String getSummary(CommonResponse response) {
+  protected String getSummaryOutput(CommonResponse response) {
     return ((CropResponse) response).getInference().getResult().toString();
   }
 

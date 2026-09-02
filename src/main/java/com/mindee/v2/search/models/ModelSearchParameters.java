@@ -65,7 +65,9 @@ public class ModelSearchParameters extends BaseSearchParameters {
      * Case-insensitive search term for the model name
      */
     public Builder name(String name) {
-      this.name = name;
+      if (name != null && !name.isEmpty()) {
+        this.name = name;
+      }
       return this;
     }
 
@@ -73,7 +75,9 @@ public class ModelSearchParameters extends BaseSearchParameters {
      * Case-insensitive search term for the model type
      */
     public Builder modelType(String modelType) {
-      this.modelType = modelType;
+      if (modelType != null && !modelType.trim().isEmpty()) {
+        this.modelType = modelType;
+      }
       return this;
     }
 

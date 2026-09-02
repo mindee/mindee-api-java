@@ -280,9 +280,9 @@ public class MindeeClient {
       attempts++;
     }
 
-    ErrorResponse error = resp.getJob().getError();
-    if (error != null) {
-      throw new MindeeHttpExceptionV2(error.getStatus(), error.getDetail());
+    ErrorResponse errorResponse = resp.getJob().getError();
+    if (errorResponse != null) {
+      throw new MindeeHttpExceptionV2(errorResponse);
     }
     throw new RuntimeException("Max retries exceeded (" + max + ").");
   }

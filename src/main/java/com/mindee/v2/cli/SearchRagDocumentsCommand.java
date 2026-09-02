@@ -27,7 +27,7 @@ public class SearchRagDocumentsCommand extends BaseCommand {
   private String filename;
 
   @Override
-  protected String getSummary(CommonResponse response) {
+  protected String getSummaryOutput(CommonResponse response) {
     return ((RagDocumentSearchResponse) response).getRagDocuments().toString();
   }
 
@@ -38,11 +38,14 @@ public class SearchRagDocumentsCommand extends BaseCommand {
 
   @Override
   public Integer call() throws Exception {
-    var client = new MindeeClient(String.valueOf(apiKey));
+    var client = new MindeeClient(apiKey);
     var response = client
       .search(
         RagDocumentSearchResponse.class,
-        RagDocumentSearchParameters.builder(modelId).filename(filename).build()
+        RagDocumentSearchParameters
+          .builder(modelId)
+          .filename(filename != null ? filename : null)
+          .build()
       );
     printOutput(response);
     return 0;

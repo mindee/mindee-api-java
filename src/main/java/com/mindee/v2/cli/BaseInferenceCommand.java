@@ -10,7 +10,7 @@ import picocli.CommandLine.Parameters;
 
 /**
  * Abstract base class for V2 inference CLI commands.
- * Handles common options (path, model-id, api-key, alias, output) and output formatting.
+ * Handles common enqueue options.
  */
 public abstract class BaseInferenceCommand extends BaseCommand {
 
@@ -20,7 +20,10 @@ public abstract class BaseInferenceCommand extends BaseCommand {
   @Option(names = { "-m", "--model-id" }, description = "ID of the model to use", required = true)
   protected String modelId;
 
-  @Option(names = { "-a", "--alias" }, description = "Alias for the file")
+  @Option(
+      names = { "-a", "--alias" },
+      description = "A free-form string to tag the request with your own identifier."
+  )
   protected String alias;
 
   @Option(
@@ -51,7 +54,7 @@ public abstract class BaseInferenceCommand extends BaseCommand {
 
   @Override
   public Integer call() throws Exception {
-    var client = new MindeeClient(String.valueOf(apiKey));
+    var client = new MindeeClient(apiKey);
     var inputSource = new LocalInputSource(file);
     var response = executeRequest(client, inputSource);
     printOutput(response);

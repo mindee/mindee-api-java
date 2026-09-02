@@ -39,18 +39,22 @@ public class SearchModelsCommand extends BaseCommand {
 
   @Override
   public Integer call() throws Exception {
-    var client = new MindeeClient(String.valueOf(apiKey));
+    var client = new MindeeClient(apiKey);
     var response = client
       .search(
         ModelSearchResponse.class,
-        ModelSearchParameters.builder().name(name).modelType(String.valueOf(modelType)).build()
+        ModelSearchParameters
+          .builder()
+          .name(name)
+          .modelType(modelType != null ? modelType.name() : null)
+          .build()
       );
     printOutput(response);
     return 0;
   }
 
   @Override
-  protected String getSummary(CommonResponse response) {
+  protected String getSummaryOutput(CommonResponse response) {
     return ((ModelSearchResponse) response).getModels().toString();
   }
 

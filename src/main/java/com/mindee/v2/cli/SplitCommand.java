@@ -27,7 +27,7 @@ public class SplitCommand extends BaseInferenceCommand {
   }
 
   @Override
-  protected String getSummary(CommonResponse response) {
+  protected String getSummaryOutput(CommonResponse response) {
     return ((SplitResponse) response).getInference().getResult().toString();
   }
 
