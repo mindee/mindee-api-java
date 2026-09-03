@@ -233,7 +233,7 @@ class MindeeClientTest {
   }
 
   @Nested
-  @DisplayName("polling with cancellation and backoff")
+  @DisplayName("polling with cancellation")
   class Polling {
     private JobResponse processing() throws JsonProcessingException {
       String json = "{\"job\": {\"id\": \"dummy-id\", \"status\": \"Processing\"}}";
@@ -284,21 +284,5 @@ class MindeeClientTest {
       assertTrue(jobCalls.get() >= 1, "at least one poll should occur before cancellation");
     }
 
-    @Test
-    @DisplayName("interval grows with backoff up to maxIntervalSec")
-    void polling_backoff_caps() {
-      var options = PollingOptions
-        .builder()
-        .intervalSec(1.0)
-        .backoffMultiplier(2.0)
-        .maxIntervalSec(5.0)
-        .build();
-
-      double interval = options.getIntervalSec();
-      for (int i = 0; i < 10; i++) {
-        interval = Math.min(interval * options.getBackoffMultiplier(), options.getMaxIntervalSec());
-      }
-      assertEquals(5.0, interval);
-    }
   }
 }
