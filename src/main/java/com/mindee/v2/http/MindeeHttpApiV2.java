@@ -133,6 +133,9 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
       Class<TResponse> responseClass,
       String inferenceId
   ) {
+    if (inferenceId == null || inferenceId.trim().isEmpty()) {
+      throw new IllegalArgumentException("inferenceId cannot be null or empty.");
+    }
     var productInfo = getResponseProductAttributes(responseClass);
     var url = String
       .format(
@@ -150,7 +153,7 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
       String inferenceUrl
   ) {
     if (inferenceUrl == null || inferenceUrl.trim().isEmpty()) {
-      throw new IllegalArgumentException("inferenceUrl must not be null or blank.");
+      throw new IllegalArgumentException("inferenceUrl cannot be null or empty.");
     }
     validateInferenceUrl(inferenceUrl);
     var get = new HttpGet(inferenceUrl);
