@@ -261,12 +261,10 @@ public class MindeeClient {
     JobResponse resp = initialJob;
     int attempts = 0;
     int max = pollingOptions.getMaxRetries();
-    double currentIntervalSec = pollingOptions.getIntervalSec();
-    double maxIntervalSec = pollingOptions.getMaxIntervalSec();
-    double backoffMultiplier = pollingOptions.getBackoffMultiplier();
+    long intervalMillis = (long) (pollingOptions.getIntervalSec() * 1000);
 
     while (attempts < max) {
-      interruptibleSleep((long) (currentIntervalSec * 1000), pollingOptions);
+      interruptibleSleep(intervalMillis, pollingOptions);
       resp = getJob(initialJob.getJob().getId());
 
       if (resp.getJob().getStatus().equals("Failed")) {
@@ -275,7 +273,6 @@ public class MindeeClient {
       if (resp.getJob().getStatus().equals("Processed")) {
         return getResult(responseClass, resp.getJob().getId());
       }
-      currentIntervalSec = Math.min(currentIntervalSec * backoffMultiplier, maxIntervalSec);
       attempts++;
     }
 
