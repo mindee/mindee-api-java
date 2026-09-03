@@ -41,6 +41,7 @@ com.mindee.v2.parsing.error
 com.mindee.v2.parsing.inference
 com.mindee.v2.parsing.inference.field
 com.mindee.v2.parsing.search
+com.mindee.v2.product
 com.mindee.v2.product.classification
 com.mindee.v2.product.classification.params
 com.mindee.v2.product.crop
@@ -51,3 +52,5 @@ com.mindee.v2.product.ocr
 com.mindee.v2.product.ocr.params
 com.mindee.v2.product.split
 com.mindee.v2.product.split.params
+com.mindee.v2.search.models
+com.mindee.v2.search.ragdocuments
