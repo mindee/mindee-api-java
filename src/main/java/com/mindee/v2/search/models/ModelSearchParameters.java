@@ -22,8 +22,18 @@ public class ModelSearchParameters extends BaseSearchParameters<ModelSearchRespo
    */
   private final String modelType;
 
+  /**
+   * Default constructor.
+   */
   private ModelSearchParameters(String name, String modelType, Integer page, Integer perPage) {
     super(ModelSearchResponse.class, page, perPage);
+    if ("".equals(name)) {
+      throw new IllegalArgumentException("name cannot be an empty string.");
+    }
+    if (modelType != null && modelType.trim().isEmpty()) {
+      throw new IllegalArgumentException("modelType cannot be whitespace");
+    }
+
     this.name = name;
     this.modelType = modelType;
   }
@@ -32,11 +42,11 @@ public class ModelSearchParameters extends BaseSearchParameters<ModelSearchRespo
   public Map<String, String> getRequestParameters() {
     var parameters = new HashMap<>(super.getRequestParameters());
 
-    if (this.getName() != null && !this.getName().isEmpty()) {
-      parameters.put("name", this.getName());
+    if (getName() != null) {
+      parameters.put("name", getName());
     }
-    if (this.getModelType() != null && !this.getModelType().isEmpty()) {
-      parameters.put("model_type", this.getModelType());
+    if (getModelType() != null) {
+      parameters.put("model_type", getModelType());
     }
 
     return parameters;
@@ -65,9 +75,7 @@ public class ModelSearchParameters extends BaseSearchParameters<ModelSearchRespo
      * Case-insensitive search term for the model name
      */
     public Builder name(String name) {
-      if (name != null && !name.isEmpty()) {
-        this.name = name;
-      }
+      this.name = name;
       return this;
     }
 
@@ -75,9 +83,7 @@ public class ModelSearchParameters extends BaseSearchParameters<ModelSearchRespo
      * Case-insensitive search term for the model type
      */
     public Builder modelType(String modelType) {
-      if (modelType != null && !modelType.trim().isEmpty()) {
-        this.modelType = modelType;
-      }
+      this.modelType = modelType;
       return this;
     }
 

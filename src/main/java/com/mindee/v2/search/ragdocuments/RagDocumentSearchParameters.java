@@ -30,9 +30,13 @@ public class RagDocumentSearchParameters extends BaseSearchParameters<RagDocumen
   ) {
     super(RagDocumentSearchResponse.class, page, perPage);
     if (modelId == null || modelId.trim().isEmpty()) {
-      throw new IllegalArgumentException("ModelId is required in RagDocumentSearchParameters");
+      throw new IllegalArgumentException("modelId cannot be null or whitespace.");
     }
-    this.modelId = modelId;
+    if ("".equals(filename)) {
+      throw new IllegalArgumentException("filename cannot be an empty string.");
+    }
+
+    this.modelId = modelId.trim();
     this.filename = filename;
   }
 
@@ -40,10 +44,10 @@ public class RagDocumentSearchParameters extends BaseSearchParameters<RagDocumen
   public Map<String, String> getRequestParameters() {
     var parameters = new HashMap<>(super.getRequestParameters());
 
-    parameters.put("model_id", this.getModelId());
+    parameters.put("model_id", getModelId());
 
-    if (this.getFilename() != null && !this.getFilename().isEmpty()) {
-      parameters.put("filename", this.getFilename());
+    if (getFilename() != null && !getFilename().isEmpty()) {
+      parameters.put("filename", getFilename());
     }
 
     return parameters;
@@ -74,9 +78,7 @@ public class RagDocumentSearchParameters extends BaseSearchParameters<RagDocumen
      * Case-insensitive substring search on filename.
      */
     public Builder filename(String filename) {
-      if (filename != null && !filename.isEmpty()) {
-        this.filename = filename;
-      }
+      this.filename = filename;
       return this;
     }
 
@@ -84,7 +86,7 @@ public class RagDocumentSearchParameters extends BaseSearchParameters<RagDocumen
      * Build an immutable {@link RagDocumentSearchParameters} instance.
      */
     public RagDocumentSearchParameters build() {
-      return new RagDocumentSearchParameters(this.modelId, this.filename, this.page, this.perPage);
+      return new RagDocumentSearchParameters(modelId, filename, page, perPage);
     }
   }
 }

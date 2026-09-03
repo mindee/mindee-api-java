@@ -22,12 +22,22 @@ public abstract class BaseSearchParameters<TSearchResponse extends BaseSearchRes
    */
   protected final Integer perPage;
 
+  /**
+   * Base constructor.
+   */
   protected BaseSearchParameters(
       Class<TSearchResponse> responseClass,
       Integer page,
       Integer perPage
   ) {
     this.responseClass = Objects.requireNonNull(responseClass, "responseClass cannot be null");
+    if (page != null && page <= 0) {
+      throw new IllegalArgumentException("page must be greater than 0");
+    }
+    if (perPage != null && perPage <= 0) {
+      throw new IllegalArgumentException("perPage must be greater than 0");
+    }
+
     this.page = page;
     this.perPage = perPage;
   }
@@ -39,15 +49,9 @@ public abstract class BaseSearchParameters<TSearchResponse extends BaseSearchRes
     var parameters = new HashMap<String, String>();
 
     if (this.getPage() != null) {
-      if (this.getPage() <= 0) {
-        throw new IllegalArgumentException("page must be greater than 0");
-      }
       parameters.put("page", String.valueOf(getPage()));
     }
     if (this.getPerPage() != null) {
-      if (this.getPerPage() <= 0) {
-        throw new IllegalArgumentException("perPage must be greater than 0");
-      }
       parameters.put("per_page", String.valueOf(getPerPage()));
     }
 
