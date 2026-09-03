@@ -1,5 +1,11 @@
 # Mindee Java Client Library Changelog
 
+## v5.4.0 - 2026-09-03
+### Changes
+* :sparkles: add RAG search API
+* :broom: remove undocumented polling variables
+
+
 ## v5.3.0 - 2026-07-21
 ### Changes
 * :sparkles: add webhook error response
