@@ -8,9 +8,9 @@ import com.mindee.v2.product.ocr.params.OcrParameters;
 import picocli.CommandLine.Command;
 
 /**
- * CLI command for the V2 OCR utility.
+ * CLI command for the V2 OCR product.
  */
-@Command(name = "ocr", description = "OCR utility.", mixinStandardHelpOptions = true)
+@Command(name = "ocr", description = "OCR product.", mixinStandardHelpOptions = true)
 public class OcrCommand extends BaseInferenceCommand {
 
   @Override
@@ -27,7 +27,7 @@ public class OcrCommand extends BaseInferenceCommand {
   }
 
   @Override
-  protected String getSummary(CommonResponse response) {
+  protected String getSummaryOutput(CommonResponse response) {
     return ((OcrResponse) response).getInference().getResult().toString();
   }
 

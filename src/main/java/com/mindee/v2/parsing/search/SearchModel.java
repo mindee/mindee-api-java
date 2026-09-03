@@ -38,7 +38,7 @@ public class SearchModel {
   private String modelType;
 
   /**
-   * Webhooks associated with the model.
+   * List of webhooks associated with the model.
    */
   @JsonProperty("webhooks")
   private List<ModelWebhook> webhooks;

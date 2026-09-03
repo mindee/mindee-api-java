@@ -7,6 +7,7 @@ import com.mindee.v2.cli.CropCommand;
 import com.mindee.v2.cli.ExtractionCommand;
 import com.mindee.v2.cli.OcrCommand;
 import com.mindee.v2.cli.SearchModelsCommand;
+import com.mindee.v2.cli.SearchRagDocumentsCommand;
 import com.mindee.v2.cli.SplitCommand;
 import java.lang.reflect.Method;
 import picocli.CommandLine;
@@ -42,6 +43,7 @@ public class CommandLineInterface implements Runnable {
 
     // V2 commands at root
     rootCmd.addSubcommand("search-models", new CommandLine(new SearchModelsCommand()));
+    rootCmd.addSubcommand("search-rag-docs", new CommandLine(new SearchRagDocumentsCommand()));
     rootCmd.addSubcommand("classification", new CommandLine(new ClassificationCommand()));
     rootCmd.addSubcommand("crop", new CommandLine(new CropCommand()));
     rootCmd.addSubcommand("extraction", new CommandLine(new ExtractionCommand()));

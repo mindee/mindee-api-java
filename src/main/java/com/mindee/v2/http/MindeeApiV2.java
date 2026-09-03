@@ -4,11 +4,15 @@ import com.mindee.MindeeException;
 import com.mindee.http.MindeeApiCommon;
 import com.mindee.input.LocalInputSource;
 import com.mindee.input.URLInputSource;
-import com.mindee.v2.clientoptions.BaseParameters;
+import com.mindee.v2.clientoptions.BaseProductParameters;
+import com.mindee.v2.clientoptions.BaseSearchParameters;
 import com.mindee.v2.parsing.CommonResponse;
 import com.mindee.v2.parsing.JobResponse;
 import com.mindee.v2.parsing.error.ErrorResponse;
+import com.mindee.v2.parsing.search.BaseSearchResponse;
 import com.mindee.v2.parsing.search.SearchResponse;
+import com.mindee.v2.product.ProductAttributes;
+import com.mindee.v2.search.models.ModelSearchParameters;
 import java.io.IOException;
 
 /**
@@ -19,22 +23,22 @@ public abstract class MindeeApiV2 extends MindeeApiCommon {
    * Send a file to the prediction queue with a local file.
    *
    * @param inputSource Local input source from URL.
-   * @param options parameters.
+   * @param parameters parameters.
    */
   public abstract JobResponse reqPostEnqueue(
       LocalInputSource inputSource,
-      BaseParameters options
+      BaseProductParameters parameters
   ) throws IOException;
 
   /**
    * Send a file to the prediction queue with a remote file.
    *
    * @param inputSource Remote input source from URL.
-   * @param options parameters.
+   * @param parameters parameters.
    */
   public abstract JobResponse reqPostEnqueue(
       URLInputSource inputSource,
-      BaseParameters options
+      BaseProductParameters parameters
   ) throws IOException;
 
   /**
@@ -42,14 +46,14 @@ public abstract class MindeeApiV2 extends MindeeApiCommon {
    *
    * @param jobId id of the job to get.
    */
-  public abstract JobResponse reqGetJob(String jobId);
+  public abstract JobResponse reqGetJobById(String jobId);
 
   /**
    * Retrieves the inference from a 302 redirect.
    *
    * @param inferenceId ID of the inference to poll.
    */
-  public abstract <TResponse extends CommonResponse> TResponse reqGetResult(
+  public abstract <TResponse extends CommonResponse> TResponse reqGetResultById(
       Class<TResponse> responseClass,
       String inferenceId
   );
@@ -58,18 +62,20 @@ public abstract class MindeeApiV2 extends MindeeApiCommon {
    * Retrieves the inference from a given URL.
    * The inference will only be available after it has finished processing.
    */
-  public abstract <TResponse extends CommonResponse> TResponse reqGetResultFromUrl(
+  public abstract <TResponse extends CommonResponse> TResponse reqGetResultByUrl(
       Class<TResponse> responseClass,
       String inferenceUrl
   );
 
   /**
-   * Retrieves a list of models.
-   *
-   * @param modelName search term for model name
-   * @param modelType search term for model type
+   * Retrieves a list of resources with the given criteria.
    */
-  public abstract SearchResponse reqGetSearchModels(String modelName, String modelType);
+  public abstract <TSearchResponse extends BaseSearchResponse> TSearchResponse reqGetSearch(
+      BaseSearchParameters<TSearchResponse> parameters
+  );
+
+  @Deprecated
+  public abstract SearchResponse reqGetSearch(ModelSearchParameters parameters);
 
   /**
    * Creates an "unknown error" response from an HTTP status code.
@@ -84,21 +90,25 @@ public abstract class MindeeApiV2 extends MindeeApiCommon {
     );
   }
 
-  protected ProductInfo getResponseProductInfo(Class<? extends CommonResponse> responseClass) {
-    var productInfo = responseClass.getAnnotation(ProductInfo.class);
+  protected ProductAttributes getResponseProductAttributes(
+      Class<? extends CommonResponse> responseClass
+  ) {
+    var productInfo = responseClass.getAnnotation(ProductAttributes.class);
     if (productInfo == null) {
       throw new MindeeException(
-        "The class " + responseClass.getSimpleName() + " is not annotated with @ProductInfo"
+        "The class " + responseClass.getSimpleName() + " is not annotated with @ProductAttributes"
       );
     }
     return productInfo;
   }
 
-  protected ProductInfo getParamsProductInfo(Class<? extends BaseParameters> responseClass) {
-    var productInfo = responseClass.getAnnotation(ProductInfo.class);
+  protected ProductAttributes getParamsProductAttributes(
+      Class<? extends BaseProductParameters> paramsClass
+  ) {
+    var productInfo = paramsClass.getAnnotation(ProductAttributes.class);
     if (productInfo == null) {
       throw new MindeeException(
-        "The class " + responseClass.getSimpleName() + " is not annotated with @ProductInfo"
+        "The class " + paramsClass.getSimpleName() + " is not annotated with @ProductAttributes"
       );
     }
     return productInfo;

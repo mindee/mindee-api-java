@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * Common response information from Mindee API V2.
+ * Base class for all responses from the V2 API.
  */
 @Data
 @EqualsAndHashCode

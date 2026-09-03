@@ -1,9 +1,9 @@
 package com.mindee.v2.cli;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.mindee.v2.MindeeClient;
-import java.util.concurrent.Callable;
+import com.mindee.v2.parsing.CommonResponse;
+import com.mindee.v2.search.models.ModelSearchParameters;
+import com.mindee.v2.search.models.ModelSearchResponse;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
@@ -15,10 +15,7 @@ import picocli.CommandLine.Option;
     description = "Search available models.",
     mixinStandardHelpOptions = true
 )
-public class SearchModelsCommand implements Callable<Integer> {
-
-  @Option(names = { "-k", "--api-key" }, description = "Mindee V2 API key.")
-  private String apiKey;
+public class SearchModelsCommand extends BaseCommand {
 
   @Option(
       names = { "-n", "--name" },
@@ -26,30 +23,42 @@ public class SearchModelsCommand implements Callable<Integer> {
   )
   private String name;
 
-  @Option(
-      names = { "-m", "--model-type" },
-      description = "Filter by exact model type (case sensitive)."
-  )
-  private String modelType;
+  public enum ModelType {
+    extraction,
+    crop,
+    classification,
+    ocr,
+    split
+  }
 
   @Option(
-      names = { "-r", "--raw-json" },
-      description = "Whether to output the raw JSON response.",
-      defaultValue = "false"
+      names = { "-m", "--model-type" },
+      description = "Filter by exact model type.%nAvailable options: ${COMPLETION-CANDIDATES}"
   )
-  private boolean rawJson;
+  private ModelType modelType;
 
   @Override
   public Integer call() throws Exception {
-    var client = new MindeeClient(apiKey != null ? apiKey : "");
-    var response = client.searchModels(name, modelType);
-    if (rawJson) {
-      var mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
-      var jsonNode = mapper.readTree(response.getRawResponse());
-      System.out.println(mapper.writeValueAsString(jsonNode));
-    } else {
-      System.out.println(response);
-    }
+    var client = new MindeeClient(apiKey);
+    var response = client
+      .search(
+        ModelSearchParameters
+          .builder()
+          .name(name)
+          .modelType(modelType != null ? modelType.name() : null)
+          .build()
+      );
+    printOutput(response);
     return 0;
+  }
+
+  @Override
+  protected String getSummaryOutput(CommonResponse response) {
+    return ((ModelSearchResponse) response).getModels().toString();
+  }
+
+  @Override
+  protected String getFullOutput(CommonResponse response) {
+    return response.toString();
   }
 }

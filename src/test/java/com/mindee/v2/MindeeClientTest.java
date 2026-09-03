@@ -10,14 +10,18 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mindee.input.LocalInputSource;
 import com.mindee.input.URLInputSource;
-import com.mindee.v2.clientoptions.BaseParameters;
+import com.mindee.v2.clientoptions.BaseProductParameters;
+import com.mindee.v2.clientoptions.BaseSearchParameters;
 import com.mindee.v2.clientoptions.PollingOptions;
 import com.mindee.v2.http.MindeeApiV2;
 import com.mindee.v2.parsing.CommonResponse;
 import com.mindee.v2.parsing.JobResponse;
+import com.mindee.v2.parsing.search.BaseSearchResponse;
 import com.mindee.v2.parsing.search.SearchResponse;
 import com.mindee.v2.product.extraction.ExtractionResponse;
 import com.mindee.v2.product.extraction.params.ExtractionParameters;
+import com.mindee.v2.search.models.ModelSearchParameters;
+import com.mindee.v2.search.models.ModelSearchResponse;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.concurrent.CancellationException;
@@ -41,27 +45,38 @@ class MindeeClientTest {
     }
 
     @Override
-    public JobResponse reqPostEnqueue(LocalInputSource inputSource, BaseParameters options) {
+    public JobResponse reqPostEnqueue(
+        LocalInputSource inputSource,
+        BaseProductParameters parameters
+    ) {
       return jobResponse;
     }
 
     @Override
-    public JobResponse reqPostEnqueue(URLInputSource inputSource, BaseParameters options) {
+    public JobResponse reqPostEnqueue(URLInputSource inputSource, BaseProductParameters options) {
       return jobResponse;
     }
 
     @Override
-    public JobResponse reqGetJob(String jobId) {
+    public JobResponse reqGetJobById(String jobId) {
       return jobResponse;
     }
 
     @Override
-    public SearchResponse reqGetSearchModels(String modelName, String modelType) {
+    public <TSearchResponse extends BaseSearchResponse> TSearchResponse reqGetSearch(
+        BaseSearchParameters<TSearchResponse> parameters
+    ) {
+      return (TSearchResponse) new ModelSearchResponse();
+    }
+
+    @Override
+    @Deprecated
+    public SearchResponse reqGetSearch(ModelSearchParameters parameters) {
       return new SearchResponse();
     }
 
     @Override
-    public <TResponse extends CommonResponse> TResponse reqGetResult(
+    public <TResponse extends CommonResponse> TResponse reqGetResultById(
         Class<TResponse> tResponseClass,
         String inferenceId
     ) {
@@ -69,7 +84,7 @@ class MindeeClientTest {
     }
 
     @Override
-    public <TResponse extends CommonResponse> TResponse reqGetResultFromUrl(
+    public <TResponse extends CommonResponse> TResponse reqGetResultByUrl(
         Class<TResponse> tResponseClass,
         String inferenceUrl
     ) {
@@ -168,7 +183,7 @@ class MindeeClientTest {
       AtomicReference<String> capturedUrl = new AtomicReference<>();
       var api = new FakeMindeeApiV2(null, processed) {
         @Override
-        public <TResponse extends CommonResponse> TResponse reqGetResultFromUrl(
+        public <TResponse extends CommonResponse> TResponse reqGetResultByUrl(
             Class<TResponse> tResponseClass,
             String inferenceUrl
         ) {
@@ -236,7 +251,7 @@ class MindeeClientTest {
 
       var api = new FakeMindeeApiV2(processing, null) {
         @Override
-        public JobResponse reqGetJob(String jobId) {
+        public JobResponse reqGetJobById(String jobId) {
           jobCalls.incrementAndGet();
           cancel.set(true);
           return processing;

@@ -20,7 +20,7 @@ import org.junit.jupiter.api.TestInstance;
 @DisplayName("MindeeV2 – Integration Tests - Crop")
 class CropIT {
 
-  private MindeeClient mindeeClient;
+  private MindeeClient client;
   private String cropModelId;
   private String cropExtractionModelId;
 
@@ -29,7 +29,7 @@ class CropIT {
     var apiKey = System.getenv("MINDEE_V2_API_KEY");
     cropModelId = System.getenv("MINDEE_V2_SE_TESTS_CROP_MODEL_ID");
     cropExtractionModelId = System.getenv("MINDEE_V2_SE_TESTS_CROP_EXTRACTION_MODEL_ID");
-    mindeeClient = new MindeeClient(apiKey);
+    client = new MindeeClient(apiKey);
   }
 
   @Test
@@ -47,7 +47,7 @@ class CropIT {
       .maxRetries(80)
       .build();
 
-    CropResponse response = mindeeClient
+    CropResponse response = client
       .enqueueAndGetResult(CropResponse.class, source, params, pollingOptions);
     assertNotNull(response);
 
@@ -86,7 +86,7 @@ class CropIT {
       .maxRetries(80)
       .build();
 
-    CropResponse response = mindeeClient
+    CropResponse response = client
       .enqueueAndGetResult(CropResponse.class, source, params, pollingOptions);
     assertNotNull(response);
 

@@ -8,11 +8,11 @@ import com.mindee.v2.product.classification.params.ClassificationParameters;
 import picocli.CommandLine.Command;
 
 /**
- * CLI command for the V2 classification utility.
+ * CLI command for the V2 classification product.
  */
 @Command(
     name = "classification",
-    description = "Classification utility.",
+    description = "Classification product.",
     mixinStandardHelpOptions = true
 )
 public class ClassificationCommand extends BaseInferenceCommand {
@@ -31,7 +31,7 @@ public class ClassificationCommand extends BaseInferenceCommand {
   }
 
   @Override
-  protected String getSummary(CommonResponse response) {
+  protected String getSummaryOutput(CommonResponse response) {
     return ((ClassificationResponse) response).getInference().getResult().toString();
   }
 

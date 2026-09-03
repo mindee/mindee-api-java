@@ -1,4 +1,4 @@
-package com.mindee.v2.http;
+package com.mindee.v2.product;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -12,6 +12,6 @@ import java.lang.annotation.Target;
 @Documented
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ProductInfo {
+public @interface ProductAttributes {
   String slug();
 }
