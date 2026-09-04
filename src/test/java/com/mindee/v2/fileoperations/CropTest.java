@@ -2,7 +2,7 @@ package com.mindee.v2.fileoperations;
 
 import static com.mindee.TestingUtilities.deleteRecursively;
 import static com.mindee.TestingUtilities.getResourcePath;
-import static com.mindee.TestingUtilities.getV2ResourcePath;
+import static com.mindee.TestingUtilities.getV2ProductPath;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -26,8 +26,8 @@ class CropTest {
 
   @Test
   void singlePageCrop_cropsCorrectly() throws Exception {
-    var inputSample = new LocalInputSource(getV2ResourcePath("products/crop/default_sample.jpg"));
-    var localResponse = new LocalResponse(getV2ResourcePath("products/crop/default_sample.json"));
+    var inputSample = new LocalInputSource(getV2ProductPath("crop/default_sample.jpg"));
+    var localResponse = new LocalResponse(getV2ProductPath("crop/default_sample.json"));
     var doc = localResponse.deserializeResponse(CropResponse.class);
 
     var extractedCrops = new Crop(inputSample)
@@ -56,8 +56,8 @@ class CropTest {
 
   @Test
   void multiPageCrop_cropsCorrectly() throws Exception {
-    var inputSample = new LocalInputSource(getV2ResourcePath("products/crop/multipage_sample.pdf"));
-    var localResponse = new LocalResponse(getV2ResourcePath("products/crop/multipage_sample.json"));
+    var inputSample = new LocalInputSource(getV2ProductPath("crop/multipage_sample.pdf"));
+    var localResponse = new LocalResponse(getV2ProductPath("crop/multipage_sample.json"));
     var doc = localResponse.deserializeResponse(CropResponse.class);
 
     var extractedCrops = new Crop(inputSample)

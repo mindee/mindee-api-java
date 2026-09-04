@@ -97,7 +97,7 @@ class MindeeClientTest {
   class Enqueue {
     @Test
     @DisplayName("sends exactly one HTTP call and yields a non-null response")
-    void enqueue_post_async() throws IOException {
+    void enqueue_post() throws IOException {
       var mindeeClient = new MindeeClient(new FakeMindeeApiV2(new JobResponse(), null));
 
       var input = new LocalInputSource(getResourcePath("file_types/pdf/blank_1.pdf"));
@@ -115,7 +115,7 @@ class MindeeClientTest {
   class GetJob {
     @Test
     @DisplayName("hits the HTTP endpoint once and returns a non-null response")
-    void document_getJob_async() throws JsonProcessingException {
+    void document_getJob() throws JsonProcessingException {
       String json = "{\"job\": {\"id\": \"dummy-id\", \"status\": \"Processing\"}}";
       var mapper = new ObjectMapper();
       mapper.findAndRegisterModules();
@@ -134,7 +134,7 @@ class MindeeClientTest {
   class GetExtractionInference {
     @Test
     @DisplayName("hits the HTTP endpoint once and returns a non-null response")
-    void document_getResult_async() throws IOException {
+    void document_getResult() throws IOException {
       String json = Files
         .readString(getResourcePath("v2/products/extraction/financial_document/complete.json"));
 
@@ -171,7 +171,7 @@ class MindeeClientTest {
   class GetResultFromUrl {
     @Test
     @DisplayName("hits the HTTP endpoint once and returns a non-null response")
-    void document_getResultFromUrl_async() throws IOException {
+    void document_getResultFromUrl() throws IOException {
       String json = Files
         .readString(getResourcePath("v2/products/extraction/financial_document/complete.json"));
 

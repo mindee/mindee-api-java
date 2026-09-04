@@ -1,6 +1,6 @@
 package com.mindee.v2.product;
 
-import static com.mindee.TestingUtilities.getV2ResourcePath;
+import static com.mindee.TestingUtilities.getV2ProductPath;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
@@ -44,7 +44,7 @@ import org.junit.jupiter.api.Test;
 class ExtractionTest {
 
   private ExtractionResponse loadResponse(String filePath) throws IOException {
-    var localResponse = new LocalResponse(getV2ResourcePath(filePath));
+    var localResponse = new LocalResponse(getV2ProductPath(filePath));
     return localResponse.deserializeResponse(ExtractionResponse.class);
   }
 
@@ -55,7 +55,7 @@ class ExtractionTest {
     @Test
     @DisplayName("all properties must be valid")
     void asyncPredict_whenEmpty_mustHaveValidProperties() throws IOException {
-      var response = loadResponse("products/extraction/financial_document/blank.json");
+      var response = loadResponse("extraction/financial_document/blank.json");
       var fields = response.getInference().getResult().getFields();
 
       assertEquals(21, fields.size(), "Expected 21 fields");
@@ -107,7 +107,7 @@ class ExtractionTest {
     @Test
     @DisplayName("every exposed property must be valid and consistent")
     void asyncPredict_whenComplete_mustExposeAllProperties() throws IOException {
-      var response = loadResponse("products/extraction/financial_document/complete.json");
+      var response = loadResponse("extraction/financial_document/complete.json");
       ExtractionInference inference = response.getInference();
       assertNotNull(inference);
       assertEquals("12345678-1234-1234-1234-123456789abc", inference.getId());
@@ -180,7 +180,7 @@ class ExtractionTest {
     @Test
     @DisplayName("all nested structures must be typed correctly")
     void deepNestedFields_mustExposeCorrectTypes() throws IOException {
-      ExtractionResponse resp = loadResponse("products/extraction/deep_nested_fields.json");
+      ExtractionResponse resp = loadResponse("extraction/deep_nested_fields.json");
       ExtractionInference inf = resp.getInference();
       assertNotNull(inf);
 
@@ -246,7 +246,7 @@ class ExtractionTest {
     @Test
     @DisplayName("simple fields must be recognised")
     void standardFieldTypes_mustExposeSimpleFieldValues() throws IOException {
-      var response = loadResponse("products/extraction/standard_field_types.json");
+      var response = loadResponse("extraction/standard_field_types.json");
       ExtractionInference inference = response.getInference();
       assertNotNull(inference);
 
@@ -305,7 +305,7 @@ class ExtractionTest {
     @Test
     @DisplayName("simple list fields must be recognised")
     void standardFieldTypes_mustExposeSimpleListFieldValues() throws IOException {
-      var response = loadResponse("products/extraction/standard_field_types.json");
+      var response = loadResponse("extraction/standard_field_types.json");
       var inference = response.getInference();
       assertNotNull(inference);
 
@@ -348,7 +348,7 @@ class ExtractionTest {
     @Test
     @DisplayName("object list fields must be recognised")
     void standardFieldTypes_mustExposeObjectListFieldValues() throws IOException {
-      var response = loadResponse("products/extraction/standard_field_types.json");
+      var response = loadResponse("extraction/standard_field_types.json");
       var inference = response.getInference();
       assertNotNull(inference);
 
@@ -398,7 +398,7 @@ class ExtractionTest {
     @Test
     @DisplayName("simple / object / list variants must be recognised")
     void standardFieldTypes_mustExposeObjectFieldValues() throws IOException {
-      var response = loadResponse("products/extraction/standard_field_types.json");
+      var response = loadResponse("extraction/standard_field_types.json");
       var inference = response.getInference();
       assertNotNull(inference);
 
@@ -433,7 +433,7 @@ class ExtractionTest {
   @Test
   @DisplayName("allow getting fields using generics")
   void standardFieldTypes_getWithGenerics() throws IOException {
-    var response = loadResponse("products/extraction/standard_field_types.json");
+    var response = loadResponse("extraction/standard_field_types.json");
     var inference = response.getInference();
     assertNotNull(inference);
     var fields = inference.getResult().getFields();
@@ -469,7 +469,7 @@ class ExtractionTest {
   @Test
   @DisplayName("confidence and locations must be usable")
   void standardFieldTypes_confidenceAndLocations() throws IOException {
-    var response = loadResponse("products/extraction/standard_field_types.json");
+    var response = loadResponse("extraction/standard_field_types.json");
     var inference = response.getInference();
     assertNotNull(inference);
 
@@ -509,7 +509,7 @@ class ExtractionTest {
     @Test
     @DisplayName("raw texts option must be parsed and exposed")
     void rawTexts_mustBeAccessible() throws IOException {
-      var response = loadResponse("products/extraction/raw_texts.json");
+      var response = loadResponse("extraction/raw_texts.json");
       var inference = response.getInference();
       assertNotNull(inference);
 
@@ -544,7 +544,7 @@ class ExtractionTest {
     @Test
     @DisplayName("RAG metadata when matched")
     void rag_mustBeFilled_whenMatched() throws IOException {
-      var response = loadResponse("products/extraction/rag_matched.json");
+      var response = loadResponse("extraction/rag_matched.json");
       var inference = response.getInference();
       assertNotNull(inference);
 
@@ -556,7 +556,7 @@ class ExtractionTest {
     @Test
     @DisplayName("RAG metadata when not matched")
     void rag_mustBeNull_whenNotMatched() throws IOException {
-      var response = loadResponse("products/extraction/rag_not_matched.json");
+      var response = loadResponse("extraction/rag_not_matched.json");
       var inference = response.getInference();
       assertNotNull(inference);
 
@@ -572,9 +572,8 @@ class ExtractionTest {
     @Test
     @DisplayName("rst display must be parsed and exposed")
     void rstDisplay_mustBeAccessible() throws IOException {
-      var resp = loadResponse("products/extraction/standard_field_types.json");
-      String rstRef = Files
-        .readString(getV2ResourcePath("products/extraction/standard_field_types.rst"));
+      var resp = loadResponse("extraction/standard_field_types.json");
+      String rstRef = Files.readString(getV2ProductPath("extraction/standard_field_types.rst"));
       ExtractionInference inference = resp.getInference();
       assertNotNull(inference);
       assertEquals(rstRef, resp.getInference().toString());
@@ -587,7 +586,7 @@ class ExtractionTest {
     @Test
     @DisplayName("should be present and true when enabled")
     void textContext_mustBePresentAndTrue() throws IOException {
-      var resp = loadResponse("products/extraction/text_context_enabled.json");
+      var resp = loadResponse("extraction/text_context_enabled.json");
       ExtractionInference inference = resp.getInference();
       assertNotNull(inference);
       assertTrue(inference.getActiveOptions().getTextContext());
@@ -600,7 +599,7 @@ class ExtractionTest {
     @Test
     @DisplayName("should be present and true when enabled")
     void textContext_mustBePresentAndTrue() throws IOException {
-      var resp = loadResponse("products/extraction/data_schema_replace.json");
+      var resp = loadResponse("extraction/data_schema_replace.json");
       ExtractionInference inference = resp.getInference();
       assertNotNull(inference);
       var fields = inference.getResult().getFields();

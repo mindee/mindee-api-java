@@ -2,7 +2,7 @@ package com.mindee.v2.fileoperations;
 
 import static com.mindee.TestingUtilities.deleteRecursively;
 import static com.mindee.TestingUtilities.getResourcePath;
-import static com.mindee.TestingUtilities.getV2ResourcePath;
+import static com.mindee.TestingUtilities.getV2ProductPath;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -26,9 +26,9 @@ public class SplitTest {
 
   @Test
   void singlePage_splitsCorrectly() throws IOException {
-    var inputSample = new LocalInputSource(getV2ResourcePath("products/split/default_sample.pdf"));
+    var inputSample = new LocalInputSource(getV2ProductPath("split/default_sample.pdf"));
     assertEquals(2, inputSample.getPageCount());
-    var localResponse = new LocalResponse(getV2ResourcePath("products/split/default_sample.json"));
+    var localResponse = new LocalResponse(getV2ProductPath("split/default_sample.json"));
     var doc = localResponse.deserializeResponse(SplitResponse.class);
 
     var extractedSplit = new Split(inputSample)
@@ -42,9 +42,9 @@ public class SplitTest {
 
   @Test
   void multiplePages_splitsCorrectly() throws IOException {
-    var inputSample = new LocalInputSource(getV2ResourcePath("products/split/default_sample.pdf"));
+    var inputSample = new LocalInputSource(getV2ProductPath("split/default_sample.pdf"));
     assertEquals(2, inputSample.getPageCount());
-    var localResponse = new LocalResponse(getV2ResourcePath("products/split/default_sample.json"));
+    var localResponse = new LocalResponse(getV2ProductPath("split/default_sample.json"));
     var doc = localResponse.deserializeResponse(SplitResponse.class);
 
     var extractedSplits = new Split(inputSample)

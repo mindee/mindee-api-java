@@ -18,11 +18,15 @@ import java.nio.file.Path;
  */
 public class LocalResponse extends BaseLocalResponse {
 
-  public LocalResponse(InputStream input) {
+  public LocalResponse(String input) {
     super(input);
   }
 
-  public LocalResponse(String input) {
+  public LocalResponse(byte[] input) {
+    super(input);
+  }
+
+  public LocalResponse(InputStream input) {
     super(input);
   }
 

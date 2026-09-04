@@ -26,25 +26,43 @@ public abstract class BaseLocalResponse {
   protected final byte[] file;
 
   /**
+   * Load from a {@link String}.
+   *
+   * @param input Assumes UTF-8 encoding.
+   */
+  public BaseLocalResponse(String input) {
+    if (input == null) {
+      throw new IllegalArgumentException("Input string cannot be null.");
+    }
+    this.file = this.readToCleanUtf8Bytes(input.lines());
+  }
+
+  /**
+   * Load from a byte array.
+   *
+   * @param input will be decoded as UTF-8.
+   */
+  public BaseLocalResponse(byte[] input) {
+    if (input == null) {
+      throw new IllegalArgumentException("Input byte array cannot be null.");
+    }
+    this.file = this.readToCleanUtf8Bytes(new String(input, StandardCharsets.UTF_8).lines());
+  }
+
+  /**
    * Load from an {@link InputStream}.
+   * This method will not close the provided stream.
    *
    * @param input will be decoded as UTF-8.
    */
   public BaseLocalResponse(InputStream input) {
-    this.file = this
-      .getBytes(new BufferedReader(new InputStreamReader(input, StandardCharsets.UTF_8)).lines());
-  }
-
-  /**
-   * Load from a {@link String}.
-   *
-   * @param input will be decoded as UTF-8.
-   */
-  public BaseLocalResponse(String input) {
-    if (input == null || input.isEmpty()) {
-      throw new IllegalArgumentException("Input string cannot be empty or null.");
+    if (input == null) {
+      throw new IllegalArgumentException("Input stream cannot be null.");
     }
-    this.file = input.getBytes(StandardCharsets.UTF_8);
+    this.file = this
+      .readToCleanUtf8Bytes(
+        new BufferedReader(new InputStreamReader(input, StandardCharsets.UTF_8)).lines()
+      );
   }
 
   /**
@@ -53,7 +71,12 @@ public abstract class BaseLocalResponse {
    * @param input will be decoded as UTF-8.
    */
   public BaseLocalResponse(File input) throws IOException {
-    this.file = this.getBytes(Files.lines(input.toPath(), StandardCharsets.UTF_8));
+    if (input == null) {
+      throw new IllegalArgumentException("Input file cannot be null.");
+    }
+    try (var lines = Files.lines(input.toPath(), StandardCharsets.UTF_8)) {
+      this.file = this.readToCleanUtf8Bytes(lines);
+    }
   }
 
   /**
@@ -62,11 +85,20 @@ public abstract class BaseLocalResponse {
    * @param input will be decoded as UTF-8.
    */
   public BaseLocalResponse(Path input) throws IOException {
-    this.file = this.getBytes(Files.lines(input, StandardCharsets.UTF_8));
+    if (input == null) {
+      throw new IllegalArgumentException("Input path cannot be null.");
+    }
+    try (var lines = Files.lines(input, StandardCharsets.UTF_8)) {
+      this.file = this.readToCleanUtf8Bytes(lines);
+    }
   }
 
-  private byte[] getBytes(Stream<String> stream) {
-    return stream.collect(Collectors.joining("")).getBytes();
+  private byte[] readToCleanUtf8Bytes(Stream<String> stream) {
+    var cleanedString = stream.collect(Collectors.joining(""));
+    if (cleanedString.trim().isEmpty()) {
+      throw new IllegalArgumentException("Input cannot be empty or contain only whitespace.");
+    }
+    return cleanedString.getBytes(StandardCharsets.UTF_8);
   }
 
   /**
@@ -119,5 +151,13 @@ public abstract class BaseLocalResponse {
       .getBytes(StandardCharsets.UTF_8);
 
     return MessageDigest.isEqual(expectedBytes, actualBytes);
+  }
+
+  /**
+   * Print the file as a UTF-8 string.
+   */
+  @Override
+  public String toString() {
+    return new String(this.file, StandardCharsets.UTF_8);
   }
 }
