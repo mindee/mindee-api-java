@@ -9,6 +9,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.security.InvalidKeyException;
+import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -99,10 +100,24 @@ public abstract class BaseLocalResponse {
    * Verify that the payload's signature matches the one received from the server.
    *
    * @param secretKey Your secret key from the Mindee platform.
-   * @param signature The signature from the "X-Mindee-Hmac-Signature" HTTP header.
+   * @param signature The signature from the "X-Signature" HTTP header.
    * @return true if the signatures match.
    */
   public boolean isValidHmacSignature(String secretKey, String signature) {
-    return signature.equals(getHmacSignature(secretKey));
+    if (signature == null || secretKey == null) {
+      return false;
+    }
+
+    String expectedSignature = getHmacSignature(secretKey);
+    if (expectedSignature.isEmpty()) {
+      return false;
+    }
+
+    byte[] expectedBytes = expectedSignature.getBytes(StandardCharsets.UTF_8);
+    byte[] actualBytes = signature
+      .toLowerCase(java.util.Locale.ROOT)
+      .getBytes(StandardCharsets.UTF_8);
+
+    return MessageDigest.isEqual(expectedBytes, actualBytes);
   }
 }
