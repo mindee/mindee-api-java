@@ -107,7 +107,13 @@ public abstract class BaseLocalResponse {
     if (signature == null || secretKey == null) {
       return false;
     }
-    byte[] expectedBytes = getHmacSignature(secretKey).getBytes(StandardCharsets.UTF_8);
+
+    String expectedSignature = getHmacSignature(secretKey);
+    if (expectedSignature.isEmpty()) {
+      return false;
+    }
+
+    byte[] expectedBytes = expectedSignature.getBytes(StandardCharsets.UTF_8);
     byte[] actualBytes = signature
       .toLowerCase(java.util.Locale.ROOT)
       .getBytes(StandardCharsets.UTF_8);

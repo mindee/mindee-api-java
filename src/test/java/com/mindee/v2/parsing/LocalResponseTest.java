@@ -19,12 +19,15 @@ public class LocalResponseTest {
   private static final String DUMMY_SECRET_KEY = "ogNjY44MhvKPGTtVsI8zG82JqWQa68woYQH";
 
   private static void assertLocalResponse(LocalResponse localResponse) {
+    assertEquals(SIGNATURE, localResponse.getHmacSignature(DUMMY_SECRET_KEY));
+
     assertFalse(localResponse.isValidHmacSignature(DUMMY_SECRET_KEY, "invalid signature"));
     assertFalse(localResponse.isValidHmacSignature(DUMMY_SECRET_KEY, null));
     assertFalse(localResponse.isValidHmacSignature(null, SIGNATURE));
     assertFalse(localResponse.isValidHmacSignature(null, null));
-    assertEquals(SIGNATURE, localResponse.getHmacSignature(DUMMY_SECRET_KEY));
+    assertFalse(localResponse.isValidHmacSignature(DUMMY_SECRET_KEY, ""));
     assertTrue(localResponse.isValidHmacSignature(DUMMY_SECRET_KEY, SIGNATURE));
+    assertTrue(localResponse.isValidHmacSignature(DUMMY_SECRET_KEY, SIGNATURE.toUpperCase()));
 
     ExtractionResponse response = localResponse.deserializeResponse(ExtractionResponse.class);
     assertNotNull(response, "Loaded ExtractionResponse must not be null");
