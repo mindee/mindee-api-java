@@ -2,7 +2,7 @@ package com.mindee.v2.product;
 
 import static com.mindee.TestingUtilities.deleteRecursively;
 import static com.mindee.TestingUtilities.getResourcePath;
-import static com.mindee.TestingUtilities.getV2ResourcePath;
+import static com.mindee.TestingUtilities.getV2ProductPath;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -32,7 +32,7 @@ public class SplitTest {
   }
 
   private SplitResponse loadResponse(String filePath) throws IOException {
-    var localResponse = new LocalResponse(getV2ResourcePath(filePath));
+    var localResponse = new LocalResponse(getV2ProductPath(filePath));
     return localResponse.deserializeResponse(SplitResponse.class);
   }
 
@@ -42,7 +42,7 @@ public class SplitTest {
     @Test
     @DisplayName("split properties must be valid")
     void mustHaveValidProperties() throws IOException {
-      var response = loadResponse("products/split/split_single.json");
+      var response = loadResponse("split/split_single.json");
       assertNotNull(response.getInference());
 
       var splits = response.getInference().getResult().getSplits();
@@ -59,7 +59,7 @@ public class SplitTest {
     @Test
     @DisplayName("split properties must be valid")
     void mustHaveValidProperties() throws IOException {
-      var response = loadResponse("products/split/split_multiple.json");
+      var response = loadResponse("split/split_multiple.json");
       assertNotNull(response.getInference());
 
       var splits = response.getInference().getResult().getSplits();
@@ -81,7 +81,7 @@ public class SplitTest {
     @Test
     @DisplayName("extraction properties must be valid")
     void extractionMustHaveValidProperties() throws IOException {
-      SplitResponse response = loadResponse("products/split/default_sample_extraction.json");
+      SplitResponse response = loadResponse("split/default_sample_extraction.json");
       assertNotNull(response.getInference());
 
       var splits = response.getInference().getResult().getSplits();
@@ -121,11 +121,9 @@ public class SplitTest {
     @Test
     @DisplayName("extract all crops works")
     void extractMultipleSplits() throws IOException {
-      var inputSource = new LocalInputSource(
-        getV2ResourcePath("products/split/default_sample.pdf")
-      );
+      var inputSource = new LocalInputSource(getV2ProductPath("split/default_sample.pdf"));
 
-      SplitResponse response = loadResponse("products/split/default_sample_extraction.json");
+      SplitResponse response = loadResponse("split/default_sample_extraction.json");
       assertNotNull(response.getInference());
 
       var splits = response.getInference().getResult().getSplits();
@@ -150,11 +148,9 @@ public class SplitTest {
     @Test
     @DisplayName("extract single crop works")
     void extractSingleSplit() throws IOException {
-      var inputSource = new LocalInputSource(
-        getV2ResourcePath("products/split/default_sample.pdf")
-      );
+      var inputSource = new LocalInputSource(getV2ProductPath("split/default_sample.pdf"));
 
-      SplitResponse response = loadResponse("products/split/default_sample_extraction.json");
+      SplitResponse response = loadResponse("split/default_sample_extraction.json");
       assertNotNull(response.getInference());
 
       var extractedSplit = response

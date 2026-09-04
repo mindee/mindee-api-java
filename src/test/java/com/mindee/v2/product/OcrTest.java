@@ -1,6 +1,6 @@
 package com.mindee.v2.product;
 
-import static com.mindee.TestingUtilities.getV2ResourcePath;
+import static com.mindee.TestingUtilities.getV2ProductPath;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 @DisplayName("MindeeV2 - OCR Model Tests")
 public class OcrTest {
   private OcrResponse loadResponse(String filePath) throws IOException {
-    var localResponse = new LocalResponse(getV2ResourcePath(filePath));
+    var localResponse = new LocalResponse(getV2ProductPath(filePath));
     return localResponse.deserializeResponse(OcrResponse.class);
   }
 
@@ -24,7 +24,7 @@ public class OcrTest {
     @Test
     @DisplayName("all properties must be valid")
     void mustHaveValidProperties() throws IOException {
-      var response = loadResponse("products/ocr/ocr_single.json");
+      var response = loadResponse("ocr/ocr_single.json");
       assertNotNull(response.getInference());
 
       var pages = response.getInference().getResult().getPages();
@@ -40,7 +40,7 @@ public class OcrTest {
     @Test
     @DisplayName("all properties must be valid")
     void mustHaveValidProperties() throws IOException {
-      var response = loadResponse("products/ocr/ocr_multiple.json");
+      var response = loadResponse("ocr/ocr_multiple.json");
       assertNotNull(response.getInference());
 
       var pages = response.getInference().getResult().getPages();

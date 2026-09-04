@@ -1,7 +1,7 @@
 package com.mindee.v2;
 
 import static com.mindee.TestingUtilities.getResourcePath;
-import static com.mindee.TestingUtilities.getV2ResourcePath;
+import static com.mindee.TestingUtilities.getV2ProductPath;
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.mindee.input.LocalInputSource;
@@ -88,7 +88,7 @@ class MindeeClientIT {
   @DisplayName("Filled, single-page image – enqueue & parse must succeed")
   void parseFile_filledSinglePage_mustSucceed() throws IOException, InterruptedException {
     var source = new LocalInputSource(
-      getV2ResourcePath("products/extraction/financial_document/default_sample.jpg")
+      getV2ProductPath("extraction/financial_document/default_sample.jpg")
     );
 
     var params = ExtractionParameters
@@ -137,16 +137,14 @@ class MindeeClientIT {
   @DisplayName("Data Schema Replace – enqueue & parse must succeed")
   void parseFile_dataSchemaReplace_mustSucceed() throws IOException, InterruptedException {
     var source = new LocalInputSource(
-      getV2ResourcePath("products/extraction/financial_document/default_sample.jpg")
+      getV2ProductPath("extraction/financial_document/default_sample.jpg")
     );
 
     var params = ExtractionParameters
       .builder(modelId)
       .rag(false)
       .alias("java-integration-test_data-schema-replace")
-      .dataSchema(
-        Files.readString(getV2ResourcePath("products/extraction/data_schema_replace_param.json"))
-      )
+      .dataSchema(Files.readString(getV2ProductPath("extraction/data_schema_replace_param.json")))
       .build();
 
     var response = mindeeClient.enqueueAndGetResult(ExtractionResponse.class, source, params);

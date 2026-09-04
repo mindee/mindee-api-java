@@ -28,12 +28,16 @@ public class TestingUtilities {
     return Paths.get("src/test/resources/v1/" + filePath);
   }
 
+  public static String getV1ResourcePathString(String filePath) {
+    return getV1ResourcePath(filePath).toString();
+  }
+
   public static Path getV2ResourcePath(String filePath) {
     return Paths.get("src/test/resources/v2/" + filePath);
   }
 
-  public static String getV1ResourcePathString(String filePath) {
-    return getV1ResourcePath(filePath).toString();
+  public static Path getV2ProductPath(String filePath) {
+    return getV2ResourcePath("products/" + filePath);
   }
 
   public static void assertStringEqualsFile(String expected, String filePath) throws IOException {

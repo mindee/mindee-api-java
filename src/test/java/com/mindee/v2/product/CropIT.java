@@ -1,6 +1,6 @@
 package com.mindee.v2.product;
 
-import static com.mindee.TestingUtilities.getV2ResourcePath;
+import static com.mindee.TestingUtilities.getV2ProductPath;
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.mindee.input.LocalInputSource;
@@ -35,7 +35,7 @@ class CropIT {
   @Test
   @DisplayName("Filled, multi-page PDF – crop must succeed")
   void filledMultiPage_cropMustSucceed() throws IOException, InterruptedException {
-    var source = new LocalInputSource(getV2ResourcePath("products/crop/multipage_sample.pdf"));
+    var source = new LocalInputSource(getV2ProductPath("crop/multipage_sample.pdf"));
     var params = CropParameters
       .builder(cropModelId)
       .alias("java_integration-test_crop_multipage")
@@ -74,7 +74,7 @@ class CropIT {
   @Test
   @DisplayName("Filled image – crop and extraction must succeed")
   void filledSinglePage_extractionMustSucceed() throws IOException, InterruptedException {
-    var source = new LocalInputSource(getV2ResourcePath("products/crop/default_sample.jpg"));
+    var source = new LocalInputSource(getV2ProductPath("crop/default_sample.jpg"));
     var params = CropParameters
       .builder(cropExtractionModelId)
       .alias("java_integration-test_crop_multipage")

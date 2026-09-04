@@ -3,7 +3,7 @@ package com.mindee.v2.product;
 import static com.mindee.TestingUtilities.assertStringEqualsFile;
 import static com.mindee.TestingUtilities.deleteRecursively;
 import static com.mindee.TestingUtilities.getResourcePath;
-import static com.mindee.TestingUtilities.getV2ResourcePath;
+import static com.mindee.TestingUtilities.getV2ProductPath;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -32,7 +32,7 @@ public class CropTest {
   }
 
   private CropResponse loadResponse(String filePath) throws IOException {
-    var localResponse = new LocalResponse(getV2ResourcePath(filePath));
+    var localResponse = new LocalResponse(getV2ProductPath(filePath));
     return localResponse.deserializeResponse(CropResponse.class);
   }
 
@@ -42,7 +42,7 @@ public class CropTest {
     @Test
     @DisplayName("crop properties must be valid")
     void mustHaveValidProperties() throws IOException {
-      var response = loadResponse("products/crop/crop_single.json");
+      var response = loadResponse("crop/crop_single.json");
       assertNotNull(response.getInference());
 
       var crops = response.getInference().getResult().getCrops();
@@ -57,10 +57,10 @@ public class CropTest {
     @Test
     @DisplayName("RST output must be valid")
     void mustHaveValidDisplay() throws IOException {
-      var response = loadResponse("products/crop/crop_single.json");
+      var response = loadResponse("crop/crop_single.json");
       assertStringEqualsFile(
         response.getInference().toString(),
-        getV2ResourcePath("products/crop/crop_single.rst")
+        getV2ProductPath("crop/crop_single.rst")
       );
     }
   }
@@ -71,7 +71,7 @@ public class CropTest {
     @Test
     @DisplayName("crop properties must be valid")
     void mustHaveValidProperties() throws IOException {
-      var response = loadResponse("products/crop/crop_multiple.json");
+      var response = loadResponse("crop/crop_multiple.json");
       assertNotNull(response.getInference());
 
       var crops = response.getInference().getResult().getCrops();
@@ -91,17 +91,17 @@ public class CropTest {
     @Test
     @DisplayName("RST output must be valid")
     void mustHaveValidDisplay() throws IOException {
-      var response = loadResponse("products/crop/crop_multiple.json");
+      var response = loadResponse("crop/crop_multiple.json");
       assertStringEqualsFile(
         response.getInference().toString(),
-        getV2ResourcePath("products/crop/crop_multiple.rst")
+        getV2ProductPath("crop/crop_multiple.rst")
       );
     }
 
     @Test
     @DisplayName("extraction properties must be valid")
     void extractionMustHaveValidProperties() throws IOException {
-      CropResponse response = loadResponse("products/crop/default_sample_extraction.json");
+      CropResponse response = loadResponse("crop/default_sample_extraction.json");
       assertNotNull(response.getInference());
 
       var crops = response.getInference().getResult().getCrops();
@@ -143,9 +143,9 @@ public class CropTest {
     @Test
     @DisplayName("extract all crops works")
     void extractMultipleCrops() throws IOException {
-      var inputSource = new LocalInputSource(getV2ResourcePath("products/crop/default_sample.jpg"));
+      var inputSource = new LocalInputSource(getV2ProductPath("crop/default_sample.jpg"));
 
-      CropResponse response = loadResponse("products/crop/default_sample_extraction.json");
+      CropResponse response = loadResponse("crop/default_sample_extraction.json");
       assertNotNull(response.getInference());
 
       var crops = response.getInference().getResult().getCrops();
@@ -170,9 +170,9 @@ public class CropTest {
     @Test
     @DisplayName("extract single crop works")
     void extractSingleCrop() throws IOException {
-      var inputSource = new LocalInputSource(getV2ResourcePath("products/crop/default_sample.jpg"));
+      var inputSource = new LocalInputSource(getV2ProductPath("crop/default_sample.jpg"));
 
-      CropResponse response = loadResponse("products/crop/default_sample_extraction.json");
+      CropResponse response = loadResponse("crop/default_sample_extraction.json");
       assertNotNull(response.getInference());
 
       var extractedCrop = response

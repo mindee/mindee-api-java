@@ -1,6 +1,6 @@
 package com.mindee.v2.product;
 
-import static com.mindee.TestingUtilities.getV2ResourcePath;
+import static com.mindee.TestingUtilities.getV2ProductPath;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test;
 @DisplayName("MindeeV2 - Classification Model Tests")
 public class ClassificationTest {
   private ClassificationResponse loadResponse(String filePath) throws IOException {
-    var localResponse = new LocalResponse(getV2ResourcePath(filePath));
+    var localResponse = new LocalResponse(getV2ProductPath(filePath));
     return localResponse.deserializeResponse(ClassificationResponse.class);
   }
 
@@ -26,7 +26,7 @@ public class ClassificationTest {
     @Test
     @DisplayName("classification properties must be valid")
     void singleMustHaveValidProperties() throws IOException {
-      ClassificationResponse response = loadResponse("products/classification/default_sample.json");
+      ClassificationResponse response = loadResponse("classification/default_sample.json");
       assertNotNull(response.getInference());
       assertEquals(
         "invoice",
@@ -39,7 +39,7 @@ public class ClassificationTest {
     @DisplayName("extraction properties must be valid")
     void singleExtractionMustHaveValidProperties() throws IOException {
       ClassificationResponse response = loadResponse(
-        "products/classification/default_sample_extraction.json"
+        "classification/default_sample_extraction.json"
       );
       assertNotNull(response.getInference());
       assertEquals(
