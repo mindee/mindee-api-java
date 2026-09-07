@@ -1,5 +1,12 @@
 # Mindee Java Client Library Changelog
 
+## v5.5.0 - 2026-09-07
+### Changes
+* :sparkles: allow opening a LocalResponse from a buffer
+### Fixes
+* :bug: constant-time HMAC security fix
+
+
 ## v5.4.0 - 2026-09-03
 ### Changes
 * :sparkles: add RAG search API
