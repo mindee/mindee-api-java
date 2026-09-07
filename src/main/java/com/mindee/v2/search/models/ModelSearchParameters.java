@@ -7,18 +7,21 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 /**
- * Search parameters for models.
+ * Search for models within the organization linked to the API key.
+ * All search filters are optional.
+ * If no search filters are given, all models belonging to the organization are returned.
+ * Results are paginated.
  */
 @Getter
 @EqualsAndHashCode(callSuper = true)
 public class ModelSearchParameters extends BaseSearchParameters<ModelSearchResponse> {
   /**
-   * Case-insensitive search term for the model name
+   * Filter models by partial name match, case-insensitive.
    */
   private final String name;
 
   /**
-   * Case-insensitive search term for the model type
+   * Filter by an exact model type.
    */
   private final String modelType;
 
@@ -72,7 +75,7 @@ public class ModelSearchParameters extends BaseSearchParameters<ModelSearchRespo
     }
 
     /**
-     * Case-insensitive search term for the model name
+     * Filter models by partial name match, case-insensitive.
      */
     public Builder name(String name) {
       this.name = name;
@@ -80,7 +83,7 @@ public class ModelSearchParameters extends BaseSearchParameters<ModelSearchRespo
     }
 
     /**
-     * Case-insensitive search term for the model type
+     * Filter by an exact model type.
      */
     public Builder modelType(String modelType) {
       this.modelType = modelType;
