@@ -27,19 +27,24 @@ public class ModelSearchIT {
   }
 
   @Test
-  public void ModelSearch_mustHaveResults() throws Exception {
+  public void ModelSearch_mustHaveResults() {
     ModelSearchResponse response = client.search(ModelSearchParameters.builder().build());
 
     assertNotNull(response);
     assertNotNull(response.getModels());
     assertFalse(response.getModels().isEmpty());
+    for (var model : response.getModels()) {
+      assertFalse(model.getId().isBlank());
+      assertFalse(model.getName().isBlank());
+      assertFalse(model.getModelType().isBlank());
+    }
     assertNotNull(response.getPagination());
     assertTrue(response.getPagination().getTotalItems() > 1);
     assertEquals(1, response.getPagination().getPage());
   }
 
   @Test
-  public void ModelSearch_mustReturnEmpty() throws Exception {
+  public void ModelSearch_mustReturnEmpty() {
     ModelSearchResponse response = client
       .search(ModelSearchParameters.builder().name("je n'existe pas tralala").build());
 
@@ -53,7 +58,7 @@ public class ModelSearchIT {
 
   @Test
   @SuppressWarnings("deprecation")
-  public void ModelSearch_mustReturnEmptyObsolete() throws Exception {
+  public void ModelSearch_mustReturnEmptyObsolete() {
     SearchResponse response = client.searchModels("je n'existe pas tralala");
 
     assertNotNull(response);
