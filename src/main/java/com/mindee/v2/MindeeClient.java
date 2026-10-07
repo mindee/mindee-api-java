@@ -283,7 +283,9 @@ public class MindeeClient {
   /**
    * Not recommended for general use, prefer {@link #uploadAndGetRagDocument}.
    * You will need to poll until the document is ready for use.
+   * <p>
    * Add a document to the RAG database.
+   * </p>
    *
    * @param inputSource The file to upload.
    * @param parameters RAG document upload parameters.
@@ -337,7 +339,9 @@ public class MindeeClient {
   /**
    * Not recommended for general use, prefer {@link #getReadyRagDocument}.
    * You will need to poll until the document is ready for use.
+   * <p>
    * Get a document's info and annotations from the RAG database.
+   * </p>
    *
    * @param responseClass The class of the response.
    * @param documentId The document's ID.
@@ -395,7 +399,9 @@ public class MindeeClient {
   /**
    * Not recommended for general use, prefer {@link #updateAndGetRagAnnotation}.
    * You will need to poll until the document is ready for use.
+   * <p>
    * Update a document's annotations in the RAG database.
+   * </p>
    *
    * @param parameters Annotation parameters.
    * @return an instance of {@link BaseRagAnnotationResponse}.
