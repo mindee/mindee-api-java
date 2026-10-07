@@ -9,7 +9,7 @@ import com.mindee.input.URLInputSource;
 import com.mindee.v2.MindeeSettings;
 import com.mindee.v2.clientoptions.BaseProductParameters;
 import com.mindee.v2.clientoptions.BaseSearchParameters;
-import com.mindee.v2.parsing.CommonResponse;
+import com.mindee.v2.parsing.BaseResponse;
 import com.mindee.v2.parsing.JobResponse;
 import com.mindee.v2.parsing.error.ErrorResponse;
 import com.mindee.v2.parsing.search.BaseSearchResponse;
@@ -104,7 +104,7 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
   }
 
   @Override
-  public <TResponse extends CommonResponse> TResponse reqGetResultById(
+  public <TResponse extends BaseResponse> TResponse reqGetResultById(
       Class<TResponse> responseClass,
       String inferenceId
   ) {
@@ -123,7 +123,7 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
   }
 
   @Override
-  public <TResponse extends CommonResponse> TResponse reqGetResultByUrl(
+  public <TResponse extends BaseResponse> TResponse reqGetResultByUrl(
       Class<TResponse> responseClass,
       String inferenceUrl
   ) {
@@ -207,7 +207,7 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
    * @param apiRequest HTTP request object.
    * @return a valid job response.
    */
-  private <TResponse extends CommonResponse> TResponse executeAPIRequest(
+  private <TResponse extends BaseResponse> TResponse executeAPIRequest(
       HttpUriRequestBase apiRequest,
       Class<TResponse> responseClass
   ) {
@@ -271,7 +271,7 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
     return post;
   }
 
-  private <R extends CommonResponse> R deserializeOrThrow(
+  private <R extends BaseResponse> R deserializeOrThrow(
       String body,
       Class<R> clazz,
       int httpStatus

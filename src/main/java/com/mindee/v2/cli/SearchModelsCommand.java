@@ -1,7 +1,7 @@
 package com.mindee.v2.cli;
 
 import com.mindee.v2.MindeeClient;
-import com.mindee.v2.parsing.CommonResponse;
+import com.mindee.v2.parsing.BaseResponse;
 import com.mindee.v2.search.models.ModelSearchParameters;
 import com.mindee.v2.search.models.ModelSearchResponse;
 import picocli.CommandLine.Command;
@@ -53,12 +53,12 @@ public class SearchModelsCommand extends BaseCommand {
   }
 
   @Override
-  protected String getSummaryOutput(CommonResponse response) {
+  protected String getSummaryOutput(BaseResponse response) {
     return ((ModelSearchResponse) response).getModels().toString();
   }
 
   @Override
-  protected String getFullOutput(CommonResponse response) {
+  protected String getFullOutput(BaseResponse response) {
     return response.toString();
   }
 }

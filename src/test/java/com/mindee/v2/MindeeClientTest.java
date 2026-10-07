@@ -14,7 +14,7 @@ import com.mindee.v2.clientoptions.BaseProductParameters;
 import com.mindee.v2.clientoptions.BaseSearchParameters;
 import com.mindee.v2.clientoptions.PollingOptions;
 import com.mindee.v2.http.MindeeApiV2;
-import com.mindee.v2.parsing.CommonResponse;
+import com.mindee.v2.parsing.BaseResponse;
 import com.mindee.v2.parsing.JobResponse;
 import com.mindee.v2.parsing.search.BaseSearchResponse;
 import com.mindee.v2.parsing.search.SearchResponse;
@@ -36,9 +36,9 @@ import org.junit.jupiter.api.Test;
 class MindeeClientTest {
   private static class FakeMindeeApiV2 extends MindeeApiV2 {
     private final JobResponse jobResponse;
-    private final CommonResponse resultResponse;
+    private final BaseResponse resultResponse;
 
-    public FakeMindeeApiV2(JobResponse jobResponse, CommonResponse resultResponse) {
+    public FakeMindeeApiV2(JobResponse jobResponse, BaseResponse resultResponse) {
       super();
       this.jobResponse = jobResponse;
       this.resultResponse = resultResponse;
@@ -76,7 +76,7 @@ class MindeeClientTest {
     }
 
     @Override
-    public <TResponse extends CommonResponse> TResponse reqGetResultById(
+    public <TResponse extends BaseResponse> TResponse reqGetResultById(
         Class<TResponse> tResponseClass,
         String inferenceId
     ) {
@@ -84,7 +84,7 @@ class MindeeClientTest {
     }
 
     @Override
-    public <TResponse extends CommonResponse> TResponse reqGetResultByUrl(
+    public <TResponse extends BaseResponse> TResponse reqGetResultByUrl(
         Class<TResponse> tResponseClass,
         String inferenceUrl
     ) {
@@ -183,7 +183,7 @@ class MindeeClientTest {
       AtomicReference<String> capturedUrl = new AtomicReference<>();
       var api = new FakeMindeeApiV2(null, processed) {
         @Override
-        public <TResponse extends CommonResponse> TResponse reqGetResultByUrl(
+        public <TResponse extends BaseResponse> TResponse reqGetResultByUrl(
             Class<TResponse> tResponseClass,
             String inferenceUrl
         ) {

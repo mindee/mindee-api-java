@@ -35,15 +35,15 @@ public class LocalResponse extends BaseLocalResponse {
   }
 
   /**
-   * Deserialize this local JSON payload into a specific {@link CommonResponse}
+   * Deserialize this local JSON payload into a specific {@link BaseResponse}
    * subtype: {@code InferenceResponse}, {@code JobResponse}.
    *
    * @param responseClass the concrete class to instantiate
-   * @param <T> generic {@link CommonResponse}
+   * @param <T> generic {@link BaseResponse}
    * @return Either a {@code InferenceResponse} or {@code JobResponse} instance.
    * @throws MindeeException if the payload cannot be deserialized into the requested type
    */
-  public <T extends CommonResponse> T deserializeResponse(Class<T> responseClass) {
+  public <T extends BaseResponse> T deserializeResponse(Class<T> responseClass) {
     var mapper = new ObjectMapper().findAndRegisterModules();
     try {
       var response = mapper.readValue(this.file, responseClass);

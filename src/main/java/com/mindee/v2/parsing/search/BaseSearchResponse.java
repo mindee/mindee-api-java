@@ -1,7 +1,7 @@
 package com.mindee.v2.parsing.search;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.mindee.v2.parsing.CommonResponse;
+import com.mindee.v2.parsing.BaseResponse;
 import java.util.List;
 import java.util.StringJoiner;
 import lombok.Getter;
@@ -10,7 +10,7 @@ import lombok.Getter;
  * Base class for search responses.
  */
 @Getter
-public abstract class BaseSearchResponse extends CommonResponse {
+public abstract class BaseSearchResponse extends BaseResponse {
 
   /**
    * Pagination metadata.

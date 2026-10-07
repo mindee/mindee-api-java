@@ -1,7 +1,7 @@
 package com.mindee.v2.cli;
 
 import com.mindee.v2.MindeeClient;
-import com.mindee.v2.parsing.CommonResponse;
+import com.mindee.v2.parsing.BaseResponse;
 import com.mindee.v2.search.ragdocuments.RagDocumentSearchParameters;
 import com.mindee.v2.search.ragdocuments.RagDocumentSearchResponse;
 import picocli.CommandLine.Command;
@@ -27,12 +27,12 @@ public class SearchRagDocumentsCommand extends BaseCommand {
   private String filename;
 
   @Override
-  protected String getSummaryOutput(CommonResponse response) {
+  protected String getSummaryOutput(BaseResponse response) {
     return ((RagDocumentSearchResponse) response).getRagDocuments().toString();
   }
 
   @Override
-  protected String getFullOutput(CommonResponse response) {
+  protected String getFullOutput(BaseResponse response) {
     return response.toString();
   }
 

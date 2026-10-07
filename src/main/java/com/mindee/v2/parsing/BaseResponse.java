@@ -10,7 +10,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode
 @JsonIgnoreProperties(ignoreUnknown = true)
-public abstract class CommonResponse {
+public abstract class BaseResponse {
   /**
    * The raw server response.
    * This is not formatted in any way by the library and may contain newline and tab characters.

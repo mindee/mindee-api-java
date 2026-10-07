@@ -2,7 +2,7 @@ package com.mindee.v2.cli;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.mindee.v2.parsing.CommonResponse;
+import com.mindee.v2.parsing.BaseResponse;
 import java.util.concurrent.Callable;
 import picocli.CommandLine;
 
@@ -42,7 +42,7 @@ public abstract class BaseCommand implements Callable<Integer> {
    * @param response the response
    * @return the summary string
    */
-  protected abstract String getSummaryOutput(CommonResponse response);
+  protected abstract String getSummaryOutput(BaseResponse response);
 
   /**
    * Returns the full string for the given response.
@@ -50,12 +50,12 @@ public abstract class BaseCommand implements Callable<Integer> {
    * @param response the product response
    * @return the full output string
    */
-  protected abstract String getFullOutput(CommonResponse response);
+  protected abstract String getFullOutput(BaseResponse response);
 
   /**
    * Prints the output to the console, taking into account the output type.
    */
-  protected void printOutput(CommonResponse response) throws Exception {
+  protected void printOutput(BaseResponse response) throws Exception {
     switch (output) {
       case full:
         System.out.println(getFullOutput(response));

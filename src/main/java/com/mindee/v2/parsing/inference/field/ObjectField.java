@@ -54,7 +54,7 @@ public class ObjectField extends BaseField {
     if (fields != null) {
       for (String fieldName : fields.keySet()) {
         DynamicField field = fields.get(fieldName);
-        if (field != null && field.getType() == DynamicField.FieldType.LIST_FIELD) {
+        if (field != null && field.getType() == FieldType.LIST_FIELD) {
           listFields.put(fieldName, field.getListField());
         }
       }
@@ -74,7 +74,7 @@ public class ObjectField extends BaseField {
     if (fields != null) {
       for (String fieldName : fields.keySet()) {
         DynamicField field = fields.get(fieldName);
-        if (field != null && field.getType() == DynamicField.FieldType.OBJECT_FIELD) {
+        if (field != null && field.getType() == FieldType.OBJECT_FIELD) {
           objectFields.put(fieldName, field.getObjectField());
         }
       }
