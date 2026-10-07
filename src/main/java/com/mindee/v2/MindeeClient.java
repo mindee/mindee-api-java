@@ -23,6 +23,8 @@ import java.util.concurrent.CancellationException;
  * Entry point for the Mindee **V2** API features.
  */
 public class MindeeClient {
+  private static final System.Logger logger = System.getLogger(MindeeClient.class.getName());
+
   private final MindeeApiV2 mindeeApi;
 
   /** Uses an API key read from the environment variables. */
@@ -50,6 +52,7 @@ public class MindeeClient {
       LocalInputSource inputSource,
       BaseProductParameters params
   ) throws IOException {
+    logger.log(System.Logger.Level.INFO, "Enqueuing: local source");
     return mindeeApi.reqPostEnqueue(inputSource, params);
   }
 
@@ -63,6 +66,7 @@ public class MindeeClient {
       URLInputSource inputSource,
       BaseProductParameters params
   ) throws IOException {
+    logger.log(System.Logger.Level.INFO, "Enqueuing: URL source");
     inputSource.validateSecure();
     return mindeeApi.reqPostEnqueue(inputSource, params);
   }
@@ -72,6 +76,7 @@ public class MindeeClient {
    * Can be used for polling.
    */
   public JobResponse getJob(String jobId) {
+    logger.log(System.Logger.Level.INFO, "Getting job ID: {0}", jobId);
     if (jobId == null || jobId.trim().isEmpty()) {
       throw new IllegalArgumentException("jobId must not be null or blank.");
     }
@@ -86,6 +91,7 @@ public class MindeeClient {
       Class<TResponse> responseClass,
       String inferenceId
   ) {
+    logger.log(System.Logger.Level.INFO, "Getting result with ID: {0}", inferenceId);
     if (inferenceId == null || inferenceId.trim().isEmpty()) {
       throw new IllegalArgumentException("inferenceId must not be null or blank.");
     }
@@ -100,6 +106,7 @@ public class MindeeClient {
       Class<TResponse> responseClass,
       String inferenceUrl
   ) {
+    logger.log(System.Logger.Level.INFO, "Getting result at: {0}", inferenceUrl);
     if (inferenceUrl == null || inferenceUrl.trim().isEmpty()) {
       throw new IllegalArgumentException("inferenceUrl must not be null or blank.");
     }
@@ -147,7 +154,13 @@ public class MindeeClient {
       PollingOptions pollingOptions
   ) throws IOException, InterruptedException {
     JobResponse job = enqueue(inputSource, params);
-    return pollAndFetch(responseClass, job, pollingOptions);
+    logger
+      .log(
+        System.Logger.Level.INFO,
+        "Successfully enqueued document with job ID {0}",
+        job.getJob().getId()
+      );
+    return pollForResult(responseClass, job, pollingOptions);
   }
 
   /**
@@ -192,7 +205,13 @@ public class MindeeClient {
   ) throws IOException, InterruptedException {
     inputSource.validateSecure();
     JobResponse job = enqueue(inputSource, params);
-    return pollAndFetch(responseClass, job, pollingOptions);
+    logger
+      .log(
+        System.Logger.Level.INFO,
+        "Successfully enqueued document with job ID {0}",
+        job.getJob().getId()
+      );
+    return pollForResult(responseClass, job, pollingOptions);
   }
 
   /**
@@ -251,11 +270,17 @@ public class MindeeClient {
    * @return an instance of {@link ExtractionResponse}.
    * @throws InterruptedException Throws if interrupted.
    */
-  private <TResponse extends CommonResponse> TResponse pollAndFetch(
+  private <TResponse extends CommonResponse> TResponse pollForResult(
       Class<TResponse> responseClass,
       JobResponse initialJob,
       PollingOptions pollingOptions
   ) throws InterruptedException {
+    logger
+      .log(
+        System.Logger.Level.DEBUG,
+        "Waiting {0} seconds before attempting to retrieve the result...",
+        pollingOptions.getInitialDelaySec()
+      );
     interruptibleSleep((long) (pollingOptions.getInitialDelaySec() * 1000), pollingOptions);
 
     JobResponse resp = initialJob;
@@ -265,12 +290,20 @@ public class MindeeClient {
 
     while (attempts < max) {
       interruptibleSleep(intervalMillis, pollingOptions);
+      logger.log(System.Logger.Level.DEBUG, "Poll attempt {0} of {1}", attempts + 1, max);
       resp = getJob(initialJob.getJob().getId());
 
       if (resp.getJob().getStatus().equals("Failed")) {
         attempts = max;
       }
       if (resp.getJob().getStatus().equals("Processed")) {
+        logger
+          .log(
+            System.Logger.Level.DEBUG,
+            "Job ID {0} completed processing at: {1}",
+            resp.getJob().getId(),
+            resp.getJob().getCompletedAt()
+          );
         return getResult(responseClass, resp.getJob().getId());
       }
       attempts++;

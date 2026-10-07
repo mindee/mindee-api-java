@@ -36,6 +36,7 @@ import org.apache.hc.core5.net.URIBuilder;
  */
 public final class MindeeHttpApiV2 extends MindeeApiV2 {
 
+  private static final System.Logger logger = System.getLogger(MindeeHttpApiV2.class.getName());
   private static final ObjectMapper mapper = JsonMapper.builder().findAndAddModules().build();
 
   /**
@@ -91,6 +92,8 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
       );
     parameters.getRequestParameters().forEach(builder::addTextBody);
     post.setEntity(builder.build());
+
+    logger.log(System.Logger.Level.DEBUG, "HTTP POST to {0} ...", url);
     return executeAPIRequest(post, JobResponse.class);
   }
 
@@ -113,6 +116,8 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
     builder.addTextBody("url", inputSource.getUrl().toString());
     options.getRequestParameters().forEach(builder::addTextBody);
     post.setEntity(builder.build());
+
+    logger.log(System.Logger.Level.DEBUG, "HTTP POST to {0} ...", url);
     return executeAPIRequest(post, JobResponse.class);
   }
 
@@ -125,6 +130,7 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
     var noRedirect = RequestConfig.custom().setRedirectsEnabled(false).build();
     get.setConfig(noRedirect);
 
+    logger.log(System.Logger.Level.DEBUG, "HTTP GET to {0}...", url);
     return this.executeAPIRequest(get, JobResponse.class);
   }
 
@@ -157,6 +163,8 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
     }
     validateInferenceUrl(inferenceUrl);
     var get = new HttpGet(inferenceUrl);
+
+    logger.log(System.Logger.Level.DEBUG, "HTTP GET to {0}...", inferenceUrl);
     return executeAPIRequest(get, responseClass);
   }
 
@@ -173,6 +181,8 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
     }
     parameters.getRequestParameters().forEach(url::addParameter);
     var get = new HttpGet(url.toString());
+
+    logger.log(System.Logger.Level.INFO, "Searching {0} ...", productInfo.slug());
     return this.executeAPIRequest(get, parameters.getResponseClass());
   }
 
@@ -187,6 +197,8 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
     }
     parameters.getRequestParameters().forEach(url::addParameter);
     var get = new HttpGet(url.toString());
+
+    logger.log(System.Logger.Level.INFO, "Model search...");
     return this.executeAPIRequest(get, SearchResponse.class);
   }
 
@@ -286,6 +298,7 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
         }
         try {
           var raw = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
+          logger.log(System.Logger.Level.DEBUG, "HTTP response: {0}", raw);
           return deserializeOrThrow(raw, responseClass, response.getCode());
         } finally {
           EntityUtils.consumeQuietly(responseEntity);
@@ -302,6 +315,8 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
       rawBody = response.getEntity() == null
           ? ""
           : EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
+
+      logger.log(System.Logger.Level.DEBUG, "HTTP response: {0}", rawBody);
 
       var errorResponse = mapper.readValue(rawBody, ErrorResponse.class);
 
