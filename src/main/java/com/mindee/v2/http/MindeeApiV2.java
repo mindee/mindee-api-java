@@ -5,7 +5,7 @@ import com.mindee.http.MindeeApiCommon;
 import com.mindee.input.InputSource;
 import com.mindee.v2.clientoptions.BaseProductParameters;
 import com.mindee.v2.clientoptions.BaseSearchParameters;
-import com.mindee.v2.parsing.CommonResponse;
+import com.mindee.v2.parsing.BaseResponse;
 import com.mindee.v2.parsing.JobResponse;
 import com.mindee.v2.parsing.error.ErrorResponse;
 import com.mindee.v2.parsing.search.BaseSearchResponse;
@@ -52,7 +52,7 @@ public abstract class MindeeApiV2 extends MindeeApiCommon {
    *
    * @param inferenceId ID of the inference to poll.
    */
-  public abstract <TResponse extends CommonResponse> TResponse reqGetResultById(
+  public abstract <TResponse extends BaseResponse> TResponse reqGetResultById(
       Class<TResponse> responseClass,
       String inferenceId
   );
@@ -61,7 +61,7 @@ public abstract class MindeeApiV2 extends MindeeApiCommon {
    * Retrieves the inference from a given URL.
    * The inference will only be available after it has finished processing.
    */
-  public abstract <TResponse extends CommonResponse> TResponse reqGetResultByUrl(
+  public abstract <TResponse extends BaseResponse> TResponse reqGetResultByUrl(
       Class<TResponse> responseClass,
       String inferenceUrl
   );
@@ -90,7 +90,7 @@ public abstract class MindeeApiV2 extends MindeeApiCommon {
   }
 
   protected ProductAttributes getResponseProductAttributes(
-      Class<? extends CommonResponse> responseClass
+      Class<? extends BaseResponse> responseClass
   ) {
     var productInfo = responseClass.getAnnotation(ProductAttributes.class);
     if (productInfo == null) {

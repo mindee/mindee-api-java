@@ -9,7 +9,7 @@ import com.mindee.v2.clientoptions.PollingOptions;
 import com.mindee.v2.http.MindeeApiV2;
 import com.mindee.v2.http.MindeeHttpApiV2;
 import com.mindee.v2.http.MindeeHttpExceptionV2;
-import com.mindee.v2.parsing.CommonResponse;
+import com.mindee.v2.parsing.BaseResponse;
 import com.mindee.v2.parsing.JobResponse;
 import com.mindee.v2.parsing.error.ErrorResponse;
 import com.mindee.v2.parsing.search.BaseSearchResponse;
@@ -101,7 +101,7 @@ public class MindeeClient {
    * Get the result of an inference that was previously enqueued.
    * The inference will only be available after it has finished processing.
    */
-  public <TResponse extends CommonResponse> TResponse getResult(
+  public <TResponse extends BaseResponse> TResponse getResult(
       Class<TResponse> responseClass,
       String inferenceId
   ) {
@@ -116,7 +116,7 @@ public class MindeeClient {
    * Get the result of an inference from a given URL.
    * The inference will only be available after it has finished processing.
    */
-  public <TResponse extends CommonResponse> TResponse getResultFromUrl(
+  public <TResponse extends BaseResponse> TResponse getResultFromUrl(
       Class<TResponse> responseClass,
       String inferenceUrl
   ) {
@@ -137,7 +137,7 @@ public class MindeeClient {
    * @throws IOException Throws if the file can't be accessed.
    * @throws InterruptedException Throws if the thread is interrupted.
    */
-  public <TResponse extends CommonResponse> TResponse enqueueAndGetResult(
+  public <TResponse extends BaseResponse> TResponse enqueueAndGetResult(
       Class<TResponse> responseClass,
       LocalInputSource inputSource,
       BaseProductParameters params
@@ -161,7 +161,7 @@ public class MindeeClient {
    * @throws IOException Throws if the file can't be accessed.
    * @throws InterruptedException Throws if the thread is interrupted.
    */
-  public <TResponse extends CommonResponse> TResponse enqueueAndGetResult(
+  public <TResponse extends BaseResponse> TResponse enqueueAndGetResult(
       Class<TResponse> responseClass,
       LocalInputSource inputSource,
       BaseProductParameters params,
@@ -187,7 +187,7 @@ public class MindeeClient {
    * @throws IOException Throws if the file can't be accessed.
    * @throws InterruptedException Throws if the thread is interrupted.
    */
-  public <TResponse extends CommonResponse> TResponse enqueueAndGetResult(
+  public <TResponse extends BaseResponse> TResponse enqueueAndGetResult(
       Class<TResponse> responseClass,
       URLInputSource inputSource,
       BaseProductParameters params
@@ -211,7 +211,7 @@ public class MindeeClient {
    * @throws IOException Throws if the file can't be accessed.
    * @throws InterruptedException Throws if the thread is interrupted.
    */
-  public <TResponse extends CommonResponse> TResponse enqueueAndGetResult(
+  public <TResponse extends BaseResponse> TResponse enqueueAndGetResult(
       Class<TResponse> responseClass,
       URLInputSource inputSource,
       BaseProductParameters params,
@@ -284,7 +284,7 @@ public class MindeeClient {
    * @return an instance of {@link ExtractionResponse}.
    * @throws InterruptedException Throws if interrupted.
    */
-  private <TResponse extends CommonResponse> TResponse pollForResult(
+  private <TResponse extends BaseResponse> TResponse pollForResult(
       Class<TResponse> responseClass,
       JobResponse initialResponse,
       PollingOptions pollingOptions

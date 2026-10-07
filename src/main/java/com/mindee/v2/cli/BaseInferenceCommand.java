@@ -2,7 +2,7 @@ package com.mindee.v2.cli;
 
 import com.mindee.input.LocalInputSource;
 import com.mindee.v2.MindeeClient;
-import com.mindee.v2.parsing.CommonResponse;
+import com.mindee.v2.parsing.BaseResponse;
 import java.io.File;
 import java.util.List;
 import picocli.CommandLine.Option;
@@ -47,7 +47,7 @@ public abstract class BaseInferenceCommand extends BaseCommand {
    * @return the product response
    * @throws Exception on IO or API error
    */
-  protected abstract CommonResponse executeRequest(
+  protected abstract BaseResponse executeRequest(
       MindeeClient client,
       LocalInputSource inputSource
   ) throws Exception;

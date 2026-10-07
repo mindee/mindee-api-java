@@ -2,7 +2,7 @@ package com.mindee.v2.product.crop;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.mindee.v2.parsing.CommonResponse;
+import com.mindee.v2.parsing.BaseResponse;
 import com.mindee.v2.product.ProductAttributes;
 import lombok.Getter;
 
@@ -12,7 +12,7 @@ import lombok.Getter;
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
 @ProductAttributes(slug = "crop")
-public class CropResponse extends CommonResponse {
+public class CropResponse extends BaseResponse {
 
   /**
    * The inference result for a crop utility request.

@@ -54,14 +54,14 @@ public final class InferenceFields extends LinkedHashMap<String, DynamicField> {
       StringBuilder strBuilder = new StringBuilder();
       strBuilder.append(padding).append(":").append(fieldKey).append(": ");
 
-      if (fieldInstance.getType() == DynamicField.FieldType.LIST_FIELD) {
+      if (fieldInstance.getType() == FieldType.LIST_FIELD) {
         ListField listField = fieldInstance.getListField();
         if (listField.getItems() != null && !listField.getItems().isEmpty()) {
           strBuilder.append(listField);
         }
-      } else if (fieldInstance.getType() == DynamicField.FieldType.OBJECT_FIELD) {
+      } else if (fieldInstance.getType() == FieldType.OBJECT_FIELD) {
         strBuilder.append(fieldInstance.getObjectField());
-      } else if (fieldInstance.getType() == DynamicField.FieldType.SIMPLE_FIELD) {
+      } else if (fieldInstance.getType() == FieldType.SIMPLE_FIELD) {
         strBuilder.append(fieldInstance.getSimpleField());
       }
       joiner.add(strBuilder);

@@ -2,7 +2,7 @@ package com.mindee.v2.cli;
 
 import com.mindee.input.LocalInputSource;
 import com.mindee.v2.MindeeClient;
-import com.mindee.v2.parsing.CommonResponse;
+import com.mindee.v2.parsing.BaseResponse;
 import com.mindee.v2.product.crop.CropResponse;
 import com.mindee.v2.product.crop.params.CropParameters;
 import picocli.CommandLine.Command;
@@ -14,7 +14,7 @@ import picocli.CommandLine.Command;
 public class CropCommand extends BaseInferenceCommand {
 
   @Override
-  protected CommonResponse executeRequest(
+  protected BaseResponse executeRequest(
       MindeeClient client,
       LocalInputSource inputSource
   ) throws Exception {
@@ -27,12 +27,12 @@ public class CropCommand extends BaseInferenceCommand {
   }
 
   @Override
-  protected String getSummaryOutput(CommonResponse response) {
+  protected String getSummaryOutput(BaseResponse response) {
     return ((CropResponse) response).getInference().getResult().toString();
   }
 
   @Override
-  protected String getFullOutput(CommonResponse response) {
+  protected String getFullOutput(BaseResponse response) {
     return ((CropResponse) response).getInference().toString();
   }
 }

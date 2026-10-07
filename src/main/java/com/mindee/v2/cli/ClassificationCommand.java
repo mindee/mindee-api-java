@@ -2,7 +2,7 @@ package com.mindee.v2.cli;
 
 import com.mindee.input.LocalInputSource;
 import com.mindee.v2.MindeeClient;
-import com.mindee.v2.parsing.CommonResponse;
+import com.mindee.v2.parsing.BaseResponse;
 import com.mindee.v2.product.classification.ClassificationResponse;
 import com.mindee.v2.product.classification.params.ClassificationParameters;
 import picocli.CommandLine.Command;
@@ -18,7 +18,7 @@ import picocli.CommandLine.Command;
 public class ClassificationCommand extends BaseInferenceCommand {
 
   @Override
-  protected CommonResponse executeRequest(
+  protected BaseResponse executeRequest(
       MindeeClient client,
       LocalInputSource inputSource
   ) throws Exception {
@@ -31,12 +31,12 @@ public class ClassificationCommand extends BaseInferenceCommand {
   }
 
   @Override
-  protected String getSummaryOutput(CommonResponse response) {
+  protected String getSummaryOutput(BaseResponse response) {
     return ((ClassificationResponse) response).getInference().getResult().toString();
   }
 
   @Override
-  protected String getFullOutput(CommonResponse response) {
+  protected String getFullOutput(BaseResponse response) {
     return ((ClassificationResponse) response).getInference().toString();
   }
 }

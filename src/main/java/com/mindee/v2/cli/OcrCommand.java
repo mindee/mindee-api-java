@@ -2,7 +2,7 @@ package com.mindee.v2.cli;
 
 import com.mindee.input.LocalInputSource;
 import com.mindee.v2.MindeeClient;
-import com.mindee.v2.parsing.CommonResponse;
+import com.mindee.v2.parsing.BaseResponse;
 import com.mindee.v2.product.ocr.OcrResponse;
 import com.mindee.v2.product.ocr.params.OcrParameters;
 import picocli.CommandLine.Command;
@@ -14,7 +14,7 @@ import picocli.CommandLine.Command;
 public class OcrCommand extends BaseInferenceCommand {
 
   @Override
-  protected CommonResponse executeRequest(
+  protected BaseResponse executeRequest(
       MindeeClient client,
       LocalInputSource inputSource
   ) throws Exception {
@@ -27,12 +27,12 @@ public class OcrCommand extends BaseInferenceCommand {
   }
 
   @Override
-  protected String getSummaryOutput(CommonResponse response) {
+  protected String getSummaryOutput(BaseResponse response) {
     return ((OcrResponse) response).getInference().getResult().toString();
   }
 
   @Override
-  protected String getFullOutput(CommonResponse response) {
+  protected String getFullOutput(BaseResponse response) {
     return ((OcrResponse) response).getInference().toString();
   }
 }

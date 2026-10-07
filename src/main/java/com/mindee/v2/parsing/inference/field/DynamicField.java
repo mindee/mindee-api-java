@@ -103,13 +103,4 @@ public class DynamicField {
       return objectField.toString();
     return "";
   }
-
-  /**
-   * Possible field kinds.
-   */
-  public enum FieldType {
-    SIMPLE_FIELD,
-    OBJECT_FIELD,
-    LIST_FIELD,
-  }
 }

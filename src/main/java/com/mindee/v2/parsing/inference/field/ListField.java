@@ -69,7 +69,7 @@ public final class ListField extends BaseField {
     joiner.add("");
     for (DynamicField item : items) {
       if (item != null) {
-        if (item.getType() == DynamicField.FieldType.OBJECT_FIELD) {
+        if (item.getType() == FieldType.OBJECT_FIELD) {
           joiner.add(item.getObjectField().toStringFromList());
         } else {
           joiner.add(item.toString());

@@ -2,7 +2,7 @@ package com.mindee.v2.cli;
 
 import com.mindee.input.LocalInputSource;
 import com.mindee.v2.MindeeClient;
-import com.mindee.v2.parsing.CommonResponse;
+import com.mindee.v2.parsing.BaseResponse;
 import com.mindee.v2.product.extraction.ExtractionInference;
 import com.mindee.v2.product.extraction.ExtractionResponse;
 import com.mindee.v2.product.extraction.params.ExtractionParameters;
@@ -51,7 +51,7 @@ public class ExtractionCommand extends BaseInferenceCommand {
   private String textContext;
 
   @Override
-  protected CommonResponse executeRequest(
+  protected BaseResponse executeRequest(
       MindeeClient client,
       LocalInputSource inputSource
   ) throws Exception {
@@ -73,12 +73,12 @@ public class ExtractionCommand extends BaseInferenceCommand {
   }
 
   @Override
-  protected String getSummaryOutput(CommonResponse response) {
+  protected String getSummaryOutput(BaseResponse response) {
     return ((ExtractionResponse) response).getInference().getResult().toString();
   }
 
   @Override
-  protected String getFullOutput(CommonResponse response) {
+  protected String getFullOutput(BaseResponse response) {
     ExtractionInference inference = ((ExtractionResponse) response).getInference();
     var joiner = new StringJoiner("\n");
 
