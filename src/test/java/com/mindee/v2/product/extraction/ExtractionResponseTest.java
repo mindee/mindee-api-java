@@ -1,4 +1,4 @@
-package com.mindee.v2.product;
+package com.mindee.v2.product.extraction;
 
 import static com.mindee.TestingUtilities.getV2ProductPath;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -27,8 +27,6 @@ import com.mindee.v2.parsing.inference.field.InferenceFields;
 import com.mindee.v2.parsing.inference.field.ListField;
 import com.mindee.v2.parsing.inference.field.ObjectField;
 import com.mindee.v2.parsing.inference.field.SimpleField;
-import com.mindee.v2.product.extraction.ExtractionInference;
-import com.mindee.v2.product.extraction.ExtractionResponse;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.nio.file.Files;
@@ -40,8 +38,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-@DisplayName("MindeeV2 - Extraction Model Tests")
-class ExtractionTest {
+@DisplayName("MindeeV2 - Extraction Response")
+class ExtractionResponseTest {
 
   private ExtractionResponse loadResponse(String filePath) throws IOException {
     var localResponse = new LocalResponse(getV2ProductPath(filePath));
@@ -180,11 +178,11 @@ class ExtractionTest {
     @Test
     @DisplayName("all nested structures must be typed correctly")
     void deepNestedFields_mustExposeCorrectTypes() throws IOException {
-      ExtractionResponse resp = loadResponse("extraction/deep_nested_fields.json");
-      ExtractionInference inf = resp.getInference();
-      assertNotNull(inf);
+      var response = loadResponse("extraction/deep_nested_fields.json");
+      ExtractionInference inference = response.getInference();
+      assertNotNull(inference);
 
-      var root = inf.getResult().getFields();
+      var root = inference.getResult().getFields();
       assertNotNull(root.get("field_simple").getSimpleField());
       assertNotNull(root.get("field_object").getObjectField());
 

@@ -21,7 +21,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-@DisplayName("MindeeV2 - Crop Model Tests")
+@DisplayName("MindeeV2 - Crop Response")
 public class CropTest {
   private static final Path outputPath = getResourcePath("output/v2/product/crop");
 

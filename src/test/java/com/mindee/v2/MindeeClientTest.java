@@ -10,16 +10,20 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mindee.input.InputSource;
 import com.mindee.input.LocalInputSource;
+import com.mindee.v2.clientoptions.BaseAnnotationParameters;
 import com.mindee.v2.clientoptions.BaseProductParameters;
+import com.mindee.v2.clientoptions.BaseRagDocumentUploadParameters;
 import com.mindee.v2.clientoptions.BaseSearchParameters;
 import com.mindee.v2.clientoptions.PollingOptions;
 import com.mindee.v2.http.MindeeApiV2;
+import com.mindee.v2.parsing.BaseRagAnnotationResponse;
 import com.mindee.v2.parsing.BaseResponse;
 import com.mindee.v2.parsing.JobResponse;
 import com.mindee.v2.parsing.search.BaseSearchResponse;
 import com.mindee.v2.parsing.search.SearchResponse;
 import com.mindee.v2.product.extraction.ExtractionResponse;
 import com.mindee.v2.product.extraction.params.ExtractionParameters;
+import com.mindee.v2.product.extraction.ragdocuments.ExtractionRagAnnotationResponse;
 import com.mindee.v2.search.models.ModelSearchParameters;
 import com.mindee.v2.search.models.ModelSearchResponse;
 import java.io.IOException;
@@ -57,16 +61,47 @@ class MindeeClientTest {
       return jobResponse;
     }
 
-    @Override
     public JobResponse reqGetJobById(String jobId) {
       return jobResponse;
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public <TSearchResponse extends BaseSearchResponse> TSearchResponse reqGetSearch(
         BaseSearchParameters<TSearchResponse> parameters
     ) {
       return (TSearchResponse) new ModelSearchResponse();
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public <TAnnotationResponse extends BaseRagAnnotationResponse> TAnnotationResponse reqPostRagDocument(
+        BaseRagDocumentUploadParameters<TAnnotationResponse> parameters,
+        LocalInputSource localInputSource
+    ) {
+      return (TAnnotationResponse) new ExtractionRagAnnotationResponse();
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public <TAnnotationResponse extends BaseRagAnnotationResponse> TAnnotationResponse reqGetRagAnnotation(
+        Class<TAnnotationResponse> responseClass,
+        String documentId
+    ) {
+      return (TAnnotationResponse) new ExtractionRagAnnotationResponse();
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public <TAnnotationResponse extends BaseRagAnnotationResponse> TAnnotationResponse reqPatchRagAnnotation(
+        BaseAnnotationParameters<TAnnotationResponse> parameters
+    ) {
+      return (TAnnotationResponse) new ExtractionRagAnnotationResponse();
+    }
+
+    @Override
+    public boolean reqDeleteExtractionRagDocument(String documentId) {
+      return true;
     }
 
     @Override
@@ -76,6 +111,7 @@ class MindeeClientTest {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public <TResponse extends BaseResponse> TResponse reqGetResultById(
         Class<TResponse> tResponseClass,
         String inferenceId
@@ -84,6 +120,7 @@ class MindeeClientTest {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public <TResponse extends BaseResponse> TResponse reqGetResultByUrl(
         Class<TResponse> tResponseClass,
         String inferenceUrl

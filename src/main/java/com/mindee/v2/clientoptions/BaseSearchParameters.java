@@ -24,6 +24,10 @@ public abstract class BaseSearchParameters<TSearchResponse extends BaseSearchRes
 
   /**
    * Base constructor.
+   *
+   * @param responseClass {@link #responseClass}
+   * @param page {@link #page}
+   * @param perPage {@link #perPage}
    */
   protected BaseSearchParameters(
       Class<TSearchResponse> responseClass,

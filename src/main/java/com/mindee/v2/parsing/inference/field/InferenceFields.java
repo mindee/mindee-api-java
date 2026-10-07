@@ -14,7 +14,7 @@ import lombok.EqualsAndHashCode;
 public final class InferenceFields extends LinkedHashMap<String, DynamicField> {
 
   /**
-   * Retrieves the field as a `SimpleField`.
+   * Retrieves the field as a {@link SimpleField}.
    *
    * @param fieldName the name of the field
    * @throws IllegalStateException if the field is not a SimpleField
@@ -24,7 +24,7 @@ public final class InferenceFields extends LinkedHashMap<String, DynamicField> {
   }
 
   /**
-   * Retrieves the field as a `ListField`.
+   * Retrieves the field as a {@link ListField}.
    *
    * @param fieldName the name of the field
    * @throws IllegalStateException if the field is not a ListField
@@ -34,7 +34,7 @@ public final class InferenceFields extends LinkedHashMap<String, DynamicField> {
   }
 
   /**
-   * Retrieves the field as an `ObjectField`.
+   * Retrieves the field as an {@link ObjectField}.
    *
    * @param fieldName the name of the field
    * @throws IllegalStateException if the field is not a ObjectField

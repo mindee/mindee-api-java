@@ -11,7 +11,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-@DisplayName("MindeeV2 - OCR Model Tests")
+@DisplayName("MindeeV2 - OCR Response")
 public class OcrTest {
   private OcrResponse loadResponse(String filePath) throws IOException {
     var localResponse = new LocalResponse(getV2ProductPath(filePath));

@@ -26,6 +26,13 @@ public abstract class BaseProductParameters {
    */
   protected final String[] webhookIds;
 
+  /**
+   * Base constructor.
+   *
+   * @param modelId {@link #modelId}
+   * @param alias {@link #alias}
+   * @param webhookIds {@link #webhookIds}
+   */
   protected BaseProductParameters(String modelId, String alias, String[] webhookIds) {
     if (modelId == null || modelId.trim().isBlank()) {
       throw new IllegalArgumentException("modelId cannot be null or whitespace.");

@@ -13,7 +13,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-@DisplayName("MindeeV2 - Classification Model Tests")
+@DisplayName("MindeeV2 - Classification Response")
 public class ClassificationTest {
   private ClassificationResponse loadResponse(String filePath) throws IOException {
     var localResponse = new LocalResponse(getV2ProductPath(filePath));
@@ -26,7 +26,7 @@ public class ClassificationTest {
     @Test
     @DisplayName("classification properties must be valid")
     void singleMustHaveValidProperties() throws IOException {
-      ClassificationResponse response = loadResponse("classification/default_sample.json");
+      var response = loadResponse("classification/default_sample.json");
       assertNotNull(response.getInference());
       assertEquals(
         "invoice",

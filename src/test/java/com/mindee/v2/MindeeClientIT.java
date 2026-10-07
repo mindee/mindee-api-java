@@ -18,17 +18,17 @@ import org.junit.jupiter.api.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @Tag("integration")
-@DisplayName("MindeeV2 – Integration Tests")
+@DisplayName("MindeeV2 – Integration")
 class MindeeClientIT {
 
-  private MindeeClient mindeeClient;
+  private MindeeClient client;
   private String modelId;
 
   @BeforeAll
   void setUp() {
     String apiKey = System.getenv("MINDEE_V2_API_KEY");
     modelId = System.getenv("MINDEE_V2_SE_TESTS_FINDOC_MODEL_ID");
-    mindeeClient = new MindeeClient(apiKey);
+    client = new MindeeClient(apiKey);
   }
 
   @Test
@@ -52,7 +52,7 @@ class MindeeClientIT {
       .maxRetries(80)
       .build();
 
-    var response = mindeeClient
+    var response = client
       .enqueueAndGetResult(ExtractionResponse.class, source, params, pollingOptions);
     assertNotNull(response);
 
@@ -98,7 +98,7 @@ class MindeeClientIT {
       .textContext("this is an invoice")
       .build();
 
-    var response = mindeeClient.enqueueAndGetResult(ExtractionResponse.class, source, params);
+    var response = client.enqueueAndGetResult(ExtractionResponse.class, source, params);
     assertNotNull(response);
 
     var inference = response.getInference();
@@ -147,7 +147,7 @@ class MindeeClientIT {
       .dataSchema(Files.readString(getV2ProductPath("extraction/data_schema_replace_param.json")))
       .build();
 
-    var response = mindeeClient.enqueueAndGetResult(ExtractionResponse.class, source, params);
+    var response = client.enqueueAndGetResult(ExtractionResponse.class, source, params);
     assertNotNull(response);
     ExtractionInference inference = response.getInference();
     assertNotNull(inference);
@@ -177,7 +177,7 @@ class MindeeClientIT {
 
     MindeeHttpExceptionV2 err = assertThrows(
       MindeeHttpExceptionV2.class,
-      () -> mindeeClient.enqueue(source, params)
+      () -> client.enqueue(source, params)
     );
     assertEquals(422, err.getStatus());
   }
@@ -193,7 +193,7 @@ class MindeeClientIT {
 
     MindeeHttpExceptionV2 err = assertThrows(
       MindeeHttpExceptionV2.class,
-      () -> mindeeClient.enqueue(source, params)
+      () -> client.enqueue(source, params)
     );
     assertEquals(422, err.getStatus());
   }
@@ -203,7 +203,7 @@ class MindeeClientIT {
   void invalidJob_mustThrowError() {
     MindeeHttpExceptionV2 err = assertThrows(
       MindeeHttpExceptionV2.class,
-      () -> mindeeClient.getResult(ExtractionResponse.class, "INVALID_JOB_ID")
+      () -> client.getResult(ExtractionResponse.class, "INVALID_JOB_ID")
     );
     assertEquals(422, err.getStatus());
     assertNotNull(err);
@@ -218,7 +218,7 @@ class MindeeClientIT {
 
     var options = ExtractionParameters.builder(modelId).build();
 
-    var response = mindeeClient.enqueueAndGetResult(ExtractionResponse.class, urlSource, options);
+    var response = client.enqueueAndGetResult(ExtractionResponse.class, urlSource, options);
 
     assertNotNull(response);
     assertNotNull(response.getInference());
@@ -227,7 +227,7 @@ class MindeeClientIT {
   @Test
   @DisplayName("Search for models by name")
   void searchModelsByName_mustSucceed() {
-    SearchResponse response = mindeeClient.searchModels("crop");
+    SearchResponse response = client.searchModels("crop");
     assertNotNull(response);
     assertFalse(response.getModels().isEmpty());
   }
@@ -241,21 +241,21 @@ class MindeeClientIT {
       .alias("java-integration-test_get-result-from-url")
       .build();
 
-    var enqueueResp = mindeeClient.enqueue(source, params);
+    var enqueueResp = client.enqueue(source, params);
     assertNotNull(enqueueResp);
     var jobId = enqueueResp.getJob().getId();
 
     String resultUrl = null;
     for (int i = 0; i < 80 && resultUrl == null; i++) {
       Thread.sleep(1500);
-      var poll = mindeeClient.getJob(jobId);
+      var poll = client.getJob(jobId);
       if (poll.getJob().getStatus().equals("Processed")) {
         resultUrl = poll.getJob().getResultUrl();
       }
     }
     assertNotNull(resultUrl, "Job must expose a result_url once processed");
 
-    var response = mindeeClient.getResultFromUrl(ExtractionResponse.class, resultUrl);
+    var response = client.getResultFromUrl(ExtractionResponse.class, resultUrl);
     assertNotNull(response);
     assertNotNull(response.getInference());
     assertNotNull(response.getInference().getId());

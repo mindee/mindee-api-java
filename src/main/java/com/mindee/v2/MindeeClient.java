@@ -3,12 +3,15 @@ package com.mindee.v2;
 import com.mindee.MindeeException;
 import com.mindee.input.LocalInputSource;
 import com.mindee.input.URLInputSource;
+import com.mindee.v2.clientoptions.BaseAnnotationParameters;
 import com.mindee.v2.clientoptions.BaseProductParameters;
+import com.mindee.v2.clientoptions.BaseRagDocumentUploadParameters;
 import com.mindee.v2.clientoptions.BaseSearchParameters;
 import com.mindee.v2.clientoptions.PollingOptions;
 import com.mindee.v2.http.MindeeApiV2;
 import com.mindee.v2.http.MindeeHttpApiV2;
 import com.mindee.v2.http.MindeeHttpExceptionV2;
+import com.mindee.v2.parsing.BaseRagAnnotationResponse;
 import com.mindee.v2.parsing.BaseResponse;
 import com.mindee.v2.parsing.JobResponse;
 import com.mindee.v2.parsing.error.ErrorResponse;
@@ -78,10 +81,10 @@ public class MindeeClient {
    * Can be used for polling.
    */
   public JobResponse getJobFromUrl(String pollingUrl) {
-    logger.log(System.Logger.Level.INFO, "Getting Job at: {0}", pollingUrl);
     if (pollingUrl == null || pollingUrl.isBlank()) {
       throw new IllegalArgumentException("Job URL cannot be null or blank.");
     }
+    logger.log(System.Logger.Level.INFO, "Getting Job at: {0}", pollingUrl);
     return mindeeApi.reqGetJobByUrl(pollingUrl);
   }
 
@@ -90,10 +93,10 @@ public class MindeeClient {
    * Can be used for polling.
    */
   public JobResponse getJob(String jobId) {
-    logger.log(System.Logger.Level.INFO, "Getting job ID: {0}", jobId);
     if (jobId == null || jobId.isBlank()) {
       throw new IllegalArgumentException("jobId must not be null or blank.");
     }
+    logger.log(System.Logger.Level.INFO, "Getting job ID: {0}", jobId);
     return mindeeApi.reqGetJobById(jobId);
   }
 
@@ -105,10 +108,10 @@ public class MindeeClient {
       Class<TResponse> responseClass,
       String inferenceId
   ) {
-    logger.log(System.Logger.Level.INFO, "Getting result with ID: {0}", inferenceId);
-    if (inferenceId == null || inferenceId.trim().isEmpty()) {
+    if (inferenceId == null || inferenceId.isBlank()) {
       throw new IllegalArgumentException("inferenceId must not be null or blank.");
     }
+    logger.log(System.Logger.Level.INFO, "Getting result with ID: {0}", inferenceId);
     return mindeeApi.reqGetResultById(responseClass, inferenceId);
   }
 
@@ -120,10 +123,10 @@ public class MindeeClient {
       Class<TResponse> responseClass,
       String inferenceUrl
   ) {
-    logger.log(System.Logger.Level.INFO, "Getting result at: {0}", inferenceUrl);
-    if (inferenceUrl == null || inferenceUrl.trim().isEmpty()) {
+    if (inferenceUrl == null || inferenceUrl.isBlank()) {
       throw new IllegalArgumentException("inferenceUrl must not be null or blank.");
     }
+    logger.log(System.Logger.Level.INFO, "Getting result at: {0}", inferenceUrl);
     return mindeeApi.reqGetResultByUrl(responseClass, inferenceUrl);
   }
 
@@ -275,6 +278,235 @@ public class MindeeClient {
   public SearchResponse searchModels(String modelName, String modelType) {
     return mindeeApi
       .reqGetSearch(ModelSearchParameters.builder().name(modelName).modelType(modelType).build());
+  }
+
+  /**
+   * Not recommended for general use, prefer {@link #uploadAndGetRagDocument}.
+   * You will need to poll until the document is ready for use.
+   * Add a document to the RAG database.
+   *
+   * @param inputSource The file to upload.
+   * @param parameters RAG document upload parameters.
+   * @return an instance of {@link BaseRagAnnotationResponse}.
+   */
+  public <TAnnotationResponse extends BaseRagAnnotationResponse> TAnnotationResponse uploadRagDocument(
+      LocalInputSource inputSource,
+      BaseRagDocumentUploadParameters<TAnnotationResponse> parameters
+  ) throws IOException {
+    logger.log(System.Logger.Level.INFO, "Adding a document to the RAG database");
+    return mindeeApi.reqPostRagDocument(parameters, inputSource);
+  }
+
+  /**
+   * Add a document to the RAG database, poll, and return the initial annotation.
+   *
+   * @param inputSource The file to upload.
+   * @param parameters RAG document upload parameters.
+   * @return an instance of {@link BaseRagAnnotationResponse}.
+   */
+  public <TAnnotationResponse extends BaseRagAnnotationResponse> TAnnotationResponse uploadAndGetRagDocument(
+      LocalInputSource inputSource,
+      BaseRagDocumentUploadParameters<TAnnotationResponse> parameters
+  ) throws IOException, InterruptedException {
+    return uploadAndGetRagDocument(inputSource, parameters, null);
+  }
+
+  /**
+   * Add a document to the RAG database, poll, and return the initial annotation.
+   *
+   * @param inputSource The file to upload.
+   * @param parameters RAG document upload parameters.
+   * @param pollingOptions Polling options (if null, default options are used).
+   * @return an instance of {@link BaseRagAnnotationResponse}.
+   */
+  public <TAnnotationResponse extends BaseRagAnnotationResponse> TAnnotationResponse uploadAndGetRagDocument(
+      LocalInputSource inputSource,
+      BaseRagDocumentUploadParameters<TAnnotationResponse> parameters,
+      PollingOptions pollingOptions
+  ) throws IOException, InterruptedException {
+    if (pollingOptions == null) {
+      pollingOptions = PollingOptions.builder().build();
+    }
+    TAnnotationResponse initialResponse = uploadRagDocument(inputSource, parameters);
+    if (!"Processing".equals(initialResponse.getStatus())) {
+      return initialResponse;
+    }
+    return pollForRagDocument(parameters.getResponseClass(), initialResponse, pollingOptions);
+  }
+
+  /**
+   * Not recommended for general use, prefer {@link #getReadyRagDocument}.
+   * You will need to poll until the document is ready for use.
+   * Get a document's info and annotations from the RAG database.
+   *
+   * @param responseClass The class of the response.
+   * @param documentId The document's ID.
+   * @return an instance of {@link BaseRagAnnotationResponse}.
+   */
+  public <TAnnotationResponse extends BaseRagAnnotationResponse> TAnnotationResponse getRagDocument(
+      Class<TAnnotationResponse> responseClass,
+      String documentId
+  ) {
+    if (documentId == null || documentId.isBlank()) {
+      throw new IllegalArgumentException("documentId must not be null or blank.");
+    }
+    logger.log(System.Logger.Level.INFO, "Getting RAG document ID: {0}", documentId);
+    return mindeeApi.reqGetRagAnnotation(responseClass, documentId);
+  }
+
+  /**
+   * Get a document's info and annotations from the RAG database, polling if it is still processing.
+   *
+   * @param responseClass The class of the response.
+   * @param documentId The document's ID.
+   * @return an instance of {@link BaseRagAnnotationResponse}.
+   */
+  public <TAnnotationResponse extends BaseRagAnnotationResponse> TAnnotationResponse getReadyRagDocument(
+      Class<TAnnotationResponse> responseClass,
+      String documentId
+  ) throws InterruptedException {
+    return getReadyRagDocument(responseClass, documentId, null);
+  }
+
+  /**
+   * Get a document's info and annotations from the RAG database, polling if it is still processing.
+   *
+   * @param responseClass The class of the response.
+   * @param documentId The document's ID.
+   * @param pollingOptions Polling options (if null, default options are used).
+   * @return an instance of {@link BaseRagAnnotationResponse}.
+   */
+  public <TAnnotationResponse extends BaseRagAnnotationResponse> TAnnotationResponse getReadyRagDocument(
+      Class<TAnnotationResponse> responseClass,
+      String documentId,
+      PollingOptions pollingOptions
+  ) throws InterruptedException {
+    TAnnotationResponse initialResponse = getRagDocument(responseClass, documentId);
+    if (!"Processing".equals(initialResponse.getStatus())) {
+      return initialResponse;
+    }
+
+    if (pollingOptions == null) {
+      pollingOptions = PollingOptions.builder().build();
+    }
+    return pollForRagDocument(responseClass, initialResponse, pollingOptions);
+  }
+
+  /**
+   * Not recommended for general use, prefer {@link #updateAndGetRagAnnotation}.
+   * You will need to poll until the document is ready for use.
+   * Update a document's annotations in the RAG database.
+   *
+   * @param parameters Annotation parameters.
+   * @return an instance of {@link BaseRagAnnotationResponse}.
+   */
+  public <TAnnotationResponse extends BaseRagAnnotationResponse> TAnnotationResponse updateRagAnnotation(
+      BaseAnnotationParameters<TAnnotationResponse> parameters
+  ) {
+    logger
+      .log(System.Logger.Level.INFO, "Updating RAG document ID: {0}", parameters.getDocumentId());
+    return mindeeApi.reqPatchRagAnnotation(parameters);
+  }
+
+  /**
+   * Update a document's annotations in the RAG database and poll until complete.
+   *
+   * @param parameters Annotation parameters.
+   * @return an instance of {@link BaseRagAnnotationResponse}.
+   */
+  public <TAnnotationResponse extends BaseRagAnnotationResponse> TAnnotationResponse updateAndGetRagAnnotation(
+      BaseAnnotationParameters<TAnnotationResponse> parameters
+  ) throws InterruptedException {
+    return updateAndGetRagAnnotation(parameters, null);
+  }
+
+  /**
+   * Update a document's annotations in the RAG database and poll until complete.
+   *
+   * @param parameters Annotation parameters.
+   * @param pollingOptions Polling options (if null, default options are used).
+   * @return an instance of {@link BaseRagAnnotationResponse}.
+   */
+  public <TAnnotationResponse extends BaseRagAnnotationResponse> TAnnotationResponse updateAndGetRagAnnotation(
+      BaseAnnotationParameters<TAnnotationResponse> parameters,
+      PollingOptions pollingOptions
+  ) throws InterruptedException {
+    TAnnotationResponse initialResponse = updateRagAnnotation(parameters);
+    if (!"Processing".equals(initialResponse.getStatus())) {
+      return initialResponse;
+    }
+
+    if (pollingOptions == null) {
+      pollingOptions = PollingOptions.builder().build();
+    }
+    return pollForRagDocument(parameters.getResponseClass(), initialResponse, pollingOptions);
+  }
+
+  /**
+   * Delete a document from the RAG database.
+   * For extraction models only.
+   *
+   * @param documentId The document's ID.
+   * @return true if successful.
+   */
+  public boolean deleteExtractionRagDocument(String documentId) {
+    if (documentId == null || documentId.isBlank()) {
+      throw new IllegalArgumentException("documentId must not be null or blank.");
+    }
+    logger.log(System.Logger.Level.INFO, "Deleting RAG document ID: {0}", documentId);
+    return mindeeApi.reqDeleteExtractionRagDocument(documentId);
+  }
+
+  /**
+   * Poll until the RAG document is finished processing or the max number of attempts is reached.
+   *
+   * @param responseClass The class of the response.
+   * @param initialResponse The initial annotation response.
+   * @param pollingOptions Polling options.
+   * @return an instance of {@link BaseRagAnnotationResponse}.
+   * @throws InterruptedException Throws if the thread is interrupted.
+   */
+  private <TAnnotationResponse extends BaseRagAnnotationResponse> TAnnotationResponse pollForRagDocument(
+      Class<TAnnotationResponse> responseClass,
+      BaseRagAnnotationResponse initialResponse,
+      PollingOptions pollingOptions
+  ) throws InterruptedException {
+    logger
+      .log(System.Logger.Level.INFO, "Polling for RAG document ID: {0}", initialResponse.getId());
+    int maxRetries = pollingOptions.getMaxRetries() + 1;
+
+    logger
+      .log(
+        System.Logger.Level.DEBUG,
+        "Waiting {0} seconds before attempting to retrieve the result...",
+        pollingOptions.getInitialDelaySec()
+      );
+
+    interruptibleSleep(
+      (long) (pollingOptions.getInitialDelaySec() * 1000),
+      pollingOptions.getCancelToken()
+    );
+
+    String documentId = initialResponse.getId();
+    long intervalMillis = (long) (pollingOptions.getIntervalSec() * 1000);
+    int retryCount = 1;
+
+    while (retryCount < maxRetries) {
+      logger.log(System.Logger.Level.DEBUG, "Poll attempt {0} of {1}", retryCount, maxRetries);
+
+      TAnnotationResponse response = getRagDocument(responseClass, documentId);
+      retryCount++;
+
+      String status = response.getStatus();
+      if ("Processing".equals(status)) {
+        interruptibleSleep(intervalMillis, pollingOptions.getCancelToken());
+      } else if ("Failed".equals(status)) {
+        throw new MindeeException("RAG failed without an error payload.");
+      } else {
+        return response;
+      }
+    }
+    throw new MindeeException("RAG polling not complete after " + retryCount + " attempts.");
   }
 
   /**
