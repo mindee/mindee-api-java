@@ -1,5 +1,12 @@
 # Mindee Java Client Library Changelog
 
+## v5.6.0 - 2026-10-07
+### Changes
+* :loud_sound: add default logging
+* :arrow_up: update jackson
+* :recycle: harmonize client and API methods
+
+
 ## v5.5.0 - 2026-09-07
 ### Changes
 * :sparkles: allow opening a LocalResponse from a buffer
