@@ -34,6 +34,13 @@ public abstract class MindeeApiV2 extends MindeeApiCommon {
   ) throws IOException;
 
   /**
+   * Get the status of an inference that was previously enqueued.
+   *
+   * @param pollingUrl The job URL as returned by the predict_async route.
+   */
+  public abstract JobResponse reqGetJobByUrl(String pollingUrl);
+
+  /**
    * Attempts to poll the queue.
    *
    * @param jobId id of the job to get.
