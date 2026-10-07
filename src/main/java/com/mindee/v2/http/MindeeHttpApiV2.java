@@ -3,6 +3,7 @@ package com.mindee.v2.http;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.mindee.MindeeException;
+import com.mindee.input.InputSource;
 import com.mindee.input.LocalInputSource;
 import com.mindee.input.URLInputSource;
 import com.mindee.v2.MindeeSettings;
@@ -64,16 +65,9 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
     }
   }
 
-  /**
-   * Enqueues a doc with the POST method.
-   *
-   * @param inputSource Input source to send.
-   * @param parameters Options to send the file along with.
-   * @return A job response.
-   */
   @Override
-  public JobResponse reqPostEnqueue(
-      LocalInputSource inputSource,
+  public JobResponse reqPostProductEnqueue(
+      InputSource inputSource,
       BaseProductParameters parameters
   ) {
     var productInfo = getParamsProductAttributes(parameters.getClass());
@@ -83,38 +77,9 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
 
     var builder = MultipartEntityBuilder.create();
     builder.setMode(HttpMultipartMode.EXTENDED);
-    builder
-      .addBinaryBody(
-        "file",
-        inputSource.getFile(),
-        ContentType.DEFAULT_BINARY,
-        inputSource.getFilename()
-      );
-    parameters.getRequestParameters().forEach(builder::addTextBody);
-    post.setEntity(builder.build());
 
-    logger.log(System.Logger.Level.DEBUG, "HTTP POST to {0} ...", url);
-    return executeAPIRequest(post, JobResponse.class);
-  }
+    addPredictRequestParameters(inputSource, parameters, builder);
 
-  /**
-   * Enqueues a doc with the POST method.
-   *
-   * @param inputSource Input source to send.
-   * @param options Options to send the file along with.
-   * @return A job response.
-   */
-  @Override
-  public JobResponse reqPostEnqueue(URLInputSource inputSource, BaseProductParameters options) {
-    var productInfo = getParamsProductAttributes(options.getClass());
-    var url = String
-      .format("%s/products/%s/enqueue", this.mindeeSettings.getBaseUrl(), productInfo.slug());
-    var post = buildHttpPost(url);
-
-    var builder = MultipartEntityBuilder.create();
-    builder.setMode(HttpMultipartMode.EXTENDED);
-    builder.addTextBody("url", inputSource.getUrl().toString());
-    options.getRequestParameters().forEach(builder::addTextBody);
     post.setEntity(builder.build());
 
     logger.log(System.Logger.Level.DEBUG, "HTTP POST to {0} ...", url);
@@ -122,16 +87,20 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
   }
 
   @Override
-  public JobResponse reqGetJobById(String jobId) {
-
-    var url = this.mindeeSettings.getBaseUrl() + "/jobs/" + jobId;
-    var get = new HttpGet(url);
+  public JobResponse reqGetJobByUrl(String pollingUrl) {
+    var get = new HttpGet(pollingUrl);
 
     var noRedirect = RequestConfig.custom().setRedirectsEnabled(false).build();
     get.setConfig(noRedirect);
 
-    logger.log(System.Logger.Level.DEBUG, "HTTP GET to {0}...", url);
+    logger.log(System.Logger.Level.DEBUG, "HTTP GET to {0}...", pollingUrl);
     return this.executeAPIRequest(get, JobResponse.class);
+  }
+
+  @Override
+  public JobResponse reqGetJobById(String jobId) {
+    var url = this.mindeeSettings.getBaseUrl() + "/jobs/" + jobId;
+    return reqGetJobByUrl(url);
   }
 
   @Override
@@ -161,7 +130,6 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
     if (inferenceUrl == null || inferenceUrl.trim().isEmpty()) {
       throw new IllegalArgumentException("inferenceUrl cannot be null or empty.");
     }
-    validateInferenceUrl(inferenceUrl);
     var get = new HttpGet(inferenceUrl);
 
     logger.log(System.Logger.Level.DEBUG, "HTTP GET to {0}...", inferenceUrl);
@@ -202,76 +170,35 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
     return this.executeAPIRequest(get, SearchResponse.class);
   }
 
-  /**
-   * Ensures that a caller-supplied inference URL targets the configured Mindee
-   * base URL so the {@code Authorization} header attached by
-   * {@link #executeAPIRequest} cannot leak to third-party hosts.
-   *
-   * <p>
-   * The URL must be an absolute HTTPS URL whose host + port match the
-   * configured base URL, whose path is under the base URL's path, and which
-   * carries no embedded userinfo.
-   */
-  void validateInferenceUrl(String inferenceUrl) {
-    java.net.URI target;
-    java.net.URI base;
-    try {
-      target = new java.net.URI(inferenceUrl);
-      base = new java.net.URI(this.mindeeSettings.getBaseUrl());
-    } catch (java.net.URISyntaxException e) {
-      throw new MindeeException("inferenceUrl is not a valid URI: " + inferenceUrl, e);
+  private void addPredictRequestParameters(
+      InputSource inputSource,
+      BaseProductParameters parameters,
+      MultipartEntityBuilder builder
+  ) {
+    if (inputSource == null) {
+      throw new IllegalArgumentException("Input source cannot be null");
     }
-    if (!target.isAbsolute()) {
-      throw new MindeeException("inferenceUrl must be an absolute URL: " + inferenceUrl);
-    }
-    if (!"https".equalsIgnoreCase(target.getScheme())) {
-      throw new MindeeException("inferenceUrl must use https: " + inferenceUrl);
-    }
-    if (target.getUserInfo() != null && !target.getUserInfo().isEmpty()) {
-      throw new MindeeException("inferenceUrl must not contain userinfo: " + inferenceUrl);
-    }
-    String targetHost = target.getHost();
-    String baseHost = base.getHost();
-    if (targetHost == null || baseHost == null || !targetHost.equalsIgnoreCase(baseHost)) {
-      throw new MindeeException(
-        "inferenceUrl host '"
-          + targetHost
-          + "' does not match Mindee base URL host '"
-          + baseHost
-          + "'"
-      );
-    }
-    int targetPort = target.getPort() == -1 ? defaultPort(target.getScheme()) : target.getPort();
-    int basePort = base.getPort() == -1 ? defaultPort(base.getScheme()) : base.getPort();
-    if (targetPort != basePort) {
-      throw new MindeeException(
-        "inferenceUrl port " + targetPort + " does not match Mindee base URL port " + basePort
-      );
-    }
-    String basePath = base.getPath() == null ? "" : base.getPath();
-    String targetPath = target.getPath() == null ? "" : target.getPath();
-    if (!basePath.isEmpty() && !basePath.equals("/")) {
-      String normalizedBase = basePath.endsWith("/") ? basePath : basePath + "/";
-      if (!targetPath.equals(basePath) && !targetPath.startsWith(normalizedBase)) {
-        throw new MindeeException(
-          "inferenceUrl path '"
-            + targetPath
-            + "' is not under Mindee base URL path '"
-            + basePath
-            + "'"
-        );
-      }
-    }
-  }
 
-  private static int defaultPort(String scheme) {
-    if ("https".equalsIgnoreCase(scheme)) {
-      return 443;
+    if (inputSource instanceof LocalInputSource) {
+      LocalInputSource localInputSource = (LocalInputSource) inputSource;
+      builder
+        .addBinaryBody(
+          "file",
+          localInputSource.getFile(),
+          ContentType.DEFAULT_BINARY,
+          localInputSource.getFilename()
+        );
+    } else if (inputSource instanceof URLInputSource) {
+      URLInputSource urlInputSource = (URLInputSource) inputSource;
+      builder.addTextBody("url", urlInputSource.getUrl().toString());
+    } else {
+      throw new IllegalArgumentException(
+        "Unsupported input source type '" + inputSource.getClass() + "'"
+      );
     }
-    if ("http".equalsIgnoreCase(scheme)) {
-      return 80;
-    }
-    return -1;
+
+    // Append all standard request parameters
+    parameters.getRequestParameters().forEach(builder::addTextBody);
   }
 
   /**

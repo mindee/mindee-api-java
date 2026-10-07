@@ -17,7 +17,7 @@ import org.apache.pdfbox.io.IOUtils;
 /**
  * A source document for Mindee API operations.
  */
-public class LocalInputSource {
+public class LocalInputSource extends InputSource {
 
   @Getter
   private byte[] file;

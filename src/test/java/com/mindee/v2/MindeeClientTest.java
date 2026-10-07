@@ -8,8 +8,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mindee.input.InputSource;
 import com.mindee.input.LocalInputSource;
-import com.mindee.input.URLInputSource;
 import com.mindee.v2.clientoptions.BaseProductParameters;
 import com.mindee.v2.clientoptions.BaseSearchParameters;
 import com.mindee.v2.clientoptions.PollingOptions;
@@ -45,15 +45,15 @@ class MindeeClientTest {
     }
 
     @Override
-    public JobResponse reqPostEnqueue(
-        LocalInputSource inputSource,
+    public JobResponse reqPostProductEnqueue(
+        InputSource inputSource,
         BaseProductParameters parameters
     ) {
       return jobResponse;
     }
 
     @Override
-    public JobResponse reqPostEnqueue(URLInputSource inputSource, BaseProductParameters options) {
+    public JobResponse reqGetJobByUrl(String jobId) {
       return jobResponse;
     }
 
@@ -236,7 +236,11 @@ class MindeeClientTest {
   @DisplayName("polling with cancellation")
   class Polling {
     private JobResponse processing() throws JsonProcessingException {
-      String json = "{\"job\": {\"id\": \"dummy-id\", \"status\": \"Processing\"}}";
+      String json = "{\"job\": {"
+        + "\"id\": \"dummy-id\", "
+        + "\"status\": \"Processing\", "
+        + "\"polling_url\": \"https://mindee.net/v2/jobs/dummy-id\""
+        + "}}";
       var mapper = new ObjectMapper();
       mapper.findAndRegisterModules();
       return mapper.readValue(json, JobResponse.class);
@@ -251,7 +255,7 @@ class MindeeClientTest {
 
       var api = new FakeMindeeApiV2(processing, null) {
         @Override
-        public JobResponse reqGetJobById(String jobId) {
+        public JobResponse reqGetJobByUrl(String jobId) {
           jobCalls.incrementAndGet();
           cancel.set(true);
           return processing;

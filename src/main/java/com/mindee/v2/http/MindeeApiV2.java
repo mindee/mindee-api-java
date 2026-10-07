@@ -2,8 +2,7 @@ package com.mindee.v2.http;
 
 import com.mindee.MindeeException;
 import com.mindee.http.MindeeApiCommon;
-import com.mindee.input.LocalInputSource;
-import com.mindee.input.URLInputSource;
+import com.mindee.input.InputSource;
 import com.mindee.v2.clientoptions.BaseProductParameters;
 import com.mindee.v2.clientoptions.BaseSearchParameters;
 import com.mindee.v2.parsing.CommonResponse;
@@ -16,30 +15,30 @@ import com.mindee.v2.search.models.ModelSearchParameters;
 import java.io.IOException;
 
 /**
- * Defines required methods for an API.
+ * Communicate with the Mindee HTTP API V2.
+ * <p>
+ * You may use this base class to make your own custom class.
+ * However, we may introduce breaking changes in minor versions as needed.
+ * </p>
  */
 public abstract class MindeeApiV2 extends MindeeApiCommon {
   /**
-   * Send a file to the prediction queue with a local file.
+   * Send a file to the asynchronous processing queue for a product.
    *
    * @param inputSource Local input source from URL.
    * @param parameters parameters.
    */
-  public abstract JobResponse reqPostEnqueue(
-      LocalInputSource inputSource,
+  public abstract JobResponse reqPostProductEnqueue(
+      InputSource inputSource,
       BaseProductParameters parameters
   ) throws IOException;
 
   /**
-   * Send a file to the prediction queue with a remote file.
+   * Get the status of an inference that was previously enqueued.
    *
-   * @param inputSource Remote input source from URL.
-   * @param parameters parameters.
+   * @param pollingUrl The job URL as returned by the predict_async route.
    */
-  public abstract JobResponse reqPostEnqueue(
-      URLInputSource inputSource,
-      BaseProductParameters parameters
-  ) throws IOException;
+  public abstract JobResponse reqGetJobByUrl(String pollingUrl);
 
   /**
    * Attempts to poll the queue.
