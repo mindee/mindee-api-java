@@ -3,7 +3,7 @@
 ## v5.6.0 - 2026-10-07
 ### Changes
 * :loud_sound: add default logging
-* :arrow_up: update jackson
+* :arrow_up: update Jackson
 * :recycle: harmonize client and API methods
 
 
