@@ -38,9 +38,7 @@ public class ClassificationTest {
     @Test
     @DisplayName("extraction properties must be valid")
     void singleExtractionMustHaveValidProperties() throws IOException {
-      ClassificationResponse response = loadResponse(
-        "classification/default_sample_extraction.json"
-      );
+      var response = loadResponse("classification/default_sample_extraction.json");
       assertNotNull(response.getInference());
       assertEquals(
         "invoice",

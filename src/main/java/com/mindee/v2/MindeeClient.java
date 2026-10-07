@@ -53,7 +53,7 @@ public class MindeeClient {
       BaseProductParameters params
   ) throws IOException {
     logger.log(System.Logger.Level.INFO, "Enqueuing: local source");
-    return mindeeApi.reqPostEnqueue(inputSource, params);
+    return mindeeApi.reqPostProductEnqueue(inputSource, params);
   }
 
   /**
@@ -68,7 +68,7 @@ public class MindeeClient {
   ) throws IOException {
     logger.log(System.Logger.Level.INFO, "Enqueuing: URL source");
     inputSource.validateSecure();
-    return mindeeApi.reqPostEnqueue(inputSource, params);
+    return mindeeApi.reqPostProductEnqueue(inputSource, params);
   }
 
   /**

@@ -19,7 +19,7 @@ import lombok.Getter;
 /**
  * Input source wrapper to load remote files locally.
  */
-public class URLInputSource {
+public class URLInputSource extends InputSource {
   @Getter
   private final URL url;
   private final String username;

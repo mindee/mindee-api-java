@@ -3,6 +3,7 @@ package com.mindee.v2.http;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.mindee.MindeeException;
+import com.mindee.input.InputSource;
 import com.mindee.input.LocalInputSource;
 import com.mindee.input.URLInputSource;
 import com.mindee.v2.MindeeSettings;
@@ -64,16 +65,9 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
     }
   }
 
-  /**
-   * Enqueues a doc with the POST method.
-   *
-   * @param inputSource Input source to send.
-   * @param parameters Options to send the file along with.
-   * @return A job response.
-   */
   @Override
-  public JobResponse reqPostEnqueue(
-      LocalInputSource inputSource,
+  public JobResponse reqPostProductEnqueue(
+      InputSource inputSource,
       BaseProductParameters parameters
   ) {
     var productInfo = getParamsProductAttributes(parameters.getClass());
@@ -83,38 +77,9 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
 
     var builder = MultipartEntityBuilder.create();
     builder.setMode(HttpMultipartMode.EXTENDED);
-    builder
-      .addBinaryBody(
-        "file",
-        inputSource.getFile(),
-        ContentType.DEFAULT_BINARY,
-        inputSource.getFilename()
-      );
-    parameters.getRequestParameters().forEach(builder::addTextBody);
-    post.setEntity(builder.build());
 
-    logger.log(System.Logger.Level.DEBUG, "HTTP POST to {0} ...", url);
-    return executeAPIRequest(post, JobResponse.class);
-  }
+    addPredictRequestParameters(inputSource, parameters, builder);
 
-  /**
-   * Enqueues a doc with the POST method.
-   *
-   * @param inputSource Input source to send.
-   * @param options Options to send the file along with.
-   * @return A job response.
-   */
-  @Override
-  public JobResponse reqPostEnqueue(URLInputSource inputSource, BaseProductParameters options) {
-    var productInfo = getParamsProductAttributes(options.getClass());
-    var url = String
-      .format("%s/products/%s/enqueue", this.mindeeSettings.getBaseUrl(), productInfo.slug());
-    var post = buildHttpPost(url);
-
-    var builder = MultipartEntityBuilder.create();
-    builder.setMode(HttpMultipartMode.EXTENDED);
-    builder.addTextBody("url", inputSource.getUrl().toString());
-    options.getRequestParameters().forEach(builder::addTextBody);
     post.setEntity(builder.build());
 
     logger.log(System.Logger.Level.DEBUG, "HTTP POST to {0} ...", url);
@@ -262,6 +227,37 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
         );
       }
     }
+  }
+
+  private void addPredictRequestParameters(
+      InputSource inputSource,
+      BaseProductParameters parameters,
+      MultipartEntityBuilder builder
+  ) {
+    if (inputSource == null) {
+      throw new IllegalArgumentException("Input source cannot be null");
+    }
+
+    if (inputSource instanceof LocalInputSource) {
+      LocalInputSource localInputSource = (LocalInputSource) inputSource;
+      builder
+        .addBinaryBody(
+          "file",
+          localInputSource.getFile(),
+          ContentType.DEFAULT_BINARY,
+          localInputSource.getFilename()
+        );
+    } else if (inputSource instanceof URLInputSource) {
+      URLInputSource urlInputSource = (URLInputSource) inputSource;
+      builder.addTextBody("url", urlInputSource.getUrl().toString());
+    } else {
+      throw new IllegalArgumentException(
+        "Unsupported input source type '" + inputSource.getClass() + "'"
+      );
+    }
+
+    // Append all standard request parameters
+    parameters.getRequestParameters().forEach(builder::addTextBody);
   }
 
   private static int defaultPort(String scheme) {
