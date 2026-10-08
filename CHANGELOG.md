@@ -169,7 +169,7 @@
 * :sparkles: add support for textContext parameter in V2
 * :sparkles: add support for data_schema property
 ### Fixes
-* :bug: fix for missing data_schema property in active options 
+* :bug: fix for missing data_schema property in active options
 
 
 ## v4.37.0 - 2025-10-28
@@ -596,7 +596,7 @@
 
 ## v3.0.0 - 2023-01-16
 ### ¡Breaking Changes!
-* :recycle: Mindee class become MindeeClient 
+* :recycle: Mindee class become MindeeClient
 * :recycle: enable the possibility to use your own pdf implementation
 * :recycle: improve the creation of MindeeClient and reduce deps
 ### Changes

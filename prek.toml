@@ -1,0 +1,30 @@
+[[repos]]
+repo = "https://github.com/betterleaks/betterleaks"
+rev = "v1.9.0"
+hooks = [
+  { id = "betterleaks" }
+]
+
+[[repos]]
+repo = "https://github.com/pre-commit/pre-commit-hooks"
+rev = "v6.0.0"
+hooks = [
+  { id = "trailing-whitespace" },
+  { id = "end-of-file-fixer" },
+  { id = "check-yaml" },
+  { id = "check-xml" }
+]
+
+[[repos]]
+repo = "local"
+hooks = [
+  {
+    id = "maven-lint",
+    name = "Maven Spotless and PMD",
+    entry = "mvn",
+    args = ["spotless:apply", "pmd:check"],
+    language = "system",
+    files = "\\.java$",
+    pass_filenames = false
+  }
+]
