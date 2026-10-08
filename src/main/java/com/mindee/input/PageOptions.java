@@ -29,7 +29,7 @@ public class PageOptions {
 
   /**
    * Default constructor.
-   * 
+   *
    * @deprecated Use the Builder pattern instead.
    */
   @Deprecated
@@ -39,7 +39,7 @@ public class PageOptions {
 
   /**
    * Constructor with operation.
-   * 
+   *
    * @deprecated Use the Builder pattern instead.
    */
   @Deprecated
