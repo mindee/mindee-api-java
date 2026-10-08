@@ -1,6 +1,5 @@
 package com.mindee.v1.cli;
 
-import com.mindee.v1.product.barcodereader.BarcodeReaderV1;
 import com.mindee.v1.product.cropper.CropperV1;
 import com.mindee.v1.product.driverlicense.DriverLicenseV1;
 import com.mindee.v1.product.financialdocument.FinancialDocumentV1;
@@ -45,17 +44,6 @@ public class CommandLineInterfaceProducts {
       ) File file
   ) throws IOException, InterruptedException {
     System.out.println(processor.standardProductOutput(BankAccountDetailsV2.class, file));
-  }
-
-  @CommandLine.Command(name = "barcode-reader", description = "Parse using Barcode Reader")
-  void barcodeReaderV1Method(
-      @CommandLine.Parameters(
-          index = "0",
-          paramLabel = "<path>",
-          scope = CommandLine.ScopeType.LOCAL
-      ) File file
-  ) throws IOException, InterruptedException {
-    System.out.println(processor.standardProductOutput(BarcodeReaderV1.class, file));
   }
 
   @CommandLine.Command(name = "fr-carte-grise", description = "Parse using FR Carte Grise")
