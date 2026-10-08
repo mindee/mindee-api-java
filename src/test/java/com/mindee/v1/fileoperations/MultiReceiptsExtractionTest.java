@@ -1,15 +1,15 @@
-package com.mindee.image;
+package com.mindee.v1.fileoperations;
 
 import static com.mindee.TestingUtilities.getResourcePath;
 import static com.mindee.TestingUtilities.getV1ResourcePath;
 
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mindee.image.ExtractedImage;
+import com.mindee.image.ImageExtractor;
 import com.mindee.input.LocalInputSource;
 import com.mindee.v1.parsing.common.Page;
 import com.mindee.v1.parsing.common.PredictResponse;
-import com.mindee.v1.product.barcodereader.BarcodeReaderV1;
-import com.mindee.v1.product.barcodereader.BarcodeReaderV1Document;
 import com.mindee.v1.product.multireceiptsdetector.MultiReceiptsDetectorV1;
 import com.mindee.v1.product.multireceiptsdetector.MultiReceiptsDetectorV1Document;
 import java.io.IOException;
@@ -17,7 +17,7 @@ import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class ImageExtractorTest {
+public class MultiReceiptsExtractionTest {
 
   protected PredictResponse<MultiReceiptsDetectorV1> getMultiReceiptsPrediction(
       String name
@@ -32,22 +32,6 @@ public class ImageExtractorTest {
       .readValue(
         getV1ResourcePath("products/multi_receipts_detector/response_v1/" + name + ".json")
           .toFile(),
-        type
-      );
-  }
-
-  protected PredictResponse<BarcodeReaderV1> getBarcodeReaderPrediction(
-      String name
-  ) throws IOException {
-    ObjectMapper objectMapper = new ObjectMapper();
-    objectMapper.findAndRegisterModules();
-
-    JavaType type = objectMapper
-      .getTypeFactory()
-      .constructParametricType(PredictResponse.class, BarcodeReaderV1.class);
-    return objectMapper
-      .readValue(
-        getV1ResourcePath("products/barcode_reader/response_v1/" + name + ".json").toFile(),
         type
       );
   }
@@ -79,41 +63,6 @@ public class ImageExtractorTest {
               .replace(" ", "0"),
             source.getFilename()
           );
-      }
-    }
-  }
-
-  @Test
-  public void givenAnImage_shouldExtractValueFields() throws IOException {
-    PredictResponse<BarcodeReaderV1> response = getBarcodeReaderPrediction("complete");
-    BarcodeReaderV1 inference = response.getDocument().getInference();
-
-    ImageExtractor extractor = new ImageExtractor(
-      new LocalInputSource(getV1ResourcePath("products/barcode_reader/default_sample.jpg"))
-    );
-    Assertions.assertEquals(1, extractor.getPageCount());
-
-    for (Page<BarcodeReaderV1Document> page : inference.getPages()) {
-      List<ExtractedImage> codes1D = extractor
-        .extractImagesFromPage(page.getPrediction().getCodes1D(), page.getPageId());
-      for (int i = 0; i < codes1D.size(); i++) {
-        ExtractedImage extractedImage = codes1D.get(i);
-        Assertions.assertNotNull(extractedImage.getImage());
-        LocalInputSource source = extractedImage.asInputSource();
-        Assertions
-          .assertEquals(
-            String
-              .format("default_sample_page-%3s-item-%3s.jpg", page.getPageId() + 1, i + 1)
-              .replace(" ", "0"),
-            source.getFilename()
-          );
-        extractedImage.writeToFile(getResourcePath("output/"));
-      }
-      List<ExtractedImage> codes2D = extractor
-        .extractImagesFromPage(page.getPrediction().getCodes2D(), page.getPageId());
-      for (ExtractedImage extractedImage : codes2D) {
-        Assertions.assertNotNull(extractedImage.getImage());
-        extractedImage.writeToFile(getResourcePath("output/"));
       }
     }
   }
