@@ -90,7 +90,7 @@ public final class ExtractionParameters extends BaseProductParameters {
   /**
    * Create a new builder.
    *
-   * @param modelId the mandatory model identifier
+   * @param modelId {@link #modelId}
    * @return a fresh {@link Builder}
    */
   public static Builder builder(String modelId) {
@@ -112,40 +112,37 @@ public final class ExtractionParameters extends BaseProductParameters {
       super(modelId);
     }
 
-    /** Enhance extraction accuracy with Retrieval-Augmented Generation. */
+    /** @param rag {@link #rag} */
     public Builder rag(Boolean rag) {
       this.rag = rag;
       return this;
     }
 
-    /** Extract the full text content from the document as strings. */
+    /** @param rawText {@link #rawText} */
     public Builder rawText(Boolean rawText) {
       this.rawText = rawText;
       return this;
     }
 
-    /** Calculate bounding box polygons for all fields. */
+    /** @param polygon {@link #polygon} */
     public Builder polygon(Boolean polygon) {
       this.polygon = polygon;
       return this;
     }
 
-    /**
-     * Boost the precision and accuracy of all extractions.
-     * Calculate confidence scores for all fields.
-     */
+    /** @param confidence {@link #confidence} */
     public Builder confidence(Boolean confidence) {
       this.confidence = confidence;
       return this;
     }
 
-    /** Provide additional text context used by the model during inference. */
+    /** @param textContext {@link #textContext} */
     public Builder textContext(String textContext) {
       this.textContext = textContext;
       return this;
     }
 
-    /** Provide additional text context used by the model during inference. */
+    /** @param dataSchema {@link #dataSchema} */
     public Builder dataSchema(String dataSchema) {
       this.dataSchema = dataSchema;
       return this;

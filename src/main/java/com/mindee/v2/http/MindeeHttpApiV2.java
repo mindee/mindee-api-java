@@ -1,17 +1,17 @@
 package com.mindee.v2.http;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.mindee.MindeeException;
 import com.mindee.input.InputSource;
 import com.mindee.input.LocalInputSource;
 import com.mindee.input.URLInputSource;
 import com.mindee.v2.MindeeSettings;
+import com.mindee.v2.clientoptions.BaseAnnotationParameters;
 import com.mindee.v2.clientoptions.BaseProductParameters;
+import com.mindee.v2.clientoptions.BaseRagDocumentUploadParameters;
 import com.mindee.v2.clientoptions.BaseSearchParameters;
+import com.mindee.v2.parsing.BaseRagAnnotationResponse;
 import com.mindee.v2.parsing.BaseResponse;
 import com.mindee.v2.parsing.JobResponse;
-import com.mindee.v2.parsing.error.ErrorResponse;
 import com.mindee.v2.parsing.search.BaseSearchResponse;
 import com.mindee.v2.parsing.search.SearchResponse;
 import com.mindee.v2.search.models.ModelSearchParameters;
@@ -19,26 +19,25 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import lombok.Builder;
+import org.apache.hc.client5.http.classic.methods.HttpDelete;
 import org.apache.hc.client5.http.classic.methods.HttpGet;
+import org.apache.hc.client5.http.classic.methods.HttpPatch;
 import org.apache.hc.client5.http.classic.methods.HttpPost;
 import org.apache.hc.client5.http.classic.methods.HttpUriRequestBase;
 import org.apache.hc.client5.http.config.RequestConfig;
 import org.apache.hc.client5.http.entity.mime.HttpMultipartMode;
 import org.apache.hc.client5.http.entity.mime.MultipartEntityBuilder;
 import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
-import org.apache.hc.core5.http.ClassicHttpResponse;
 import org.apache.hc.core5.http.ContentType;
 import org.apache.hc.core5.http.HttpHeaders;
 import org.apache.hc.core5.http.io.entity.EntityUtils;
+import org.apache.hc.core5.http.io.entity.StringEntity;
 import org.apache.hc.core5.net.URIBuilder;
 
 /**
  * HTTP Client class for the V2 API.
  */
 public final class MindeeHttpApiV2 extends MindeeApiV2 {
-
-  private static final System.Logger logger = System.getLogger(MindeeHttpApiV2.class.getName());
-  private static final ObjectMapper mapper = JsonMapper.builder().findAndAddModules().build();
 
   /**
    * The MindeeSetting needed to make the api call.
@@ -155,6 +154,100 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
   }
 
   @Override
+  public <TAnnotationResponse extends BaseRagAnnotationResponse> TAnnotationResponse reqPostRagDocument(
+      BaseRagDocumentUploadParameters<TAnnotationResponse> parameters,
+      LocalInputSource localInputSource
+  ) {
+    var productInfo = getResponseProductAttributes(parameters.getResponseClass());
+    var url = String
+      .format("%s/products/%s/rag-documents", this.mindeeSettings.getBaseUrl(), productInfo.slug());
+    var post = buildHttpPost(url);
+
+    var builder = MultipartEntityBuilder.create();
+    builder.setMode(HttpMultipartMode.EXTENDED);
+    builder
+      .addBinaryBody(
+        "file",
+        localInputSource.getFile(),
+        ContentType.DEFAULT_BINARY,
+        localInputSource.getFilename()
+      );
+
+    parameters.getRequestParameters().forEach(builder::addTextBody);
+    post.setEntity(builder.build());
+
+    logger.log(System.Logger.Level.DEBUG, "HTTP POST to {0} ...", url);
+    return executeAPIRequest(post, parameters.getResponseClass());
+  }
+
+  @Override
+  public <TAnnotationResponse extends BaseRagAnnotationResponse> TAnnotationResponse reqGetRagAnnotation(
+      Class<TAnnotationResponse> responseClass,
+      String documentId
+  ) {
+    var productInfo = getResponseProductAttributes(responseClass);
+    var url = String
+      .format(
+        "%s/products/%s/rag-documents/%s",
+        this.mindeeSettings.getBaseUrl(),
+        productInfo.slug(),
+        documentId
+      );
+    var get = new HttpGet(url);
+
+    logger.log(System.Logger.Level.DEBUG, "HTTP GET to {0} ...", url);
+    return executeAPIRequest(get, responseClass);
+  }
+
+  @Override
+  public <TAnnotationResponse extends BaseRagAnnotationResponse> TAnnotationResponse reqPatchRagAnnotation(
+      BaseAnnotationParameters<TAnnotationResponse> parameters
+  ) {
+    var productInfo = getResponseProductAttributes(parameters.getResponseClass());
+    var url = String
+      .format(
+        "%s/products/%s/rag-documents/%s",
+        this.mindeeSettings.getBaseUrl(),
+        productInfo.slug(),
+        parameters.getDocumentId()
+      );
+    var patch = new HttpPatch(url);
+
+    try {
+      var json = mapper.writeValueAsString(parameters.getRequestParameters());
+      patch.setEntity(new StringEntity(json, ContentType.APPLICATION_JSON));
+    } catch (com.fasterxml.jackson.core.JsonProcessingException e) {
+      throw new com.mindee.MindeeException("Failed to serialize patch parameters", e);
+    }
+
+    logger.log(System.Logger.Level.DEBUG, "HTTP PATCH to {0} ...", url);
+    return executeAPIRequest(patch, parameters.getResponseClass());
+  }
+
+  @Override
+  public boolean reqDeleteExtractionRagDocument(String documentId) {
+    var url = this.mindeeSettings.getBaseUrl() + "/products/extraction/rag-documents/" + documentId;
+    var delete = new HttpDelete(url);
+
+    logger.log(System.Logger.Level.DEBUG, "HTTP DELETE to {0} ...", url);
+
+    if (this.mindeeSettings.getApiKey().isPresent()) {
+      delete.setHeader(HttpHeaders.AUTHORIZATION, this.mindeeSettings.getApiKey().get());
+    }
+    delete.setHeader(HttpHeaders.USER_AGENT, getUserAgent());
+
+    try (var httpClient = httpClientBuilder.build()) {
+      return httpClient.execute(delete, response -> {
+        int statusCode = response.getCode();
+        EntityUtils.consumeQuietly(response.getEntity());
+        return statusCode >= 200 && statusCode < 300;
+      });
+    } catch (IOException err) {
+      throw new MindeeException(err.getMessage(), err);
+    }
+  }
+
+  @Override
   @Deprecated
   public SearchResponse reqGetSearch(ModelSearchParameters parameters) {
     URIBuilder url;
@@ -221,39 +314,18 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
         var responseEntity = response.getEntity();
         var statusCode = response.getCode();
         if (isInvalidStatusCode(statusCode)) {
-          throw getHttpError(response);
+          throw getErrorFromResponse(response);
         }
         try {
           var raw = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
           logger.log(System.Logger.Level.DEBUG, "HTTP response: {0}", raw);
-          return deserializeOrThrow(raw, responseClass, response.getCode());
+          return deserializeResponse(raw, responseClass, response.getCode());
         } finally {
           EntityUtils.consumeQuietly(responseEntity);
         }
       });
     } catch (IOException err) {
       throw new MindeeException(err.getMessage(), err);
-    }
-  }
-
-  private MindeeHttpExceptionV2 getHttpError(ClassicHttpResponse response) {
-    String rawBody;
-    try {
-      rawBody = response.getEntity() == null
-          ? ""
-          : EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
-
-      logger.log(System.Logger.Level.DEBUG, "HTTP response: {0}", rawBody);
-
-      var errorResponse = mapper.readValue(rawBody, ErrorResponse.class);
-
-      if (errorResponse.getDetail() == null) {
-        errorResponse = makeUnknownError(response.getCode());
-      }
-      return new MindeeHttpExceptionV2(errorResponse);
-
-    } catch (Exception exception) {
-      return new MindeeHttpExceptionV2(makeUnknownError(response.getCode()), exception);
     }
   }
 
@@ -269,35 +341,5 @@ public final class MindeeHttpApiV2 extends MindeeApiV2 {
       return new HttpPost("invalid URI");
     }
     return post;
-  }
-
-  private <R extends BaseResponse> R deserializeOrThrow(
-      String body,
-      Class<R> clazz,
-      int httpStatus
-  ) throws MindeeHttpExceptionV2 {
-
-    if (httpStatus >= 200 && httpStatus < 400) {
-      try {
-        var model = mapper.readerFor(clazz).<R>readValue(body);
-        model.setRawResponse(body);
-        return model;
-      } catch (Exception exception) {
-        throw new MindeeException(
-          "Couldn't deserialize server response:\n" + exception.getMessage()
-        );
-      }
-    }
-
-    ErrorResponse errorResponse;
-    try {
-      errorResponse = mapper.readValue(body, ErrorResponse.class);
-      if (errorResponse.getDetail() == null) {
-        errorResponse = makeUnknownError(httpStatus);
-      }
-    } catch (Exception ignored) {
-      errorResponse = makeUnknownError(httpStatus);
-    }
-    throw new MindeeHttpExceptionV2(errorResponse);
   }
 }
