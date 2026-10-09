@@ -29,7 +29,7 @@ public abstract class BaseRagDocumentUploadParameters<TAnnotationResponse extend
   ) {
     this.responseClass = Objects.requireNonNull(responseClass, "responseClass cannot be null");
 
-    if (modelId == null || modelId.trim().isEmpty()) {
+    if (modelId == null || modelId.isBlank()) {
       throw new IllegalArgumentException("ModelId cannot be null or whitespace.");
     }
     this.modelId = modelId.trim();
