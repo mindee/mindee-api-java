@@ -64,7 +64,7 @@ public abstract class MindeeApiV2 extends MindeeApiCommon {
    * Get the result of an inference that was previously enqueued.
    *
    * @param responseClass The class of the response.
-   * @param inferenceId Url to poll.
+   * @param inferenceId URL to poll.
    */
   public abstract <TResponse extends BaseResponse> TResponse reqGetResultById(
       Class<TResponse> responseClass,
