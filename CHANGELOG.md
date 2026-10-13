@@ -1,5 +1,11 @@
 # Mindee Java Client Library Changelog
 
+## v5.7.0 - 2026-10-13
+### Changes
+* :coffin: remove dead v1 products
+* :sparkles:  Allow CRUD operations on RAG documents
+
+
 ## v5.6.0 - 2026-10-07
 ### Changes
 * :loud_sound: add default logging
