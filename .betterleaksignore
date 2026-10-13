@@ -1,0 +1,11 @@
+# Known false positives from the Betterleaks SARIF report.
+# Limit to commit, file, rule, and line so future findings surface.
+
+50e7a1a5deade5f3ea4f4478211fc29eb36bba86:src/test/java/com/mindee/v2/http/MindeeHttpApiV2Test.java:generic-credential-uri:73
+fce24ac9d3dabfdc2ba2cae55a7dd83bbdc32244:src/main/java/com/mindee/input/URLInputSource.java:generic-credential-uri:68
+c17d58ed662f09341863cf80360ad265a8a7077e:src/test/java/com/mindee/v2/parsing/LocalResponseTest.java:generic-api-key:19
+6c390b1b76954f1b42f4acce9e7540a25a39f406:src/test/java/com/mindee/v1/parsing/LocalResponseTest.java:generic-api-key:21
+30192fe5af49c977f9a2680c3b5f2f231a47ff80:src/test/java/com/mindee/input/LocalResponseV2Test.java:generic-api-key:19
+503570dd1ca44074c7da2c7f1f060e6eac546ad7:.github/workflows/_publish-code.yml:generic-password:29
+8a437effa2694ed811c09ec4b88af45c5073cda3:src/test/java/com/mindee/input/LocalResponseTest.java:generic-api-key:15
+40ebc5e3d6d28e92097f99505aa908df7e557f38:.github/workflows/maven-publish.yml:generic-password:22

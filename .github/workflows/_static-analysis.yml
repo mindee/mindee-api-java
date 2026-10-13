@@ -30,10 +30,9 @@ jobs:
           path: betterleaks-report.sarif
           if-no-files-found: warn
 
-#       NEEDS POWER-WASHING GIT HISTORY, DO DIRECTLY IN MAIN
-#      - name: Fail if Betterleaks found leaks
-#        if: steps.betterleaks.outcome == 'failure'
-#        run: exit 1
+      - name: Fail if Betterleaks found leaks
+        if: steps.betterleaks.outcome == 'failure'
+        run: exit 1
 
       - name: Set up JDK
         uses: actions/setup-java@v6
