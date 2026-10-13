@@ -11,6 +11,7 @@ public class AnnotatedFields extends LinkedHashMap<String, AnnotatedDynamicField
    *
    * @param fieldName the name of the field
    * @throws IllegalStateException if the field is not a SimpleField
+   * @return the field as an {@link AnnotatedSimpleField}
    */
   public AnnotatedSimpleField getSimpleField(String fieldName) throws IllegalStateException {
     return this.get(fieldName).getSimpleField();
@@ -20,7 +21,8 @@ public class AnnotatedFields extends LinkedHashMap<String, AnnotatedDynamicField
    * Retrieves the field as a {@link AnnotatedListField}.
    *
    * @param fieldName the name of the field
-   * @throws IllegalStateException if the field is not a ListField
+   * @throws IllegalStateException if the field is not a ListField*
+   * @return the field as a {@link AnnotatedListField}
    */
   public AnnotatedListField getListField(String fieldName) throws IllegalStateException {
     return this.get(fieldName).getListField();
@@ -31,6 +33,7 @@ public class AnnotatedFields extends LinkedHashMap<String, AnnotatedDynamicField
    *
    * @param fieldName the name of the field
    * @throws IllegalStateException if the field is not a ObjectField
+   * @return the field as an {@link AnnotatedObjectField}
    */
   public AnnotatedObjectField getObjectField(String fieldName) throws IllegalStateException {
     return this.get(fieldName).getObjectField();

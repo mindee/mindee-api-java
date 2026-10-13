@@ -25,6 +25,8 @@ public class AnnotatedSimpleField extends AnnotatedBaseField {
 
   /**
    * Default constructor.
+   * 
+   * @param value field value, one of: string, bool, int, double, null.
    */
   public AnnotatedSimpleField(Object value, boolean selected, String guidelines) {
     super(selected, guidelines);

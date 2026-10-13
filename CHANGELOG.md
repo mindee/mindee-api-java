@@ -1,5 +1,10 @@
 # Mindee Java Client Library Changelog
 
+## v5.7.1 - 2026-10-13
+### Fixes
+* :bug: fix CI deploy shenanigans
+
+
 ## v5.7.0 - 2026-10-13
 ### Changes
 * :coffin: remove dead v1 products
