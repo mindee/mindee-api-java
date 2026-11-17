@@ -31,23 +31,31 @@ public class PaymentDetailsField extends BaseField {
    */
   private final String swift;
 
+  /**
+   * The UK and Irish sort code (6 digits).
+   */
+  private final String sortCode;
+
   public PaymentDetailsField(
       @JsonProperty("account_number") String accountNumber,
       @JsonProperty("iban") String iban,
       @JsonProperty("routing_number") String routingNumber,
-      @JsonProperty("swift") String swift
+      @JsonProperty("swift") String swift,
+      @JsonProperty("sort_code") String sortCode
   ) {
     this.accountNumber = accountNumber;
     this.iban = iban;
     this.routingNumber = routingNumber;
     this.swift = swift;
+    this.sortCode = sortCode;
   }
 
   public boolean isEmpty() {
     return ((accountNumber == null || accountNumber.isEmpty())
       && (iban == null || iban.isEmpty())
       && (routingNumber == null || routingNumber.isEmpty())
-      && (swift == null || swift.isEmpty()));
+      && (swift == null || swift.isEmpty())
+      && (sortCode == null || sortCode.isEmpty()));
   }
 
   @Override
@@ -67,6 +75,10 @@ public class PaymentDetailsField extends BaseField {
     }
     if (swift != null && !swift.isEmpty()) {
       stringBuilder.append(swift);
+      stringBuilder.append("; ");
+    }
+    if (sortCode != null && !sortCode.isEmpty()) {
+      stringBuilder.append(sortCode);
       stringBuilder.append("; ");
     }
     return stringBuilder.toString().trim();
