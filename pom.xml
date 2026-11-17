@@ -443,7 +443,7 @@
 
   <properties>
     <!-- MINDEE VERSION GOES HERE -->
-    <revision>5.7.1</revision>
+    <revision>5.8.0</revision>
 
     <!-- use only central-publishing-maven-plugin for deploying -->
     <maven.deploy.skip>true</maven.deploy.skip>

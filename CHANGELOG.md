@@ -1,5 +1,11 @@
 # Mindee Java Client Library Changelog
 
+## v5.8.0 - 2026-11-17
+### Changes
+* :sparkles: add Sort Code on v1 invoice and findoc
+* :coffin: remove obsolete v1 workflows
+
+
 ## v5.7.1 - 2026-10-13
 ### Fixes
 * :bug: fix CI deploy shenanigans
