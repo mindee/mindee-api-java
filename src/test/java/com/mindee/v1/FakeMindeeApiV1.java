@@ -59,13 +59,4 @@ public class FakeMindeeApiV1<T extends Inference> extends MindeeApiV1 {
   ) throws IOException {
     return (PredictResponse<DocT>) predictResponse;
   }
-
-  @Override
-  public <DocT extends Inference> WorkflowResponse<DocT> executeWorkflowPost(
-      Class<DocT> documentClass,
-      String workflowId,
-      RequestParameters requestParameters
-  ) throws IOException {
-    return (WorkflowResponse<DocT>) workflowResponse;
-  }
 }

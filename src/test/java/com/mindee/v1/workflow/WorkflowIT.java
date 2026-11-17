@@ -5,13 +5,8 @@ import static com.mindee.TestingUtilities.getV1ResourcePath;
 import com.mindee.input.LocalInputSource;
 import com.mindee.v1.MindeeClient;
 import com.mindee.v1.clientoptions.PredictOptions;
-import com.mindee.v1.clientoptions.WorkflowOptions;
 import com.mindee.v1.parsing.common.AsyncPredictResponse;
-import com.mindee.v1.parsing.common.Execution;
-import com.mindee.v1.parsing.common.ExecutionPriority;
-import com.mindee.v1.parsing.common.WorkflowResponse;
 import com.mindee.v1.product.financialdocument.FinancialDocumentV1;
-import com.mindee.v1.product.generated.GeneratedV1;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -35,22 +30,6 @@ public class WorkflowIT {
     financialDocumentInputSource = new LocalInputSource(
       getV1ResourcePath("products/financial_document/default_sample.jpg")
     );
-  }
-
-  @Test
-  public void givenAWorkflowIdUploadShouldReturnACorrectWorkflowObject() throws IOException {
-
-    WorkflowOptions options = WorkflowOptions
-      .builder()
-      .alias("java-" + currentDateTime)
-      .priority(ExecutionPriority.LOW)
-      .rag(true)
-      .build();
-    WorkflowResponse<GeneratedV1> response = client
-      .executeWorkflow(workflowId, financialDocumentInputSource, options);
-    Execution<GeneratedV1> execution = response.getExecution();
-    Assertions.assertEquals("low", execution.getPriority());
-    Assertions.assertEquals("java-" + currentDateTime, execution.getFile().getAlias());
   }
 
   @Test

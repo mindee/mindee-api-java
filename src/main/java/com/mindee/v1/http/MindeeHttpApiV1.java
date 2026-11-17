@@ -11,7 +11,6 @@ import com.mindee.v1.parsing.common.AsyncPredictResponse;
 import com.mindee.v1.parsing.common.ErrorDetails;
 import com.mindee.v1.parsing.common.Inference;
 import com.mindee.v1.parsing.common.PredictResponse;
-import com.mindee.v1.parsing.common.WorkflowResponse;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -44,7 +43,7 @@ public final class MindeeHttpApiV1 extends MindeeApiV1 {
   private static final ObjectMapper mapper = JsonMapper.builder().findAndAddModules().build();
   private final Function<Endpoint, String> buildProductPredicBasetUrl = this::buildProductPredictBaseUrl;
   private final Function<String, String> buildWorkflowPredictBaseUrl = this::buildWorkflowPredictBaseUrl;
-  private final Function<String, String> buildWorkflowExecutionBaseUrl = this::buildWorkflowExecutionUrl;
+
   /**
    * The MindeeSetting needed to make the api call.
    */
@@ -74,14 +73,9 @@ public final class MindeeHttpApiV1 extends MindeeApiV1 {
    * Only needs to be set if the api calls need to be directed through internal URLs.
    */
   private final Function<Endpoint, String> documentUrlFromEndpoint;
-  /**
-   * The function used to generate the Job status URL for workflow execution calls.
-   * Only needs to be set if the api calls need to be directed through internal URLs.
-   */
-  private final Function<String, String> workflowUrlFromId;
 
   public MindeeHttpApiV1(MindeeSettings mindeeSettings) {
-    this(mindeeSettings, null, null, null, null, null, null);
+    this(mindeeSettings, null, null, null, null, null);
   }
 
   @Builder
@@ -91,7 +85,6 @@ public final class MindeeHttpApiV1 extends MindeeApiV1 {
       Function<Endpoint, String> urlFromEndpoint,
       Function<Endpoint, String> asyncUrlFromEndpoint,
       Function<Endpoint, String> documentUrlFromEndpoint,
-      Function<String, String> workflowUrlFromEndpoint,
       Function<String, String> asyncUrlFromWorkflow
   ) {
     this.mindeeSettings = mindeeSettings;
@@ -127,12 +120,6 @@ public final class MindeeHttpApiV1 extends MindeeApiV1 {
     } else {
       this.documentUrlFromEndpoint = this.buildProductPredicBasetUrl
         .andThen((url) -> url.concat("/documents/queue/"));
-    }
-
-    if (workflowUrlFromEndpoint != null) {
-      this.workflowUrlFromId = workflowUrlFromEndpoint;
-    } else {
-      this.workflowUrlFromId = this.buildWorkflowExecutionBaseUrl;
     }
   }
 
@@ -260,41 +247,6 @@ public final class MindeeHttpApiV1 extends MindeeApiV1 {
     }
   }
 
-  /**
-   * POST a prediction request for a workflow response.
-   */
-  public <DocT extends Inference> WorkflowResponse<DocT> executeWorkflowPost(
-      Class<DocT> documentClass,
-      String workflowId,
-      RequestParameters requestParameters
-  ) throws IOException {
-
-    String url = workflowUrlFromId.apply(workflowId);
-    HttpPost post = buildHttpPost(url, requestParameters);
-
-    JavaType parametricType = mapper
-      .getTypeFactory()
-      .constructParametricType(WorkflowResponse.class, documentClass);
-    try (CloseableHttpClient httpClient = httpClientBuilder.build()) {
-      return httpClient.execute(post, response -> {
-        HttpEntity responseEntity = response.getEntity();
-        int statusCode = response.getCode();
-        if (isInvalidStatusCode(statusCode)) {
-          throw getHttpError(parametricType, response);
-        }
-        if (responseEntity.getContentLength() == 0) {
-          throw new MindeeException("Empty response from server.");
-        }
-        String rawResponse = readRawResponse(responseEntity);
-        WorkflowResponse<DocT> mappedResponse = mapper.readValue(rawResponse, parametricType);
-        mappedResponse.setRawResponse(rawResponse);
-        return mappedResponse;
-      });
-    } catch (IOException err) {
-      throw new MindeeException(err.getMessage(), err);
-    }
-  }
-
   private <ResponseT extends ApiResponse> MindeeHttpExceptionV1 getHttpError(
       JavaType parametricType,
       ClassicHttpResponse response
@@ -342,10 +294,6 @@ public final class MindeeHttpApiV1 extends MindeeApiV1 {
 
   private String buildWorkflowPredictBaseUrl(String workflowId) {
     return this.mindeeSettings.getBaseUrl() + "/workflows/" + workflowId;
-  }
-
-  private String buildWorkflowExecutionUrl(String workflowId) {
-    return this.mindeeSettings.getBaseUrl() + "/workflows/" + workflowId + "/executions";
   }
 
   private HttpPost buildHttpPost(
