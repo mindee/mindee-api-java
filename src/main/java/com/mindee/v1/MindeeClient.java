@@ -8,7 +8,6 @@ import com.mindee.pdf.PDFInputOperation;
 import com.mindee.pdf.PDFInputOperator;
 import com.mindee.v1.clientoptions.PollingOptions;
 import com.mindee.v1.clientoptions.PredictOptions;
-import com.mindee.v1.clientoptions.WorkflowOptions;
 import com.mindee.v1.http.Endpoint;
 import com.mindee.v1.http.MindeeApiV1;
 import com.mindee.v1.http.MindeeHttpApiV1;
@@ -16,7 +15,6 @@ import com.mindee.v1.http.RequestParameters;
 import com.mindee.v1.parsing.common.AsyncPredictResponse;
 import com.mindee.v1.parsing.common.Inference;
 import com.mindee.v1.parsing.common.PredictResponse;
-import com.mindee.v1.parsing.common.WorkflowResponse;
 import com.mindee.v1.product.generated.GeneratedV1;
 import java.io.IOException;
 import java.net.URL;
@@ -474,58 +472,6 @@ public class MindeeClient {
     throw new RuntimeException(
       "Max retries exceeded: " + retryCount + ". Failed to get the document."
     );
-  }
-
-  /**
-   * Send a local file to a workflow execution.
-   *
-   * @param workflowId ID of the workflow to send the document to.
-   * @param localInputSource A local input source file.
-   * @param workflowOptions Options for the workflow execution.
-   * @return A workflow response.
-   * @throws IOException Throws if the file can't be accessed.
-   */
-  public WorkflowResponse<GeneratedV1> executeWorkflow(
-      String workflowId,
-      LocalInputSource localInputSource,
-      WorkflowOptions workflowOptions
-  ) throws IOException {
-    return this.mindeeApi
-      .executeWorkflowPost(
-        GeneratedV1.class,
-        workflowId,
-        RequestParameters
-          .builder()
-          .file(localInputSource.getFile())
-          .fileName(localInputSource.getFilename())
-          .workflowOptions(workflowOptions)
-          .build()
-      );
-  }
-
-  /**
-   * Send a local file to a workflow execution.
-   *
-   * @param workflowId ID of the workflow to send the document to.
-   * @param localInputSource A local input source file.
-   * @return A workflow response.
-   * @throws IOException Throws if the file can't be accessed.
-   */
-  public WorkflowResponse<GeneratedV1> executeWorkflow(
-      String workflowId,
-      LocalInputSource localInputSource
-  ) throws IOException {
-    return this.mindeeApi
-      .executeWorkflowPost(
-        GeneratedV1.class,
-        workflowId,
-        RequestParameters
-          .builder()
-          .file(localInputSource.getFile())
-          .fileName(localInputSource.getFilename())
-          .workflowOptions(WorkflowOptions.builder().build())
-          .build()
-      );
   }
 
   /**

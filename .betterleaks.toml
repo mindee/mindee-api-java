@@ -1,0 +1,8 @@
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "Dummy HMAC secret used in LocalResponse unit tests"
+condition = "AND"
+paths = ['''^src/test/.*\.java$''']
+regexes = ['''ogNjY44MhvKPGTtVsI8zG82JqWQa68woYQH''']

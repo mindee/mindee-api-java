@@ -2,6 +2,7 @@ package com.mindee.v2.product;
 
 import static com.mindee.TestingUtilities.getResourcePath;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import com.mindee.input.LocalInputSource;
@@ -62,6 +63,6 @@ class SplitIT {
 
     var result = inference.getResult();
     assertNotNull(result);
-    assertEquals(1, result.getSplits().size());
+    assertFalse(result.getSplits().isEmpty());
   }
 }

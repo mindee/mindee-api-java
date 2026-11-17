@@ -4,7 +4,6 @@ import com.mindee.http.MindeeApiCommon;
 import com.mindee.v1.parsing.common.AsyncPredictResponse;
 import com.mindee.v1.parsing.common.Inference;
 import com.mindee.v1.parsing.common.PredictResponse;
-import com.mindee.v1.parsing.common.WorkflowResponse;
 import java.io.IOException;
 
 /**
@@ -36,15 +35,6 @@ public abstract class MindeeApiV1 extends MindeeApiCommon {
   public abstract <DocT extends Inference> PredictResponse<DocT> predictPost(
       Class<DocT> documentClass,
       Endpoint endpoint,
-      RequestParameters requestParameters
-  ) throws IOException;
-
-  /**
-   * Execute a workflow.
-   */
-  public abstract <DocT extends Inference> WorkflowResponse<DocT> executeWorkflowPost(
-      Class<DocT> documentClass,
-      String workflowId,
       RequestParameters requestParameters
   ) throws IOException;
 }
