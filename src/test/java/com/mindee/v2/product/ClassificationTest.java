@@ -2,11 +2,13 @@ package com.mindee.v2.product;
 
 import static com.mindee.TestingUtilities.getV2ProductPath;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 import com.mindee.v2.parsing.LocalResponse;
 import com.mindee.v2.product.classification.ClassificationResponse;
+import com.mindee.v2.product.classification.params.ClassificationParameters;
 import com.mindee.v2.product.extraction.ExtractionResponse;
 import java.io.IOException;
 import org.junit.jupiter.api.DisplayName;
@@ -15,6 +17,22 @@ import org.junit.jupiter.api.Test;
 
 @DisplayName("MindeeV2 - Classification Response")
 public class ClassificationTest {
+  @Test
+  @DisplayName("parameters should initialize with and without extraction context")
+  void parametersMustInit() {
+    var productParams = ClassificationParameters
+      .builder("invalid-model-id")
+      .extractionTextContext("context")
+      .build();
+    assertEquals("invalid-model-id", productParams.getModelId());
+    assertEquals("context", productParams.getExtractionTextContext());
+    assertEquals("context", productParams.getRequestParameters().get("extraction_text_context"));
+
+    var withoutContext = ClassificationParameters.builder("invalid-model-id").build();
+    assertNull(withoutContext.getExtractionTextContext());
+    assertFalse(withoutContext.getRequestParameters().containsKey("extraction_text_context"));
+  }
+
   private ClassificationResponse loadResponse(String filePath) throws IOException {
     var localResponse = new LocalResponse(getV2ProductPath(filePath));
     return localResponse.deserializeResponse(ClassificationResponse.class);

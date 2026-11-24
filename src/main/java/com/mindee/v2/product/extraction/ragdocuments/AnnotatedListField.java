@@ -30,7 +30,7 @@ public class AnnotatedListField extends AnnotatedBaseField {
 
   /**
    * Default constructor.
-   * 
+   *
    * @param items the list of {@link AnnotatedDynamicField}
    */
   public AnnotatedListField(
@@ -44,7 +44,7 @@ public class AnnotatedListField extends AnnotatedBaseField {
 
   /**
    * List of simple fields.
-   * 
+   *
    * @return the list of {@link AnnotatedSimpleField}
    */
   @JsonIgnore
@@ -68,7 +68,7 @@ public class AnnotatedListField extends AnnotatedBaseField {
 
   /**
    * List of object fields.
-   * 
+   *
    * @return the list of {@link AnnotatedObjectField}
    */
   @JsonIgnore

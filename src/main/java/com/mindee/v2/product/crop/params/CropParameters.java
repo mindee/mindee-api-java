@@ -1,13 +1,22 @@
 package com.mindee.v2.product.crop.params;
 
-import com.mindee.v2.clientoptions.BaseProductParameters;
+import com.mindee.v2.clientoptions.BaseClassificationProductParameters;
 import com.mindee.v2.product.ProductAttributes;
 
 @ProductAttributes(slug = "crop")
-public class CropParameters extends BaseProductParameters {
+public class CropParameters extends BaseClassificationProductParameters {
 
   public CropParameters(String modelId, String alias, String[] webhookIds) {
-    super(modelId, alias, webhookIds);
+    this(modelId, alias, webhookIds, null);
+  }
+
+  public CropParameters(
+      String modelId,
+      String alias,
+      String[] webhookIds,
+      String extractionTextContext
+  ) {
+    super(modelId, alias, webhookIds, extractionTextContext);
   }
 
   /**
@@ -20,7 +29,8 @@ public class CropParameters extends BaseProductParameters {
     return new Builder(modelId);
   }
 
-  public static final class Builder extends BaseProductParameters.BaseBuilder<Builder> {
+  public static final class Builder
+      extends BaseClassificationProductParameters.BaseBuilder<Builder> {
 
     Builder(String modelId) {
       super(modelId);
@@ -28,7 +38,7 @@ public class CropParameters extends BaseProductParameters {
 
     /** Build an immutable {@link CropParameters} instance. */
     public CropParameters build() {
-      return new CropParameters(modelId, alias, webhookIds);
+      return new CropParameters(modelId, alias, webhookIds, extractionTextContext);
     }
   }
 }

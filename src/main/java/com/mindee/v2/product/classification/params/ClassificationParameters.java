@@ -1,12 +1,21 @@
 package com.mindee.v2.product.classification.params;
 
-import com.mindee.v2.clientoptions.BaseProductParameters;
+import com.mindee.v2.clientoptions.BaseClassificationProductParameters;
 import com.mindee.v2.product.ProductAttributes;
 
 @ProductAttributes(slug = "classification")
-public class ClassificationParameters extends BaseProductParameters {
+public class ClassificationParameters extends BaseClassificationProductParameters {
   public ClassificationParameters(String modelId, String alias, String[] webhookIds) {
-    super(modelId, alias, webhookIds);
+    this(modelId, alias, webhookIds, null);
+  }
+
+  public ClassificationParameters(
+      String modelId,
+      String alias,
+      String[] webhookIds,
+      String extractionTextContext
+  ) {
+    super(modelId, alias, webhookIds, extractionTextContext);
   }
 
   /**
@@ -19,7 +28,8 @@ public class ClassificationParameters extends BaseProductParameters {
     return new Builder(modelId);
   }
 
-  public static final class Builder extends BaseProductParameters.BaseBuilder<Builder> {
+  public static final class Builder
+      extends BaseClassificationProductParameters.BaseBuilder<Builder> {
 
     Builder(String modelId) {
       super(modelId);
@@ -27,7 +37,7 @@ public class ClassificationParameters extends BaseProductParameters {
 
     /** Build an immutable {@link ClassificationParameters} instance. */
     public ClassificationParameters build() {
-      return new ClassificationParameters(modelId, alias, webhookIds);
+      return new ClassificationParameters(modelId, alias, webhookIds, extractionTextContext);
     }
   }
 }
