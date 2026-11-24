@@ -2,6 +2,7 @@
 target/
 src-delomboked
 src-lomboked
+.flattened-pom.xml
 
 # test jshell file
 _test.jsh
@@ -38,6 +39,7 @@ hs_err_pid*
 .run
 .project
 .settings
+.junie
 
 # Mac OS
 .DS_Store
