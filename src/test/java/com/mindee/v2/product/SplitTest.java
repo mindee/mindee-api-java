@@ -4,7 +4,9 @@ import static com.mindee.TestingUtilities.deleteRecursively;
 import static com.mindee.TestingUtilities.getResourcePath;
 import static com.mindee.TestingUtilities.getV2ProductPath;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.mindee.input.LocalInputSource;
@@ -13,6 +15,7 @@ import com.mindee.v2.parsing.LocalResponse;
 import com.mindee.v2.product.extraction.ExtractionResponse;
 import com.mindee.v2.product.split.SplitRange;
 import com.mindee.v2.product.split.SplitResponse;
+import com.mindee.v2.product.split.params.SplitParameters;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -24,6 +27,22 @@ import org.junit.jupiter.api.Test;
 @DisplayName("MindeeV2 - Split Response")
 public class SplitTest {
   private static final Path outputPath = getResourcePath("output/v2/product/split");
+
+  @Test
+  @DisplayName("parameters should initialize with and without extraction context")
+  void parametersMustInit() {
+    var productParams = SplitParameters
+      .builder("invalid-model-id")
+      .extractionTextContext("context")
+      .build();
+    assertEquals("invalid-model-id", productParams.getModelId());
+    assertEquals("context", productParams.getExtractionTextContext());
+    assertEquals("context", productParams.getRequestParameters().get("extraction_text_context"));
+
+    var withoutContext = SplitParameters.builder("invalid-model-id").build();
+    assertNull(withoutContext.getExtractionTextContext());
+    assertFalse(withoutContext.getRequestParameters().containsKey("extraction_text_context"));
+  }
 
   @BeforeAll
   public static void setup() throws IOException {

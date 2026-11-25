@@ -1,3 +1,14 @@
+## Code Converting
+- When given code in another language for conversion, keep the original's overall naming for class, variable, and function names.
+  Adjust as needed to conform to this project's Java conventions.
+
+## Code Linting
+- Run `prek run -a` to lint and format the code.
+
+## Testing
+- We do not support direct initialization of classes with a builder pattern.
+  When testing, these classes should only be initialized using the builder pattern.
+
 ## Releases
 - A release must be in a separate branch called `release/X.X.X` where X.X.X is the version number.
 - The version number is defined in `project.properties.revision` of the `pom.xml` file.

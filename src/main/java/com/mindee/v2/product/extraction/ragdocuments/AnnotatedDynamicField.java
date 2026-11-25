@@ -42,7 +42,7 @@ public class AnnotatedDynamicField {
 
   /**
    * Constructor for a simple field.
-   * 
+   *
    * @param field the {@link AnnotatedSimpleField}
    */
   public AnnotatedDynamicField(AnnotatedSimpleField field) {
@@ -54,7 +54,7 @@ public class AnnotatedDynamicField {
 
   /**
    * Constructor for a list field.
-   * 
+   *
    * @param field the {@link AnnotatedListField}
    */
   public AnnotatedDynamicField(AnnotatedListField field) {
@@ -66,7 +66,7 @@ public class AnnotatedDynamicField {
 
   /**
    * Constructor for an object field.
-   * 
+   *
    * @param field the {@link AnnotatedObjectField}
    */
   public AnnotatedDynamicField(AnnotatedObjectField field) {
@@ -78,7 +78,7 @@ public class AnnotatedDynamicField {
 
   /***
    * Get the field for JSON serialization.
-   * 
+   *
    * @return the field:
    * one of {@link AnnotatedSimpleField}, {@link AnnotatedListField}, or
    * {@link AnnotatedObjectField}.

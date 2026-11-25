@@ -23,7 +23,7 @@ public class AnnotatedObjectField extends AnnotatedBaseField {
 
   /**
    * Default constructor.
-   * 
+   *
    * @param fields Sub-fields of the field.
    */
   public AnnotatedObjectField(AnnotatedFields fields, boolean selected, String guidelines) {
