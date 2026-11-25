@@ -6,7 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 /**
- * Base parameters for classification-based utility products.
+ * Base parameters for classification-based products.
  */
 @Getter
 @EqualsAndHashCode(callSuper = true)

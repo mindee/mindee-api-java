@@ -51,6 +51,15 @@ public class SplitRange {
     return new ArrayList<>(new LinkedHashSet<>(this.pageRange));
   }
 
+  @Override
+  public String toString() {
+    String pageRange = this.pageRange
+      .stream()
+      .map(String::valueOf)
+      .collect(java.util.stream.Collectors.joining(","));
+    return String.format("* :Page Range: %s%n  :Document Type: %s", pageRange, this.documentType);
+  }
+
   /**
    * Based on the crop results, extract the documents into individual files as an
    * {@link ExtractedImages} instance.

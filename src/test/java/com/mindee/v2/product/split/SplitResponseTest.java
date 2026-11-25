@@ -1,21 +1,17 @@
-package com.mindee.v2.product;
+package com.mindee.v2.product.split;
 
+import static com.mindee.TestingUtilities.assertStringEqualsFile;
 import static com.mindee.TestingUtilities.deleteRecursively;
 import static com.mindee.TestingUtilities.getResourcePath;
 import static com.mindee.TestingUtilities.getV2ProductPath;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.mindee.input.LocalInputSource;
 import com.mindee.v2.fileoperations.Split;
 import com.mindee.v2.parsing.LocalResponse;
 import com.mindee.v2.product.extraction.ExtractionResponse;
-import com.mindee.v2.product.split.SplitRange;
-import com.mindee.v2.product.split.SplitResponse;
-import com.mindee.v2.product.split.params.SplitParameters;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -25,24 +21,8 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("MindeeV2 - Split Response")
-public class SplitTest {
+public class SplitResponseTest {
   private static final Path outputPath = getResourcePath("output/v2/product/split");
-
-  @Test
-  @DisplayName("parameters should initialize with and without extraction context")
-  void parametersMustInit() {
-    var productParams = SplitParameters
-      .builder("invalid-model-id")
-      .extractionTextContext("context")
-      .build();
-    assertEquals("invalid-model-id", productParams.getModelId());
-    assertEquals("context", productParams.getExtractionTextContext());
-    assertEquals("context", productParams.getRequestParameters().get("extraction_text_context"));
-
-    var withoutContext = SplitParameters.builder("invalid-model-id").build();
-    assertNull(withoutContext.getExtractionTextContext());
-    assertFalse(withoutContext.getRequestParameters().containsKey("extraction_text_context"));
-  }
 
   @BeforeAll
   public static void setup() throws IOException {
@@ -51,7 +31,7 @@ public class SplitTest {
   }
 
   private SplitResponse loadResponse(String filePath) throws IOException {
-    var localResponse = new LocalResponse(getV2ProductPath(filePath));
+    var localResponse = new LocalResponse(getV2ProductPath("split/" + filePath));
     return localResponse.deserializeResponse(SplitResponse.class);
   }
 
@@ -61,7 +41,7 @@ public class SplitTest {
     @Test
     @DisplayName("split properties must be valid")
     void mustHaveValidProperties() throws IOException {
-      var response = loadResponse("split/split_single.json");
+      var response = loadResponse("split_single.json");
       assertNotNull(response.getInference());
 
       var splits = response.getInference().getResult().getSplits();
@@ -69,6 +49,13 @@ public class SplitTest {
       SplitRange split0 = splits.get(0);
       assertEquals("receipt", split0.getDocumentType());
       assertEquals(0, split0.getPageRange().get(0));
+    }
+
+    @Test
+    @DisplayName("RST output must be valid")
+    void mustHaveValidDisplay() throws IOException {
+      var response = loadResponse("split_single.json");
+      assertStringEqualsFile(response.toString(), getV2ProductPath("split/split_single.rst"));
     }
   }
 
@@ -78,7 +65,7 @@ public class SplitTest {
     @Test
     @DisplayName("split properties must be valid")
     void mustHaveValidProperties() throws IOException {
-      var response = loadResponse("split/split_multiple.json");
+      var response = loadResponse("split_multiple.json");
       assertNotNull(response.getInference());
 
       var splits = response.getInference().getResult().getSplits();
@@ -98,9 +85,19 @@ public class SplitTest {
     }
 
     @Test
+    @DisplayName("RST output must be valid")
+    void mustHaveValidDisplay() throws IOException {
+      var response = loadResponse("split_multiple.json");
+      assertStringEqualsFile(
+        response.getInference().toString(),
+        getV2ProductPath("split/split_multiple.rst")
+      );
+    }
+
+    @Test
     @DisplayName("extraction properties must be valid")
     void extractionMustHaveValidProperties() throws IOException {
-      SplitResponse response = loadResponse("split/default_sample_extraction.json");
+      SplitResponse response = loadResponse("default_sample_extraction.json");
       assertNotNull(response.getInference());
 
       var splits = response.getInference().getResult().getSplits();
@@ -142,7 +139,7 @@ public class SplitTest {
     void extractMultipleSplits() throws IOException {
       var inputSource = new LocalInputSource(getV2ProductPath("split/default_sample.pdf"));
 
-      SplitResponse response = loadResponse("split/default_sample_extraction.json");
+      SplitResponse response = loadResponse("default_sample_extraction.json");
       assertNotNull(response.getInference());
 
       var splits = response.getInference().getResult().getSplits();
@@ -169,7 +166,7 @@ public class SplitTest {
     void extractSingleSplit() throws IOException {
       var inputSource = new LocalInputSource(getV2ProductPath("split/default_sample.pdf"));
 
-      SplitResponse response = loadResponse("split/default_sample_extraction.json");
+      SplitResponse response = loadResponse("default_sample_extraction.json");
       assertNotNull(response.getInference());
 
       var extractedSplit = response

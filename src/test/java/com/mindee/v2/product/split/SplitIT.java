@@ -1,4 +1,4 @@
-package com.mindee.v2.product;
+package com.mindee.v2.product.split;
 
 import static com.mindee.TestingUtilities.getResourcePath;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -8,7 +8,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import com.mindee.input.LocalInputSource;
 import com.mindee.v2.MindeeClient;
 import com.mindee.v2.clientoptions.PollingOptions;
-import com.mindee.v2.product.split.SplitResponse;
 import com.mindee.v2.product.split.params.SplitParameters;
 import java.io.IOException;
 import org.junit.jupiter.api.BeforeAll;

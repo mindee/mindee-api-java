@@ -42,7 +42,7 @@ public final class SplitResult {
     var joiner = new StringJoiner("\n");
     joiner.add("Splits\n======");
     for (SplitRange item : splits) {
-      joiner.add(item.toString());
+      joiner.add(item.toString() + "\n");
     }
     return joiner.toString();
   }

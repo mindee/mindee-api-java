@@ -25,6 +25,6 @@ public class ClassificationClassifier {
 
   @Override
   public String toString() {
-    return "Document Type: " + documentType;
+    return ":Document Type: " + documentType;
   }
 }

@@ -19,4 +19,9 @@ public class CropResponse extends BaseResponse {
    */
   @JsonProperty("inference")
   private CropInference inference;
+
+  @Override
+  public String toString() {
+    return inference.toString();
+  }
 }

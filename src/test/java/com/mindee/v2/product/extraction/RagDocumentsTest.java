@@ -73,8 +73,10 @@ public class RagDocumentsTest {
       .annotation(annotation)
       .build();
 
-    var reqParams = parameters.getRequestParameters();
+    // Used to build the URL, not sent as request parameters
     assertEquals("invalid-document-id", parameters.getDocumentId());
+
+    var reqParams = parameters.getRequestParameters();
     assertEquals("Active", reqParams.get("status"));
     assertEquals(expectedAnnotation, mapper.writeValueAsString(reqParams.get("annotation")));
   }

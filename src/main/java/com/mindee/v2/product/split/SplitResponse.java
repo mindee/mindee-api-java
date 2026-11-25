@@ -19,4 +19,9 @@ public class SplitResponse extends BaseResponse {
    */
   @JsonProperty("inference")
   private SplitInference inference;
+
+  @Override
+  public String toString() {
+    return inference.toString();
+  }
 }
