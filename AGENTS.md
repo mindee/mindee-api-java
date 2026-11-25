@@ -1,6 +1,6 @@
 ## Code Converting
 - When given code in another language for conversion, keep the original's overall naming for class, variable, and function names.
-  Adjust as needed to conform to this project's Java conventions.
+ Only adjust as needed to conform to Java conventions, ex `my_method` becomes `myMethod`.
 
 ## Code Linting
 - Run `prek run -a` to lint and format the code.

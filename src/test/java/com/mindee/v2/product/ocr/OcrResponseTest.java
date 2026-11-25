@@ -1,18 +1,17 @@
-package com.mindee.v2.product;
+package com.mindee.v2.product.ocr;
 
 import static com.mindee.TestingUtilities.getV2ProductPath;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import com.mindee.v2.parsing.LocalResponse;
-import com.mindee.v2.product.ocr.OcrResponse;
 import java.io.IOException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("MindeeV2 - OCR Response")
-public class OcrTest {
+public class OcrResponseTest {
   private OcrResponse loadResponse(String filePath) throws IOException {
     var localResponse = new LocalResponse(getV2ProductPath(filePath));
     return localResponse.deserializeResponse(OcrResponse.class);
