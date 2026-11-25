@@ -19,4 +19,9 @@ public class ExtractionResponse extends BaseResponse {
    */
   @JsonProperty("inference")
   private ExtractionInference inference;
+
+  @Override
+  public String toString() {
+    return inference.toString();
+  }
 }

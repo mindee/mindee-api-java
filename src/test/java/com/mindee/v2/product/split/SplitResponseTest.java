@@ -1,5 +1,6 @@
 package com.mindee.v2.product.split;
 
+import static com.mindee.TestingUtilities.assertStringEqualsFile;
 import static com.mindee.TestingUtilities.deleteRecursively;
 import static com.mindee.TestingUtilities.getResourcePath;
 import static com.mindee.TestingUtilities.getV2ProductPath;
@@ -30,7 +31,7 @@ public class SplitResponseTest {
   }
 
   private SplitResponse loadResponse(String filePath) throws IOException {
-    var localResponse = new LocalResponse(getV2ProductPath(filePath));
+    var localResponse = new LocalResponse(getV2ProductPath("split/" + filePath));
     return localResponse.deserializeResponse(SplitResponse.class);
   }
 
@@ -40,7 +41,7 @@ public class SplitResponseTest {
     @Test
     @DisplayName("split properties must be valid")
     void mustHaveValidProperties() throws IOException {
-      var response = loadResponse("split/split_single.json");
+      var response = loadResponse("split_single.json");
       assertNotNull(response.getInference());
 
       var splits = response.getInference().getResult().getSplits();
@@ -48,6 +49,13 @@ public class SplitResponseTest {
       SplitRange split0 = splits.get(0);
       assertEquals("receipt", split0.getDocumentType());
       assertEquals(0, split0.getPageRange().get(0));
+    }
+
+    @Test
+    @DisplayName("RST output must be valid")
+    void mustHaveValidDisplay() throws IOException {
+      var response = loadResponse("split_single.json");
+      assertStringEqualsFile(response.toString(), getV2ProductPath("split/split_single.rst"));
     }
   }
 
@@ -57,7 +65,7 @@ public class SplitResponseTest {
     @Test
     @DisplayName("split properties must be valid")
     void mustHaveValidProperties() throws IOException {
-      var response = loadResponse("split/split_multiple.json");
+      var response = loadResponse("split_multiple.json");
       assertNotNull(response.getInference());
 
       var splits = response.getInference().getResult().getSplits();
@@ -77,9 +85,19 @@ public class SplitResponseTest {
     }
 
     @Test
+    @DisplayName("RST output must be valid")
+    void mustHaveValidDisplay() throws IOException {
+      var response = loadResponse("split_multiple.json");
+      assertStringEqualsFile(
+        response.getInference().toString(),
+        getV2ProductPath("split/split_multiple.rst")
+      );
+    }
+
+    @Test
     @DisplayName("extraction properties must be valid")
     void extractionMustHaveValidProperties() throws IOException {
-      SplitResponse response = loadResponse("split/default_sample_extraction.json");
+      SplitResponse response = loadResponse("default_sample_extraction.json");
       assertNotNull(response.getInference());
 
       var splits = response.getInference().getResult().getSplits();
@@ -121,7 +139,7 @@ public class SplitResponseTest {
     void extractMultipleSplits() throws IOException {
       var inputSource = new LocalInputSource(getV2ProductPath("split/default_sample.pdf"));
 
-      SplitResponse response = loadResponse("split/default_sample_extraction.json");
+      SplitResponse response = loadResponse("default_sample_extraction.json");
       assertNotNull(response.getInference());
 
       var splits = response.getInference().getResult().getSplits();
@@ -148,7 +166,7 @@ public class SplitResponseTest {
     void extractSingleSplit() throws IOException {
       var inputSource = new LocalInputSource(getV2ProductPath("split/default_sample.pdf"));
 
-      SplitResponse response = loadResponse("split/default_sample_extraction.json");
+      SplitResponse response = loadResponse("default_sample_extraction.json");
       assertNotNull(response.getInference());
 
       var extractedSplit = response

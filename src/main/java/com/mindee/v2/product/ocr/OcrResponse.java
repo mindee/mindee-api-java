@@ -19,4 +19,9 @@ public class OcrResponse extends BaseResponse {
    */
   @JsonProperty("inference")
   private OcrInference inference;
+
+  @Override
+  public String toString() {
+    return inference.toString();
+  }
 }

@@ -19,4 +19,9 @@ public class ClassificationResponse extends BaseResponse {
    */
   @JsonProperty("inference")
   private ClassificationInference inference;
+
+  @Override
+  public String toString() {
+    return inference.toString();
+  }
 }
